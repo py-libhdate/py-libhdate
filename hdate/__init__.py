@@ -18,7 +18,7 @@ class HDate(object):
             date = datetime.date.today()
         elif not isinstance(date, datetime.date):
             raise TypeError
-        self.gdate = date
+        self._gdate = date
         self.hdate_set_gdate()
     
     def _set_h_from_jd(self, jd_tishrey1, jd_tishrey1_next_year):
@@ -30,19 +30,19 @@ class HDate(object):
         self._h_weeks = ((self._h_days - 1) + (self._h_new_year_weekday - 1)) / 7 + 1
     
     def hdate_set_gdate(self):
-        self._jd = hj._gdate_to_jd(self.gdate.day, self.gdate.month, self.gdate.year)
+        self._jd = hj._gdate_to_jd(self._gdate.day, self._gdate.month, self._gdate.year)
         self._h_day, self._h_month, self._h_year, jd_tishrey1, jd_tishrey1_next_year = hj._jd_to_hdate(self._jd)
         self._set_h_from_jd(jd_tishrey1, jd_tishrey1_next_year)
         
     def hdate_set_hdate(self, d, m, y):
         self._jd, jd_tishrey1, jd_tishrey1_next_year = hj._hdate_to_jd(d, m, y)
         gd, gm, gy = hj._jd_to_gdate(self._jd)
-        self.gdate = datetime.date(gy, gm, gd)
+        self._gdate = datetime.date(gy, gm, gd)
         self._set_h_from_jd(self._jd, jd_tishrey1, jd_tishrey1_next_year)
         
     def hdate_set_jd(self, jd):
         gd, gm, gy = hj._jd_to_gdate(jd)
-        self.gdate = datetime.date(gy, gm, gd)
+        self._gdate = datetime.date(gy, gm, gd)
         self.hdate_set_gdate()
     
     def get_hebrew_date(self):
@@ -137,14 +137,14 @@ class HDate(object):
             holyday = 0
         
         # yom yerushalym after 68
-        if (holyday == 26) and (self.gdate.year < 1968):
+        if (holyday == 26) and (self._gdate.year < 1968):
             holyday = 0 
         
         # yom ha azmaot and yom ha zicaron
         if (holyday == 17):
-            if (self.gdate.year < 1948):
+            if (self._gdate.year < 1948):
                 holyday = 0
-            elif (self.gdate.year < 2004):
+            elif (self._gdate.year < 2004):
                 if ((self._h_day == 3) and (self._weekday == 5)):
                     holyday = 17
                 elif ((self._h_day == 4) and (self._weekday == 5)):
@@ -181,7 +181,7 @@ class HDate(object):
         
         # yom ha shoaa, on years after 1958
         if (holyday == 24):
-            if (self.gdate.year < 1958):
+            if (self._gdate.year < 1958):
                 holyday = 0
             else:
                 if ((self._h_day == 26) and (self._weekday != 5)):
@@ -193,7 +193,7 @@ class HDate(object):
         
         # Rabin day, on years after 1997
         if (holyday == 35):
-            if (self.gdate.year < 1997):
+            if (self._gdate.year < 1997):
                 holyday = 0
             else:
                 if ((self._h_day == 10 or self._h_day == 11) and (self._weekday != 5)):
@@ -203,7 +203,7 @@ class HDate(object):
         
         # Zhabotinsky day, on years after 2005
         if (holyday == 36):
-            if (self.gdate.year < 2005):
+            if (self._gdate.year < 2005):
                 holyday = 0
             else:
                 if ((self._h_day == 30) and (self._weekday != 1)):
@@ -431,15 +431,15 @@ class HDate(object):
     def gday_of_year(self):
         return (self._gdate - datetime.date(self._gdate.year, 1, 1)).days
         
-    def get_utc_sun_time_deg(self, latitude, longitude, deg):
+    def _get_utc_sun_time_deg(self, latitude, longitude, deg):
         """ Returns the sunset and sunrise times in minutes from 00:00 (utc time)
- if sun altitude in sunrise is deg degries.
- This function only works for altitudes sun realy is.
- If the sun never get to this altitude, the returned sunset and sunrise values
- will be negative. This can happen in low altitude when latitude is
- nearing the pols in winter times, the sun never goes very high in
- the sky there.
-"""
+        if sun altitude in sunrise is deg degries.
+        This function only works for altitudes sun realy is.
+        If the sun never get to this altitude, the returned sunset and sunrise values
+        will be negative. This can happen in low altitude when latitude is
+        nearing the pols in winter times, the sun never goes very high in
+        the sky there.
+        """
         day, month, year = self._gdate.day, self._gdate.month, self._gdate.year
         M_PI = math.pi
         gama = 0  # location of sun in yearly cycle in radians
@@ -449,7 +449,7 @@ class HDate(object):
         sunrise_angle = M_PI * deg / 180.0  # sun angle at sunrise/set
 
         # get the day of year
-        day_of_year = self.gday_of_year(day, month, year)
+        day_of_year = self.gday_of_year()
         
         # get radians of sun orbit around erth =)
         gama = 2.0 * M_PI * ((day_of_year - 1) / 365.0)
@@ -486,6 +486,9 @@ class HDate(object):
         return self._get_utc_sun_time_deg(latitude, longitude, 90.833)
      
     def get_utc_sun_time_full(self, latitude, longitude):
+        """
+        return list of jewish relevant time for location (and current HDate date)
+        """
         # sunset and rise time
         sunrise, sunset = self.get_utc_sun_time(latitude, longitude)
         
@@ -494,10 +497,10 @@ class HDate(object):
         midday = (sunset + sunrise) / 2
         
         # get times of the different sun angles
-        first_light, _n = self.get_utc_sun_time_deg(latitude, longitude, 106.01)
-        talit, _n = self.get_utc_sun_time_deg(latitude, longitude, 101.0)
-        _n, first_stars = self.get_utc_sun_time_deg(latitude, longitude, 96.0)
-        _n, three_stars = self.get_utc_sun_time_deg(latitude, longitude, 98.5)
+        first_light, _n = self._get_utc_sun_time_deg(latitude, longitude, 106.01)
+        talit, _n = self._get_utc_sun_time_deg(latitude, longitude, 101.0)
+        _n, first_stars = self._get_utc_sun_time_deg(latitude, longitude, 96.0)
+        _n, three_stars = self._get_utc_sun_time_deg(latitude, longitude, 98.5)
         res = dict(sunrise=sunrise, sunset=sunset, sun_hour=sun_hour, midday=midday, first_light=first_light,
                    talit=talit, first_stars=first_stars, three_stars=three_stars)
         return res
