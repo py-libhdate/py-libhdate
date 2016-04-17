@@ -1,5 +1,6 @@
 import hdate_julian as hj
 import datetime
+from dateutil import tz
 import math
 
 
@@ -12,13 +13,126 @@ PARTS_IN_WEEK = 7 * PARTS_IN_DAY
 PARTS_IN_MONTH = PARTS_IN_DAY + M(12, 793)  # Tikun for regular month
 
 
+def set_date(date):
+    if date is None:
+        date = datetime.date.today()
+    elif not isinstance(date, datetime.date):
+        raise TypeError
+    return date
+                        
+
+class Zmanim(object):
+    """
+    Return Jewish day times
+    """
+    def __init__(self, date=None, latitude=None, longitude=None, timezone=''):
+        if latitude is None or longitude is None:
+            # Tel Aviv cordinates
+            latitude = 32.08088
+            longitude = 34.78057
+        self.date = set_date(date)
+        self.latitude = latitude
+        self.longitude = longitude
+        if not timezone:
+            timezone = 'UTC'
+        self.timezone = timezone
+        self.zmanim = self.get_zmanim()
+
+    def utc_minute_timezone(self, minutes_from_utc):
+        from_zone = tz.gettz('UTC')
+        to_zone = tz.gettz(self.timezone)
+        utc = datetime.datetime(self.date.year, self.date.month, self.date.day) + datetime.timedelta(minutes=minutes_from_utc)
+        utc = utc.replace(tzinfo=from_zone)
+        local = utc.astimezone(to_zone)
+        return local
+
+    def get_zmanim(self):
+        return self.get_utc_sun_time_full()
+
+    def gday_of_year(self):
+        return (self.date - datetime.date(self.date.year, 1, 1)).days
+        
+    def _get_utc_sun_time_deg(self, deg):
+        """ Returns the sunset and sunrise times in minutes from 00:00 (utc time)
+        if sun altitude in sunrise is deg degries.
+        This function only works for altitudes sun realy is.
+        If the sun never get to this altitude, the returned sunset and sunrise values
+        will be negative. This can happen in low altitude when latitude is
+        nearing the pols in winter times, the sun never goes very high in
+        the sky there.
+        """
+        M_PI = math.pi
+        gama = 0  # location of sun in yearly cycle in radians
+        eqtime = 0  # diffference betwen sun noon and clock noon
+        decl = 0  # sun declanation
+        ha = 0  # solar hour engle
+        sunrise_angle = M_PI * deg / 180.0  # sun angle at sunrise/set
+
+        # get the day of year
+        day_of_year = self.gday_of_year()
+        
+        # get radians of sun orbit around erth =)
+        gama = 2.0 * M_PI * ((day_of_year - 1) / 365.0)
+        
+        # get the diff betwen suns clock and wall clock in minutes
+        eqtime = 229.18 * (0.000075 + 0.001868 * math.cos(gama) -
+                           0.032077 * math.sin(gama) - 0.014615 * math.cos(2.0 * gama) -
+                           0.040849 * math.sin(2.0 * gama))
+        
+        # calculate suns declanation at the equater in radians
+        decl = (0.006918 - 0.399912 * math.cos(gama) + 0.070257 * math.sin(gama) -
+                0.006758 * math.cos(2.0 * gama) + 0.000907 * math.sin(2.0 * gama) -
+                0.002697 * math.cos(3.0 * gama) + 0.00148 * math.sin(3.0 * gama))
+        
+        # we use radians, ratio is 2pi/360
+        latitude = M_PI * self.latitude / 180.0
+        
+        # the sun real time diff from noon at sunset/rise in radians
+        try:
+            ha = math.acos(math.cos(sunrise_angle) / (math.cos(latitude) * math.cos(decl)) - math.tan(latitude) * math.tan(decl))
+        # check for too high altitudes and return negative values
+        except ValueError:
+            return -720, -720
+        
+        # we use minutes, ratio is 1440min/2pi
+        ha = 720.0 * ha / M_PI
+        
+        # get sunset/rise times in utc wall clock in minutes from 00:00 time
+        # sunrise / sunset
+        return int(720.0 - 4.0 * self.longitude - ha - eqtime), int(720.0 - 4.0 * self.longitude + ha - eqtime)
+    
+    def get_utc_sun_time(self):
+        "utc sunrise/set time for a gregorian date"
+        return self._get_utc_sun_time_deg(90.833)
+     
+    def get_utc_sun_time_full(self):
+        """
+        return list of jewish relevant time for location (and current HDate date)
+        """
+        # sunset and rise time
+        sunrise, sunset = self.get_utc_sun_time()
+        
+        # shaa zmanit by gara, 1/12 of light time
+        sun_hour = (sunset - sunrise) / 12
+        midday = (sunset + sunrise) / 2
+        
+        # get times of the different sun angles
+        first_light, _n = self._get_utc_sun_time_deg(106.01)
+        talit, _n = self._get_utc_sun_time_deg(101.0)
+        _n, first_stars = self._get_utc_sun_time_deg(96.0)
+        _n, three_stars = self._get_utc_sun_time_deg(98.5)
+        res = dict(sunrise=sunrise, sunset=sunset, sun_hour=sun_hour, midday=midday, first_light=first_light,
+                   talit=talit, first_stars=first_stars, three_stars=three_stars)
+        return res
+
+    
 class HDate(object):
+    """
+    Hebrew date class
+    Support convert from Gregorian and Julian to Hebrew date
+    """
     def __init__(self, date=None):
-        if date is None:
-            date = datetime.date.today()
-        elif not isinstance(date, datetime.date):
-            raise TypeError
-        self._gdate = date
+        self._gdate = set_date(date)
         self.hdate_set_gdate()
     
     def _set_h_from_jd(self, jd_tishrey1, jd_tishrey1_next_year):
@@ -428,79 +542,4 @@ class HDate(object):
                     reading += 1
         return reading
 
-    def gday_of_year(self):
-        return (self._gdate - datetime.date(self._gdate.year, 1, 1)).days
-        
-    def _get_utc_sun_time_deg(self, latitude, longitude, deg):
-        """ Returns the sunset and sunrise times in minutes from 00:00 (utc time)
-        if sun altitude in sunrise is deg degries.
-        This function only works for altitudes sun realy is.
-        If the sun never get to this altitude, the returned sunset and sunrise values
-        will be negative. This can happen in low altitude when latitude is
-        nearing the pols in winter times, the sun never goes very high in
-        the sky there.
-        """
-        day, month, year = self._gdate.day, self._gdate.month, self._gdate.year
-        M_PI = math.pi
-        gama = 0  # location of sun in yearly cycle in radians
-        eqtime = 0  # diffference betwen sun noon and clock noon
-        decl = 0  # sun declanation
-        ha = 0  # solar hour engle
-        sunrise_angle = M_PI * deg / 180.0  # sun angle at sunrise/set
 
-        # get the day of year
-        day_of_year = self.gday_of_year()
-        
-        # get radians of sun orbit around erth =)
-        gama = 2.0 * M_PI * ((day_of_year - 1) / 365.0)
-        
-        # get the diff betwen suns clock and wall clock in minutes
-        eqtime = 229.18 * (0.000075 + 0.001868 * math.cos(gama) -
-                           0.032077 * math.sin(gama) - 0.014615 * math.cos(2.0 * gama) -
-                           0.040849 * math.sin(2.0 * gama))
-        
-        # calculate suns declanation at the equater in radians
-        decl = (0.006918 - 0.399912 * math.cos(gama) + 0.070257 * math.sin(gama) -
-                0.006758 * math.cos(2.0 * gama) + 0.000907 * math.sin(2.0 * gama) -
-                0.002697 * math.cos(3.0 * gama) + 0.00148 * math.sin(3.0 * gama))
-        
-        # we use radians, ratio is 2pi/360
-        latitude = M_PI * latitude / 180.0
-        
-        # the sun real time diff from noon at sunset/rise in radians
-        try:
-            ha = math.acos(math.cos(sunrise_angle) / (math.cos(latitude) * math.cos(decl)) - math.tan(latitude) * math.tan(decl))
-        # check for too high altitudes and return negative values
-        except ValueError:
-            return -720, -720
-        
-        # we use minutes, ratio is 1440min/2pi
-        ha = 720.0 * ha / M_PI
-        
-        # get sunset/rise times in utc wall clock in minutes from 00:00 time
-        # sunrise / sunset
-        return int(720.0 - 4.0 * longitude - ha - eqtime), int(720.0 - 4.0 * longitude + ha - eqtime)
-    
-    def get_utc_sun_time(self, latitude, longitude):
-        "utc sunrise/set time for a gregorian date"
-        return self._get_utc_sun_time_deg(latitude, longitude, 90.833)
-     
-    def get_utc_sun_time_full(self, latitude, longitude):
-        """
-        return list of jewish relevant time for location (and current HDate date)
-        """
-        # sunset and rise time
-        sunrise, sunset = self.get_utc_sun_time(latitude, longitude)
-        
-        # shaa zmanit by gara, 1/12 of light time
-        sun_hour = (sunset - sunrise) / 12
-        midday = (sunset + sunrise) / 2
-        
-        # get times of the different sun angles
-        first_light, _n = self._get_utc_sun_time_deg(latitude, longitude, 106.01)
-        talit, _n = self._get_utc_sun_time_deg(latitude, longitude, 101.0)
-        _n, first_stars = self._get_utc_sun_time_deg(latitude, longitude, 96.0)
-        _n, three_stars = self._get_utc_sun_time_deg(latitude, longitude, 98.5)
-        res = dict(sunrise=sunrise, sunset=sunset, sun_hour=sun_hour, midday=midday, first_light=first_light,
-                   talit=talit, first_stars=first_stars, three_stars=three_stars)
-        return res
