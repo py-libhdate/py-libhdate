@@ -1,4 +1,5 @@
 import hdate_julian as hj
+from htable import holydays_table, join_flags
 import datetime
 from dateutil import tz
 import math
@@ -132,8 +133,8 @@ class Zmanim(object):
         gra_end_tfila = sunrise + sun_hour * 4.
         midnight = midday + 12 * 60.
         res = dict(sunrise=sunrise, sunset=sunset, sun_hour=sun_hour, midday=midday, first_light=first_light,
-                   talit=talit, first_stars=first_stars, three_stars=three_stars, plag_mincha=plag_mincha, 
-                   stars_out=stars_out, small_mincha=small_mincha, big_mincha=big_mincha, mga_end_shma=mga_end_shma, 
+                   talit=talit, first_stars=first_stars, three_stars=three_stars, plag_mincha=plag_mincha,
+                   stars_out=stars_out, small_mincha=small_mincha, big_mincha=big_mincha, mga_end_shma=mga_end_shma,
                    gra_end_shma=gra_end_shma, mga_end_tfila=mga_end_tfila, gra_end_tfila=gra_end_tfila, midnight=midnight)
         return res
 
@@ -177,66 +178,6 @@ class HDate(object):
     def get_holyday(self, diaspora=False):
         """return the number of holyday"""
         holyday = 0
-        # holydays table
-        holydays_table = [
-            [  # Tishrey
-                1, 2, 3, 3, 0, 0, 0, 0, 37, 4,
-                0, 0, 0, 0, 5, 31, 6, 6, 6, 6,
-                7, 27, 8, 0, 0, 0, 0, 0, 0, 0],
-            [  # Heshvan
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 35,
-                35, 35, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [  # Kislev
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 9, 9, 9, 9, 9, 9],
-            [  # Tevet
-                9, 9, 9, 0, 0, 0, 0, 0, 0, 10,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [  # Shvat
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 11, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 33],
-            [  # Adar
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                12, 0, 12, 13, 14, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [  # Nisan
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 15, 32, 16, 16, 16, 16,
-                28, 29, 0, 0, 0, 24, 24, 24, 0, 0],
-            [  # Iyar
-                0, 17, 17, 17, 17, 17, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 18, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 26, 0, 0],
-            [  # Sivan
-                0, 0, 0, 0, 19, 20, 30, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [  # Tamuz
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 21, 21, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 36, 36],
-            [  # Av
-                0, 0, 0, 0, 0, 0, 0, 0, 22, 22,
-                0, 0, 0, 0, 23, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [  # Elul
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [  # Adar 1
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            [  # Adar 2
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                12, 0, 12, 13, 14, 0, 0, 0, 0, 0,
-                0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        ]
-    
         # sanity check
         if (self._h_month < 1 or self._h_month > 14 or self._h_day < 1 or self._h_day > 30):
             return 0
@@ -404,40 +345,6 @@ class HDate(object):
     def get_reading(self, diaspora):
         """Return number of hebrew parasha
         55..61 are joined readings e.g. Vayakhel Pekudei"""
-        join_flags = [
-            [
-                [1, 1, 1, 1, 0, 1, 1],  # 1 be erez israel
-                [1, 1, 1, 1, 0, 1, 0],  # 2
-                [1, 1, 1, 1, 0, 1, 1],  # 3
-                [1, 1, 1, 0, 0, 1, 0],  # 4
-                [1, 1, 1, 1, 0, 1, 1],  # 5
-                [0, 1, 1, 1, 0, 1, 0],  # 6
-                [1, 1, 1, 1, 0, 1, 1],  # 7
-                [0, 0, 0, 0, 0, 1, 1],  # 8
-                [0, 0, 0, 0, 0, 0, 0],  # 9
-                [0, 0, 0, 0, 0, 1, 1],  # 10
-                [0, 0, 0, 0, 0, 0, 0],  # 11
-                [0, 0, 0, 0, 0, 0, 0],  # 12
-                [0, 0, 0, 0, 0, 0, 1],  # 13
-                [0, 0, 0, 0, 0, 1, 1]   # 14
-            ],
-            [
-                [1, 1, 1, 1, 0, 1, 1],  # 1 in diaspora
-                [1, 1, 1, 1, 0, 1, 0],  # 2
-                [1, 1, 1, 1, 1, 1, 1],  # 3
-                [1, 1, 1, 1, 0, 1, 0],  # 4
-                [1, 1, 1, 1, 1, 1, 1],  # 5
-                [0, 1, 1, 1, 0, 1, 0],  # 6
-                [1, 1, 1, 1, 0, 1, 1],  # 7
-                [0, 0, 0, 0, 1, 1, 1],  # 8
-                [0, 0, 0, 0, 0, 0, 0],  # 9
-                [0, 0, 0, 0, 0, 1, 1],  # 10
-                [0, 0, 0, 0, 0, 1, 0],  # 11
-                [0, 0, 0, 0, 0, 1, 0],  # 12
-                [0, 0, 0, 0, 0, 0, 1],  # 13
-                [0, 0, 0, 0, 1, 1, 1]   # 14
-            ]
-        ]
         # if simhat tora return vezot habracha
         if (self._h_month == 1):
             # simhat tora is a day after shmini atzeret outsite israel
