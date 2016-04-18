@@ -1,5 +1,6 @@
 import hdate_julian as hj
-from htable import holydays_table, join_flags
+from htables import holydays_table, join_flags
+from hdate_string import get_hebrew_date, get_zmanim_string
 import datetime
 from dateutil import tz
 import math
@@ -26,7 +27,7 @@ class Zmanim(object):
     """
     Return Jewish day times
     """
-    def __init__(self, date=None, latitude=None, longitude=None, timezone=''):
+    def __init__(self, date=None, latitude=None, longitude=None, timezone='', hebrew=True):
         if latitude is None or longitude is None:
             # Tel Aviv cordinates
             latitude = 32.08088
@@ -34,6 +35,7 @@ class Zmanim(object):
         self.date = set_date(date)
         self.latitude = latitude
         self.longitude = longitude
+        self._hebrew = hebrew
         if not timezone:
             timezone = 'UTC'
         self.timezone = timezone
@@ -48,8 +50,15 @@ class Zmanim(object):
         return local
 
     def get_zmanim(self):
-        return self.get_utc_sun_time_full()
-
+        d = dict()
+        zmanim_list = self.get_utc_sun_time_full()
+        for z in zmanim_list:
+            d[z] = self.utc_minute_timezone(zmanim_list[z])
+        return d
+        
+    def __repr__(self):
+        return get_zmanim_string(self.zmanim, hebrew=self._hebrew)
+        
     def gday_of_year(self):
         return (self.date - datetime.date(self.date.year, 1, 1)).days
         
@@ -144,9 +153,14 @@ class HDate(object):
     Hebrew date class
     Support convert from Gregorian and Julian to Hebrew date
     """
-    def __init__(self, date=None):
+    def __init__(self, date=None, diaspora=False, hebrew=True):
         self._gdate = set_date(date)
+        self._hebrew = hebrew
+        self._diaspora = diaspora
         self.hdate_set_gdate()
+    
+    def __repr__(self):
+        return self.to_string(hebrew=self._hebrew).encode('utf-8')
     
     def _set_h_from_jd(self, jd_tishrey1, jd_tishrey1_next_year):
         self._weekday = (self._jd + 1) % 7 + 1
@@ -155,6 +169,9 @@ class HDate(object):
         self._h_year_type = hj._get_year_type(self._h_size_of_year, self._h_new_year_weekday)
         self._h_days = self._jd - jd_tishrey1 + 1
         self._h_weeks = ((self._h_days - 1) + (self._h_new_year_weekday - 1)) / 7 + 1
+    
+    def to_string(self, short=False, hebrew=True):
+        return get_hebrew_date(self._h_day, self._h_month, self._h_year, self.get_omer_day(), self._weekday, self.get_holyday(), hebrew=hebrew, short=short)
     
     def hdate_set_gdate(self):
         self._jd = hj._gdate_to_jd(self._gdate.day, self._gdate.month, self._gdate.year)
@@ -165,7 +182,7 @@ class HDate(object):
         self._jd, jd_tishrey1, jd_tishrey1_next_year = hj._hdate_to_jd(d, m, y)
         gd, gm, gy = hj._jd_to_gdate(self._jd)
         self._gdate = datetime.date(gy, gm, gd)
-        self._set_h_from_jd(self._jd, jd_tishrey1, jd_tishrey1_next_year)
+        self._set_h_from_jd(jd_tishrey1, jd_tishrey1_next_year)
         
     def hdate_set_jd(self, jd):
         gd, gm, gy = hj._jd_to_gdate(jd)
@@ -175,8 +192,9 @@ class HDate(object):
     def get_hebrew_date(self):
         return self._h_day, self._h_month, self._h_year
         
-    def get_holyday(self, diaspora=False):
+    def get_holyday(self):
         """return the number of holyday"""
+        diaspora=self._diaspora
         holyday = 0
         # sanity check
         if (self._h_month < 1 or self._h_month > 14 or self._h_day < 1 or self._h_day > 30):
@@ -309,7 +327,6 @@ class HDate(object):
         omer_day = self._jd - sixteen_nissan._jd + 1
         if ((omer_day > 49) or (omer_day < 0)):
             omer_day = 0
-
         return omer_day
 
     def get_holyday_type(self, holyday):
