@@ -59,6 +59,51 @@ def get_hebrew_date(day, month, year, omer=0, dw=0, holiday=0, short=False, hebr
         res += " " + holidays[is_hebrew][is_short][holiday-1].decode("utf-8")
     return res
  
+def get_omer_string(omer):
+    tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
+    ones = ["", "אחד", "שנים", "שלושה", "ארבעה", "חמשה", "ששה", "שבעה", "שמונה", "תשעה"]
+    if omer < 1 or omer > 49:
+        raise ValueError('Invalid Omer day: {}'.format(omer))
+    t = omer / 10
+    o = omer % 10
+    s = 'היום '
+    if omer > 10 and omer < 20:
+        s += ones[o] + ' עשר '        
+    elif omer > 9 :
+        s += tens[t] + ' '
+        if o:
+            s += 'ו'
+    if omer > 2:
+        s += ones[o]
+        if omer < 11:
+           s += ' ימים '
+        else:
+           s += ' יום '            
+    elif omer == 1:
+        s += 'יום אחד '
+    elif omer == 2:
+        s += 'שני ימים '
+    if omer > 6:
+        s += 'שהם '
+        w = omer / 7
+        d = omer % 7
+        if w > 2 :
+            s += ones[w] + ' שבועות '
+        elif w == 1:
+            s += 'שבוע אחד '
+        elif w == 2:
+            s += 'שני שבועות '
+        if d:
+            s += 'ו'
+            if d > 2 :
+                s += ones[d] + ' ימים '
+            elif d == 1:
+                s += 'יום אחד '
+            elif d == 2:
+                s += 'שני ימים '        
+    s += 'לעומר'
+    return s
+ 
 def get_parashe(parasha, short=False, hebrew=True):
     is_hebrew = 1 if hebrew else 0
     is_short = 1 if short else 0
