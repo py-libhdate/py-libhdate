@@ -410,7 +410,7 @@ class HDate(object):
                 return 54
 
         # if not shabat return none
-        if self._h_weekday != 7:
+        if self._weekday != 7:
             return 0
 
         if self._h_weeks == 1:

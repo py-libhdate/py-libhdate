@@ -115,7 +115,7 @@ def get_omer_string(omer):
 def get_parashe(parasha, short=False, hebrew=True):
     is_hebrew = 1 if hebrew else 0
     is_short = 1 if short else 0
-    res = parashaot[is_hebrew]
+    res = parashaot[is_hebrew][parasha]
     if is_short:
         return res
     if is_hebrew:
