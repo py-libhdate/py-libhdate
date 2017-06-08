@@ -38,7 +38,7 @@ def hebrew_number(num, hebrew=True, short=False):
     return hstring
 
 
-def get_hebrew_date(day, month, year, omer=0, dw=0, holiday=0,
+def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,
                     short=False, hebrew=True):
     is_hebrew = 1 if hebrew else 0
     is_short = 1 if short else 0
@@ -49,11 +49,11 @@ def get_hebrew_date(day, month, year, omer=0, dw=0, holiday=0,
     else:
         res += hebrew_months[is_hebrew][month-1]
     res += " " + hebrew_number(year, hebrew=is_hebrew, short=is_short)
-    if dw:
+    if dow:
         dw_str = ''
         if is_hebrew:
             dw_str = 'יום '
-        dw_str += days_table[is_hebrew][is_short][dw-1]
+        dw_str += days_table[is_hebrew][is_short][dow-1]
         res = dw_str.decode("utf-8") + " " + res
     if is_short:
         return res

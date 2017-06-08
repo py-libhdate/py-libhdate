@@ -150,12 +150,12 @@ def _jd_to_gdate(jd):
     i = (4000 * (l + 1)) / 1461001  # that's 1,461,001
     l = l - (1461 * i) / 4 + 31
     j = (80 * l) / 2447
-    d = l - (2447 * j) / 80
+    day = l - (2447 * j) / 80
     l = j / 11
-    m = j + 2 - (12 * l)
-    y = 100 * (n - 49) + i + l  # that's a lower-case L
+    month = j + 2 - (12 * l)
+    year = 100 * (n - 49) + i + l  # that's a lower-case L
 
-    return d, m, y
+    return day, month, year
 
 
 def _jd_to_hdate(jd):
