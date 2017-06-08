@@ -54,27 +54,28 @@ def _get_size_of_hebrew_year(hebrew_year):
 
 
 def _get_year_type(size_of_year, new_year_dw):
-    """Return: type of the year
-Args:
-size_of_year: Length of year in days
-new_year_dw First week day of year
-table:
-year type | year length | Tishery 1 day of week
-| 1       | 353         | 2
-| 2       | 353         | 7
-| 3       | 354         | 3
-| 4       | 354         | 5
-| 5       | 355         | 2
-| 6       | 355         | 5
-| 7       | 355         | 7
-| 8       | 383         | 2
-| 9       | 383         | 5
-|10       | 383         | 7
-|11       | 384         | 3
-|12       | 385         | 2
-|13       | 385         | 5
-|14       | 385         | 7
-"""
+    """
+    Return: type of the year
+    Args:
+    size_of_year: Length of year in days
+    new_year_dw First week day of year
+    table:
+    year type | year length | Tishery 1 day of week
+    | 1       | 353         | 2
+    | 2       | 353         | 7
+    | 3       | 354         | 3
+    | 4       | 354         | 5
+    | 5       | 355         | 2
+    | 6       | 355         | 5
+    | 7       | 355         | 7
+    | 8       | 383         | 2
+    | 9       | 383         | 5
+    |10       | 383         | 7
+    |11       | 384         | 3
+    |12       | 385         | 2
+    |13       | 385         | 5
+    |14       | 385         | 7
+    """
     # Only 14 combinations of size and week day are posible
     year_types = [1, 0, 0, 2, 0, 3, 4,
                   0, 5, 0, 6, 7, 8, 0,
