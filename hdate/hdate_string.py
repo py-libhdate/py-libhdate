@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from htables import digits, hebrew_months, holidays, parashaot, days_table, zmanim_types, zmanim_string
+from htables import digits, hebrew_months, holidays, parashaot, days_table
+from htables import zmanim_types, zmanim_string
 
 
 def hebrew_number(num, hebrew=True, short=False):
@@ -10,7 +11,7 @@ def hebrew_number(num, hebrew=True, short=False):
     if not hebrew:
         return str(num)
     if num > 10000 or num < 0:
-        raise ValueError('number must be between 0 to 9999, got:{}'.format(num))
+        raise ValueError('num must be between 0 to 9999, got:{}'.format(num))
     s = u''
     if num >= 1000:
         s += digits[0][num / 1000].decode("utf-8")
@@ -37,7 +38,8 @@ def hebrew_number(num, hebrew=True, short=False):
     return s
 
 
-def get_hebrew_date(day, month, year, omer=0, dw=0, holiday=0, short=False, hebrew=True):
+def get_hebrew_date(day, month, year, omer=0, dw=0, holiday=0,
+                    short=False, hebrew=True):
     is_hebrew = 1 if hebrew else 0
     is_short = 1 if short else 0
     res = u'{} {}'.format(hebrew_number(day, hebrew=is_hebrew, short=is_short),
@@ -65,7 +67,8 @@ def get_hebrew_date(day, month, year, omer=0, dw=0, holiday=0, short=False, hebr
 
 def get_omer_string(omer):
     tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
-    ones = ["", "אחד", "שנים", "שלושה", "ארבעה", "חמשה", "ששה", "שבעה", "שמונה", "תשעה"]
+    ones = ["", "אחד", "שנים", "שלושה", "ארבעה", "חמשה",
+            "ששה", "שבעה", "שמונה", "תשעה"]
     if omer < 1 or omer > 49:
         raise ValueError('Invalid Omer day: {}'.format(omer))
     t = omer / 10
@@ -126,5 +129,6 @@ def get_zmanim_string(zmanim, hebrew=True):
     for z in zmanim_types:
         if z in zmanim:
             d = zmanim[z]
-            res += '{} - {:02d}:{:02d}\n'.format(zmanim_string[lang][z], d.hour, d.minute)
+            res += '{} - {:02d}:{:02d}\n'.format(zmanim_string[lang][z],
+                                                 d.hour, d.minute)
     return res

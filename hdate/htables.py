@@ -104,7 +104,8 @@ digits = [
 
 days_table = [
     [   # begin english long
-        ["Sunday",  "Monday",  "Tuesday",  "Wednesday", "Thursday",  "Friday",  "Saturday"],
+        ["Sunday",  "Monday",  "Tuesday",  "Wednesday", "Thursday",  "Friday",
+         "Saturday"],
         # begin english short
         ["Sun",  "Mon",  "Tue",  "Wed",  "Thu", "Fri",  "Sat"],
     ],
@@ -194,23 +195,24 @@ gregorian_months = [
 holidays = [
     [  # begin english
         [  # begin english long
-         "Rosh Hashana I",    "Rosh Hashana II",
-         "Tzom Gedaliah",    "Yom Kippur",
-         "Sukkot",            "Hol hamoed Sukkot",
-         "Hoshana raba",    "Simchat Torah",
-         "Chanukah",        "Asara B'Tevet",
-         "Tu B'Shvat",        "Ta'anit Esther",
-         "Purim",            "Shushan Purim",
-         "Pesach",            "Hol hamoed Pesach",
-         "Yom HaAtzma'ut",    "Lag B'Omer",
-         "Erev Shavuot",    "Shavuot",
-         "Tzom Tammuz",        "Tish'a B'Av",
-         "Tu B'Av",            "Yom HaShoah",
-         "Yom HaZikaron",    "Yom Yerushalayim",
-         "Shmini Atzeret",    "Pesach VII",
-         "Pesach VIII",        "Shavuot II",
-         "Sukkot II",        "Pesach II",
-         "Family Day",        "Memorial day for fallen whose place of burial is unknown",
+         "Rosh Hashana I", "Rosh Hashana II",
+         "Tzom Gedaliah",  "Yom Kippur",
+         "Sukkot",         "Hol hamoed Sukkot",
+         "Hoshana raba",   "Simchat Torah",
+         "Chanukah",       "Asara B'Tevet",
+         "Tu B'Shvat",     "Ta'anit Esther",
+         "Purim",          "Shushan Purim",
+         "Pesach",         "Hol hamoed Pesach",
+         "Yom HaAtzma'ut", "Lag B'Omer",
+         "Erev Shavuot",   "Shavuot",
+         "Tzom Tammuz",    "Tish'a B'Av",
+         "Tu B'Av",        "Yom HaShoah",
+         "Yom HaZikaron",  "Yom Yerushalayim",
+         "Shmini Atzeret", "Pesach VII",
+         "Pesach VIII",    "Shavuot II",
+         "Sukkot II",      "Pesach II",
+         "Family Day",
+         "Memorial day for fallen whose place of burial is unknown",
          "Yitzhak Rabin memorial day", "Zeev Zhabotinsky day",
          "Erev Yom Kippur"],
         [  # begin english short
@@ -230,7 +232,8 @@ holidays = [
          "Shmini Atzeret",     "Pesach VII",
          "Pesach VIII",        "Shavuot II",         # 30
          "Sukkot II",          "Pesach II",
-         "Family Day",         "Memorial day for fallen whose place of burial is unknown",
+         "Family Day",
+         "Memorial day for fallen whose place of burial is unknown",
          "Rabin memorial day", "Zhabotinsky day",
          "Erev Yom Kippur"]
     ],
@@ -278,9 +281,10 @@ holidays = [
     ]
 ]
 
-zmanim_types = ['first_light', 'talit', 'sunrise', 'mga_end_shma', 'gra_end_shma', 'mga_end_tfila',
-                'gra_end_tfila', 'midday', 'big_mincha', 'small_mincha', 'plag_mincha',
-                'sunset', 'first_stars', 'midnight']
+zmanim_types = ['first_light', 'talit', 'sunrise',
+                'mga_end_shma', 'gra_end_shma', 'mga_end_tfila',
+                'gra_end_tfila', 'midday', 'big_mincha', 'small_mincha',
+                'plag_mincha', 'sunset', 'first_stars', 'midnight']
 
 zmanim_string = {
     'heb':

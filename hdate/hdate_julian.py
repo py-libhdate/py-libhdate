@@ -14,19 +14,25 @@ def _M(h, p):
 
 def _days_since_3744(hebrew_year):
     """Return: Number of days since 3,1,3744 """
+
     # Start point for calculation is Molad new year 3744 (16BC)
     years_from_3744 = hebrew_year - 3744
     molad_3744 = M(1 + 6, 779)  # Molad 3744 + 6 hours in parts
+
     # Time in months
     leap_months = (years_from_3744 * 7 + 1) / 19  # Number of leap months
-    leap_left = (years_from_3744 * 7 + 1) % 19  # Months left of leap cycle
-    months = years_from_3744 * 12 + leap_months  # Total Number of months
-    # Time in parts and days
-    parts = months * PARTS_IN_MONTH + molad_3744  # Molad This year + Molad 3744 - corections
-    days = months * 28 + parts / PARTS_IN_DAY - 2  # 28 days in month + corections
+    leap_left = (years_from_3744 * 7 + 1) % 19    # Months left of leap cycle
+    months = years_from_3744 * 12 + leap_months   # Total Number of months
 
-    # Time left for round date in corections
-    parts_left_in_week = parts % PARTS_IN_WEEK  # 28 % 7 = 0 so only corections counts
+    # Time in parts and days
+    # Molad This year + Molad 3744 - corrections
+    parts = months * PARTS_IN_MONTH + molad_3744
+    # 28 days in month + corrections
+    days = months * 28 + parts / PARTS_IN_DAY - 2
+
+    # Time left for round date in corrections
+    # 28 % 7 = 0 so only corrections counts
+    parts_left_in_week = parts % PARTS_IN_WEEK
     parts_left_in_day = parts % PARTS_IN_DAY
     week_day = parts_left_in_week / PARTS_IN_DAY
 
@@ -71,7 +77,10 @@ year type | year length | Tishery 1 day of week
 |14       | 385         | 7
 """
     # Only 14 combinations of size and week day are posible
-    year_types = [1, 0, 0, 2, 0, 3, 4, 0, 5, 0, 6, 7, 8, 0, 9, 10, 0, 11, 0, 0, 12, 0, 13, 14]
+    year_types = [1,  0,  0,  2, 0, 3,  4,
+                  0,  5,  0,  6, 7, 8,  0,
+                  9, 10,  0, 11, 0, 0, 12,
+                  0, 13, 14]
 
     # convert size and first day to 1..24 number
     # 2,3,5,7 -> 1,2,3,4
@@ -105,11 +114,14 @@ def _days_from_3744(hebrew_year):
     months = years_from_3744 * 12 + leap_months   # Total Number of months
 
     # Time in parts and days
-    parts = months * PARTS_IN_MONTH + molad_3744    # Molad This year + Molad 3744 - corections
-    days = months * 28 + parts / PARTS_IN_DAY - 2   # 28 days in month + corections
+    # Molad This year + Molad 3744 - corrections
+    parts = months * PARTS_IN_MONTH + molad_3744
+    # 28 days in month + corrections
+    days = months * 28 + parts / PARTS_IN_DAY - 2
 
-    # Time left for round date in corections
-    parts_left_in_week = parts % PARTS_IN_WEEK      # 28 % 7 = 0 so only corections counts
+    # Time left for round date in corrections
+    # 28 % 7 = 0 so only corrections counts
+    parts_left_in_week = parts % PARTS_IN_WEEK
     parts_left_in_day = parts % PARTS_IN_DAY
     week_day = parts_left_in_week / PARTS_IN_DAY
 
@@ -130,7 +142,10 @@ def _days_from_3744(hebrew_year):
 
 def _hdate_to_jd(day, month, year):
     """Compute Julian day from Hebrew day, month and year
-Return: julian day number,  1 of tishrey julians,  1 of tishrey julians next year"""
+       Return: julian day number,
+               1 of tishrey julians,
+               1 of tishrey julians next year"""
+
     if (month == 13):
         month = 6
     if (month == 14):
@@ -214,7 +229,7 @@ def _jd_to_hdate(jd):
             month = month + 8
     else:  # in 4-5 first months
         # Special cases for this year
-        if (size_of_year % 10 > 4 and days == 59):   # long Heshvan (day 30 of Heshvan)
+        if (size_of_year % 10 > 4 and days == 59):   # long Heshvan (day 30)
             month = 1
             day = 30
         elif (size_of_year % 10 > 4 and days > 59):  # long Heshvan
