@@ -118,58 +118,58 @@ days_table = [
 
 parashaot = [
     [  # begin english
-     "none",        "Bereshit",        "Noach",
-     "Lech-Lecha",    "Vayera",        "Chayei Sara",
-     "Toldot",        "Vayetzei",        "Vayishlach",
-     "Vayeshev",    "Miketz",        "Vayigash",        # 11
-     "Vayechi",        "Shemot",        "Vaera",
-     "Bo",        "Beshalach",    "Yitro",
-     "Mishpatim",    "Terumah",        "Tetzaveh",        # 20
-     "Ki Tisa",        "Vayakhel",        "Pekudei",
-     "Vayikra",        "Tzav",        "Shmini",
-     "Tazria",        "Metzora",        "Achrei Mot",
-     "Kedoshim",    "Emor",        "Behar",        # 32
-     "Bechukotai",    "Bamidbar",        "Nasso",
-     "Beha'alotcha",    "Sh'lach",        "Korach",
-     "Chukat",        "Balak",        "Pinchas",        # 41
-     "Matot",        "Masei",        "Devarim",
-     "Vaetchanan",    "Eikev",        "Re'eh",
-     "Shoftim",        "Ki Teitzei",    "Ki Tavo",        # 50
-     "Nitzavim",    "Vayeilech",    "Ha'Azinu",
-     "Vezot Habracha",    # 54
+     "none",         "Bereshit",   "Noach",
+     "Lech-Lecha",   "Vayera",     "Chayei Sara",
+     "Toldot",       "Vayetzei",   "Vayishlach",
+     "Vayeshev",     "Miketz",     "Vayigash",     # 11
+     "Vayechi",      "Shemot",     "Vaera",
+     "Bo",           "Beshalach",  "Yitro",
+     "Mishpatim",    "Terumah",    "Tetzaveh",     # 20
+     "Ki Tisa",      "Vayakhel",   "Pekudei",
+     "Vayikra",      "Tzav",       "Shmini",
+     "Tazria",       "Metzora",    "Achrei Mot",
+     "Kedoshim",     "Emor",       "Behar",        # 32
+     "Bechukotai",   "Bamidbar",   "Nasso",
+     "Beha'alotcha", "Sh'lach",    "Korach",
+     "Chukat",       "Balak",      "Pinchas",      # 41
+     "Matot",        "Masei",      "Devarim",
+     "Vaetchanan",   "Eikev",      "Re'eh",
+     "Shoftim",      "Ki Teitzei", "Ki Tavo",      # 50
+     "Nitzavim",     "Vayeilech",  "Ha'Azinu",
+     "Vezot Habracha",                             # 54
      "Vayakhel-Pekudei", "Tazria-Metzora", "Achrei Mot-Kedoshim",
      "Behar-Bechukotai", "Chukat-Balak",   "Matot-Masei",
      "Nitzavim-Vayeilech"],
     [  # begin hebrew
-     "none",        "בראשית",        "נח",
-     "לך לך",        "וירא",            "חיי שרה",
-     "תולדות",        "ויצא",            "וישלח",
-     "וישב",        "מקץ",            "ויגש",        # 11
-     "ויחי",        "שמות",            "וארא",
-     "בא",            "בשלח",            "יתרו",
-     "משפטים",        "תרומה",        "תצוה",        # 20
-     "כי תשא",        "ויקהל",        "פקודי",
-     "ויקרא",        "צו",            "שמיני",
-     "תזריע",        "מצורע",        "אחרי מות",
-     "קדושים",        "אמור",            "בהר",        # 32
-     "בחוקתי",        "במדבר",        "נשא",
-     "בהעלתך",        "שלח",            "קרח",
-     "חקת",            "בלק",            "פנחס",        # 41
-     "מטות",        "מסעי",            "דברים",
-     "ואתחנן",        "עקב",            "ראה",
-     "שופטים",        "כי תצא",        "כי תבוא",        # 50
-     "נצבים",        "וילך",            "האזינו",
-     "וזאת הברכה",    # 54
-     "ויקהל-פקודי",    "תזריע-מצורע",    "אחרי מות-קדושים",
-     "בהר-בחוקתי",    "חוקת-בלק",        "מטות מסעי",
+     "none", "בראשית", "נח",
+     "לך לך", "וירא", "חיי שרה",
+     "תולדות", "ויצא", "וישלח",
+     "וישב", "מקץ", "ויגש",  # 11
+     "ויחי", "שמות", "וארא",
+     "בא", "בשלח", "יתרו",
+     "משפטים", "תרומה", "תצוה",  # 20
+     "כי תשא", "ויקהל", "פקודי",
+     "ויקרא", "צו", "שמיני",
+     "תזריע", "מצורע", "אחרי מות",
+     "קדושים", "אמור", "בהר",  # 32
+     "בחוקתי", "במדבר", "נשא",
+     "בהעלתך", "שלח", "קרח",
+     "חקת", "בלק", "פנחס",  # 41
+     "מטות", "מסעי", "דברים",
+     "ואתחנן", "עקב", "ראה",
+     "שופטים", "כי תצא", "כי תבוא",  # 50
+     "נצבים", "וילך", "האזינו",
+     "וזאת הברכה",  # 54
+     "ויקהל-פקודי", "תזריע-מצורע", "אחרי מות-קדושים",
+     "בהר-בחוקתי", "חוקת-בלק", "מטות מסעי",
      "נצבים-וילך"]
 ]
 
 hebrew_months = [
     [  # begin english
          "Tishrei", "Cheshvan", "Kislev", "Tevet",
-         "Sh'vat", "Adar", "Nisan", "Iyyar",
-         "Sivan", "Tammuz", "Av", "Elul", "Adar I",
+         "Sh'vat",  "Adar",     "Nisan",  "Iyyar",
+         "Sivan",   "Tammuz",   "Av",     "Elul",  "Adar I",
          "Adar II"
      ],
     [  # begin hebrew
@@ -239,43 +239,43 @@ holidays = [
     ],
     [  # begin hebrew
         [  # begin hebrew long
-         "א' ראש השנה",           "ב' ראש השנה",
-         "צום גדליה",             "יום הכפורים",
-         "סוכות",                 "חול המועד סוכות",
-         "הושענא רבה",            "שמחת תורה",
-         "חנוכה",                 "צום עשרה בטבת",    # 10
-         "ט\"ו בשבט",             "תענית אסתר",
-         "פורים",                 "שושן פורים",
-         "פסח",                   "חול המועד פסח",
-         "יום העצמאות",           "ל\"ג בעומר",
-         "ערב שבועות",            "שבועות",           # 20
-         "צום שבעה עשר בתמוז",    "תשעה באב",
-         "ט\"ו באב",              "יום השואה",
-         "יום הזכרון",            "יום ירושלים",
-         "שמיני עצרת",            "שביעי פסח",
-         "אחרון של פסח",          "שני של שבועות",    # 30
-         "שני של סוכות",          "שני של פסח",
-         "יום המשפחה",            "יום זכרון...",
+         "א' ראש השנה", "ב' ראש השנה",
+         "צום גדליה", "יום הכפורים",
+         "סוכות", "חול המועד סוכות",
+         "הושענא רבה", "שמחת תורה",
+         "חנוכה", "צום עשרה בטבת",  # 10
+         "ט\"ו בשבט", "תענית אסתר",
+         "פורים", "שושן פורים",
+         "פסח", "חול המועד פסח",
+         "יום העצמאות", "ל\"ג בעומר",
+         "ערב שבועות", "שבועות",  # 20
+         "צום שבעה עשר בתמוז", "תשעה באב",
+         "ט\"ו באב", "יום השואה",
+         "יום הזכרון", "יום ירושלים",
+         "שמיני עצרת", "שביעי פסח",
+         "אחרון של פסח", "שני של שבועות",  # 30
+         "שני של סוכות", "שני של פסח",
+         "יום המשפחה", "יום זכרון...",
          "יום הזכרון ליצחק רבין", "יום ז\'בוטינסקי",
          "עיוה\"כ"],
         [  # begin hebrew short
-         "א ר\"ה",                "ב' ר\"ה",
-         "צום גדליה",             "יוה\"כ",
-         "סוכות",                 "חוה\"מ סוכות",
-         "הוש\"ר",                "שמח\"ת",
-         "חנוכה",                 "י' בטבת",     # 10
-         "ט\"ו בשבט",             "תענית אסתר",
-         "פורים",                 "שושן פורים",
-         "פסח",                   "חוה\"מ פסח",
-         "יום העצמאות",           "ל\"ג בעומר",
-         "ערב שבועות",            "שבועות",      # 20
-         "צום תמוז",              "ט' באב",
-         "ט\"ו באב",              "יום השואה",
-         "יום הזכרון",            "יום י-ם",
-         "שמיני עצרת",            "ז' פסח",
-         "אחרון של פסח",          "ב' שבועות",   # 30
-         "ב' סוכות",              "ב' פסח",
-         "יום המשפחה",            "יום זכרון...",
+         "א ר\"ה", "ב' ר\"ה",
+         "צום גדליה", "יוה\"כ",
+         "סוכות", "חוה\"מ סוכות",
+         "הוש\"ר", "שמח\"ת",
+         "חנוכה", "י' בטבת",  # 10
+         "ט\"ו בשבט", "תענית אסתר",
+         "פורים", "שושן פורים",
+         "פסח", "חוה\"מ פסח",
+         "יום העצמאות", "ל\"ג בעומר",
+         "ערב שבועות", "שבועות",  # 20
+         "צום תמוז", "ט' באב",
+         "ט\"ו באב", "יום השואה",
+         "יום הזכרון", "יום י-ם",
+         "שמיני עצרת", "ז' פסח",
+         "אחרון של פסח", "ב' שבועות",  # 30
+         "ב' סוכות", "ב' פסח",
+         "יום המשפחה", "יום זכרון...",
          "יום הזכרון ליצחק רבין", "יום ז\'בוטינסקי",
          "עיוה\"כ"]
     ]
@@ -306,19 +306,19 @@ zmanim_string = {
         },
     'eng':
         {
-            'first_light': 'Alot HaShachar',
-            'talit': 'Talit & Tefilin\'s time',
-            'sunrise': 'sunrise',
-            'sunset': 'sunset',
-            'first_stars': 'first starts',
-            'plag_mincha': 'Plag Mincha',
-            'big_mincha': 'Big Mincha',
-            'small_mincha': 'Small Mincha',
-            'mga_end_shma': 'Shema EOT MG"A',
-            'gra_end_shma': 'Shema EOT GR"A',
+            'first_light':   'Alot HaShachar',
+            'talit':         'Talit & Tefilin\'s time',
+            'sunrise':       'sunrise',
+            'sunset':        'sunset',
+            'first_stars':   'first starts',
+            'plag_mincha':   'Plag Mincha',
+            'big_mincha':    'Big Mincha',
+            'small_mincha':  'Small Mincha',
+            'mga_end_shma':  'Shema EOT MG"A',
+            'gra_end_shma':  'Shema EOT GR"A',
             'mga_end_tfila': 'Tefila EOT MG"A',
             'gra_end_tfila': 'Tefila EOT GR"A',
-            'midnight': 'midnight',
-            'midday': 'midday',
+            'midnight':      'midnight',
+            'midday':        'midday',
         }
 }
