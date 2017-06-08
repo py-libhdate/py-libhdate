@@ -7,17 +7,6 @@ from htables import holydays_table, join_flags
 from hdate_string import get_hebrew_date, get_zmanim_string
 
 
-def M(hours, parts):
-    """Return the number of total parts (chalakim)"""
-    return (hours * PARTS_IN_HOUR) + parts
-
-
-PARTS_IN_HOUR = 1080
-PARTS_IN_DAY = 24 * PARTS_IN_HOUR
-PARTS_IN_WEEK = 7 * PARTS_IN_DAY
-PARTS_IN_MONTH = PARTS_IN_DAY + M(12, 793)  # Tikun for regular month
-
-
 def set_date(date):
     """
     Check that the given date is valid, if no date is given
