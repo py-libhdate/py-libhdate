@@ -12,30 +12,30 @@ def hebrew_number(num, hebrew=True, short=False):
         return str(num)
     if num > 10000 or num < 0:
         raise ValueError('num must be between 0 to 9999, got:{}'.format(num))
-    s = u''
+    hstring = u''
     if num >= 1000:
-        s += digits[0][num / 1000].decode("utf-8")
+        hstring += digits[0][num / 1000].decode("utf-8")
         num = num % 1000
     while num >= 400:
-        s += digits[2][4].decode("utf-8")
+        hstring += digits[2][4].decode("utf-8")
         num = num - 400
     if num >= 100:
-        s += digits[2][num / 100].decode("utf-8")
+        hstring += digits[2][num / 100].decode("utf-8")
         num = num % 100
     if num >= 10:
         if num in [15, 16]:
             num = num - 9
-        s += digits[1][num / 10].decode("utf-8")
+        hstring += digits[1][num / 10].decode("utf-8")
         num = num % 10
     if num > 0:
-        s += digits[0][num].decode("utf-8")
+        hstring += digits[0][num].decode("utf-8")
     # possibly add the ' and " to hebrew numbers
     if not short:
-        if len(s) < 2:
-            s += "'"
+        if len(hstring) < 2:
+            hstring += "'"
         else:
-            s = s[:-1] + '"' + s[-1]
-    return s
+            hstring = hstring[:-1] + '"' + hstring[-1]
+    return hstring
 
 
 def get_hebrew_date(day, month, year, omer=0, dw=0, holiday=0,
@@ -71,45 +71,45 @@ def get_omer_string(omer):
             "ששה", "שבעה", "שמונה", "תשעה"]
     if omer < 1 or omer > 49:
         raise ValueError('Invalid Omer day: {}'.format(omer))
-    t = omer / 10
-    o = omer % 10
-    s = 'היום '
+    ten = omer / 10
+    one = omer % 10
+    omer_string = 'היום '
     if omer > 10 and omer < 20:
-        s += ones[o] + ' עשר '
+        omer_string += ones[one] + ' עשר '
     elif omer > 9:
-        s += tens[t] + ' '
-        if o:
-            s += 'ו'
+        omer_string += tens[ten] + ' '
+        if one:
+            omer_string += 'ו'
     if omer > 2:
-        s += ones[o]
+        omer_string += ones[one]
         if omer < 11:
-            s += ' ימים '
+            omer_string += ' ימים '
         else:
-            s += ' יום '
+            omer_string += ' יום '
     elif omer == 1:
-        s += 'יום אחד '
+        omer_string += 'יום אחד '
     elif omer == 2:
-        s += 'שני ימים '
+        omer_string += 'שני ימים '
     if omer > 6:
-        s += 'שהם '
-        w = omer / 7
-        d = omer % 7
-        if w > 2:
-            s += ones[w] + ' שבועות '
-        elif w == 1:
-            s += 'שבוע אחד '
-        elif w == 2:
-            s += 'שני שבועות '
-        if d:
-            s += 'ו'
-            if d > 2:
-                s += ones[d] + ' ימים '
-            elif d == 1:
-                s += 'יום אחד '
-            elif d == 2:
-                s += 'שני ימים '
-    s += 'לעומר'
-    return s
+        omer_string += 'שהם '
+        weeks = omer / 7
+        days = omer % 7
+        if weeks > 2:
+            omer_string += ones[weeks] + ' שבועות '
+        elif weeks == 1:
+            omer_string += 'שבוע אחד '
+        elif weeks == 2:
+            omer_string += 'שני שבועות '
+        if days:
+            omer_string += 'ו'
+            if days > 2:
+                omer_string += ones[days] + ' ימים '
+            elif days == 1:
+                omer_string += 'יום אחד '
+            elif days == 2:
+                omer_string += 'שני ימים '
+    omer_string += 'לעומר'
+    return omer_string
 
 
 def get_parashe(parasha, short=False, hebrew=True):
@@ -126,9 +126,9 @@ def get_parashe(parasha, short=False, hebrew=True):
 def get_zmanim_string(zmanim, hebrew=True):
     res = ''
     lang = 'heb' if hebrew else 'eng'
-    for z in zmanim_types:
-        if z in zmanim:
-            d = zmanim[z]
-            res += '{} - {:02d}:{:02d}\n'.format(zmanim_string[lang][z],
-                                                 d.hour, d.minute)
+    for zman in zmanim_types:
+        if zman in zmanim:
+            time = zmanim[zman]
+            res += '{} - {:02d}:{:02d}\n'.format(zmanim_string[lang][zman],
+                                                 time.hour, time.minute)
     return res

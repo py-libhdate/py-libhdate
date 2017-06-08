@@ -1,15 +1,12 @@
-def M(h, p):
-    return (h * PARTS_IN_HOUR) + p
+def M(hours, parts):
+    """Return the number of total parts (chalakim)"""
+    return (hours * PARTS_IN_HOUR) + parts
 
 
 PARTS_IN_HOUR = 1080
 PARTS_IN_DAY = 24 * PARTS_IN_HOUR
 PARTS_IN_WEEK = 7 * PARTS_IN_DAY
 PARTS_IN_MONTH = PARTS_IN_DAY + M(12, 793)  # Tikun for regular month
-
-
-def _M(h, p):
-    return (h * PARTS_IN_HOUR) + p
 
 
 def _days_since_3744(hebrew_year):
@@ -92,10 +89,11 @@ year type | year length | Tishery 1 day of week
 
 
 def _gdate_to_jd(day, month, year):
-    """Compute Julian day from Gregorian day, month and year
-Algorithm from the wikipedia's julian_day
-Return: The julian day number
-"""
+    """
+    Compute Julian day from Gregorian day, month and year
+    Algorithm from the wikipedia's julian_day
+    Return: The julian day number
+    """
     a = (14 - month) / 12
     y = year + 4800 - a
     m = month + 12 * a - 3

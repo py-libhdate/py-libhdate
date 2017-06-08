@@ -7,8 +7,9 @@ from htables import holydays_table, join_flags
 from hdate_string import get_hebrew_date, get_zmanim_string
 
 
-def M(h, p):
-    return (h * PARTS_IN_HOUR) + p
+def M(hours, parts):
+    """Return the number of total parts (chalakim)"""
+    return (hours * PARTS_IN_HOUR) + parts
 
 
 PARTS_IN_HOUR = 1080
@@ -18,6 +19,10 @@ PARTS_IN_MONTH = PARTS_IN_DAY + M(12, 793)  # Tikun for regular month
 
 
 def set_date(date):
+    """
+    Check that the given date is valid, if no date is given
+    set the date to today
+    """
     if date is None:
         date = datetime.date.today()
     elif not isinstance(date, datetime.date):
@@ -55,11 +60,14 @@ class Zmanim(object):
         return local
 
     def get_zmanim(self):
-        d = dict()
+        """
+        Return a dictionary of the zmanim the object represents.
+        """
+        zmanim_dict = dict()
         zmanim_list = self.get_utc_sun_time_full()
-        for z in zmanim_list:
-            d[z] = self.utc_minute_timezone(zmanim_list[z])
-        return d
+        for zman in zmanim_list:
+            zmanim_dict[zman] = self.utc_minute_timezone(zmanim_list[zman])
+        return zmanim_dict
 
     def __repr__(self):
         return get_zmanim_string(self.zmanim, hebrew=self._hebrew)
@@ -76,18 +84,17 @@ class Zmanim(object):
         is nearing the pols in winter times, the sun never goes very high in
         the sky there.
         """
-        M_PI = math.pi
-        gama = 0  # location of sun in yearly cycle in radians
-        eqtime = 0  # diffference betwen sun noon and clock noon
-        decl = 0  # sun declanation
-        ha = 0  # solar hour engle
-        sunrise_angle = M_PI * deg / 180.0  # sun angle at sunrise/set
+        gama = 0        # location of sun in yearly cycle in radians
+        eqtime = 0      # difference betwen sun noon and clock noon
+        decl = 0        # sun declanation
+        hour_angle = 0  # solar hour angle
+        sunrise_angle = math.pi * deg / 180.0  # sun angle at sunrise/set
 
         # get the day of year
         day_of_year = self.gday_of_year()
 
         # get radians of sun orbit around erth =)
-        gama = 2.0 * M_PI * ((day_of_year - 1) / 365.0)
+        gama = 2.0 * math.pi * ((day_of_year - 1) / 365.0)
 
         # get the diff betwen suns clock and wall clock in minutes
         eqtime = 229.18 * (0.000075 + 0.001868 * math.cos(gama) -
@@ -104,24 +111,24 @@ class Zmanim(object):
                 0.00148 * math.sin(3.0 * gama))
 
         # we use radians, ratio is 2pi/360
-        latitude = M_PI * self.latitude / 180.0
+        latitude = math.pi * self.latitude / 180.0
 
         # the sun real time diff from noon at sunset/rise in radians
         try:
-            ha = (math.acos(math.cos(sunrise_angle) /
-                            (math.cos(latitude) * math.cos(decl)) -
-                            math.tan(latitude) * math.tan(decl)))
+            hour_angle = (math.acos(math.cos(sunrise_angle) /
+                                    (math.cos(latitude) * math.cos(decl)) -
+                                    math.tan(latitude) * math.tan(decl)))
         # check for too high altitudes and return negative values
         except ValueError:
             return -720, -720
 
         # we use minutes, ratio is 1440min/2pi
-        ha = 720.0 * ha / M_PI
+        hour_angle = 720.0 * hour_angle / math.pi
 
         # get sunset/rise times in utc wall clock in minutes from 00:00 time
         # sunrise / sunset
-        return int(720.0 - 4.0 * self.longitude - ha - eqtime), \
-            int(720.0 - 4.0 * self.longitude + ha - eqtime)
+        return int(720.0 - 4.0 * self.longitude - hour_angle - eqtime), \
+            int(720.0 - 4.0 * self.longitude + hour_angle - eqtime)
 
     def get_utc_sun_time(self):
         "utc sunrise/set time for a gregorian date"
@@ -200,15 +207,16 @@ class HDate(object):
          jd_tishrey1, jd_tishrey1_next_year) = hj._jd_to_hdate(self._jd)
         self._set_h_from_jd(jd_tishrey1, jd_tishrey1_next_year)
 
-    def hdate_set_hdate(self, d, m, y):
-        self._jd, jd_tishrey1, jd_tishrey1_next_year = hj._hdate_to_jd(d, m, y)
-        gd, gm, gy = hj._jd_to_gdate(self._jd)
-        self._gdate = datetime.date(gy, gm, gd)
+    def hdate_set_hdate(self, day, month, year):
+        self._jd, jd_tishrey1, jd_tishrey1_next_year = \
+            hj._hdate_to_jd(day, month, year)
+        gday, gmonth, gyear = hj._jd_to_gdate(self._jd)
+        self._gdate = datetime.date(gyear, gmonth, gday)
         self._set_h_from_jd(jd_tishrey1, jd_tishrey1_next_year)
 
-    def hdate_set_jd(self, jd):
-        gd, gm, gy = hj._jd_to_gdate(jd)
-        self._gdate = datetime.date(gy, gm, gd)
+    def hdate_set_jd(self, jdate):
+        gday, gmonth, gyear = hj._jd_to_gdate(jdate)
+        self._gdate = datetime.date(gyear, gmonth, gday)
         self.hdate_set_gdate()
 
     def get_hebrew_date(self):
