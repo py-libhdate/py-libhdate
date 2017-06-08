@@ -3,7 +3,7 @@
 Jewish/Hebrew date and Zmanim in native python
 ported from libhdate, see http://libhdate.sourceforge.net/ for more details (including license) 
 
-
+```
 >>> import hdate
 >>> import datetime
 >>> import geocity
@@ -51,3 +51,4 @@ Monday 10 Nisan 5776
 >>> print h.to_string()
 יום שלישי י"ח בניסן התשע"ו ג' בעומר חול המועד פסח
 
+```
