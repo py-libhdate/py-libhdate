@@ -1,13 +1,14 @@
+import datetime
+import math
+from dateutil import tz
+
 import hdate_julian as hj
 from htables import holydays_table, join_flags
 from hdate_string import get_hebrew_date, get_zmanim_string
-import datetime
-from dateutil import tz
-import math
 
 
 def M(h, p):
-    return ((h * PARTS_IN_HOUR) + p)
+    return (h * PARTS_IN_HOUR) + p
 
 
 PARTS_IN_HOUR = 1080
@@ -108,8 +109,8 @@ class Zmanim(object):
         # the sun real time diff from noon at sunset/rise in radians
         try:
             ha = (math.acos(math.cos(sunrise_angle) /
-                  (math.cos(latitude) * math.cos(decl)) -
-                  math.tan(latitude) * math.tan(decl)))
+                            (math.cos(latitude) * math.cos(decl)) -
+                            math.tan(latitude) * math.tan(decl)))
         # check for too high altitudes and return negative values
         except ValueError:
             return -720, -720
@@ -185,7 +186,7 @@ class HDate(object):
                                               self._h_new_year_weekday)
         self._h_days = self._jd - jd_tishrey1 + 1
         self._h_weeks = (((self._h_days - 1) +
-                         (self._h_new_year_weekday - 1)) / 7 + 1)
+                          (self._h_new_year_weekday - 1)) / 7 + 1)
 
     def to_string(self, short=False, hebrew=True):
         return get_hebrew_date(self._h_day, self._h_month, self._h_year,
@@ -257,20 +258,20 @@ class HDate(object):
             holyday = 0
 
         # yom ha azmaot and yom ha zicaron
-        if (holyday == 17):
-            if (self._gdate.year < 1948):
+        if holyday == 17:
+            if self._gdate.year < 1948:
                 holyday = 0
-            elif (self._gdate.year < 2004):
-                if ((self._h_day == 3) and (self._weekday == 5)):
+            elif self._gdate.year < 2004:
+                if (self._h_day == 3) and (self._weekday == 5):
                     holyday = 17
-                elif ((self._h_day == 4) and (self._weekday == 5)):
+                elif (self._h_day == 4) and (self._weekday == 5):
                     holyday = 17
                 elif ((self._h_day == 5) and
                       (self._weekday != 6 and self._weekday != 7)):
                     holyday = 17
-                elif ((self._h_day == 2) and (self._weekday == 4)):
+                elif (self._h_day == 2) and (self._weekday == 4):
                     holyday = 25
-                elif ((self._h_day == 3) and (self._weekday == 4)):
+                elif (self._h_day == 3) and (self._weekday == 4):
                     holyday = 25
                 elif ((self._h_day == 4) and
                       (self._weekday != 5 and self._weekday != 6)):
@@ -278,21 +279,21 @@ class HDate(object):
                 else:
                     holyday = 0
             else:
-                if ((self._h_day == 3) and (self._weekday == 5)):
+                if (self._h_day == 3) and (self._weekday == 5):
                     holyday = 17
-                elif ((self._h_day == 4) and (self._weekday == 5)):
+                elif (self._h_day == 4) and (self._weekday == 5):
                     holyday = 17
-                elif ((self._h_day == 6) and (self._weekday == 3)):
+                elif (self._h_day == 6) and (self._weekday == 3):
                     holyday = 17
                 elif ((self._h_day == 5) and
                       (self._weekday != 6 and self._weekday != 7 and
                        self._weekday != 2)):
                     holyday = 17
-                elif ((self._h_day == 2) and (self._weekday == 4)):
+                elif (self._h_day == 2) and (self._weekday == 4):
                     holyday = 25
-                elif ((self._h_day == 3) and (self._weekday == 4)):
+                elif (self._h_day == 3) and (self._weekday == 4):
                     holyday = 25
-                elif ((self._h_day == 5) and (self._weekday == 2)):
+                elif (self._h_day == 5) and (self._weekday == 2):
                     holyday = 25
                 elif ((self._h_day == 4) and
                       (self._weekday != 5 and self._weekday != 6 and
@@ -302,21 +303,21 @@ class HDate(object):
                     holyday = 0
 
         # yom ha shoaa, on years after 1958
-        if (holyday == 24):
-            if (self._gdate.year < 1958):
+        if holyday == 24:
+            if self._gdate.year < 1958:
                 holyday = 0
             else:
-                if ((self._h_day == 26) and (self._weekday != 5)):
+                if (self._h_day == 26) and (self._weekday != 5):
                     holyday = 0
-                if ((self._h_day == 28) and (self._weekday != 2)):
+                if (self._h_day == 28) and (self._weekday != 2):
                     holyday = 0
                 if ((self._h_day == 27) and
                         (self._weekday == 6 or self._weekday == 1)):
                     holyday = 0
 
         # Rabin day, on years after 1997
-        if (holyday == 35):
-            if (self._gdate.year < 1997):
+        if holyday == 35:
+            if self._gdate.year < 1997:
                 holyday = 0
             else:
                 if ((self._h_day == 10 or self._h_day == 11) and
@@ -327,36 +328,36 @@ class HDate(object):
                     holyday = 0
 
         # Zhabotinsky day, on years after 2005
-        if (holyday == 36):
-            if (self._gdate.year < 2005):
+        if holyday == 36:
+            if self._gdate.year < 2005:
                 holyday = 0
             else:
-                if ((self._h_day == 30) and (self._weekday != 1)):
+                if (self._h_day == 30) and (self._weekday != 1):
                     holyday = 0
-                if ((self._h_day == 29) and (self._weekday == 7)):
+                if (self._h_day == 29) and (self._weekday == 7):
                     holyday = 0
 
         # diaspora holidays
 
         # simchat tora only in diaspora
         # in israel just one day shmini+simchat tora
-        if (holyday == 8 and not diaspora):
+        if holyday == 8 and not diaspora:
             holyday = 0
 
         # sukkot II holiday only in diaspora
-        if (holyday == 31 and not diaspora):
+        if holyday == 31 and not diaspora:
             holyday = 6
 
         # pesach II holiday only in diaspora
-        if (holyday == 32 and not diaspora):
+        if holyday == 32 and not diaspora:
             holyday = 16
 
         # shavot II holiday only in diaspora
-        if (holyday == 30 and not diaspora):
+        if holyday == 30 and not diaspora:
             holyday = 0
 
         # pesach VIII holiday only in diaspora
-        if (holyday == 29 and not diaspora):
+        if holyday == 29 and not diaspora:
             holyday = 0
 
         return holyday
@@ -366,37 +367,37 @@ class HDate(object):
         sixteen_nissan = HDate()
         sixteen_nissan.hdate_set_hdate(16, 7, self._h_year)
         omer_day = self._jd - sixteen_nissan._jd + 1
-        if ((omer_day > 49) or (omer_day < 0)):
+        if (omer_day > 49) or (omer_day < 0):
             omer_day = 0
         return omer_day
 
     def get_holyday_type(self, holyday):
         # regular day
-        if (holyday == 0):
+        if holyday == 0:
             return 0
         # Yom tov, To find erev yom tov, check if tomorrow returns 1
-        if (holyday in [1, 2, 4, 5, 8, 15, 20, 27, 28, 29, 30, 31, 32]):
+        if holyday in [1, 2, 4, 5, 8, 15, 20, 27, 28, 29, 30, 31, 32]:
             return 1
         # Erev yom kippur
-        if (holyday == 37):
+        if holyday == 37:
             return 2
         # Hol hamoed
-        if (holyday in [6, 7, 16]):
+        if holyday in [6, 7, 16]:
             return 3
         # Hanuka and purim
-        if (holyday in [9, 13, 14]):
+        if holyday in [9, 13, 14]:
             return 4
         # Tzom
-        if (holyday in [3, 10, 12, 21, 22]):
+        if holyday in [3, 10, 12, 21, 22]:
             return 5
         # Independance day and Yom yerushalaim
-        if (holyday in [17, 26]):
+        if holyday in [17, 26]:
             return 6
         # Lag baomer ,Tu beav, Tu beshvat
-        if (holyday in [18, 23, 11]):
+        if holyday in [18, 23, 11]:
             return 7
         # Tzahal and Holocaust memorial days
-        if (holyday in [24, 25]):
+        if holyday in [24, 25]:
             return 8
         return 9
 
@@ -404,19 +405,19 @@ class HDate(object):
         """Return number of hebrew parasha
         55..61 are joined readings e.g. Vayakhel Pekudei"""
         # if simhat tora return vezot habracha
-        if (self._h_month == 1):
+        if self._h_month == 1:
             # simhat tora is a day after shmini atzeret outsite israel
-            if (self._h_day == 22 and not diaspora):
+            if self._h_day == 22 and not diaspora:
                 return 54
-            if (self._h_day == 23 and diaspora):
+            if self._h_day == 23 and diaspora:
                 return 54
 
         # if not shabat return none
-        if (self._h_weekday != 7):
+        if self._h_weekday != 7:
             return 0
 
-        if (self._h_weeks == 1):
-            if (self._h_new_year_weekday == 7):
+        if self._h_weeks == 1:
+            if self._h_new_year_weekday == 7:
                 # Rosh hashana
                 return 0
             elif ((self._h_new_year_weekday == 2) or
@@ -424,19 +425,19 @@ class HDate(object):
                 return 52
             else:  # if (self._h_new_year_weekday == 5)
                 return 53
-        elif(self._h_weeks == 2):
-            if (self._h_new_year_weekday == 5):
+        elif self._h_weeks == 2:
+            if self._h_new_year_weekday == 5:
                 # Yom kippur
                 return 0
             else:
                 return 53
-        elif(self._h_weeks == 3):
+        elif self._h_weeks == 3:
             # Succot
             return 0
-        elif(self._h_weeks == 4):
-            if (self._h_new_year_weekday == 7):
+        elif self._h_weeks == 4:
+            if self._h_new_year_weekday == 7:
                 # Simhat tora in israel
-                if (not diaspora):
+                if not diaspora:
                     return 54
                 # Not simhat tora in diaspora
                 else:
@@ -448,19 +449,19 @@ class HDate(object):
             reading = self._h_weeks - 3
 
             # was simhat tora on shabat ?
-            if (self._h_new_year_weekday == 7):
+            if self._h_new_year_weekday == 7:
                 reading = reading - 1
 
             # no joining
-            if (reading < 22):
+            if reading < 22:
                 return reading
 
             # pesach
-            if ((self._h_month == 7) and (self._h_day > 14)):
+            if (self._h_month == 7) and (self._h_day > 14):
                 # Shmini of pesach in diaspora is on the 22 of the month*/
-                if (diaspora and (self._h_day <= 22)):
+                if diaspora and (self._h_day <= 22):
                     return 0
-                if (not diaspora and (self._h_day < 22)):
+                if not diaspora and (self._h_day < 22):
                     return 0
 
             # Pesach always removes one
@@ -477,12 +478,12 @@ class HDate(object):
             # on diaspora, shavuot may fall on shabat if next new year is on
             # shabat
             if (diaspora and
-                (self._h_month < 13) and
-                ((self._h_month > 9) or
-                 (self._h_month == 9 and self._h_day >= 7)) and
+                    (self._h_month < 13) and
+                    ((self._h_month > 9) or
+                     (self._h_month == 9 and self._h_day >= 7)) and
                     ((self._h_new_year_weekday + self._h_size_of_year)
                      % 7) == 0):
-                if (self._h_month == 9 and self._h_day == 7):
+                if self._h_month == 9 and self._h_day == 7:
                     return 0
                 else:
                     reading -= 1
@@ -490,44 +491,44 @@ class HDate(object):
             # joining
             if (join_flags[diaspora][self._h_year_type - 1][0] and
                     (reading >= 22)):
-                if (reading == 22):
+                if reading == 22:
                     return 55
                 else:
                     reading += 1
             if (join_flags[diaspora][self._h_year_type - 1][1] and
                     (reading >= 27)):
-                if (reading == 27):
+                if reading == 27:
                     return 56
                 else:
                     reading += 1
             if (join_flags[diaspora][self._h_year_type - 1][2] and
                     (reading >= 29)):
-                if (reading == 29):
+                if reading == 29:
                     return 57
                 else:
                     reading += 1
             if (join_flags[diaspora][self._h_year_type - 1][3] and
                     (reading >= 32)):
-                if (reading == 32):
+                if reading == 32:
                     return 58
                 else:
                     reading += 1
 
             if (join_flags[diaspora][self._h_year_type - 1][4] and
                     (reading >= 39)):
-                if (reading == 39):
+                if reading == 39:
                     return 59
                 else:
                     reading += 1
             if (join_flags[diaspora][self._h_year_type - 1][5] and
                     (reading >= 42)):
-                if (reading == 42):
+                if reading == 42:
                     return 60
                 else:
                     reading += 1
             if (join_flags[diaspora][self._h_year_type - 1][6] and
                     (reading >= 51)):
-                if (reading == 51):
+                if reading == 51:
                     return 61
                 else:
                     reading += 1

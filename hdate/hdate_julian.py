@@ -1,5 +1,5 @@
 def M(h, p):
-    return ((h * PARTS_IN_HOUR) + p)
+    return (h * PARTS_IN_HOUR) + p
 
 
 PARTS_IN_HOUR = 1080
@@ -39,12 +39,12 @@ def _days_since_3744(hebrew_year):
     # Special cases of Molad Zaken
     if ((leap_left < 12 and week_day == 3 and
          parts_left_in_day >= M(9 + 6, 204)) or
-        (leap_left < 7 and week_day == 2 and
-         parts_left_in_day >= M(15 + 6, 589))):
+            (leap_left < 7 and week_day == 2 and
+             parts_left_in_day >= M(15 + 6, 589))):
         days += 1
         week_day += 1
     # ADU
-    if (week_day == 1 or week_day == 4 or week_day == 6):
+    if week_day == 1 or week_day == 4 or week_day == 6:
         days += 1
     return days
 
@@ -77,9 +77,9 @@ year type | year length | Tishery 1 day of week
 |14       | 385         | 7
 """
     # Only 14 combinations of size and week day are posible
-    year_types = [1,  0,  0,  2, 0, 3,  4,
-                  0,  5,  0,  6, 7, 8,  0,
-                  9, 10,  0, 11, 0, 0, 12,
+    year_types = [1, 0, 0, 2, 0, 3, 4,
+                  0, 5, 0, 6, 7, 8, 0,
+                  9, 10, 0, 11, 0, 0, 12,
                   0, 13, 14]
 
     # convert size and first day to 1..24 number
@@ -128,13 +128,13 @@ def _days_from_3744(hebrew_year):
     # Special cases of Molad Zaken
     if ((leap_left < 12 and week_day == 3 and
          parts_left_in_day >= M(9 + 6, 204)) or
-        (leap_left < 7 and week_day == 2 and
-         parts_left_in_day >= M(15 + 6, 589))):
+            (leap_left < 7 and week_day == 2 and
+             parts_left_in_day >= M(15 + 6, 589))):
         days += 1
         week_day += 1
 
     # ADU
-    if (week_day == 1 or week_day == 4 or week_day == 6):
+    if week_day == 1 or week_day == 4 or week_day == 6:
         days += 1
 
     return days
@@ -146,9 +146,9 @@ def _hdate_to_jd(day, month, year):
                1 of tishrey julians,
                1 of tishrey julians next year"""
 
-    if (month == 13):
+    if month == 13:
         month = 6
-    if (month == 14):
+    if month == 14:
         month = 6
         day += 30
 
@@ -159,11 +159,11 @@ def _hdate_to_jd(day, month, year):
     # length of year
     length_of_year = _days_from_3744(year + 1) - days_from_3744
     # Special cases for this year
-    if (length_of_year % 10 > 4 and month > 2):  # long Heshvan
+    if length_of_year % 10 > 4 and month > 2:  # long Heshvan
         day += 1
-    if (length_of_year % 10 < 4 and month > 3):  # short Kislev
+    if length_of_year % 10 < 4 and month > 3:  # short Kislev
         day -= 1
-    if (length_of_year > 365 and month > 6):  # leap year
+    if length_of_year > 365 and month > 6:  # leap year
         day += 30
 
     # adjust to julian
@@ -206,7 +206,7 @@ def _jd_to_hdate(jd):
     jd_tishrey1_next_year = _days_from_3744(year + 1) + 1715119
 
     # Check if computed year was underestimated
-    if (jd_tishrey1_next_year <= jd):
+    if jd_tishrey1_next_year <= jd:
         year = year + 1
         jd_tishrey1 = jd_tishrey1_next_year
         jd_tishrey1_next_year = _days_from_3744(year + 1) + 1715119
@@ -217,7 +217,7 @@ def _jd_to_hdate(jd):
     days = jd - jd_tishrey1
 
     # last 8 months allways have 236 days
-    if (days >= (size_of_year - 236)):  # in last 8 months
+    if days >= (size_of_year - 236):  # in last 8 months
         days = days - (size_of_year - 236)
         month = days * 2 / 59
         day = days - (month * 59 + 1) / 2 + 1
@@ -225,22 +225,22 @@ def _jd_to_hdate(jd):
         month = month + 4 + 1
 
         # if leap
-        if (size_of_year > 355 and month <= 6):
+        if size_of_year > 355 and month <= 6:
             month = month + 8
     else:  # in 4-5 first months
         # Special cases for this year
-        if (size_of_year % 10 > 4 and days == 59):   # long Heshvan (day 30)
+        if size_of_year % 10 > 4 and days == 59:   # long Heshvan (day 30)
             month = 1
             day = 30
-        elif (size_of_year % 10 > 4 and days > 59):  # long Heshvan
-                month = (days - 1) * 2 / 59
-                day = days - (month * 59 + 1) / 2
-        elif (size_of_year % 10 < 4 and days > 87):  # short kislev
-                month = (days + 1) * 2 / 59
-                day = days - (month * 59 + 1) / 2 + 2
+        elif size_of_year % 10 > 4 and days > 59:  # long Heshvan
+            month = (days - 1) * 2 / 59
+            day = days - (month * 59 + 1) / 2
+        elif size_of_year % 10 < 4 and days > 87:  # short kislev
+            month = (days + 1) * 2 / 59
+            day = days - (month * 59 + 1) / 2 + 2
         else:  # regular months
-                month = days * 2 / 59
-                day = days - (month * 59 + 1) / 2 + 1
+            month = days * 2 / 59
+            day = days - (month * 59 + 1) / 2 + 1
 
         month = month + 1
     return day, month, year, jd_tishrey1, jd_tishrey1_next_year
