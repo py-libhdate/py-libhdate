@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # holydays table
-holydays_table = [
+HOLYDAYS_TABLE = [
     [  # Tishrey
         1, 2, 3, 3, 0, 0, 0, 0, 37, 4,
         0, 0, 0, 0, 5, 31, 6, 6, 6, 6,
@@ -61,7 +61,7 @@ holydays_table = [
 ]
 
 # Joined Parash flags
-join_flags = [
+JOIN_FLAGS = [
     [
         [1, 1, 1, 1, 0, 1, 1],  # 1 be erez israel
         [1, 1, 1, 1, 0, 1, 0],  # 2
@@ -96,13 +96,13 @@ join_flags = [
     ]
 ]
 
-digits = [
+DIGITS = [
     [" ", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"],
     ["ט", "י", "כ", "ל", "מ", "נ", "ס", "ע", "פ", "צ"],
     [" ", "ק", "ר", "ש", "ת"]
 ]
 
-days_table = [
+DAYS_TABLE = [
     [   # begin english long
         ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
          "Saturday"],
@@ -116,7 +116,7 @@ days_table = [
     ]
 ]
 
-parashaot = [
+PARASHAOT = [
     [  # begin english
         "none", "Bereshit", "Noach",
         "Lech-Lecha", "Vayera", "Chayei Sara",
@@ -165,7 +165,7 @@ parashaot = [
         "נצבים-וילך"]
 ]
 
-hebrew_months = [
+HEBREW_MONTHS = [
     [  # begin english
         "Tishrei", "Cheshvan", "Kislev", "Tevet",
         "Sh'vat", "Adar", "Nisan", "Iyyar",
@@ -178,7 +178,7 @@ hebrew_months = [
     ]
 ]
 
-gregorian_months = [
+GREGORIAN_MONTHS = [  # NOT IN USE
     [
         "January", "February", "March",
         "April", "May", "June",
@@ -192,7 +192,7 @@ gregorian_months = [
     ]
 ]
 
-holidays = [
+HOLIDAYS = [
     [  # begin english
         [  # begin english long
             "Rosh Hashana I", "Rosh Hashana II",
@@ -281,12 +281,12 @@ holidays = [
     ]
 ]
 
-zmanim_types = ['first_light', 'talit', 'sunrise',
+ZMANIM_TYPES = ['first_light', 'talit', 'sunrise',
                 'mga_end_shma', 'gra_end_shma', 'mga_end_tfila',
                 'gra_end_tfila', 'midday', 'big_mincha', 'small_mincha',
                 'plag_mincha', 'sunset', 'first_stars', 'midnight']
 
-zmanim_string = {
+ZMANIM_STRING = {
     'heb':
         {
             'first_light':   'עלות השחר',

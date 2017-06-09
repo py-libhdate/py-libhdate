@@ -3,7 +3,7 @@ import math
 from dateutil import tz
 
 import hdate_julian as hj
-from htables import holydays_table, join_flags
+from htables import HOLYDAYS_TABLE, JOIN_FLAGS
 from hdate_string import get_hebrew_date, get_zmanim_string
 
 
@@ -220,7 +220,7 @@ class HDate(object):
                 self._h_day > 30):
             return 0
 
-        holyday = holydays_table[self._h_month - 1][self._h_day - 1]
+        holyday = HOLYDAYS_TABLE[self._h_month - 1][self._h_day - 1]
 
         # if tzom on sat delay one day
         # tzom gdalyaho on sat
@@ -486,44 +486,44 @@ class HDate(object):
                     reading -= 1
 
             # joining
-            if (join_flags[diaspora][self._h_year_type - 1][0] and
+            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][0] and
                     (reading >= 22)):
                 if reading == 22:
                     return 55
                 else:
                     reading += 1
-            if (join_flags[diaspora][self._h_year_type - 1][1] and
+            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][1] and
                     (reading >= 27)):
                 if reading == 27:
                     return 56
                 else:
                     reading += 1
-            if (join_flags[diaspora][self._h_year_type - 1][2] and
+            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][2] and
                     (reading >= 29)):
                 if reading == 29:
                     return 57
                 else:
                     reading += 1
-            if (join_flags[diaspora][self._h_year_type - 1][3] and
+            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][3] and
                     (reading >= 32)):
                 if reading == 32:
                     return 58
                 else:
                     reading += 1
 
-            if (join_flags[diaspora][self._h_year_type - 1][4] and
+            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][4] and
                     (reading >= 39)):
                 if reading == 39:
                     return 59
                 else:
                     reading += 1
-            if (join_flags[diaspora][self._h_year_type - 1][5] and
+            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][5] and
                     (reading >= 42)):
                 if reading == 42:
                     return 60
                 else:
                     reading += 1
-            if (join_flags[diaspora][self._h_year_type - 1][6] and
+            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][6] and
                     (reading >= 51)):
                 if reading == 51:
                     return 61
