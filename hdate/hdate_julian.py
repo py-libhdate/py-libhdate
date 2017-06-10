@@ -53,7 +53,7 @@ def _get_size_of_hebrew_year(hebrew_year):
     return _days_from_3744(hebrew_year + 1) - _days_from_3744(hebrew_year)
 
 
-def _get_year_type(size_of_year, new_year_dw):
+def get_year_type(size_of_year, new_year_dw):
     """
     Return: type of the year
     Args:
@@ -91,7 +91,7 @@ def _get_year_type(size_of_year, new_year_dw):
     return year_types[offset - 1]
 
 
-def _gdate_to_jd(day, month, year):
+def gdate_to_jd(day, month, year):
     """
     Compute Julian day from Gregorian day, month and year
     Algorithm from the wikipedia's julian_day
@@ -104,7 +104,7 @@ def _gdate_to_jd(day, month, year):
     return jdn
 
 
-def _hdate_to_jd(day, month, year):
+def hdate_to_jd(day, month, year):
     """Compute Julian day from Hebrew day, month and year
        Return: julian day number,
                1 of tishrey julians,
@@ -138,7 +138,7 @@ def _hdate_to_jd(day, month, year):
     return jd, jd_tishrey1, jd_tishrey1_next_year
 
 
-def _jd_to_gdate(jd):
+def jd_to_gdate(jd):
     """
     Converting from the Julian day to the Gregorian day
     Algorithm from 'Julian and Gregorian Day Numbers' by Peter Meyer
@@ -158,7 +158,7 @@ def _jd_to_gdate(jd):
     return day, month, year
 
 
-def _jd_to_hdate(jd):
+def jd_to_hdate(jd):
     """Converting from the Julian day to the Hebrew day"""
     # calculate Gregorian date
     day, month, year = _jd_to_gdate(jd)
