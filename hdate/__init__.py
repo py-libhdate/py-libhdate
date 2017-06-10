@@ -179,7 +179,7 @@ class HDate(object):
         self._h_size_of_year = jd_tishrey1_next_year - jd_tishrey1
         self._h_new_year_weekday = (jd_tishrey1 + 1) % 7 + 1
         self._h_year_type = hj.get_year_type(self._h_size_of_year,
-                                              self._h_new_year_weekday)
+                                             self._h_new_year_weekday)
         self._h_days = self._jd - jd_tishrey1 + 1
         self._h_weeks = (((self._h_days - 1) +
                           (self._h_new_year_weekday - 1)) / 7 + 1)
@@ -191,7 +191,7 @@ class HDate(object):
 
     def hdate_set_gdate(self):
         self._jd = hj.gdate_to_jd(self._gdate.day, self._gdate.month,
-                                   self._gdate.year)
+                                  self._gdate.year)
         (self._h_day, self._h_month, self._h_year,
          jd_tishrey1, jd_tishrey1_next_year) = hj.jd_to_hdate(self._jd)
         self._set_h_from_jd(jd_tishrey1, jd_tishrey1_next_year)
