@@ -131,20 +131,20 @@ def hdate_to_jd(day, month, year):
         day += 30
 
     # adjust to julian
-    jd = day + 1715118
+    jday = day + 1715118
     jd_tishrey1 = days_from_3744 + 1715119
     jd_tishrey1_next_year = jd_tishrey1 + length_of_year
 
-    return jd, jd_tishrey1, jd_tishrey1_next_year
+    return jday, jd_tishrey1, jd_tishrey1_next_year
 
 
-def jd_to_gdate(jd):
+def jd_to_gdate(jday):
     """
     Converting from the Julian day to the Gregorian day
     Algorithm from 'Julian and Gregorian Day Numbers' by Peter Meyer
     Return: day, month, year
     """
-    l = jd + 68569
+    l = jday + 68569
     n = (4 * l) / 146097
     l = l - (146097 * n + 3) / 4
     i = (4000 * (l + 1)) / 1461001  # that's 1,461,001
@@ -158,10 +158,10 @@ def jd_to_gdate(jd):
     return day, month, year
 
 
-def jd_to_hdate(jd):
+def jd_to_hdate(jday):
     """Converting from the Julian day to the Hebrew day"""
     # calculate Gregorian date
-    day, month, year = _jd_to_gdate(jd)
+    day, month, year = jd_to_gdate(jday)
 
     # Guess Hebrew year is Gregorian year + 3760
     year = year + 3760
@@ -170,7 +170,7 @@ def jd_to_hdate(jd):
     jd_tishrey1_next_year = _days_from_3744(year + 1) + 1715119
 
     # Check if computed year was underestimated
-    if jd_tishrey1_next_year <= jd:
+    if jd_tishrey1_next_year <= jday:
         year = year + 1
         jd_tishrey1 = jd_tishrey1_next_year
         jd_tishrey1_next_year = _days_from_3744(year + 1) + 1715119
@@ -178,7 +178,7 @@ def jd_to_hdate(jd):
     size_of_year = jd_tishrey1_next_year - jd_tishrey1
 
     # days into this year, first month 0..29
-    days = jd - jd_tishrey1
+    days = jday - jd_tishrey1
 
     # last 8 months allways have 236 days
     if days >= (size_of_year - 236):  # in last 8 months
