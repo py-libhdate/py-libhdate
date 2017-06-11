@@ -1,4 +1,6 @@
 *.pyc
+pip-selfcheck.json
+pyvenv.cfg
 
 # Tox dirs
 .tox/
@@ -8,5 +10,6 @@
 bin/
 include/
 lib/
+lib64
 share/
 
