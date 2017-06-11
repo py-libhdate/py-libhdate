@@ -1,10 +1,8 @@
-"""
-Methods for going back and forth between various calendars
-"""
+"""Methods for going back and forth between various calendars."""
 
 
 def M(hours, parts):
-    """Return the number of total parts (chalakim)"""
+    """Return the number of total parts (chalakim)."""
     return (hours * PARTS_IN_HOUR) + parts
 
 
@@ -15,8 +13,7 @@ PARTS_IN_MONTH = PARTS_IN_DAY + M(12, 793)  # Tikun for regular month
 
 
 def _days_from_3744(hebrew_year):
-    """Return: Number of days since 3,1,3744 """
-
+    """Return: Number of days since 3,1,3744."""
     # Start point for calculation is Molad new year 3744 (16BC)
     years_from_3744 = hebrew_year - 3744
     molad_3744 = M(1 + 6, 779)    # Molad 3744 + 6 hours in parts
@@ -54,13 +51,14 @@ def _days_from_3744(hebrew_year):
 
 
 def _get_size_of_hebrew_year(hebrew_year):
-    """Return: total days in hebrew year"""
+    """Return: total days in hebrew year."""
     return _days_from_3744(hebrew_year + 1) - _days_from_3744(hebrew_year)
 
 
 def get_year_type(size_of_year, new_year_dw):
     """
-    Return: type of the year
+    Return: type of the year.
+
     Args:
     size_of_year: Length of year in days
     new_year_dw First week day of year
@@ -98,8 +96,9 @@ def get_year_type(size_of_year, new_year_dw):
 
 def gdate_to_jd(day, month, year):
     """
-    Compute Julian day from Gregorian day, month and year
-    Algorithm from the wikipedia's julian_day
+    Compute Julian day from Gregorian day, month and year.
+
+    Algorithm from the wikipedia's julian_day.
     Return: The julian day number
     """
     a = (14 - month) / 12
@@ -110,11 +109,13 @@ def gdate_to_jd(day, month, year):
 
 
 def hdate_to_jd(day, month, year):
-    """Compute Julian day from Hebrew day, month and year
-       Return: julian day number,
-               1 of tishrey julians,
-               1 of tishrey julians next year"""
+    """
+    Compute Julian day from Hebrew day, month and year.
 
+    Return: julian day number,
+            1 of tishrey julians,
+            1 of tishrey julians next year
+    """
     if month == 13:
         month = 6
     if month == 14:
@@ -145,8 +146,9 @@ def hdate_to_jd(day, month, year):
 
 def jd_to_gdate(jday):
     """
-    Converting from the Julian day to the Gregorian day
-    Algorithm from 'Julian and Gregorian Day Numbers' by Peter Meyer
+    Convert from the Julian day to the Gregorian day.
+
+    Algorithm from 'Julian and Gregorian Day Numbers' by Peter Meyer.
     Return: day, month, year
     """
     l = jday + 68569
@@ -164,7 +166,7 @@ def jd_to_gdate(jday):
 
 
 def jd_to_hdate(jday):
-    """Converting from the Julian day to the Hebrew day"""
+    """Convert from the Julian day to the Hebrew day."""
     # calculate Gregorian date
     day, month, year = jd_to_gdate(jday)
 

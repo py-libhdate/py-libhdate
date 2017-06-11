@@ -1,4 +1,6 @@
 """
+Jewish calendrical date and times for a giver location.
+
 HDate calculates and generates a represantation either in English or Hebrew
 of the Jewish calendrical date and times for a given location
 """
@@ -14,8 +16,9 @@ from hdate.hdate_string import get_hebrew_date, get_zmanim_string
 
 def set_date(date):
     """
-    Check that the given date is valid, if no date is given
-    set the date to today
+    Check that the given date is valid.
+
+    If no date is given set the date to today
     """
     if date is None:
         date = datetime.date.today()
@@ -25,11 +28,11 @@ def set_date(date):
 
 
 class Zmanim(object):
-    """
-    Return Jewish day times
-    """
+    """Return Jewish day times."""
+
     def __init__(self, date=None, latitude=None, longitude=None,
                  timezone='', hebrew=True):
+        """Initialize the Zmanim object."""
         if latitude is None or longitude is None:
             # Tel Aviv cordinates
             latitude = 32.08088
@@ -44,9 +47,7 @@ class Zmanim(object):
         self.zmanim = self.get_zmanim()
 
     def utc_minute_timezone(self, minutes_from_utc):
-        """
-        Return the local time for a given time UTC
-        """
+        """Return the local time for a given time UTC."""
         from_zone = tz.gettz('UTC')
         to_zone = tz.gettz(self.timezone)
         utc = datetime.datetime(self.date.year, self.date.month,
@@ -57,9 +58,7 @@ class Zmanim(object):
         return local
 
     def get_zmanim(self):
-        """
-        Return a dictionary of the zmanim the object represents.
-        """
+        """Return a dictionary of the zmanim the object represents."""
         zmanim_dict = dict()
         zmanim_list = self.get_utc_sun_time_full()
         for zman in zmanim_list:
@@ -67,19 +66,22 @@ class Zmanim(object):
         return zmanim_dict
 
     def __repr__(self):
+        """Return a representation of Zmanim for a given day and location."""
         return get_zmanim_string(self.zmanim, hebrew=self._hebrew)
 
     def gday_of_year(self):
-        """Return the number of days since January 1 of the given year"""
+        """Return the number of days since January 1 of the given year."""
         return (self.date - datetime.date(self.date.year, 1, 1)).days
 
     def _get_utc_sun_time_deg(self, deg):
-        """ Returns the sunset and sunrise times in minutes from 00:00 (utc)
-        if sun altitude in sunrise is deg degries.
-        This function only works for altitudes sun realy is.
-        If the sun never get to this altitude, the returned sunset and sunrise
+        """
+        Return the sunset and sunrise times in minutes from 00:00 (utc).
+
+        This is downt for a given sun altitude in sunrise `deg` degrees.
+        This function only works for altitudes sun really is.
+        If the sun never gets to this altitude, the returned sunset and sunrise
         values will be negative. This can happen in low altitude when latitude
-        is nearing the pols in winter times, the sun never goes very high in
+        is nearing the poles in winter times, the sun never goes very high in
         the sky there.
         """
         gama = 0        # location of sun in yearly cycle in radians
@@ -129,13 +131,11 @@ class Zmanim(object):
             int(720.0 - 4.0 * self.longitude + hour_angle - eqtime)
 
     def get_utc_sun_time(self):
-        "utc sunrise/set time for a gregorian date"
+        """UTC sunrise/set time for a Gregorian date."""
         return self._get_utc_sun_time_deg(90.833)
 
     def get_utc_sun_time_full(self):
-        """
-        return list of jewish relevant time for location (and current HDate)
-        """
+        """Return a list of Jewish times for the given location."""
         # sunset and rise time
         sunrise, sunset = self.get_utc_sun_time()
 
@@ -171,20 +171,26 @@ class Zmanim(object):
 
 class HDate(object):
     """
-    Hebrew date class
-    Support convert from Gregorian and Julian to Hebrew date
+    Hebrew date class.
+
+    Supports converting from Gregorian and Julian to Hebrew date.
     """
+
     def __init__(self, date=None, diaspora=False, hebrew=True):
+        """Initialize the HDate object."""
         self._gdate = set_date(date)
         self._hebrew = hebrew
         self._diaspora = diaspora
         self.hdate_set_gdate()
 
     def __repr__(self):
+        """Return the Hebrew date as a string."""
         return self.to_string(hebrew=self._hebrew).encode('utf-8')
 
     def _set_h_from_jd(self, jd_tishrey1, jd_tishrey1_next_year):
         """
+        Determine the size of the Jewish year and it's type.
+
         Based on the 1st of Tishrey of this year and the 1st of Tishrey of
         next year, determine the size of the year as well as the year type.
         """
@@ -198,13 +204,13 @@ class HDate(object):
                           (self._h_new_year_weekday - 1)) / 7 + 1)
 
     def to_string(self, short=False, hebrew=True):
-        """Return the hebrew date as a string object"""
+        """Return the hebrew date as a string object."""
         return get_hebrew_date(self._h_day, self._h_month, self._h_year,
                                self.get_omer_day(), self._weekday,
                                self.get_holyday(), hebrew=hebrew, short=short)
 
     def hdate_set_gdate(self):
-        """Based on the Gregorian date, set the Hebrew date"""
+        """Based on the Gregorian date, set the Hebrew date."""
         self.jday = hj.gdate_to_jd(self._gdate.day, self._gdate.month,
                                    self._gdate.year)
         (self._h_day, self._h_month, self._h_year,
@@ -212,7 +218,7 @@ class HDate(object):
         self._set_h_from_jd(jd_tishrey1, jd_tishrey1_next_year)
 
     def hdate_set_hdate(self, day, month, year):
-        """Set the dates of the HDate object based on a given Hebrew date"""
+        """Set the dates of the HDate object based on a given Hebrew date."""
         self.jday, jd_tishrey1, jd_tishrey1_next_year = \
             hj.hdate_to_jd(day, month, year)
         gday, gmonth, gyear = hj.jd_to_gdate(self.jday)
@@ -220,17 +226,17 @@ class HDate(object):
         self._set_h_from_jd(jd_tishrey1, jd_tishrey1_next_year)
 
     def hdate_set_jd(self, jdate):
-        """Set the date of the HDate object based on Julian date"""
+        """Set the date of the HDate object based on Julian date."""
         gday, gmonth, gyear = hj.jd_to_gdate(jdate)
         self._gdate = datetime.date(gyear, gmonth, gday)
         self.hdate_set_gdate()
 
     def get_hebrew_date(self):
-        """Return the hebrew date in the form of day, month year"""
+        """Return the hebrew date in the form of day, month year."""
         return self._h_day, self._h_month, self._h_year
 
     def get_holyday(self):
-        """Return the number of holyday"""
+        """Return the number of holyday."""
         diaspora = self._diaspora
         holyday = 0
         # sanity check
@@ -378,7 +384,7 @@ class HDate(object):
         return holyday
 
     def get_omer_day(self):
-        """return the day of the omer"""
+        """Return the day of the Omer."""
         sixteen_nissan = HDate()
         sixteen_nissan.hdate_set_hdate(16, 7, self._h_year)
         omer_day = self.jday - sixteen_nissan.jday + 1
@@ -387,7 +393,7 @@ class HDate(object):
         return omer_day
 
     def get_holyday_type(self, holyday):
-        """Return a number to return the type of the holy day"""
+        """Return a number describing the type of the holy day."""
         # regular day
         if holyday == 0:
             return 0
@@ -418,8 +424,11 @@ class HDate(object):
         return 9
 
     def get_reading(self, diaspora):
-        """Return number of hebrew parasha
-        55..61 are joined readings e.g. Vayakhel Pekudei"""
+        """
+        Return number of hebrew parasha.
+
+        55..61 are joined readings e.g. Vayakhel Pekudei
+        """
         # if simhat tora return vezot habracha
         if self._h_month == 1:
             # simhat tora is a day after shmini atzeret outsite israel

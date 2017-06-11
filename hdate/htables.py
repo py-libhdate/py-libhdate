@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Constant lookup tables for hdate modules"""
+"""Constant lookup tables for hdate modules."""
 
 # holydays table
 HOLYDAYS_TABLE = [
