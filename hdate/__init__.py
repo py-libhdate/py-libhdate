@@ -1,3 +1,8 @@
+"""
+HDate calculates and generates a represantation either in English or Hebrew
+of the Jewish calendrical date and times for a given location
+"""
+
 import datetime
 import math
 from dateutil import tz
@@ -39,6 +44,9 @@ class Zmanim(object):
         self.zmanim = self.get_zmanim()
 
     def utc_minute_timezone(self, minutes_from_utc):
+        """
+        Return the local time for a given time UTC
+        """
         from_zone = tz.gettz('UTC')
         to_zone = tz.gettz(self.timezone)
         utc = datetime.datetime(self.date.year, self.date.month,
@@ -62,6 +70,7 @@ class Zmanim(object):
         return get_zmanim_string(self.zmanim, hebrew=self._hebrew)
 
     def gday_of_year(self):
+        """Return the number of days since January 1 of the given year"""
         return (self.date - datetime.date(self.date.year, 1, 1)).days
 
     def _get_utc_sun_time_deg(self, deg):
@@ -175,6 +184,10 @@ class HDate(object):
         return self.to_string(hebrew=self._hebrew).encode('utf-8')
 
     def _set_h_from_jd(self, jd_tishrey1, jd_tishrey1_next_year):
+        """
+        Based on the 1st of Tishrey of this year and the 1st of Tishrey of
+        next year, determine the size of the year as well as the year type.
+        """
         self._weekday = (self.jday + 1) % 7 + 1
         self._h_size_of_year = jd_tishrey1_next_year - jd_tishrey1
         self._h_new_year_weekday = (jd_tishrey1 + 1) % 7 + 1
@@ -185,11 +198,13 @@ class HDate(object):
                           (self._h_new_year_weekday - 1)) / 7 + 1)
 
     def to_string(self, short=False, hebrew=True):
+        """Return the hebrew date as a string object"""
         return get_hebrew_date(self._h_day, self._h_month, self._h_year,
                                self.get_omer_day(), self._weekday,
                                self.get_holyday(), hebrew=hebrew, short=short)
 
     def hdate_set_gdate(self):
+        """Based on the Gregorian date, set the Hebrew date"""
         self.jday = hj.gdate_to_jd(self._gdate.day, self._gdate.month,
                                    self._gdate.year)
         (self._h_day, self._h_month, self._h_year,
@@ -197,6 +212,7 @@ class HDate(object):
         self._set_h_from_jd(jd_tishrey1, jd_tishrey1_next_year)
 
     def hdate_set_hdate(self, day, month, year):
+        """Set the dates of the HDate object based on a given Hebrew date"""
         self.jday, jd_tishrey1, jd_tishrey1_next_year = \
             hj.hdate_to_jd(day, month, year)
         gday, gmonth, gyear = hj.jd_to_gdate(self.jday)
@@ -204,15 +220,17 @@ class HDate(object):
         self._set_h_from_jd(jd_tishrey1, jd_tishrey1_next_year)
 
     def hdate_set_jd(self, jdate):
+        """Set the date of the HDate object based on Julian date"""
         gday, gmonth, gyear = hj.jd_to_gdate(jdate)
         self._gdate = datetime.date(gyear, gmonth, gday)
         self.hdate_set_gdate()
 
     def get_hebrew_date(self):
+        """Return the hebrew date in the form of day, month year"""
         return self._h_day, self._h_month, self._h_year
 
     def get_holyday(self):
-        """return the number of holyday"""
+        """Return the number of holyday"""
         diaspora = self._diaspora
         holyday = 0
         # sanity check
@@ -363,12 +381,13 @@ class HDate(object):
         """return the day of the omer"""
         sixteen_nissan = HDate()
         sixteen_nissan.hdate_set_hdate(16, 7, self._h_year)
-        omer_day = self._jd - sixteen_nissan._jd + 1
+        omer_day = self.jday - sixteen_nissan.jday + 1
         if (omer_day > 49) or (omer_day < 0):
             omer_day = 0
         return omer_day
 
     def get_holyday_type(self, holyday):
+        """Return a number to return the type of the holy day"""
         # regular day
         if holyday == 0:
             return 0

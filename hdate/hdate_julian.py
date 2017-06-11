@@ -1,3 +1,8 @@
+"""
+Methods for going back and forth between various calendars
+"""
+
+
 def M(hours, parts):
     """Return the number of total parts (chalakim)"""
     return (hours * PARTS_IN_HOUR) + parts
