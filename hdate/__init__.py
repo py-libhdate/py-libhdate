@@ -2,9 +2,9 @@ import datetime
 import math
 from dateutil import tz
 
-import hdate_julian as hj
-from htables import HOLYDAYS_TABLE, JOIN_FLAGS
-from hdate_string import get_hebrew_date, get_zmanim_string
+import hdate.hdate_julian as hj
+from hdate.htables import HOLYDAYS_TABLE, JOIN_FLAGS
+from hdate.hdate_string import get_hebrew_date, get_zmanim_string
 
 
 def set_date(date):

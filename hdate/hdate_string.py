@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from htables import DIGITS, HEBREW_MONTHS, HOLIDAYS, PARASHAOT, DAYS_TABLE
-from htables import ZMANIM_TYPES, ZMANIM_STRING
+from hdate.htables import DIGITS, HEBREW_MONTHS, HOLIDAYS, PARASHAOT
+from hdate.htables import DAYS_TABLE, ZMANIM_TYPES, ZMANIM_STRING
 
 
 def hebrew_number(num, hebrew=True, short=False):
