@@ -1,7 +1,7 @@
 """Methods for going back and forth between various calendars."""
 
 
-def M(hours, parts):
+def get_chalakim(hours, parts):
     """Return the number of total parts (chalakim)."""
     return (hours * PARTS_IN_HOUR) + parts
 
@@ -9,14 +9,14 @@ def M(hours, parts):
 PARTS_IN_HOUR = 1080
 PARTS_IN_DAY = 24 * PARTS_IN_HOUR
 PARTS_IN_WEEK = 7 * PARTS_IN_DAY
-PARTS_IN_MONTH = PARTS_IN_DAY + M(12, 793)  # Tikun for regular month
+PARTS_IN_MONTH = PARTS_IN_DAY + get_chalakim(12, 793)  # Fix for regular month
 
 
 def _days_from_3744(hebrew_year):
     """Return: Number of days since 3,1,3744."""
     # Start point for calculation is Molad new year 3744 (16BC)
     years_from_3744 = hebrew_year - 3744
-    molad_3744 = M(1 + 6, 779)    # Molad 3744 + 6 hours in parts
+    molad_3744 = get_chalakim(1 + 6, 779)    # Molad 3744 + 6 hours in parts
 
     # Time in months
     leap_months = (years_from_3744 * 7 + 1) / 19  # Number of leap months
@@ -37,9 +37,9 @@ def _days_from_3744(hebrew_year):
 
     # Special cases of Molad Zaken
     if ((leap_left < 12 and week_day == 3 and
-         parts_left_in_day >= M(9 + 6, 204)) or
+         parts_left_in_day >= get_chalakim(9 + 6, 204)) or
             (leap_left < 7 and week_day == 2 and
-             parts_left_in_day >= M(15 + 6, 589))):
+             parts_left_in_day >= get_chalakim(15 + 6, 589))):
         days += 1
         week_day += 1
 
@@ -98,13 +98,15 @@ def gdate_to_jd(day, month, year):
     """
     Compute Julian day from Gregorian day, month and year.
 
-    Algorithm from the wikipedia's julian_day.
+    Algorithm from wikipedia's julian_day article.
     Return: The julian day number
     """
-    a = (14 - month) / 12
-    y = year + 4800 - a
-    m = month + 12 * a - 3
-    jdn = day + (153 * m + 2) / 5 + 365 * y + y / 4 - y / 100 + y / 400 - 32045
+    not_jan_or_feb = (14 - month) / 12
+    year_since_4800bc = year + 4800 - not_jan_or_feb
+    month_since_4800bc = month + 12 * not_jan_or_feb - 3
+    jdn = day + (153 * month_since_4800bc + 2) / 5 + 365 * year_since_4800bc \
+        + (year_since_4800bc / 4 - year_since_4800bc / 100 +
+           year_since_4800bc / 400) - 32045
     return jdn
 
 
@@ -151,6 +153,12 @@ def jd_to_gdate(jday):
     Algorithm from 'Julian and Gregorian Day Numbers' by Peter Meyer.
     Return: day, month, year
     """
+    # pylint: disable=invalid-name
+
+    # The algorithm is a verbatim copy from Peter Meyer's article
+    # No explanation in the article is given for the variables
+    # Hence the exception for pylint
+
     l = jday + 68569
     n = (4 * l) / 146097
     l = l - (146097 * n + 3) / 4
