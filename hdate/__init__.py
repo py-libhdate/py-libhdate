@@ -392,37 +392,6 @@ class HDate(object):
             omer_day = 0
         return omer_day
 
-    def get_holyday_type(self, holyday):
-        """Return a number describing the type of the holy day."""
-        # regular day
-        if holyday == 0:
-            return 0
-        # Yom tov, To find erev yom tov, check if tomorrow returns 1
-        if holyday in [1, 2, 4, 5, 8, 15, 20, 27, 28, 29, 30, 31, 32]:
-            return 1
-        # Erev yom kippur
-        if holyday == 37:
-            return 2
-        # Hol hamoed
-        if holyday in [6, 7, 16]:
-            return 3
-        # Hanuka and purim
-        if holyday in [9, 13, 14]:
-            return 4
-        # Tzom
-        if holyday in [3, 10, 12, 21, 22]:
-            return 5
-        # Independance day and Yom yerushalaim
-        if holyday in [17, 26]:
-            return 6
-        # Lag baomer ,Tu beav, Tu beshvat
-        if holyday in [18, 23, 11]:
-            return 7
-        # Tzahal and Holocaust memorial days
-        if holyday in [24, 25]:
-            return 8
-        return 9
-
     def get_reading(self, diaspora):
         """
         Return number of hebrew parasha.
@@ -558,3 +527,35 @@ class HDate(object):
                 else:
                     reading += 1
         return reading
+
+
+def get_holyday_type(holyday):
+    """Return a number describing the type of the holy day."""
+    # regular day
+    if holyday == 0:
+        return 0
+    # Yom tov, To find erev yom tov, check if tomorrow returns 1
+    if holyday in [1, 2, 4, 5, 8, 15, 20, 27, 28, 29, 30, 31, 32]:
+        return 1
+    # Erev yom kippur
+    if holyday == 37:
+        return 2
+    # Hol hamoed
+    if holyday in [6, 7, 16]:
+        return 3
+    # Hanuka and purim
+    if holyday in [9, 13, 14]:
+        return 4
+    # Tzom
+    if holyday in [3, 10, 12, 21, 22]:
+        return 5
+    # Independance day and Yom yerushalaim
+    if holyday in [17, 26]:
+        return 6
+    # Lag baomer ,Tu beav, Tu beshvat
+    if holyday in [18, 23, 11]:
+        return 7
+    # Tzahal and Holocaust memorial days
+    if holyday in [24, 25]:
+        return 8
+    return 9
