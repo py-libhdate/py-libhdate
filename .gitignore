@@ -1,10 +1,20 @@
-*.pyc
+# general things to ignore
+build/
+dist/
+*.egg-info/
+*.egg
+*.py[cod]
+__pycache__/
+*.so
+*~
+.coverage
+
+# due to using tox and pytest
+.tox
+.cache
+
 pip-selfcheck.json
 pyvenv.cfg
-
-# Tox dirs
-.tox/
-*.egg-info/
 
 # Virtualenv dirs
 bin/
