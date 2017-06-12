@@ -417,14 +417,13 @@ class HDate(object):
             elif ((self._h_new_year_weekday == 2) or
                   (self._h_new_year_weekday == 3)):
                 return 52
-            else:  # if (self._h_new_year_weekday == 5)
-                return 53
+            # if (self._h_new_year_weekday == 5)
+            return 53
         elif self._h_weeks == 2:
             if self._h_new_year_weekday == 5:
                 # Yom kippur
                 return 0
-            else:
-                return 53
+            return 53
         elif self._h_weeks == 3:
             # Succot
             return 0
@@ -434,10 +433,8 @@ class HDate(object):
                 if not diaspora:
                     return 54
                 # Not simhat tora in diaspora
-                else:
-                    return 0
-            else:
-                return 1
+                return 0
+            return 1
         else:
             # simhat tora on week 4 bereshit too
             reading = self._h_weeks - 3
