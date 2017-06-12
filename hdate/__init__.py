@@ -77,7 +77,7 @@ class Zmanim(object):
         """
         Return the sunset and sunrise times in minutes from 00:00 (utc).
 
-        This is downt for a given sun altitude in sunrise `deg` degrees.
+        This is done for a given sun altitude in sunrise `deg` degrees
         This function only works for altitudes sun really is.
         If the sun never gets to this altitude, the returned sunset and sunrise
         values will be negative. This can happen in low altitude when latitude
