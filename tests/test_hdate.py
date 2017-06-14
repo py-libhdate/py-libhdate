@@ -66,6 +66,10 @@ class TestHDate(object):
         expected_weekday = expected_weekday if expected_weekday < 8 else 1
         assert random_date._weekday == expected_weekday
 
-    def test_get_size_of_hebrew_year(self):
+    def test_hj_get_size_of_hebrew_year(self):
         for year, info in HEBREW_YEARS_INFO.items():
             assert hj._get_size_of_hebrew_year(year) == info[1]
+
+    @pytest.mark.parametrize('execution_number', range(10))
+    def test_hdate_get_size_of_hebrew_years(self, execution_number, random_date):
+        assert random_date._h_size_of_year == hj._get_size_of_hebrew_year(random_date._h_year)
