@@ -1,10 +1,12 @@
-import datetime
+"""Fixtures for py.test."""
+
 import random
 import pytest
 
 
 @pytest.fixture
 def random_date():
+    """Generate a random valid date."""
     year = random.randint(400, 2500)
     month = random.randint(1, 12)
     maxday = 31 if month in [1, 3, 5, 7, 8, 10, 12] else 30
