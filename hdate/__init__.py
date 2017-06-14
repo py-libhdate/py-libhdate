@@ -215,6 +215,7 @@ class HDate(object):
 
     def hdate_set_hdate(self, day, month, year):
         """Set the dates of the HDate object based on a given Hebrew date."""
+        self._h_day, self._h_month, self._h_year = day, month, year
         self.jday, jd_tishrey1, jd_tishrey1_next_year = \
             hj.hdate_to_jd(day, month, year)
         gday, gmonth, gyear = hj.jd_to_gdate(self.jday)
