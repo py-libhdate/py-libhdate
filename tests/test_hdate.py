@@ -73,3 +73,14 @@ class TestHDate(object):
     @pytest.mark.parametrize('execution_number', range(10))
     def test_hdate_get_size_of_hebrew_years(self, execution_number, random_hdate):
         assert random_hdate._h_size_of_year == hj._get_size_of_hebrew_year(random_hdate._h_year)
+
+    def test_rosh_hashana_day_of_week(self, random_hdate):
+        for year, info in HEBREW_YEARS_INFO.items():
+            random_hdate.hdate_set_hdate(random_hdate._h_day, random_hdate._h_month, year)
+            assert random_hdate._h_new_year_weekday == info[0]
+
+    def test_pesach_day_of_week(self, random_hdate):
+        for year, info in HEBREW_YEARS_INFO.items():
+            random_hdate.hdate_set_hdate(15, 7, year)
+            assert random_hdate._weekday == info[2]
+            assert random_hdate.get_holyday() == 15
