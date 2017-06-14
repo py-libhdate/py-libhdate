@@ -84,6 +84,7 @@ class TestHDate(object):
         assert _hdate._h_days == random_hdate._h_days
         assert _hdate._h_weeks == random_hdate._h_weeks
         assert _hdate._gdate == random_hdate._gdate
+        assert _hdate._h_new_year_weekday == random_hdate._h_new_year_weekday
 
     def test_hj_get_size_of_hebrew_year(self):
         for year, info in HEBREW_YEARS_INFO.items():
@@ -106,3 +107,25 @@ class TestHDate(object):
             random_hdate.hdate_set_hdate(15, 7, year)
             assert random_hdate._weekday == info[2]
             assert random_hdate.get_holyday() == 15
+
+    @pytest.mark.parametrize('execution_number', range(10))
+    def test_get_holidays(self, execution_number, random_hdate):
+        random_hdate.hdate_set_hdate(1, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 1
+        assert random_hdate._weekday == random_hdate._h_new_year_weekday
+        random_hdate.hdate_set_hdate(2, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 2
+        random_hdate.hdate_set_hdate(3, 1, random_hdate._h_year)
+        if random_hdate._gdate.weekday() == 5:
+            assert random_hdate.get_holyday() == 0
+        else:
+            assert random_hdate.get_holyday() == 3
+        random_hdate.hdate_set_hdate(4, 1, random_hdate._h_year)
+        if random_hdate._gdate.weekday() == 6:
+            assert random_hdate.get_holyday() == 3
+        else:
+            assert random_hdate.get_holyday() == 0
+        random_hdate.hdate_set_hdate(9, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 37
+        random_hdate.hdate_set_hdate(10, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 4
