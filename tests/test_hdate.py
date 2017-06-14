@@ -1,23 +1,27 @@
 import pytest
-import datetime
-import random
-
 import hdate
+import hdate.hdate_julian as hj
+
+import datetime
 
 
-@pytest.fixture
-def random_date():
-    year = random.randint(400, 2500)
-    month = random.randint(1, 12)
-    maxday = 31 if month in [1, 3, 5, 7, 8, 10, 12] else 30
-    if month == 2:
-        if year % 4 != 0 or (year % 100 != 0 and year % 400 != 0):
-            maxday = 28
-        else:
-            maxday = 29
-    day = random.randint(1, maxday)
-    return year, month, day
-
+HEBREW_YEARS_INFO = {
+    # year, dow rosh hashana, length, dow pesach
+    5753 : (2, 353, 3), 5773 : (2, 353, 3), 5777 : (2, 353, 3),
+    5756 : (2, 355, 5), 5759 : (2, 355, 5), 5780 : (2, 355, 5), 5783 : (2, 355, 5),
+    5762 : (3, 354, 5), 5766 : (3, 354, 5), 5769 : (3, 354, 5),
+    5748 : (5, 354, 7), 5751 : (5, 354, 7), 5758 : (5, 354, 7), 5772 : (5, 354, 7), 5775 : (5, 354, 7), 5778 : (5, 354, 7),
+    5754 : (5, 355, 1), 5785 : (5, 355, 1),
+    5761 : (7, 353, 1), 5781 : (7, 353, 1),
+    5750 : (7, 355, 3), 5764 : (7, 355, 3), 5767 : (7, 355, 3), 5770 : (7, 355, 3), 5788 : (7, 355, 3),
+    5749 : (2, 383, 5), 5790 : (2, 383, 5),
+    5752 : (2, 385, 7), 5776 : (2, 385, 7), 5779 : (2, 385, 7),
+    5755 : (3, 384, 7), 5782 : (3, 384, 7),
+    5765 : (5, 383, 1), 5768 : (5, 383, 1), 5812 : (5, 383, 1),
+    5744 : (5, 385, 3), 5771 : (5, 385, 3), 5774 : (5, 385, 3),
+    5757 : (7, 383, 3), 5784 : (7, 383, 3),
+    5760 : (7, 385, 5), 5763 : (7, 385, 5), 5787 : (7, 385, 5)
+    }
 
 class TestSetDate(object):
 
@@ -61,3 +65,7 @@ class TestHDate(object):
         expected_weekday = random_date._gdate.weekday() + 2
         expected_weekday = expected_weekday if expected_weekday < 8 else 1
         assert random_date._weekday == expected_weekday
+
+    def test_get_size_of_hebrew_year(self):
+        for year, info in HEBREW_YEARS_INFO.items():
+            assert hj._get_size_of_hebrew_year(year) == info[1]
