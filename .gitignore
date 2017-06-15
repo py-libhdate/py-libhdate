@@ -1,34 +1,25 @@
-# Object files
-*.o
-*.ko
-*.obj
-*.elf
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
+# general things to ignore
+build/
+dist/
+*.egg-info/
+*.egg
+*.py[cod]
+__pycache__/
 *.so
-*.so.*
-*.dylib
+*~
 
-# Executables
-*.exe
-*.out
-*.app
-*.i*86
-*.x86_64
-*.hex
+.coverage
+htmlcov/
 
-# Debug files
-*.dSYM/
+# due to using tox and pytest
+.tox
+.cache
 
-*.pyc
+# Virtualenv dirs
+bin/
+include/
+lib/
+lib64
+share/
+pip-selfcheck.json
+pyvenv.cfg
