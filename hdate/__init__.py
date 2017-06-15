@@ -177,19 +177,10 @@ class HDate(object):
         self._gdate = set_date(date)
         self._hebrew = hebrew
         self._diaspora = diaspora
-        self.hdate_set_gdate()
-
-    def __repr__(self):
-        """Return the Hebrew date as a string."""
-        return self.to_string(hebrew=self._hebrew).encode('utf-8')
-
-    def _set_h_from_jd(self, jd_tishrey1, jd_tishrey1_next_year):
-        """
-        Determine the size of the Jewish year and it's type.
-
-        Based on the 1st of Tishrey of this year and the 1st of Tishrey of
-        next year, determine the size of the year as well as the year type.
-        """
+        self.jday = hj.gdate_to_jd(self._gdate.day, self._gdate.month,
+                                   self._gdate.year)
+        (self._h_day, self._h_month, self._h_year,
+         jd_tishrey1, jd_tishrey1_next_year) = hj.jd_to_hdate(self.jday)
         self._weekday = (self.jday + 1) % 7 + 1
         self._h_size_of_year = jd_tishrey1_next_year - jd_tishrey1
         self._h_new_year_weekday = (jd_tishrey1 + 1) % 7 + 1
@@ -199,34 +190,28 @@ class HDate(object):
         self._h_weeks = (((self._h_days - 1) +
                           (self._h_new_year_weekday - 1)) / 7 + 1)
 
+    def __repr__(self):
+        """Return the Hebrew date as a string."""
+        return self.to_string(hebrew=self._hebrew).encode('utf-8')
+
     def to_string(self, short=False, hebrew=True):
         """Return the hebrew date as a string object."""
         return get_hebrew_date(self._h_day, self._h_month, self._h_year,
                                self.get_omer_day(), self._weekday,
                                self.get_holyday(), hebrew=hebrew, short=short)
 
-    def hdate_set_gdate(self):
-        """Based on the Gregorian date, set the Hebrew date."""
-        self.jday = hj.gdate_to_jd(self._gdate.day, self._gdate.month,
-                                   self._gdate.year)
-        (self._h_day, self._h_month, self._h_year,
-         jd_tishrey1, jd_tishrey1_next_year) = hj.jd_to_hdate(self.jday)
-        self._set_h_from_jd(jd_tishrey1, jd_tishrey1_next_year)
-
     def hdate_set_hdate(self, day, month, year):
         """Set the dates of the HDate object based on a given Hebrew date."""
-        self._h_day, self._h_month, self._h_year = day, month, year
-        self.jday, jd_tishrey1, jd_tishrey1_next_year = \
-            hj.hdate_to_jd(day, month, year)
-        gday, gmonth, gyear = hj.jd_to_gdate(self.jday)
-        self._gdate = datetime.date(gyear, gmonth, gday)
-        self._set_h_from_jd(jd_tishrey1, jd_tishrey1_next_year)
+        jdn, _, _ = hj.hdate_to_jd(day, month, year)
+        gday, gmonth, gyear = hj.jd_to_gdate(jdn)
+        gdate = datetime.date(gyear, gmonth, gday)
+        self.__init__(gdate, self._diaspora, self._hebrew)
 
     def hdate_set_jd(self, jdate):
         """Set the date of the HDate object based on Julian date."""
         gday, gmonth, gyear = hj.jd_to_gdate(jdate)
-        self._gdate = datetime.date(gyear, gmonth, gday)
-        self.hdate_set_gdate()
+        gdate = datetime.date(gyear, gmonth, gday)
+        self.__init__(gdate, self._diaspora, self._hebrew)
 
     def get_hebrew_date(self):
         """Return the hebrew date in the form of day, month year."""
