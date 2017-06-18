@@ -186,8 +186,8 @@ class HDate(object):
         self._h_new_year_weekday = (jd_tishrey1 + 1) % 7 + 1
         self._h_year_type = hj.get_year_type(self._h_size_of_year,
                                              self._h_new_year_weekday)
-        self._h_days = self.jday - jd_tishrey1 + 1
-        self._h_weeks = (((self._h_days - 1) +
+        h_days = self.jday - jd_tishrey1 + 1
+        self._h_weeks = (((h_days - 1) +
                           (self._h_new_year_weekday - 1)) / 7 + 1)
 
     def __repr__(self):

@@ -81,7 +81,6 @@ class TestHDate(object):
         assert _hdate._weekday == random_hdate._weekday
         assert _hdate._h_size_of_year == random_hdate._h_size_of_year
         assert _hdate._h_year_type == random_hdate._h_year_type
-        assert _hdate._h_days == random_hdate._h_days
         assert _hdate._h_weeks == random_hdate._h_weeks
         assert _hdate._gdate == random_hdate._gdate
         assert _hdate._h_new_year_weekday == random_hdate._h_new_year_weekday
