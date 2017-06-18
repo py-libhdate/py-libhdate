@@ -36,10 +36,13 @@ def _days_from_3744(hebrew_year):
     week_day = parts_left_in_week / PARTS_IN_DAY
 
     # Special cases of Molad Zaken
-    if ((leap_left < 12 and week_day == 3 and
-         parts_left_in_day >= get_chalakim(9 + 6, 204)) or
-            (leap_left < 7 and week_day == 2 and
-             parts_left_in_day >= get_chalakim(15 + 6, 589))):
+    if (leap_left < 12 and week_day == 3 and
+            parts_left_in_day >= get_chalakim(9 + 6, 204)):
+        days += 1
+        week_day += 1
+
+    if (leap_left < 7 and week_day == 2 and
+            parts_left_in_day >= get_chalakim(15 + 6, 589)):
         days += 1
         week_day += 1
 
