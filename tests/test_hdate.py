@@ -3,6 +3,7 @@ import hdate
 import hdate.hdate_julian as hj
 
 import datetime
+import random
 
 
 HEBREW_YEARS_INFO = {
@@ -128,3 +129,38 @@ class TestHDate(object):
         assert random_hdate.get_holyday() == 37
         random_hdate.hdate_set_hdate(10, 1, random_hdate._h_year)
         assert random_hdate.get_holyday() == 4
+
+    @pytest.mark.parametrize('execution_number', range(10))
+    def test_get_holyday_type(self, execution_number):
+        holyday = random.randint(0, 37)
+        # regular day
+        if holyday == 0:
+            assert hdate.get_holyday_type(holyday) == 0
+        # Yom tov
+        if holyday in [1, 2, 4, 5, 8, 15, 20, 27, 28, 29, 30, 31, 32]:
+            assert hdate.get_holyday_type(holyday) == 1
+        # Erev yom kippur
+        if holyday == 37:
+            assert hdate.get_holyday_type(holyday) == 2
+        # Hol hamoed
+        if holyday in [6, 7, 16]:
+            assert hdate.get_holyday_type(holyday) == 3
+        # Hanuka and purim
+        if holyday in [9, 13, 14]:
+            assert hdate.get_holyday_type(holyday) == 4
+        # Tzom
+        if holyday in [3, 10, 12, 21, 22]:
+            assert hdate.get_holyday_type(holyday) == 5
+        # Independance day and Yom yerushalaim
+        if holyday in [17, 26]:
+            assert hdate.get_holyday_type(holyday) == 6
+        # Lag baomer ,Tu beav, Tu beshvat
+        if holyday in [18, 23, 11]:
+            assert hdate.get_holyday_type(holyday) == 7
+        # Tzahal and Holocaust memorial days
+        if holyday in [24, 25]:
+            assert hdate.get_holyday_type(holyday) == 8
+        # Not a holy day (yom hamishpacha, zhabotinsky, rabin, fallen soldiers
+        # whose burial place is unknown)
+        if holyday in [33, 34, 35, 36]:
+            assert hdate.get_holyday_type(holyday) == 9
