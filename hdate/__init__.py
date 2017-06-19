@@ -177,18 +177,17 @@ class HDate(object):
         self._gdate = set_date(date)
         self._hebrew = hebrew
         self._diaspora = diaspora
-        self.jday = hj.gdate_to_jd(self._gdate.day, self._gdate.month,
+        self.jdn = hj.gdate_to_jdn(self._gdate.day, self._gdate.month,
                                    self._gdate.year)
-        (self._h_day, self._h_month, self._h_year,
-         jd_tishrey1, jd_tishrey1_next_year) = hj.jd_to_hdate(self.jday)
-        self._weekday = (self.jday + 1) % 7 + 1
-        self._h_size_of_year = jd_tishrey1_next_year - jd_tishrey1
-        self._h_new_year_weekday = (jd_tishrey1 + 1) % 7 + 1
+        (self._h_day, self._h_month, self._h_year) = hj.jdn_to_hdate(self.jdn)
+        self._weekday = (self.jdn + 1) % 7 + 1
+        self._h_size_of_year = hj.get_size_of_hebrew_year(self._h_year)
+        jdn_tishrey1 = hj.hdate_to_jdn(1, 1, self._h_year)
+        self._h_new_year_weekday = (jdn_tishrey1 + 1) % 7 + 1
         self._h_year_type = hj.get_year_type(self._h_size_of_year,
                                              self._h_new_year_weekday)
-        h_days = self.jday - jd_tishrey1 + 1
-        self._h_weeks = (((h_days - 1) +
-                          (self._h_new_year_weekday - 1)) / 7 + 1)
+        h_days = self.jdn - jdn_tishrey1
+        self._h_weeks = (h_days + self._h_new_year_weekday - 1) / 7 + 1
 
     def __repr__(self):
         """Return the Hebrew date as a string."""
@@ -202,14 +201,12 @@ class HDate(object):
 
     def hdate_set_hdate(self, day, month, year):
         """Set the dates of the HDate object based on a given Hebrew date."""
-        jdn, _, _ = hj.hdate_to_jd(day, month, year)
-        gday, gmonth, gyear = hj.jd_to_gdate(jdn)
-        gdate = datetime.date(gyear, gmonth, gday)
-        self.__init__(gdate, self._diaspora, self._hebrew)
+        jdn = hj.hdate_to_jdn(day, month, year)
+        self.hdate_set_jdn(jdn)
 
-    def hdate_set_jd(self, jdate):
+    def hdate_set_jdn(self, jdn):
         """Set the date of the HDate object based on Julian date."""
-        gday, gmonth, gyear = hj.jd_to_gdate(jdate)
+        gday, gmonth, gyear = hj.jdn_to_gdate(jdn)
         gdate = datetime.date(gyear, gmonth, gday)
         self.__init__(gdate, self._diaspora, self._hebrew)
 
@@ -369,7 +366,7 @@ class HDate(object):
         """Return the day of the Omer."""
         sixteen_nissan = HDate()
         sixteen_nissan.hdate_set_hdate(16, 7, self._h_year)
-        omer_day = self.jday - sixteen_nissan.jday + 1
+        omer_day = self.jdn - sixteen_nissan.jdn + 1
         if (omer_day > 49) or (omer_day < 0):
             omer_day = 0
         return omer_day
