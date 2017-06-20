@@ -130,14 +130,10 @@ class Zmanim(object):
         return int(720.0 - 4.0 * self.longitude - hour_angle - eqtime), \
             int(720.0 - 4.0 * self.longitude + hour_angle - eqtime)
 
-    def get_utc_sun_time(self):
-        """UTC sunrise/set time for a Gregorian date."""
-        return self._get_utc_sun_time_deg(90.833)
-
     def get_utc_sun_time_full(self):
         """Return a list of Jewish times for the given location."""
         # sunset and rise time
-        sunrise, sunset = self.get_utc_sun_time()
+        sunrise, sunset = self._get_utc_sun_time_deg(90.833)
 
         # shaa zmanit by gara, 1/12 of light time
         sun_hour = (sunset - sunrise) / 12
