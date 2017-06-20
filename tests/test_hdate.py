@@ -3,7 +3,6 @@ import hdate
 import hdate.hdate_julian as hj
 
 import datetime
-import random
 
 
 HEBREW_YEARS_INFO = {
@@ -183,9 +182,9 @@ class TestHDate(object):
             random_hdate.hdate_set_hdate(day, 9, random_hdate._h_year)
             assert random_hdate.get_omer_day() == day + 44
 
-    @pytest.mark.parametrize('execution_number', range(10))
+    @pytest.mark.parametrize('execution_number', range(40))
     def test_get_holyday_type(self, execution_number):
-        holyday = random.randint(0, 37)
+        holyday = execution_number
         # regular day
         if holyday == 0:
             assert hdate.get_holyday_type(holyday) == 0
