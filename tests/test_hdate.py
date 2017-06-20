@@ -110,11 +110,47 @@ class TestHDate(object):
 
     @pytest.mark.parametrize('execution_number', range(10))
     def test_get_holidays(self, execution_number, random_hdate):
+        # random hebrew date in israel
         random_hdate.hdate_set_hdate(1, 1, random_hdate._h_year)
         assert random_hdate.get_holyday() == 1
         assert random_hdate._weekday == random_hdate._h_new_year_weekday
         random_hdate.hdate_set_hdate(2, 1, random_hdate._h_year)
         assert random_hdate.get_holyday() == 2
+        random_hdate.hdate_set_hdate(9, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 37
+        random_hdate.hdate_set_hdate(10, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 4
+        # sukkot
+        random_hdate.hdate_set_hdate(15, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 5
+        for day in range(16, 20):
+            random_hdate.hdate_set_hdate(day, 1, random_hdate._h_year)
+            assert random_hdate.get_holyday() == 6
+        random_hdate.hdate_set_hdate(21, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 7
+        random_hdate.hdate_set_hdate(22, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 27
+        random_hdate.hdate_set_hdate(23, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 0
+        # pesach
+        random_hdate.hdate_set_hdate(15, 7, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 15
+        for day in range(16, 20):
+            random_hdate.hdate_set_hdate(day, 7, random_hdate._h_year)
+            assert random_hdate.get_holyday() == 16
+        random_hdate.hdate_set_hdate(21, 7, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 28
+        random_hdate.hdate_set_hdate(22, 7, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 0
+        # shavuot
+        random_hdate.hdate_set_hdate(5, 9, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 19
+        random_hdate.hdate_set_hdate(6, 9, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 20
+        random_hdate.hdate_set_hdate(7, 9, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 0
+
+        # Tsomot
         random_hdate.hdate_set_hdate(3, 1, random_hdate._h_year)
         if random_hdate._gdate.weekday() == 5:
             assert random_hdate.get_holyday() == 0
@@ -125,10 +161,6 @@ class TestHDate(object):
             assert random_hdate.get_holyday() == 3
         else:
             assert random_hdate.get_holyday() == 0
-        random_hdate.hdate_set_hdate(9, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 37
-        random_hdate.hdate_set_hdate(10, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 4
 
     @pytest.mark.parametrize('execution_number', range(10))
     def test_get_omer_day(self, execution_number, random_hdate):
