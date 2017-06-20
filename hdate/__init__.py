@@ -364,11 +364,9 @@ class HDate(object):
 
     def get_omer_day(self):
         """Return the day of the Omer."""
-        sixteen_nissan = HDate()
-        sixteen_nissan.hdate_set_hdate(16, 7, self._h_year)
-        omer_day = self.jdn - sixteen_nissan.jdn + 1
-        if (omer_day > 49) or (omer_day < 0):
-            omer_day = 0
+        omer_day = self.jdn - hj.hdate_to_jdn(16, 7, self._h_year) + 1
+        if not 0 < omer_day < 50:
+            return 0
         return omer_day
 
     def get_reading(self, diaspora):

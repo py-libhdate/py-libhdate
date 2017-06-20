@@ -131,6 +131,27 @@ class TestHDate(object):
         assert random_hdate.get_holyday() == 4
 
     @pytest.mark.parametrize('execution_number', range(10))
+    def test_get_omer_day(self, execution_number, random_hdate):
+        if (random_hdate._h_month not in [7, 8, 9] or
+            random_hdate._h_month == 7 and random_hdate._h_day < 16 or
+                random_hdate._h_month == 9 and random_hdate._h_day > 5):
+            assert random_hdate.get_omer_day() == 0
+
+        nissan = range(16, 30)
+        iyyar = range(1, 29)
+        sivan = range(1, 5)
+
+        for day in nissan:
+            random_hdate.hdate_set_hdate(day, 7, random_hdate._h_year)
+            assert random_hdate.get_omer_day() == day - 15
+        for day in iyyar:
+            random_hdate.hdate_set_hdate(day, 8, random_hdate._h_year)
+            assert random_hdate.get_omer_day() == day + 15
+        for day in sivan:
+            random_hdate.hdate_set_hdate(day, 9, random_hdate._h_year)
+            assert random_hdate.get_omer_day() == day + 44
+
+    @pytest.mark.parametrize('execution_number', range(10))
     def test_get_holyday_type(self, execution_number):
         holyday = random.randint(0, 37)
         # regular day
