@@ -39,7 +39,7 @@ def _days_from_3744(hebrew_year):
     week_day = parts_left_in_week / PARTS_IN_DAY
 
     # pylint: disable=too-many-boolean-expressions
-    # pylint-comment: Splitting the above if might create a bug in case
+    # pylint-comment: Splitting the 'if' below might create a bug in case
     # the order is not kept.
 
     # Molad ד"ר ט"ג
