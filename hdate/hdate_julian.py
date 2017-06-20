@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+
+
 """Methods for going back and forth between various calendars."""
 
 
@@ -35,13 +38,20 @@ def _days_from_3744(hebrew_year):
     parts_left_in_day = parts % PARTS_IN_DAY
     week_day = parts_left_in_week / PARTS_IN_DAY
 
-    # Special cases of Molad Zaken
+    # pylint: disable=too-many-boolean-expressions
+    # pylint-comment: Splitting the above if might create a bug in case
+    # the order is not kept.
+
+    # Molad ד"ר ט"ג
     if ((leap_left < 12 and week_day == 3 and
          parts_left_in_day >= get_chalakim(9 + 6, 204)) or
+            # Molad ט"פקת ו"טב
             (leap_left < 7 and week_day == 2 and
              parts_left_in_day >= get_chalakim(15 + 6, 589))):
         days += 1
         week_day += 1
+
+    # pylint: enable=too-many-boolean-expressions
 
     # ADU
     if week_day == 1 or week_day == 4 or week_day == 6:
