@@ -32,6 +32,6 @@ class TestOmer(object):
 
     def test_illegal_value(self):
         with pytest.raises(ValueError):
-            hs.get_omer_string(random.randint(50,100))
+            hs.get_omer_string(random.randint(50, 100))
         with pytest.raises(ValueError):
-            hs.get_omer_string(random.randint(-100,0))
+            hs.get_omer_string(random.randint(-100, 0))
