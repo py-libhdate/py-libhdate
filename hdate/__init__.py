@@ -130,14 +130,10 @@ class Zmanim(object):
         return int(720.0 - 4.0 * self.longitude - hour_angle - eqtime), \
             int(720.0 - 4.0 * self.longitude + hour_angle - eqtime)
 
-    def get_utc_sun_time(self):
-        """UTC sunrise/set time for a Gregorian date."""
-        return self._get_utc_sun_time_deg(90.833)
-
     def get_utc_sun_time_full(self):
         """Return a list of Jewish times for the given location."""
         # sunset and rise time
-        sunrise, sunset = self.get_utc_sun_time()
+        sunrise, sunset = self._get_utc_sun_time_deg(90.833)
 
         # shaa zmanit by gara, 1/12 of light time
         sun_hour = (sunset - sunrise) / 12
@@ -177,18 +173,17 @@ class HDate(object):
         self._gdate = set_date(date)
         self._hebrew = hebrew
         self._diaspora = diaspora
-        self.jday = hj.gdate_to_jd(self._gdate.day, self._gdate.month,
+        self.jdn = hj.gdate_to_jdn(self._gdate.day, self._gdate.month,
                                    self._gdate.year)
-        (self._h_day, self._h_month, self._h_year,
-         jd_tishrey1, jd_tishrey1_next_year) = hj.jd_to_hdate(self.jday)
-        self._weekday = (self.jday + 1) % 7 + 1
-        self._h_size_of_year = jd_tishrey1_next_year - jd_tishrey1
-        self._h_new_year_weekday = (jd_tishrey1 + 1) % 7 + 1
+        (self._h_day, self._h_month, self._h_year) = hj.jdn_to_hdate(self.jdn)
+        self._weekday = (self.jdn + 1) % 7 + 1
+        self._h_size_of_year = hj.get_size_of_hebrew_year(self._h_year)
+        jdn_tishrey1 = hj.hdate_to_jdn(1, 1, self._h_year)
+        self._h_new_year_weekday = (jdn_tishrey1 + 1) % 7 + 1
         self._h_year_type = hj.get_year_type(self._h_size_of_year,
                                              self._h_new_year_weekday)
-        self._h_days = self.jday - jd_tishrey1 + 1
-        self._h_weeks = (((self._h_days - 1) +
-                          (self._h_new_year_weekday - 1)) / 7 + 1)
+        h_days = self.jdn - jdn_tishrey1
+        self._h_weeks = (h_days + self._h_new_year_weekday - 1) / 7 + 1
 
     def __repr__(self):
         """Return the Hebrew date as a string."""
@@ -202,14 +197,12 @@ class HDate(object):
 
     def hdate_set_hdate(self, day, month, year):
         """Set the dates of the HDate object based on a given Hebrew date."""
-        jdn, _, _ = hj.hdate_to_jd(day, month, year)
-        gday, gmonth, gyear = hj.jd_to_gdate(jdn)
-        gdate = datetime.date(gyear, gmonth, gday)
-        self.__init__(gdate, self._diaspora, self._hebrew)
+        jdn = hj.hdate_to_jdn(day, month, year)
+        self.hdate_set_jdn(jdn)
 
-    def hdate_set_jd(self, jdate):
+    def hdate_set_jdn(self, jdn):
         """Set the date of the HDate object based on Julian date."""
-        gday, gmonth, gyear = hj.jd_to_gdate(jdate)
+        gday, gmonth, gyear = hj.jdn_to_gdate(jdn)
         gdate = datetime.date(gyear, gmonth, gday)
         self.__init__(gdate, self._diaspora, self._hebrew)
 
@@ -367,11 +360,9 @@ class HDate(object):
 
     def get_omer_day(self):
         """Return the day of the Omer."""
-        sixteen_nissan = HDate()
-        sixteen_nissan.hdate_set_hdate(16, 7, self._h_year)
-        omer_day = self.jday - sixteen_nissan.jday + 1
-        if (omer_day > 49) or (omer_day < 0):
-            omer_day = 0
+        omer_day = self.jdn - hj.hdate_to_jdn(16, 7, self._h_year) + 1
+        if not 0 < omer_day < 50:
+            return 0
         return omer_day
 
     def get_reading(self, diaspora):
@@ -510,31 +501,38 @@ class HDate(object):
 
 def get_holyday_type(holyday):
     """Return a number describing the type of the holy day."""
+    holyday_type = None
+
     # regular day
     if holyday == 0:
-        return 0
-    # Yom tov, To find erev yom tov, check if tomorrow returns 1
+        holyday_type = 0
+    # Yom tov, To find erev yom tov, check if tomorrow's holyday_type = 1
     if holyday in [1, 2, 4, 5, 8, 15, 20, 27, 28, 29, 30, 31, 32]:
-        return 1
+        holyday_type = 1
     # Erev yom kippur
     if holyday == 37:
-        return 2
+        holyday_type = 2
     # Hol hamoed
     if holyday in [6, 7, 16]:
-        return 3
+        holyday_type = 3
     # Hanuka and purim
     if holyday in [9, 13, 14]:
-        return 4
+        holyday_type = 4
     # Tzom
     if holyday in [3, 10, 12, 21, 22]:
-        return 5
+        holyday_type = 5
     # Independance day and Yom yerushalaim
     if holyday in [17, 26]:
-        return 6
+        holyday_type = 6
     # Lag baomer ,Tu beav, Tu beshvat
     if holyday in [18, 23, 11]:
-        return 7
+        holyday_type = 7
     # Tzahal and Holocaust memorial days
     if holyday in [24, 25]:
-        return 8
-    return 9
+        holyday_type = 8
+    # Not a holy day (yom hamishpacha, zhabotinsky, rabin, fallen soldiers
+    # whose burial place is unknown)
+    if holyday_type is None:
+        holyday_type = 9
+
+    return holyday_type

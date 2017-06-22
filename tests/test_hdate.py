@@ -77,24 +77,23 @@ class TestHDate(object):
         assert _hdate._h_day == random_hdate._h_day
         assert _hdate._h_month == random_hdate._h_month
         assert _hdate._h_year == random_hdate._h_year
-        assert _hdate.jday == random_hdate.jday
+        assert _hdate.jdn == random_hdate.jdn
         assert _hdate._weekday == random_hdate._weekday
         assert _hdate._h_size_of_year == random_hdate._h_size_of_year
         assert _hdate._h_year_type == random_hdate._h_year_type
-        assert _hdate._h_days == random_hdate._h_days
         assert _hdate._h_weeks == random_hdate._h_weeks
         assert _hdate._gdate == random_hdate._gdate
         assert _hdate._h_new_year_weekday == random_hdate._h_new_year_weekday
 
     def test_hj_get_size_of_hebrew_year(self):
         for year, info in HEBREW_YEARS_INFO.items():
-            assert hj._get_size_of_hebrew_year(year) == info[1]
+            assert hj.get_size_of_hebrew_year(year) == info[1]
 
     @pytest.mark.parametrize('execution_number', range(10))
     def test_hdate_get_size_of_hebrew_years(self, execution_number,
                                             random_hdate):
         assert (random_hdate._h_size_of_year ==
-                hj._get_size_of_hebrew_year(random_hdate._h_year))
+                hj.get_size_of_hebrew_year(random_hdate._h_year))
 
     def test_rosh_hashana_day_of_week(self, random_hdate):
         for year, info in HEBREW_YEARS_INFO.items():
@@ -110,11 +109,47 @@ class TestHDate(object):
 
     @pytest.mark.parametrize('execution_number', range(10))
     def test_get_holidays(self, execution_number, random_hdate):
+        # random hebrew date in israel
         random_hdate.hdate_set_hdate(1, 1, random_hdate._h_year)
         assert random_hdate.get_holyday() == 1
         assert random_hdate._weekday == random_hdate._h_new_year_weekday
         random_hdate.hdate_set_hdate(2, 1, random_hdate._h_year)
         assert random_hdate.get_holyday() == 2
+        random_hdate.hdate_set_hdate(9, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 37
+        random_hdate.hdate_set_hdate(10, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 4
+        # sukkot
+        random_hdate.hdate_set_hdate(15, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 5
+        for day in range(16, 20):
+            random_hdate.hdate_set_hdate(day, 1, random_hdate._h_year)
+            assert random_hdate.get_holyday() == 6
+        random_hdate.hdate_set_hdate(21, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 7
+        random_hdate.hdate_set_hdate(22, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 27
+        random_hdate.hdate_set_hdate(23, 1, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 0
+        # pesach
+        random_hdate.hdate_set_hdate(15, 7, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 15
+        for day in range(16, 20):
+            random_hdate.hdate_set_hdate(day, 7, random_hdate._h_year)
+            assert random_hdate.get_holyday() == 16
+        random_hdate.hdate_set_hdate(21, 7, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 28
+        random_hdate.hdate_set_hdate(22, 7, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 0
+        # shavuot
+        random_hdate.hdate_set_hdate(5, 9, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 19
+        random_hdate.hdate_set_hdate(6, 9, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 20
+        random_hdate.hdate_set_hdate(7, 9, random_hdate._h_year)
+        assert random_hdate.get_holyday() == 0
+
+        # Tsomot
         random_hdate.hdate_set_hdate(3, 1, random_hdate._h_year)
         if random_hdate._gdate.weekday() == 5:
             assert random_hdate.get_holyday() == 0
@@ -125,7 +160,59 @@ class TestHDate(object):
             assert random_hdate.get_holyday() == 3
         else:
             assert random_hdate.get_holyday() == 0
-        random_hdate.hdate_set_hdate(9, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 37
-        random_hdate.hdate_set_hdate(10, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 4
+
+    @pytest.mark.parametrize('execution_number', range(10))
+    def test_get_omer_day(self, execution_number, random_hdate):
+        if (random_hdate._h_month not in [7, 8, 9] or
+            random_hdate._h_month == 7 and random_hdate._h_day < 16 or
+                random_hdate._h_month == 9 and random_hdate._h_day > 5):
+            assert random_hdate.get_omer_day() == 0
+
+        nissan = range(16, 30)
+        iyyar = range(1, 29)
+        sivan = range(1, 5)
+
+        for day in nissan:
+            random_hdate.hdate_set_hdate(day, 7, random_hdate._h_year)
+            assert random_hdate.get_omer_day() == day - 15
+        for day in iyyar:
+            random_hdate.hdate_set_hdate(day, 8, random_hdate._h_year)
+            assert random_hdate.get_omer_day() == day + 15
+        for day in sivan:
+            random_hdate.hdate_set_hdate(day, 9, random_hdate._h_year)
+            assert random_hdate.get_omer_day() == day + 44
+
+    @pytest.mark.parametrize('execution_number', range(40))
+    def test_get_holyday_type(self, execution_number):
+        holyday = execution_number
+        # regular day
+        if holyday == 0:
+            assert hdate.get_holyday_type(holyday) == 0
+        # Yom tov
+        if holyday in [1, 2, 4, 5, 8, 15, 20, 27, 28, 29, 30, 31, 32]:
+            assert hdate.get_holyday_type(holyday) == 1
+        # Erev yom kippur
+        if holyday == 37:
+            assert hdate.get_holyday_type(holyday) == 2
+        # Hol hamoed
+        if holyday in [6, 7, 16]:
+            assert hdate.get_holyday_type(holyday) == 3
+        # Hanuka and purim
+        if holyday in [9, 13, 14]:
+            assert hdate.get_holyday_type(holyday) == 4
+        # Tzom
+        if holyday in [3, 10, 12, 21, 22]:
+            assert hdate.get_holyday_type(holyday) == 5
+        # Independance day and Yom yerushalaim
+        if holyday in [17, 26]:
+            assert hdate.get_holyday_type(holyday) == 6
+        # Lag baomer ,Tu beav, Tu beshvat
+        if holyday in [18, 23, 11]:
+            assert hdate.get_holyday_type(holyday) == 7
+        # Tzahal and Holocaust memorial days
+        if holyday in [24, 25]:
+            assert hdate.get_holyday_type(holyday) == 8
+        # Not a holy day (yom hamishpacha, zhabotinsky, rabin, fallen soldiers
+        # whose burial place is unknown)
+        if holyday in [33, 34, 35, 36]:
+            assert hdate.get_holyday_type(holyday) == 9
