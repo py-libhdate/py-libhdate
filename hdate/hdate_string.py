@@ -15,6 +15,7 @@ def hebrew_number(num, hebrew=True, short=False):
     hstring = u''
     if num >= 1000:
         hstring += DIGITS[0][num / 1000].decode("utf-8")
+        hstring += "' ".decode("utf-8")
         num = num % 1000
     while num >= 400:
         hstring += DIGITS[2][4].decode("utf-8")
