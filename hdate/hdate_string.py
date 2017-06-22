@@ -71,21 +71,22 @@ def get_omer_string(omer):
     tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
     ones = ["", "אחד", "שנים", "שלושה", "ארבעה", "חמשה",
             "ששה", "שבעה", "שמונה", "תשעה"]
-    if omer < 1 or omer > 49:
+    if not 0 < omer < 50:
         raise ValueError('Invalid Omer day: {}'.format(omer))
     ten = omer / 10
     one = omer % 10
     omer_string = 'היום '
-    if omer > 10 and omer < 20:
-        omer_string += ones[one] + ' עשר '
+    if 10 < omer < 20:
+        omer_string += ones[one] + ' עשר'
     elif omer > 9:
-        omer_string += tens[ten] + ' '
+        omer_string += ones[one] + ' '
         if one:
             omer_string += 'ו'
     if omer > 2:
-        omer_string += ones[one]
+        if omer > 20 or omer in [10, 20]:
+            omer_string += tens[ten]
         if omer < 11:
-            omer_string += ' ימים '
+            omer_string += ones[one] + ' ימים '
         else:
             omer_string += ' יום '
     elif omer == 1:
