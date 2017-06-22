@@ -36,6 +36,7 @@ class TestOmer(object):
         with pytest.raises(ValueError):
             hs.get_omer_string(random.randint(-100, 0))
 
+
 class TestHebrewNumbers(object):
     """Test hebrew_number"""
 
@@ -63,6 +64,5 @@ class TestHebrewNumbers(object):
             hs.hebrew_number(random.randint(-100, 0))
 
     def test_hebrew_number_hebrew_false(self):
-        number = random.randint(0,100000)
+        number = random.randint(0, 100000)
         assert hs.hebrew_number(number, hebrew=False) == str(number)
-
