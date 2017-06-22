@@ -7,7 +7,7 @@ import random
 
 
 class TestOmer(object):
-    """Test Omer strings"""
+    """Test get_omer_string"""
 
     OMER_STRINGS = [
         (1, "היום יום אחד לעומר"),
@@ -35,3 +35,34 @@ class TestOmer(object):
             hs.get_omer_string(random.randint(50, 100))
         with pytest.raises(ValueError):
             hs.get_omer_string(random.randint(-100, 0))
+
+class TestHebrewNumbers(object):
+    """Test hebrew_number"""
+
+    NUMBERS = [
+        (1, "א'"),
+        (9, "ט'"),
+        (10, "י'"),
+        (11, "י\"א"),
+        (15, "ט\"ו"),
+        (127, "קכ\"ז"),
+        (435, "תל\"ה"),
+        (770, "תש\"ע"),
+        (969, "תתקס\"ט"),
+        (1015, "א' ט\"ו")
+    ]
+
+    @pytest.mark.parametrize("number,expected_string", NUMBERS)
+    def test_hebrew_number(self, number, expected_string):
+        assert hs.hebrew_number(number) == expected_string.decode("utf-8")
+
+    def test_illegal_value(self):
+        with pytest.raises(ValueError):
+            hs.hebrew_number(random.randint(10000, 20000))
+        with pytest.raises(ValueError):
+            hs.hebrew_number(random.randint(-100, 0))
+
+    def test_hebrew_number_hebrew_false(self):
+        number = random.randint(0,100000)
+        assert hs.hebrew_number(number, hebrew=False) == str(number)
+
