@@ -83,14 +83,19 @@ class TestHDate(object):
         ((15, 11), 23, "Tu b'Av")
     ]
 
+    DIASPORA_ISRAEL_HOLIDAYS = [
+        # Date, holiday in Diaspora, holiday in Israel
+        ((16, 1), 31, 6, "Sukkot II"),
+        ((23, 1), 8, 0, "Simchat Torah"),
+        ((16, 7), 32, 16, "Pesach II"),
+        ((22, 7), 29, 0, "Acharon Shel Pesach"),
+        ((7, 9), 30, 0, "Shavuot II")
+    ]
+
     # Missing tests:
     # - chanuka: 3 tevet or 30 kislev
     # - Nidche: Tsom gedalya and tisha beav
     # - Mukdam: 17 Tamuz, Ta'anit Esther
-    # - Diaspora vs Israel:
-    #           sukkot 2, simchat tora,
-    #           pesach 2, acharon shel pesach,
-    #           shavuot 2
     # - Ta'anit Esther, Purim, Shushan Purim: Adar vs Adar II
     # - Israli holidays (have a starting year):
     #   * Yom Ha'atsmaut
@@ -164,21 +169,17 @@ class TestHDate(object):
         random_hdate.hdate_set_hdate(*date, year=random_hdate._h_year)
         assert random_hdate.get_holyday() == holiday
 
-    def test_get_holidays(self, random_hdate):
-        # sukkot
-        random_hdate.hdate_set_hdate(16, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 6
-        random_hdate.hdate_set_hdate(23, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 0
-        # pesach
-        random_hdate.hdate_set_hdate(16, 7, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 16
-        random_hdate.hdate_set_hdate(22, 7, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 0
-        # shavuot
-        random_hdate.hdate_set_hdate(7, 9, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 0
+    @pytest.mark.parametrize('date, diaspora_holiday, israel_holiday, name',
+                             DIASPORA_ISRAEL_HOLIDAYS)
+    def test_get_diaspora_israel_holidays(self, random_hdate, date,
+                                          diaspora_holiday, israel_holiday,
+                                          name):
+        random_hdate.hdate_set_hdate(*date, year=random_hdate._h_year)
+        assert random_hdate.get_holyday() == israel_holiday
+        random_hdate._diaspora = True
+        assert random_hdate.get_holyday() == diaspora_holiday
 
+    def test_get_holidays(self, random_hdate):
         # Tsomot
         random_hdate.hdate_set_hdate(3, 1, random_hdate._h_year)
         if random_hdate._gdate.weekday() == 5:
