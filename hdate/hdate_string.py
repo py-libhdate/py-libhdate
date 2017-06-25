@@ -10,8 +10,8 @@ def hebrew_number(num, hebrew=True, short=False):
     """Return "Gimatria" number."""
     if not hebrew:
         return str(num)
-    if num > 10000 or num < 0:
-        raise ValueError('num must be between 0 to 9999, got:{}'.format(num))
+    if not 0 < num < 10000:
+        raise ValueError('num must be between 1 to 9999, got:{}'.format(num))
     hstring = u''
     if num >= 1000:
         hstring += DIGITS[0][num / 1000].decode("utf-8")
