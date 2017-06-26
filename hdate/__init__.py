@@ -255,7 +255,7 @@ class HDate(object):
 
         # yom ha azmaot and yom ha zicaron
         if holyday == 17:
-            if self._gdate.year < 1948:
+            if self._gdate.year < 1949:
                 holyday = 0
             elif self._gdate.year < 2004:
                 if (self._h_day == 3) and (self._weekday == 5):

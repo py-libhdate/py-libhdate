@@ -99,12 +99,12 @@ class TestHDate(object):
         ([(17, 10), (18, 10)], (5000, 6500), 21, "Shiva Asar b'Tamuz"),
         ([(9, 11), (10, 11)], (5000, 6500), 22, "Tisha b'Av"),
         ([(26, 7), (27, 7), (28, 7)], (5718, 6500), 24, "Yom Hasho'a"),
-        ([(3, 8), (4, 8), (5, 8)], (5708, 5763), 17, "Yom Ha'atsmaut"),
+        ([(3, 8), (4, 8), (5, 8)], (5709, 5763), 17, "Yom Ha'atsmaut"),
         ([(3, 8), (4, 8), (5, 8), (6, 8)], (5764, 6500), 17, "Yom Ha'atsmaut"),
-        ([(2, 8), (3, 8), (4, 8)], (5708, 5763), 25, "Yom Hazikaron"),
+        ([(2, 8), (3, 8), (4, 8)], (5709, 5763), 25, "Yom Hazikaron"),
         ([(2, 8), (3, 8), (4, 8), (5, 8)], (5764, 6500), 25, "Yom Hazikaron"),
         ([(28, 8)], (5728, 6500), 26, "Yom Yerushalayim"),
-        ([(11, 2), (12, 2)], (5757, 6500), 35, "Rabin Memorial day"),
+        ([(11, 2), (12, 2)], (5758, 6500), 35, "Rabin Memorial day"),
         ([(29, 10), (1, 11)], (5765, 6500), 36, "Zhabotinsky day"),
         ([(30, 5)], (5000, 6500), 33, "Family day")
     ]
@@ -216,7 +216,7 @@ class TestHDate(object):
         if years[0] != 5000:
             if years[0] == 5764 and holiday in [17, 25]:
                 return
-            year = random.randint(5000, years[0])
+            year = random.randint(5000, years[0]-1)
             print "Testing " + name + " for " + str(year)
             for date in possible_dates:
                 date_under_test = hdate.HDate()
