@@ -105,7 +105,7 @@ class TestHDate(object):
         ([(2, 8), (3, 8), (4, 8), (5, 8)], (5764, 6500), 25, "Yom Hazikaron"),
         ([(28, 8)], (5728, 6500), 26, "Yom Yerushalayim"),
         ([(11, 2), (12, 2)], (5758, 6500), 35, "Rabin Memorial day"),
-        ([(29, 10), (1, 11)], (5765, 6500), 36, "Zhabotinsky day"),
+        ([(29, 10)], (5765, 6500), 36, "Zhabotinsky day"),
         ([(30, 5)], (5000, 6500), 33, "Family day")
     ]
 

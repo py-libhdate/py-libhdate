@@ -324,14 +324,8 @@ class HDate(object):
                     holyday = 0
 
         # Zhabotinsky day, on years after 2005
-        if holyday == 36:
-            if self._gdate.year < 2005:
-                holyday = 0
-            else:
-                if (self._h_day == 1) and (self._weekday != 1):
-                    holyday = 0
-                if (self._h_day == 29) and (self._weekday == 7):
-                    holyday = 0
+        if holyday == 36 and self._gdate.year < 2005:
+            holyday = 0
 
         # diaspora holidays
 
