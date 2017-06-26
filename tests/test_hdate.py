@@ -3,6 +3,7 @@ import hdate
 import hdate.hdate_julian as hj
 
 import datetime
+import random
 
 
 HEBREW_YEARS_INFO = {
@@ -92,19 +93,28 @@ class TestHDate(object):
         ((7, 9), 30, 0, "Shavuot II")
     ]
 
+    MOVING_HOLIDAYS = [
+        # Possible dates, test year range, holiday result, name
+        ([(3, 1), (4, 1)], (5000, 6500), 3, "Tsom Gedalya"),
+        ([(17, 10), (18, 10)], (5000, 6500), 21, "Shiva Asar b'Tamuz"),
+        ([(9, 11), (10, 11)], (5000, 6500), 22, "Tisha b'Av"),
+        ([(26, 7), (27, 7), (28, 7)], (5718, 6500), 24, "Yom Hasho'a"),
+        ([(3, 8), (4, 8), (5, 8)], (5708, 5764), 17, "Yom Ha'atsmaut"),
+        ([(3, 8), (4, 8), (5, 8), (6, 8)], (5764, 6500), 17, "Yom Ha'atsmaut"),
+        ([(2, 8), (3, 8), (4, 8)], (5708, 5764), 25, "Yom Hazikaron"),
+        ([(2, 8), (3, 8), (4, 8), (5, 8)], (5764, 6500), 25, "Yom Hazikaron"),
+        ([(28, 8)], (5728, 6500), 26, "Yom Yerushalayim"),
+        ([(11, 2), (12, 2)], (5757, 6500), 35, "Rabin Memorial day"),
+        ([(29, 10), (1, 11)], (5765, 6500), 36, "Zhabotinsky day"),
+        ([(30, 5)], (5000, 6500), 33, "Family day")
+    ]
+
     # Missing tests:
     # - chanuka: 3 tevet or 30 kislev
-    # - Nidche: Tsom gedalya and tisha beav
-    # - Mukdam: 17 Tamuz, Ta'anit Esther
+    # - Mukdam: Ta'anit Esther
     # - Ta'anit Esther, Purim, Shushan Purim: Adar vs Adar II
     # - Israli holidays (have a starting year):
-    #   * Yom Ha'atsmaut
-    #   * Yom Hasho'a
-    #   * Yom Yerushalayim
-    #   * Family Day
     #   * Memorial day for fallen whose place of burial is unknown
-    #   * Rabin memorial day
-    #   * Zhabotinsky day
 
     @pytest.fixture
     def default_values(self):
@@ -179,18 +189,37 @@ class TestHDate(object):
         random_hdate._diaspora = True
         assert random_hdate.get_holyday() == diaspora_holiday
 
-    def test_get_holidays(self, random_hdate):
-        # Tsomot
-        random_hdate.hdate_set_hdate(3, 1, random_hdate._h_year)
-        if random_hdate._gdate.weekday() == 5:
-            assert random_hdate.get_holyday() == 0
-        else:
-            assert random_hdate.get_holyday() == 3
-        random_hdate.hdate_set_hdate(4, 1, random_hdate._h_year)
-        if random_hdate._gdate.weekday() == 6:
-            assert random_hdate.get_holyday() == 3
-        else:
-            assert random_hdate.get_holyday() == 0
+    @pytest.mark.parametrize('possible_dates, years, holiday, name',
+                             MOVING_HOLIDAYS)
+    def test_get_holidays_moving(self, possible_dates, years, holiday, name):
+        found_matching_holiday = False
+        year = random.randint(*years)
+
+        print "Testing " + name + " for " + str(year)
+
+        for date in possible_dates:
+            date_under_test = hdate.HDate()
+            date_under_test.hdate_set_hdate(*date, year=year)
+            if date_under_test.get_holyday() == holiday:
+                for other in possible_dates:
+                    if other != date:
+                        other_date = hdate.HDate()
+                        other_date.hdate_set_hdate(*other, year=year)
+                        assert other_date.get_holyday() != holiday
+                found_matching_holiday = True
+
+        assert found_matching_holiday
+
+        # Test holiday == 0 before 'since'
+        # In case of yom hazikaron and yom ha'atsmaut don't test for the
+        # case of 0 between 5708 and 5764
+        if years[0] != 5000 and (years[0] != 5764 and holiday in [17, 25]):
+            year = random.randint(5000, years[0])
+            print "Testing " + name + " for " + str(year)
+            for date in possible_dates:
+                date_under_test = hdate.HDate()
+                date_under_test.hdate_set_hdate(*date, year=year)
+                assert date_under_test.get_holyday() == 0
 
     @pytest.mark.parametrize('execution_number', range(10))
     def test_get_omer_day(self, execution_number, random_hdate):
