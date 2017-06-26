@@ -213,7 +213,9 @@ class TestHDate(object):
         # Test holiday == 0 before 'since'
         # In case of yom hazikaron and yom ha'atsmaut don't test for the
         # case of 0 between 5708 and 5764
-        if years[0] != 5000 and (years[0] != 5764 and holiday in [17, 25]):
+        if years[0] != 5000:
+            if years[0] == 5764 and holiday in [17, 25]:
+                return
             year = random.randint(5000, years[0])
             print "Testing " + name + " for " + str(year)
             for date in possible_dates:
