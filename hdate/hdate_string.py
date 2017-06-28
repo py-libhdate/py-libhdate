@@ -80,9 +80,9 @@ def get_omer_string(omer):
     if 10 < omer < 20:
         omer_string += ones[one] + ' עשר'
     elif omer > 9:
-        omer_string += ones[one] + ' '
+        omer_string += ones[one]
         if one:
-            omer_string += 'ו'
+            omer_string += ' ו'
     if omer > 2:
         if omer > 20 or omer in [10, 20]:
             omer_string += tens[ten]
