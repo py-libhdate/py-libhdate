@@ -92,7 +92,7 @@ def get_omer_string(omer):
             omer_string += ' יום '
     elif omer == 1:
         omer_string += 'יום אחד '
-    elif omer == 2:
+    else:  # omer == 2
         omer_string += 'שני ימים '
     if omer > 6:
         omer_string += 'שהם '
@@ -102,7 +102,7 @@ def get_omer_string(omer):
             omer_string += ones[weeks] + ' שבועות '
         elif weeks == 1:
             omer_string += 'שבוע אחד '
-        elif weeks == 2:
+        else:  # weeks == 2
             omer_string += 'שני שבועות '
         if days:
             omer_string += 'ו'
@@ -110,7 +110,7 @@ def get_omer_string(omer):
                 omer_string += ones[days] + ' ימים '
             elif days == 1:
                 omer_string += 'יום אחד '
-            elif days == 2:
+            else:  # days == 2
                 omer_string += 'שני ימים '
     omer_string += 'לעומר'
     return omer_string
