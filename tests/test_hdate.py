@@ -109,12 +109,12 @@ class TestHDate(object):
         ([(30, 5)], (5000, 6500), 33, "Family day")
     ]
 
-    # Missing tests:
-    # - chanuka: 3 tevet or 30 kislev
-    # - Mukdam: Ta'anit Esther
-    # - Ta'anit Esther, Purim, Shushan Purim: Adar vs Adar II
-    # - Israli holidays (have a starting year):
-    #   * Memorial day for fallen whose place of burial is unknown
+    ADAR_HOLIDAYS = [
+        ([11, 13], 12, "Taanit Esther"),
+        ([14], 13, "Purim"),
+        ([15], 14, "Shushan Purim"),
+        ([7], 34, "Memorial day for fallen whose place of burial is unknown"),
+    ]
 
     @pytest.fixture
     def default_values(self):
@@ -222,6 +222,33 @@ class TestHDate(object):
                 date_under_test = hdate.HDate()
                 date_under_test.hdate_set_hdate(*date, year=year)
                 assert date_under_test.get_holyday() == 0
+
+    def test_get_holiday_hanuka_3rd_tevet(self):
+        year = random.randint(5000, 6000)
+        year_size = hj.get_size_of_hebrew_year(year)
+        myhdate = hdate.HDate()
+        myhdate.hdate_set_hdate(3, 4, year)
+        print year_size
+        if year_size in [353,383]:
+            assert myhdate.get_holyday() == 9
+        else:
+            assert myhdate.get_holyday() == 0
+
+    @pytest.mark.parametrize('possible_days, holiday, name', ADAR_HOLIDAYS)
+    def test_get_holiday_adar(self, possible_days, holiday, name):
+        year = random.randint(5000, 6000)
+        year_size = hj.get_size_of_hebrew_year(year)
+        month = 6 if year_size < 360 else 14
+        myhdate = hdate.HDate()
+
+        for day in possible_days:
+            myhdate.hdate_set_hdate(day, month, year)
+            if day == 13 and myhdate._weekday == 7 and holiday == 12:
+                assert myhdate.get_holyday() == 0
+            elif day == 11 and myhdate._weekday != 5 and holiday == 12:
+                assert myhdate.get_holyday() == 0
+            else:
+                assert myhdate.get_holyday() == holiday
 
     @pytest.mark.parametrize('execution_number', range(10))
     def test_get_omer_day(self, execution_number, random_hdate):
