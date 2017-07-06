@@ -1,8 +1,11 @@
 """Fixtures for py.test."""
 
 from calendar import isleap
+import datetime
 import random
 import pytest
+
+import hdate
 
 
 @pytest.fixture
@@ -18,3 +21,10 @@ def random_date():
             maxday = 28
     day = random.randint(1, maxday)
     return year, month, day
+
+
+@pytest.fixture
+def random_hdate(random_date):
+    """Given a random date, generate arandom HDate."""
+    date = datetime.date(*random_date)
+    return hdate.HDate(date)

@@ -50,6 +50,62 @@ class TestSetDate(object):
 
 class TestHDate(object):
 
+    @pytest.fixture
+    def default_values(self):
+        return hdate.HDate()
+
+    def test_default_weekday(self, default_values):
+        expected_weekday = datetime.datetime.today().weekday() + 2
+        expected_weekday = expected_weekday if expected_weekday < 8 else 1
+        assert default_values._weekday == expected_weekday
+
+    @pytest.mark.parametrize('execution_number', range(10))
+    def test_random_weekday(self, execution_number, random_hdate):
+        expected_weekday = random_hdate._gdate.weekday() + 2
+        expected_weekday = expected_weekday if expected_weekday < 8 else 1
+        assert random_hdate._weekday == expected_weekday
+
+    @pytest.mark.parametrize('execution_number', range(10))
+    def test_random_hdate(self, execution_number, random_hdate):
+        _hdate = hdate.HDate()
+        _hdate.hdate_set_hdate(random_hdate._h_day, random_hdate._h_month,
+                               random_hdate._h_year)
+        assert _hdate._h_day == random_hdate._h_day
+        assert _hdate._h_month == random_hdate._h_month
+        assert _hdate._h_year == random_hdate._h_year
+        assert _hdate.jdn == random_hdate.jdn
+        assert _hdate._weekday == random_hdate._weekday
+        assert _hdate._h_size_of_year == random_hdate._h_size_of_year
+        assert _hdate._h_year_type == random_hdate._h_year_type
+        assert _hdate._h_weeks == random_hdate._h_weeks
+        assert _hdate._gdate == random_hdate._gdate
+        assert _hdate._h_new_year_weekday == random_hdate._h_new_year_weekday
+
+    def test_hj_get_size_of_hebrew_year(self):
+        for year, info in HEBREW_YEARS_INFO.items():
+            assert hj.get_size_of_hebrew_year(year) == info[1]
+
+    @pytest.mark.parametrize('execution_number', range(10))
+    def test_hdate_get_size_of_hebrew_years(self, execution_number,
+                                            random_hdate):
+        assert (random_hdate._h_size_of_year ==
+                hj.get_size_of_hebrew_year(random_hdate._h_year))
+
+    def test_rosh_hashana_day_of_week(self, random_hdate):
+        for year, info in HEBREW_YEARS_INFO.items():
+            random_hdate.hdate_set_hdate(random_hdate._h_day,
+                                         random_hdate._h_month, year)
+            assert random_hdate._h_new_year_weekday == info[0]
+
+    def test_pesach_day_of_week(self, random_hdate):
+        for year, info in HEBREW_YEARS_INFO.items():
+            random_hdate.hdate_set_hdate(15, 7, year)
+            assert random_hdate._weekday == info[2]
+            assert random_hdate.get_holyday() == 15
+
+
+class TestSpecialDays(object):
+
     NON_MOVING_HOLIDAYS = [
         ((1, 1), 1, "Rosh Hashana"),
         ((2, 1), 2, "Rosh Hashana II"),
@@ -115,64 +171,6 @@ class TestHDate(object):
         ([15], 14, "Shushan Purim"),
         ([7], 34, "Memorial day for fallen whose place of burial is unknown"),
     ]
-
-    @pytest.fixture
-    def default_values(self):
-        return hdate.HDate()
-
-    @pytest.fixture
-    def random_hdate(self, random_date):
-        date = datetime.date(*random_date)
-        return hdate.HDate(date)
-
-    def test_default_weekday(self, default_values):
-        expected_weekday = datetime.datetime.today().weekday() + 2
-        expected_weekday = expected_weekday if expected_weekday < 8 else 1
-        assert default_values._weekday == expected_weekday
-
-    @pytest.mark.parametrize('execution_number', range(10))
-    def test_random_weekday(self, execution_number, random_hdate):
-        expected_weekday = random_hdate._gdate.weekday() + 2
-        expected_weekday = expected_weekday if expected_weekday < 8 else 1
-        assert random_hdate._weekday == expected_weekday
-
-    @pytest.mark.parametrize('execution_number', range(10))
-    def test_random_hdate(self, execution_number, random_hdate):
-        _hdate = hdate.HDate()
-        _hdate.hdate_set_hdate(random_hdate._h_day, random_hdate._h_month,
-                               random_hdate._h_year)
-        assert _hdate._h_day == random_hdate._h_day
-        assert _hdate._h_month == random_hdate._h_month
-        assert _hdate._h_year == random_hdate._h_year
-        assert _hdate.jdn == random_hdate.jdn
-        assert _hdate._weekday == random_hdate._weekday
-        assert _hdate._h_size_of_year == random_hdate._h_size_of_year
-        assert _hdate._h_year_type == random_hdate._h_year_type
-        assert _hdate._h_weeks == random_hdate._h_weeks
-        assert _hdate._gdate == random_hdate._gdate
-        assert _hdate._h_new_year_weekday == random_hdate._h_new_year_weekday
-
-    def test_hj_get_size_of_hebrew_year(self):
-        for year, info in HEBREW_YEARS_INFO.items():
-            assert hj.get_size_of_hebrew_year(year) == info[1]
-
-    @pytest.mark.parametrize('execution_number', range(10))
-    def test_hdate_get_size_of_hebrew_years(self, execution_number,
-                                            random_hdate):
-        assert (random_hdate._h_size_of_year ==
-                hj.get_size_of_hebrew_year(random_hdate._h_year))
-
-    def test_rosh_hashana_day_of_week(self, random_hdate):
-        for year, info in HEBREW_YEARS_INFO.items():
-            random_hdate.hdate_set_hdate(random_hdate._h_day,
-                                         random_hdate._h_month, year)
-            assert random_hdate._h_new_year_weekday == info[0]
-
-    def test_pesach_day_of_week(self, random_hdate):
-        for year, info in HEBREW_YEARS_INFO.items():
-            random_hdate.hdate_set_hdate(15, 7, year)
-            assert random_hdate._weekday == info[2]
-            assert random_hdate.get_holyday() == 15
 
     @pytest.mark.parametrize('date, holiday, name', NON_MOVING_HOLIDAYS)
     def test_get_holidays_non_moving(self, random_hdate, date, holiday, name):
