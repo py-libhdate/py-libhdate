@@ -123,9 +123,7 @@ def get_parashe(parasha, short=False, hebrew=True):
     res = PARASHAOT[is_hebrew][parasha]
     if is_short:
         return res
-    if is_hebrew:
-        return "{} {}".format("פרשת" if is_hebrew else "Parashat", res)
-    return
+    return "{} {}".format("פרשת" if is_hebrew else "Parashat", res)
 
 
 def get_zmanim_string(zmanim, hebrew=True):

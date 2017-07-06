@@ -2,6 +2,7 @@
 
 import pytest
 import hdate.hdate_string as hs
+import hdate.htables as ht
 
 import random
 
@@ -68,3 +69,32 @@ class TestHebrewNumbers(object):
     def test_hebrew_number_hebrew_false(self):
         number = random.randint(0, 100000)
         assert hs.hebrew_number(number, hebrew=False) == str(number)
+
+
+class TestParasha(object):
+    """Test parasha strings"""
+
+    def test_get_parasha_default_args(self):
+        parasha = random.randint(0, 61)
+        assert hs.get_parashe(parasha) == hs.get_parashe(parasha, short=False,
+                                                         hebrew=True)
+
+    def test_get_parasha_hebrew_long(self):
+        parasha = random.randint(0, 61)
+        parasha_string = hs.get_parashe(parasha, short=False, hebrew=True)
+        assert parasha_string.decode("utf-8")[:4] == "פרשת".decode("utf-8")
+
+    def test_get_parasha_hebrew_short(self):
+        parasha = random.randint(0, 61)
+        parasha_string = hs.get_parashe(parasha, short=True, hebrew=True)
+        assert parasha_string == ht.PARASHAOT[1][parasha]
+
+    def test_get_parasha_english_long(self):
+        parasha = random.randint(0, 61)
+        parasha_string = hs.get_parashe(parasha, short=False, hebrew=False)
+        assert parasha_string == "Parashat {}".format(ht.PARASHAOT[0][parasha])
+
+    def test_get_parasha_english_short(self):
+        parasha = random.randint(0, 61)
+        parasha_string = hs.get_parashe(parasha, short=True, hebrew=False)
+        assert parasha_string == ht.PARASHAOT[0][parasha]
