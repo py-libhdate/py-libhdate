@@ -197,6 +197,12 @@ class HDate(object):
 
     def hdate_set_hdate(self, day, month, year):
         """Set the dates of the HDate object based on a given Hebrew date."""
+        # sanity check
+        if not 0 < month < 15:
+            raise ValueError('month ({}) legal values are 1-14'.format(month))
+        if not 0 < day < 31:
+            raise ValueError('day ({}) legal values are 1-31'.format(day))
+
         jdn = hj.hdate_to_jdn(day, month, year)
         self.hdate_set_jdn(jdn)
 
@@ -213,12 +219,6 @@ class HDate(object):
     def get_holyday(self):
         """Return the number of holyday."""
         diaspora = self._diaspora
-        holyday = 0
-        # sanity check
-        if (self._h_month < 1 or self._h_month > 14 or self._h_day < 1 or
-                self._h_day > 30):
-            return 0
-
         holyday = HOLYDAYS_TABLE[self._h_month - 1][self._h_day - 1]
 
         # if tzom on sat delay one day
