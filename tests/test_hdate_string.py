@@ -44,21 +44,27 @@ class TestHebrewNumbers(object):
     """Test hebrew_number"""
 
     NUMBERS = [
-        (1, "א'"),
-        (9, "ט'"),
-        (10, "י'"),
-        (11, "י\"א"),
-        (15, "ט\"ו"),
-        (127, "קכ\"ז"),
-        (435, "תל\"ה"),
-        (770, "תש\"ע"),
-        (969, "תתקס\"ט"),
-        (1015, "א' ט\"ו")
+        (1, "א'", "א"),
+        (9, "ט'", "ט"),
+        (10, "י'", "י"),
+        (11, "י\"א", "יא"),
+        (15, "ט\"ו", "טו"),
+        (127, "קכ\"ז", "קכז"),
+        (435, "תל\"ה", "תלה"),
+        (770, "תש\"ע", "תשע"),
+        (969, "תתקס\"ט", "תתקסט"),
+        (1015, "א' ט\"ו", "א' טו")
     ]
 
-    @pytest.mark.parametrize("number,expected_string", NUMBERS)
-    def test_hebrew_number(self, number, expected_string):
+    @pytest.mark.parametrize("number,expected_string,expected_short", NUMBERS)
+    def test_hebrew_number(self, number, expected_string, expected_short):
         assert hs.hebrew_number(number) == expected_string.decode("utf-8")
+
+    @pytest.mark.parametrize("number,expected_string,expected_short", NUMBERS)
+    def test_hebrew_number_short_true(self, number, expected_string,
+                                      expected_short):
+        assert (hs.hebrew_number(number, short=True) ==
+                expected_short.decode("utf-8"))
 
     def test_illegal_value(self):
         with pytest.raises(ValueError):
@@ -69,6 +75,11 @@ class TestHebrewNumbers(object):
     def test_hebrew_number_hebrew_false(self):
         number = random.randint(0, 100000)
         assert hs.hebrew_number(number, hebrew=False) == str(number)
+
+    def test_hebrew_number_hebrew_false_short_true(self):
+        number = random.randint(0, 100000)
+        assert (hs.hebrew_number(number, hebrew=False, short=True) ==
+                str(number))
 
 
 class TestParasha(object):
