@@ -229,7 +229,7 @@ class TestHDate(object):
         myhdate = hdate.HDate()
         myhdate.hdate_set_hdate(3, 4, year)
         print year_size
-        if year_size in [353,383]:
+        if year_size in [353, 383]:
             assert myhdate.get_holyday() == 9
         else:
             assert myhdate.get_holyday() == 0
