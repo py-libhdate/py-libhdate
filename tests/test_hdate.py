@@ -303,3 +303,26 @@ class TestSpecialDays(object):
         # whose burial place is unknown)
         if holyday in [33, 34, 35, 36]:
             assert hdate.get_holyday_type(holyday) == 9
+
+
+class TestHDateReading(object):
+
+    READINGS_FOR_YEAR_ISRAEL = [
+        (5777, 27, [range(1, 22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                    range(34, 42), [60], range(44, 51), [61, 53, 0, 0]])
+    ]
+
+    @pytest.mark.parametrize("year, shabbat_bereshit, parshiyot",
+                             READINGS_FOR_YEAR_ISRAEL)
+    def test_get_reading(self, year, shabbat_bereshit, parshiyot):
+        mydate = hdate.HDate()
+        mydate.hdate_set_hdate(shabbat_bereshit, 1, year)
+        gdate = mydate._gdate
+        shabatot = [item for subl in parshiyot for item in subl]
+        for shabat in shabatot:
+            assert mydate.get_reading(diaspora=False) == shabat
+            gdate += datetime.timedelta(days=7)
+            mydate = hdate.HDate(gdate)
+        mydate.hdate_set_hdate(22, 1, year + 1)
+        # VeZot Habracha in Israel always falls on 22 of Tishri
+        assert mydate.get_reading(diaspora=False) == 54
