@@ -309,7 +309,9 @@ class TestHDateReading(object):
 
     READINGS_FOR_YEAR_ISRAEL = [
         (5777, 27, [range(1, 22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
-                    range(34, 42), [60], range(44, 51), [61, 53, 0, 0]])
+                    range(34, 42), [60], range(44, 51), [61, 53, 0, 0]]),
+        (5778, 24, [range(1, 22), [55, 24, 25, 0, 26, 56, 57],
+                    range(31, 42), [60], range(44, 54), [0]])
     ]
 
     @pytest.mark.parametrize("year, shabbat_bereshit, parshiyot",
