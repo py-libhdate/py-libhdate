@@ -328,3 +328,17 @@ class TestHDateReading(object):
         mydate.hdate_set_hdate(22, 1, year + 1)
         # VeZot Habracha in Israel always falls on 22 of Tishri
         assert mydate.get_reading(diaspora=False) == 54
+
+    def test_get_reading_weekday(self, random_date):
+        date = datetime.date(*random_date)
+        if date.weekday() == 5:
+            date += datetime.timedelta(days=1)
+
+        mydate = hdate.HDate(date)
+        if mydate._h_month == 1 and mydate._h_day == 22:
+            date += datetime.timedelta(days=1)
+            if date.weekday() == 5:
+                date += datetime.timedelta(days=1)
+
+            mydate = hdate.HDate(date)
+        assert mydate.get_reading(diaspora=False) == 0
