@@ -307,27 +307,70 @@ class TestSpecialDays(object):
 
 class TestHDateReading(object):
 
-    READINGS_FOR_YEAR_ISRAEL = [
-        (5777, 27, [range(1, 22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
-                    range(34, 42), [60], range(44, 51), [61, 53, 0, 0]]),
-        (5778, 24, [range(1, 22), [55, 24, 25, 0, 26, 56, 57],
-                    range(31, 42), [60], range(44, 54), [0]])
+    READINGS_FOR_YEAR_DIASPORA = [
+        (5756, [[52, 53], range(22),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58, 34, 0], range(35, 39),
+                [59, 41, 60], range(44, 51), [61]]),
+        (5775, [[53, 0], range(22), [55, 24, 25, 0, 0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 51)])
+
     ]
 
-    @pytest.mark.parametrize("year, shabbat_bereshit, parshiyot",
-                             READINGS_FOR_YEAR_ISRAEL)
-    def test_get_reading(self, year, shabbat_bereshit, parshiyot):
+    READINGS_FOR_YEAR_ISRAEL = [
+        (5753, [[52, 53], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 51), [61]]),
+        (5754, [[53, 0], range(26), [0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 54)]),
+        (5756, [[52, 53], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 51), [61]]),
+        (5775, [[53, 0], range(22), [55, 24, 25, 0, 26, 56, 57],
+                range(31, 42), [60], range(44, 51)]),
+        (5761, [[0, 53, 0, 54], range(1, 22),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58], range(34, 42), [60],
+                range(44, 52)]),
+        (5777, [[52, 53], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 51), [61]]),
+        (5778, [[53, 0], range(22), [55, 24, 25, 0, 26, 56, 57],
+                range(31, 42), [60], range(44, 54)])
+    ]
+
+    @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_ISRAEL)
+    def test_get_reading_israel(self, year, parshiyot):
         mydate = hdate.HDate()
-        mydate.hdate_set_hdate(shabbat_bereshit, 1, year)
-        gdate = mydate._gdate
+        mydate.hdate_set_hdate(1, 1, year)
+
+        # Get next Saturday
+        tdelta = datetime.timedelta((12 - mydate._gdate.weekday()) % 7)
+        gdate = mydate._gdate + tdelta
+        mydate = hdate.HDate(gdate)
+
         shabatot = [item for subl in parshiyot for item in subl]
         for shabat in shabatot:
             assert mydate.get_reading(diaspora=False) == shabat
             gdate += datetime.timedelta(days=7)
             mydate = hdate.HDate(gdate)
-        mydate.hdate_set_hdate(22, 1, year + 1)
+        mydate.hdate_set_hdate(22, 1, year)
         # VeZot Habracha in Israel always falls on 22 of Tishri
         assert mydate.get_reading(diaspora=False) == 54
+
+    @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_DIASPORA)
+    def test_get_reading_diaspora(self, year, parshiyot):
+        mydate = hdate.HDate()
+        mydate.hdate_set_hdate(1, 1, year)
+
+        # Get next Saturday
+        tdelta = datetime.timedelta((12 - mydate._gdate.weekday()) % 7)
+        gdate = mydate._gdate + tdelta
+        mydate = hdate.HDate(gdate)
+
+        shabatot = [item for subl in parshiyot for item in subl]
+        for shabat in shabatot:
+            assert mydate.get_reading(diaspora=True) == shabat
+            gdate += datetime.timedelta(days=7)
+            mydate = hdate.HDate(gdate)
+        mydate.hdate_set_hdate(23, 1, year)
+        # VeZot Habracha in Israel always falls on 22 of Tishri
+        assert mydate.get_reading(diaspora=True) == 54
 
     def test_get_reading_weekday(self, random_date):
         date = datetime.date(*random_date)
