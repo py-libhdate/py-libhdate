@@ -395,6 +395,9 @@ class HDate(object):
             # Succot
             return 0
         elif self._h_weeks == 4:
+            if self._h_new_year_weekday == 7:
+                # Not simhat tora in diaspora
+                return 0
             return 1
         else:
             # simhat tora on week 4 bereshit too
