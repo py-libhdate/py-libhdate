@@ -395,12 +395,6 @@ class HDate(object):
             # Succot
             return 0
         elif self._h_weeks == 4:
-            if self._h_new_year_weekday == 7:
-                # Simhat tora in israel
-                if not diaspora:
-                    return 54
-                # Not simhat tora in diaspora
-                return 0
             return 1
         else:
             # simhat tora on week 4 bereshit too
@@ -485,11 +479,8 @@ class HDate(object):
                 else:
                     reading += 1
             if (JOIN_FLAGS[diaspora][self._h_year_type - 1][6] and
-                    (reading >= 51)):
-                if reading == 51:
-                    return 61
-                else:
-                    reading += 1
+                    (reading == 51)):
+                return 61
         return reading
 
 
