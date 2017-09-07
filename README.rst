@@ -5,13 +5,15 @@ Jewish/Hebrew date and Zmanim in native python 2.7
 
 Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more details (including license)
 
-:: python
+.. code :: python
 
     >>> import hdate
     >>> import datetime
     >>> import geocity
-    >>> c=geocity.City(city='פתח תק')
-    >>> z=hdate.Zmanim(date=datetime.date(2016,4,18), latitude=c.latitude, longitude=c.longitude, timezone=c.timezone)
+    >>> c = geocity.City(city='פתח תק')
+    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18),
+                         latitude=c.latitude, longitude=c.longitude, 
+                         timezone=c.timezone)
     >>> z
     עלות השחר - 04:53
     זמן טלית ותפילין - 05:19
@@ -27,9 +29,11 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
     שקיעה - 19:10
     צאת הככבים - 19:35
     חצות הלילה - 00:39
-
-    z=hdate.Zmanim(date=datetime.date(2016,4,18), latitude=c.latitude, longitude=c.longitude, timezone=c.timezone, hebrew=False)
-
+    
+    z = hdate.Zmanim(date=datetime.date(2016, 4, 18),
+                     latitude=c.latitude, longitude=c.longitude, 
+                     timezone=c.timezone, hebrew=False)
+    
     >>> z
     Alot HaShachar - 04:53
     Talit & Tefilin's time - 05:19
@@ -45,11 +49,11 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
     sunset - 19:10
     first starts - 19:35
     midnight - 00:39
-
+    
     >>> h=hdate.HDate()
     >>> print h.to_string(hebrew=False)
     Monday 10 Nisan 5776
-
+    
     >>> h=hdate.HDate(datetime.date(2016, 4, 26))
     >>> print h.to_string()
     יום שלישי י"ח בניסן התשע"ו ג' בעומר חול המועד פסח
