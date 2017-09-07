@@ -15,7 +15,6 @@ setup(name='hdate',
       maintainer_email='ttmost@gmail.com',
       license='GPLv3+',
       packages=['hdate'],
-      install_requires=[
-        'python-dateutil',
-        ],
+      install_requires=['python-dateutil'],
+      extras_require={'dev': ['tox']},
       zip_safe=False)
