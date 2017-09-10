@@ -16,7 +16,6 @@ setup(name='hdate',
       license='GPLv3+',
       packages=['hdate'],
       install_requires=[
-          'future',
           'python-dateutil'
       ],
       extras_require={'dev': ['tox']},
