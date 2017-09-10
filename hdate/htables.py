@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 """Constant lookup tables for hdate modules."""
 
 # holydays table
@@ -99,187 +98,187 @@ JOIN_FLAGS = [
 ]
 
 DIGITS = [
-    [" ", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"],
-    ["ט", "י", "כ", "ל", "מ", "נ", "ס", "ע", "פ", "צ"],
-    [" ", "ק", "ר", "ש", "ת"]
+    [u" ", u"א", u"ב", u"ג", u"ד", u"ה", u"ו", u"ז", u"ח", u"ט"],
+    [u"ט", u"י", u"כ", u"ל", u"מ", u"נ", u"ס", u"ע", u"פ", u"צ"],
+    [u" ", u"ק", u"ר", u"ש", u"ת"]
 ]
 
 DAYS_TABLE = [
     [   # begin english long
-        ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
-         "Saturday"],
+        [u"Sunday", u"Monday", u"Tuesday", u"Wednesday", u"Thursday",
+         u"Friday", u"Saturday"],
         # begin english short
-        ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        [u"Sun", u"Mon", u"Tue", u"Wed", u"Thu", u"Fri", u"Sat"],
     ],
     [   # begin hebrew long
-        ["ראשון", "שני", "שלישי", "רביעי", "חמישי", "שישי", "שבת"],
+        [u"ראשון", u"שני", u"שלישי", u"רביעי", u"חמישי", u"שישי", u"שבת"],
         # begin hebrew short
-        ["א", "ב", "ג", "ד", "ה", "ו", "ש"]
+        [u"א", u"ב", u"ג", u"ד", u"ה", u"ו", u"ש"]
     ]
 ]
 
 PARASHAOT = [
     [  # begin english
-        "none", "Bereshit", "Noach",
-        "Lech-Lecha", "Vayera", "Chayei Sara",
-        "Toldot", "Vayetzei", "Vayishlach",
-        "Vayeshev", "Miketz", "Vayigash",     # 11
-        "Vayechi", "Shemot", "Vaera",
-        "Bo", "Beshalach", "Yitro",
-        "Mishpatim", "Terumah", "Tetzaveh",     # 20
-        "Ki Tisa", "Vayakhel", "Pekudei",
-        "Vayikra", "Tzav", "Shmini",
-        "Tazria", "Metzora", "Achrei Mot",
-        "Kedoshim", "Emor", "Behar",        # 32
-        "Bechukotai", "Bamidbar", "Nasso",
-        "Beha'alotcha", "Sh'lach", "Korach",
-        "Chukat", "Balak", "Pinchas",      # 41
-        "Matot", "Masei", "Devarim",
-        "Vaetchanan", "Eikev", "Re'eh",
-        "Shoftim", "Ki Teitzei", "Ki Tavo",      # 50
-        "Nitzavim", "Vayeilech", "Ha'Azinu",
-        "Vezot Habracha",                             # 54
-        "Vayakhel-Pekudei", "Tazria-Metzora", "Achrei Mot-Kedoshim",
-        "Behar-Bechukotai", "Chukat-Balak", "Matot-Masei",
-        "Nitzavim-Vayeilech"],
+        u"none", u"Bereshit", u"Noach",
+        u"Lech-Lecha", u"Vayera", u"Chayei Sara",
+        u"Toldot", u"Vayetzei", u"Vayishlach",
+        u"Vayeshev", u"Miketz", u"Vayigash",     # 11
+        u"Vayechi", u"Shemot", u"Vaera",
+        u"Bo", u"Beshalach", u"Yitro",
+        u"Mishpatim", u"Terumah", u"Tetzaveh",     # 20
+        u"Ki Tisa", u"Vayakhel", u"Pekudei",
+        u"Vayikra", u"Tzav", u"Shmini",
+        u"Tazria", u"Metzora", u"Achrei Mot",
+        u"Kedoshim", u"Emor", u"Behar",        # 32
+        u"Bechukotai", u"Bamidbar", u"Nasso",
+        u"Beha'alotcha", u"Sh'lach", u"Korach",
+        u"Chukat", u"Balak", u"Pinchas",      # 41
+        u"Matot", u"Masei", u"Devarim",
+        u"Vaetchanan", u"Eikev", u"Re'eh",
+        u"Shoftim", u"Ki Teitzei", u"Ki Tavo",      # 50
+        u"Nitzavim", u"Vayeilech", u"Ha'Azinu",
+        u"Vezot Habracha",                             # 54
+        u"Vayakhel-Pekudei", u"Tazria-Metzora", u"Achrei Mot-Kedoshim",
+        u"Behar-Bechukotai", u"Chukat-Balak", u"Matot-Masei",
+        u"Nitzavim-Vayeilech"],
     [     # begin hebrew
-        "none", "בראשית", "נח",
-        "לך לך", "וירא", "חיי שרה",
-        "תולדות", "ויצא", "וישלח",
-        "וישב", "מקץ", "ויגש",  # 11
-        "ויחי", "שמות", "וארא",
-        "בא", "בשלח", "יתרו",
-        "משפטים", "תרומה", "תצוה",  # 20
-        "כי תשא", "ויקהל", "פקודי",
-        "ויקרא", "צו", "שמיני",
-        "תזריע", "מצורע", "אחרי מות",
-        "קדושים", "אמור", "בהר",  # 32
-        "בחוקתי", "במדבר", "נשא",
-        "בהעלתך", "שלח", "קרח",
-        "חקת", "בלק", "פנחס",  # 41
-        "מטות", "מסעי", "דברים",
-        "ואתחנן", "עקב", "ראה",
-        "שופטים", "כי תצא", "כי תבוא",  # 50
-        "נצבים", "וילך", "האזינו",
-        "וזאת הברכה",  # 54
-        "ויקהל-פקודי", "תזריע-מצורע", "אחרי מות-קדושים",
-        "בהר-בחוקתי", "חוקת-בלק", "מטות מסעי",
-        "נצבים-וילך"]
+        u"none", u"בראשית", u"נח",
+        u"לך לך", u"וירא", u"חיי שרה",
+        u"תולדות", u"ויצא", u"וישלח",
+        u"וישב", u"מקץ", u"ויגש",  # 11
+        u"ויחי", u"שמות", u"וארא",
+        u"בא", u"בשלח", u"יתרו",
+        u"משפטים", u"תרומה", u"תצוה",  # 20
+        u"כי תשא", u"ויקהל", u"פקודי",
+        u"ויקרא", u"צו", u"שמיני",
+        u"תזריע", u"מצורע", u"אחרי מות",
+        u"קדושים", u"אמור", u"בהר",  # 32
+        u"בחוקתי", u"במדבר", u"נשא",
+        u"בהעלתך", u"שלח", u"קרח",
+        u"חקת", u"בלק", u"פנחס",  # 41
+        u"מטות", u"מסעי", u"דברים",
+        u"ואתחנן", u"עקב", u"ראה",
+        u"שופטים", u"כי תצא", u"כי תבוא",  # 50
+        u"נצבים", u"וילך", u"האזינו",
+        u"וזאת הברכה",  # 54
+        u"ויקהל-פקודי", u"תזריע-מצורע", u"אחרי מות-קדושים",
+        u"בהר-בחוקתי", u"חוקת-בלק", u"מטות מסעי",
+        u"נצבים-וילך"]
 ]
 
 HEBREW_MONTHS = [
     [  # begin english
-        "Tishrei", "Cheshvan", "Kislev", "Tevet",
-        "Sh'vat", "Adar", "Nisan", "Iyyar",
-        "Sivan", "Tammuz", "Av", "Elul", "Adar I",
-        "Adar II"
+        u"Tishrei", u"Cheshvan", u"Kislev", u"Tevet",
+        u"Sh'vat", u"Adar", u"Nisan", u"Iyyar",
+        u"Sivan", u"Tammuz", u"Av", u"Elul", u"Adar I",
+        u"Adar II"
     ],
     [  # begin hebrew
-        "תשרי", "חשון", "כסלו", "טבת", "שבט", "אדר", "ניסן", "אייר",
-        "סיון", "תמוז", "אב", "אלול", "אדר א", "אדר ב"
+        u"תשרי", u"חשון", u"כסלו", u"טבת", u"שבט", u"אדר", u"ניסן", u"אייר",
+        u"סיון", u"תמוז", u"אב", u"אלול", u"אדר א", u"אדר ב"
     ]
 ]
 
 GREGORIAN_MONTHS = [  # NOT IN USE
     [
-        "January", "February", "March",
-        "April", "May", "June",
-        "July", "August", "September",
-        "October", "November", "December"
+        u"January", u"February", u"March",
+        u"April", u"May", u"June",
+        u"July", u"August", u"September",
+        u"October", u"November", u"December"
     ],
     [
-        "Jan", "Feb", "Mar", "Apr", "May",
-        "Jun", "Jul", "Aug", "Sep", "Oct",
-        "Nov", "Dec"
+        u"Jan", u"Feb", u"Mar", u"Apr", u"May",
+        u"Jun", u"Jul", u"Aug", u"Sep", u"Oct",
+        u"Nov", u"Dec"
     ]
 ]
 
 HOLIDAYS = [
     [  # begin english
         [  # begin english long
-            "Rosh Hashana I", "Rosh Hashana II",
-            "Tzom Gedaliah", "Yom Kippur",
-            "Sukkot", "Hol hamoed Sukkot",
-            "Hoshana raba", "Simchat Torah",
-            "Chanukah", "Asara B'Tevet",
-            "Tu B'Shvat", "Ta'anit Esther",
-            "Purim", "Shushan Purim",
-            "Pesach", "Hol hamoed Pesach",
-            "Yom HaAtzma'ut", "Lag B'Omer",
-            "Erev Shavuot", "Shavuot",
-            "Tzom Tammuz", "Tish'a B'Av",
-            "Tu B'Av", "Yom HaShoah",
-            "Yom HaZikaron", "Yom Yerushalayim",
-            "Shmini Atzeret", "Pesach VII",
-            "Pesach VIII", "Shavuot II",
-            "Sukkot II", "Pesach II",
-            "Family Day",
-            "Memorial day for fallen whose place of burial is unknown",
-            "Yitzhak Rabin memorial day", "Zeev Zhabotinsky day",
-            "Erev Yom Kippur"],
+            u"Rosh Hashana I", u"Rosh Hashana II",
+            u"Tzom Gedaliah", u"Yom Kippur",
+            u"Sukkot", u"Hol hamoed Sukkot",
+            u"Hoshana raba", u"Simchat Torah",
+            u"Chanukah", u"Asara B'Tevet",
+            u"Tu B'Shvat", u"Ta'anit Esther",
+            u"Purim", u"Shushan Purim",
+            u"Pesach", u"Hol hamoed Pesach",
+            u"Yom HaAtzma'ut", u"Lag B'Omer",
+            u"Erev Shavuot", u"Shavuot",
+            u"Tzom Tammuz", u"Tish'a B'Av",
+            u"Tu B'Av", u"Yom HaShoah",
+            u"Yom HaZikaron", u"Yom Yerushalayim",
+            u"Shmini Atzeret", u"Pesach VII",
+            u"Pesach VIII", u"Shavuot II",
+            u"Sukkot II", u"Pesach II",
+            u"Family Day",
+            u"Memorial day for fallen whose place of burial is unknown",
+            u"Yitzhak Rabin memorial day", u"Zeev Zhabotinsky day",
+            u"Erev Yom Kippur"],
         [  # begin english short
-            "Rosh Hashana I", "Rosh Hashana II",
-            "Tzom Gedaliah", "Yom Kippur",
-            "Sukkot", "Hol hamoed Sukkot",
-            "Hoshana raba", "Simchat Torah",
-            "Chanukah", "Asara B'Tevet",      # 10
-            "Tu B'Shvat", "Ta'anit Esther",
-            "Purim", "Shushan Purim",
-            "Pesach", "Hol hamoed Pesach",
-            "Yom HaAtzma'ut", "Lag B'Omer",
-            "Erev Shavuot", "Shavuot",            # 20
-            "Tzom Tammuz", "Tish'a B'Av",
-            "Tu B'Av", "Yom HaShoah",
-            "Yom HaZikaron", "Yom Yerushalayim",
-            "Shmini Atzeret", "Pesach VII",
-            "Pesach VIII", "Shavuot II",         # 30
-            "Sukkot II", "Pesach II",
-            "Family Day",
-            "Memorial day for fallen whose place of burial is unknown",
-            "Rabin memorial day", "Zhabotinsky day",
-            "Erev Yom Kippur"]
+            u"Rosh Hashana I", u"Rosh Hashana II",
+            u"Tzom Gedaliah", u"Yom Kippur",
+            u"Sukkot", u"Hol hamoed Sukkot",
+            u"Hoshana raba", u"Simchat Torah",
+            u"Chanukah", u"Asara B'Tevet",      # 10
+            u"Tu B'Shvat", u"Ta'anit Esther",
+            u"Purim", u"Shushan Purim",
+            u"Pesach", u"Hol hamoed Pesach",
+            u"Yom HaAtzma'ut", u"Lag B'Omer",
+            u"Erev Shavuot", u"Shavuot",            # 20
+            u"Tzom Tammuz", u"Tish'a B'Av",
+            u"Tu B'Av", u"Yom HaShoah",
+            u"Yom HaZikaron", u"Yom Yerushalayim",
+            u"Shmini Atzeret", u"Pesach VII",
+            u"Pesach VIII", u"Shavuot II",         # 30
+            u"Sukkot II", u"Pesach II",
+            u"Family Day",
+            u"Memorial day for fallen whose place of burial is unknown",
+            u"Rabin memorial day", u"Zhabotinsky day",
+            u"Erev Yom Kippur"]
     ],
     [  # begin hebrew
         [  # begin hebrew long
-            "א' ראש השנה", "ב' ראש השנה",
-            "צום גדליה", "יום הכפורים",
-            "סוכות", "חול המועד סוכות",
-            "הושענא רבה", "שמחת תורה",
-            "חנוכה", "צום עשרה בטבת",  # 10
-            "ט\"ו בשבט", "תענית אסתר",
-            "פורים", "שושן פורים",
-            "פסח", "חול המועד פסח",
-            "יום העצמאות", "ל\"ג בעומר",
-            "ערב שבועות", "שבועות",  # 20
-            "צום שבעה עשר בתמוז", "תשעה באב",
-            "ט\"ו באב", "יום השואה",
-            "יום הזכרון", "יום ירושלים",
-            "שמיני עצרת", "שביעי פסח",
-            "אחרון של פסח", "שני של שבועות",  # 30
-            "שני של סוכות", "שני של פסח",
-            "יום המשפחה", "יום זכרון...",
-            "יום הזכרון ליצחק רבין", "יום ז\'בוטינסקי",
-            "עיוה\"כ"],
+            u"א' ראש השנה", u"ב' ראש השנה",
+            u"צום גדליה", u"יום הכפורים",
+            u"סוכות", u"חול המועד סוכות",
+            u"הושענא רבה", u"שמחת תורה",
+            u"חנוכה", u"צום עשרה בטבת",  # 10
+            u"ט\"ו בשבט", u"תענית אסתר",
+            u"פורים", u"שושן פורים",
+            u"פסח", u"חול המועד פסח",
+            u"יום העצמאות", u"ל\"ג בעומר",
+            u"ערב שבועות", u"שבועות",  # 20
+            u"צום שבעה עשר בתמוז", u"תשעה באב",
+            u"ט\"ו באב", u"יום השואה",
+            u"יום הזכרון", u"יום ירושלים",
+            u"שמיני עצרת", u"שביעי פסח",
+            u"אחרון של פסח", u"שני של שבועות",  # 30
+            u"שני של סוכות", u"שני של פסח",
+            u"יום המשפחה", u"יום זכרון...",
+            u"יום הזכרון ליצחק רבין", u"יום ז\'בוטינסקי",
+            u"עיוה\"כ"],
         [  # begin hebrew short
-            "א ר\"ה", "ב' ר\"ה",
-            "צום גדליה", "יוה\"כ",
-            "סוכות", "חוה\"מ סוכות",
-            "הוש\"ר", "שמח\"ת",
-            "חנוכה", "י' בטבת",  # 10
-            "ט\"ו בשבט", "תענית אסתר",
-            "פורים", "שושן פורים",
-            "פסח", "חוה\"מ פסח",
-            "יום העצמאות", "ל\"ג בעומר",
-            "ערב שבועות", "שבועות",  # 20
-            "צום תמוז", "ט' באב",
-            "ט\"ו באב", "יום השואה",
-            "יום הזכרון", "יום י-ם",
-            "שמיני עצרת", "ז' פסח",
-            "אחרון של פסח", "ב' שבועות",  # 30
-            "ב' סוכות", "ב' פסח",
-            "יום המשפחה", "יום זכרון...",
-            "יום הזכרון ליצחק רבין", "יום ז\'בוטינסקי",
-            "עיוה\"כ"]
+            u"א ר\"ה", u"ב' ר\"ה",
+            u"צום גדליה", u"יוה\"כ",
+            u"סוכות", u"חוה\"מ סוכות",
+            u"הוש\"ר", u"שמח\"ת",
+            u"חנוכה", u"י' בטבת",  # 10
+            u"ט\"ו בשבט", u"תענית אסתר",
+            u"פורים", u"שושן פורים",
+            u"פסח", u"חוה\"מ פסח",
+            u"יום העצמאות", u"ל\"ג בעומר",
+            u"ערב שבועות", u"שבועות",  # 20
+            u"צום תמוז", u"ט' באב",
+            u"ט\"ו באב", u"יום השואה",
+            u"יום הזכרון", u"יום י-ם",
+            u"שמיני עצרת", u"ז' פסח",
+            u"אחרון של פסח", u"ב' שבועות",  # 30
+            u"ב' סוכות", u"ב' פסח",
+            u"יום המשפחה", u"יום זכרון...",
+            u"יום הזכרון ליצחק רבין", u"יום ז\'בוטינסקי",
+            u"עיוה\"כ"]
     ]
 ]
 
