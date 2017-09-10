@@ -6,7 +6,6 @@ of the Jewish calendrical date and times for a given location
 """
 from __future__ import division
 
-from builtins import object  # pylint: disable=redefined-builtin
 import datetime
 import math
 from dateutil import tz

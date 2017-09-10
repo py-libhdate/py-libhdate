@@ -3,7 +3,6 @@
 """String functions returning the requested hebrew/english info."""
 from __future__ import division
 
-from builtins import str  # pylint: disable=redefined-builtin
 from hdate.htables import DIGITS, HEBREW_MONTHS, HOLIDAYS, PARASHAOT
 from hdate.htables import DAYS_TABLE, ZMANIM_TYPES, ZMANIM_STRING
 
