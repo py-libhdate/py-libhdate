@@ -6,10 +6,10 @@ of the Jewish calendrical date and times for a given location
 """
 from __future__ import division
 
-from builtins import object
-from past.utils import old_div
+from builtins import object  # pylint: disable=redefined-builtin
 import datetime
 import math
+from past.utils import old_div
 from dateutil import tz
 
 import hdate.hdate_julian as hj
@@ -118,9 +118,10 @@ class Zmanim(object):
 
         # the sun real time diff from noon at sunset/rise in radians
         try:
-            hour_angle = (math.acos(old_div(math.cos(sunrise_angle),
-                                    (math.cos(latitude) * math.cos(decl))) -
-                                    math.tan(latitude) * math.tan(decl)))
+            hour_angle = (math.acos(
+                old_div(math.cos(sunrise_angle),
+                        (math.cos(latitude) * math.cos(decl))) -
+                math.tan(latitude) * math.tan(decl)))
         # check for too high altitudes and return negative values
         except ValueError:
             return -720, -720

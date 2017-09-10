@@ -3,9 +3,9 @@
 
 """Methods for going back and forth between various calendars."""
 from __future__ import division
-
-
 from past.utils import old_div
+
+
 def get_chalakim(hours, parts):
     """Return the number of total parts (chalakim)."""
     return (hours * PARTS_IN_HOUR) + parts
@@ -24,7 +24,9 @@ def _days_from_3744(hebrew_year):
     molad_3744 = get_chalakim(1 + 6, 779)    # Molad 3744 + 6 hours in parts
 
     # Time in months
-    leap_months = old_div((years_from_3744 * 7 + 1), 19)  # Number of leap months
+
+    # Number of leap months
+    leap_months = old_div((years_from_3744 * 7 + 1), 19)
     leap_left = (years_from_3744 * 7 + 1) % 19    # Months left of leap cycle
     months = years_from_3744 * 12 + leap_months   # Total Number of months
 
@@ -101,7 +103,8 @@ def get_year_type(size_of_year, new_year_dw):
     # 2,3,5,7 -> 1,2,3,4
     # 353, 354, 355, 383, 384, 385 -> 0, 1, 2, 3, 4, 5
     offset = old_div((new_year_dw + 1), 2)
-    offset = offset + 4 * ((size_of_year % 10 - 3) + (old_div(size_of_year, 10) - 35))
+    offset = offset + 4 * ((size_of_year % 10 - 3) +
+                           (old_div(size_of_year, 10) - 35))
 
     return year_types[offset - 1]
 
@@ -116,7 +119,8 @@ def gdate_to_jdn(day, month, year):
     not_jan_or_feb = old_div((14 - month), 12)
     year_since_4800bc = year + 4800 - not_jan_or_feb
     month_since_4800bc = month + 12 * not_jan_or_feb - 3
-    jdn = day + old_div((153 * month_since_4800bc + 2), 5) + 365 * year_since_4800bc \
+    jdn = day + old_div((153 * month_since_4800bc + 2), 5) \
+        + 365 * year_since_4800bc \
         + (old_div(year_since_4800bc, 4) - old_div(year_since_4800bc, 100) +
            old_div(year_since_4800bc, 400)) - 32045
     return jdn
