@@ -10,11 +10,12 @@ def hebrew_number(num, hebrew=True, short=False):
     """Return "Gimatria" number."""
     if not hebrew:
         return str(num)
-    if num > 10000 or num < 0:
-        raise ValueError('num must be between 0 to 9999, got:{}'.format(num))
+    if not 0 < num < 10000:
+        raise ValueError('num must be between 1 to 9999, got:{}'.format(num))
     hstring = u''
     if num >= 1000:
         hstring += DIGITS[0][num / 1000].decode("utf-8")
+        hstring += "' ".decode("utf-8")
         num = num % 1000
     while num >= 400:
         hstring += DIGITS[2][4].decode("utf-8")
@@ -71,26 +72,27 @@ def get_omer_string(omer):
     tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
     ones = ["", "אחד", "שנים", "שלושה", "ארבעה", "חמשה",
             "ששה", "שבעה", "שמונה", "תשעה"]
-    if omer < 1 or omer > 49:
+    if not 0 < omer < 50:
         raise ValueError('Invalid Omer day: {}'.format(omer))
     ten = omer / 10
     one = omer % 10
     omer_string = 'היום '
-    if omer > 10 and omer < 20:
-        omer_string += ones[one] + ' עשר '
+    if 10 < omer < 20:
+        omer_string += ones[one] + ' עשר'
     elif omer > 9:
-        omer_string += tens[ten] + ' '
-        if one:
-            omer_string += 'ו'
-    if omer > 2:
         omer_string += ones[one]
+        if one:
+            omer_string += ' ו'
+    if omer > 2:
+        if omer > 20 or omer in [10, 20]:
+            omer_string += tens[ten]
         if omer < 11:
-            omer_string += ' ימים '
+            omer_string += ones[one] + ' ימים '
         else:
             omer_string += ' יום '
     elif omer == 1:
         omer_string += 'יום אחד '
-    elif omer == 2:
+    else:  # omer == 2
         omer_string += 'שני ימים '
     if omer > 6:
         omer_string += 'שהם '
@@ -100,7 +102,7 @@ def get_omer_string(omer):
             omer_string += ones[weeks] + ' שבועות '
         elif weeks == 1:
             omer_string += 'שבוע אחד '
-        elif weeks == 2:
+        else:  # weeks == 2
             omer_string += 'שני שבועות '
         if days:
             omer_string += 'ו'
@@ -108,7 +110,7 @@ def get_omer_string(omer):
                 omer_string += ones[days] + ' ימים '
             elif days == 1:
                 omer_string += 'יום אחד '
-            elif days == 2:
+            else:  # days == 2
                 omer_string += 'שני ימים '
     omer_string += 'לעומר'
     return omer_string
@@ -121,9 +123,7 @@ def get_parashe(parasha, short=False, hebrew=True):
     res = PARASHAOT[is_hebrew][parasha]
     if is_short:
         return res
-    if is_hebrew:
-        return "{} {}".format("פרשת" if is_hebrew else "Parashat", res)
-    return
+    return "{} {}".format("פרשת" if is_hebrew else "Parashat", res)
 
 
 def get_zmanim_string(zmanim, hebrew=True):

@@ -197,6 +197,12 @@ class HDate(object):
 
     def hdate_set_hdate(self, day, month, year):
         """Set the dates of the HDate object based on a given Hebrew date."""
+        # sanity check
+        if not 0 < month < 15:
+            raise ValueError('month ({}) legal values are 1-14'.format(month))
+        if not 0 < day < 31:
+            raise ValueError('day ({}) legal values are 1-31'.format(day))
+
         jdn = hj.hdate_to_jdn(day, month, year)
         self.hdate_set_jdn(jdn)
 
@@ -213,12 +219,6 @@ class HDate(object):
     def get_holyday(self):
         """Return the number of holyday."""
         diaspora = self._diaspora
-        holyday = 0
-        # sanity check
-        if (self._h_month < 1 or self._h_month > 14 or self._h_day < 1 or
-                self._h_day > 30):
-            return 0
-
         holyday = HOLYDAYS_TABLE[self._h_month - 1][self._h_day - 1]
 
         # if tzom on sat delay one day
@@ -255,7 +255,7 @@ class HDate(object):
 
         # yom ha azmaot and yom ha zicaron
         if holyday == 17:
-            if self._gdate.year < 1948:
+            if self._gdate.year < 1949:
                 holyday = 0
             elif self._gdate.year < 2004:
                 if (self._h_day == 3) and (self._weekday == 5):
@@ -324,14 +324,8 @@ class HDate(object):
                     holyday = 0
 
         # Zhabotinsky day, on years after 2005
-        if holyday == 36:
-            if self._gdate.year < 2005:
-                holyday = 0
-            else:
-                if (self._h_day == 30) and (self._weekday != 1):
-                    holyday = 0
-                if (self._h_day == 29) and (self._weekday == 7):
-                    holyday = 0
+        if holyday == 36 and self._gdate.year < 2005:
+            holyday = 0
 
         # diaspora holidays
 
@@ -402,9 +396,6 @@ class HDate(object):
             return 0
         elif self._h_weeks == 4:
             if self._h_new_year_weekday == 7:
-                # Simhat tora in israel
-                if not diaspora:
-                    return 54
                 # Not simhat tora in diaspora
                 return 0
             return 1
@@ -491,11 +482,8 @@ class HDate(object):
                 else:
                     reading += 1
             if (JOIN_FLAGS[diaspora][self._h_year_type - 1][6] and
-                    (reading >= 51)):
-                if reading == 51:
-                    return 61
-                else:
-                    reading += 1
+                    (reading == 51)):
+                return 61
         return reading
 
 

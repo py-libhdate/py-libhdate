@@ -1,8 +1,11 @@
+# -*- coding: utf-8 -*-
+
 import pytest
 import hdate
 import hdate.hdate_julian as hj
 
 import datetime
+import random
 
 
 HEBREW_YEARS_INFO = {
@@ -53,11 +56,6 @@ class TestHDate(object):
     def default_values(self):
         return hdate.HDate()
 
-    @pytest.fixture
-    def random_hdate(self, random_date):
-        date = datetime.date(*random_date)
-        return hdate.HDate(date)
-
     def test_default_weekday(self, default_values):
         expected_weekday = datetime.datetime.today().weekday() + 2
         expected_weekday = expected_weekday if expected_weekday < 8 else 1
@@ -107,59 +105,150 @@ class TestHDate(object):
             assert random_hdate._weekday == info[2]
             assert random_hdate.get_holyday() == 15
 
-    @pytest.mark.parametrize('execution_number', range(10))
-    def test_get_holidays(self, execution_number, random_hdate):
-        # random hebrew date in israel
-        random_hdate.hdate_set_hdate(1, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 1
-        assert random_hdate._weekday == random_hdate._h_new_year_weekday
-        random_hdate.hdate_set_hdate(2, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 2
-        random_hdate.hdate_set_hdate(9, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 37
-        random_hdate.hdate_set_hdate(10, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 4
-        # sukkot
-        random_hdate.hdate_set_hdate(15, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 5
-        for day in range(16, 20):
-            random_hdate.hdate_set_hdate(day, 1, random_hdate._h_year)
-            assert random_hdate.get_holyday() == 6
-        random_hdate.hdate_set_hdate(21, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 7
-        random_hdate.hdate_set_hdate(22, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 27
-        random_hdate.hdate_set_hdate(23, 1, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 0
-        # pesach
-        random_hdate.hdate_set_hdate(15, 7, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 15
-        for day in range(16, 20):
-            random_hdate.hdate_set_hdate(day, 7, random_hdate._h_year)
-            assert random_hdate.get_holyday() == 16
-        random_hdate.hdate_set_hdate(21, 7, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 28
-        random_hdate.hdate_set_hdate(22, 7, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 0
-        # shavuot
-        random_hdate.hdate_set_hdate(5, 9, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 19
-        random_hdate.hdate_set_hdate(6, 9, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 20
-        random_hdate.hdate_set_hdate(7, 9, random_hdate._h_year)
-        assert random_hdate.get_holyday() == 0
 
-        # Tsomot
-        random_hdate.hdate_set_hdate(3, 1, random_hdate._h_year)
-        if random_hdate._gdate.weekday() == 5:
-            assert random_hdate.get_holyday() == 0
+class TestSpecialDays(object):
+
+    NON_MOVING_HOLIDAYS = [
+        ((1, 1), 1, "Rosh Hashana"),
+        ((2, 1), 2, "Rosh Hashana II"),
+        ((9, 1), 37, "Erev Yom Kippur"),
+        ((10, 1), 4, "Yom Kippur"),
+        ((15, 1), 5, "Sukkot"),
+        ((17, 1), 6, "Chol Hamoed Sukkot"),
+        ((18, 1), 6, "Chol Hamoed Sukkot"),
+        ((19, 1), 6, "Chol Hamoed Sukkot"),
+        ((20, 1), 6, "Chol Hamoed Sukkot"),
+        ((21, 1), 7, "Hoshana Raba"),
+        ((22, 1), 27, "Shmini Atseret"),
+        ((15, 7), 15, "Pesach"),
+        ((17, 7), 16, "Chol Hamoed Pesach"),
+        ((18, 7), 16, "Chol Hamoed Pesach"),
+        ((19, 7), 16, "Chol Hamoed Pesach"),
+        ((20, 7), 16, "Chol Hamoed Pesach"),
+        ((21, 7), 28, "Shvi'i shel Pesach"),
+        ((5, 9), 19, "Erev Shavuot"),
+        ((6, 9), 20, "Shavuot"),
+
+        ((25, 3), 9, "Chanuka"),
+        ((26, 3), 9, "Chanuka"),
+        ((27, 3), 9, "Chanuka"),
+        ((28, 3), 9, "Chanuka"),
+        ((29, 3), 9, "Chanuka"),
+        ((1, 4), 9, "Chanuka"),
+        ((2, 4), 9, "Chanuka"),
+        ((10, 4), 10, "Asara b'Tevet"),
+        ((15, 5), 11, "Tu b'Shvat"),
+        ((18, 8), 18, "Lag BaOmer"),
+        ((15, 11), 23, "Tu b'Av")
+    ]
+
+    DIASPORA_ISRAEL_HOLIDAYS = [
+        # Date, holiday in Diaspora, holiday in Israel
+        ((16, 1), 31, 6, "Sukkot II"),
+        ((23, 1), 8, 0, "Simchat Torah"),
+        ((16, 7), 32, 16, "Pesach II"),
+        ((22, 7), 29, 0, "Acharon Shel Pesach"),
+        ((7, 9), 30, 0, "Shavuot II")
+    ]
+
+    MOVING_HOLIDAYS = [
+        # Possible dates, test year range, holiday result, name
+        ([(3, 1), (4, 1)], (5000, 6500), 3, "Tsom Gedalya"),
+        ([(17, 10), (18, 10)], (5000, 6500), 21, "Shiva Asar b'Tamuz"),
+        ([(9, 11), (10, 11)], (5000, 6500), 22, "Tisha b'Av"),
+        ([(26, 7), (27, 7), (28, 7)], (5718, 6500), 24, "Yom Hasho'a"),
+        ([(3, 8), (4, 8), (5, 8)], (5709, 5763), 17, "Yom Ha'atsmaut"),
+        ([(3, 8), (4, 8), (5, 8), (6, 8)], (5764, 6500), 17, "Yom Ha'atsmaut"),
+        ([(2, 8), (3, 8), (4, 8)], (5709, 5763), 25, "Yom Hazikaron"),
+        ([(2, 8), (3, 8), (4, 8), (5, 8)], (5764, 6500), 25, "Yom Hazikaron"),
+        ([(28, 8)], (5728, 6500), 26, "Yom Yerushalayim"),
+        ([(11, 2), (12, 2)], (5758, 6500), 35, "Rabin Memorial day"),
+        ([(29, 10)], (5765, 6500), 36, "Zhabotinsky day"),
+        ([(30, 5)], (5000, 6500), 33, "Family day")
+    ]
+
+    ADAR_HOLIDAYS = [
+        ([11, 13], 12, "Taanit Esther"),
+        ([14], 13, "Purim"),
+        ([15], 14, "Shushan Purim"),
+        ([7], 34, "Memorial day for fallen whose place of burial is unknown"),
+    ]
+
+    @pytest.mark.parametrize('date, holiday, name', NON_MOVING_HOLIDAYS)
+    def test_get_holidays_non_moving(self, random_hdate, date, holiday, name):
+        random_hdate.hdate_set_hdate(*date, year=random_hdate._h_year)
+        assert random_hdate.get_holyday() == holiday
+
+    @pytest.mark.parametrize('date, diaspora_holiday, israel_holiday, name',
+                             DIASPORA_ISRAEL_HOLIDAYS)
+    def test_get_diaspora_israel_holidays(self, random_hdate, date,
+                                          diaspora_holiday, israel_holiday,
+                                          name):
+        random_hdate.hdate_set_hdate(*date, year=random_hdate._h_year)
+        assert random_hdate.get_holyday() == israel_holiday
+        random_hdate._diaspora = True
+        assert random_hdate.get_holyday() == diaspora_holiday
+
+    @pytest.mark.parametrize('possible_dates, years, holiday, name',
+                             MOVING_HOLIDAYS)
+    def test_get_holidays_moving(self, possible_dates, years, holiday, name):
+        found_matching_holiday = False
+        year = random.randint(*years)
+
+        print "Testing " + name + " for " + str(year)
+
+        for date in possible_dates:
+            date_under_test = hdate.HDate()
+            date_under_test.hdate_set_hdate(*date, year=year)
+            if date_under_test.get_holyday() == holiday:
+                for other in possible_dates:
+                    if other != date:
+                        other_date = hdate.HDate()
+                        other_date.hdate_set_hdate(*other, year=year)
+                        assert other_date.get_holyday() != holiday
+                found_matching_holiday = True
+
+        assert found_matching_holiday
+
+        # Test holiday == 0 before 'since'
+        # In case of yom hazikaron and yom ha'atsmaut don't test for the
+        # case of 0 between 5708 and 5764
+        if years[0] != 5000:
+            if years[0] == 5764 and holiday in [17, 25]:
+                return
+            year = random.randint(5000, years[0]-1)
+            print "Testing " + name + " for " + str(year)
+            for date in possible_dates:
+                date_under_test = hdate.HDate()
+                date_under_test.hdate_set_hdate(*date, year=year)
+                assert date_under_test.get_holyday() == 0
+
+    def test_get_holiday_hanuka_3rd_tevet(self):
+        year = random.randint(5000, 6000)
+        year_size = hj.get_size_of_hebrew_year(year)
+        myhdate = hdate.HDate()
+        myhdate.hdate_set_hdate(3, 4, year)
+        print year_size
+        if year_size in [353, 383]:
+            assert myhdate.get_holyday() == 9
         else:
-            assert random_hdate.get_holyday() == 3
-        random_hdate.hdate_set_hdate(4, 1, random_hdate._h_year)
-        if random_hdate._gdate.weekday() == 6:
-            assert random_hdate.get_holyday() == 3
-        else:
-            assert random_hdate.get_holyday() == 0
+            assert myhdate.get_holyday() == 0
+
+    @pytest.mark.parametrize('possible_days, holiday, name', ADAR_HOLIDAYS)
+    def test_get_holiday_adar(self, possible_days, holiday, name):
+        year = random.randint(5000, 6000)
+        year_size = hj.get_size_of_hebrew_year(year)
+        month = 6 if year_size < 360 else 14
+        myhdate = hdate.HDate()
+
+        for day in possible_days:
+            myhdate.hdate_set_hdate(day, month, year)
+            if day == 13 and myhdate._weekday == 7 and holiday == 12:
+                assert myhdate.get_holyday() == 0
+            elif day == 11 and myhdate._weekday != 5 and holiday == 12:
+                assert myhdate.get_holyday() == 0
+            else:
+                assert myhdate.get_holyday() == holiday
 
     @pytest.mark.parametrize('execution_number', range(10))
     def test_get_omer_day(self, execution_number, random_hdate):
@@ -216,3 +305,151 @@ class TestHDate(object):
         # whose burial place is unknown)
         if holyday in [33, 34, 35, 36]:
             assert hdate.get_holyday_type(holyday) == 9
+
+
+class TestHDateReading(object):
+
+    READINGS_FOR_YEAR_DIASPORA = [
+        # שנים מעוברות
+        # זשא
+        (5763, [[0, 53, 0], range(29), [0], range(29, 35), [0],
+                range(35, 39), [59, 41, 60], range(44, 51), [61]]),
+        # זחג
+        (5757, [[0, 53, 0], range(29), [0], range(29, 42), [60],
+                range(44, 51), [61]]),
+        # השג
+        (5774, [[53, 0], range(30), [0], range(30, 51), [61]]),
+        # החא
+        (5768, [[53, 0], range(30), [0], range(30, 51)]),
+        # גכז
+        (5755, [[52, 53], range(29), [0, 0], range(29, 42), [60],
+                range(44, 51)]),
+        # בשז
+        (5776, [[52, 53], range(29), [0, 0], range(29, 42), [60],
+                range(44, 51)]),
+        # בחה
+        (5749, [[52, 53], range(29), [0], range(29, 35), [0], range(35, 39),
+                [59, 41, 60], range(44, 51), [61]]),
+        # שנים פשוטות
+        # השא
+        (5754, [[53, 0], range(26), [0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 54)]),
+        # בשה
+        (5756, [[52, 53], range(22),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58, 34, 0], range(35, 39),
+                [59, 41, 60], range(44, 51), [61]]),
+        # זחא
+        (5761, [[0, 53, 0], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 52)]),
+        # גכה
+        (5769, [[52, 53], range(22),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58, 34, 0], range(35, 39),
+                [59, 41, 60], range(44, 51), [61]]),
+        # זשג
+        (5770, [[0, 53, 0], range(22),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58], range(34, 42), [60],
+                range(44, 51), [61]]),
+        # הכז
+        (5775, [[53, 0], range(22), [55, 24, 25, 0, 0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 51)]),
+        # בחג
+        (5777, [[52, 53], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 51), [61]])
+    ]
+
+    READINGS_FOR_YEAR_ISRAEL = [
+        # שנים מעוברות
+        # זשא
+        (5763, [[0, 53, 0, 54], range(1, 29), [0], range(29, 42), [60],
+                range(44, 51), [61]]),
+        # זחג
+        (5757, [[0, 53, 0, 54], range(1, 29), [0], range(29, 42), [60],
+                range(44, 51), [61]]),
+        # השג
+        (5774, [[53, 0], range(30), [0], range(30, 51), [61]]),
+        # החא
+        (5768, [[53, 0], range(30), [0], range(30, 51)]),
+        # גכז
+        (5755, [[52, 53], range(29), [0], range(29, 51)]),
+        # בשז
+        (5776, [[52, 53], range(29), [0], range(29, 51)]),
+        # בחה
+        (5749, [[52, 53], range(29), [0], range(29, 42), [60],
+                range(44, 51), [61]]),
+        # שנים פשוטות
+        # השא
+        (5754, [[53, 0], range(26), [0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 54)]),
+        # בשה
+        (5756, [[52, 53], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 51), [61]]),
+        # זחא
+        (5761, [[0, 53, 0, 54], range(1, 22),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58], range(34, 42), [60],
+                range(44, 52)]),
+        # גכה
+        (5769, [[52, 53], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 51), [61]]),
+        # זשג
+        (5770, [[0, 53, 0, 54], range(1, 22),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58], range(34, 42), [60],
+                range(44, 51), [61]]),
+        # הכז
+        (5775, [[53, 0], range(22), [55, 24, 25, 0, 26, 56, 57],
+                range(31, 42), [60], range(44, 51)]),
+        # בחג
+        (5777, [[52, 53], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                range(34, 42), [60], range(44, 51), [61]])
+    ]
+
+    @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_ISRAEL)
+    def test_get_reading_israel(self, year, parshiyot):
+        mydate = hdate.HDate()
+        mydate.hdate_set_hdate(1, 1, year)
+
+        # Get next Saturday
+        tdelta = datetime.timedelta((12 - mydate._gdate.weekday()) % 7)
+        gdate = mydate._gdate + tdelta
+        mydate = hdate.HDate(gdate)
+
+        shabatot = [item for subl in parshiyot for item in subl]
+        for shabat in shabatot:
+            assert mydate.get_reading(diaspora=False) == shabat
+            gdate += datetime.timedelta(days=7)
+            mydate = hdate.HDate(gdate)
+        mydate.hdate_set_hdate(22, 1, year)
+        # VeZot Habracha in Israel always falls on 22 of Tishri
+        assert mydate.get_reading(diaspora=False) == 54
+
+    @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_DIASPORA)
+    def test_get_reading_diaspora(self, year, parshiyot):
+        mydate = hdate.HDate()
+        mydate.hdate_set_hdate(1, 1, year)
+
+        # Get next Saturday
+        tdelta = datetime.timedelta((12 - mydate._gdate.weekday()) % 7)
+        gdate = mydate._gdate + tdelta
+        mydate = hdate.HDate(gdate)
+
+        shabatot = [item for subl in parshiyot for item in subl]
+        for shabat in shabatot:
+            assert mydate.get_reading(diaspora=True) == shabat
+            gdate += datetime.timedelta(days=7)
+            mydate = hdate.HDate(gdate)
+        mydate.hdate_set_hdate(23, 1, year)
+        # VeZot Habracha in Israel always falls on 22 of Tishri
+        assert mydate.get_reading(diaspora=True) == 54
+
+    def test_get_reading_weekday(self, random_date):
+        date = datetime.date(*random_date)
+        if date.weekday() == 5:
+            date += datetime.timedelta(days=1)
+
+        mydate = hdate.HDate(date)
+        if mydate._h_month == 1 and mydate._h_day == 22:
+            date += datetime.timedelta(days=1)
+            if date.weekday() == 5:
+                date += datetime.timedelta(days=1)
+
+            mydate = hdate.HDate(date)
+        assert mydate.get_reading(diaspora=False) == 0
