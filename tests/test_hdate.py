@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 
+from __future__ import print_function
+from builtins import str
+from builtins import range
+from builtins import object
 import pytest
 import hdate
 import hdate.hdate_julian as hj
@@ -39,7 +43,7 @@ class TestSetDate(object):
         # When calling set_date with no arguments we should get today's date
         assert hdate.set_date(randomday) == randomday
 
-    @pytest.mark.parametrize('execution_number', range(5))
+    @pytest.mark.parametrize('execution_number', list(range(5)))
     def test_random_datetime(self, execution_number, random_date):
         randomday = datetime.datetime(*random_date)
         # When calling set_date with no arguments we should get today's date
@@ -61,13 +65,13 @@ class TestHDate(object):
         expected_weekday = expected_weekday if expected_weekday < 8 else 1
         assert default_values._weekday == expected_weekday
 
-    @pytest.mark.parametrize('execution_number', range(10))
+    @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_random_weekday(self, execution_number, random_hdate):
         expected_weekday = random_hdate._gdate.weekday() + 2
         expected_weekday = expected_weekday if expected_weekday < 8 else 1
         assert random_hdate._weekday == expected_weekday
 
-    @pytest.mark.parametrize('execution_number', range(10))
+    @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_random_hdate(self, execution_number, random_hdate):
         _hdate = hdate.HDate()
         _hdate.hdate_set_hdate(random_hdate._h_day, random_hdate._h_month,
@@ -84,23 +88,23 @@ class TestHDate(object):
         assert _hdate._h_new_year_weekday == random_hdate._h_new_year_weekday
 
     def test_hj_get_size_of_hebrew_year(self):
-        for year, info in HEBREW_YEARS_INFO.items():
+        for year, info in list(HEBREW_YEARS_INFO.items()):
             assert hj.get_size_of_hebrew_year(year) == info[1]
 
-    @pytest.mark.parametrize('execution_number', range(10))
+    @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_hdate_get_size_of_hebrew_years(self, execution_number,
                                             random_hdate):
         assert (random_hdate._h_size_of_year ==
                 hj.get_size_of_hebrew_year(random_hdate._h_year))
 
     def test_rosh_hashana_day_of_week(self, random_hdate):
-        for year, info in HEBREW_YEARS_INFO.items():
+        for year, info in list(HEBREW_YEARS_INFO.items()):
             random_hdate.hdate_set_hdate(random_hdate._h_day,
                                          random_hdate._h_month, year)
             assert random_hdate._h_new_year_weekday == info[0]
 
     def test_pesach_day_of_week(self, random_hdate):
-        for year, info in HEBREW_YEARS_INFO.items():
+        for year, info in list(HEBREW_YEARS_INFO.items()):
             random_hdate.hdate_set_hdate(15, 7, year)
             assert random_hdate._weekday == info[2]
             assert random_hdate.get_holyday() == 15
@@ -195,7 +199,7 @@ class TestSpecialDays(object):
         found_matching_holiday = False
         year = random.randint(*years)
 
-        print "Testing " + name + " for " + str(year)
+        print("Testing " + name + " for " + str(year))
 
         for date in possible_dates:
             date_under_test = hdate.HDate()
@@ -217,7 +221,7 @@ class TestSpecialDays(object):
             if years[0] == 5764 and holiday in [17, 25]:
                 return
             year = random.randint(5000, years[0]-1)
-            print "Testing " + name + " for " + str(year)
+            print("Testing " + name + " for " + str(year))
             for date in possible_dates:
                 date_under_test = hdate.HDate()
                 date_under_test.hdate_set_hdate(*date, year=year)
@@ -228,7 +232,7 @@ class TestSpecialDays(object):
         year_size = hj.get_size_of_hebrew_year(year)
         myhdate = hdate.HDate()
         myhdate.hdate_set_hdate(3, 4, year)
-        print year_size
+        print(year_size)
         if year_size in [353, 383]:
             assert myhdate.get_holyday() == 9
         else:
@@ -250,16 +254,16 @@ class TestSpecialDays(object):
             else:
                 assert myhdate.get_holyday() == holiday
 
-    @pytest.mark.parametrize('execution_number', range(10))
+    @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_get_omer_day(self, execution_number, random_hdate):
         if (random_hdate._h_month not in [7, 8, 9] or
             random_hdate._h_month == 7 and random_hdate._h_day < 16 or
                 random_hdate._h_month == 9 and random_hdate._h_day > 5):
             assert random_hdate.get_omer_day() == 0
 
-        nissan = range(16, 30)
-        iyyar = range(1, 29)
-        sivan = range(1, 5)
+        nissan = list(range(16, 30))
+        iyyar = list(range(1, 29))
+        sivan = list(range(1, 5))
 
         for day in nissan:
             random_hdate.hdate_set_hdate(day, 7, random_hdate._h_year)
@@ -271,7 +275,7 @@ class TestSpecialDays(object):
             random_hdate.hdate_set_hdate(day, 9, random_hdate._h_year)
             assert random_hdate.get_omer_day() == day + 44
 
-    @pytest.mark.parametrize('execution_number', range(40))
+    @pytest.mark.parametrize('execution_number', list(range(40)))
     def test_get_holyday_type(self, execution_number):
         holyday = execution_number
         # regular day
@@ -312,94 +316,94 @@ class TestHDateReading(object):
     READINGS_FOR_YEAR_DIASPORA = [
         # שנים מעוברות
         # זשא
-        (5763, [[0, 53, 0], range(29), [0], range(29, 35), [0],
-                range(35, 39), [59, 41, 60], range(44, 51), [61]]),
+        (5763, [[0, 53, 0], list(range(29)), [0], list(range(29, 35)), [0],
+                list(range(35, 39)), [59, 41, 60], list(range(44, 51)), [61]]),
         # זחג
-        (5757, [[0, 53, 0], range(29), [0], range(29, 42), [60],
-                range(44, 51), [61]]),
+        (5757, [[0, 53, 0], list(range(29)), [0], list(range(29, 42)), [60],
+                list(range(44, 51)), [61]]),
         # השג
-        (5774, [[53, 0], range(30), [0], range(30, 51), [61]]),
+        (5774, [[53, 0], list(range(30)), [0], list(range(30, 51)), [61]]),
         # החא
-        (5768, [[53, 0], range(30), [0], range(30, 51)]),
+        (5768, [[53, 0], list(range(30)), [0], list(range(30, 51))]),
         # גכז
-        (5755, [[52, 53], range(29), [0, 0], range(29, 42), [60],
-                range(44, 51)]),
+        (5755, [[52, 53], list(range(29)), [0, 0], list(range(29, 42)), [60],
+                list(range(44, 51))]),
         # בשז
-        (5776, [[52, 53], range(29), [0, 0], range(29, 42), [60],
-                range(44, 51)]),
+        (5776, [[52, 53], list(range(29)), [0, 0], list(range(29, 42)), [60],
+                list(range(44, 51))]),
         # בחה
-        (5749, [[52, 53], range(29), [0], range(29, 35), [0], range(35, 39),
-                [59, 41, 60], range(44, 51), [61]]),
+        (5749, [[52, 53], list(range(29)), [0], list(range(29, 35)), [0], list(range(35, 39)),
+                [59, 41, 60], list(range(44, 51)), [61]]),
         # שנים פשוטות
         # השא
-        (5754, [[53, 0], range(26), [0, 26, 56, 57, 31, 58],
-                range(34, 42), [60], range(44, 54)]),
+        (5754, [[53, 0], list(range(26)), [0, 26, 56, 57, 31, 58],
+                list(range(34, 42)), [60], list(range(44, 54))]),
         # בשה
-        (5756, [[52, 53], range(22),
-                [55, 24, 25, 0, 26, 56, 57, 31, 58, 34, 0], range(35, 39),
-                [59, 41, 60], range(44, 51), [61]]),
+        (5756, [[52, 53], list(range(22)),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58, 34, 0], list(range(35, 39)),
+                [59, 41, 60], list(range(44, 51)), [61]]),
         # זחא
-        (5761, [[0, 53, 0], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
-                range(34, 42), [60], range(44, 52)]),
+        (5761, [[0, 53, 0], list(range(22)), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                list(range(34, 42)), [60], list(range(44, 52))]),
         # גכה
-        (5769, [[52, 53], range(22),
-                [55, 24, 25, 0, 26, 56, 57, 31, 58, 34, 0], range(35, 39),
-                [59, 41, 60], range(44, 51), [61]]),
+        (5769, [[52, 53], list(range(22)),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58, 34, 0], list(range(35, 39)),
+                [59, 41, 60], list(range(44, 51)), [61]]),
         # זשג
-        (5770, [[0, 53, 0], range(22),
-                [55, 24, 25, 0, 26, 56, 57, 31, 58], range(34, 42), [60],
-                range(44, 51), [61]]),
+        (5770, [[0, 53, 0], list(range(22)),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58], list(range(34, 42)), [60],
+                list(range(44, 51)), [61]]),
         # הכז
-        (5775, [[53, 0], range(22), [55, 24, 25, 0, 0, 26, 56, 57, 31, 58],
-                range(34, 42), [60], range(44, 51)]),
+        (5775, [[53, 0], list(range(22)), [55, 24, 25, 0, 0, 26, 56, 57, 31, 58],
+                list(range(34, 42)), [60], list(range(44, 51))]),
         # בחג
-        (5777, [[52, 53], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
-                range(34, 42), [60], range(44, 51), [61]])
+        (5777, [[52, 53], list(range(22)), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                list(range(34, 42)), [60], list(range(44, 51)), [61]])
     ]
 
     READINGS_FOR_YEAR_ISRAEL = [
         # שנים מעוברות
         # זשא
-        (5763, [[0, 53, 0, 54], range(1, 29), [0], range(29, 42), [60],
-                range(44, 51), [61]]),
+        (5763, [[0, 53, 0, 54], list(range(1, 29)), [0], list(range(29, 42)), [60],
+                list(range(44, 51)), [61]]),
         # זחג
-        (5757, [[0, 53, 0, 54], range(1, 29), [0], range(29, 42), [60],
-                range(44, 51), [61]]),
+        (5757, [[0, 53, 0, 54], list(range(1, 29)), [0], list(range(29, 42)), [60],
+                list(range(44, 51)), [61]]),
         # השג
-        (5774, [[53, 0], range(30), [0], range(30, 51), [61]]),
+        (5774, [[53, 0], list(range(30)), [0], list(range(30, 51)), [61]]),
         # החא
-        (5768, [[53, 0], range(30), [0], range(30, 51)]),
+        (5768, [[53, 0], list(range(30)), [0], list(range(30, 51))]),
         # גכז
-        (5755, [[52, 53], range(29), [0], range(29, 51)]),
+        (5755, [[52, 53], list(range(29)), [0], list(range(29, 51))]),
         # בשז
-        (5776, [[52, 53], range(29), [0], range(29, 51)]),
+        (5776, [[52, 53], list(range(29)), [0], list(range(29, 51))]),
         # בחה
-        (5749, [[52, 53], range(29), [0], range(29, 42), [60],
-                range(44, 51), [61]]),
+        (5749, [[52, 53], list(range(29)), [0], list(range(29, 42)), [60],
+                list(range(44, 51)), [61]]),
         # שנים פשוטות
         # השא
-        (5754, [[53, 0], range(26), [0, 26, 56, 57, 31, 58],
-                range(34, 42), [60], range(44, 54)]),
+        (5754, [[53, 0], list(range(26)), [0, 26, 56, 57, 31, 58],
+                list(range(34, 42)), [60], list(range(44, 54))]),
         # בשה
-        (5756, [[52, 53], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
-                range(34, 42), [60], range(44, 51), [61]]),
+        (5756, [[52, 53], list(range(22)), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                list(range(34, 42)), [60], list(range(44, 51)), [61]]),
         # זחא
-        (5761, [[0, 53, 0, 54], range(1, 22),
-                [55, 24, 25, 0, 26, 56, 57, 31, 58], range(34, 42), [60],
-                range(44, 52)]),
+        (5761, [[0, 53, 0, 54], list(range(1, 22)),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58], list(range(34, 42)), [60],
+                list(range(44, 52))]),
         # גכה
-        (5769, [[52, 53], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
-                range(34, 42), [60], range(44, 51), [61]]),
+        (5769, [[52, 53], list(range(22)), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                list(range(34, 42)), [60], list(range(44, 51)), [61]]),
         # זשג
-        (5770, [[0, 53, 0, 54], range(1, 22),
-                [55, 24, 25, 0, 26, 56, 57, 31, 58], range(34, 42), [60],
-                range(44, 51), [61]]),
+        (5770, [[0, 53, 0, 54], list(range(1, 22)),
+                [55, 24, 25, 0, 26, 56, 57, 31, 58], list(range(34, 42)), [60],
+                list(range(44, 51)), [61]]),
         # הכז
-        (5775, [[53, 0], range(22), [55, 24, 25, 0, 26, 56, 57],
-                range(31, 42), [60], range(44, 51)]),
+        (5775, [[53, 0], list(range(22)), [55, 24, 25, 0, 26, 56, 57],
+                list(range(31, 42)), [60], list(range(44, 51))]),
         # בחג
-        (5777, [[52, 53], range(22), [55, 24, 25, 0, 26, 56, 57, 31, 58],
-                range(34, 42), [60], range(44, 51), [61]])
+        (5777, [[52, 53], list(range(22)), [55, 24, 25, 0, 26, 56, 57, 31, 58],
+                list(range(34, 42)), [60], list(range(44, 51)), [61]])
     ]
 
     @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_ISRAEL)

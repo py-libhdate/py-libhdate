@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 
 """String functions returning the requested hebrew/english info."""
+from __future__ import division
 
+from builtins import str
+from past.utils import old_div
 from hdate.htables import DIGITS, HEBREW_MONTHS, HOLIDAYS, PARASHAOT
 from hdate.htables import DAYS_TABLE, ZMANIM_TYPES, ZMANIM_STRING
 
@@ -14,19 +17,19 @@ def hebrew_number(num, hebrew=True, short=False):
         raise ValueError('num must be between 1 to 9999, got:{}'.format(num))
     hstring = u''
     if num >= 1000:
-        hstring += DIGITS[0][num / 1000].decode("utf-8")
+        hstring += DIGITS[0][old_div(num, 1000)].decode("utf-8")
         hstring += "' ".decode("utf-8")
         num = num % 1000
     while num >= 400:
         hstring += DIGITS[2][4].decode("utf-8")
         num = num - 400
     if num >= 100:
-        hstring += DIGITS[2][num / 100].decode("utf-8")
+        hstring += DIGITS[2][old_div(num, 100)].decode("utf-8")
         num = num % 100
     if num >= 10:
         if num in [15, 16]:
             num = num - 9
-        hstring += DIGITS[1][num / 10].decode("utf-8")
+        hstring += DIGITS[1][old_div(num, 10)].decode("utf-8")
         num = num % 10
     if num > 0:
         hstring += DIGITS[0][num].decode("utf-8")
@@ -74,7 +77,7 @@ def get_omer_string(omer):
             "ששה", "שבעה", "שמונה", "תשעה"]
     if not 0 < omer < 50:
         raise ValueError('Invalid Omer day: {}'.format(omer))
-    ten = omer / 10
+    ten = old_div(omer, 10)
     one = omer % 10
     omer_string = 'היום '
     if 10 < omer < 20:
@@ -96,7 +99,7 @@ def get_omer_string(omer):
         omer_string += 'שני ימים '
     if omer > 6:
         omer_string += 'שהם '
-        weeks = omer / 7
+        weeks = old_div(omer, 7)
         days = omer % 7
         if weeks > 2:
             omer_string += ones[weeks] + ' שבועות '
