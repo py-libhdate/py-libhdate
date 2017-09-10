@@ -70,7 +70,7 @@ class TestHebrewNumbers(object):
         with pytest.raises(ValueError):
             hs.hebrew_number(random.randint(10000, 20000))
         with pytest.raises(ValueError):
-            hs.hebrew_number(random.randint(-100, 0))
+            hs.hebrew_number(random.randint(-100, -1))
 
     def test_hebrew_number_hebrew_false(self):
         number = random.randint(0, 100000)

@@ -9,7 +9,6 @@ from __future__ import division
 from builtins import object  # pylint: disable=redefined-builtin
 import datetime
 import math
-from past.utils import old_div
 from dateutil import tz
 
 import hdate.hdate_julian as hj
@@ -96,8 +95,8 @@ class Zmanim(object):
         # get the day of year
         day_of_year = self.gday_of_year()
 
-        # get radians of sun orbit around erth =)
-        gama = 2.0 * math.pi * (old_div((day_of_year - 1), 365.0))
+        # get radians of sun orbit around earth =)
+        gama = 2.0 * math.pi * ((day_of_year - 1) / 365.0)
 
         # get the diff betwen suns clock and wall clock in minutes
         eqtime = 229.18 * (0.000075 + 0.001868 * math.cos(gama) -
@@ -119,8 +118,8 @@ class Zmanim(object):
         # the sun real time diff from noon at sunset/rise in radians
         try:
             hour_angle = (math.acos(
-                old_div(math.cos(sunrise_angle),
-                        (math.cos(latitude) * math.cos(decl))) -
+                math.cos(sunrise_angle) //
+                (math.cos(latitude) * math.cos(decl)) -
                 math.tan(latitude) * math.tan(decl)))
         # check for too high altitudes and return negative values
         except ValueError:
@@ -140,15 +139,15 @@ class Zmanim(object):
         sunrise, sunset = self._get_utc_sun_time_deg(90.833)
 
         # shaa zmanit by gara, 1/12 of light time
-        sun_hour = old_div((sunset - sunrise), 12)
-        midday = old_div((sunset + sunrise), 2)
+        sun_hour = (sunset - sunrise) // 12
+        midday = (sunset + sunrise) // 2
 
         # get times of the different sun angles
         first_light, _n = self._get_utc_sun_time_deg(106.1)
         talit, _n = self._get_utc_sun_time_deg(101.0)
         _n, first_stars = self._get_utc_sun_time_deg(96.0)
         _n, three_stars = self._get_utc_sun_time_deg(98.5)
-        mga_sunhour = old_div((midday - first_light), 6.)
+        mga_sunhour = (midday - first_light) / 6
 
         res = dict(sunrise=sunrise, sunset=sunset, sun_hour=sun_hour,
                    midday=midday, first_light=first_light, talit=talit,
@@ -187,7 +186,7 @@ class HDate(object):
         self._h_year_type = hj.get_year_type(self._h_size_of_year,
                                              self._h_new_year_weekday)
         h_days = self.jdn - jdn_tishrey1
-        self._h_weeks = old_div((h_days + self._h_new_year_weekday - 1), 7) + 1
+        self._h_weeks = (h_days + self._h_new_year_weekday - 1) // 7 + 1
 
     def __repr__(self):
         """Return the Hebrew date as a string."""

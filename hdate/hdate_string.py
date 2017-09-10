@@ -4,7 +4,6 @@
 from __future__ import division
 
 from builtins import str  # pylint: disable=redefined-builtin
-from past.utils import old_div
 from hdate.htables import DIGITS, HEBREW_MONTHS, HOLIDAYS, PARASHAOT
 from hdate.htables import DAYS_TABLE, ZMANIM_TYPES, ZMANIM_STRING
 
@@ -13,23 +12,23 @@ def hebrew_number(num, hebrew=True, short=False):
     """Return "Gimatria" number."""
     if not hebrew:
         return str(num)
-    if not 0 < num < 10000:
-        raise ValueError('num must be between 1 to 9999, got:{}'.format(num))
-    hstring = u''
+    if not 0 <= num < 10000:
+        raise ValueError('num must be between 0 to 9999, got:{}'.format(num))
+    hstring = u""
     if num >= 1000:
-        hstring += DIGITS[0][old_div(num, 1000)]
+        hstring += DIGITS[0][num // 1000]
         hstring += u"' "
         num = num % 1000
     while num >= 400:
         hstring += DIGITS[2][4]
         num = num - 400
     if num >= 100:
-        hstring += DIGITS[2][old_div(num, 100)]
+        hstring += DIGITS[2][num // 100]
         num = num % 100
     if num >= 10:
         if num in [15, 16]:
             num = num - 9
-        hstring += DIGITS[1][old_div(num, 10)]
+        hstring += DIGITS[1][num // 10]
         num = num % 10
     if num > 0:
         hstring += DIGITS[0][num]
@@ -38,7 +37,7 @@ def hebrew_number(num, hebrew=True, short=False):
         if len(hstring) < 2:
             hstring += u"'"
         else:
-            hstring = hstring[:-1] + '"' + hstring[-1]
+            hstring = hstring[:-1] + u'"' + hstring[-1]
     return hstring
 
 
@@ -77,7 +76,7 @@ def get_omer_string(omer):
             u"ששה", u"שבעה", u"שמונה", u"תשעה"]
     if not 0 < omer < 50:
         raise ValueError('Invalid Omer day: {}'.format(omer))
-    ten = old_div(omer, 10)
+    ten = omer // 10
     one = omer % 10
     omer_string = u'היום '
     if 10 < omer < 20:
@@ -99,7 +98,7 @@ def get_omer_string(omer):
         omer_string += u'שני ימים '
     if omer > 6:
         omer_string += u'שהם '
-        weeks = old_div(omer, 7)
+        weeks = omer // 7
         days = omer % 7
         if weeks > 2:
             omer_string += ones[weeks] + u' שבועות '
