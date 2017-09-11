@@ -189,7 +189,7 @@ class HDate(object):
 
     def __repr__(self):
         """Return the Hebrew date as a string."""
-        return self.to_string(hebrew=self._hebrew)
+        return self.to_string(hebrew=self._hebrew).encode("utf-8")
 
     def to_string(self, short=False, hebrew=True):
         """Return the hebrew date as a string object."""
