@@ -2,6 +2,7 @@
 
 
 """Methods for going back and forth between various calendars."""
+from __future__ import division
 
 
 def get_chalakim(hours, parts):
@@ -22,7 +23,9 @@ def _days_from_3744(hebrew_year):
     molad_3744 = get_chalakim(1 + 6, 779)    # Molad 3744 + 6 hours in parts
 
     # Time in months
-    leap_months = (years_from_3744 * 7 + 1) / 19  # Number of leap months
+
+    # Number of leap months
+    leap_months = (years_from_3744 * 7 + 1) // 19
     leap_left = (years_from_3744 * 7 + 1) % 19    # Months left of leap cycle
     months = years_from_3744 * 12 + leap_months   # Total Number of months
 
@@ -30,13 +33,13 @@ def _days_from_3744(hebrew_year):
     # Molad This year + Molad 3744 - corrections
     parts = months * PARTS_IN_MONTH + molad_3744
     # 28 days in month + corrections
-    days = months * 28 + parts / PARTS_IN_DAY - 2
+    days = months * 28 + parts // PARTS_IN_DAY - 2
 
     # Time left for round date in corrections
     # 28 % 7 = 0 so only corrections counts
     parts_left_in_week = parts % PARTS_IN_WEEK
     parts_left_in_day = parts % PARTS_IN_DAY
-    week_day = parts_left_in_week / PARTS_IN_DAY
+    week_day = parts_left_in_week // PARTS_IN_DAY
 
     # pylint: disable=too-many-boolean-expressions
     # pylint-comment: Splitting the 'if' below might create a bug in case
@@ -98,8 +101,9 @@ def get_year_type(size_of_year, new_year_dw):
     # convert size and first day to 1..24 number
     # 2,3,5,7 -> 1,2,3,4
     # 353, 354, 355, 383, 384, 385 -> 0, 1, 2, 3, 4, 5
-    offset = (new_year_dw + 1) / 2
-    offset = offset + 4 * ((size_of_year % 10 - 3) + (size_of_year / 10 - 35))
+    offset = (new_year_dw + 1) // 2
+    offset = offset + 4 * ((size_of_year % 10 - 3) +
+                           (size_of_year // 10) - 35)
 
     return year_types[offset - 1]
 
@@ -111,12 +115,13 @@ def gdate_to_jdn(day, month, year):
     Algorithm from wikipedia's julian_day article.
     Return: The julian day number
     """
-    not_jan_or_feb = (14 - month) / 12
+    not_jan_or_feb = (14 - month) // 12
     year_since_4800bc = year + 4800 - not_jan_or_feb
     month_since_4800bc = month + 12 * not_jan_or_feb - 3
-    jdn = day + (153 * month_since_4800bc + 2) / 5 + 365 * year_since_4800bc \
-        + (year_since_4800bc / 4 - year_since_4800bc / 100 +
-           year_since_4800bc / 400) - 32045
+    jdn = day + (153 * month_since_4800bc + 2) // 5 \
+        + 365 * year_since_4800bc \
+        + (year_since_4800bc // 4 - year_since_4800bc // 100 +
+           year_since_4800bc // 400) - 32045
     return jdn
 
 
@@ -135,7 +140,7 @@ def hdate_to_jdn(day, month, year):
         day += 30
 
     # Calculate days since 1,1,3744
-    day = _days_from_3744(year) + (59 * (month - 1) + 1) / 2 + day
+    day = _days_from_3744(year) + (59 * (month - 1) + 1) // 2 + day
 
     # length of year
     length_of_year = get_size_of_hebrew_year(year)
@@ -165,13 +170,13 @@ def jdn_to_gdate(jdn):
     # Hence the exception for pylint
 
     l = jdn + 68569
-    n = (4 * l) / 146097
-    l = l - (146097 * n + 3) / 4
-    i = (4000 * (l + 1)) / 1461001  # that's 1,461,001
-    l = l - (1461 * i) / 4 + 31
-    j = (80 * l) / 2447
-    day = l - (2447 * j) / 80
-    l = j / 11
+    n = (4 * l) // 146097
+    l = l - (146097 * n + 3) // 4
+    i = (4000 * (l + 1)) // 1461001  # that's 1,461,001
+    l = l - (1461 * i) // 4 + 31
+    j = (80 * l) // 2447
+    day = l - (2447 * j) // 80
+    l = j // 11
     month = j + 2 - (12 * l)
     year = 100 * (n - 49) + i + l  # that's a lower-case L
 
@@ -200,11 +205,11 @@ def jdn_to_hdate(jdn):
     # days into this year, first month 0..29
     days = jdn - jdn_tishrey1
 
-    # last 8 months allways have 236 days
+    # last 8 months always have 236 days
     if days >= (size_of_year - 236):  # in last 8 months
         days = days - (size_of_year - 236)
-        month = days * 2 / 59
-        day = days - (month * 59 + 1) / 2 + 1
+        month = days * 2 // 59
+        day = days - (month * 59 + 1) // 2 + 1
 
         month = month + 4 + 1
 
@@ -217,14 +222,15 @@ def jdn_to_hdate(jdn):
             month = 1
             day = 30
         elif size_of_year % 10 > 4 and days > 59:  # long Heshvan
-            month = (days - 1) * 2 / 59
-            day = days - (month * 59 + 1) / 2
+            month = (days - 1) * 2 // 59
+            day = days - (month * 59 + 1) // 2
         elif size_of_year % 10 < 4 and days > 87:  # short kislev
-            month = (days + 1) * 2 / 59
-            day = days - (month * 59 + 1) / 2 + 2
+            month = (days + 1) * 2 // 59
+            day = days - (month * 59 + 1) // 2 + 2
         else:  # regular months
-            month = days * 2 / 59
-            day = days - (month * 59 + 1) / 2 + 1
+            month = days * 2 // 59
+            day = days - (month * 59 + 1) // 2 + 1
 
         month = month + 1
+
     return day, month, year

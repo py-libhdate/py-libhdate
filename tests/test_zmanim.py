@@ -8,7 +8,7 @@ import datetime
 
 class TestZmanim(object):
 
-    @pytest.mark.parametrize('execution_number', range(5))
+    @pytest.mark.parametrize('execution_number', list(range(5)))
     def test_same_doy_is_equal(self, execution_number, random_date):
         other_year = random.randint(500, 3000)
         shift_day = datetime.timedelta(days=0)

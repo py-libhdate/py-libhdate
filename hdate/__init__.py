@@ -4,6 +4,7 @@ Jewish calendrical date and times for a given location.
 HDate calculates and generates a represantation either in English or Hebrew
 of the Jewish calendrical date and times for a given location
 """
+from __future__ import division
 
 import datetime
 import math
@@ -93,7 +94,7 @@ class Zmanim(object):
         # get the day of year
         day_of_year = self.gday_of_year()
 
-        # get radians of sun orbit around erth =)
+        # get radians of sun orbit around earth =)
         gama = 2.0 * math.pi * ((day_of_year - 1) / 365.0)
 
         # get the diff betwen suns clock and wall clock in minutes
@@ -115,9 +116,10 @@ class Zmanim(object):
 
         # the sun real time diff from noon at sunset/rise in radians
         try:
-            hour_angle = (math.acos(math.cos(sunrise_angle) /
-                                    (math.cos(latitude) * math.cos(decl)) -
-                                    math.tan(latitude) * math.tan(decl)))
+            hour_angle = (math.acos(
+                math.cos(sunrise_angle) //
+                (math.cos(latitude) * math.cos(decl)) -
+                math.tan(latitude) * math.tan(decl)))
         # check for too high altitudes and return negative values
         except ValueError:
             return -720, -720
@@ -136,15 +138,15 @@ class Zmanim(object):
         sunrise, sunset = self._get_utc_sun_time_deg(90.833)
 
         # shaa zmanit by gara, 1/12 of light time
-        sun_hour = (sunset - sunrise) / 12
-        midday = (sunset + sunrise) / 2
+        sun_hour = (sunset - sunrise) // 12
+        midday = (sunset + sunrise) // 2
 
         # get times of the different sun angles
         first_light, _n = self._get_utc_sun_time_deg(106.1)
         talit, _n = self._get_utc_sun_time_deg(101.0)
         _n, first_stars = self._get_utc_sun_time_deg(96.0)
         _n, three_stars = self._get_utc_sun_time_deg(98.5)
-        mga_sunhour = (midday - first_light) / 6.
+        mga_sunhour = (midday - first_light) / 6
 
         res = dict(sunrise=sunrise, sunset=sunset, sun_hour=sun_hour,
                    midday=midday, first_light=first_light, talit=talit,
@@ -183,11 +185,11 @@ class HDate(object):
         self._h_year_type = hj.get_year_type(self._h_size_of_year,
                                              self._h_new_year_weekday)
         h_days = self.jdn - jdn_tishrey1
-        self._h_weeks = (h_days + self._h_new_year_weekday - 1) / 7 + 1
+        self._h_weeks = (h_days + self._h_new_year_weekday - 1) // 7 + 1
 
     def __repr__(self):
         """Return the Hebrew date as a string."""
-        return self.to_string(hebrew=self._hebrew).encode('utf-8')
+        return self.to_string(hebrew=self._hebrew).encode("utf-8")
 
     def to_string(self, short=False, hebrew=True):
         """Return the hebrew date as a string object."""
