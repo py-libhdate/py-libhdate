@@ -12,7 +12,7 @@ with open(path.join(here, 'README.rst'), encoding='utf-8') as f:
 
 
 setup(name='hdate',
-      version='0.4',
+      version='0.5',
       description='Hebrew date and Zmanim',
       long_description=long_description,
       url='https://github.com/royi1000/py-libhdate',
