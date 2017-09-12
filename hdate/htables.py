@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 """Constant lookup tables for hdate modules."""
 
+from collections import namedtuple
+
 # holydays table
 HOLYDAYS_TABLE = [
     [  # Tishrey
@@ -282,44 +284,20 @@ HOLIDAYS = [
     ]
 ]
 
-ZMANIM_TYPES = ['first_light', 'talit', 'sunrise',
-                'mga_end_shma', 'gra_end_shma', 'mga_end_tfila',
-                'gra_end_tfila', 'midday', 'big_mincha', 'small_mincha',
-                'plag_mincha', 'sunset', 'first_stars', 'midnight']
-
-ZMANIM_STRING = {
-    'heb':
-        {
-            'first_light':   'עלות השחר',
-            'talit':         'זמן טלית ותפילין',
-            'sunrise':       'הנץ החמה',
-            'sunset':        'שקיעה',
-            'first_stars':   'צאת הככבים',
-            'plag_mincha':   'פלג מנחה',
-            'big_mincha':    'מנחה גדולה',
-            'small_mincha':  'מנחה קטנה',
-            'mga_end_shma':  'סוף זמן ק"ש מג"א',
-            'gra_end_shma':  'סוף זמן ק"ש הגר"א',
-            'mga_end_tfila': 'סוף זמן תפילה מג"א',
-            'gra_end_tfila': 'סוף זמן תפילה גר"א',
-            'midnight':      'חצות הלילה',
-            'midday':        'חצות היום',
-        },
-    'eng':
-        {
-            'first_light':   'Alot HaShachar',
-            'talit':         'Talit & Tefilin\'s time',
-            'sunrise':       'sunrise',
-            'sunset':        'sunset',
-            'first_stars':   'first starts',
-            'plag_mincha':   'Plag Mincha',
-            'big_mincha':    'Big Mincha',
-            'small_mincha':  'Small Mincha',
-            'mga_end_shma':  'Shema EOT MG"A',
-            'gra_end_shma':  'Shema EOT GR"A',
-            'mga_end_tfila': 'Tefila EOT MG"A',
-            'gra_end_tfila': 'Tefila EOT GR"A',
-            'midnight':      'midnight',
-            'midday':        'midday',
-        }
-}
+ZMANIM = namedtuple('ZMANIM', 'zman, english, hebrew')
+ZMANIM_TUPLE = (
+    ZMANIM("first_light", u"Alot HaShachar", u"עלות השחר"),
+    ZMANIM("talit", u"Talit & Tefilin's time", u"זמן טלית ותפילין"),
+    ZMANIM("sunrise", u"Sunrise", u"הנץ החמה"),
+    ZMANIM("sunset", u"Sunset", u"שקיעה"),
+    ZMANIM("first_stars", u"First stars", u"צאת הככבים"),
+    ZMANIM("plag_mincha", u"Plag Mincha", u"פלג מנחה"),
+    ZMANIM("big_mincha", u"Big Mincha", u"מנחה גדולה"),
+    ZMANIM("small_mincha", u"Small Mincha", u"מנחה קטנה"),
+    ZMANIM("mga_end_shma", u"Shema EOT MG\"A", u"סוף זמן ק\"ש מג\"א"),
+    ZMANIM("gra_end_shma", u"Shema EOT GR\"A", u"סוף זמן ק\"ש הגר\"א"),
+    ZMANIM("mga_end_tfila", u"Tefila EOT MG\"A", u"סוף זמן תפילה מג\"א"),
+    ZMANIM("gra_end_tfila", u"Tefila EOT GR\"A", u"סוף זמן תפילה גר\"א"),
+    ZMANIM("midnight", u"Midnight", u"חצות הלילה"),
+    ZMANIM("midday", u"Midday", u"חצות היום")
+    )
