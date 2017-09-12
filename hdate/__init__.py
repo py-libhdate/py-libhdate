@@ -68,7 +68,8 @@ class Zmanim(object):
 
     def __repr__(self):
         """Return a representation of Zmanim for a given day and location."""
-        return get_zmanim_string(self.zmanim, hebrew=self._hebrew)
+        return get_zmanim_string(
+            self.zmanim, hebrew=self._hebrew).encode('utf-8')
 
     def gday_of_year(self):
         """Return the number of days since January 1 of the given year."""
@@ -117,7 +118,7 @@ class Zmanim(object):
         # the sun real time diff from noon at sunset/rise in radians
         try:
             hour_angle = (math.acos(
-                math.cos(sunrise_angle) //
+                math.cos(sunrise_angle) /
                 (math.cos(latitude) * math.cos(decl)) -
                 math.tan(latitude) * math.tan(decl)))
         # check for too high altitudes and return negative values
