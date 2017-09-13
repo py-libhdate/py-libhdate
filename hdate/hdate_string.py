@@ -4,7 +4,7 @@
 from __future__ import division
 
 from hdate.htables import DIGITS, HEBREW_MONTHS, HOLIDAYS, PARASHAOT
-from hdate.htables import DAYS_TABLE, ZMANIM_TUPLE
+from hdate.htables import DAYS_TABLE, ZMANIM
 
 
 def hebrew_number(num, hebrew=True, short=False):
@@ -63,8 +63,10 @@ def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,
     if omer > 0 and omer < 50:
         res += u" " + hebrew_number(omer, hebrew=is_hebrew, short=is_short)
         res += u" " + u"בעומר" if is_hebrew else u" in the Omer"
-    if holiday:
-        res += u" " + HOLIDAYS[is_hebrew][is_short][holiday-1]
+    for tuples in (x for x in HOLIDAYS if x.index == holiday):
+        res += u" " + (tuples.english if not hebrew else
+                       tuples.hebrew_long if not short else
+                       tuples.hebrew_short)
     return res
 
 
@@ -130,7 +132,7 @@ def get_parashe(parasha, short=False, hebrew=True):
 def get_zmanim_string(zmanim, hebrew=True):
     """Get the string representing the zmanim of the day."""
     res = u""
-    for zman in ZMANIM_TUPLE:
+    for zman in ZMANIM:
         if zman.zman in zmanim:
             time = zmanim[zman.zman]
             res += u"{} - {:02d}:{:02d}\n".format(
