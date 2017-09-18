@@ -262,7 +262,7 @@ HOLIDAYS = (
             u"Sukkot II", u"שני של סוכות", u"ב' סוכות"),
     HOLIDAY(32, 1, "pesach_ii",
             u"Pesach II", u"שני של פסח", u"ב' פסח"),
-    HOLIDAY(33, 0, "family_day",
+    HOLIDAY(33, 9, "family_day",
             u"Family Day", u"יום המשפחה", u"יום המשפחה"),
     HOLIDAY(34, 9, "memorial_day_unknown",
             u"Memorial day for fallen whose place of burial is unknown",

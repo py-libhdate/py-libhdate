@@ -11,7 +11,7 @@ import math
 from dateutil import tz
 
 import hdate.hdate_julian as hj
-from hdate.htables import HOLYDAYS_TABLE, JOIN_FLAGS
+from hdate.htables import HOLIDAYS, HOLYDAYS_TABLE, JOIN_FLAGS
 from hdate.hdate_string import get_hebrew_date, get_zmanim_string
 
 
@@ -492,38 +492,8 @@ class HDate(object):
 
 def get_holyday_type(holyday):
     """Return a number describing the type of the holy day."""
-    holyday_type = None
-
-    # regular day
-    if holyday == 0:
+    try:
+        holyday_type = next((x.type for x in HOLIDAYS if x.index == holyday))
+    except StopIteration:
         holyday_type = 0
-    # Yom tov, To find erev yom tov, check if tomorrow's holyday_type = 1
-    if holyday in [1, 2, 4, 5, 8, 15, 20, 27, 28, 29, 30, 31, 32]:
-        holyday_type = 1
-    # Erev yom kippur
-    if holyday == 37:
-        holyday_type = 2
-    # Hol hamoed
-    if holyday in [6, 7, 16]:
-        holyday_type = 3
-    # Hanuka and purim
-    if holyday in [9, 13, 14]:
-        holyday_type = 4
-    # Tzom
-    if holyday in [3, 10, 12, 21, 22]:
-        holyday_type = 5
-    # Independance day and Yom yerushalaim
-    if holyday in [17, 26]:
-        holyday_type = 6
-    # Lag baomer ,Tu beav, Tu beshvat
-    if holyday in [18, 23, 11]:
-        holyday_type = 7
-    # Tzahal and Holocaust memorial days
-    if holyday in [24, 25]:
-        holyday_type = 8
-    # Not a holy day (yom hamishpacha, zhabotinsky, rabin, fallen soldiers
-    # whose burial place is unknown)
-    if holyday_type is None:
-        holyday_type = 9
-
     return holyday_type
