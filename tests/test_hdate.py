@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
+import random
+import datetime
+
 import pytest
+
 import hdate
 import hdate.hdate_julian as hj
 
-import datetime
-import random
-
+# pylint: disable=no-self-use
+# pylint-comment: In tests, classes are just a grouping semantic
 
 HEBREW_YEARS_INFO = {
     # year, dow rosh hashana, length, dow pesach
@@ -254,7 +257,7 @@ class TestSpecialDays(object):
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_get_omer_day(self, execution_number, random_hdate):
         if (random_hdate._h_month not in [7, 8, 9] or
-            random_hdate._h_month == 7 and random_hdate._h_day < 16 or
+                random_hdate._h_month == 7 and random_hdate._h_day < 16 or
                 random_hdate._h_month == 9 and random_hdate._h_day > 5):
             assert random_hdate.get_omer_day() == 0
 

@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 
+import random
+
 import pytest
+
 import hdate.hdate_string as hs
 import hdate.htables as ht
 
-import random
-
+# pylint: disable=no-self-use
+# pylint-comment: In tests, classes are just a grouping semantic
 
 class TestOmer(object):
     """Test get_omer_string"""
