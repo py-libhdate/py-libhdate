@@ -8,11 +8,15 @@ from __future__ import division
 
 import datetime
 import math
+
 from dateutil import tz
 
 import hdate.hdate_julian as hj
-from hdate.htables import HOLIDAYS, HOLYDAYS_TABLE, JOIN_FLAGS
-from hdate.hdate_string import get_hebrew_date, get_zmanim_string
+from hdate.hdate_string import get_hebrew_date
+from hdate.hdate_string import get_zmanim_string
+from hdate.htables import HOLIDAYS
+from hdate.htables import HOLYDAYS_TABLE
+from hdate.htables import JOIN_FLAGS
 
 
 def set_date(date):

@@ -1,2 +1,9 @@
-include *.md
+graft src
+graft tests
+
+include *.rst
 include LICENSE
+
+include tox.ini .travis.yml .pylintrc
+
+global-exclude *.py[cod] __pycache__

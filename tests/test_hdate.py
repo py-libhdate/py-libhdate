@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-import random
+
 import datetime
+import random
 
 import pytest
 

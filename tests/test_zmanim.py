@@ -1,5 +1,5 @@
-import random
 import datetime
+import random
 from calendar import isleap
 
 import pytest
@@ -8,6 +8,7 @@ import hdate
 
 # pylint: disable=no-self-use
 # pylint-comment: In tests, classes are just a grouping semantic
+
 
 class TestZmanim(object):
 

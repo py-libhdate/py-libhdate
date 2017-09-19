@@ -3,8 +3,12 @@
 """String functions returning the requested hebrew/english info."""
 from __future__ import division
 
-from hdate.htables import DIGITS, HEBREW_MONTHS, HOLIDAYS, PARASHAOT
-from hdate.htables import DAYS_TABLE, ZMANIM
+from hdate.htables import DAYS_TABLE
+from hdate.htables import DIGITS
+from hdate.htables import HEBREW_MONTHS
+from hdate.htables import HOLIDAYS
+from hdate.htables import PARASHAOT
+from hdate.htables import ZMANIM
 
 
 def hebrew_number(num, hebrew=True, short=False):

@@ -10,6 +10,7 @@ import hdate.htables as ht
 # pylint: disable=no-self-use
 # pylint-comment: In tests, classes are just a grouping semantic
 
+
 class TestOmer(object):
     """Test get_omer_string"""
 
