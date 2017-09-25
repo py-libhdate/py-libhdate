@@ -211,7 +211,16 @@ HOLIDAYS = (
             u"Hol hamoed Pesach", u"חול המועד פסח", u"חוה\"מ פסח"),
     HOLIDAY(16, 3, "hol_hamoed_pesach", ([17, 18, 19, 20], 7), "", [],
             u"Hol hamoed Pesach", u"חול המועד פסח", u"חוה\"מ פסח"),
-    HOLIDAY(17, 6, "yom haatzmaut", ([3, 4, 5, 6], 8), "", ["atsmaut()"],
+    HOLIDAY(17, 6, "yom haatzmaut", ([3, 4, 5], 8), "",
+            [year_is_after(5708), year_is_before(5764),
+             move_if_not_on_dow(5, 4, 4, 3) or
+             move_if_not_on_dow(5, 3, 5, 3)],
+            u"Yom HaAtzma'ut", u"יום העצמאות", u"יום העצמאות"),
+    HOLIDAY(17, 6, "yom haatzmaut", ([3, 4, 5, 6], 8), "",
+            [year_is_after(5763),
+             move_if_not_on_dow(5, 4, 4, 3) or
+             move_if_not_on_dow(5, 3, 5, 3) or
+             move_if_not_on_dow(5, 6, 0, 1)],
             u"Yom HaAtzma'ut", u"יום העצמאות", u"יום העצמאות"),
     HOLIDAY(18, 7, "lag_bomer", (18, 8), "", [],
             u"Lag B'Omer", u"ל\"ג בעומר", u"ל\"ג בעומר"),
@@ -230,9 +239,18 @@ HOLIDAYS = (
     HOLIDAY(24, 8, "yom_hashoah", ([26, 27, 28], 7), "",
             [move_if_not_on_dow(27, 28, 6, 0) or
              move_if_not_on_dow(27, 26, 4, 3),
-             year_is_after(5719)],
+             year_is_after(5718)],
             u"Yom HaShoah", u"יום השואה", u"יום השואה"),
-    HOLIDAY(25, 8, "yom_hazikaron", ([2, 3, 4, 5], 8), "", ["zikaron()"],
+    HOLIDAY(25, 8, "yom_hazikaron", ([2, 3, 4], 8), "",
+            [year_is_after(5708), year_is_before(5764),
+             move_if_not_on_dow(4, 3, 3, 2) or
+             move_if_not_on_dow(4, 2, 4, 2)],
+            u"Yom HaZikaron", u"יום הזכרון", u"יום הזכרון"),
+    HOLIDAY(25, 8, "yom_hazikaron", ([2, 3, 4, 5], 8), "",
+            [year_is_after(5763),
+             move_if_not_on_dow(4, 3, 3, 2) or
+             move_if_not_on_dow(4, 2, 4, 2) or
+             move_if_not_on_dow(4, 5, 6, 0)],
             u"Yom HaZikaron", u"יום הזכרון", u"יום הזכרון"),
     HOLIDAY(26, 6, "yom_yerushalayim", (28, 8), "", [year_is_after(5727)],
             u"Yom Yerushalayim", u"יום ירושלים", u"יום י-ם"),
@@ -258,7 +276,7 @@ HOLIDAYS = (
             u"Yitzhak Rabin memorial day",
             u"יום הזכרון ליצחק רבין", u"יום הזכרון ליצחק רבין"),
     HOLIDAY(36, 9, "zeev_zhabotinsky_day", (29, 10), "ISRAEL",
-            [year_is_after(5765)],
+            [year_is_after(5764)],
             u"Zeev Zhabotinsky day", u"יום ז\'בוטינסקי", u"יום ז\'בוטינסקי"),
     HOLIDAY(37, 2, "erev_yom_kippur", (9, 1), "", [],
             u"Erev Yom Kippur", u"עיוה\"כ", u"עיוה\"כ")
