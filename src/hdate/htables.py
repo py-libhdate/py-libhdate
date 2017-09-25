@@ -3,66 +3,6 @@
 
 from collections import namedtuple
 
-# holydays table
-HOLYDAYS_TABLE = [
-    [  # Tishrey
-        1, 2, 3, 3, 0, 0, 0, 0, 37, 4,
-        0, 0, 0, 0, 5, 31, 6, 6, 6, 6,
-        7, 27, 8, 0, 0, 0, 0, 0, 0, 0],
-    [  # Heshvan
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 35,
-        35, 35, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [  # Kislev
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 9, 9, 9, 9, 9, 9],
-    [  # Tevet
-        9, 9, 9, 0, 0, 0, 0, 0, 0, 10,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [  # Shvat
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 11, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 33],
-    [  # Adar
-        0, 0, 0, 0, 0, 0, 34, 0, 0, 0,
-        12, 0, 12, 13, 14, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [  # Nisan
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 15, 32, 16, 16, 16, 16,
-        28, 29, 0, 0, 0, 24, 24, 24, 0, 0],
-    [  # Iyar
-        0, 17, 17, 17, 17, 17, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 18, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 26, 0, 0],
-    [  # Sivan
-        0, 0, 0, 0, 19, 20, 30, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [  # Tamuz
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 21, 21, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 36, 0],
-    [  # Av
-        0, 0, 0, 0, 0, 0, 0, 0, 22, 22,
-        0, 0, 0, 0, 23, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [  # Elul
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [  # Adar 1
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    [  # Adar 2
-        0, 0, 0, 0, 0, 0, 34, 0, 0, 0,
-        12, 0, 12, 13, 14, 0, 0, 0, 0, 0,
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-]
-
 # Joined Parash flags
 JOIN_FLAGS = [
     [
@@ -195,6 +135,34 @@ GREGORIAN_MONTHS = [  # NOT IN USE
     ]
 ]
 
+
+def year_is_after(year):
+    '''
+    Return a lambda function that checks that a given HDate object's hebrew
+    year is after the requested year.
+    '''
+    return lambda x: x._h_year > year
+
+
+def year_is_before(year):
+    '''
+    Return a lambda function that checks that a given HDate object's hebrew
+    year is before the requested year.
+    '''
+    return lambda x: x._h_year < year
+
+
+def move_if_not_on_dow(original, replacement, dow_not_orig, dow_replacement):
+    '''
+    Return a lambda function that checks that either the original day does not
+    fall on a given weekday, or that the replacement day does fall on the
+    expected weekday.
+    '''
+    return lambda x: (
+        (x._h_day == original and x._gdate.weekday() != dow_not_orig) or
+        (x._h_day == replacement and x._gdate.weekday() == dow_replacement))
+
+
 HOLIDAY = namedtuple("HOLIDAY", [
     "index", "type", "name", "date", "israel_diaspora", "date_functions_list",
     "english", "hebrew_long", "hebrew_short"])
@@ -205,39 +173,41 @@ HOLIDAYS = (
     HOLIDAY(2, 1, "rosh_hashana_ii", (2, 1), "", [],
             u"Rosh Hashana II", u"ב' ראש השנה", u"ב' ר\"ה"),
     HOLIDAY(3, 5, "tzom_gedaliah", ([3, 4], 1), "",
-            [("after_if_on()", {"day": 3, "dow": "saturday"})],
+            [move_if_not_on_dow(3, 4, 5, 6)],
             u"Tzom Gedaliah", u"צום גדליה", u"צום גדליה"),
     HOLIDAY(4, 1, "yom_kippur", (10, 1), "", [],
             u"Yom Kippur", u"יום הכפורים", u"יוה\"כ"),
     HOLIDAY(5, 1, "sukkot", (15, 1), "", [],
             u"Sukkot", u"סוכות", u"סוכות"),
-    HOLIDAY(6, 3, "hol_hamoed_sukkot", (16, 1), "ISRAEL_ONLY", "",
+    HOLIDAY(6, 3, "hol_hamoed_sukkot", (16, 1), "ISRAEL", "",
             u"Hol hamoed Sukkot", u"חול המועד סוכות", u"חוה\"מ סוכות"),
     HOLIDAY(6, 3, "hol_hamoed_sukkot", ([17, 18, 19, 20], 1), "", "",
             u"Hol hamoed Sukkot", u"חול המועד סוכות", u"חוה\"מ סוכות"),
     HOLIDAY(7, 3, "hoshana_raba", (21, 1), "", [],
             u"Hoshana Raba", u"הושענא רבה", u"הוש\"ר"),
-    HOLIDAY(8, 1, "simchat_torah", (23, 1), "DIASPORA_ONLY", [],
+    HOLIDAY(8, 1, "simchat_torah", (23, 1), "DIASPORA", [],
             u"Simchat Torah", u"שמחת תורה", u"שמח\"ת"),
-    HOLIDAY(9, 4, "chanukah", ([range(25, 30)], 3), "", [],
+    HOLIDAY(9, 4, "chanukah", (list(range(25, 30)), 3), "", [],
             u"Chanukah", u"חנוכה", u"חנוכה"),
-    HOLIDAY(9, 4, "chanukah", ([1, 2, 3], 4), "", ["third_tevet_chanuka()"],
+    HOLIDAY(9, 4, "chanukah", ([1, 2, 3], 4), "",
+            [lambda x: (
+                (x.short_kislev() and x._h_day == 3) or
+                (x._h_day in [1, 2]))],
             u"Chanukah", u"חנוכה", u"חנוכה"),
     HOLIDAY(10, 5, "asara_btevet", (10, 4), "", [],
             u"Asara B'Tevet", u"צום עשרה בטבת", u"י' בטבת"),
     HOLIDAY(11, 7, "tu_bshvat", (15, 5), "", [],
             u"Tu B'Shvat", u"ט\"ו בשבט", u"ט\"ו בשבט"),
     HOLIDAY(12, 5, "taanit_esther", ([11, 13], [6, 14]), "",
-            ["adar_days()",
-             ("before_if_on()", {"day": 13, "dow": "saturday"})],
+            [move_if_not_on_dow(13, 11, 5, 3)],
             u"Ta'anit Esther", u"תענית אסתר", u"תענית אסתר"),
-    HOLIDAY(13, 4, "purim", (14, [6, 14]), "", ["adar_days()"],
+    HOLIDAY(13, 4, "purim", (14, [6, 14]), "", [],
             u"Purim", u"פורים", u"פורים"),
-    HOLIDAY(14, 4, "shushan_purim", (15, [6, 14]), "", ["adar_days()"],
+    HOLIDAY(14, 4, "shushan_purim", (15, [6, 14]), "", [],
             u"Shushan Purim", u"שושן פורים", u"שושן פורים"),
     HOLIDAY(15, 1, "pesach", (15, 7), "", "",
             u"Pesach", u"פסח", u"פסח"),
-    HOLIDAY(16, 3, "hol_hamoed_pesach", (16, 7), "ISRAEL_ONLY", [],
+    HOLIDAY(16, 3, "hol_hamoed_pesach", (16, 7), "ISRAEL", [],
             u"Hol hamoed Pesach", u"חול המועד פסח", u"חוה\"מ פסח"),
     HOLIDAY(16, 3, "hol_hamoed_pesach", ([17, 18, 19, 20], 7), "", [],
             u"Hol hamoed Pesach", u"חול המועד פסח", u"חוה\"מ פסח"),
@@ -250,50 +220,47 @@ HOLIDAYS = (
     HOLIDAY(20, 1, "shavuot", (6, 9), "", [],
             u"Shavuot", u"שבועות", u"שבועות"),
     HOLIDAY(21, 5, "tzom_tammuz", ([17, 18], 10), "",
-            [("after_if_on()", {"day": 17, "dow": "saturday"})],
+            [move_if_not_on_dow(17, 18, 5, 6)],
             u"Tzom Tammuz", u"צום שבעה עשר בתמוז", u"צום תמוז"),
     HOLIDAY(22, 5, "tisha_bav", ([9, 10], 11), "",
-            [("after_if_on()", {"day": 9, "dow": "saturday"})],
+            [move_if_not_on_dow(9, 10, 5, 6)],
             u"Tish'a B'Av", u"תשעה באב", u"ט' באב"),
     HOLIDAY(23, 7, "tu_bav", (15, 11), "", [],
             u"Tu B'Av", u"ט\"ו באב", u"ט\"ו באב"),
     HOLIDAY(24, 8, "yom_hashoah", ([26, 27, 28], 7), "",
-            [("before_if_on()", {"day": 27, "dow": "friday"}),
-             ("after_if_on()", {"day": 27, "dow": "sunday"}),
-             ("after_year()", {"year": 5719})],
+            [move_if_not_on_dow(27, 26, 4, 3),
+             move_if_not_on_dow(27, 28, 6, 0),
+             year_is_after(5719)],
             u"Yom HaShoah", u"יום השואה", u"יום השואה"),
     HOLIDAY(25, 8, "yom_hazikaron", ([2, 3, 4, 5], 8), "", ["zikaron()"],
             u"Yom HaZikaron", u"יום הזכרון", u"יום הזכרון"),
-    HOLIDAY(26, 6, "yom_yerushalayim", (28, 8), "",
-            [("after_year()", {"year": 5727})],
+    HOLIDAY(26, 6, "yom_yerushalayim", (28, 8), "", [year_is_after(5727)],
             u"Yom Yerushalayim", u"יום ירושלים", u"יום י-ם"),
     HOLIDAY(27, 1, "shmini_atzeret", (22, 1), "", [],
             u"Shmini Atzeret", u"שמיני עצרת", u"שמיני עצרת"),
     HOLIDAY(28, 1, "pesach_vii", (21, 7), "", [],
             u"Pesach VII", u"שביעי פסח", u"ז' פסח"),
-    HOLIDAY(29, 1, "pesach_viii", (22, 7), "DIASPORA_ONLY", [],
+    HOLIDAY(29, 1, "pesach_viii", (22, 7), "DIASPORA", [],
             u"Pesach VIII", u"אחרון של פסח", u"אחרון של פסח"),
-    HOLIDAY(30, 1, "shavuot_ii", (7, 9), "DIASPORA_ONLY", [],
+    HOLIDAY(30, 1, "shavuot_ii", (7, 9), "DIASPORA", [],
             u"Shavuot II", u"שני של שבועות", u"ב' שבועות"),
-    HOLIDAY(31, 1, "sukkot_ii", (16, 1), "DIASPORA_ONLY", [],
+    HOLIDAY(31, 1, "sukkot_ii", (16, 1), "DIASPORA", [],
             u"Sukkot II", u"שני של סוכות", u"ב' סוכות"),
-    HOLIDAY(32, 1, "pesach_ii", (16, 7), "DIASPORA_ONLY", [],
+    HOLIDAY(32, 1, "pesach_ii", (16, 7), "DIASPORA", [],
             u"Pesach II", u"שני של פסח", u"ב' פסח"),
-    HOLIDAY(33, 9, "family_day", (30, 5), "ISRAEL_ONLY", [],
+    HOLIDAY(33, 9, "family_day", (30, 5), "ISRAEL", [],
             u"Family Day", u"יום המשפחה", u"יום המשפחה"),
-    HOLIDAY(34, 9, "memorial_day_unknown", (7, [6, 14]), "ISRAEL_ONLY",
-            ["adar_days()"],
+    HOLIDAY(34, 9, "memorial_day_unknown", (7, [6, 14]), "ISRAEL", [],
             u"Memorial day for fallen whose place of burial is unknown",
             u"יום זכרון...", u"יום זכרון..."),
-    HOLIDAY(35, 9, "rabin_memorial_day", ([11, 12], 2), "ISRAEL_ONLY",
-            [("before_if_on()", {"day": 12, "dow": "friday"}),
-             ("after_year()", {"year": 5757})],
+    HOLIDAY(35, 9, "rabin_memorial_day", ([11, 12], 2), "ISRAEL",
+            [move_if_not_on_dow(12, 11, 4, 3), year_is_after(5757)],
             u"Yitzhak Rabin memorial day",
             u"יום הזכרון ליצחק רבין", u"יום הזכרון ליצחק רבין"),
-    HOLIDAY(36, 9, "zeev_zhabotinsky_day", (29, 10), "ISRAEL_ONLY",
-            [("after_year()", {"year": 5765})],
+    HOLIDAY(36, 9, "zeev_zhabotinsky_day", (29, 10), "ISRAEL",
+            [year_is_after(5765)],
             u"Zeev Zhabotinsky day", u"יום ז\'בוטינסקי", u"יום ז\'בוטינסקי"),
-    HOLIDAY(37, 2, "erev_yom_kippur", (9, 7), "", [],
+    HOLIDAY(37, 2, "erev_yom_kippur", (9, 1), "", [],
             u"Erev Yom Kippur", u"עיוה\"כ", u"עיוה\"כ")
     )
 

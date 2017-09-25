@@ -8,6 +8,7 @@ from __future__ import division
 
 import datetime
 import math
+from itertools import product
 
 from dateutil import tz
 
@@ -15,7 +16,6 @@ import hdate.hdate_julian as hj
 from hdate.hdate_string import get_hebrew_date
 from hdate.hdate_string import get_zmanim_string
 from hdate.htables import HOLIDAYS
-from hdate.htables import HOLYDAYS_TABLE
 from hdate.htables import JOIN_FLAGS
 
 
@@ -225,139 +225,26 @@ class HDate(object):
 
     def get_holyday(self):
         """Return the number of holyday."""
-        diaspora = self._diaspora
-        holyday = HOLYDAYS_TABLE[self._h_month - 1][self._h_day - 1]
+        holydays_list = [
+            holyday for holyday in HOLIDAYS if
+            (self._h_day, self._h_month) in product(
+                *([x] if isinstance(x, int) else x for x in holyday.date))]
 
-        # if tzom on sat delay one day
-        # tzom gdalyaho on sat
-        if ((holyday == 3) and
-                (self._weekday == 7 or
-                 (self._h_day == 4 and self._weekday != 1))):
-            holyday = 0
-        # 17 of Tamuz on sat
-        if ((holyday == 21) and
-                ((self._weekday == 7) or
-                 (self._h_day == 18 and self._weekday != 1))):
-            holyday = 0
-        # 9 of Av on sat
-        if ((holyday == 22) and
-                ((self._weekday == 7) or
-                 (self._h_day == 10 and self._weekday != 1))):
-            holyday = 0
+        holydays_list = [
+            holyday for holyday in holydays_list if
+            (holyday.israel_diaspora == "") or
+            (holyday.israel_diaspora == "ISRAEL" and not self._diaspora) or
+            (holyday.israel_diaspora == "DIASPORA" and self._diaspora)]
 
-        # Hanukah in a long year
-        if ((holyday == 9) and
-                (self._h_size_of_year % 10 != 3) and (self._h_day == 3)):
-            holyday = 0
+        holydays_list = [
+            holyday for holyday in holydays_list if
+            all(func(self) for func in holyday.date_functions_list)]
 
-        # if tanit ester on sat mov to Thu
-        if ((holyday == 12) and
-                ((self._weekday == 7) or
-                 (self._h_day == 11 and self._weekday != 5))):
-            holyday = 0
+        return holydays_list[0].index if holydays_list else 0
 
-        # yom yerushalym after 68
-        if (holyday == 26) and (self._gdate.year < 1968):
-            holyday = 0
-
-        # yom ha azmaot and yom ha zicaron
-        if holyday == 17:
-            if self._gdate.year < 1949:
-                holyday = 0
-            elif self._gdate.year < 2004:
-                if (self._h_day == 3) and (self._weekday == 5):
-                    holyday = 17
-                elif (self._h_day == 4) and (self._weekday == 5):
-                    holyday = 17
-                elif ((self._h_day == 5) and
-                      (self._weekday != 6 and self._weekday != 7)):
-                    holyday = 17
-                elif (self._h_day == 2) and (self._weekday == 4):
-                    holyday = 25
-                elif (self._h_day == 3) and (self._weekday == 4):
-                    holyday = 25
-                elif ((self._h_day == 4) and
-                      (self._weekday != 5 and self._weekday != 6)):
-                    holyday = 25
-                else:
-                    holyday = 0
-            else:
-                if (self._h_day == 3) and (self._weekday == 5):
-                    holyday = 17
-                elif (self._h_day == 4) and (self._weekday == 5):
-                    holyday = 17
-                elif (self._h_day == 6) and (self._weekday == 3):
-                    holyday = 17
-                elif ((self._h_day == 5) and
-                      (self._weekday != 6 and self._weekday != 7 and
-                       self._weekday != 2)):
-                    holyday = 17
-                elif (self._h_day == 2) and (self._weekday == 4):
-                    holyday = 25
-                elif (self._h_day == 3) and (self._weekday == 4):
-                    holyday = 25
-                elif (self._h_day == 5) and (self._weekday == 2):
-                    holyday = 25
-                elif ((self._h_day == 4) and
-                      (self._weekday != 5 and self._weekday != 6 and
-                       self._weekday != 1)):
-                    holyday = 25
-                else:
-                    holyday = 0
-
-        # yom ha shoaa, on years after 1958
-        if holyday == 24:
-            if self._gdate.year < 1958:
-                holyday = 0
-            else:
-                if (self._h_day == 26) and (self._weekday != 5):
-                    holyday = 0
-                if (self._h_day == 28) and (self._weekday != 2):
-                    holyday = 0
-                if ((self._h_day == 27) and
-                        (self._weekday == 6 or self._weekday == 1)):
-                    holyday = 0
-
-        # Rabin day, on years after 1997
-        if holyday == 35:
-            if self._gdate.year < 1997:
-                holyday = 0
-            else:
-                if ((self._h_day == 10 or self._h_day == 11) and
-                        (self._weekday != 5)):
-                    holyday = 0
-                if ((self._h_day == 12) and
-                        (self._weekday == 6 or self._weekday == 7)):
-                    holyday = 0
-
-        # Zhabotinsky day, on years after 2005
-        if holyday == 36 and self._gdate.year < 2005:
-            holyday = 0
-
-        # diaspora holidays
-
-        # simchat tora only in diaspora
-        # in israel just one day shmini+simchat tora
-        if holyday == 8 and not diaspora:
-            holyday = 0
-
-        # sukkot II holiday only in diaspora
-        if holyday == 31 and not diaspora:
-            holyday = 6
-
-        # pesach II holiday only in diaspora
-        if holyday == 32 and not diaspora:
-            holyday = 16
-
-        # shavot II holiday only in diaspora
-        if holyday == 30 and not diaspora:
-            holyday = 0
-
-        # pesach VIII holiday only in diaspora
-        if holyday == 29 and not diaspora:
-            holyday = 0
-
-        return holyday
+    def short_kislev(self):
+        """Return whether this year has a short Kislev or not"""
+        return True if self._h_size_of_year in [353, 383] else False
 
     def get_omer_day(self):
         """Return the day of the Omer."""
