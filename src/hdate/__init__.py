@@ -225,21 +225,27 @@ class HDate(object):
 
     def get_holyday(self):
         """Return the number of holyday."""
+        # Get the possible list of holydays for this day
         holydays_list = [
             holyday for holyday in HOLIDAYS if
             (self._h_day, self._h_month) in product(
                 *([x] if isinstance(x, int) else x for x in holyday.date))]
 
+        # Filter any non-related holydays depending on Israel/Diaspora only
         holydays_list = [
             holyday for holyday in holydays_list if
             (holyday.israel_diaspora == "") or
             (holyday.israel_diaspora == "ISRAEL" and not self._diaspora) or
             (holyday.israel_diaspora == "DIASPORA" and self._diaspora)]
 
+        # Filter any special cases defined by True/False functions
         holydays_list = [
             holyday for holyday in holydays_list if
             all(func(self) for func in holyday.date_functions_list)]
 
+        assert len(holydays_list) <= 1
+
+        # If anything is left return it, otherwise return 0
         return holydays_list[0].index if holydays_list else 0
 
     def short_kislev(self):
