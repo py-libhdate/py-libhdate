@@ -68,25 +68,25 @@ class TestHDate(object):
 
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_random_weekday(self, execution_number, random_hdate):
-        expected_weekday = random_hdate._gdate.weekday() + 2
+        expected_weekday = random_hdate.gdate.weekday() + 2
         expected_weekday = expected_weekday if expected_weekday < 8 else 1
         assert random_hdate._weekday == expected_weekday
 
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_random_hdate(self, execution_number, random_hdate):
         _hdate = hdate.HDate()
-        _hdate.hdate_set_hdate(random_hdate._h_day, random_hdate._h_month,
-                               random_hdate._h_year)
-        assert _hdate._h_day == random_hdate._h_day
-        assert _hdate._h_month == random_hdate._h_month
-        assert _hdate._h_year == random_hdate._h_year
+        _hdate.hdate_set_hdate(random_hdate.h_day, random_hdate.h_month,
+                               random_hdate.h_year)
+        assert _hdate.h_day == random_hdate.h_day
+        assert _hdate.h_month == random_hdate.h_month
+        assert _hdate.h_year == random_hdate.h_year
         assert _hdate.jdn == random_hdate.jdn
         assert _hdate._weekday == random_hdate._weekday
-        assert _hdate._h_size_of_year == random_hdate._h_size_of_year
-        assert _hdate._h_year_type == random_hdate._h_year_type
-        assert _hdate._h_weeks == random_hdate._h_weeks
-        assert _hdate._gdate == random_hdate._gdate
-        assert _hdate._h_new_year_weekday == random_hdate._h_new_year_weekday
+        assert _hdate.h_size_of_year == random_hdate.h_size_of_year
+        assert _hdate.h_year_type == random_hdate.h_year_type
+        assert _hdate.h_weeks == random_hdate.h_weeks
+        assert _hdate.gdate == random_hdate.gdate
+        assert _hdate.h_new_year_weekday == random_hdate.h_new_year_weekday
 
     def test_hj_get_size_of_hebrew_year(self):
         for year, info in list(HEBREW_YEARS_INFO.items()):
@@ -95,14 +95,14 @@ class TestHDate(object):
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_hdate_get_size_of_hebrew_years(self, execution_number,
                                             random_hdate):
-        assert (random_hdate._h_size_of_year ==
-                hj.get_size_of_hebrew_year(random_hdate._h_year))
+        assert (random_hdate.h_size_of_year ==
+                hj.get_size_of_hebrew_year(random_hdate.h_year))
 
     def test_rosh_hashana_day_of_week(self, random_hdate):
         for year, info in list(HEBREW_YEARS_INFO.items()):
-            random_hdate.hdate_set_hdate(random_hdate._h_day,
-                                         random_hdate._h_month, year)
-            assert random_hdate._h_new_year_weekday == info[0]
+            random_hdate.hdate_set_hdate(random_hdate.h_day,
+                                         random_hdate.h_month, year)
+            assert random_hdate.h_new_year_weekday == info[0]
 
     def test_pesach_day_of_week(self, random_hdate):
         for year, info in list(HEBREW_YEARS_INFO.items()):
@@ -181,7 +181,7 @@ class TestSpecialDays(object):
 
     @pytest.mark.parametrize('date, holiday, name', NON_MOVING_HOLIDAYS)
     def test_get_holidays_non_moving(self, random_hdate, date, holiday, name):
-        random_hdate.hdate_set_hdate(*date, year=random_hdate._h_year)
+        random_hdate.hdate_set_hdate(*date, year=random_hdate.h_year)
         assert random_hdate.get_holyday() == holiday
 
     @pytest.mark.parametrize('date, diaspora_holiday, israel_holiday, name',
@@ -189,7 +189,7 @@ class TestSpecialDays(object):
     def test_get_diaspora_israel_holidays(self, random_hdate, date,
                                           diaspora_holiday, israel_holiday,
                                           name):
-        random_hdate.hdate_set_hdate(*date, year=random_hdate._h_year)
+        random_hdate.hdate_set_hdate(*date, year=random_hdate.h_year)
         assert random_hdate.get_holyday() == israel_holiday
         random_hdate._diaspora = True
         assert random_hdate.get_holyday() == diaspora_holiday
@@ -261,9 +261,9 @@ class TestSpecialDays(object):
 
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_get_omer_day(self, execution_number, random_hdate):
-        if (random_hdate._h_month not in [7, 8, 9] or
-                random_hdate._h_month == 7 and random_hdate._h_day < 16 or
-                random_hdate._h_month == 9 and random_hdate._h_day > 5):
+        if (random_hdate.h_month not in [7, 8, 9] or
+                random_hdate.h_month == 7 and random_hdate.h_day < 16 or
+                random_hdate.h_month == 9 and random_hdate.h_day > 5):
             assert random_hdate.get_omer_day() == 0
 
         nissan = list(range(16, 30))
@@ -271,13 +271,13 @@ class TestSpecialDays(object):
         sivan = list(range(1, 5))
 
         for day in nissan:
-            random_hdate.hdate_set_hdate(day, 7, random_hdate._h_year)
+            random_hdate.hdate_set_hdate(day, 7, random_hdate.h_year)
             assert random_hdate.get_omer_day() == day - 15
         for day in iyyar:
-            random_hdate.hdate_set_hdate(day, 8, random_hdate._h_year)
+            random_hdate.hdate_set_hdate(day, 8, random_hdate.h_year)
             assert random_hdate.get_omer_day() == day + 15
         for day in sivan:
-            random_hdate.hdate_set_hdate(day, 9, random_hdate._h_year)
+            random_hdate.hdate_set_hdate(day, 9, random_hdate.h_year)
             assert random_hdate.get_omer_day() == day + 44
 
     @pytest.mark.parametrize('execution_number', list(range(40)))
@@ -419,8 +419,8 @@ class TestHDateReading(object):
         mydate.hdate_set_hdate(1, 1, year)
 
         # Get next Saturday
-        tdelta = datetime.timedelta((12 - mydate._gdate.weekday()) % 7)
-        gdate = mydate._gdate + tdelta
+        tdelta = datetime.timedelta((12 - mydate.gdate.weekday()) % 7)
+        gdate = mydate.gdate + tdelta
         mydate = hdate.HDate(gdate)
 
         shabatot = [item for subl in parshiyot for item in subl]
@@ -438,8 +438,8 @@ class TestHDateReading(object):
         mydate.hdate_set_hdate(1, 1, year)
 
         # Get next Saturday
-        tdelta = datetime.timedelta((12 - mydate._gdate.weekday()) % 7)
-        gdate = mydate._gdate + tdelta
+        tdelta = datetime.timedelta((12 - mydate.gdate.weekday()) % 7)
+        gdate = mydate.gdate + tdelta
         mydate = hdate.HDate(gdate)
 
         shabatot = [item for subl in parshiyot for item in subl]
@@ -457,7 +457,7 @@ class TestHDateReading(object):
             date += datetime.timedelta(days=1)
 
         mydate = hdate.HDate(date)
-        if mydate._h_month == 1 and mydate._h_day == 22:
+        if mydate.h_month == 1 and mydate.h_day == 22:
             date += datetime.timedelta(days=1)
             if date.weekday() == 5:
                 date += datetime.timedelta(days=1)

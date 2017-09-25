@@ -137,30 +137,35 @@ GREGORIAN_MONTHS = [  # NOT IN USE
 
 
 def year_is_after(year):
-    '''
-    Return a lambda function that checks that a given HDate object's hebrew
-    year is after the requested year.
-    '''
-    return lambda x: x._h_year > year
+    """
+    Return a lambda function.
+
+    Lambda checks that a given HDate object's hebrew year is after the
+    requested year.
+    """
+    return lambda x: x.h_year > year
 
 
 def year_is_before(year):
-    '''
-    Return a lambda function that checks that a given HDate object's hebrew
-    year is before the requested year.
-    '''
-    return lambda x: x._h_year < year
+    """
+    Return a lambda function.
+
+    Lambda checks that a given HDate object's hebrew year is before the
+    requested year.
+    """
+    return lambda x: x.h_year < year
 
 
 def move_if_not_on_dow(original, replacement, dow_not_orig, dow_replacement):
-    '''
-    Return a lambda function that checks that either the original day does not
-    fall on a given weekday, or that the replacement day does fall on the
-    expected weekday.
-    '''
+    """
+    Return a lambda function.
+
+    Lambda checks that either the original day does not fall on a given
+    weekday, or that the replacement day does fall on the expected weekday.
+    """
     return lambda x: (
-        (x._h_day == original and x._gdate.weekday() != dow_not_orig) or
-        (x._h_day == replacement and x._gdate.weekday() == dow_replacement))
+        (x.h_day == original and x.gdate.weekday() != dow_not_orig) or
+        (x.h_day == replacement and x.gdate.weekday() == dow_replacement))
 
 
 HOLIDAY = namedtuple("HOLIDAY", [
@@ -191,8 +196,8 @@ HOLIDAYS = (
             u"Chanukah", u"חנוכה", u"חנוכה"),
     HOLIDAY(9, 4, "chanukah", ([1, 2, 3], 4), "",
             [lambda x: (
-                (x.short_kislev() and x._h_day == 3) or
-                (x._h_day in [1, 2]))],
+                (x.short_kislev() and x.h_day == 3) or
+                (x.h_day in [1, 2]))],
             u"Chanukah", u"חנוכה", u"חנוכה"),
     HOLIDAY(10, 5, "asara_btevet", (10, 4), "", [],
             u"Asara B'Tevet", u"צום עשרה בטבת", u"י' בטבת"),

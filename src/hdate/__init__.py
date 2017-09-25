@@ -177,20 +177,20 @@ class HDate(object):
 
     def __init__(self, date=None, diaspora=False, hebrew=True):
         """Initialize the HDate object."""
-        self._gdate = set_date(date)
+        self.gdate = set_date(date)
         self._hebrew = hebrew
         self._diaspora = diaspora
-        self.jdn = hj.gdate_to_jdn(self._gdate.day, self._gdate.month,
-                                   self._gdate.year)
-        (self._h_day, self._h_month, self._h_year) = hj.jdn_to_hdate(self.jdn)
+        self.jdn = hj.gdate_to_jdn(self.gdate.day, self.gdate.month,
+                                   self.gdate.year)
+        (self.h_day, self.h_month, self.h_year) = hj.jdn_to_hdate(self.jdn)
         self._weekday = (self.jdn + 1) % 7 + 1
-        self._h_size_of_year = hj.get_size_of_hebrew_year(self._h_year)
-        jdn_tishrey1 = hj.hdate_to_jdn(1, 1, self._h_year)
-        self._h_new_year_weekday = (jdn_tishrey1 + 1) % 7 + 1
-        self._h_year_type = hj.get_year_type(self._h_size_of_year,
-                                             self._h_new_year_weekday)
+        self.h_size_of_year = hj.get_size_of_hebrew_year(self.h_year)
+        jdn_tishrey1 = hj.hdate_to_jdn(1, 1, self.h_year)
+        self.h_new_year_weekday = (jdn_tishrey1 + 1) % 7 + 1
+        self.h_year_type = hj.get_year_type(self.h_size_of_year,
+                                            self.h_new_year_weekday)
         h_days = self.jdn - jdn_tishrey1
-        self._h_weeks = (h_days + self._h_new_year_weekday - 1) // 7 + 1
+        self.h_weeks = (h_days + self.h_new_year_weekday - 1) // 7 + 1
 
     def __repr__(self):
         """Return the Hebrew date as a string."""
@@ -198,7 +198,7 @@ class HDate(object):
 
     def to_string(self, short=False, hebrew=True):
         """Return the hebrew date as a string object."""
-        return get_hebrew_date(self._h_day, self._h_month, self._h_year,
+        return get_hebrew_date(self.h_day, self.h_month, self.h_year,
                                self.get_omer_day(), self._weekday,
                                self.get_holyday(), hebrew=hebrew, short=short)
 
@@ -215,20 +215,20 @@ class HDate(object):
 
     def hdate_set_jdn(self, jdn):
         """Set the date of the HDate object based on Julian date."""
-        gday, gmonth, gyear = hj.jdn_to_gdate(jdn)
+        gday, gmonth, gyear = hj.jdn_togdate(jdn)
         gdate = datetime.date(gyear, gmonth, gday)
         self.__init__(gdate, self._diaspora, self._hebrew)
 
     def get_hebrew_date(self):
         """Return the hebrew date in the form of day, month year."""
-        return self._h_day, self._h_month, self._h_year
+        return self.h_day, self.h_month, self.h_year
 
     def get_holyday(self):
         """Return the number of holyday."""
         # Get the possible list of holydays for this day
         holydays_list = [
             holyday for holyday in HOLIDAYS if
-            (self._h_day, self._h_month) in product(
+            (self.h_day, self.h_month) in product(
                 *([x] if isinstance(x, int) else x for x in holyday.date))]
 
         # Filter any non-related holydays depending on Israel/Diaspora only
@@ -249,12 +249,12 @@ class HDate(object):
         return holydays_list[0].index if holydays_list else 0
 
     def short_kislev(self):
-        """Return whether this year has a short Kislev or not"""
-        return True if self._h_size_of_year in [353, 383] else False
+        """Return whether this year has a short Kislev or not."""
+        return True if self.h_size_of_year in [353, 383] else False
 
     def get_omer_day(self):
         """Return the day of the Omer."""
-        omer_day = self.jdn - hj.hdate_to_jdn(16, 7, self._h_year) + 1
+        omer_day = self.jdn - hj.hdate_to_jdn(16, 7, self.h_year) + 1
         if not 0 < omer_day < 50:
             return 0
         return omer_day
@@ -266,45 +266,45 @@ class HDate(object):
         55..61 are joined readings e.g. Vayakhel Pekudei
         """
         # if simhat tora return vezot habracha
-        if self._h_month == 1:
+        if self.h_month == 1:
             # simhat tora is a day after shmini atzeret outsite israel
-            if self._h_day == 22 and not diaspora:
+            if self.h_day == 22 and not diaspora:
                 return 54
-            if self._h_day == 23 and diaspora:
+            if self.h_day == 23 and diaspora:
                 return 54
 
         # if not shabat return none
         if self._weekday != 7:
             return 0
 
-        if self._h_weeks == 1:
-            if self._h_new_year_weekday == 7:
+        if self.h_weeks == 1:
+            if self.h_new_year_weekday == 7:
                 # Rosh hashana
                 return 0
-            elif ((self._h_new_year_weekday == 2) or
-                  (self._h_new_year_weekday == 3)):
+            elif ((self.h_new_year_weekday == 2) or
+                  (self.h_new_year_weekday == 3)):
                 return 52
-            # if (self._h_new_year_weekday == 5)
+            # if (self.h_new_year_weekday == 5)
             return 53
-        elif self._h_weeks == 2:
-            if self._h_new_year_weekday == 5:
+        elif self.h_weeks == 2:
+            if self.h_new_year_weekday == 5:
                 # Yom kippur
                 return 0
             return 53
-        elif self._h_weeks == 3:
+        elif self.h_weeks == 3:
             # Succot
             return 0
-        elif self._h_weeks == 4:
-            if self._h_new_year_weekday == 7:
+        elif self.h_weeks == 4:
+            if self.h_new_year_weekday == 7:
                 # Not simhat tora in diaspora
                 return 0
             return 1
         else:
             # simhat tora on week 4 bereshit too
-            reading = self._h_weeks - 3
+            reading = self.h_weeks - 3
 
             # was simhat tora on shabat ?
-            if self._h_new_year_weekday == 7:
+            if self.h_new_year_weekday == 7:
                 reading = reading - 1
 
             # no joining
@@ -312,76 +312,76 @@ class HDate(object):
                 return reading
 
             # pesach
-            if (self._h_month == 7) and (self._h_day > 14):
+            if (self.h_month == 7) and (self.h_day > 14):
                 # Shmini of pesach in diaspora is on the 22 of the month*/
-                if diaspora and (self._h_day <= 22):
+                if diaspora and (self.h_day <= 22):
                     return 0
-                if not diaspora and (self._h_day < 22):
+                if not diaspora and (self.h_day < 22):
                     return 0
 
             # Pesach always removes one
-            if (((self._h_month == 7) and (self._h_day > 21)) or
-                    (self._h_month > 7 and self._h_month < 13)):
+            if (((self.h_month == 7) and (self.h_day > 21)) or
+                    (self.h_month > 7 and self.h_month < 13)):
                 reading -= 1
 
                 # on diaspora, shmini of pesach may fall on shabat if
                 # next new year is on shabat
-                if (diaspora and (((self._h_new_year_weekday +
-                                    self._h_size_of_year) % 7) == 2)):
+                if (diaspora and (((self.h_new_year_weekday +
+                                    self.h_size_of_year) % 7) == 2)):
                     reading -= 1
 
             # on diaspora, shavuot may fall on shabat if next new year is on
             # shabat
             if (diaspora and
-                    (self._h_month < 13) and
-                    ((self._h_month > 9) or
-                     (self._h_month == 9 and self._h_day >= 7)) and
-                    ((self._h_new_year_weekday + self._h_size_of_year)
+                    (self.h_month < 13) and
+                    ((self.h_month > 9) or
+                     (self.h_month == 9 and self.h_day >= 7)) and
+                    ((self.h_new_year_weekday + self.h_size_of_year)
                      % 7) == 0):
-                if self._h_month == 9 and self._h_day == 7:
+                if self.h_month == 9 and self.h_day == 7:
                     return 0
                 else:
                     reading -= 1
 
             # joining
-            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][0] and
+            if (JOIN_FLAGS[diaspora][self.h_year_type - 1][0] and
                     (reading >= 22)):
                 if reading == 22:
                     return 55
                 else:
                     reading += 1
-            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][1] and
+            if (JOIN_FLAGS[diaspora][self.h_year_type - 1][1] and
                     (reading >= 27)):
                 if reading == 27:
                     return 56
                 else:
                     reading += 1
-            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][2] and
+            if (JOIN_FLAGS[diaspora][self.h_year_type - 1][2] and
                     (reading >= 29)):
                 if reading == 29:
                     return 57
                 else:
                     reading += 1
-            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][3] and
+            if (JOIN_FLAGS[diaspora][self.h_year_type - 1][3] and
                     (reading >= 32)):
                 if reading == 32:
                     return 58
                 else:
                     reading += 1
 
-            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][4] and
+            if (JOIN_FLAGS[diaspora][self.h_year_type - 1][4] and
                     (reading >= 39)):
                 if reading == 39:
                     return 59
                 else:
                     reading += 1
-            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][5] and
+            if (JOIN_FLAGS[diaspora][self.h_year_type - 1][5] and
                     (reading >= 42)):
                 if reading == 42:
                     return 60
                 else:
                     reading += 1
-            if (JOIN_FLAGS[diaspora][self._h_year_type - 1][6] and
+            if (JOIN_FLAGS[diaspora][self.h_year_type - 1][6] and
                     (reading == 51)):
                 return 61
         return reading
