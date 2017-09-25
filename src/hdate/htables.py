@@ -228,8 +228,8 @@ HOLIDAYS = (
     HOLIDAY(23, 7, "tu_bav", (15, 11), "", [],
             u"Tu B'Av", u"ט\"ו באב", u"ט\"ו באב"),
     HOLIDAY(24, 8, "yom_hashoah", ([26, 27, 28], 7), "",
-            [move_if_not_on_dow(27, 26, 4, 3),
-             move_if_not_on_dow(27, 28, 6, 0),
+            [move_if_not_on_dow(27, 28, 6, 0) or
+             move_if_not_on_dow(27, 26, 4, 3),
              year_is_after(5719)],
             u"Yom HaShoah", u"יום השואה", u"יום השואה"),
     HOLIDAY(25, 8, "yom_hazikaron", ([2, 3, 4, 5], 8), "", ["zikaron()"],
