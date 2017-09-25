@@ -1,7 +1,7 @@
 py-libhdate
 ===========
 
-Jewish/Hebrew date and Zmanim in native python 2.7
+Jewish/Hebrew date and Zmanim in native python 2.7/3.x
 
 Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more details (including license)
 
