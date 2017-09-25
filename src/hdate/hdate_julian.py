@@ -156,7 +156,7 @@ def hdate_to_jdn(day, month, year):
     return day + 1715118
 
 
-def jdn_togdate(jdn):
+def jdn_to_gdate(jdn):
     """
     Convert from the Julian day to the Gregorian day.
 
@@ -186,7 +186,7 @@ def jdn_togdate(jdn):
 def jdn_to_hdate(jdn):
     """Convert from the Julian day to the Hebrew day."""
     # calculate Gregorian date
-    day, month, year = jdn_togdate(jdn)
+    day, month, year = jdn_to_gdate(jdn)
 
     # Guess Hebrew year is Gregorian year + 3760
     year = year + 3760

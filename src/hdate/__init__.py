@@ -214,7 +214,7 @@ class HDate(object):
 
     def hdate_set_jdn(self, jdn):
         """Set the date of the HDate object based on Julian date."""
-        gday, gmonth, gyear = hj.jdn_togdate(jdn)
+        gday, gmonth, gyear = hj.jdn_to_gdate(jdn)
         gdate = datetime.date(gyear, gmonth, gday)
         self.__init__(gdate, self._diaspora, self._hebrew)
 
