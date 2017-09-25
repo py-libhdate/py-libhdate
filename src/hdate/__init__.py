@@ -183,7 +183,6 @@ class HDate(object):
         self.jdn = hj.gdate_to_jdn(self.gdate.day, self.gdate.month,
                                    self.gdate.year)
         (self.h_day, self.h_month, self.h_year) = hj.jdn_to_hdate(self.jdn)
-        self._weekday = (self.jdn + 1) % 7 + 1
         self.h_size_of_year = hj.get_size_of_hebrew_year(self.h_year)
         jdn_tishrey1 = hj.hdate_to_jdn(1, 1, self.h_year)
         self.h_new_year_weekday = (jdn_tishrey1 + 1) % 7 + 1
@@ -199,7 +198,7 @@ class HDate(object):
     def to_string(self, short=False, hebrew=True):
         """Return the hebrew date as a string object."""
         return get_hebrew_date(self.h_day, self.h_month, self.h_year,
-                               self.get_omer_day(), self._weekday,
+                               self.get_omer_day(), self.dow(),
                                self.get_holyday(), hebrew=hebrew, short=short)
 
     def hdate_set_hdate(self, day, month, year):
@@ -252,6 +251,10 @@ class HDate(object):
         """Return whether this year has a short Kislev or not."""
         return True if self.h_size_of_year in [353, 383] else False
 
+    def dow(self):
+        """Return Hebrew day of week Sunday = 1, Saturday = 6."""
+        return self.gdate.weekday() + 2 if self.gdate.weekday() != 6 else 1
+
     def get_omer_day(self):
         """Return the day of the Omer."""
         omer_day = self.jdn - hj.hdate_to_jdn(16, 7, self.h_year) + 1
@@ -274,7 +277,7 @@ class HDate(object):
                 return 54
 
         # if not shabat return none
-        if self._weekday != 7:
+        if self.gdate.weekday() != 5:
             return 0
 
         if self.h_weeks == 1:
