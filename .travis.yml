@@ -1,7 +1,20 @@
 language: python
-python:
-  - "2.7"
+cache: pip
+env:
+  matrix:
+    - TOXENV=check
+matrix:
+  include:
+    - python: '2.7'
+      env:
+       - TOXENV=py27,report,coveralls,codecov
+    - python: '3.5'
+      env:
+       - TOXENV=py35,report,coveralls,codecov
+    - python: '3.6'
+      env:
+       - TOXENV=py36,report,coveralls,codecov
 install:
   - pip install tox
 script:
-  - tox
+  - tox -v
