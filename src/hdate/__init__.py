@@ -6,8 +6,10 @@ of the Jewish calendrical date and times for a given location
 """
 from __future__ import division
 
+import collections
 import datetime
 import math
+from itertools import islice
 from itertools import product
 
 from dateutil import tz
@@ -16,7 +18,7 @@ import hdate.hdate_julian as hj
 from hdate.hdate_string import get_hebrew_date
 from hdate.hdate_string import get_zmanim_string
 from hdate.htables import HOLIDAYS
-from hdate.htables import JOIN_FLAGS
+from hdate.htables import READINGS
 
 
 def set_date(date):
@@ -254,8 +256,13 @@ class HDate(object):
 
     def rosh_hashana_dow(self):
         """Return the Hebrew day of week for Rosh Hashana."""
-        jdn_tishrey1 = hj.hdate_to_jdn(1, 1, self.h_year)
-        return (jdn_tishrey1 + 1) % 7 + 1
+        jdn = hj.hdate_to_jdn(1, 1, self.h_year)
+        return (jdn + 1) % 7 + 1
+
+    def pesach_dow(self):
+        """Return the first day of week for Pesach."""
+        jdn = hj.hdate_to_jdn(15, 7, self.h_year)
+        return (jdn + 1) % 7 + 1
 
     def get_omer_day(self):
         """Return the day of the Omer."""
@@ -265,136 +272,26 @@ class HDate(object):
         return omer_day
 
     def get_reading(self, diaspora):
-        """
-        Return number of hebrew parasha.
+        """Return number of hebrew parasha."""
+        _year_type = (self.year_size() % 10) - 3
+        year_type = (
+            diaspora * 1000 +
+            self.rosh_hashana_dow() * 100 +
+            _year_type * 10 +
+            self.pesach_dow())
 
-        55..61 are joined readings e.g. Vayakhel Pekudei
-        """
-        h_new_year_weekday = self.rosh_hashana_dow()
-        h_year_type = hj.get_year_type(self.year_size(), h_new_year_weekday)
-        h_days = self.jdn - hj.hdate_to_jdn(1, 1, self.h_year)
-        h_weeks = (h_days + h_new_year_weekday - 1) // 7 + 1
+        days = self.jdn - hj.hdate_to_jdn(1, 1, self.h_year)
+        weeks = (days + self.rosh_hashana_dow() - 1) // 7
 
-        # if simhat tora return vezot habracha
-        if self.h_month == 1:
-            # simhat tora is a day after shmini atzeret outsite israel
-            if self.h_day == 22 and not diaspora:
+        if self.dow() != 7:
+            if days == 22 and diaspora or days == 21 and not diaspora:
                 return 54
-            if self.h_day == 23 and diaspora:
-                return 54
-
-        # if not shabat return none
-        if self.gdate.weekday() != 5:
             return 0
 
-        if h_weeks == 1:
-            if h_new_year_weekday == 7:
-                # Rosh hashana
-                return 0
-            elif ((h_new_year_weekday == 2) or
-                  (h_new_year_weekday == 3)):
-                return 52
-            # if (h_new_year_weekday == 5)
-            return 53
-        elif h_weeks == 2:
-            if h_new_year_weekday == 5:
-                # Yom kippur
-                return 0
-            return 53
-        elif h_weeks == 3:
-            # Succot
-            return 0
-        elif h_weeks == 4:
-            if h_new_year_weekday == 7:
-                # Not simhat tora in diaspora
-                return 0
-            return 1
-        else:
-            # simhat tora on week 4 bereshit too
-            reading = h_weeks - 3
+        readings = flatten(reading.readings for reading in READINGS if
+                           year_type in reading.year_type)
 
-            # was simhat tora on shabat ?
-            if h_new_year_weekday == 7:
-                reading = reading - 1
-
-            # no joining
-            if reading < 22:
-                return reading
-
-            # pesach
-            if (self.h_month == 7) and (self.h_day > 14):
-                # Shmini of pesach in diaspora is on the 22 of the month*/
-                if diaspora and (self.h_day <= 22):
-                    return 0
-                if not diaspora and (self.h_day < 22):
-                    return 0
-
-            # Pesach always removes one
-            if (((self.h_month == 7) and (self.h_day > 21)) or
-                    (self.h_month > 7 and self.h_month < 13)):
-                reading -= 1
-
-                # on diaspora, shmini of pesach may fall on shabat if
-                # next new year is on shabat
-                if (diaspora and (((h_new_year_weekday +
-                                    self.year_size()) % 7) == 2)):
-                    reading -= 1
-
-            # on diaspora, shavuot may fall on shabat if next new year is on
-            # shabat
-            if (diaspora and
-                    (self.h_month < 13) and
-                    ((self.h_month > 9) or
-                     (self.h_month == 9 and self.h_day >= 7)) and
-                    ((h_new_year_weekday + self.year_size())
-                     % 7) == 0):
-                if self.h_month == 9 and self.h_day == 7:
-                    return 0
-                else:
-                    reading -= 1
-
-            # joining
-            if (JOIN_FLAGS[diaspora][h_year_type - 1][0] and
-                    (reading >= 22)):
-                if reading == 22:
-                    return 55
-                else:
-                    reading += 1
-            if (JOIN_FLAGS[diaspora][h_year_type - 1][1] and
-                    (reading >= 27)):
-                if reading == 27:
-                    return 56
-                else:
-                    reading += 1
-            if (JOIN_FLAGS[diaspora][h_year_type - 1][2] and
-                    (reading >= 29)):
-                if reading == 29:
-                    return 57
-                else:
-                    reading += 1
-            if (JOIN_FLAGS[diaspora][h_year_type - 1][3] and
-                    (reading >= 32)):
-                if reading == 32:
-                    return 58
-                else:
-                    reading += 1
-
-            if (JOIN_FLAGS[diaspora][h_year_type - 1][4] and
-                    (reading >= 39)):
-                if reading == 39:
-                    return 59
-                else:
-                    reading += 1
-            if (JOIN_FLAGS[diaspora][h_year_type - 1][5] and
-                    (reading >= 42)):
-                if reading == 42:
-                    return 60
-                else:
-                    reading += 1
-            if (JOIN_FLAGS[diaspora][h_year_type - 1][6] and
-                    (reading == 51)):
-                return 61
-        return reading
+        return next(islice(readings, weeks, weeks + 1))
 
 
 def get_holyday_type(holyday):
@@ -404,3 +301,13 @@ def get_holyday_type(holyday):
     except StopIteration:
         holyday_type = 0
     return holyday_type
+
+
+def flatten(iterable):
+    """Flatten iterables into a single iterable."""
+    for element in iterable:
+        if isinstance(element, collections.Iterable):
+            for subelement in flatten(element):
+                yield subelement
+        else:
+            yield element

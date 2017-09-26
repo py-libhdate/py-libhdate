@@ -304,7 +304,7 @@ class TestHDateReading(object):
 
     READINGS_FOR_YEAR_DIASPORA = [
         # שנים מעוברות
-        # זשא
+        # זשה
         (5763, [[0, 53, 0], list(range(29)), [0], list(range(29, 35)), [0],
                 list(range(35, 39)), [59, 41, 60], list(range(44, 51)), [61]]),
         # זחג
@@ -354,7 +354,7 @@ class TestHDateReading(object):
 
     READINGS_FOR_YEAR_ISRAEL = [
         # שנים מעוברות
-        # זשא
+        # זשה
         (5763, [[0, 53, 0, 54], list(range(1, 29)), [0], list(range(29, 42)),
                 [60], list(range(44, 51)), [61]]),
         # זחג
