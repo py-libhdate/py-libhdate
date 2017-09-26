@@ -70,11 +70,7 @@ class TestHDate(object):
         assert _hdate.h_month == random_hdate.h_month
         assert _hdate.h_year == random_hdate.h_year
         assert _hdate.jdn == random_hdate.jdn
-        assert _hdate.h_size_of_year == random_hdate.h_size_of_year
-        assert _hdate.h_year_type == random_hdate.h_year_type
-        assert _hdate.h_weeks == random_hdate.h_weeks
         assert _hdate.gdate == random_hdate.gdate
-        assert _hdate.h_new_year_weekday == random_hdate.h_new_year_weekday
 
     def test_hj_get_size_of_hebrew_year(self):
         for year, info in list(HEBREW_YEARS_INFO.items()):
@@ -83,14 +79,14 @@ class TestHDate(object):
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_hdate_get_size_of_hebrew_years(self, execution_number,
                                             random_hdate):
-        assert (random_hdate.h_size_of_year ==
+        assert (random_hdate.year_size() ==
                 hj.get_size_of_hebrew_year(random_hdate.h_year))
 
     def test_rosh_hashana_day_of_week(self, random_hdate):
         for year, info in list(HEBREW_YEARS_INFO.items()):
             random_hdate.hdate_set_hdate(random_hdate.h_day,
                                          random_hdate.h_month, year)
-            assert random_hdate.h_new_year_weekday == info[0]
+            assert random_hdate.rosh_hashana_dow() == info[0]
 
     def test_pesach_day_of_week(self, random_hdate):
         for year, info in list(HEBREW_YEARS_INFO.items()):
