@@ -3,7 +3,7 @@
 """String functions returning the requested hebrew/english info."""
 from __future__ import division
 
-from hdate.htables import DAYS_TABLE
+from hdate.htables import DAYS
 from hdate.htables import DIGITS
 from hdate.htables import HEBREW_MONTHS
 from hdate.htables import HOLIDAYS
@@ -48,25 +48,28 @@ def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,
                     short=False, hebrew=True):
     """Return a string representing the given date."""
     is_hebrew = 1 if hebrew else 0
-    is_short = 1 if short else 0
-    res = u"{} {}".format(hebrew_number(day, hebrew=is_hebrew, short=is_short),
-                          u"ב" if is_hebrew else u"")
-    if is_hebrew:
+    res = u"{} {}".format(hebrew_number(day, hebrew=hebrew, short=short),
+                          u"ב" if hebrew else u"")
+    if hebrew:
         res += HEBREW_MONTHS[is_hebrew][month-1]
     else:
         res += HEBREW_MONTHS[is_hebrew][month-1]
-    res += u" " + hebrew_number(year, hebrew=is_hebrew, short=is_short)
+    res += u" " + hebrew_number(year, hebrew=hebrew, short=short)
     if dow:
         dw_str = u""
-        if is_hebrew:
+        if hebrew:
             dw_str = u"יום "
-        dw_str += DAYS_TABLE[is_hebrew][is_short][dow-1]
+        for _day in (x for x in DAYS if x.dow == dow):
+            dw_str += (_day.english_long if not hebrew and not short else
+                       _day.english_short if not hebrew and short else
+                       _day.hebrew_long if hebrew and not short else
+                       _day.hebrew_short)
         res = dw_str + u" " + res
-    if is_short:
+    if short:
         return res
     if omer > 0 and omer < 50:
-        res += u" " + hebrew_number(omer, hebrew=is_hebrew, short=is_short)
-        res += u" " + u"בעומר" if is_hebrew else u" in the Omer"
+        res += u" " + hebrew_number(omer, hebrew=hebrew, short=short)
+        res += u" " + u"בעומר" if hebrew else u" in the Omer"
     for tuples in (x for x in HOLIDAYS if x.index == holiday):
         res += u" " + (tuples.english if not hebrew else
                        tuples.hebrew_long if not short else
@@ -126,11 +129,10 @@ def get_omer_string(omer):
 def get_parashe(parasha, short=False, hebrew=True):
     """Get the string representing the parasha."""
     is_hebrew = 1 if hebrew else 0
-    is_short = 1 if short else 0
     res = PARASHAOT[is_hebrew][parasha]
-    if is_short:
+    if short:
         return res
-    return u"{} {}".format(u"פרשת" if is_hebrew else u"Parashat", res)
+    return u"{} {}".format(u"פרשת" if hebrew else u"Parashat", res)
 
 
 def get_zmanim_string(zmanim, hebrew=True):

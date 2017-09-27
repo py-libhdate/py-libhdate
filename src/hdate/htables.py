@@ -61,19 +61,17 @@ DIGITS = [
     [u" ", u"ק", u"ר", u"ש", u"ת"]
 ]
 
-DAYS_TABLE = [
-    [   # begin english long
-        [u"Sunday", u"Monday", u"Tuesday", u"Wednesday", u"Thursday",
-         u"Friday", u"Saturday"],
-        # begin english short
-        [u"Sun", u"Mon", u"Tue", u"Wed", u"Thu", u"Fri", u"Sat"],
-    ],
-    [   # begin hebrew long
-        [u"ראשון", u"שני", u"שלישי", u"רביעי", u"חמישי", u"שישי", u"שבת"],
-        # begin hebrew short
-        [u"א", u"ב", u"ג", u"ד", u"ה", u"ו", u"ש"]
-    ]
-]
+DAY = namedtuple("DAY",
+                 "dow, english_long, english_short, hebrew_long, hebrew_short")
+DAYS = (
+    DAY(1, u"Sunday", u"Sun", u"ראשון", u"א"),
+    DAY(2, u"Monday", u"Mon", u"שני", u"ב"),
+    DAY(3, u"Tuesday", u"Tue", u"שלישי", u"ג"),
+    DAY(4, u"Wednesday", u"Wed", u"רביעי", u"ד"),
+    DAY(5, u"Thursday", u"Thu", u"חמישי", u"ה"),
+    DAY(6, u"Friday", u"Fri", u"שישי", u"ו"),
+    DAY(7, u"Saturday", u"Sat", u"שבת", u"ז")
+    )
 
 PARASHAOT = [
     [  # begin english
