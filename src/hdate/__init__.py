@@ -6,10 +6,9 @@ of the Jewish calendrical date and times for a given location
 """
 from __future__ import division
 
-import collections
 import datetime
 import math
-from itertools import islice
+from itertools import chain
 from itertools import product
 
 from dateutil import tz
@@ -288,10 +287,12 @@ class HDate(object):
                 return 54
             return 0
 
-        readings = flatten(reading.readings for reading in READINGS if
-                           year_type in reading.year_type)
+        readings = list(
+            chain(*([x] if isinstance(x, int) else x for reading in READINGS
+                    for x in reading.readings
+                    if year_type in reading.year_type)))
 
-        return next(islice(readings, weeks, weeks + 1))
+        return readings[weeks]
 
 
 def get_holyday_type(holyday):
@@ -301,13 +302,3 @@ def get_holyday_type(holyday):
     except StopIteration:
         holyday_type = 0
     return holyday_type
-
-
-def flatten(iterable):
-    """Flatten iterables into a single iterable."""
-    for element in iterable:
-        if isinstance(element, collections.Iterable):
-            for subelement in flatten(element):
-                yield subelement
-        else:
-            yield element
