@@ -137,20 +137,6 @@ HEBREW_MONTHS = [
     ]
 ]
 
-GREGORIAN_MONTHS = [  # NOT IN USE
-    [
-        u"January", u"February", u"March",
-        u"April", u"May", u"June",
-        u"July", u"August", u"September",
-        u"October", u"November", u"December"
-    ],
-    [
-        u"Jan", u"Feb", u"Mar", u"Apr", u"May",
-        u"Jun", u"Jul", u"Aug", u"Sep", u"Oct",
-        u"Nov", u"Dec"
-    ]
-]
-
 
 def year_is_after(year):
     """
