@@ -55,11 +55,11 @@ READINGS = (
         range(44, 51)))
     )
 
-DIGITS = [
-    [u" ", u"א", u"ב", u"ג", u"ד", u"ה", u"ו", u"ז", u"ח", u"ט"],
-    [u"ט", u"י", u"כ", u"ל", u"מ", u"נ", u"ס", u"ע", u"פ", u"צ"],
-    [u" ", u"ק", u"ר", u"ש", u"ת"]
-]
+DIGITS = (
+    (u" ", u"א", u"ב", u"ג", u"ד", u"ה", u"ו", u"ז", u"ח", u"ט"),
+    (u"ט", u"י", u"כ", u"ל", u"מ", u"נ", u"ס", u"ע", u"פ", u"צ"),
+    (u" ", u"ק", u"ר", u"ש", u"ת")
+)
 
 DAY = namedtuple("DAY",
                  "english_long, english_short, hebrew_long, hebrew_short")
@@ -73,8 +73,8 @@ DAYS = (
     DAY(u"Saturday", u"Sat", u"שבת", u"ז")
     )
 
-PARASHAOT = [
-    [  # begin english
+PARASHAOT = (
+    (  # begin english
         u"none", u"Bereshit", u"Noach",
         u"Lech-Lecha", u"Vayera", u"Chayei Sara",
         u"Toldot", u"Vayetzei", u"Vayishlach",
@@ -96,8 +96,8 @@ PARASHAOT = [
         u"Vezot Habracha",                             # 54
         u"Vayakhel-Pekudei", u"Tazria-Metzora", u"Achrei Mot-Kedoshim",
         u"Behar-Bechukotai", u"Chukat-Balak", u"Matot-Masei",
-        u"Nitzavim-Vayeilech"],
-    [     # begin hebrew
+        u"Nitzavim-Vayeilech"),
+    (     # begin hebrew
         u"none", u"בראשית", u"נח",
         u"לך לך", u"וירא", u"חיי שרה",
         u"תולדות", u"ויצא", u"וישלח",
@@ -119,8 +119,8 @@ PARASHAOT = [
         u"וזאת הברכה",  # 54
         u"ויקהל-פקודי", u"תזריע-מצורע", u"אחרי מות-קדושים",
         u"בהר-בחוקתי", u"חוקת-בלק", u"מטות מסעי",
-        u"נצבים-וילך"]
-]
+        u"נצבים-וילך")
+)
 
 MONTH = namedtuple("MONTH", "english, hebrew")
 MONTHS = (
