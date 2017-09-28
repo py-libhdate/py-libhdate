@@ -5,8 +5,8 @@ from __future__ import division
 
 from hdate.htables import DAYS
 from hdate.htables import DIGITS
-from hdate.htables import HEBREW_MONTHS
 from hdate.htables import HOLIDAYS
+from hdate.htables import MONTHS
 from hdate.htables import PARASHAOT
 from hdate.htables import ZMANIM
 
@@ -47,33 +47,35 @@ def hebrew_number(num, hebrew=True, short=False):
 def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,
                     short=False, hebrew=True):
     """Return a string representing the given date."""
-    is_hebrew = 1 if hebrew else 0
+    # Day
     res = u"{} {}".format(hebrew_number(day, hebrew=hebrew, short=short),
                           u"ב" if hebrew else u"")
-    if hebrew:
-        res += HEBREW_MONTHS[is_hebrew][month-1]
-    else:
-        res += HEBREW_MONTHS[is_hebrew][month-1]
+    # Month
+    res += MONTHS[month-1].hebrew if hebrew else MONTHS[month-1].english
+    # Year
     res += u" " + hebrew_number(year, hebrew=hebrew, short=short)
+
+    # Weekday
     if dow:
-        dw_str = u""
-        if hebrew:
-            dw_str = u"יום "
-        for _day in (x for x in DAYS if x.dow == dow):
-            dw_str += (_day.english_long if not hebrew and not short else
-                       _day.english_short if not hebrew and short else
-                       _day.hebrew_long if hebrew and not short else
-                       _day.hebrew_short)
+        dw_str = u"יום " if hebrew else u""
+        dw_str += (DAYS[dow-1].english_long if not hebrew and not short else
+                   DAYS[dow-1].english_short if not hebrew and short else
+                   DAYS[dow-1].hebrew_long if hebrew and not short else
+                   DAYS[dow-1].hebrew_short)
         res = dw_str + u" " + res
     if short:
         return res
-    if omer > 0 and omer < 50:
+
+    # Omer
+    if 0 < omer < 50:
         res += u" " + hebrew_number(omer, hebrew=hebrew, short=short)
         res += u" " + u"בעומר" if hebrew else u" in the Omer"
-    for tuples in (x for x in HOLIDAYS if x.index == holiday):
-        res += u" " + (tuples.english if not hebrew else
-                       tuples.hebrew_long if not short else
-                       tuples.hebrew_short)
+
+    # Holiday
+    for _holiday in (x for x in HOLIDAYS if x.index == holiday):
+        res += u" " + (_holiday.english if not hebrew else
+                       _holiday.hebrew_long if not short else
+                       _holiday.hebrew_short)
     return res
 
 

@@ -62,15 +62,15 @@ DIGITS = [
 ]
 
 DAY = namedtuple("DAY",
-                 "dow, english_long, english_short, hebrew_long, hebrew_short")
+                 "english_long, english_short, hebrew_long, hebrew_short")
 DAYS = (
-    DAY(1, u"Sunday", u"Sun", u"ראשון", u"א"),
-    DAY(2, u"Monday", u"Mon", u"שני", u"ב"),
-    DAY(3, u"Tuesday", u"Tue", u"שלישי", u"ג"),
-    DAY(4, u"Wednesday", u"Wed", u"רביעי", u"ד"),
-    DAY(5, u"Thursday", u"Thu", u"חמישי", u"ה"),
-    DAY(6, u"Friday", u"Fri", u"שישי", u"ו"),
-    DAY(7, u"Saturday", u"Sat", u"שבת", u"ז")
+    DAY(u"Sunday", u"Sun", u"ראשון", u"א"),
+    DAY(u"Monday", u"Mon", u"שני", u"ב"),
+    DAY(u"Tuesday", u"Tue", u"שלישי", u"ג"),
+    DAY(u"Wednesday", u"Wed", u"רביעי", u"ד"),
+    DAY(u"Thursday", u"Thu", u"חמישי", u"ה"),
+    DAY(u"Friday", u"Fri", u"שישי", u"ו"),
+    DAY(u"Saturday", u"Sat", u"שבת", u"ז")
     )
 
 PARASHAOT = [
@@ -122,18 +122,23 @@ PARASHAOT = [
         u"נצבים-וילך"]
 ]
 
-HEBREW_MONTHS = [
-    [  # begin english
-        u"Tishrei", u"Cheshvan", u"Kislev", u"Tevet",
-        u"Sh'vat", u"Adar", u"Nisan", u"Iyyar",
-        u"Sivan", u"Tammuz", u"Av", u"Elul", u"Adar I",
-        u"Adar II"
-    ],
-    [  # begin hebrew
-        u"תשרי", u"חשון", u"כסלו", u"טבת", u"שבט", u"אדר", u"ניסן", u"אייר",
-        u"סיון", u"תמוז", u"אב", u"אלול", u"אדר א", u"אדר ב"
-    ]
-]
+MONTH = namedtuple("MONTH", "english, hebrew")
+MONTHS = (
+    MONTH(u"Tishrei", u"תשרי"),
+    MONTH(u"Cheshvan", u"חשון"),
+    MONTH(u"Kislev", u"כסלו"),
+    MONTH(u"Tevet", u"טבת"),
+    MONTH(u"Sh'vat", u"שבט"),
+    MONTH(u"Adar", u"אדר"),
+    MONTH(u"Nisan", u"ניסן"),
+    MONTH(u"Iyyar", u"אייר"),
+    MONTH(u"Sivan", u"סיון"),
+    MONTH(u"Tammuz", u"תמוז"),
+    MONTH(u"Av", u"אב"),
+    MONTH(u"Elul", u"אלול"),
+    MONTH(u"Adar I", u"אדר א"),
+    MONTH(u"Adar II", u"אדר ב")
+    )
 
 
 def year_is_after(year):
