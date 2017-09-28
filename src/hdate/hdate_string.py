@@ -51,7 +51,7 @@ def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,
     res = u"{} {}".format(hebrew_number(day, hebrew=hebrew, short=short),
                           u"ב" if hebrew else u"")
     # Month
-    res += MONTHS[month-1].hebrew if hebrew else MONTHS[month-1].english
+    res += MONTHS[month-1][hebrew]
     # Year
     res += u" " + hebrew_number(year, hebrew=hebrew, short=short)
 
