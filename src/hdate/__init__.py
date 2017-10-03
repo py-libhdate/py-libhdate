@@ -241,6 +241,15 @@ class HDate(object):
         # If anything is left return it, otherwise return 0
         return holydays_list[0].index if holydays_list else 0
 
+    def get_holyday_name(self):
+        """Return descriptive name for the current holyday."""
+        try:
+            name = next(x.name for x in HOLIDAYS
+                        if x.index == self.get_holyday())
+        except StopIteration:
+            name = ""
+        return name
+
     def short_kislev(self):
         """Return whether this year has a short Kislev or not."""
         return True if self.year_size() in [353, 383] else False
@@ -298,7 +307,7 @@ class HDate(object):
 def get_holyday_type(holyday):
     """Return a number describing the type of the holy day."""
     try:
-        holyday_type = next((x.type for x in HOLIDAYS if x.index == holyday))
+        holyday_type = next(x.type for x in HOLIDAYS if x.index == holyday)
     except StopIteration:
         holyday_type = 0
     return holyday_type
