@@ -58,10 +58,7 @@ def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,
     # Weekday
     if dow:
         dw_str = u"יום " if hebrew else u""
-        dw_str += (DAYS[dow-1].english_long if not hebrew and not short else
-                   DAYS[dow-1].english_short if not hebrew and short else
-                   DAYS[dow-1].hebrew_long if hebrew and not short else
-                   DAYS[dow-1].hebrew_short)
+        dw_str += DAYS[dow-1][hebrew][short]
         res = dw_str + u" " + res
     if short:
         return res
@@ -73,9 +70,8 @@ def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,
 
     # Holiday
     for _holiday in (x for x in HOLIDAYS if x.index == holiday):
-        res += u" " + (_holiday.english if not hebrew else
-                       _holiday.hebrew_long if not short else
-                       _holiday.hebrew_short)
+        desc = _holiday.description[hebrew]
+        res += u" " + desc if not hebrew else desc[short]
     return res
 
 
@@ -143,6 +139,5 @@ def get_zmanim_string(zmanim, hebrew=True):
         if zman.zman in zmanim:
             time = zmanim[zman.zman]
             res += u"{} - {:02d}:{:02d}\n".format(
-                zman.hebrew if hebrew else zman.english,
-                time.hour, time.minute)
+                zman.description[hebrew], time.hour, time.minute)
     return res
