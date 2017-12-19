@@ -1,8 +1,9 @@
 """Fixtures for py.test."""
 
-from calendar import isleap
 import datetime
 import random
+from calendar import isleap
+
 import pytest
 
 import hdate

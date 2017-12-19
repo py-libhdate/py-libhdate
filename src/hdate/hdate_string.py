@@ -3,8 +3,12 @@
 """String functions returning the requested hebrew/english info."""
 from __future__ import division
 
-from hdate.htables import DIGITS, HEBREW_MONTHS, HOLIDAYS, PARASHAOT
-from hdate.htables import DAYS_TABLE, ZMANIM_TYPES, ZMANIM_STRING
+from hdate.htables import DAYS
+from hdate.htables import DIGITS
+from hdate.htables import HOLIDAYS
+from hdate.htables import MONTHS
+from hdate.htables import PARASHAOT
+from hdate.htables import ZMANIM
 
 
 def hebrew_number(num, hebrew=True, short=False):
@@ -43,28 +47,31 @@ def hebrew_number(num, hebrew=True, short=False):
 def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,
                     short=False, hebrew=True):
     """Return a string representing the given date."""
-    is_hebrew = 1 if hebrew else 0
-    is_short = 1 if short else 0
-    res = u"{} {}".format(hebrew_number(day, hebrew=is_hebrew, short=is_short),
-                          u"ב" if is_hebrew else u"")
-    if is_hebrew:
-        res += HEBREW_MONTHS[is_hebrew][month-1]
-    else:
-        res += HEBREW_MONTHS[is_hebrew][month-1]
-    res += u" " + hebrew_number(year, hebrew=is_hebrew, short=is_short)
+    # Day
+    res = u"{} {}".format(hebrew_number(day, hebrew=hebrew, short=short),
+                          u"ב" if hebrew else u"")
+    # Month
+    res += MONTHS[month-1][hebrew]
+    # Year
+    res += u" " + hebrew_number(year, hebrew=hebrew, short=short)
+
+    # Weekday
     if dow:
-        dw_str = u""
-        if is_hebrew:
-            dw_str = u"יום "
-        dw_str += DAYS_TABLE[is_hebrew][is_short][dow-1]
+        dw_str = u"יום " if hebrew else u""
+        dw_str += DAYS[dow-1][hebrew][short]
         res = dw_str + u" " + res
-    if is_short:
+    if short:
         return res
-    if omer > 0 and omer < 50:
-        res += u" " + hebrew_number(omer, hebrew=is_hebrew, short=is_short)
-        res += u" " + u"בעומר" if is_hebrew else u" in the Omer"
-    if holiday:
-        res += u" " + HOLIDAYS[is_hebrew][is_short][holiday-1]
+
+    # Omer
+    if 0 < omer < 50:
+        res += u" " + hebrew_number(omer, hebrew=hebrew, short=short)
+        res += u" " + u"בעומר" if hebrew else u" in the Omer"
+
+    # Holiday
+    for _holiday in (x for x in HOLIDAYS if x.index == holiday):
+        desc = _holiday.description[hebrew]
+        res += u" " + desc if not hebrew else desc[short]
     return res
 
 
@@ -119,21 +126,18 @@ def get_omer_string(omer):
 
 def get_parashe(parasha, short=False, hebrew=True):
     """Get the string representing the parasha."""
-    is_hebrew = 1 if hebrew else 0
-    is_short = 1 if short else 0
-    res = PARASHAOT[is_hebrew][parasha]
-    if is_short:
+    res = PARASHAOT[parasha][hebrew]
+    if short:
         return res
-    return u"{} {}".format(u"פרשת" if is_hebrew else u"Parashat", res)
+    return u"{} {}".format(u"פרשת" if hebrew else u"Parashat", res)
 
 
 def get_zmanim_string(zmanim, hebrew=True):
     """Get the string representing the zmanim of the day."""
-    res = ""
-    lang = "heb" if hebrew else "eng"
-    for zman in ZMANIM_TYPES:
-        if zman in zmanim:
-            time = zmanim[zman]
-            res += u"{} - {:02d}:{:02d}\n".format(ZMANIM_STRING[lang][zman],
-                                                  time.hour, time.minute)
+    res = u""
+    for zman in ZMANIM:
+        if zman.zman in zmanim:
+            time = zmanim[zman.zman]
+            res += u"{} - {:02d}:{:02d}\n".format(
+                zman.description[hebrew], time.hour, time.minute)
     return res
