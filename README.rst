@@ -14,7 +14,7 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
     >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18),
                          latitude=c.latitude, longitude=c.longitude, 
                          timezone=c.timezone)
-    >>> z
+    >>> print z
     
 ::
 
@@ -39,7 +39,7 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
                      latitude=c.latitude, longitude=c.longitude, 
                      timezone=c.timezone, hebrew=False)
     
-    >>> z
+    >>> print z
 
 ::
 
@@ -60,8 +60,8 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 
 .. code :: python
 
-    >>> h=hdate.HDate()
-    >>> print h.to_string(hebrew=False)
+    >>> h=hdate.HDate(hebrew=False)
+    >>> print h
 
 ::
 
@@ -69,8 +69,8 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 
 .. code :: python
 
-    >>> h=hdate.HDate(datetime.date(2016, 4, 26))
-    >>> print h.to_string()
+    >>> h=hdate.HDate(datetime.date(2016, 4, 26), hebrew=False)
+    >>> print h
 
 ::
 
