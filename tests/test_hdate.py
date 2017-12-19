@@ -187,17 +187,15 @@ class TestSpecialDays(object):
         print("Testing " + name + " for " + str(year))
 
         for date in possible_dates:
-            date_under_test = hdate.HDate()
+            date_under_test = hdate.HDate(hebrew=False)
             date_under_test.hdate_set_hdate(*date, year=year)
             if date_under_test.get_holyday() == holiday:
-                print("date " + date_under_test.to_string(True, False),
-                      " matched")
+                print("date ", date_under_test, " matched")
                 for other in possible_dates:
                     if other != date:
-                        other_date = hdate.HDate()
+                        other_date = hdate.HDate(hebrew=False)
                         other_date.hdate_set_hdate(*other, year=year)
-                        print("checking " + other_date.to_string(True, False),
-                              " doesn't match")
+                        print("checking ", other_date, " doesn't match")
                         assert other_date.get_holyday() != holiday
                 found_matching_holiday = True
 

@@ -8,6 +8,7 @@ from __future__ import division
 
 import datetime
 import math
+import sys
 from itertools import chain
 from itertools import product
 
@@ -71,10 +72,16 @@ class Zmanim(object):
             zmanim_dict[zman] = self.utc_minute_timezone(zmanim_list[zman])
         return zmanim_dict
 
-    def __repr__(self):
-        """Return a representation of Zmanim for a given day and location."""
-        return get_zmanim_string(
-            self.zmanim, hebrew=self._hebrew).encode('utf-8')
+    def __unicode__(self):
+        """Return a Unicode representation of Zmanim."""
+        return get_zmanim_string(self.zmanim, hebrew=self._hebrew)
+
+    def __str__(self):
+        """Return a string representation of Zmanim."""
+        if sys.version_info.major < 3:
+            return unicode(self).encode('utf-8')
+
+        return self.__unicode__()
 
     def gday_of_year(self):
         """Return the number of days since January 1 of the given year."""
@@ -185,15 +192,19 @@ class HDate(object):
                                    self.gdate.year)
         (self.h_day, self.h_month, self.h_year) = hj.jdn_to_hdate(self.jdn)
 
-    def __repr__(self):
-        """Return the Hebrew date as a string."""
-        return self.to_string(hebrew=self._hebrew).encode("utf-8")
-
-    def to_string(self, short=False, hebrew=True):
-        """Return the hebrew date as a string object."""
+    def __unicode__(self):
+        """Return a Unicode representation of HDate."""
         return get_hebrew_date(self.h_day, self.h_month, self.h_year,
                                self.get_omer_day(), self.dow(),
-                               self.get_holyday(), hebrew=hebrew, short=short)
+                               self.get_holyday(), hebrew=self._hebrew,
+                               short=False)
+
+    def __str__(self):
+        """Return a string representation of HDate."""
+        if sys.version_info.major < 3:
+            return unicode(self).encode('utf-8')
+
+        return self.__unicode__()
 
     def hdate_set_hdate(self, day, month, year):
         """Set the dates of the HDate object based on a given Hebrew date."""
