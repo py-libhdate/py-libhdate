@@ -75,52 +75,40 @@ DAYS = (
     )
 
 PARASHAOT = (
-    (  # begin english
-        u"none", u"Bereshit", u"Noach",
-        u"Lech-Lecha", u"Vayera", u"Chayei Sara",
-        u"Toldot", u"Vayetzei", u"Vayishlach",
-        u"Vayeshev", u"Miketz", u"Vayigash",     # 11
-        u"Vayechi", u"Shemot", u"Vaera",
-        u"Bo", u"Beshalach", u"Yitro",
-        u"Mishpatim", u"Terumah", u"Tetzaveh",     # 20
-        u"Ki Tisa", u"Vayakhel", u"Pekudei",
-        u"Vayikra", u"Tzav", u"Shmini",
-        u"Tazria", u"Metzora", u"Achrei Mot",
-        u"Kedoshim", u"Emor", u"Behar",        # 32
-        u"Bechukotai", u"Bamidbar", u"Nasso",
-        u"Beha'alotcha", u"Sh'lach", u"Korach",
-        u"Chukat", u"Balak", u"Pinchas",      # 41
-        u"Matot", u"Masei", u"Devarim",
-        u"Vaetchanan", u"Eikev", u"Re'eh",
-        u"Shoftim", u"Ki Teitzei", u"Ki Tavo",      # 50
-        u"Nitzavim", u"Vayeilech", u"Ha'Azinu",
-        u"Vezot Habracha",                             # 54
-        u"Vayakhel-Pekudei", u"Tazria-Metzora", u"Achrei Mot-Kedoshim",
-        u"Behar-Bechukotai", u"Chukat-Balak", u"Matot-Masei",
-        u"Nitzavim-Vayeilech"),
-    (     # begin hebrew
-        u"none", u"בראשית", u"נח",
-        u"לך לך", u"וירא", u"חיי שרה",
-        u"תולדות", u"ויצא", u"וישלח",
-        u"וישב", u"מקץ", u"ויגש",  # 11
-        u"ויחי", u"שמות", u"וארא",
-        u"בא", u"בשלח", u"יתרו",
-        u"משפטים", u"תרומה", u"תצוה",  # 20
-        u"כי תשא", u"ויקהל", u"פקודי",
-        u"ויקרא", u"צו", u"שמיני",
-        u"תזריע", u"מצורע", u"אחרי מות",
-        u"קדושים", u"אמור", u"בהר",  # 32
-        u"בחוקתי", u"במדבר", u"נשא",
-        u"בהעלתך", u"שלח", u"קרח",
-        u"חקת", u"בלק", u"פנחס",  # 41
-        u"מטות", u"מסעי", u"דברים",
-        u"ואתחנן", u"עקב", u"ראה",
-        u"שופטים", u"כי תצא", u"כי תבוא",  # 50
-        u"נצבים", u"וילך", u"האזינו",
-        u"וזאת הברכה",  # 54
-        u"ויקהל-פקודי", u"תזריע-מצורע", u"אחרי מות-קדושים",
-        u"בהר-בחוקתי", u"חוקת-בלק", u"מטות מסעי",
-        u"נצבים-וילך")
+    LANG(u"none", u"none"), LANG(u"Bereshit", u"בראשית"),
+    LANG(u"Noach", u"נח"), LANG(u"Lech-Lecha", u"לך לך"),
+    LANG(u"Vayera", u"וירא"), LANG(u"Chayei Sara", u"חיי שרה"),
+    LANG(u"Toldot", u"תולדות"), LANG(u"Vayetzei", u"ויצא"),
+    LANG(u"Vayishlach", u"וישלח"), LANG(u"Vayeshev", u"וישב"),
+    LANG(u"Miketz", u"מקץ"), LANG(u"Vayigash", u"ויגש"),
+    LANG(u"Vayechi", u"ויחי"), LANG(u"Shemot", u"שמות"),
+    LANG(u"Vaera", u"וארא"), LANG(u"Bo", u"בא"),
+    LANG(u"Beshalach", u"בשלח"), LANG(u"Yitro", u"יתרו"),
+    LANG(u"Mishpatim", u"משפטים"), LANG(u"Terumah", u"תרומה"),
+    LANG(u"Tetzaveh", u"תצוה"), LANG(u"Ki Tisa", u"כי תשא"),
+    LANG(u"Vayakhel", u"ויקהל"), LANG(u"Pekudei", u"פקודי"),
+    LANG(u"Vayikra", u"ויקרא"), LANG(u"Tzav", u"צו"),
+    LANG(u"Shmini", u"שמיני"), LANG(u"Tazria", u"תזריע"),
+    LANG(u"Metzora", u"מצורע"), LANG(u"Achrei Mot", u"אחרי מות"),
+    LANG(u"Kedoshim", u"קדושים"), LANG(u"Emor", u"אמור"),
+    LANG(u"Behar", u"בהר"), LANG(u"Bechukotai", u"בחוקתי"),
+    LANG(u"Bamidbar", u"במדבר"), LANG(u"Nasso", u"נשא"),
+    LANG(u"Beha'alotcha", u"בהעלתך"), LANG(u"Sh'lach", u"שלח"),
+    LANG(u"Korach", u"קרח"), LANG(u"Chukat", u"חקת"),
+    LANG(u"Balak", u"בלק"), LANG(u"Pinchas", u"פנחס"),
+    LANG(u"Matot", u"מטות"), LANG(u"Masei", u"מסעי"),
+    LANG(u"Devarim", u"דברים"), LANG(u"Vaetchanan", u"ואתחנן"),
+    LANG(u"Eikev", u"עקב"), LANG(u"Re'eh", u"ראה"),
+    LANG(u"Shoftim", u"שופטים"), LANG(u"Ki Teitzei", u"כי תצא"),
+    LANG(u"Ki Tavo", u"כי תבוא"), LANG(u"Nitzavim", u"נצבים"),
+    LANG(u"Vayeilech", u"וילך"), LANG(u"Ha'Azinu", u"האזינו"),
+    LANG(u"Vezot Habracha", u"וזאת הברכה"),
+    LANG(u"Vayakhel-Pekudei", u"ויקהל-פקודי"),
+    LANG(u"Tazria-Metzora", u"תזריע-מצורע"),
+    LANG(u"Achrei Mot-Kedoshim", u"אחרי מות-קדושים"),
+    LANG(u"Behar-Bechukotai", u"בהר-בחוקתי"),
+    LANG(u"Chukat-Balak", u"חוקת-בלק"), LANG(u"Matot-Masei", u"מטות מסעי"),
+    LANG(u"Nitzavim-Vayeilech", u"נצבים-וילך")
 )
 
 MONTHS = (

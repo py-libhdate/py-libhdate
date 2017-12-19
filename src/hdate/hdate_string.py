@@ -126,7 +126,7 @@ def get_omer_string(omer):
 
 def get_parashe(parasha, short=False, hebrew=True):
     """Get the string representing the parasha."""
-    res = PARASHAOT[hebrew][parasha]
+    res = PARASHAOT[parasha][hebrew]
     if short:
         return res
     return u"{} {}".format(u"פרשת" if hebrew else u"Parashat", res)

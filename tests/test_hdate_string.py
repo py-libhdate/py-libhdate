@@ -100,14 +100,14 @@ class TestParasha(object):
     def test_get_parasha_hebrew_short(self):
         parasha = random.randint(0, 61)
         parasha_string = hs.get_parashe(parasha, short=True, hebrew=True)
-        assert parasha_string == ht.PARASHAOT[1][parasha]
+        assert parasha_string == ht.PARASHAOT[parasha][1]
 
     def test_get_parasha_english_long(self):
         parasha = random.randint(0, 61)
         parasha_string = hs.get_parashe(parasha, short=False, hebrew=False)
-        assert parasha_string == "Parashat {}".format(ht.PARASHAOT[0][parasha])
+        assert parasha_string == "Parashat {}".format(ht.PARASHAOT[parasha][0])
 
     def test_get_parasha_english_short(self):
         parasha = random.randint(0, 61)
         parasha_string = hs.get_parashe(parasha, short=True, hebrew=False)
-        assert parasha_string == ht.PARASHAOT[0][parasha]
+        assert parasha_string == ht.PARASHAOT[parasha][0]
