@@ -25,7 +25,7 @@ Publishing code
 ***************
 Once code maintainers have accepted the code they should run the following tools:
 
-1. `pip install .[pub]` to install the tools necessary for publishing the package.
-2. `bumpversion` to update the version using arguments `major`, `minor` or `patch` depending on the changes.
-3. `python setup.py bdist_wheel` to generate a binary distribution.
-4. `twine upload dist/*` to upload the binaries to pypi.
+1. ``pip install .[pub]`` to install the tools necessary for publishing the package.
+2. ``bumpversion`` to update the version using arguments ``major``, ``minor`` or ``patch`` depending on the changes.
+3. ``python setup.py bdist_wheel`` to generate a binary distribution.
+4. ``twine upload dist/*`` to upload the binaries to pypi.
