@@ -41,6 +41,9 @@ setup(name='hdate',
       install_requires=[
           'python-dateutil'
       ],
-      extras_require={'dev': ['tox', 'bumpversion']},
+      extras_require={
+        'dev': ['tox'],
+        'pub': ['bumpversion', 'wheel', 'twine']
+      },
       python_requires='>=2.7'
       )
