@@ -1,16 +1,15 @@
 #!/usr/bin/env python
 # -*- encoding: utf-8 -*-
 
+__author__ = "Royi Reshef"
+__maintainer__ = "Tsvi Mostovicz"
+__version__ = "0.6.2"
+
 from codecs import open
 from glob import glob
-from os.path import abspath
-from os.path import basename
-from os.path import dirname
-from os.path import join
-from os.path import splitext
+from os.path import abspath, basename, dirname, join, splitext
 
-from setuptools import find_packages
-from setuptools import setup
+from setuptools import find_packages, setup
 
 here = abspath(dirname(__file__))
 
@@ -20,7 +19,7 @@ with open(join(here, 'README.rst'), encoding='utf-8') as f:
 
 
 setup(name='hdate',
-      version='0.6.1',
+      version=__version__,
       description='Hebrew date and Zmanim',
       long_description=long_description,
       url='https://github.com/royi1000/py-libhdate',
@@ -31,9 +30,9 @@ setup(name='hdate',
            'Programming Language :: Python :: 3'
       ],
 
-      author='Royi Reshef',
+      author=__author__,
       author_email='roy.myapp@gmail.com',
-      maintainer='Tsvi Mostovicz',
+      maintainer=__maintainer__,
       maintainer_email='ttmost@gmail.com',
       license='GPLv3+',
       packages=find_packages('src'),
@@ -42,6 +41,6 @@ setup(name='hdate',
       install_requires=[
           'python-dateutil'
       ],
-      extras_require={'dev': ['tox']},
+      extras_require={'dev': ['tox', 'bumpversion']},
       python_requires='>=2.7'
       )

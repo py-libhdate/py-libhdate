@@ -8,7 +8,9 @@ import random
 import pytest
 
 import hdate
+import hdate.date as date_mod
 import hdate.hdate_julian as hj
+from hdate.common import set_date
 
 # pylint: disable=no-self-use
 # pylint-comment: In tests, classes are just a grouping semantic
@@ -31,28 +33,28 @@ HEBREW_YEARS_INFO = {
     5744: (5, 385, 3), 5771: (5, 385, 3), 5774: (5, 385, 3),
     5757: (7, 383, 3), 5784: (7, 383, 3),
     5760: (7, 385, 5), 5763: (7, 385, 5), 5787: (7, 385, 5)
-    }
+}
 
 
 class TestSetDate(object):
 
     def test_default_today(self):
-        assert hdate.set_date(None) == datetime.date.today()
+        assert set_date(None) == datetime.date.today()
 
     def test_random_date(self, random_date):
         randomday = datetime.date(*random_date)
         # When calling set_date with no arguments we should get today's date
-        assert hdate.set_date(randomday) == randomday
+        assert set_date(randomday) == randomday
 
     @pytest.mark.parametrize('execution_number', list(range(5)))
     def test_random_datetime(self, execution_number, random_date):
         randomday = datetime.datetime(*random_date)
         # When calling set_date with no arguments we should get today's date
-        assert hdate.set_date(randomday) == randomday
+        assert set_date(randomday) == randomday
 
     def test_illegal_value(self):
         with pytest.raises(TypeError):
-            hdate.set_date(100)
+            set_date(100)
 
 
 class TestHDate(object):
@@ -267,35 +269,35 @@ class TestSpecialDays(object):
         holyday = execution_number
         # regular day
         if holyday == 0:
-            assert hdate.get_holyday_type(holyday) == 0
+            assert date_mod.get_holyday_type(holyday) == 0
         # Yom tov
         if holyday in [1, 2, 4, 5, 8, 15, 20, 27, 28, 29, 30, 31, 32]:
-            assert hdate.get_holyday_type(holyday) == 1
+            assert date_mod.get_holyday_type(holyday) == 1
         # Erev yom kippur
         if holyday == 37:
-            assert hdate.get_holyday_type(holyday) == 2
+            assert date_mod.get_holyday_type(holyday) == 2
         # Hol hamoed
         if holyday in [6, 7, 16]:
-            assert hdate.get_holyday_type(holyday) == 3
+            assert date_mod.get_holyday_type(holyday) == 3
         # Hanuka and purim
         if holyday in [9, 13, 14]:
-            assert hdate.get_holyday_type(holyday) == 4
+            assert date_mod.get_holyday_type(holyday) == 4
         # Tzom
         if holyday in [3, 10, 12, 21, 22]:
-            assert hdate.get_holyday_type(holyday) == 5
+            assert date_mod.get_holyday_type(holyday) == 5
         # Independance day and Yom yerushalaim
         if holyday in [17, 26]:
-            assert hdate.get_holyday_type(holyday) == 6
+            assert date_mod.get_holyday_type(holyday) == 6
         # Lag baomer ,Tu beav, Tu beshvat
         if holyday in [18, 23, 11]:
-            assert hdate.get_holyday_type(holyday) == 7
+            assert date_mod.get_holyday_type(holyday) == 7
         # Tzahal and Holocaust memorial days
         if holyday in [24, 25]:
-            assert hdate.get_holyday_type(holyday) == 8
+            assert date_mod.get_holyday_type(holyday) == 8
         # Not a holy day (yom hamishpacha, zhabotinsky, rabin, fallen soldiers
         # whose burial place is unknown)
         if holyday in [33, 34, 35, 36]:
-            assert hdate.get_holyday_type(holyday) == 9
+            assert date_mod.get_holyday_type(holyday) == 9
 
 
 class TestHDateReading(object):
