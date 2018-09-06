@@ -4,7 +4,7 @@ import random
 
 import pytest
 
-import hdate.hdate_string as hs
+import hdate.date as dt
 import hdate.htables as ht
 
 # pylint: disable=no-self-use
@@ -34,13 +34,13 @@ class TestOmer(object):
 
     @pytest.mark.parametrize("omer_day,hebrew_string", OMER_STRINGS)
     def test_get_omer_string(self, omer_day, hebrew_string):
-        assert hs.get_omer_string(omer_day) == hebrew_string
+        assert dt.get_omer_string(omer_day) == hebrew_string
 
     def test_illegal_value(self):
         with pytest.raises(ValueError):
-            hs.get_omer_string(random.randint(50, 100))
+            dt.get_omer_string(random.randint(50, 100))
         with pytest.raises(ValueError):
-            hs.get_omer_string(random.randint(-100, 0))
+            dt.get_omer_string(random.randint(-100, 0))
 
 
 class TestHebrewNumbers(object):
@@ -61,26 +61,26 @@ class TestHebrewNumbers(object):
 
     @pytest.mark.parametrize("number,expected_string,expected_short", NUMBERS)
     def test_hebrew_number(self, number, expected_string, expected_short):
-        assert hs.hebrew_number(number) == expected_string
+        assert dt.hebrew_number(number) == expected_string
 
     @pytest.mark.parametrize("number,expected_string,expected_short", NUMBERS)
     def test_hebrew_number_short_true(self, number, expected_string,
                                       expected_short):
-        assert hs.hebrew_number(number, short=True) == expected_short
+        assert dt.hebrew_number(number, short=True) == expected_short
 
     def test_illegal_value(self):
         with pytest.raises(ValueError):
-            hs.hebrew_number(random.randint(10000, 20000))
+            dt.hebrew_number(random.randint(10000, 20000))
         with pytest.raises(ValueError):
-            hs.hebrew_number(random.randint(-100, -1))
+            dt.hebrew_number(random.randint(-100, -1))
 
     def test_hebrew_number_hebrew_false(self):
         number = random.randint(0, 100000)
-        assert hs.hebrew_number(number, hebrew=False) == str(number)
+        assert dt.hebrew_number(number, hebrew=False) == str(number)
 
     def test_hebrew_number_hebrew_false_short_true(self):
         number = random.randint(0, 100000)
-        assert (hs.hebrew_number(number, hebrew=False, short=True) ==
+        assert (dt.hebrew_number(number, hebrew=False, short=True) ==
                 str(number))
 
 
@@ -89,25 +89,25 @@ class TestParasha(object):
 
     def test_get_parasha_default_args(self):
         parasha = random.randint(0, 61)
-        assert hs.get_parashe(parasha) == hs.get_parashe(parasha, short=False,
+        assert dt.get_parashe(parasha) == dt.get_parashe(parasha, short=False,
                                                          hebrew=True)
 
     def test_get_parasha_hebrew_long(self):
         parasha = random.randint(0, 61)
-        parasha_string = hs.get_parashe(parasha, short=False, hebrew=True)
+        parasha_string = dt.get_parashe(parasha, short=False, hebrew=True)
         assert parasha_string[:4] == u"פרשת"
 
     def test_get_parasha_hebrew_short(self):
         parasha = random.randint(0, 61)
-        parasha_string = hs.get_parashe(parasha, short=True, hebrew=True)
+        parasha_string = dt.get_parashe(parasha, short=True, hebrew=True)
         assert parasha_string == ht.PARASHAOT[parasha][1]
 
     def test_get_parasha_english_long(self):
         parasha = random.randint(0, 61)
-        parasha_string = hs.get_parashe(parasha, short=False, hebrew=False)
+        parasha_string = dt.get_parashe(parasha, short=False, hebrew=False)
         assert parasha_string == "Parashat {}".format(ht.PARASHAOT[parasha][0])
 
     def test_get_parasha_english_short(self):
         parasha = random.randint(0, 61)
-        parasha_string = hs.get_parashe(parasha, short=True, hebrew=False)
+        parasha_string = dt.get_parashe(parasha, short=True, hebrew=False)
         assert parasha_string == ht.PARASHAOT[parasha][0]
