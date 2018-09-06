@@ -10,8 +10,7 @@ from __future__ import division
 
 import datetime
 import sys
-from itertools import chain
-from itertools import product
+from itertools import chain, product
 
 from hdate import hdate_julian as hj
 from hdate import htables
