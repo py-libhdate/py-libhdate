@@ -391,7 +391,7 @@ class TestHDateReading(object):
                 list(range(44, 51)), [61]]),
         # הכז
         (5775, [[53, 0], list(range(22)), [55, 24, 25, 0, 26, 56, 57],
-                list(range(31, 42)), [60], list(range(44, 51))]),
+                list(range(31, 42)), [60], list(range(44, 52))]),
         # בחג
         (5777, [[52, 53], list(range(22)), [55, 24, 25, 0, 26, 56, 57, 31, 58],
                 list(range(34, 42)), [60], list(range(44, 51)), [61]])
