@@ -3,6 +3,7 @@ import random
 from calendar import isleap
 
 import pytest
+from dateutil import tz
 
 import hdate
 
@@ -35,3 +36,20 @@ class TestZmanim(object):
 
         assert (hdate.Zmanim(this_date).get_utc_sun_time_full() ==
                 hdate.Zmanim(other_date).get_utc_sun_time_full())
+
+    def test_using_tzinfo(self):
+        day = datetime.date(2018, 9, 8)
+        latitude = 40.7128
+        longitude = -74.0060
+        timezone_str = "America/New_York"
+        timezone = tz.gettz(timezone_str)
+
+        assert (hdate.Zmanim(
+            date=day,
+            latitude=latitude, longitude=longitude, timezone=timezone_str)
+            .get_zmanim()["first_stars"].time() == datetime.time(19, 48))
+
+        assert (hdate.Zmanim(
+            date=day,
+            latitude=latitude, longitude=longitude, timezone=timezone)
+            .get_zmanim()["first_stars"].time() == datetime.time(19, 48))
