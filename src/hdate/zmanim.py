@@ -40,7 +40,8 @@ class Zmanim(object):
     def utc_minute_timezone(self, minutes_from_utc):
         """Return the local time for a given time UTC."""
         from_zone = tz.gettz('UTC')
-        to_zone = tz.gettz(self.timezone)
+        to_zone = (self.timezone if isinstance(self.timezone, datetime.tzinfo)
+                   else tz.gettz(self.timezone))
         utc = datetime.datetime(self.date.year, self.date.month,
                                 self.date.day) + \
             datetime.timedelta(minutes=minutes_from_utc)
