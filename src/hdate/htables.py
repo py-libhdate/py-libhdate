@@ -52,7 +52,7 @@ READINGS = (
         range(34, 42), 60, range(44, 51), 61)),
     READING([517], (
         53, 0, range(22), 55, 24, 25, 0, 26, 56, 57, range(31, 42), 60,
-        range(44, 51)))
+        range(44, 52)))
     )
 
 DIGITS = (
