@@ -3,7 +3,7 @@
 
 __author__ = "Royi Reshef"
 __maintainer__ = "Tsvi Mostovicz"
-__version__ = "0.6.2"
+__version__ = "0.6.4"
 
 from codecs import open
 from glob import glob
@@ -41,6 +41,9 @@ setup(name='hdate',
       install_requires=[
           'python-dateutil'
       ],
-      extras_require={'dev': ['tox', 'bumpversion']},
+      extras_require={
+        'dev': ['tox'],
+        'pub': ['bumpversion', 'wheel', 'twine']
+      },
       python_requires='>=2.7'
       )
