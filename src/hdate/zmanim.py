@@ -18,7 +18,7 @@ from hdate import htables
 from hdate.common import set_date
 
 
-class Zmanim(object):
+class Zmanim(object):  # pylint: disable=useless-object-inheritance
     """Return Jewish day times."""
 
     def __init__(self, date=None, latitude=None, longitude=None,
@@ -64,7 +64,8 @@ class Zmanim(object):
     def __str__(self):
         """Return a string representation of Zmanim."""
         if sys.version_info.major < 3:
-            return unicode(self).encode('utf-8')
+            # pylint: disable=undefined-variable
+            return unicode(self).encode('utf-8')  # noqa: F821
 
         return self.__unicode__()
 

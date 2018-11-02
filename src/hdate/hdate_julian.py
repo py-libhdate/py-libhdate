@@ -57,7 +57,7 @@ def _days_from_3744(hebrew_year):
     # pylint: enable=too-many-boolean-expressions
 
     # ADU
-    if week_day == 1 or week_day == 4 or week_day == 6:
+    if week_day in (1, 4, 6):
         days += 1
 
     return days
