@@ -65,9 +65,13 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         gdate = datetime.date(gyear, gmonth, gday)
         self.__init__(gdate, self._diaspora, self._hebrew)
 
-    def get_hebrew_date(self):
-        """Return the hebrew date in the form of day, month year."""
-        return self.h_day, self.h_month, self.h_year
+    @property
+    def hebrew_date(self):
+        """Return the hebrew date string."""
+        return u"{} {} {}".format(
+            hebrew_number(self.h_day, hebrew=self._hebrew),   # Day
+            htables.MONTHS[self.h_month-1][self._hebrew],     # Month
+            hebrew_number(self.h_year, hebrew=self._hebrew))  # Year
 
     def get_holyday(self):
         """Return the number of holyday."""
