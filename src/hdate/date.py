@@ -73,6 +73,16 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
             htables.MONTHS[self.h_month-1][self._hebrew],     # Month
             hebrew_number(self.h_year, hebrew=self._hebrew))  # Year
 
+    @property
+    def parasha(self):
+        """Return the upcoming parasha."""
+        upcoming_shabbes = self.gdate + datetime.timedelta(
+            (12 - self.gdate.weekday()) % 7)
+
+        shabbes_hdate = HDate(upcoming_shabbes)
+        return htables.PARASHAOT[
+            shabbes_hdate.get_reading(self._diaspora)][self._hebrew]
+
     def get_holyday(self):
         """Return the number of holyday."""
         # Get the possible list of holydays for this day
@@ -252,14 +262,6 @@ def get_omer_string(omer):
                 omer_string += u'שני ימים '
     omer_string += u'לעומר'
     return omer_string
-
-
-def get_parashe(parasha, short=False, hebrew=True):
-    """Get the string representing the parasha."""
-    res = htables.PARASHAOT[parasha][hebrew]
-    if short:
-        return res
-    return u"{} {}".format(u"פרשת" if hebrew else u"Parashat", res)
 
 
 def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,

@@ -5,7 +5,6 @@ import random
 import pytest
 
 import hdate.date as dt
-import hdate.htables as ht
 
 # pylint: disable=no-self-use
 # pylint-comment: In tests, classes are just a grouping semantic
@@ -82,32 +81,3 @@ class TestHebrewNumbers(object):
         number = random.randint(0, 100000)
         assert (dt.hebrew_number(number, hebrew=False, short=True) ==
                 str(number))
-
-
-class TestParasha(object):
-    """Test parasha strings"""
-
-    def test_get_parasha_default_args(self):
-        parasha = random.randint(0, 61)
-        assert dt.get_parashe(parasha) == dt.get_parashe(parasha, short=False,
-                                                         hebrew=True)
-
-    def test_get_parasha_hebrew_long(self):
-        parasha = random.randint(0, 61)
-        parasha_string = dt.get_parashe(parasha, short=False, hebrew=True)
-        assert parasha_string[:4] == u"פרשת"
-
-    def test_get_parasha_hebrew_short(self):
-        parasha = random.randint(0, 61)
-        parasha_string = dt.get_parashe(parasha, short=True, hebrew=True)
-        assert parasha_string == ht.PARASHAOT[parasha][1]
-
-    def test_get_parasha_english_long(self):
-        parasha = random.randint(0, 61)
-        parasha_string = dt.get_parashe(parasha, short=False, hebrew=False)
-        assert parasha_string == "Parashat {}".format(ht.PARASHAOT[parasha][0])
-
-    def test_get_parasha_english_short(self):
-        parasha = random.randint(0, 61)
-        parasha_string = dt.get_parashe(parasha, short=True, hebrew=False)
-        assert parasha_string == ht.PARASHAOT[parasha][0]
