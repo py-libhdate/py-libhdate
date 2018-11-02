@@ -113,7 +113,7 @@ PARASHAOT = (
 
 MONTHS = (
     LANG(u"Tishrei", u"תשרי"),
-    LANG(u"Cheshvan", u"מרחשוון"),
+    LANG(u"Marcheshvan", u"מרחשוון"),
     LANG(u"Kislev", u"כסלו"),
     LANG(u"Tevet", u"טבת"),
     LANG(u"Sh'vat", u"שבט"),
