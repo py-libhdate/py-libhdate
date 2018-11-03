@@ -26,18 +26,17 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
 
     def __init__(self, date=None, diaspora=False, hebrew=True):
         """Initialize the HDate object."""
-        self.gdate = set_date(date)
-        self._hebrew = hebrew
-        self._diaspora = diaspora
-        self.jdn = hj.gdate_to_jdn(self.gdate.day, self.gdate.month,
-                                   self.gdate.year)
+        self._gdate = None
+        self.hebrew = hebrew
+        self.diaspora = diaspora
+        self.gdate = date
         (self.h_day, self.h_month, self.h_year) = hj.jdn_to_hdate(self.jdn)
 
     def __unicode__(self):
         """Return a Unicode representation of HDate."""
         return get_hebrew_date(self.h_day, self.h_month, self.h_year,
-                               self.get_omer_day(), self.dow(),
-                               self.get_holyday(), hebrew=self._hebrew,
+                               self.get_omer_day(), self.dow,
+                               self.get_holyday(), hebrew=self.hebrew,
                                short=False)
 
     def __str__(self):
@@ -62,16 +61,31 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
     def hdate_set_jdn(self, jdn):
         """Set the date of the HDate object based on Julian date."""
         gday, gmonth, gyear = hj.jdn_to_gdate(jdn)
-        gdate = datetime.date(gyear, gmonth, gday)
-        self.__init__(gdate, self._diaspora, self._hebrew)
+        self.gdate = datetime.date(gyear, gmonth, gday)
+
+    @property
+    def gdate(self):
+        """Return the Gregorian date for the given Hebrew date object."""
+        return self._gdate
+
+    @gdate.setter
+    def gdate(self, value):
+        """Set the Gregorian date for the given Hebrew date object."""
+        self._gdate = set_date(value)
+        (self.h_day, self.h_month, self.h_year) = hj.jdn_to_hdate(self.jdn)
+
+    @property
+    def jdn(self):
+        """Return the Julian date number for the given Hebrew date object."""
+        return hj.gdate_to_jdn(self.gdate)
 
     @property
     def hebrew_date(self):
         """Return the hebrew date string."""
         return u"{} {} {}".format(
-            hebrew_number(self.h_day, hebrew=self._hebrew),   # Day
-            htables.MONTHS[self.h_month-1][self._hebrew],     # Month
-            hebrew_number(self.h_year, hebrew=self._hebrew))  # Year
+            hebrew_number(self.h_day, hebrew=self.hebrew),   # Day
+            htables.MONTHS[self.h_month-1][self.hebrew],     # Month
+            hebrew_number(self.h_year, hebrew=self.hebrew))  # Year
 
     @property
     def parasha(self):
@@ -95,8 +109,8 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         holydays_list = [
             holyday for holyday in holydays_list if
             (holyday.israel_diaspora == "") or
-            (holyday.israel_diaspora == "ISRAEL" and not self._diaspora) or
-            (holyday.israel_diaspora == "DIASPORA" and self._diaspora)]
+            (holyday.israel_diaspora == "ISRAEL" and not self.diaspora) or
+            (holyday.israel_diaspora == "DIASPORA" and self.diaspora)]
 
         # Filter any special cases defined by True/False functions
         holydays_list = [
@@ -121,6 +135,7 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         """Return whether this year has a short Kislev or not."""
         return True if self.year_size() in [353, 383] else False
 
+    @property
     def dow(self):
         """Return Hebrew day of week Sunday = 1, Saturday = 6."""
         return self.gdate.weekday() + 2 if self.gdate.weekday() != 6 else 1

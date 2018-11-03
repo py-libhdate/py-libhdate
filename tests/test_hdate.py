@@ -93,7 +93,7 @@ class TestHDate(object):
     def test_pesach_day_of_week(self, random_hdate):
         for year, info in list(HEBREW_YEARS_INFO.items()):
             random_hdate.hdate_set_hdate(15, 7, year)
-            assert random_hdate.dow() == info[2]
+            assert random_hdate.dow == info[2]
             assert random_hdate.get_holyday() == 15
 
 
@@ -177,7 +177,7 @@ class TestSpecialDays(object):
                                           name):
         random_hdate.hdate_set_hdate(*date, year=random_hdate.h_year)
         assert random_hdate.get_holyday() == israel_holiday
-        random_hdate._diaspora = True
+        random_hdate.diaspora = True
         assert random_hdate.get_holyday() == diaspora_holiday
 
     @pytest.mark.parametrize('possible_dates, years, holiday, name',
@@ -236,9 +236,9 @@ class TestSpecialDays(object):
 
         for day in possible_days:
             myhdate.hdate_set_hdate(day, month, year)
-            if day == 13 and myhdate.dow() == 7 and holiday == 12:
+            if day == 13 and myhdate.dow == 7 and holiday == 12:
                 assert myhdate.get_holyday() == 0
-            elif day == 11 and myhdate.dow() != 5 and holiday == 12:
+            elif day == 11 and myhdate.dow != 5 and holiday == 12:
                 assert myhdate.get_holyday() == 0
             else:
                 assert myhdate.get_holyday() == holiday
