@@ -399,52 +399,36 @@ class TestHDateReading(object):
 
     @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_ISRAEL)
     def test_get_reading_israel(self, year, parshiyot):
-        mydate = hdate.HDate()
+        mydate = hdate.HDate(hebrew=False, diaspora=False)
         mydate.hdate_set_hdate(1, 1, year)
 
         # Get next Saturday
         tdelta = datetime.timedelta((12 - mydate.gdate.weekday()) % 7)
-        gdate = mydate.gdate + tdelta
-        mydate = hdate.HDate(gdate)
+        mydate.gdate += tdelta
 
         shabatot = [item for subl in parshiyot for item in subl]
         for shabat in shabatot:
-            assert mydate.get_reading(diaspora=False) == shabat
-            gdate += datetime.timedelta(days=7)
-            mydate = hdate.HDate(gdate)
+            print("Testing: ", mydate)
+            assert mydate.get_reading() == shabat
+            mydate.gdate += datetime.timedelta(days=7)
         mydate.hdate_set_hdate(22, 1, year)
         # VeZot Habracha in Israel always falls on 22 of Tishri
-        assert mydate.get_reading(diaspora=False) == 54
+        assert mydate.get_reading() == 54
 
     @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_DIASPORA)
     def test_get_reading_diaspora(self, year, parshiyot):
-        mydate = hdate.HDate()
+        mydate = hdate.HDate(hebrew=False, diaspora=True)
         mydate.hdate_set_hdate(1, 1, year)
 
         # Get next Saturday
         tdelta = datetime.timedelta((12 - mydate.gdate.weekday()) % 7)
-        gdate = mydate.gdate + tdelta
-        mydate = hdate.HDate(gdate)
+        mydate.gdate += tdelta
 
         shabatot = [item for subl in parshiyot for item in subl]
         for shabat in shabatot:
-            assert mydate.get_reading(diaspora=True) == shabat
-            gdate += datetime.timedelta(days=7)
-            mydate = hdate.HDate(gdate)
+            print("Testing: ", mydate)
+            assert mydate.get_reading() == shabat
+            mydate.gdate += datetime.timedelta(days=7)
         mydate.hdate_set_hdate(23, 1, year)
         # VeZot Habracha in Israel always falls on 22 of Tishri
-        assert mydate.get_reading(diaspora=True) == 54
-
-    def test_get_reading_weekday(self, random_date):
-        date = datetime.date(*random_date)
-        if date.weekday() == 5:
-            date += datetime.timedelta(days=1)
-
-        mydate = hdate.HDate(date)
-        if mydate.h_month == 1 and mydate.h_day == 22:
-            date += datetime.timedelta(days=1)
-            if date.weekday() == 5:
-                date += datetime.timedelta(days=1)
-
-            mydate = hdate.HDate(date)
-        assert mydate.get_reading(diaspora=False) == 0
+        assert mydate.get_reading() == 54

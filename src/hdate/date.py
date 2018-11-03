@@ -90,12 +90,7 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
     @property
     def parasha(self):
         """Return the upcoming parasha."""
-        upcoming_shabbes = self.gdate + datetime.timedelta(
-            (12 - self.gdate.weekday()) % 7)
-
-        shabbes_hdate = HDate(upcoming_shabbes)
-        return htables.PARASHAOT[
-            shabbes_hdate.get_reading(self._diaspora)][self._hebrew]
+        return htables.PARASHAOT[self.get_reading()][self.hebrew]
 
     def get_holyday(self):
         """Return the number of holyday."""
@@ -161,11 +156,11 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
             return 0
         return omer_day
 
-    def get_reading(self, diaspora):
+    def get_reading(self):
         """Return number of hebrew parasha."""
         _year_type = (self.year_size() % 10) - 3
         year_type = (
-            diaspora * 1000 +
+            self.diaspora * 1000 +
             self.rosh_hashana_dow() * 100 +
             _year_type * 10 +
             self.pesach_dow())
@@ -173,11 +168,16 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         days = self.jdn - hj.hdate_to_jdn(1, 1, self.h_year)
         weeks = (days + self.rosh_hashana_dow() - 1) // 7
 
-        if self.dow() != 7:
-            if days == 22 and diaspora or days == 21 and not diaspora:
+        if weeks == 3:
+            if (days <= 22 and self.diaspora and self.dow != 7
+                    or days <= 21 and not self.diaspora):
                 return 54
-            return 0
 
+        # Special case
+        if weeks == 4 and days == 22 and self.diaspora:
+            return 54
+
+        # Return the indexes for the readings of the given year
         readings = list(
             chain(*([x] if isinstance(x, int) else x
                     for reading in htables.READINGS
