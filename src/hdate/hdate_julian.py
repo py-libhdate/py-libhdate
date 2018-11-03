@@ -68,17 +68,17 @@ def get_size_of_hebrew_year(hebrew_year):
     return _days_from_3744(hebrew_year + 1) - _days_from_3744(hebrew_year)
 
 
-def gdate_to_jdn(day, month, year):
+def gdate_to_jdn(date):
     """
     Compute Julian day from Gregorian day, month and year.
 
     Algorithm from wikipedia's julian_day article.
     Return: The julian day number
     """
-    not_jan_or_feb = (14 - month) // 12
-    year_since_4800bc = year + 4800 - not_jan_or_feb
-    month_since_4800bc = month + 12 * not_jan_or_feb - 3
-    jdn = day + (153 * month_since_4800bc + 2) // 5 \
+    not_jan_or_feb = (14 - date.month) // 12
+    year_since_4800bc = date.year + 4800 - not_jan_or_feb
+    month_since_4800bc = date.month + 12 * not_jan_or_feb - 3
+    jdn = date.day + (153 * month_since_4800bc + 2) // 5 \
         + 365 * year_since_4800bc \
         + (year_since_4800bc // 4 - year_since_4800bc // 100 +
            year_since_4800bc // 400) - 32045
