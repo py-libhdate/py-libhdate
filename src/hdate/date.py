@@ -9,12 +9,15 @@ of the Jewish calendrical date and times for a given location
 from __future__ import division
 
 import datetime
+import logging
 import sys
 from itertools import chain, product
 
 from hdate import hdate_julian as hj
 from hdate import htables
 from hdate.common import set_date
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class HDate(object):  # pylint: disable=useless-object-inheritance
@@ -165,8 +168,13 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
             _year_type * 10 +
             self.pesach_dow())
 
+        _LOGGER.debug("Year type: %d", year_type)
+
+        # Number of days since rosh hashana
         days = self.jdn - hj.hdate_to_jdn(1, 1, self.h_year)
+        # Number of weeks since rosh hashana
         weeks = (days + self.rosh_hashana_dow() - 1) // 7
+        _LOGGER.debug("Days: %d, Weeks %d", days, weeks)
 
         if weeks == 3:
             if (days <= 22 and self.diaspora and self.dow != 7
