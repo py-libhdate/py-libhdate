@@ -8,19 +8,15 @@ of the Jewish calendrical date and times for a given location
 """
 from __future__ import division
 
-import datetime
 import logging
 import sys
-from collections import namedtuple
 from itertools import chain, product
 
-from hdate import hdate_julian as hj
+from hdate import converters as conv
 from hdate import htables
-from hdate.common import set_date
+from hdate.common import HebrewDate, set_date
 
 _LOGGER = logging.getLogger(__name__)
-
-HEBREW_DATE = namedtuple("HEBREW_DATE", ["year", "month", "day"])
 
 
 class HDate(object):  # pylint: disable=useless-object-inheritance
@@ -32,12 +28,11 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
 
     def __init__(self, date=None, diaspora=False, hebrew=True):
         """Initialize the HDate object."""
-        self._gdate = None
-        self._hdate = None
+        self._jdn = None
         self.hebrew = hebrew
         self.diaspora = diaspora
         self.gdate = date
-        self.hdate = hj.jdn_to_hdate(self.jdn)
+        self.hdate = conv.jdn_to_hdate(self._jdn)
 
     def __unicode__(self):
         """Return a Unicode representation of HDate."""
@@ -55,7 +50,8 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
 
     @property
     def hdate(self):
-        return self._hdate
+        """Return the hebrew date."""
+        return conv.jdn_to_hdate(self._jdn)
 
     @hdate.setter
     def hdate(self, date):
@@ -66,37 +62,29 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
                 'month ({}) legal values are 1-14'.format(date.month))
         if not 0 < date.day < 31:
             raise ValueError('day ({}) legal values are 1-31'.format(date.day))
-        if not isinstance(date, HEBREW_DATE):
-            raise TypeError('date: %s is not of type HEBREW_DATE', date)
+        if not isinstance(date, HebrewDate):
+            raise TypeError('date: {} is not of type HebrewDate'.format(date))
 
-        self._hdate = date
-
-        # Synchronize the Gregorian date back to the Hebrew date
-        self.gdate = hj.jdn_to_gdate(hj.hdate_to_jdn(date))
+        self._jdn = conv.hdate_to_jdn(date)
 
     @property
     def gdate(self):
         """Return the Gregorian date for the given Hebrew date object."""
-        return self._gdate
+        return conv.jdn_to_gdate(self._jdn)
 
     @gdate.setter
-    def gdate(self, value):
+    def gdate(self, date):
         """Set the Gregorian date for the given Hebrew date object."""
-        self._gdate = set_date(value)
-        (self.h_day, self.h_month, self.h_year) = hj.jdn_to_hdate(self.jdn)
-
-    @property
-    def jdn(self):
-        """Return the Julian date number for the given Hebrew date object."""
-        return hj.gdate_to_jdn(self.gdate)
+        sanitized_date = set_date(date)
+        self._jdn = conv.gdate_to_jdn(sanitized_date)
 
     @property
     def hebrew_date(self):
         """Return the hebrew date string."""
         return u"{} {} {}".format(
-            hebrew_number(self.h_day, hebrew=self.hebrew),   # Day
-            htables.MONTHS[self.h_month - 1][self.hebrew],   # Month
-            hebrew_number(self.h_year, hebrew=self.hebrew))  # Year
+            hebrew_number(self.hdate.day, hebrew=self.hebrew),   # Day
+            htables.MONTHS[self.hdate.month - 1][self.hebrew],   # Month
+            hebrew_number(self.hdate.year, hebrew=self.hebrew))  # Year
 
     @property
     def parasha(self):
@@ -125,7 +113,7 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         # Get the possible list of holydays for this day
         holydays_list = [
             holyday for holyday in htables.HOLIDAYS if
-            (self.h_day, self.h_month) in product(
+            (self.hdate.day, self.hdate.month) in product(
                 *([x] if isinstance(x, int) else x for x in holyday.date))]
 
         # Filter any non-related holydays depending on Israel/Diaspora only
@@ -156,21 +144,22 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
 
     def year_size(self):
         """Return the size of the given Hebrew year."""
-        return hj.get_size_of_hebrew_year(self.h_year)
+        return conv.get_size_of_hebrew_year(self.hdate.year)
 
     def rosh_hashana_dow(self):
         """Return the Hebrew day of week for Rosh Hashana."""
-        jdn = hj.hdate_to_jdn(1, 1, self.h_year)
+        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, 1, 1))
         return (jdn + 1) % 7 + 1
 
     def pesach_dow(self):
         """Return the first day of week for Pesach."""
-        jdn = hj.hdate_to_jdn(15, 7, self.h_year)
+        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, 7, 15))
         return (jdn + 1) % 7 + 1
 
     def get_omer_day(self):
         """Return the day of the Omer."""
-        omer_day = self.jdn - hj.hdate_to_jdn(16, 7, self.h_year) + 1
+        first_omer_day = HebrewDate(self.hdate.year, 7, 16)
+        omer_day = self._jdn - conv.hdate_to_jdn(first_omer_day) + 1
         if not 0 < omer_day < 50:
             return 0
         return omer_day
@@ -187,7 +176,8 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         _LOGGER.debug("Year type: %d", year_type)
 
         # Number of days since rosh hashana
-        days = self.jdn - hj.hdate_to_jdn(1, 1, self.h_year)
+        rosh_hashana = HebrewDate(self.hdate.year, 1, 1)
+        days = self._jdn - conv.hdate_to_jdn(rosh_hashana)
         # Number of weeks since rosh hashana
         weeks = (days + self.rosh_hashana_dow() - 1) // 7
         _LOGGER.debug("Days: %d, Weeks %d", days, weeks)

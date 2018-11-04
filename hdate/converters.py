@@ -4,6 +4,10 @@
 """Methods for going back and forth between various calendars."""
 from __future__ import division
 
+import datetime
+
+from hdate.common import HebrewDate
+
 
 def get_chalakim(hours, parts):
     """Return the number of total parts (chalakim)."""
@@ -85,7 +89,7 @@ def gdate_to_jdn(date):
     return jdn
 
 
-def hdate_to_jdn(day, month, year):
+def hdate_to_jdn(date):
     """
     Compute Julian day from Hebrew day, month and year.
 
@@ -93,27 +97,28 @@ def hdate_to_jdn(day, month, year):
             1 of tishrey julians,
             1 of tishrey julians next year
     """
-    if month == 13:
-        month = 6
-    if month == 14:
-        month = 6
-        day += 30
+    if date.month == 13:
+        date.month = 6
+    if date.month == 14:
+        date.month = 6
+        date.day += 30
 
     # Calculate days since 1,1,3744
-    day = _days_from_3744(year) + (59 * (month - 1) + 1) // 2 + day
+    date.day = (_days_from_3744(date.year) +
+                (59 * (date.month - 1) + 1) // 2 + date.day)
 
     # length of year
-    length_of_year = get_size_of_hebrew_year(year)
+    length_of_year = get_size_of_hebrew_year(date.year)
     # Special cases for this year
-    if length_of_year % 10 > 4 and month > 2:  # long Heshvan
-        day += 1
-    if length_of_year % 10 < 4 and month > 3:  # short Kislev
-        day -= 1
-    if length_of_year > 365 and month > 6:  # leap year
-        day += 30
+    if length_of_year % 10 > 4 and date.month > 2:  # long Heshvan
+        date.day += 1
+    if length_of_year % 10 < 4 and date.month > 3:  # short Kislev
+        date.day -= 1
+    if length_of_year > 365 and date.month > 6:  # leap year
+        date.day += 30
 
     # adjust to julian
-    return day + 1715118
+    return date.day + 1715118
 
 
 def jdn_to_gdate(jdn):
@@ -140,7 +145,7 @@ def jdn_to_gdate(jdn):
     month = j + 2 - (12 * l)
     year = 100 * (n - 49) + i + l  # that's a lower-case L
 
-    return day, month, year
+    return datetime.date(year, month, day)
 
 
 def jdn_to_hdate(jdn):
@@ -151,14 +156,14 @@ def jdn_to_hdate(jdn):
     # Guess Hebrew year is Gregorian year + 3760
     year = year + 3760
 
-    jdn_tishrey1 = hdate_to_jdn(1, 1, year)
-    jdn_tishrey1_next_year = hdate_to_jdn(1, 1, year + 1)
+    jdn_tishrey1 = hdate_to_jdn(HebrewDate(year, 1, 1))
+    jdn_tishrey1_next_year = hdate_to_jdn(HebrewDate(year + 1, 1, 1))
 
     # Check if computed year was underestimated
     if jdn_tishrey1_next_year <= jdn:
         year = year + 1
         jdn_tishrey1 = jdn_tishrey1_next_year
-        jdn_tishrey1_next_year = hdate_to_jdn(1, 1, year + 1)
+        jdn_tishrey1_next_year = hdate_to_jdn(HebrewDate(year + 1, 1, 1))
 
     size_of_year = get_size_of_hebrew_year(year)
 
@@ -193,4 +198,4 @@ def jdn_to_hdate(jdn):
 
         month = month + 1
 
-    return day, month, year
+    return HebrewDate(year, month, day)

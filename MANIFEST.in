@@ -1,9 +1,5 @@
-graft src
-graft tests
-
+include *.in
 include *.rst
 include LICENSE
-
-include tox.ini .travis.yml .pylintrc
-
-global-exclude *.py[cod] __pycache__
+include tox.ini
+recursive-include tests *.py
