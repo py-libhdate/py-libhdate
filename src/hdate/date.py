@@ -87,7 +87,7 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         """Return the hebrew date string."""
         return u"{} {} {}".format(
             hebrew_number(self.h_day, hebrew=self.hebrew),   # Day
-            htables.MONTHS[self.h_month-1][self.hebrew],     # Month
+            htables.MONTHS[self.h_month - 1][self.hebrew],   # Month
             hebrew_number(self.h_year, hebrew=self.hebrew))  # Year
 
     @property
@@ -177,8 +177,8 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         _LOGGER.debug("Days: %d, Weeks %d", days, weeks)
 
         if weeks == 3:
-            if (days <= 22 and self.diaspora and self.dow != 7
-                    or days <= 21 and not self.diaspora):
+            if (days <= 22 and self.diaspora and self.dow != 7 or
+                    days <= 21 and not self.diaspora):
                 return 54
 
         # Special case
@@ -294,14 +294,14 @@ def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,
     res = u"{} {}".format(hebrew_number(day, hebrew=hebrew, short=short),
                           u"ב" if hebrew else u"")
     # Month
-    res += htables.MONTHS[month-1][hebrew]
+    res += htables.MONTHS[month - 1][hebrew]
     # Year
     res += u" " + hebrew_number(year, hebrew=hebrew, short=short)
 
     # Weekday
     if dow:
         dw_str = u"יום " if hebrew else u""
-        dw_str += htables.DAYS[dow-1][hebrew][short]
+        dw_str += htables.DAYS[dow - 1][hebrew][short]
         res = dw_str + u" " + res
     if short:
         return res
