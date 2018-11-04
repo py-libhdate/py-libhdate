@@ -134,7 +134,7 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
 
         assert len(holydays_list) <= 1
 
-        # If anything is left return it, otherwise return 0
+        # If anything is left return it, otherwise return the "NULL" holiday
         return holydays_list[0] if holydays_list else htables.HOLIDAYS[0]
 
     def short_kislev(self):
