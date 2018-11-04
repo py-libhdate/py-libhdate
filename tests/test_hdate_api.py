@@ -34,3 +34,10 @@ class TestHDateAPI(object):
         assert HDate(test_date).parasha == u"וזאת הברכה"
         assert HDate(
             test_date, hebrew=False).parasha == "Vezot Habracha"
+
+    def test_get_holiday_description(self):
+        """Check that the holiday description is correct."""
+        test_date = datetime(2018, 12, 3)
+        assert HDate(test_date).holiday_description == u"חנוכה"
+        assert HDate(
+            test_date, hebrew=False).holiday_description == "Chanukah"

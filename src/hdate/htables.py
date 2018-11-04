@@ -166,6 +166,7 @@ HOLIDAY = namedtuple("HOLIDAY", [
     "description"])
 
 HOLIDAYS = (
+    HOLIDAY(0, 0, "", (), "", [], LANG(u"", DESC(u"", u""))),
     HOLIDAY(1, 1, "rosh_hashana_i", (1, 1), "", [],
             LANG(u"Rosh Hashana I", DESC(u"א' ראש השנה", u"א ר\"ה"))),
     HOLIDAY(2, 1, "rosh_hashana_ii", (2, 1), "", [],

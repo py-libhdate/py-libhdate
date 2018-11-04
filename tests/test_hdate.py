@@ -8,7 +8,6 @@ import random
 import pytest
 
 import hdate
-import hdate.date as date_mod
 import hdate.hdate_julian as hj
 from hdate.common import set_date
 
@@ -94,7 +93,7 @@ class TestHDate(object):
         for year, info in list(HEBREW_YEARS_INFO.items()):
             random_hdate.hdate_set_hdate(15, 7, year)
             assert random_hdate.dow == info[2]
-            assert random_hdate.get_holyday() == 15
+            assert random_hdate._holiday_entry().index == 15
 
 
 class TestSpecialDays(object):
@@ -168,7 +167,7 @@ class TestSpecialDays(object):
     @pytest.mark.parametrize('date, holiday, name', NON_MOVING_HOLIDAYS)
     def test_get_holidays_non_moving(self, random_hdate, date, holiday, name):
         random_hdate.hdate_set_hdate(*date, year=random_hdate.h_year)
-        assert random_hdate.get_holyday() == holiday
+        assert random_hdate._holiday_entry().index == holiday
 
     @pytest.mark.parametrize('date, diaspora_holiday, israel_holiday, name',
                              DIASPORA_ISRAEL_HOLIDAYS)
@@ -176,9 +175,9 @@ class TestSpecialDays(object):
                                           diaspora_holiday, israel_holiday,
                                           name):
         random_hdate.hdate_set_hdate(*date, year=random_hdate.h_year)
-        assert random_hdate.get_holyday() == israel_holiday
+        assert random_hdate._holiday_entry().index == israel_holiday
         random_hdate.diaspora = True
-        assert random_hdate.get_holyday() == diaspora_holiday
+        assert random_hdate._holiday_entry().index == diaspora_holiday
 
     @pytest.mark.parametrize('possible_dates, years, holiday, name',
                              MOVING_HOLIDAYS)
@@ -191,14 +190,14 @@ class TestSpecialDays(object):
         for date in possible_dates:
             date_under_test = hdate.HDate(hebrew=False)
             date_under_test.hdate_set_hdate(*date, year=year)
-            if date_under_test.get_holyday() == holiday:
+            if date_under_test._holiday_entry().index == holiday:
                 print("date ", date_under_test, " matched")
                 for other in possible_dates:
                     if other != date:
                         other_date = hdate.HDate(hebrew=False)
                         other_date.hdate_set_hdate(*other, year=year)
                         print("checking ", other_date, " doesn't match")
-                        assert other_date.get_holyday() != holiday
+                        assert other_date._holiday_entry().index != holiday
                 found_matching_holiday = True
 
         assert found_matching_holiday
@@ -209,12 +208,12 @@ class TestSpecialDays(object):
         if years[0] != 5000:
             if years[0] == 5764 and holiday in [17, 25]:
                 return
-            year = random.randint(5000, years[0]-1)
+            year = random.randint(5000, years[0] - 1)
             print("Testing " + name + " for " + str(year))
             for date in possible_dates:
                 date_under_test = hdate.HDate()
                 date_under_test.hdate_set_hdate(*date, year=year)
-                assert date_under_test.get_holyday() == 0
+                assert date_under_test._holiday_entry().index == 0
 
     def test_get_holiday_hanuka_3rd_tevet(self):
         year = random.randint(5000, 6000)
@@ -223,9 +222,9 @@ class TestSpecialDays(object):
         myhdate.hdate_set_hdate(3, 4, year)
         print(year_size)
         if year_size in [353, 383]:
-            assert myhdate.get_holyday() == 9
+            assert myhdate._holiday_entry().index == 9
         else:
-            assert myhdate.get_holyday() == 0
+            assert myhdate._holiday_entry().index == 0
 
     @pytest.mark.parametrize('possible_days, holiday, name', ADAR_HOLIDAYS)
     def test_get_holiday_adar(self, possible_days, holiday, name):
@@ -237,11 +236,11 @@ class TestSpecialDays(object):
         for day in possible_days:
             myhdate.hdate_set_hdate(day, month, year)
             if day == 13 and myhdate.dow == 7 and holiday == 12:
-                assert myhdate.get_holyday() == 0
+                assert myhdate._holiday_entry().index == 0
             elif day == 11 and myhdate.dow != 5 and holiday == 12:
-                assert myhdate.get_holyday() == 0
+                assert myhdate._holiday_entry().index == 0
             else:
-                assert myhdate.get_holyday() == holiday
+                assert myhdate._holiday_entry().index == holiday
 
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_get_omer_day(self, execution_number, random_hdate):
@@ -263,41 +262,6 @@ class TestSpecialDays(object):
         for day in sivan:
             random_hdate.hdate_set_hdate(day, 9, random_hdate.h_year)
             assert random_hdate.get_omer_day() == day + 44
-
-    @pytest.mark.parametrize('execution_number', list(range(40)))
-    def test_get_holyday_type(self, execution_number):
-        holyday = execution_number
-        # regular day
-        if holyday == 0:
-            assert date_mod.get_holyday_type(holyday) == 0
-        # Yom tov
-        if holyday in [1, 2, 4, 5, 8, 15, 20, 27, 28, 29, 30, 31, 32]:
-            assert date_mod.get_holyday_type(holyday) == 1
-        # Erev yom kippur
-        if holyday == 37:
-            assert date_mod.get_holyday_type(holyday) == 2
-        # Hol hamoed
-        if holyday in [6, 7, 16]:
-            assert date_mod.get_holyday_type(holyday) == 3
-        # Hanuka and purim
-        if holyday in [9, 13, 14]:
-            assert date_mod.get_holyday_type(holyday) == 4
-        # Tzom
-        if holyday in [3, 10, 12, 21, 22]:
-            assert date_mod.get_holyday_type(holyday) == 5
-        # Independance day and Yom yerushalaim
-        if holyday in [17, 26]:
-            assert date_mod.get_holyday_type(holyday) == 6
-        # Lag baomer ,Tu beav, Tu beshvat
-        if holyday in [18, 23, 11]:
-            assert date_mod.get_holyday_type(holyday) == 7
-        # Tzahal and Holocaust memorial days
-        if holyday in [24, 25]:
-            assert date_mod.get_holyday_type(holyday) == 8
-        # Not a holy day (yom hamishpacha, zhabotinsky, rabin, fallen soldiers
-        # whose burial place is unknown)
-        if holyday in [33, 34, 35, 36]:
-            assert date_mod.get_holyday_type(holyday) == 9
 
 
 class TestHDateReading(object):

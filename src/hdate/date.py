@@ -39,7 +39,7 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         """Return a Unicode representation of HDate."""
         return get_hebrew_date(self.h_day, self.h_month, self.h_year,
                                self.get_omer_day(), self.dow,
-                               self.get_holyday(), hebrew=self.hebrew,
+                               self.holiday_description, hebrew=self.hebrew,
                                short=False)
 
     def __str__(self):
@@ -95,7 +95,24 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         """Return the upcoming parasha."""
         return htables.PARASHAOT[self.get_reading()][self.hebrew]
 
-    def get_holyday(self):
+    @property
+    def holiday_description(self):
+        """
+        Return the holiday description.
+
+        In case none exists will return None.
+        """
+        entry = self._holiday_entry()
+        desc = entry.description
+        return desc.hebrew.long if self.hebrew else desc.english
+
+    @property
+    def holiday_type(self):
+        """Return the holiday type if exists."""
+        entry = self._holiday_entry()
+        return entry.type
+
+    def _holiday_entry(self):
         """Return the number of holyday."""
         # Get the possible list of holydays for this day
         holydays_list = [
@@ -118,16 +135,7 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         assert len(holydays_list) <= 1
 
         # If anything is left return it, otherwise return 0
-        return holydays_list[0].index if holydays_list else 0
-
-    def get_holyday_name(self):
-        """Return descriptive name for the current holyday."""
-        try:
-            name = next(x.name for x in htables.HOLIDAYS
-                        if x.index == self.get_holyday())
-        except StopIteration:
-            name = ""
-        return name
+        return holydays_list[0] if holydays_list else htables.HOLIDAYS[0]
 
     def short_kislev(self):
         """Return whether this year has a short Kislev or not."""
@@ -193,16 +201,6 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
                     if year_type in reading.year_type)))
 
         return readings[weeks]
-
-
-def get_holyday_type(holyday):
-    """Return a number describing the type of the holy day."""
-    try:
-        holyday_type = next(x.type for x in htables.HOLIDAYS
-                            if x.index == holyday)
-    except StopIteration:
-        holyday_type = 0
-    return holyday_type
 
 
 def hebrew_number(num, hebrew=True, short=False):
@@ -287,7 +285,7 @@ def get_omer_string(omer):
     return omer_string
 
 
-def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,
+def get_hebrew_date(day, month, year, omer=0, dow=0, holiday_desc=u"",
                     short=False, hebrew=True):
     """Return a string representing the given date."""
     # Day
@@ -312,7 +310,5 @@ def get_hebrew_date(day, month, year, omer=0, dow=0, holiday=0,
         res += u" " + u"בעומר" if hebrew else u" in the Omer"
 
     # Holiday
-    for _holiday in (x for x in htables.HOLIDAYS if x.index == holiday):
-        desc = _holiday.description[hebrew]
-        res += u" " + desc if not hebrew else desc[short]
+    res += u" " + str(holiday_desc)
     return res
