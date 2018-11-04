@@ -35,9 +35,9 @@ setup(name='hdate',
       maintainer=__maintainer__,
       maintainer_email='ttmost@gmail.com',
       license='GPLv3+',
-      packages=find_packages('src'),
-      package_dir={'': 'src'},
-      py_modules=[splitext(basename(path))[0] for path in glob('src/*.py')],
+      packages=find_packages('hdate'),
+      package_dir={'': 'hdate'},
+      py_modules=[splitext(basename(path))[0] for path in glob('hdate/*.py')],
       install_requires=[
           'python-dateutil'
       ],
