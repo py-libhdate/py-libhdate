@@ -11,6 +11,7 @@ from __future__ import division
 import datetime
 import logging
 import sys
+from collections import namedtuple
 from itertools import chain, product
 
 from hdate import hdate_julian as hj
@@ -18,6 +19,8 @@ from hdate import htables
 from hdate.common import set_date
 
 _LOGGER = logging.getLogger(__name__)
+
+HEBREW_DATE = namedtuple("HEBREW_DATE", ["year", "month", "day"])
 
 
 class HDate(object):  # pylint: disable=useless-object-inheritance
@@ -30,15 +33,15 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
     def __init__(self, date=None, diaspora=False, hebrew=True):
         """Initialize the HDate object."""
         self._gdate = None
+        self._hdate = None
         self.hebrew = hebrew
         self.diaspora = diaspora
         self.gdate = date
-        (self.h_day, self.h_month, self.h_year) = hj.jdn_to_hdate(self.jdn)
+        self.hdate = hj.jdn_to_hdate(self.jdn)
 
     def __unicode__(self):
         """Return a Unicode representation of HDate."""
-        return get_hebrew_date(self.h_day, self.h_month, self.h_year,
-                               self.get_omer_day(), self.dow,
+        return get_hebrew_date(self.hdate, self.get_omer_day(), self.dow,
                                self.holiday_description, hebrew=self.hebrew,
                                short=False)
 
@@ -50,21 +53,26 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
 
         return self.__unicode__()
 
-    def hdate_set_hdate(self, day, month, year):
+    @property
+    def hdate(self):
+        return self._hdate
+
+    @hdate.setter
+    def hdate(self, date):
         """Set the dates of the HDate object based on a given Hebrew date."""
         # sanity check
-        if not 0 < month < 15:
-            raise ValueError('month ({}) legal values are 1-14'.format(month))
-        if not 0 < day < 31:
-            raise ValueError('day ({}) legal values are 1-31'.format(day))
+        if not 0 < date.month < 15:
+            raise ValueError(
+                'month ({}) legal values are 1-14'.format(date.month))
+        if not 0 < date.day < 31:
+            raise ValueError('day ({}) legal values are 1-31'.format(date.day))
+        if not isinstance(date, HEBREW_DATE):
+            raise TypeError('date: %s is not of type HEBREW_DATE', date)
 
-        jdn = hj.hdate_to_jdn(day, month, year)
-        self.hdate_set_jdn(jdn)
+        self._hdate = date
 
-    def hdate_set_jdn(self, jdn):
-        """Set the date of the HDate object based on Julian date."""
-        gday, gmonth, gyear = hj.jdn_to_gdate(jdn)
-        self.gdate = datetime.date(gyear, gmonth, gday)
+        # Synchronize the Gregorian date back to the Hebrew date
+        self.gdate = hj.jdn_to_gdate(hj.hdate_to_jdn(date))
 
     @property
     def gdate(self):
