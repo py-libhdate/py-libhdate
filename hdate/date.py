@@ -8,6 +8,7 @@ of the Jewish calendrical date and times for a given location
 """
 from __future__ import division
 
+import datetime
 import logging
 import sys
 from itertools import chain, product
@@ -28,11 +29,13 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
 
     def __init__(self, date=None, diaspora=False, hebrew=True):
         """Initialize the HDate object."""
-        self._jdn = None
+        self._hdate = None
+        self._gdate = None
+        self._last_updated = None
         self.hebrew = hebrew
         self.diaspora = diaspora
         self.gdate = date
-        self.hdate = conv.jdn_to_hdate(self._jdn)
+        self.hdate = None
 
     def __unicode__(self):
         """Return a Unicode representation of HDate."""
@@ -51,12 +54,17 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
     @property
     def hdate(self):
         """Return the hebrew date."""
+        if self._last_updated == "hdate":
+            return self._hdate
         return conv.jdn_to_hdate(self._jdn)
 
     @hdate.setter
     def hdate(self, date):
         """Set the dates of the HDate object based on a given Hebrew date."""
-        # sanity check
+        # Sanity checks
+        if date is None and isinstance(self.gdate, datetime.date):
+            date = self.hdate
+
         if not 0 < date.month < 15:
             raise ValueError(
                 'month ({}) legal values are 1-14'.format(date.month))
@@ -65,18 +73,28 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         if not isinstance(date, HebrewDate):
             raise TypeError('date: {} is not of type HebrewDate'.format(date))
 
-        self._jdn = conv.hdate_to_jdn(date)
+        self._last_updated = "hdate"
+        self._hdate = date
 
     @property
     def gdate(self):
         """Return the Gregorian date for the given Hebrew date object."""
+        if self._last_updated == "gdate":
+            return self._gdate
         return conv.jdn_to_gdate(self._jdn)
 
     @gdate.setter
     def gdate(self, date):
         """Set the Gregorian date for the given Hebrew date object."""
-        sanitized_date = set_date(date)
-        self._jdn = conv.gdate_to_jdn(sanitized_date)
+        self._last_updated = "gdate"
+        self._gdate = set_date(date)
+
+    @property
+    def _jdn(self):
+        """Return the Julian date number for the given date."""
+        if self._last_updated == "gdate":
+            return conv.gdate_to_jdn(self.gdate)
+        return conv.hdate_to_jdn(self.hdate)
 
     @property
     def hebrew_date(self):
