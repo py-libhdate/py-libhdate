@@ -25,7 +25,7 @@ def random_date():
 
 
 @pytest.fixture
-def random_hdate(random_date):
+def rand_date(random_date):
     """Given a random date, generate arandom HDate."""
     date = datetime.date(*random_date)
     return hdate.HDate(date)

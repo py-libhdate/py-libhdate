@@ -136,7 +136,7 @@ def year_is_after(year):
     Lambda checks that a given HDate object's hebrew year is after the
     requested year.
     """
-    return lambda x: x.h_year > year
+    return lambda x: x.hdate.year > year
 
 
 def year_is_before(year):
@@ -146,7 +146,7 @@ def year_is_before(year):
     Lambda checks that a given HDate object's hebrew year is before the
     requested year.
     """
-    return lambda x: x.h_year < year
+    return lambda x: x.hdate.year < year
 
 
 def move_if_not_on_dow(original, replacement, dow_not_orig, dow_replacement):
@@ -157,8 +157,8 @@ def move_if_not_on_dow(original, replacement, dow_not_orig, dow_replacement):
     weekday, or that the replacement day does fall on the expected weekday.
     """
     return lambda x: (
-        (x.h_day == original and x.gdate.weekday() != dow_not_orig) or
-        (x.h_day == replacement and x.gdate.weekday() == dow_replacement))
+        (x.hdate.day == original and x.gdate.weekday() != dow_not_orig) or
+        (x.hdate.day == replacement and x.gdate.weekday() == dow_replacement))
 
 
 HOLIDAY = namedtuple("HOLIDAY", [
@@ -192,8 +192,8 @@ HOLIDAYS = (
             LANG(u"Chanukah", DESC(u"חנוכה", u"חנוכה"))),
     HOLIDAY(9, 4, "chanukah", ([1, 2, 3], 4), "",
             [lambda x: (
-                (x.short_kislev() and x.h_day == 3) or
-                (x.h_day in [1, 2]))],
+                (x.short_kislev() and x.hdate.day == 3) or
+                (x.hdate.day in [1, 2]))],
             LANG(u"Chanukah", DESC(u"חנוכה", u"חנוכה"))),
     HOLIDAY(10, 5, "asara_btevet", (10, 4), "", [],
             LANG(u"Asara B'Tevet", DESC(u"צום עשרה בטבת", u"י' בטבת"))),

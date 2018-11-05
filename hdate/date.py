@@ -283,16 +283,16 @@ def get_omer_string(omer):
     return omer_string
 
 
-def get_hebrew_date(day, month, year, omer=0, dow=0, holiday_desc=u"",
+def get_hebrew_date(date, omer=0, dow=0, holiday_desc=u"",
                     short=False, hebrew=True):
     """Return a string representing the given date."""
     # Day
-    res = u"{} {}".format(hebrew_number(day, hebrew=hebrew, short=short),
+    res = u"{} {}".format(hebrew_number(date.day, hebrew=hebrew, short=short),
                           u"ב" if hebrew else u"")
     # Month
-    res += htables.MONTHS[month - 1][hebrew]
+    res += htables.MONTHS[date.month - 1][hebrew]
     # Year
-    res += u" " + hebrew_number(year, hebrew=hebrew, short=short)
+    res += u" " + hebrew_number(date.year, hebrew=hebrew, short=short)
 
     # Weekday
     if dow:
