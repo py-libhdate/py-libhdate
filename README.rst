@@ -9,13 +9,14 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 
     >>> import hdate
     >>> import datetime
-    >>> import geocity
-    >>> c = geocity.City(city='פתח תק')
+    >>> from collections import namedtuple
+    >>> City = namedtuple("City", ["name", "latitude", "longitude", "timezone", "elevation"])
+    >>> c = City("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
     >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18),
-                         latitude=c.latitude, longitude=c.longitude, 
+                         latitude=c.latitude, longitude=c.longitude,
                          timezone=c.timezone)
     >>> print z
-    
+
 ::
 
     עלות השחר - 04:53
@@ -36,31 +37,31 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 .. code :: python
 
     z = hdate.Zmanim(date=datetime.date(2016, 4, 18),
-                     latitude=c.latitude, longitude=c.longitude, 
+                     latitude=c.latitude, longitude=c.longitude,
                      timezone=c.timezone, hebrew=False)
-    
+
     >>> print z
 
 ::
 
     Alot HaShachar - 04:53
     Talit & Tefilin's time - 05:19
-    sunrise - 06:09
+    Sunrise - 06:09
     Shema EOT MG"A - 08:46
     Shema EOT GR"A - 09:24
     Tefila EOT MG"A - 10:03
     Tefila EOT GR"A - 10:29
-    midday - 12:39
+    Midday - 12:39
     Big Mincha - 13:11
     Small Mincha - 16:26
     Plag Mincha - 17:48
-    sunset - 19:10
-    first starts - 19:35
-    midnight - 00:39
+    Sunset - 19:10
+    First stars - 19:35
+    Midnight - 00:39
 
 .. code :: python
 
-    >>> h=hdate.HDate(hebrew=False)
+    >>> h=hdate.HDate(datetime.date(2016, 4, 18)hebrew=False)
     >>> print h
 
 ::
@@ -69,7 +70,7 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 
 .. code :: python
 
-    >>> h=hdate.HDate(datetime.date(2016, 4, 26), hebrew=False)
+    >>> h=hdate.HDate(datetime.date(2016, 4, 26), hebrew=True)
     >>> print h
 
 ::

@@ -53,7 +53,7 @@ READINGS = (
     READING([517], (
         53, 0, range(22), 55, 24, 25, 0, 26, 56, 57, range(31, 42), 60,
         range(44, 52)))
-    )
+)
 
 DIGITS = (
     (u" ", u"א", u"ב", u"ג", u"ד", u"ה", u"ו", u"ז", u"ח", u"ט"),
@@ -72,7 +72,7 @@ DAYS = (
     LANG(DESC(u"Thursday", u"Thu"), DESC(u"חמישי", u"ה")),
     LANG(DESC(u"Friday", u"Fri"), DESC(u"שישי", u"ו")),
     LANG(DESC(u"Saturday", u"Sat"), DESC(u"שבת", u"ז"))
-    )
+)
 
 PARASHAOT = (
     LANG(u"none", u"none"), LANG(u"Bereshit", u"בראשית"),
@@ -126,7 +126,7 @@ MONTHS = (
     LANG(u"Elul", u"אלול"),
     LANG(u"Adar I", u"אדר א"),
     LANG(u"Adar II", u"אדר ב")
-    )
+)
 
 
 def year_is_after(year):
@@ -284,22 +284,22 @@ HOLIDAYS = (
                  DESC(u"יום ז\'בוטינסקי", u"יום ז\'בוטינסקי"))),
     HOLIDAY(37, 2, "erev_yom_kippur", (9, 1), "", [],
             LANG(u"Erev Yom Kippur", DESC(u"עיוה\"כ", u"עיוה\"כ")))
-    )
+)
 
 ZMAN = namedtuple('ZMAN', 'zman, description')
 ZMANIM = (
     ZMAN("first_light", LANG(u"Alot HaShachar", u"עלות השחר")),
     ZMAN("talit", LANG(u"Talit & Tefilin's time", u"זמן טלית ותפילין")),
     ZMAN("sunrise", LANG(u"Sunrise", u"הנץ החמה")),
-    ZMAN("sunset", LANG(u"Sunset", u"שקיעה")),
-    ZMAN("first_stars", LANG(u"First stars", u"צאת הככבים")),
-    ZMAN("plag_mincha", LANG(u"Plag Mincha", u"פלג מנחה")),
-    ZMAN("big_mincha", LANG(u"Big Mincha", u"מנחה גדולה")),
-    ZMAN("small_mincha", LANG(u"Small Mincha", u"מנחה קטנה")),
     ZMAN("mga_end_shma", LANG(u"Shema EOT MG\"A", u"סוף זמן ק\"ש מג\"א")),
     ZMAN("gra_end_shma", LANG(u"Shema EOT GR\"A", u"סוף זמן ק\"ש הגר\"א")),
     ZMAN("mga_end_tfila", LANG(u"Tefila EOT MG\"A", u"סוף זמן תפילה מג\"א")),
     ZMAN("gra_end_tfila", LANG(u"Tefila EOT GR\"A", u"סוף זמן תפילה גר\"א")),
-    ZMAN("midnight", LANG(u"Midnight", u"חצות הלילה")),
-    ZMAN("midday", LANG(u"Midday", u"חצות היום"))
-    )
+    ZMAN("midday", LANG(u"Midday", u"חצות היום")),
+    ZMAN("big_mincha", LANG(u"Big Mincha", u"מנחה גדולה")),
+    ZMAN("small_mincha", LANG(u"Small Mincha", u"מנחה קטנה")),
+    ZMAN("plag_mincha", LANG(u"Plag Mincha", u"פלג מנחה")),
+    ZMAN("sunset", LANG(u"Sunset", u"שקיעה")),
+    ZMAN("first_stars", LANG(u"First stars", u"צאת הככבים")),
+    ZMAN("midnight", LANG(u"Midnight", u"חצות הלילה"))
+)

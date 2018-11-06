@@ -301,7 +301,7 @@ def get_omer_string(omer):
     return omer_string
 
 
-def get_hebrew_date(date, omer=0, dow=0, holiday_desc=u"",
+def get_hebrew_date(date, omer=0, dow=0, holiday_desc="",
                     short=False, hebrew=True):
     """Return a string representing the given date."""
     # Day
@@ -326,5 +326,6 @@ def get_hebrew_date(date, omer=0, dow=0, holiday_desc=u"",
         res += u" " + u"בעומר" if hebrew else u" in the Omer"
 
     # Holiday
-    res += u" " + str(holiday_desc)
+    if holiday_desc:
+        res += u" " + holiday_desc
     return res
