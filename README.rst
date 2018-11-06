@@ -61,7 +61,7 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 
 .. code :: python
 
-    >>> h=hdate.HDate(datetime.date(2016, 4, 18)hebrew=False)
+    >>> h=hdate.HDate(datetime.date(2016, 4, 18), hebrew=False)
     >>> print h
 
 ::
