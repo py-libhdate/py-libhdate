@@ -3,7 +3,7 @@
 
 __author__ = "Royi Reshef"
 __maintainer__ = "Tsvi Mostovicz"
-__version__ = "0.7.1"
+__version__ = "0.7.2"
 
 from codecs import open
 from glob import glob
