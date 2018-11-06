@@ -138,6 +138,12 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         entry = self._holiday_entry()
         return entry.type
 
+    @property
+    def holiday_name(self):
+        """Return the holiday name which is good for programmatic use."""
+        entry = self._holiday_entry()
+        return entry.name
+
     def _holiday_entry(self):
         """Return the number of holyday."""
         # Get the possible list of holydays for this day
