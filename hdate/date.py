@@ -27,15 +27,16 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
     Supports converting from Gregorian and Julian to Hebrew date.
     """
 
-    def __init__(self, date=None, diaspora=False, hebrew=True):
+    def __init__(self, gdate=None, diaspora=False, hebrew=True):
         """Initialize the HDate object."""
         self._hdate = None
         self._gdate = None
         self._last_updated = None
+        # Keep hdate after gdate assignment so as not to cause recursion error
+        self.gdate = gdate
+        self.hdate = None
         self.hebrew = hebrew
         self.diaspora = diaspora
-        self.gdate = date
-        self.hdate = None
 
     def __unicode__(self):
         """Return a full Unicode representation of HDate."""
@@ -62,6 +63,11 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
             return unicode(self).encode('utf-8')  # noqa: F821
 
         return self.__unicode__()
+
+    def __repr__(self):
+        """Return a representation of HDate for programmatic use."""
+        return ("<HDate(gdate='{}', diaspora='{}', hebrew='{}')>".format(
+            self.gdate, self.diaspora, self.hebrew))
 
     @property
     def hdate(self):
