@@ -38,10 +38,22 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         self.hdate = None
 
     def __unicode__(self):
-        """Return a Unicode representation of HDate."""
-        return get_hebrew_date(self.hdate, self.get_omer_day(), self.dow,
-                               self.holiday_description, hebrew=self.hebrew,
-                               short=False)
+        """Return a full Unicode representation of HDate."""
+        result = u"{}{} {} {}{} {}".format(
+            u"יום " if self.hebrew else u"",
+            htables.DAYS[self.dow - 1][self.hebrew][0],
+            hebrew_number(self.hdate.day, hebrew=self.hebrew),
+            u"ב" if self.hebrew else u"",
+            htables.MONTHS[self.hdate.month - 1][self.hebrew],
+            hebrew_number(self.hdate.year, hebrew=self.hebrew))
+
+        if 0 < self.omer_day < 50:
+            result += u" " + hebrew_number(self.omer_day, hebrew=self.hebrew)
+            result += u" " + u"בעומר" if self.hebrew else u" in the Omer"
+
+        if self.holiday_description:
+            result += u" " + self.holiday_description
+        return result
 
     def __str__(self):
         """Return a string representation of HDate."""
@@ -174,7 +186,8 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, 7, 15))
         return (jdn + 1) % 7 + 1
 
-    def get_omer_day(self):
+    @property
+    def omer_day(self):
         """Return the day of the Omer."""
         first_omer_day = HebrewDate(self.hdate.year, 7, 16)
         omer_day = self._jdn - conv.hdate_to_jdn(first_omer_day) + 1
@@ -299,33 +312,3 @@ def get_omer_string(omer):
                 omer_string += u'שני ימים '
     omer_string += u'לעומר'
     return omer_string
-
-
-def get_hebrew_date(date, omer=0, dow=0, holiday_desc="",
-                    short=False, hebrew=True):
-    """Return a string representing the given date."""
-    # Day
-    res = u"{} {}".format(hebrew_number(date.day, hebrew=hebrew, short=short),
-                          u"ב" if hebrew else u"")
-    # Month
-    res += htables.MONTHS[date.month - 1][hebrew]
-    # Year
-    res += u" " + hebrew_number(date.year, hebrew=hebrew, short=short)
-
-    # Weekday
-    if dow:
-        dw_str = u"יום " if hebrew else u""
-        dw_str += htables.DAYS[dow - 1][hebrew][short]
-        res = dw_str + u" " + res
-    if short:
-        return res
-
-    # Omer
-    if 0 < omer < 50:
-        res += u" " + hebrew_number(omer, hebrew=hebrew, short=short)
-        res += u" " + u"בעומר" if hebrew else u" in the Omer"
-
-    # Holiday
-    if holiday_desc:
-        res += u" " + holiday_desc
-    return res

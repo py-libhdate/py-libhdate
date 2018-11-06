@@ -244,7 +244,7 @@ class TestSpecialDays(object):
         if (rand_date.hdate.month not in [7, 8, 9] or
                 rand_date.hdate.month == 7 and rand_date.hdate.day < 16 or
                 rand_date.hdate.month == 9 and rand_date.hdate.day > 5):
-            assert rand_date.get_omer_day() == 0
+            assert rand_date.omer_day == 0
 
         nissan = list(range(16, 30))
         iyyar = list(range(1, 29))
@@ -252,13 +252,13 @@ class TestSpecialDays(object):
 
         for day in nissan:
             rand_date.hdate = HebrewDate(rand_date.hdate.year, 7, day)
-            assert rand_date.get_omer_day() == day - 15
+            assert rand_date.omer_day == day - 15
         for day in iyyar:
             rand_date.hdate = HebrewDate(rand_date.hdate.year, 8, day)
-            assert rand_date.get_omer_day() == day + 15
+            assert rand_date.omer_day == day + 15
         for day in sivan:
             rand_date.hdate = HebrewDate(rand_date.hdate.year, 9, day)
-            assert rand_date.get_omer_day() == day + 44
+            assert rand_date.omer_day == day + 44
 
 
 class TestHDateReading(object):
