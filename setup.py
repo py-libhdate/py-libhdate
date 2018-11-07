@@ -6,10 +6,9 @@ __maintainer__ = "Tsvi Mostovicz"
 __version__ = "0.7.4"
 
 from codecs import open
-from glob import glob
-from os.path import abspath, basename, dirname, join, splitext
+from os.path import abspath, dirname, join
 
-from setuptools import find_packages, setup
+from setuptools import setup
 
 here = abspath(dirname(__file__))
 
@@ -35,9 +34,7 @@ setup(name='hdate',
       maintainer=__maintainer__,
       maintainer_email='ttmost@gmail.com',
       license='GPLv3+',
-      packages=find_packages('hdate'),
-      package_dir={'': 'hdate'},
-      py_modules=[splitext(basename(path))[0] for path in glob('hdate/*.py')],
+      packages=['hdate'],
       install_requires=[
           'python-dateutil'
       ],
