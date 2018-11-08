@@ -14,27 +14,25 @@ import sys
 
 from dateutil import tz
 
-from hdate import htables
-from hdate.common import set_date
+from hdate import htables, Location
 
 
 class Zmanim(object):  # pylint: disable=useless-object-inheritance
     """Return Jewish day times."""
 
-    def __init__(self, date=None, latitude=None, longitude=None,
-                 timezone='', hebrew=True):
+    def __init__(self, date=datetime.date.today(), location=Location(),
+                 hebrew=True):
         """Initialize the Zmanim object."""
-        if latitude is None or longitude is None:
-            # Tel Aviv cordinates
-            latitude = 32.08088
-            longitude = 34.78057
-        self.date = set_date(date)
-        self.latitude = latitude
-        self.longitude = longitude
-        self._hebrew = hebrew
-        if not timezone:
-            timezone = 'UTC'
-        self.timezone = timezone
+        # Assert correct types on input
+        if not isinstance(date, datetime.date):
+            raise TypeError
+        if not isinstance(location, Location):
+            raise TypeError
+
+        # Assign values
+        self.location = location
+        self.date = date
+        self.hebrew = hebrew
         self.zmanim = self.get_zmanim()
 
     def utc_minute_timezone(self, minutes_from_utc):

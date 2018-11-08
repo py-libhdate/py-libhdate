@@ -7,9 +7,8 @@ import random
 
 import pytest
 
-import hdate
+from hdate import HDate, HebrewDate
 import hdate.converters as conv
-from hdate.common import HebrewDate, set_date
 
 # pylint: disable=no-self-use
 # pylint-comment: In tests, classes are just a grouping semantic
@@ -35,36 +34,15 @@ HEBREW_YEARS_INFO = {
 }
 
 
-class TestSetDate(object):
-
-    def test_default_today(self):
-        assert set_date(None) == datetime.date.today()
-
-    def test_random_date(self, random_date):
-        randomday = datetime.date(*random_date)
-        # When calling set_date with no arguments we should get today's date
-        assert set_date(randomday) == randomday
-
-    @pytest.mark.parametrize('execution_number', list(range(5)))
-    def test_random_datetime(self, execution_number, random_date):
-        randomday = datetime.datetime(*random_date)
-        # When calling set_date with no arguments we should get today's date
-        assert set_date(randomday) == randomday
-
-    def test_illegal_value(self):
-        with pytest.raises(TypeError):
-            set_date(100)
-
-
 class TestHDate(object):
 
     @pytest.fixture
     def default_values(self):
-        return hdate.HDate()
+        return HDate()
 
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_random_hdate(self, execution_number, rand_date):
-        _hdate = hdate.HDate()
+        _hdate = HDate()
         _hdate.hdate = rand_date.hdate
         assert _hdate._jdn == rand_date._jdn
         assert _hdate.hdate == rand_date.hdate
@@ -185,13 +163,13 @@ class TestSpecialDays(object):
         print("Testing " + name + " for " + str(year))
 
         for date in possible_dates:
-            date_under_test = hdate.HDate(hebrew=False)
+            date_under_test = HDate(hebrew=False)
             date_under_test.hdate = HebrewDate(year, date[1], date[0])
             if date_under_test._holiday_entry().index == holiday:
                 print("date ", date_under_test, " matched")
                 for other in possible_dates:
                     if other != date:
-                        other_date = hdate.HDate(hebrew=False)
+                        other_date = HDate(hebrew=False)
                         other_date.hdate = HebrewDate(year, other[1], other[0])
                         print("checking ", other_date, " doesn't match")
                         assert other_date._holiday_entry().index != holiday
@@ -208,14 +186,14 @@ class TestSpecialDays(object):
             year = random.randint(5000, years[0] - 1)
             print("Testing " + name + " for " + str(year))
             for date in possible_dates:
-                date_under_test = hdate.HDate()
+                date_under_test = HDate()
                 date_under_test.hdate = HebrewDate(year, date[1], date[0])
                 assert date_under_test._holiday_entry().index == 0
 
     def test_get_holiday_hanuka_3rd_tevet(self):
         year = random.randint(5000, 6000)
         year_size = conv.get_size_of_hebrew_year(year)
-        myhdate = hdate.HDate()
+        myhdate = HDate()
         myhdate.hdate = HebrewDate(year, 4, 3)
         print(year_size)
         if year_size in [353, 383]:
@@ -228,7 +206,7 @@ class TestSpecialDays(object):
         year = random.randint(5000, 6000)
         year_size = conv.get_size_of_hebrew_year(year)
         month = 6 if year_size < 360 else 14
-        myhdate = hdate.HDate()
+        myhdate = HDate()
 
         for day in possible_days:
             myhdate.hdate = HebrewDate(year, month, day)
@@ -360,7 +338,7 @@ class TestHDateReading(object):
 
     @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_ISRAEL)
     def test_get_reading_israel(self, year, parshiyot):
-        mydate = hdate.HDate(hebrew=False, diaspora=False)
+        mydate = HDate(hebrew=False, diaspora=False)
         mydate.hdate = HebrewDate(year, 1, 1)
 
         # Get next Saturday
@@ -378,7 +356,7 @@ class TestHDateReading(object):
 
     @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_DIASPORA)
     def test_get_reading_diaspora(self, year, parshiyot):
-        mydate = hdate.HDate(hebrew=False, diaspora=True)
+        mydate = HDate(hebrew=False, diaspora=True)
         mydate.hdate = HebrewDate(year, 1, 1)
 
         # Get next Saturday

@@ -7,13 +7,9 @@ maybe other apps in the future).
 
 from __future__ import print_function
 
-from collections import namedtuple
 from datetime import date, datetime
 
-from hdate import HDate, Zmanim
-
-City = namedtuple(
-    "City", ["name", "latitude", "longitude", "timezone", "elevation"])
+from hdate import HDate, Location, Zmanim
 
 
 class TestHDateAPI(object):
@@ -65,7 +61,7 @@ class TestHDateAPI(object):
 class TestZmanimAPI(object):
 
     def test_readme_example_hebrew(self, capsys):
-        c = City("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        c = Location(32.08707, 34.88747, "Asia/Jerusalem", 54)
         z = Zmanim(date=date(2016, 4, 18),
                    latitude=c.latitude, longitude=c.longitude,
                    timezone=c.timezone)
@@ -88,7 +84,7 @@ class TestZmanimAPI(object):
                 u"חצות הלילה - 00:39\n\n")
 
     def test_readme_example_english(self, capsys):
-        c = City("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        c = Location(32.08707, 34.88747, "Asia/Jerusalem", 54)
         z = Zmanim(date=date(2016, 4, 18),
                    latitude=c.latitude, longitude=c.longitude,
                    timezone=c.timezone, hebrew=False)
