@@ -49,11 +49,8 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
 
     def get_zmanim(self):
         """Return a dictionary of the zmanim the object represents."""
-        zmanim_dict = dict()
-        zmanim_list = self.get_utc_sun_time_full()
-        for zman in zmanim_list:
-            zmanim_dict[zman] = self.utc_minute_timezone(zmanim_list[zman])
-        return zmanim_dict
+        return {key: self.utc_minute_timezone(value) for
+                key, value in self.get_utc_sun_time_full()}
 
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
