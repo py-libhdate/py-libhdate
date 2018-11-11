@@ -39,11 +39,8 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
     def utc_minute_timezone(self, minutes_from_utc):
         """Return the local time for a given time UTC."""
         from_zone = tz.gettz('UTC')
-        to_zone = (self.timezone if isinstance(self.timezone, datetime.tzinfo)
-                   else tz.gettz(self.timezone))
-        utc = datetime.datetime(self.date.year, self.date.month,
-                                self.date.day) + \
-            datetime.timedelta(minutes=minutes_from_utc)
+        to_zone = self.location.timezone
+        utc = datetime.datetime.combine(self.date, datetime.time()) + datetime.timedelta(minutes=minutes_from_utc)
         utc = utc.replace(tzinfo=from_zone)
         local = utc.astimezone(to_zone)
         return local
@@ -51,7 +48,7 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
     def get_zmanim(self):
         """Return a dictionary of the zmanim the object represents."""
         return {key: self.utc_minute_timezone(value) for
-                key, value in self.get_utc_sun_time_full()}
+                key, value in self.get_utc_sun_time_full().items()}
 
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
@@ -111,7 +108,7 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
                 0.00148 * math.sin(3.0 * gama))
 
         # we use radians, ratio is 2pi/360
-        latitude = math.pi * self.latitude / 180.0
+        latitude = math.pi * self.location.latitude / 180.0
 
         # the sun real time diff from noon at sunset/rise in radians
         try:
@@ -128,8 +125,8 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
 
         # get sunset/rise times in utc wall clock in minutes from 00:00 time
         # sunrise / sunset
-        return int(720.0 - 4.0 * self.longitude - hour_angle - eqtime), \
-            int(720.0 - 4.0 * self.longitude + hour_angle - eqtime)
+        return int(720.0 - 4.0 * self.location.longitude - hour_angle - eqtime), \
+            int(720.0 - 4.0 * self.location.longitude + hour_angle - eqtime)
 
     def get_utc_sun_time_full(self):
         """Return a list of Jewish times for the given location."""
