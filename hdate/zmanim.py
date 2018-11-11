@@ -54,7 +54,11 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
 
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
-        return get_zmanim_string(self.zmanim, hebrew=self._hebrew)
+        return u"".join([
+            u"{} - {:02d}:{:02d}\n".format(
+                zman.description[self.hebrew],
+                self.zmanim[zman.zman].hour,
+                self.zmanim[zman.zman].minute) for zman in htables.ZMANIM])
 
     def __str__(self):
         """Return a string representation of Zmanim."""
@@ -155,14 +159,3 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
                    gra_end_tfila=sunrise + sun_hour * 4.,
                    midnight=midday + 12 * 60.)
         return res
-
-
-def get_zmanim_string(zmanim, hebrew=True):
-    """Get the string representing the zmanim of the day."""
-    res = u""
-    for zman in htables.ZMANIM:
-        if zman.zman in zmanim:
-            time = zmanim[zman.zman]
-            res += u"{} - {:02d}:{:02d}\n".format(
-                zman.description[hebrew], time.hour, time.minute)
-    return res
