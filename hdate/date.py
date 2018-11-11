@@ -14,7 +14,9 @@ import sys
 from itertools import chain, product
 
 from hdate import converters as conv
-from hdate import htables, HebrewDate, Location, Zmanim
+from hdate import htables
+from hdate.common import HebrewDate, Location
+from hdate.zmanim import Zmanim
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -115,7 +117,7 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
     def gdate(self, date):
         """Set the Gregorian date for the given Hebrew date object."""
         self._last_updated = "gdate"
-        self._gdate = set_date(date)
+        self._gdate = date
 
     @property
     def _jdn(self):

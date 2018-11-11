@@ -7,8 +7,8 @@ import random
 
 import pytest
 
-from hdate import HDate, HebrewDate
 import hdate.converters as conv
+from hdate import HDate, HebrewDate
 
 # pylint: disable=no-self-use
 # pylint-comment: In tests, classes are just a grouping semantic

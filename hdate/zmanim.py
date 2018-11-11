@@ -14,7 +14,8 @@ import sys
 
 from dateutil import tz
 
-from hdate import htables, Location
+from hdate import htables
+from hdate.common import Location
 
 
 class Zmanim(object):  # pylint: disable=useless-object-inheritance
