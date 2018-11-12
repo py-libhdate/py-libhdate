@@ -15,8 +15,7 @@ from itertools import chain, product
 
 from hdate import converters as conv
 from hdate import htables
-from hdate.common import HebrewDate, Location
-from hdate.zmanim import Zmanim
+from hdate.common import HebrewDate
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -28,8 +27,8 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
     Supports converting from Gregorian and Julian to Hebrew date.
     """
 
-    def __init__(self, gdate=datetime.date.today(), location=Location(),
-                 diaspora=False, hebrew=True):
+    def __init__(self, gdate=datetime.date.today(), diaspora=False,
+                 hebrew=True):
         """Initialize the HDate object."""
         # Create private variables
         self._hdate = None
@@ -39,16 +38,12 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         # Assert correct types on input
         if not isinstance(gdate, datetime.date):
             raise TypeError
-        if not isinstance(location, Location):
-            raise TypeError
-
         # Assign values
         # Keep hdate after gdate assignment so as not to cause recursion error
         self.gdate = gdate
         self.hdate = None
         self.hebrew = hebrew
         self.diaspora = diaspora
-        self.zmanim = Zmanim(self.gdate, location, self.hebrew)
 
     def __unicode__(self):
         """Return a full Unicode representation of HDate."""
