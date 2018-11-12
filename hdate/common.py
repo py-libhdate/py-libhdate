@@ -1,3 +1,5 @@
+"""Small helper classes."""
+
 import datetime
 from collections import namedtuple
 
@@ -6,11 +8,15 @@ from dateutil import tz
 HebrewDate = namedtuple("HebrewDate", ["year", "month", "day"])
 
 
-class Location(object):  # pylint: disable=useless-object-inheritance
+class Location(object):
     """Define a geolocation for Zmanim calculations."""
+
+    # pylint: disable=too-few-public-methods
+    # pylint: disable=useless-object-inheritance
 
     def __init__(self, name="Jerusalem", latitude=31.778, longitude=35.235,
                  timezone="Asia/Jerusalem", altitude=754):
+        """Initialitze the location object."""
         self._timezone = None
         self.name = name
         self.latitude = latitude
