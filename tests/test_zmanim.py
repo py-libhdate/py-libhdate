@@ -6,6 +6,7 @@ import pytest
 from dateutil import tz
 
 import hdate
+from hdate.common import Location
 
 # pylint: disable=no-self-use
 # pylint-comment: In tests, classes are just a grouping semantic
@@ -39,17 +40,19 @@ class TestZmanim(object):
 
     def test_using_tzinfo(self):
         day = datetime.date(2018, 9, 8)
-        latitude = 40.7128
-        longitude = -74.0060
         timezone_str = "America/New_York"
         timezone = tz.gettz(timezone_str)
+        location_tz_str = Location(
+            name="New York", latitude=40.7128, longitude=-74.0060,
+            timezone=timezone_str)
+        location = Location(
+            name="New York", latitude=40.7128, longitude=-74.0060,
+            timezone=timezone)
 
         assert (hdate.Zmanim(
-            date=day,
-            latitude=latitude, longitude=longitude, timezone=timezone_str)
+            date=day, location=location_tz_str)
             .get_zmanim()["first_stars"].time() == datetime.time(19, 48))
 
         assert (hdate.Zmanim(
-            date=day,
-            latitude=latitude, longitude=longitude, timezone=timezone)
+            date=day, location=location)
             .get_zmanim()["first_stars"].time() == datetime.time(19, 48))

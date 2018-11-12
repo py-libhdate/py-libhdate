@@ -40,7 +40,8 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
         """Return the local time for a given time UTC."""
         from_zone = tz.gettz('UTC')
         to_zone = self.location.timezone
-        utc = datetime.datetime.combine(self.date, datetime.time()) + datetime.timedelta(minutes=minutes_from_utc)
+        utc = datetime.datetime.combine(self.date, datetime.time()) + \
+            datetime.timedelta(minutes=minutes_from_utc)
         utc = utc.replace(tzinfo=from_zone)
         local = utc.astimezone(to_zone)
         return local
@@ -125,8 +126,9 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
 
         # get sunset/rise times in utc wall clock in minutes from 00:00 time
         # sunrise / sunset
-        return int(720.0 - 4.0 * self.location.longitude - hour_angle - eqtime), \
-            int(720.0 - 4.0 * self.location.longitude + hour_angle - eqtime)
+        longitude = self.location.longitude
+        return int(720.0 - 4.0 * longitude - hour_angle - eqtime), \
+            int(720.0 - 4.0 * longitude + hour_angle - eqtime)
 
     def get_utc_sun_time_full(self):
         """Return a list of Jewish times for the given location."""

@@ -61,7 +61,8 @@ class TestHDateAPI(object):
 class TestZmanimAPI(object):
 
     def test_readme_example_hebrew(self, capsys):
-        c = Location(32.08707, 34.88747, "Asia/Jerusalem", 54)
+        c = Location(latitude=32.08707, longitude=34.88747,
+                     timezone="Asia/Jerusalem", altitude=54)
         z = Zmanim(date=date(2016, 4, 18), location=c)
         print(z)
         captured = capsys.readouterr()
@@ -82,7 +83,8 @@ class TestZmanimAPI(object):
                 u"חצות הלילה - 00:39\n\n")
 
     def test_readme_example_english(self, capsys):
-        c = Location(32.08707, 34.88747, "Asia/Jerusalem", 54)
+        c = Location(latitude=32.08707, longitude=34.88747,
+                     timezone="Asia/Jerusalem", altitude=54)
         z = Zmanim(date=date(2016, 4, 18), location=c, hebrew=False)
         print(z)
         captured = capsys.readouterr()
