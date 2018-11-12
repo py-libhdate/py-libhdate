@@ -44,10 +44,10 @@ class TestZmanim(object):
         timezone = tz.gettz(timezone_str)
         location_tz_str = Location(
             name="New York", latitude=40.7128, longitude=-74.0060,
-            timezone=timezone_str)
+            timezone=timezone_str, diaspora=True)
         location = Location(
             name="New York", latitude=40.7128, longitude=-74.0060,
-            timezone=timezone)
+            timezone=timezone, diaspora=True)
 
         assert (hdate.Zmanim(
             date=day, location=location_tz_str)

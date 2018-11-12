@@ -15,7 +15,7 @@ class Location(object):
     # pylint: disable=useless-object-inheritance
 
     def __init__(self, name="Jerusalem", latitude=31.778, longitude=35.235,
-                 timezone="Asia/Jerusalem", altitude=754):
+                 timezone="Asia/Jerusalem", altitude=754, diaspora=False):
         """Initialitze the location object."""
         self._timezone = None
         self.name = name
@@ -23,6 +23,7 @@ class Location(object):
         self.longitude = longitude
         self.timezone = timezone
         self.altitude = altitude
+        self.diaspora = diaspora
 
     @property
     def timezone(self):

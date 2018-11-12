@@ -8,7 +8,7 @@ of the Jewish calendrical times for a given location
 """
 from __future__ import division
 
-import datetime
+import datetime as dt
 import math
 import sys
 
@@ -22,15 +22,21 @@ from hdate.date import HDate
 class Zmanim(object):  # pylint: disable=useless-object-inheritance
     """Return Jewish day times."""
 
-    def __init__(self, date=datetime.date.today(), location=Location(),
+    def __init__(self, date=dt.datetime.now(), location=Location(),
                  hebrew=True):
         """Initialize the Zmanim object."""
         self.location = location
-        self.date = date
-        self.location = location
-        self.date = date
         self.hebrew = hebrew
         self.shabbes_offset = 20
+
+        if isinstance(date, dt.datetime):
+            self.date = date.date()
+            self.time = date.replace(tzinfo=location.timezone)
+        elif isinstance(date, dt.date):
+            self.date = date
+            self.time = dt.datetime.now().replace(tzinfo=location.timezone)
+        else:
+            raise TypeError
 
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
@@ -58,28 +64,31 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
     def issur_melacha_in_effect(self):
         """At the given time, return whether issur melacha is in effect."""
         weekday = self.date.weekday()
-        tomorrow = self.date - datetime.timedelta(days=1)
-        tomorrow_holiday_type = HDate(tomorrow).holiday_type
-        today_holiday_type = HDate(tomorrow).holiday_type
+        tomorrow = self.date + dt.timedelta(days=1)
+        tomorrow_holiday_type = HDate(
+            gdate=tomorrow, diaspora=self.location.diaspora).holiday_type
+        today_holiday_type = HDate(
+            gdate=self.date, diaspora=self.location.diaspora).holiday_type
 
-        if weekday == 4 or tomorrow_holiday_type == 2:
-            if self.date.time() > (self.zmanim.sunset - self.shabbes_offset):
+        if weekday == 4 or tomorrow_holiday_type == 1:
+            if self.time > (self.zmanim["sunset"] -
+                            dt.timedelta(minutes=self.shabbes_offset)):
                 return True
-        if weekday == 5 or today_holiday_type == 2:
-            if self.date.time() < self.zmanim.three_stars:
+        if weekday == 5 or today_holiday_type == 1:
+            if self.time < self.zmanim["three_stars"]:
                 return True
         return False
 
     def gday_of_year(self):
         """Return the number of days since January 1 of the given year."""
-        return (self.date - datetime.date(self.date.year, 1, 1)).days
+        return (self.date - dt.date(self.date.year, 1, 1)).days
 
     def utc_minute_timezone(self, minutes_from_utc):
         """Return the local time for a given time UTC."""
         from_zone = tz.gettz('UTC')
         to_zone = self.location.timezone
-        utc = datetime.datetime.combine(self.date, datetime.time()) + \
-            datetime.timedelta(minutes=minutes_from_utc)
+        utc = dt.datetime.combine(self.date, dt.time()) + \
+            dt.timedelta(minutes=minutes_from_utc)
         utc = utc.replace(tzinfo=from_zone)
         local = utc.astimezone(to_zone)
         return local
