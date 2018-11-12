@@ -16,6 +16,7 @@ from dateutil import tz
 
 from hdate import htables
 from hdate.common import Location
+from hdate.date import HDate
 
 
 class Zmanim(object):  # pylint: disable=useless-object-inheritance
@@ -29,6 +30,7 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
         self.location = location
         self.date = date
         self.hebrew = hebrew
+        self.shabbes_offset = 20
 
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
@@ -51,6 +53,22 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
         """Return a dictionary of the zmanim the object represents."""
         return {key: self.utc_minute_timezone(value) for
                 key, value in self.get_utc_sun_time_full().items()}
+
+    @property
+    def issur_melacha_in_effect(self):
+        """At the given time, return whether issur melacha is in effect."""
+        weekday = self.date.weekday()
+        tomorrow = self.date - datetime.timedelta(days=1)
+        tomorrow_holiday_type = HDate(tomorrow).holiday_type
+        today_holiday_type = HDate(tomorrow).holiday_type
+
+        if weekday == 4 or tomorrow_holiday_type == 2:
+            if self.date.time() > (self.zmanim.sunset - self.shabbes_offset):
+                return True
+        if weekday == 5 or today_holiday_type == 2:
+            if self.date.time() < self.zmanim.three_stars:
+                return True
+        return False
 
     def gday_of_year(self):
         """Return the number of days since January 1 of the given year."""
@@ -135,10 +153,10 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
         midday = (sunset + sunrise) // 2
 
         # get times of the different sun angles
-        first_light, _n = self._get_utc_sun_time_deg(106.1)
-        talit, _n = self._get_utc_sun_time_deg(101.0)
-        _n, first_stars = self._get_utc_sun_time_deg(96.0)
-        _n, three_stars = self._get_utc_sun_time_deg(98.5)
+        first_light, _ = self._get_utc_sun_time_deg(106.1)
+        talit, _ = self._get_utc_sun_time_deg(101.0)
+        _, first_stars = self._get_utc_sun_time_deg(96.0)
+        _, three_stars = self._get_utc_sun_time_deg(98.5)
         mga_sunhour = (midday - first_light) / 6
 
         res = dict(sunrise=sunrise, sunset=sunset, sun_hour=sun_hour,
