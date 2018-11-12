@@ -85,6 +85,7 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         """Set the dates of the HDate object based on a given Hebrew date."""
         # Sanity checks
         if date is None and isinstance(self.gdate, datetime.date):
+            # Calculate the value since gdate has been set
             date = self.hdate
 
         if not 0 < date.month < 15:
@@ -108,9 +109,6 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
     @gdate.setter
     def gdate(self, date):
         """Set the Gregorian date for the given Hebrew date object."""
-        if not isinstance(date, datetime.date):
-            raise TypeError
-
         self._last_updated = "gdate"
         self._gdate = date
 

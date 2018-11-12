@@ -24,45 +24,11 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
     def __init__(self, date=datetime.date.today(), location=Location(),
                  hebrew=True):
         """Initialize the Zmanim object."""
-        self._location = None
-        self._date = None
-
-        # Assign values
+        self.location = location
+        self.date = date
         self.location = location
         self.date = date
         self.hebrew = hebrew
-
-    @property
-    def location(self):
-        """Return the location for the calculations."""
-        return self._location
-
-    @location.setter
-    def location(self, value):
-        """Set the location for the calculations."""
-        if not isinstance(value, Location):
-            raise TypeError
-
-        self._location = value
-
-    @property
-    def date(self):
-        """Return the date for the calculations."""
-        return self._date
-
-    @date.setter
-    def date(self, value):
-        """Set the date for the calculations."""
-        if not isinstance(value, datetime.date):
-            raise TypeError
-
-        self._date = value
-
-    @property
-    def zmanim(self):
-        """Return a dictionary of the zmanim the object represents."""
-        return {key: self.utc_minute_timezone(value) for
-                key, value in self.get_utc_sun_time_full().items()}
 
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
@@ -79,6 +45,12 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
             return unicode(self).encode('utf-8')  # noqa: F821
 
         return self.__unicode__()
+
+    @property
+    def zmanim(self):
+        """Return a dictionary of the zmanim the object represents."""
+        return {key: self.utc_minute_timezone(value) for
+                key, value in self.get_utc_sun_time_full().items()}
 
     def gday_of_year(self):
         """Return the number of days since January 1 of the given year."""
