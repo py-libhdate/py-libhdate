@@ -31,7 +31,6 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
         self.location = location
         self.date = date
         self.hebrew = hebrew
-        self.zmanim = self.get_zmanim()
 
     @property
     def location(self):
@@ -59,7 +58,8 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
 
         self._date = value
 
-    def get_zmanim(self):
+    @property
+    def zmanim(self):
         """Return a dictionary of the zmanim the object represents."""
         return {key: self.utc_minute_timezone(value) for
                 key, value in self.get_utc_sun_time_full().items()}

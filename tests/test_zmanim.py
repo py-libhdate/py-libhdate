@@ -51,8 +51,8 @@ class TestZmanim(object):
 
         assert (hdate.Zmanim(
             date=day, location=location_tz_str)
-            .get_zmanim()["first_stars"].time() == datetime.time(19, 48))
+            .zmanim["first_stars"].time() == datetime.time(19, 48))
 
         assert (hdate.Zmanim(
             date=day, location=location)
-            .get_zmanim()["first_stars"].time() == datetime.time(19, 48))
+            .zmanim["first_stars"].time() == datetime.time(19, 48))
