@@ -40,6 +40,14 @@ class TestHDate(object):
     def default_values(self):
         return HDate()
 
+    def test_repr(self):
+        _hdate = HDate()
+        assert _hdate == eval(repr(_hdate))
+        assert _hdate is not eval(repr(_hdate))
+
+    def test_inequality(self):
+        assert HDate() != HDate(datetime.date(2017, 1, 1))
+
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_random_hdate(self, execution_number, rand_date):
         _hdate = HDate()
