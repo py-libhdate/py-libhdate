@@ -71,7 +71,7 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
     def __repr__(self):
         """Return a representation of HDate for programmatic use."""
         return ("<HDate(gdate='{}', diaspora='{}', hebrew='{}')>".format(
-            self.gdate, self.diaspora, self.hebrew))
+            repr(self.gdate), self.diaspora, self.hebrew))
 
     @property
     def hdate(self):
