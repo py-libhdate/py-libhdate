@@ -35,9 +35,6 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         self._gdate = None
         self._last_updated = None
 
-        # Assert correct types on input
-        if not isinstance(gdate, datetime.date):
-            raise TypeError
         # Assign values
         # Keep hdate after gdate assignment so as not to cause recursion error
         self.gdate = gdate
@@ -111,6 +108,9 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
     @gdate.setter
     def gdate(self, date):
         """Set the Gregorian date for the given Hebrew date object."""
+        if not isinstance(date, datetime.date):
+            raise TypeError
+
         self._last_updated = "gdate"
         self._gdate = date
 

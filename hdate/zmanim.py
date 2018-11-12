@@ -24,11 +24,8 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
     def __init__(self, date=datetime.date.today(), location=Location(),
                  hebrew=True):
         """Initialize the Zmanim object."""
-        # Assert correct types on input
-        if not isinstance(date, datetime.date):
-            raise TypeError
-        if not isinstance(location, Location):
-            raise TypeError
+        self._location = None
+        self._date = None
 
         # Assign values
         self.location = location
@@ -45,6 +42,31 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
         utc = utc.replace(tzinfo=from_zone)
         local = utc.astimezone(to_zone)
         return local
+    @property
+    def location(self):
+        """Return the location for the calculations."""
+        return self._location
+
+    @location.setter
+    def location(self, value):
+        """Set the location for the calculations."""
+        if not isinstance(value, Location):
+            raise TypeError
+
+        self._location = value
+
+    @property
+    def date(self):
+        """Return the date for the calculations."""
+        return self._date
+
+    @date.setter
+    def date(self, value):
+        """Set the date for the calculations."""
+        if not isinstance(value, datetime.date):
+            raise TypeError
+
+        self._date = value
 
     def get_zmanim(self):
         """Return a dictionary of the zmanim the object represents."""
