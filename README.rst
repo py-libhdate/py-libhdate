@@ -9,12 +9,8 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 
     >>> import hdate
     >>> import datetime
-    >>> from collections import namedtuple
-    >>> City = namedtuple("City", ["name", "latitude", "longitude", "timezone", "elevation"])
-    >>> c = City("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18),
-                         latitude=c.latitude, longitude=c.longitude,
-                         timezone=c.timezone)
+    >>> c = hdate.Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c)
     >>> print z
 
 ::
@@ -36,10 +32,7 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 
 .. code :: python
 
-    z = hdate.Zmanim(date=datetime.date(2016, 4, 18),
-                     latitude=c.latitude, longitude=c.longitude,
-                     timezone=c.timezone, hebrew=False)
-
+    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c)
     >>> print z
 
 ::
