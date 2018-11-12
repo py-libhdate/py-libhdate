@@ -33,15 +33,6 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
         self.hebrew = hebrew
         self.zmanim = self.get_zmanim()
 
-    def utc_minute_timezone(self, minutes_from_utc):
-        """Return the local time for a given time UTC."""
-        from_zone = tz.gettz('UTC')
-        to_zone = self.location.timezone
-        utc = datetime.datetime.combine(self.date, datetime.time()) + \
-            datetime.timedelta(minutes=minutes_from_utc)
-        utc = utc.replace(tzinfo=from_zone)
-        local = utc.astimezone(to_zone)
-        return local
     @property
     def location(self):
         """Return the location for the calculations."""
@@ -92,6 +83,16 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
     def gday_of_year(self):
         """Return the number of days since January 1 of the given year."""
         return (self.date - datetime.date(self.date.year, 1, 1)).days
+
+    def utc_minute_timezone(self, minutes_from_utc):
+        """Return the local time for a given time UTC."""
+        from_zone = tz.gettz('UTC')
+        to_zone = self.location.timezone
+        utc = datetime.datetime.combine(self.date, datetime.time()) + \
+            datetime.timedelta(minutes=minutes_from_utc)
+        utc = utc.replace(tzinfo=from_zone)
+        local = utc.astimezone(to_zone)
+        return local
 
     def _get_utc_sun_time_deg(self, deg):
         """
