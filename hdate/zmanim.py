@@ -41,10 +41,9 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
         return u"".join([
-            u"{} - {:02d}:{:02d}\n".format(
+            u"{} - {}\n".format(
                 zman.description[self.hebrew],
-                self.zmanim[zman.zman].hour,
-                self.zmanim[zman.zman].minute) for zman in htables.ZMANIM])
+                self.zmanim[zman.zman].time()) for zman in htables.ZMANIM])
 
     def __str__(self):
         """Return a string representation of Zmanim."""

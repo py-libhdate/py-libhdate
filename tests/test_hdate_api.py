@@ -66,20 +66,20 @@ class TestZmanimAPI(object):
         print(z)
         captured = capsys.readouterr()
         assert (captured.out ==
-                u"עלות השחר - 04:53\n"
-                u"זמן טלית ותפילין - 05:19\n"
-                u"הנץ החמה - 06:09\n"
-                u"סוף זמן ק\"ש מג\"א - 08:46\n"
-                u"סוף זמן ק\"ש הגר\"א - 09:24\n"
-                u"סוף זמן תפילה מג\"א - 10:03\n"
-                u"סוף זמן תפילה גר\"א - 10:29\n"
-                u"חצות היום - 12:39\n"
-                u"מנחה גדולה - 13:11\n"
-                u"מנחה קטנה - 16:26\n"
-                u"פלג מנחה - 17:48\n"
-                u"שקיעה - 19:10\n"
-                u"צאת הככבים - 19:35\n"
-                u"חצות הלילה - 00:39\n\n")
+                u"עלות השחר - 04:53:00\n"
+                u"זמן טלית ותפילין - 05:19:00\n"
+                u"הנץ החמה - 06:09:00\n"
+                u"סוף זמן ק\"ש מג\"א - 08:46:00\n"
+                u"סוף זמן ק\"ש הגר\"א - 09:24:00\n"
+                u"סוף זמן תפילה מג\"א - 10:03:40\n"
+                u"סוף זמן תפילה גר\"א - 10:29:00\n"
+                u"חצות היום - 12:39:00\n"
+                u"מנחה גדולה - 13:11:30\n"
+                u"מנחה קטנה - 16:26:30\n"
+                u"פלג מנחה - 17:48:45\n"
+                u"שקיעה - 19:10:00\n"
+                u"צאת הככבים - 19:35:00\n"
+                u"חצות הלילה - 00:39:00\n\n")
 
     def test_readme_example_english(self, capsys):
         c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
@@ -87,20 +87,20 @@ class TestZmanimAPI(object):
         print(z)
         captured = capsys.readouterr()
         assert (captured.out ==
-                "Alot HaShachar - 04:53\n"
-                "Talit & Tefilin\'s time - 05:19\n"
-                "Sunrise - 06:09\n"
-                "Shema EOT MG\"A - 08:46\n"
-                "Shema EOT GR\"A - 09:24\n"
-                "Tefila EOT MG\"A - 10:03\n"
-                "Tefila EOT GR\"A - 10:29\n"
-                "Midday - 12:39\n"
-                "Big Mincha - 13:11\n"
-                "Small Mincha - 16:26\n"
-                "Plag Mincha - 17:48\n"
-                "Sunset - 19:10\n"
-                "First stars - 19:35\n"
-                "Midnight - 00:39\n\n")
+                "Alot HaShachar - 04:53:00\n"
+                "Talit & Tefilin\'s time - 05:19:00\n"
+                "Sunrise - 06:09:00\n"
+                "Shema EOT MG\"A - 08:46:00\n"
+                "Shema EOT GR\"A - 09:24:00\n"
+                "Tefila EOT MG\"A - 10:03:40\n"
+                "Tefila EOT GR\"A - 10:29:00\n"
+                "Midday - 12:39:00\n"
+                "Big Mincha - 13:11:30\n"
+                "Small Mincha - 16:26:30\n"
+                "Plag Mincha - 17:48:45\n"
+                "Sunset - 19:10:00\n"
+                "First stars - 19:35:00\n"
+                "Midnight - 00:39:00\n\n")
 
     def test_issur_melacha_weekday(self):
         c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
