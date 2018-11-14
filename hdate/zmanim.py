@@ -53,6 +53,25 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
 
         return self.__unicode__()
 
+    def __repr__(self):
+        """Return a representation of Zmanim for programmatic use."""
+        return ("Zmanim(date={}, location={}, hebrew={})".format(
+            repr(self.time.replace(tzinfo=None)), repr(self.location),
+            self.hebrew))
+
+    def __eq__(self, other):
+        """Override equality operator."""
+        if isinstance(other, self.__class__):
+            print("self",self.__dict__)
+            print("other",other.__dict__)
+            return self.__dict__ == other.__dict__
+        else:
+            return False
+
+    def __ne__(self, other):
+        """Override inequality operator."""
+        return not self.__eq__(other)
+
     @property
     def zmanim(self):
         """Return a dictionary of the zmanim the object represents."""

@@ -4,8 +4,9 @@ from calendar import isleap
 
 import pytest
 from dateutil import tz
+from dateutil.tz import tzfile
 
-import hdate
+from hdate import Zmanim
 from hdate.common import Location
 
 # pylint: disable=no-self-use
@@ -13,6 +14,19 @@ from hdate.common import Location
 
 
 class TestZmanim(object):
+
+    def test_repr(self):
+        _zmanim = Zmanim()
+        assert _zmanim == eval(repr(_zmanim))
+        assert _zmanim is not eval(repr(_zmanim))
+
+    def test_equality(self):
+        assert not Zmanim() == Zmanim(datetime.date(2017, 1, 1))
+        assert not Zmanim() == "not a Zmanim"
+
+    def test_inequality(self):
+        assert Zmanim() != Zmanim(datetime.date(2017, 1, 1))
+        assert Zmanim() != "not a Zmanim"
 
     @pytest.mark.parametrize('execution_number', list(range(5)))
     def test_same_doy_is_equal(self, execution_number, random_date):
@@ -35,8 +49,8 @@ class TestZmanim(object):
         else:
             other_date = this_date.replace(year=other_year) + shift_day
 
-        assert (hdate.Zmanim(this_date).get_utc_sun_time_full() ==
-                hdate.Zmanim(other_date).get_utc_sun_time_full())
+        assert (Zmanim(this_date).get_utc_sun_time_full() ==
+                Zmanim(other_date).get_utc_sun_time_full())
 
     def test_using_tzinfo(self):
         day = datetime.date(2018, 9, 8)
@@ -49,10 +63,10 @@ class TestZmanim(object):
             name="New York", latitude=40.7128, longitude=-74.0060,
             timezone=timezone, diaspora=True)
 
-        assert (hdate.Zmanim(
+        assert (Zmanim(
             date=day, location=location_tz_str)
             .zmanim["first_stars"].time() == datetime.time(19, 48))
 
-        assert (hdate.Zmanim(
+        assert (Zmanim(
             date=day, location=location)
             .zmanim["first_stars"].time() == datetime.time(19, 48))

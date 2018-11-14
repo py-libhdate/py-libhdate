@@ -25,6 +25,24 @@ class Location(object):
         self.altitude = altitude
         self.diaspora = diaspora
 
+    def __repr__(self):
+        """Return a representation of Location for programmatic use."""
+        return ("Location(name='{}', latitude={}, longitude={}, timezone={}, "
+                "altitude={}, diaspora={})".format(
+            self.name, self.latitude, self.longitude, self.timezone,
+            self.altitude, self.diaspora))
+
+    def __eq__(self, other):
+        """Override equality operator."""
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        else:
+            return False
+
+    def __ne__(self, other):
+        """Override inequality operator."""
+        return not self.__eq__(other)
+
     @property
     def timezone(self):
         """Return the timezone."""
