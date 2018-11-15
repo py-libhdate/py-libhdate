@@ -25,6 +25,7 @@ class TestClasses(object):
         def class_copy(original):
             import copy
             yield copy.deepcopy(original)
+        return class_copy
         
     def test_repr(self, _class):
         assert _class == eval(repr(_class))
