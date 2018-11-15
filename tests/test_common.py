@@ -31,11 +31,13 @@ class TestClasses(object):
         assert _class is not eval(repr(_class))
 
     def test_equality(self, _class, _copy):
-        _copy.foo = 'bar'
-        assert not _class == _copy
+        copy_ = _copy(_class)
+        copy_.foo = 'bar'
+        assert not _class == copy_
         assert not _class == "not a class instance"
 
     def test_inequality(self, _class, _copy):
-        _copy.foo = 'bar'
-        assert not _class != _copy
+        copy_ = _copy(_class)
+        copy_.foo = 'bar'
+        assert not _class != copy_
         assert _class != "not a class instance"
