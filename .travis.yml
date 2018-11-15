@@ -1,8 +1,5 @@
 language: python
 cache: pip
-env:
-  matrix:
-    - TOXENV=check
 matrix:
   include:
     - python: '2.7'
@@ -18,7 +15,7 @@ matrix:
       sudo: required
       dist: xenial
       env:
-       - TOXENV=py37,report,coveralls,codecov
+       - TOXENV=check,py37,report,coveralls,codecov
 install:
   - pip install tox
 script:
