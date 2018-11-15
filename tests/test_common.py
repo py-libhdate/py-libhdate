@@ -40,5 +40,5 @@ class TestClasses(object):
     def test_inequality(self, _class, _copy):
         copy_ = _copy(_class)
         copy_.foo = 'bar'
-        assert not _class != copy_
+        assert _class != copy_
         assert _class != "not a class instance"
