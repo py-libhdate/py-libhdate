@@ -7,7 +7,7 @@ import datetime
 import pytest
 from dateutil.tz import tzfile
 
-from hdate import HDate, Zmanim, Location
+from hdate import HDate, Location, Zmanim
 
 # pylint: disable=no-self-use
 # pylint-comment: In tests, classes are just a grouping semantic
