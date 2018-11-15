@@ -40,19 +40,6 @@ class TestHDate(object):
     def default_values(self):
         return HDate()
 
-    def test_repr(self):
-        _hdate = HDate()
-        assert _hdate == eval(repr(_hdate))
-        assert _hdate is not eval(repr(_hdate))
-
-    def test_equality(self):
-        assert not HDate() == HDate(datetime.date(2017, 1, 1))
-        assert not HDate() == "not a HDate"
-
-    def test_inequality(self):
-        assert HDate() != HDate(datetime.date(2017, 1, 1))
-        assert HDate() != "not a HDate"
-
     def test_assign_bad_hdate_value(self):
         bad_month_value = HebrewDate(5779, 15, 3)
         bad_day_value = HebrewDate(5779, 10, 35)

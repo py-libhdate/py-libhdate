@@ -15,18 +15,6 @@ from hdate.common import Location
 
 class TestZmanim(object):
 
-    def test_repr(self):
-        _zmanim = Zmanim()
-        assert _zmanim == eval(repr(_zmanim))
-        assert _zmanim is not eval(repr(_zmanim))
-
-    def test_equality(self):
-        assert not Zmanim() == Zmanim(datetime.date(2017, 1, 1))
-        assert not Zmanim() == "not a Zmanim"
-
-    def test_inequality(self):
-        assert Zmanim() != Zmanim(datetime.date(2017, 1, 1))
-        assert Zmanim() != "not a Zmanim"
 
     @pytest.mark.parametrize('execution_number', list(range(5)))
     def test_same_doy_is_equal(self, execution_number, random_date):
