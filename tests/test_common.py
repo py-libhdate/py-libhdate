@@ -24,7 +24,7 @@ class TestClasses(object):
     def _copy(self):
         def class_copy(original):
             import copy
-            yield copy.deepcopy(original)
+            return copy.deepcopy(original)
         return class_copy
         
     def test_repr(self, _class):
