@@ -18,20 +18,23 @@ class TestClasses(object):
 
     @pytest.fixture(params=CLASSES)
     def _class(self, request):
-          yield eval(request.param)
+        yield eval(request.param)
+
+    def _copy(self):
+        def class_copy(original):
+            import copy
+            yield copy.deepcopy(original)
         
     def test_repr(self, _class):
         assert _class == eval(repr(_class))
         assert _class is not eval(repr(_class))
 
-    def test_equality(self, _class):
-        class_copy = _class
-        class_copy.foo = 'bar'
-        assert not _class == class_copy
+    def test_equality(self, _class, _copy):
+        _copy.foo = 'bar'
+        assert not _class == _copy
         assert not _class == "not a class instance"
 
-    def test_inequality(self):
-        class_copy = _class
-        class_copy.foo = 'bar'
-        assert not _class != class_copy
+    def test_inequality(self, _class, _copy):
+        _copy.foo = 'bar'
+        assert not _class != _copy
         assert _class != "not a class instance"
