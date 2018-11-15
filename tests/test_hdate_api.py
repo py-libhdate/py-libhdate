@@ -112,6 +112,11 @@ class TestZmanimAPI(object):
         z = Zmanim(date=datetime(2018, 11, 10, 9), location=c)
         assert z.issur_melacha_in_effect
 
+    def test_issur_melacha_friday_morning(self):
+        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        z = Zmanim(date=datetime(2018, 11, 9, 9, 45), location=c)
+        assert not z.issur_melacha_in_effect
+
     def test_issur_melacha_friday_evening(self):
         c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
         z = Zmanim(date=datetime(2018, 11, 9, 16, 45), location=c)
@@ -126,6 +131,11 @@ class TestZmanimAPI(object):
         c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
         z = Zmanim(date=datetime(2019, 6, 9, 9), location=c)
         assert z.issur_melacha_in_effect
+
+    def test_issur_melacha_pesach_vi_mornng(self):
+        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        z = Zmanim(date=datetime(2019, 4, 25, 9, 45), location=c)
+        assert not z.issur_melacha_in_effect
 
     def test_issur_melacha_shavuot_evening(self):
         c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
