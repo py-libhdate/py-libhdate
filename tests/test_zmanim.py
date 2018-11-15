@@ -15,6 +15,9 @@ from hdate.common import Location
 
 class TestZmanim(object):
 
+    def test_bad_date(self):
+        with pytest.raises(TypeError):
+            Zmanim(date='bad value')
 
     @pytest.mark.parametrize('execution_number', list(range(5)))
     def test_same_doy_is_equal(self, execution_number, random_date):

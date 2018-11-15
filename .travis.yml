@@ -10,12 +10,12 @@ matrix:
        - TOXENV=py35,report,coveralls,codecov
     - python: '3.6'
       env:
-       - TOXENV=py36,report,coveralls,codecov
+       - TOXENV=check,py36,report,coveralls,codecov
     - python: '3.7'
       sudo: required
       dist: xenial
       env:
-       - TOXENV=check,py37,report,coveralls,codecov
+       - TOXENV=py37,report,coveralls,codecov
 install:
   - pip install tox
 script:
