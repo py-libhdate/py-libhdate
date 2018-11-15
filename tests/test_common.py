@@ -2,15 +2,16 @@
 
 from __future__ import print_function
 
-import datetime
+import datetime  # noqa: F401
 
 import pytest
-from dateutil.tz import tzfile
+from dateutil.tz import tzfile  # noqa: F401
 
-from hdate import HDate, Location, Zmanim
+from hdate import HDate, Location, Zmanim  # noqa: F401
 
 # pylint: disable=no-self-use
 # pylint-comment: In tests, classes are just a grouping semantic
+
 
 class TestClasses(object):
 
@@ -26,7 +27,7 @@ class TestClasses(object):
             import copy
             return copy.deepcopy(original)
         return class_copy
-        
+
     def test_repr(self, _class):
         assert _class == eval(repr(_class))
         assert _class is not eval(repr(_class))

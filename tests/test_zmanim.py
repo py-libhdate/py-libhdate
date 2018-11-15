@@ -4,7 +4,6 @@ from calendar import isleap
 
 import pytest
 from dateutil import tz
-from dateutil.tz import tzfile
 
 from hdate import Zmanim
 from hdate.common import Location

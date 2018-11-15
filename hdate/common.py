@@ -29,8 +29,8 @@ class Location(object):
         """Return a representation of Location for programmatic use."""
         return ("Location(name='{}', latitude={}, longitude={}, timezone={}, "
                 "altitude={}, diaspora={})".format(
-            self.name, self.latitude, self.longitude, self.timezone,
-            self.altitude, self.diaspora))
+                    self.name, self.latitude, self.longitude, self.timezone,
+                    self.altitude, self.diaspora))
 
     def __eq__(self, other):
         """Override equality operator."""
