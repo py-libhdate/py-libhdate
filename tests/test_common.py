@@ -20,6 +20,7 @@ class TestClasses(object):
     def _class(self, request):
         yield eval(request.param)
 
+    @pytest.fixture
     def _copy(self):
         def class_copy(original):
             import copy
