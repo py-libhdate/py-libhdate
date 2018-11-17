@@ -22,6 +22,10 @@ class BaseClass(object):
 
         return self.__unicode__()
 
+    def __unicode__(self):
+        """Implement the representation of the object."""
+        pass
+
     def __eq__(self, other):
         """Override equality operator."""
         if isinstance(other, self.__class__):
