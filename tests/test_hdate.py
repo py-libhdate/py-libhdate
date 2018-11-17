@@ -84,37 +84,37 @@ class TestHDate(object):
 class TestSpecialDays(object):
 
     NON_MOVING_HOLIDAYS = [
-        ((1, 1), 1, "Rosh Hashana"),
-        ((2, 1), 2, "Rosh Hashana II"),
-        ((9, 1), 37, "Erev Yom Kippur"),
-        ((10, 1), 4, "Yom Kippur"),
-        ((15, 1), 5, "Sukkot"),
-        ((17, 1), 6, "Chol Hamoed Sukkot"),
-        ((18, 1), 6, "Chol Hamoed Sukkot"),
-        ((19, 1), 6, "Chol Hamoed Sukkot"),
-        ((20, 1), 6, "Chol Hamoed Sukkot"),
-        ((21, 1), 7, "Hoshana Raba"),
-        ((22, 1), 27, "Shmini Atseret"),
-        ((15, 7), 15, "Pesach"),
-        ((17, 7), 16, "Chol Hamoed Pesach"),
-        ((18, 7), 16, "Chol Hamoed Pesach"),
-        ((19, 7), 16, "Chol Hamoed Pesach"),
-        ((20, 7), 16, "Chol Hamoed Pesach"),
-        ((21, 7), 28, "Shvi'i shel Pesach"),
-        ((5, 9), 19, "Erev Shavuot"),
-        ((6, 9), 20, "Shavuot"),
+        ((1, 1), "rosh_hashana"),
+        ((2, 1), "rosh_hashana_ii"),
+        ((9, 1), "erev_yom_kippur"),
+        ((10, 1), "yom_kippur"),
+        ((15, 1), "sukkot"),
+        ((17, 1), "chol_hamoed_sukkot"),
+        ((18, 1), "chol_hamoed_sukkot"),
+        ((19, 1), "chol_hamoed_sukkot"),
+        ((20, 1), "chol_hamoed_sukkot"),
+        ((21, 1), "hoshana_raba"),
+        ((22, 1), "shmini_atseret"),
+        ((15, 7), "pesach"),
+        ((17, 7), "chol_hamoed_pesach"),
+        ((18, 7), "chol_hamoed_pesach"),
+        ((19, 7), "chol_hamoed_pesach"),
+        ((20, 7), "chol_hamoed_pesach"),
+        ((21, 7), "shvii_shel_pesach"),
+        ((5, 9), "erev_shavuot"),
+        ((6, 9), "shavuot"),
 
-        ((25, 3), 9, "Chanuka"),
-        ((26, 3), 9, "Chanuka"),
-        ((27, 3), 9, "Chanuka"),
-        ((28, 3), 9, "Chanuka"),
-        ((29, 3), 9, "Chanuka"),
-        ((1, 4), 9, "Chanuka"),
-        ((2, 4), 9, "Chanuka"),
-        ((10, 4), 10, "Asara b'Tevet"),
-        ((15, 5), 11, "Tu b'Shvat"),
-        ((18, 8), 18, "Lag BaOmer"),
-        ((15, 11), 23, "Tu b'Av")
+        ((25, 3), "chanuka"),
+        ((26, 3), "chanuka"),
+        ((27, 3), "chanuka"),
+        ((28, 3), "chanuka"),
+        ((29, 3), "chanuka"),
+        ((1, 4), "chanuka"),
+        ((2, 4), "chanuka"),
+        ((10, 4), "asara_btevet"),
+        ((15, 5), "tu_bshvat"),
+        ((18, 8), "lag_bomer"),
+        ((15, 11), "tu_bav")
     ]
 
     DIASPORA_ISRAEL_HOLIDAYS = [
@@ -149,10 +149,10 @@ class TestSpecialDays(object):
         ([7], 34, "Memorial day for fallen whose place of burial is unknown"),
     ]
 
-    @pytest.mark.parametrize('date, holiday, name', NON_MOVING_HOLIDAYS)
-    def test_get_holidays_non_moving(self, rand_date, date, holiday, name):
+    @pytest.mark.parametrize('date, holiday', NON_MOVING_HOLIDAYS)
+    def test_get_holidays_non_moving(self, rand_date, date, holiday):
         rand_date.hdate = HebrewDate(rand_date.hdate.year, date[1], date[0])
-        assert rand_date._holiday_entry().index == holiday
+        assert rand_date.holiday_name == holiday
 
     @pytest.mark.parametrize('date, diaspora_holiday, israel_holiday, name',
                              DIASPORA_ISRAEL_HOLIDAYS)

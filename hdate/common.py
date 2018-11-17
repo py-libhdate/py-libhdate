@@ -22,7 +22,7 @@ class BaseClass(object):
 
         return self.__unicode__()
 
-    def __unicode__(self):
+    def __unicode__(self):  # pragma: no cover
         """Implement the representation of the object."""
         pass
 
