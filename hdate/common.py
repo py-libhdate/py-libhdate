@@ -1,6 +1,7 @@
 """Small helper classes."""
 
 import datetime
+import sys
 from collections import namedtuple
 
 from dateutil import tz
@@ -13,6 +14,14 @@ class BaseClass(object):
 
     # pylint: disable=useless-object-inheritance
     # pylint: disable=too-few-public-methods
+    def __str__(self):
+        """Return a string representation."""
+        if sys.version_info.major < 3:
+            # pylint: disable=undefined-variable
+            return unicode(self).encode('utf-8')  # noqa: F821
+
+        return self.__unicode__()
+
     def __eq__(self, other):
         """Override equality operator."""
         if isinstance(other, self.__class__):

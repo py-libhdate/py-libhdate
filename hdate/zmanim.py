@@ -10,7 +10,6 @@ from __future__ import division
 
 import datetime as dt
 import math
-import sys
 
 from dateutil import tz
 
@@ -44,14 +43,6 @@ class Zmanim(BaseClass):
             u"{} - {}\n".format(
                 zman.description[self.hebrew],
                 self.zmanim[zman.zman].time()) for zman in htables.ZMANIM])
-
-    def __str__(self):
-        """Return a string representation of Zmanim."""
-        if sys.version_info.major < 3:
-            # pylint: disable=undefined-variable
-            return unicode(self).encode('utf-8')  # noqa: F821
-
-        return self.__unicode__()
 
     def __repr__(self):
         """Return a representation of Zmanim for programmatic use."""

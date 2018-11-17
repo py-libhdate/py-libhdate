@@ -10,7 +10,6 @@ from __future__ import division
 
 import datetime
 import logging
-import sys
 from itertools import chain, product
 
 from hdate import converters as conv
@@ -59,14 +58,6 @@ class HDate(BaseClass):
         if self.holiday_description:
             result += u" " + self.holiday_description
         return result
-
-    def __str__(self):
-        """Return a string representation of HDate."""
-        if sys.version_info.major < 3:
-            # pylint: disable=undefined-variable
-            return unicode(self).encode('utf-8')  # noqa: F821
-
-        return self.__unicode__()
 
     def __repr__(self):
         """Return a representation of HDate for programmatic use."""
