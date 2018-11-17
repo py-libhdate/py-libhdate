@@ -15,11 +15,11 @@ import sys
 from dateutil import tz
 
 from hdate import htables
-from hdate.common import Location
+from hdate.common import BaseClass, Location
 from hdate.date import HDate
 
 
-class Zmanim(object):  # pylint: disable=useless-object-inheritance
+class Zmanim(BaseClass):
     """Return Jewish day times."""
 
     def __init__(self, date=dt.datetime.now(), location=Location(),
@@ -58,17 +58,6 @@ class Zmanim(object):  # pylint: disable=useless-object-inheritance
         return ("Zmanim(date={}, location={}, hebrew={})".format(
             repr(self.time.replace(tzinfo=None)), repr(self.location),
             self.hebrew))
-
-    def __eq__(self, other):
-        """Override equality operator."""
-        if isinstance(other, self.__class__):
-            return self.__dict__ == other.__dict__
-        else:
-            return False
-
-    def __ne__(self, other):
-        """Override inequality operator."""
-        return not self.__eq__(other)
 
     @property
     def zmanim(self):

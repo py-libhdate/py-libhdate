@@ -8,11 +8,24 @@ from dateutil import tz
 HebrewDate = namedtuple("HebrewDate", ["year", "month", "day"])
 
 
-class Location(object):
-    """Define a geolocation for Zmanim calculations."""
+class BaseClass(object):
+    """Implement basic functionality for all classes."""
 
-    # pylint: disable=too-few-public-methods
     # pylint: disable=useless-object-inheritance
+    # pylint: disable=too-few-public-methods
+    def __eq__(self, other):
+        """Override equality operator."""
+        if isinstance(other, self.__class__):
+            return self.__dict__ == other.__dict__
+        return False
+
+    def __ne__(self, other):
+        """Override inequality operator."""
+        return not self.__eq__(other)
+
+
+class Location(BaseClass):  # pylint: disable=too-few-public-methods
+    """Define a geolocation for Zmanim calculations."""
 
     def __init__(self, name="Jerusalem", latitude=31.778, longitude=35.235,
                  timezone="Asia/Jerusalem", altitude=754, diaspora=False):
@@ -31,17 +44,6 @@ class Location(object):
                 "altitude={}, diaspora={})".format(
                     self.name, self.latitude, self.longitude, self.timezone,
                     self.altitude, self.diaspora))
-
-    def __eq__(self, other):
-        """Override equality operator."""
-        if isinstance(other, self.__class__):
-            return self.__dict__ == other.__dict__
-        else:
-            return False
-
-    def __ne__(self, other):
-        """Override inequality operator."""
-        return not self.__eq__(other)
 
     @property
     def timezone(self):

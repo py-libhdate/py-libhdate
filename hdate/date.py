@@ -15,12 +15,12 @@ from itertools import chain, product
 
 from hdate import converters as conv
 from hdate import htables
-from hdate.common import HebrewDate
+from hdate.common import BaseClass, HebrewDate
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class HDate(object):  # pylint: disable=useless-object-inheritance
+class HDate(BaseClass):
     """
     Hebrew date class.
 
@@ -72,17 +72,6 @@ class HDate(object):  # pylint: disable=useless-object-inheritance
         """Return a representation of HDate for programmatic use."""
         return ("HDate(gdate={}, diaspora={}, hebrew={})".format(
             repr(self.gdate), self.diaspora, self.hebrew))
-
-    def __eq__(self, other):
-        """Override equality operator."""
-        if isinstance(other, self.__class__):
-            return self.__dict__ == other.__dict__
-        else:
-            return False
-
-    def __ne__(self, other):
-        """Override inequality operator."""
-        return not self.__eq__(other)
 
     @property
     def hdate(self):
