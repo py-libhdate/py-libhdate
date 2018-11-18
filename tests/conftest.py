@@ -21,11 +21,10 @@ def random_date():
         else:
             maxday = 28
     day = random.randint(1, maxday)
-    return year, month, day
+    return datetime.date(year, month, day)
 
 
 @pytest.fixture
-def rand_date(random_date):
-    """Given a random date, generate arandom HDate."""
-    date = datetime.date(*random_date)
-    return hdate.HDate(date)
+def rand_hdate(random_date):
+    """Given a random date, generate a random HDate."""
+    return hdate.HDate(random_date)

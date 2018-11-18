@@ -51,12 +51,12 @@ class TestHDate(object):
             HDate().hdate = bad_day_value
 
     @pytest.mark.parametrize('execution_number', list(range(10)))
-    def test_random_hdate(self, execution_number, rand_date):
+    def test_random_hdate(self, execution_number, rand_hdate):
         _hdate = HDate()
-        _hdate.hdate = rand_date.hdate
-        assert _hdate._jdn == rand_date._jdn
-        assert _hdate.hdate == rand_date.hdate
-        assert _hdate.gdate == rand_date.gdate
+        _hdate.hdate = rand_hdate.hdate
+        assert _hdate._jdn == rand_hdate._jdn
+        assert _hdate.hdate == rand_hdate.hdate
+        assert _hdate.gdate == rand_hdate.gdate
 
     def test_conv_get_size_of_hebrew_year(self):
         for year, info in list(HEBREW_YEARS_INFO.items()):
@@ -64,57 +64,39 @@ class TestHDate(object):
 
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_hdate_get_size_of_hebrew_years(self, execution_number,
-                                            rand_date):
-        assert (rand_date.year_size() ==
-                conv.get_size_of_hebrew_year(rand_date.hdate.year))
+                                            rand_hdate):
+        assert (rand_hdate.year_size() ==
+                conv.get_size_of_hebrew_year(rand_hdate.hdate.year))
 
-    def test_rosh_hashana_day_of_week(self, rand_date):
+    def test_rosh_hashana_day_of_week(self, rand_hdate):
         for year, info in list(HEBREW_YEARS_INFO.items()):
-            rand_date.hdate = HebrewDate(
-                year, rand_date.hdate.month, rand_date.hdate.day)
-            assert rand_date.rosh_hashana_dow() == info[0]
+            rand_hdate.hdate = HebrewDate(
+                year, rand_hdate.hdate.month, rand_hdate.hdate.day)
+            assert rand_hdate.rosh_hashana_dow() == info[0]
 
-    def test_pesach_day_of_week(self, rand_date):
+    def test_pesach_day_of_week(self, rand_hdate):
         for year, info in list(HEBREW_YEARS_INFO.items()):
-            rand_date.hdate = HebrewDate(year, 7, 15)
-            assert rand_date.dow == info[2]
-            assert rand_date._holiday_entry().index == 15
+            rand_hdate.hdate = HebrewDate(year, 7, 15)
+            assert rand_hdate.dow == info[2]
+            assert rand_hdate._holiday_entry().index == 15
 
 
 class TestSpecialDays(object):
 
     NON_MOVING_HOLIDAYS = [
-        ((1, 1), "rosh_hashana_i"),
-        ((2, 1), "rosh_hashana_ii"),
-        ((9, 1), "erev_yom_kippur"),
-        ((10, 1), "yom_kippur"),
-        ((15, 1), "sukkot"),
-        ((17, 1), "hol_hamoed_sukkot"),
-        ((18, 1), "hol_hamoed_sukkot"),
-        ((19, 1), "hol_hamoed_sukkot"),
-        ((20, 1), "hol_hamoed_sukkot"),
-        ((21, 1), "hoshana_raba"),
-        ((22, 1), "shmini_atzeret"),
-        ((15, 7), "pesach"),
-        ((17, 7), "hol_hamoed_pesach"),
-        ((18, 7), "hol_hamoed_pesach"),
-        ((19, 7), "hol_hamoed_pesach"),
-        ((20, 7), "hol_hamoed_pesach"),
-        ((21, 7), "pesach_vii"),
-        ((5, 9), "erev_shavuot"),
-        ((6, 9), "shavuot"),
-
-        ((25, 3), "chanukah"),
-        ((26, 3), "chanukah"),
-        ((27, 3), "chanukah"),
-        ((28, 3), "chanukah"),
-        ((29, 3), "chanukah"),
-        ((1, 4), "chanukah"),
-        ((2, 4), "chanukah"),
-        ((10, 4), "asara_btevet"),
-        ((15, 5), "tu_bshvat"),
-        ((18, 8), "lag_bomer"),
-        ((15, 11), "tu_bav")
+        ((1, 1), "rosh_hashana_i"), ((2, 1), "rosh_hashana_ii"),
+        ((9, 1), "erev_yom_kippur"), ((10, 1), "yom_kippur"),
+        ((15, 1), "sukkot"), ((17, 1), "hol_hamoed_sukkot"),
+        ((18, 1), "hol_hamoed_sukkot"), ((19, 1), "hol_hamoed_sukkot"),
+        ((20, 1), "hol_hamoed_sukkot"), ((21, 1), "hoshana_raba"),
+        ((22, 1), "shmini_atzeret"), ((15, 7), "pesach"),
+        ((17, 7), "hol_hamoed_pesach"), ((18, 7), "hol_hamoed_pesach"),
+        ((19, 7), "hol_hamoed_pesach"), ((20, 7), "hol_hamoed_pesach"),
+        ((21, 7), "pesach_vii"), ((5, 9), "erev_shavuot"), ((6, 9), "shavuot"),
+        ((25, 3), "chanukah"), ((26, 3), "chanukah"), ((27, 3), "chanukah"),
+        ((28, 3), "chanukah"), ((29, 3), "chanukah"), ((1, 4), "chanukah"),
+        ((2, 4), "chanukah"), ((10, 4), "asara_btevet"),
+        ((15, 5), "tu_bshvat"), ((18, 8), "lag_bomer"), ((15, 11), "tu_bav")
     ]
 
     DIASPORA_ISRAEL_HOLIDAYS = [
@@ -150,19 +132,19 @@ class TestSpecialDays(object):
     ]
 
     @pytest.mark.parametrize('date, holiday', NON_MOVING_HOLIDAYS)
-    def test_get_holidays_non_moving(self, rand_date, date, holiday):
-        rand_date.hdate = HebrewDate(rand_date.hdate.year, date[1], date[0])
-        assert rand_date.holiday_name == holiday
+    def test_get_holidays_non_moving(self, rand_hdate, date, holiday):
+        rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, date[1], date[0])
+        assert rand_hdate.holiday_name == holiday
 
     @pytest.mark.parametrize('date, diaspora_holiday, israel_holiday, name',
                              DIASPORA_ISRAEL_HOLIDAYS)
-    def test_get_diaspora_israel_holidays(self, rand_date, date,
+    def test_get_diaspora_israel_holidays(self, rand_hdate, date,
                                           diaspora_holiday, israel_holiday,
                                           name):
-        rand_date.hdate = HebrewDate(rand_date.hdate.year, date[1], date[0])
-        assert rand_date._holiday_entry().index == israel_holiday
-        rand_date.diaspora = True
-        assert rand_date._holiday_entry().index == diaspora_holiday
+        rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, date[1], date[0])
+        assert rand_hdate._holiday_entry().index == israel_holiday
+        rand_hdate.diaspora = True
+        assert rand_hdate._holiday_entry().index == diaspora_holiday
 
     @pytest.mark.parametrize('possible_dates, years, holiday, name',
                              MOVING_HOLIDAYS)
@@ -228,25 +210,25 @@ class TestSpecialDays(object):
                 assert myhdate._holiday_entry().index == holiday
 
     @pytest.mark.parametrize('execution_number', list(range(10)))
-    def test_get_omer_day(self, execution_number, rand_date):
-        if (rand_date.hdate.month not in [7, 8, 9] or
-                rand_date.hdate.month == 7 and rand_date.hdate.day < 16 or
-                rand_date.hdate.month == 9 and rand_date.hdate.day > 5):
-            assert rand_date.omer_day == 0
+    def test_get_omer_day(self, execution_number, rand_hdate):
+        if (rand_hdate.hdate.month not in [7, 8, 9] or
+                rand_hdate.hdate.month == 7 and rand_hdate.hdate.day < 16 or
+                rand_hdate.hdate.month == 9 and rand_hdate.hdate.day > 5):
+            assert rand_hdate.omer_day == 0
 
         nissan = list(range(16, 30))
         iyyar = list(range(1, 29))
         sivan = list(range(1, 5))
 
         for day in nissan:
-            rand_date.hdate = HebrewDate(rand_date.hdate.year, 7, day)
-            assert rand_date.omer_day == day - 15
+            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 7, day)
+            assert rand_hdate.omer_day == day - 15
         for day in iyyar:
-            rand_date.hdate = HebrewDate(rand_date.hdate.year, 8, day)
-            assert rand_date.omer_day == day + 15
+            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 8, day)
+            assert rand_hdate.omer_day == day + 15
         for day in sivan:
-            rand_date.hdate = HebrewDate(rand_date.hdate.year, 9, day)
-            assert rand_date.omer_day == day + 44
+            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 9, day)
+            assert rand_hdate.omer_day == day + 44
 
 
 class TestHDateReading(object):
