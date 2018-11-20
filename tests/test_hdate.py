@@ -78,7 +78,7 @@ class TestHDate(object):
         for year, info in list(HEBREW_YEARS_INFO.items()):
             rand_hdate.hdate = HebrewDate(year, 7, 15)
             assert rand_hdate.dow == info[2]
-            assert rand_hdate._holiday_entry().index == 15
+            assert rand_hdate.holiday_name == "pesach"
 
 
 class TestSpecialDays(object):
@@ -101,34 +101,31 @@ class TestSpecialDays(object):
 
     DIASPORA_ISRAEL_HOLIDAYS = [
         # Date, holiday in Diaspora, holiday in Israel
-        ((16, 1), 31, 6, "Sukkot II"),
-        ((23, 1), 8, 0, "Simchat Torah"),
-        ((16, 7), 32, 16, "Pesach II"),
-        ((22, 7), 29, 0, "Acharon Shel Pesach"),
-        ((7, 9), 30, 0, "Shavuot II")
+        ((16, 1), "sukkot_ii", "hol_hamoed_sukkot"),
+        ((23, 1), "simchat_torah", ""),
+        ((16, 7), "pesach_ii", "hol_hamoed_pesach"),
+        ((22, 7), "pesach_viii", ""), ((7, 9), "shavuot_ii", "")
     ]
 
     MOVING_HOLIDAYS = [
-        # Possible dates, test year range, holiday result, name
-        ([(3, 1), (4, 1)], (5000, 6500), 3, "Tsom Gedalya"),
-        ([(17, 10), (18, 10)], (5000, 6500), 21, "Shiva Asar b'Tamuz"),
-        ([(9, 11), (10, 11)], (5000, 6500), 22, "Tisha b'Av"),
-        ([(26, 7), (27, 7), (28, 7)], (5719, 6500), 24, "Yom Hasho'a"),
-        ([(3, 8), (4, 8), (5, 8)], (5709, 5763), 17, "Yom Ha'atsmaut"),
-        ([(3, 8), (4, 8), (5, 8), (6, 8)], (5764, 6500), 17, "Yom Ha'atsmaut"),
-        ([(2, 8), (3, 8), (4, 8)], (5709, 5763), 25, "Yom Hazikaron"),
-        ([(2, 8), (3, 8), (4, 8), (5, 8)], (5764, 6500), 25, "Yom Hazikaron"),
-        ([(28, 8)], (5728, 6500), 26, "Yom Yerushalayim"),
-        ([(11, 2), (12, 2)], (5758, 6500), 35, "Rabin Memorial day"),
-        ([(29, 10)], (5765, 6500), 36, "Zhabotinsky day"),
-        ([(30, 5)], (5000, 6500), 33, "Family day")
+        # Possible dates, test year range, name
+        ([(3, 1), (4, 1)], (5000, 6500), "tzom_gedaliah"),
+        ([(17, 10), (18, 10)], (5000, 6500), "tzom_tammuz"),
+        ([(9, 11), (10, 11)], (5000, 6500), "tisha_bav"),
+        ([(26, 7), (27, 7), (28, 7)], (5719, 6500), "yom_hashoah"),
+        ([(3, 8), (4, 8), (5, 8)], (5709, 5763), "yom_haatzmaut"),
+        ([(3, 8), (4, 8), (5, 8), (6, 8)], (5764, 6500), "yom_haatzmaut"),
+        ([(2, 8), (3, 8), (4, 8)], (5709, 5763), "yom_hazikaron"),
+        ([(2, 8), (3, 8), (4, 8), (5, 8)], (5764, 6500), "yom_hazikaron"),
+        ([(28, 8)], (5728, 6500), "yom_yerushalayim"),
+        ([(11, 2), (12, 2)], (5758, 6500), "rabin_memorial_day"),
+        ([(29, 10)], (5765, 6500), "zeev_zhabotinsky_day"),
+        ([(30, 5)], (5000, 6500), "family_day")
     ]
 
     ADAR_HOLIDAYS = [
-        ([11, 13], 12, "Taanit Esther"),
-        ([14], 13, "Purim"),
-        ([15], 14, "Shushan Purim"),
-        ([7], 34, "Memorial day for fallen whose place of burial is unknown"),
+        ([11, 13], "taanit_esther"), ([14], "purim"), ([15], "shushan_purim"),
+        ([7], "memorial_day_unknown"),
     ]
 
     @pytest.mark.parametrize('date, holiday', NON_MOVING_HOLIDAYS)
@@ -136,35 +133,34 @@ class TestSpecialDays(object):
         rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, date[1], date[0])
         assert rand_hdate.holiday_name == holiday
 
-    @pytest.mark.parametrize('date, diaspora_holiday, israel_holiday, name',
+    @pytest.mark.parametrize('date, diaspora_holiday, israel_holiday',
                              DIASPORA_ISRAEL_HOLIDAYS)
     def test_get_diaspora_israel_holidays(self, rand_hdate, date,
-                                          diaspora_holiday, israel_holiday,
-                                          name):
+                                          diaspora_holiday, israel_holiday):
         rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, date[1], date[0])
-        assert rand_hdate._holiday_entry().index == israel_holiday
+        assert rand_hdate.holiday_name == israel_holiday
         rand_hdate.diaspora = True
-        assert rand_hdate._holiday_entry().index == diaspora_holiday
+        assert rand_hdate.holiday_name == diaspora_holiday
 
-    @pytest.mark.parametrize('possible_dates, years, holiday, name',
+    @pytest.mark.parametrize('possible_dates, years, holiday',
                              MOVING_HOLIDAYS)
-    def test_get_holidays_moving(self, possible_dates, years, holiday, name):
+    def test_get_holidays_moving(self, possible_dates, years, holiday):
         found_matching_holiday = False
         year = random.randint(*years)
 
-        print("Testing " + name + " for " + str(year))
+        print("Testing " + holiday + " for " + str(year))
 
         for date in possible_dates:
             date_under_test = HDate(hebrew=False)
             date_under_test.hdate = HebrewDate(year, date[1], date[0])
-            if date_under_test._holiday_entry().index == holiday:
+            if date_under_test.holiday_name == holiday:
                 print("date ", date_under_test, " matched")
                 for other in possible_dates:
                     if other != date:
                         other_date = HDate(hebrew=False)
                         other_date.hdate = HebrewDate(year, other[1], other[0])
                         print("checking ", other_date, " doesn't match")
-                        assert other_date._holiday_entry().index != holiday
+                        assert other_date.holiday_name != holiday
                 found_matching_holiday = True
 
         assert found_matching_holiday
@@ -176,11 +172,11 @@ class TestSpecialDays(object):
             if years[0] == 5764 and holiday in [17, 25]:
                 return
             year = random.randint(5000, years[0] - 1)
-            print("Testing " + name + " for " + str(year))
+            print("Testing " + holiday + " for " + str(year))
             for date in possible_dates:
                 date_under_test = HDate()
                 date_under_test.hdate = HebrewDate(year, date[1], date[0])
-                assert date_under_test._holiday_entry().index == 0
+                assert date_under_test.holiday_name == ""
 
     def test_get_holiday_hanuka_3rd_tevet(self):
         year = random.randint(5000, 6000)
@@ -189,12 +185,12 @@ class TestSpecialDays(object):
         myhdate.hdate = HebrewDate(year, 4, 3)
         print(year_size)
         if year_size in [353, 383]:
-            assert myhdate._holiday_entry().index == 9
+            assert myhdate.holiday_name == "chanukah"
         else:
-            assert myhdate._holiday_entry().index == 0
+            assert myhdate.holiday_name == ""
 
-    @pytest.mark.parametrize('possible_days, holiday, name', ADAR_HOLIDAYS)
-    def test_get_holiday_adar(self, possible_days, holiday, name):
+    @pytest.mark.parametrize('possible_days, holiday', ADAR_HOLIDAYS)
+    def test_get_holiday_adar(self, possible_days, holiday):
         year = random.randint(5000, 6000)
         year_size = conv.get_size_of_hebrew_year(year)
         month = 6 if year_size < 360 else 14
@@ -202,12 +198,12 @@ class TestSpecialDays(object):
 
         for day in possible_days:
             myhdate.hdate = HebrewDate(year, month, day)
-            if day == 13 and myhdate.dow == 7 and holiday == 12:
-                assert myhdate._holiday_entry().index == 0
-            elif day == 11 and myhdate.dow != 5 and holiday == 12:
-                assert myhdate._holiday_entry().index == 0
+            if day == 13 and myhdate.dow == 7 and holiday == "taanit_esther":
+                assert myhdate.holiday_name == ""
+            elif day == 11 and myhdate.dow != 5 and holiday == "taanit_esther":
+                assert myhdate.holiday_name == ""
             else:
-                assert myhdate._holiday_entry().index == holiday
+                assert myhdate.holiday_name == holiday
 
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_get_omer_day(self, execution_number, rand_hdate):
