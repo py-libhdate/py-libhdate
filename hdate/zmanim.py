@@ -91,7 +91,7 @@ class Zmanim(BaseClass):
 
     def _get_utc_sun_time_deg(self, deg):
         """
-        Return the sunset and sunrise times in minutes from 00:00 (utc).
+        Return the times in minutes from 00:00 (utc) for a given sun altitude.
 
         This is done for a given sun altitude in sunrise `deg` degrees
         This function only works for altitudes sun really is.
@@ -99,6 +99,11 @@ class Zmanim(BaseClass):
         values will be negative. This can happen in low altitude when latitude
         is nearing the poles in winter times, the sun never goes very high in
         the sky there.
+
+        Algorithm from
+        http://www.srrb.noaa.gov/highlights/sunrise/calcdetails.html
+        The low accuracy solar position equations are used.
+        These routines are based on Jean Meeus's book Astronomical Algorithms.
         """
         gama = 0        # location of sun in yearly cycle in radians
         eqtime = 0      # difference betwen sun noon and clock noon
