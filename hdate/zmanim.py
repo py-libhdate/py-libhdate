@@ -22,11 +22,11 @@ class Zmanim(BaseClass):
     """Return Jewish day times."""
 
     def __init__(self, date=dt.datetime.now(), location=Location(),
-                 hebrew=True):
+                 hebrew=True, shabbes_offset=18):
         """Initialize the Zmanim object."""
         self.location = location
         self.hebrew = hebrew
-        self.shabbes_offset = 20
+        self.shabbes_offset = shabbes_offset
 
         if isinstance(date, dt.datetime):
             self.date = date.date()
