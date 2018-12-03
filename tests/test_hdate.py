@@ -79,6 +79,33 @@ class TestHDate(object):
             rand_hdate.hdate = HebrewDate(year, 7, 15)
             assert rand_hdate.dow == info[2]
             assert rand_hdate.holiday_name == "pesach"
+            
+    UPCOMING_SHABBATOT = [
+      ((2018, 11, 30), (2018, 12, 1), (5779, 3, 22)),
+      ((2018, 12, 1), (2018, 12, 1), (5779, 3, 23)),
+      ((2018, 12, 2), (2018, 12, 8), (5779, 3, 24)),
+      ((2018, 12, 3), (2018, 12, 8), (5779, 3, 25)),
+      ((2018, 12, 4), (2018, 12, 8), (5779, 3, 26)),
+      ((2018, 12, 5), (2018, 12, 8), (5779, 3, 27)),
+      ((2018, 12, 6), (2018, 12, 8), (5779, 3, 28)),
+      ((2018, 12, 7), (2018, 12, 8), (5779, 3, 29)),
+      ((2018, 12, 8), (2018, 12, 8), (5779, 3, 30)),
+      ((2018, 12, 9), (2018, 12, 15), (5779, 4, 1)),
+    ]
+    @pytest.mark.parametrize('current_date, shabbat_date, hebrew_date', 
+                             UPCOMING_SHABBATOT)
+    def test_get_upcoming_shabbat_date(self, current_date, shabbat_date, 
+                                       hebrew_date, rand_hdate):
+        rand_hdate.gdate = datetime.date(*current_date)
+        assert rand_hdate.hdate == HebrewDate(*hebrew_date)
+        next_shabbat = rand_hdate.get_upcoming_shabbat_hdate()
+        assert next_shabbat.gdate == datetime.date(*shabbat_date)
+
+    def test_prev_and_next_day(self, rand_hdate):
+        assert ((rand_hdate.previous_day.gdate - rand_hdate.gdate)
+                == datetime.timedelta(-1))
+        assert ((rand_hdate.next_day.gdate - rand_hdate.gdate)
+                == datetime.timedelta(+1))
 
 
 class TestSpecialDays(object):
@@ -127,6 +154,24 @@ class TestSpecialDays(object):
         ([11, 13], "taanit_esther"), ([14], "purim"), ([15], "shushan_purim"),
         ([7], "memorial_day_unknown"),
     ]
+    
+    UPCOMING_HOLIDAYS = [
+      ((2018, 8, 8), (2018, 9, 10), "rosh_hashana_i"),
+      ((2018, 9, 8), (2018, 9, 10), "rosh_hashana_i"),
+      ((2018, 9, 10), (2018, 9, 10), "rosh_hashana_i"),
+      ((2018, 9, 11), (2018, 9, 11), "rosh_hashana_ii"),
+      ((2018, 9, 12), (2018, 9, 19), "yom_kippur"),
+      ((2018, 9, 19), (2018, 9, 19), "yom_kippur"),
+      ((2018, 9, 20), (2018, 9, 24), "sukkot"),
+    ]
+    @pytest.mark.parametrize('current_date, holiday_date, holiday_name', 
+                             UPCOMING_HOLIDAYS)
+    def test_get_next_yom_tov(self, current_date, holiday_date, 
+                                       holiday_name, rand_hdate):
+        rand_hdate.gdate = datetime.date(*current_date)
+        next_yom_tov = rand_hdate.get_next_yom_tov()
+        assert next_yom_tov.gdate == datetime.date(*holiday_date)
+
 
     @pytest.mark.parametrize('date, holiday', NON_MOVING_HOLIDAYS)
     def test_get_holidays_non_moving(self, rand_hdate, date, holiday):
