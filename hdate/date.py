@@ -14,8 +14,8 @@ from itertools import chain, product
 
 from hdate import converters as conv
 from hdate import htables
-from hdate.htables import Months
 from hdate.common import BaseClass, HebrewDate
+from hdate.htables import Months
 
 _LOGGER = logging.getLogger(__name__)
 
