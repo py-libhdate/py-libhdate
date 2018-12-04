@@ -192,8 +192,8 @@ class HolidayTypes:
   FAST_DAY = 5
   MODERN_HOLIDAY = 6
   MINOR_HOLIDAY = 7
-  HOLOCAUST_MEMORIAL = 8
-  ISRAEL_ONLY_MODERN_HOLIDAY = 9
+  MEMORIAL_DAY = 8
+  ISRAEL_NATIONAL_HOLIDAY = 9
 
 
 HOLIDAYS = (
@@ -316,19 +316,19 @@ HOLIDAYS = (
     HOLIDAY(HolidayTypes.MINOR_HOLIDAY, "tu_bav", 
             (15, Months.Av), "", [],
             LANG(u"Tu B'Av", DESC(u"ט\"ו באב", u"ט\"ו באב"))),
-    HOLIDAY(HolidayTypes.HOLOCAUST_MEMORIAL, "yom_hashoah", 
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "yom_hashoah", 
             ([26, 27, 28], Months.Nisan), "",
             [move_if_not_on_dow(27, 28, 6, 0) or
              move_if_not_on_dow(27, 26, 4, 3),
              year_is_after(5718)],
             LANG(u"Yom HaShoah", DESC(u"יום השואה", u"יום השואה"))),
-    HOLIDAY(HolidayTypes.HOLOCAUST_MEMORIAL, "yom_hazikaron", 
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "yom_hazikaron", 
             ([2, 3, 4], Months.Iyyar), "",
             [year_is_after(5708), year_is_before(5764),
              move_if_not_on_dow(4, 3, 3, 2) or
              move_if_not_on_dow(4, 2, 4, 2)],
             LANG(u"Yom HaZikaron", DESC(u"יום הזכרון", u"יום הזכרון"))),
-    HOLIDAY(HolidayTypes.HOLOCAUST_MEMORIAL, "yom_hazikaron", 
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "yom_hazikaron", 
             ([2, 3, 4, 5], Months.Iyyar), "",
             [year_is_after(5763),
              move_if_not_on_dow(4, 3, 3, 2) or
@@ -353,19 +353,19 @@ HOLIDAYS = (
     HOLIDAY(HolidayTypes.YOM_TOV, "pesach_ii", 
             (16, Months.Nisan), "DIASPORA", [],
             LANG(u"Pesach II", DESC(u"שני של פסח", u"ב' פסח"))),
-    HOLIDAY(HolidayTypes.ISRAEL_ONLY_MODERN_HOLIDAY, "family_day", 
+    HOLIDAY(HolidayTypes.ISRAEL_NATIONAL_HOLIDAY, "family_day", 
             (30, Months.Shvat), "ISRAEL", [],
             LANG(u"Family Day", DESC(u"יום המשפחה", u"יום המשפחה"))),
-    HOLIDAY(HolidayTypes.ISRAEL_ONLY_MODERN_HOLIDAY, "memorial_day_unknown", 
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "memorial_day_unknown", 
             (7, [Months.Adar, Months.Adar_II]), "ISRAEL", [],
             LANG(u"Memorial day for fallen whose place of burial is unknown",
                  DESC(u"יום זכרון...", u"יום זכרון..."))),
-    HOLIDAY(HolidayTypes.ISRAEL_ONLY_MODERN_HOLIDAY, "rabin_memorial_day", 
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "rabin_memorial_day", 
             ([11, 12], Months.Marcheshvan), "ISRAEL",
             [move_if_not_on_dow(12, 11, 4, 3), year_is_after(5757)],
             LANG(u"Yitzhak Rabin memorial day",
                  DESC(u"יום הזכרון ליצחק רבין", u"יום הזכרון ליצחק רבין"))),
-    HOLIDAY(HolidayTypes.ISRAEL_ONLY_MODERN_HOLIDAY, "zeev_zhabotinsky_day", 
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "zeev_zhabotinsky_day", 
             (29, Months.Tammuz), "ISRAEL",
             [year_is_after(5764)],
             LANG(u"Zeev Zhabotinsky day",
