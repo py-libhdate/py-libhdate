@@ -22,11 +22,11 @@ class Zmanim(BaseClass):
     """Return Jewish day times."""
 
     def __init__(self, date=dt.datetime.now(), location=Location(),
-                 hebrew=True, shabbes_offset=18):
+                 hebrew=True, shabbat_offset=18):
         """Initialize the Zmanim object."""
         self.location = location
         self.hebrew = hebrew
-        self.shabbes_offset = shabbes_offset
+        self.shabbat_offset = shabbat_offset
 
         if isinstance(date, dt.datetime):
             self.date = date.date()
@@ -68,7 +68,7 @@ class Zmanim(BaseClass):
 
         if weekday == 4 or tomorrow_holiday_type == 1:
             if self.time > (self.zmanim["sunset"] -
-                            dt.timedelta(minutes=self.shabbes_offset)):
+                            dt.timedelta(minutes=self.shabbat_offset)):
                 return True
         if weekday == 5 or today_holiday_type == 1:
             if self.time < self.zmanim["three_stars"]:

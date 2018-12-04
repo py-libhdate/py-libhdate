@@ -15,6 +15,7 @@ from itertools import chain, product
 from hdate import converters as conv
 from hdate import htables
 from hdate.common import BaseClass, HebrewDate
+from hdate.htables import Months
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -173,11 +174,12 @@ class HDate(BaseClass):
 
     def short_kislev(self):
         """Return whether this year has a short Kislev or not."""
-        return True if self.year_size() in [353, 383] else False
+        return self.year_size() in [353, 383]
 
     @property
     def dow(self):
-        """Return Hebrew day of week Sunday = 1, Saturday = 6."""
+        """Return Hebrew day of week Sunday = 1, Saturday = 7."""
+        # datetime weekday maps Monday->0, Sunday->6; this remaps to Sunday->1.
         return self.gdate.weekday() + 2 if self.gdate.weekday() != 6 else 1
 
     def year_size(self):
@@ -186,18 +188,18 @@ class HDate(BaseClass):
 
     def rosh_hashana_dow(self):
         """Return the Hebrew day of week for Rosh Hashana."""
-        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, 1, 1))
+        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, Months.Tishrei, 1))
         return (jdn + 1) % 7 + 1
 
     def pesach_dow(self):
         """Return the first day of week for Pesach."""
-        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, 7, 15))
+        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, Months.Nisan, 15))
         return (jdn + 1) % 7 + 1
 
     @property
     def omer_day(self):
         """Return the day of the Omer."""
-        first_omer_day = HebrewDate(self.hdate.year, 7, 16)
+        first_omer_day = HebrewDate(self.hdate.year, Months.Nisan, 16)
         omer_day = self._jdn - conv.hdate_to_jdn(first_omer_day) + 1
         if not 0 < omer_day < 50:
             return 0
@@ -215,7 +217,7 @@ class HDate(BaseClass):
         _LOGGER.debug("Year type: %d", year_type)
 
         # Number of days since rosh hashana
-        rosh_hashana = HebrewDate(self.hdate.year, 1, 1)
+        rosh_hashana = HebrewDate(self.hdate.year, Months.Tishrei, 1)
         days = self._jdn - conv.hdate_to_jdn(rosh_hashana)
         # Number of weeks since rosh hashana
         weeks = (days + self.rosh_hashana_dow() - 1) // 7

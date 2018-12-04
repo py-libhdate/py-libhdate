@@ -3,6 +3,8 @@
 
 from collections import namedtuple
 
+from six import with_metaclass
+
 READING = namedtuple("READING", "year_type, readings")
 
 READINGS = (
@@ -128,6 +130,26 @@ MONTHS = (
     LANG(u"Adar II", u"אדר ב")
 )
 
+MONTH_INDICES = {month.english.replace("'", "").replace(" ", "_"): i + 1
+                 for i, month in enumerate(MONTHS)}
+
+
+class MonthsEnum(type):
+    """Accessor class for Hebrew months."""
+
+    def __getattr__(cls, name):
+        """Lookup the Month's name and return its index."""
+        if name in MONTH_INDICES:
+            return MONTH_INDICES[name]
+        raise AttributeError('No month named {}'.format(name))
+
+
+# pylint: disable=too-few-public-methods
+class Months(with_metaclass(MonthsEnum, object)):
+    """Enum meta class for accessing Hebrew months."""
+
+# pylint: enable=too-few-public-methods
+
 
 def year_is_after(year):
     """
@@ -165,131 +187,193 @@ HOLIDAY = namedtuple("HOLIDAY", [
     "type", "name", "date", "israel_diaspora", "date_functions_list",
     "description"])
 
+
+class HolidayTypes:  # pylint: disable=too-few-public-methods
+    """Container class for holiday type integer mappings."""
+
+    UNKNOWN = 0
+    YOM_TOV = 1
+    EREV_YOM_TOV = 2
+    HOL_HAMOED = 3
+    MELACHA_PERMITTED_HOLIDAY = 4
+    FAST_DAY = 5
+    MODERN_HOLIDAY = 6
+    MINOR_HOLIDAY = 7
+    MEMORIAL_DAY = 8
+    ISRAEL_NATIONAL_HOLIDAY = 9
+
+
 HOLIDAYS = (
-    HOLIDAY(0, "", (), "", [], LANG(u"", DESC(u"", u""))),
-    HOLIDAY(2, "erev_rosh_hashana", (29, 12), "", [],
+    HOLIDAY(HolidayTypes.UNKNOWN, "", (), "", [], LANG(u"", DESC(u"", u""))),
+    HOLIDAY(HolidayTypes.EREV_YOM_TOV, "erev_rosh_hashana",
+            (29, Months.Elul), "", [],
             LANG(u"Erev Rosh Hashana", DESC(u"ערב ראש השנה", u"ערב ר\"ה"))),
-    HOLIDAY(1, "rosh_hashana_i", (1, 1), "", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "rosh_hashana_i",
+            (1, Months.Tishrei), "", [],
             LANG(u"Rosh Hashana I", DESC(u"א' ראש השנה", u"א ר\"ה"))),
-    HOLIDAY(1, "rosh_hashana_ii", (2, 1), "", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "rosh_hashana_ii",
+            (2, Months.Tishrei), "", [],
             LANG(u"Rosh Hashana II", DESC(u"ב' ראש השנה", u"ב' ר\"ה"))),
-    HOLIDAY(5, "tzom_gedaliah", ([3, 4], 1), "",
+    HOLIDAY(HolidayTypes.FAST_DAY, "tzom_gedaliah",
+            ([3, 4], Months.Tishrei), "",
             [move_if_not_on_dow(3, 4, 5, 6)],
             LANG(u"Tzom Gedaliah", DESC(u"צום גדליה", u"צום גדליה"))),
-    HOLIDAY(2, "erev_yom_kippur", (9, 1), "", [],
+    HOLIDAY(HolidayTypes.EREV_YOM_TOV, "erev_yom_kippur",
+            (9, Months.Tishrei), "", [],
             LANG(u"Erev Yom Kippur", DESC(u"עיוה\"כ", u"עיוה\"כ"))),
-    HOLIDAY(1, "yom_kippur", (10, 1), "", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "yom_kippur",
+            (10, Months.Tishrei), "", [],
             LANG(u"Yom Kippur", DESC(u"יום הכפורים", u"יוה\"כ"))),
-    HOLIDAY(2, "erev_sukkot", (14, 1), "", [],
+    HOLIDAY(HolidayTypes.EREV_YOM_TOV, "erev_sukkot",
+            (14, Months.Tishrei), "", [],
             LANG(u"Erev Sukkot", DESC(u"ערב סוכות", u"ערב סוכות"))),
-    HOLIDAY(1, "sukkot", (15, 1), "", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "sukkot",
+            (15, Months.Tishrei), "", [],
             LANG(u"Sukkot", DESC(u"סוכות", u"סוכות"))),
-    HOLIDAY(3, "hol_hamoed_sukkot", (16, 1), "ISRAEL", "",
+    HOLIDAY(HolidayTypes.HOL_HAMOED, "hol_hamoed_sukkot",
+            (16, Months.Tishrei), "ISRAEL", "",
             LANG(u"Hol hamoed Sukkot",
                  DESC(u"חול המועד סוכות", u"חוה\"מ סוכות"))),
-    HOLIDAY(3, "hol_hamoed_sukkot", ([17, 18, 19, 20], 1), "", "",
+    HOLIDAY(HolidayTypes.HOL_HAMOED, "hol_hamoed_sukkot",
+            ([17, 18, 19, 20], Months.Tishrei), "", "",
             LANG(u"Hol hamoed Sukkot",
                  DESC(u"חול המועד סוכות", u"חוה\"מ סוכות"))),
-    HOLIDAY(2, "hoshana_raba", (21, 1), "", [],
+    HOLIDAY(HolidayTypes.EREV_YOM_TOV, "hoshana_raba",
+            (21, Months.Tishrei), "", [],
             LANG(u"Hoshana Raba", DESC(u"הושענא רבה", u"הוש\"ר"))),
-    HOLIDAY(1, "simchat_torah", (23, 1), "DIASPORA", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "simchat_torah",
+            (23, Months.Tishrei), "DIASPORA", [],
             LANG(u"Simchat Torah", DESC(u"שמחת תורה", u"שמח\"ת"))),
-    HOLIDAY(4, "chanukah", (list(range(25, 30)), 3), "", [],
+    HOLIDAY(HolidayTypes.MELACHA_PERMITTED_HOLIDAY, "chanukah",
+            (list(range(25, 30)), Months.Kislev), "", [],
             LANG(u"Chanukah", DESC(u"חנוכה", u"חנוכה"))),
-    HOLIDAY(4, "chanukah", ([1, 2, 3], 4), "",
+    HOLIDAY(HolidayTypes.MELACHA_PERMITTED_HOLIDAY, "chanukah",
+            ([1, 2, 3], Months.Tevet), "",
             [lambda x: (
                 (x.short_kislev() and x.hdate.day == 3) or
                 (x.hdate.day in [1, 2]))],
             LANG(u"Chanukah", DESC(u"חנוכה", u"חנוכה"))),
-    HOLIDAY(5, "asara_btevet", (10, 4), "", [],
+    HOLIDAY(HolidayTypes.FAST_DAY, "asara_btevet",
+            (10, Months.Tevet), "", [],
             LANG(u"Asara B'Tevet", DESC(u"צום עשרה בטבת", u"י' בטבת"))),
-    HOLIDAY(7, "tu_bshvat", (15, 5), "", [],
+    HOLIDAY(HolidayTypes.MINOR_HOLIDAY, "tu_bshvat",
+            (15, Months.Shvat), "", [],
             LANG(u"Tu B'Shvat", DESC(u"ט\"ו בשבט", u"ט\"ו בשבט"))),
-    HOLIDAY(5, "taanit_esther", ([11, 13], [6, 14]), "",
+    HOLIDAY(HolidayTypes.FAST_DAY, "taanit_esther",
+            ([11, 13], [Months.Adar, Months.Adar_II]), "",
             [move_if_not_on_dow(13, 11, 5, 3)],
             LANG(u"Ta'anit Esther", DESC(u"תענית אסתר", u"תענית אסתר"))),
-    HOLIDAY(4, "purim", (14, [6, 14]), "", [],
+    HOLIDAY(HolidayTypes.MELACHA_PERMITTED_HOLIDAY, "purim",
+            (14, [Months.Adar, Months.Adar_II]), "", [],
             LANG(u"Purim", DESC(u"פורים", u"פורים"))),
-    HOLIDAY(4, "shushan_purim", (15, [6, 14]), "", [],
+    HOLIDAY(HolidayTypes.MELACHA_PERMITTED_HOLIDAY, "shushan_purim",
+            (15, [Months.Adar, Months.Adar_II]), "", [],
             LANG(u"Shushan Purim", DESC(u"שושן פורים", u"שושן פורים"))),
-    HOLIDAY(2, "erev_pesach", (14, 7), "", [],
+    HOLIDAY(HolidayTypes.EREV_YOM_TOV, "erev_pesach",
+            (14, Months.Nisan), "", [],
             LANG(u"Erev Pesach", DESC(u"ערב פסח", u"ערב פסח"))),
-    HOLIDAY(1, "pesach", (15, 7), "", "",
+    HOLIDAY(HolidayTypes.YOM_TOV, "pesach",
+            (15, Months.Nisan), "", "",
             LANG(u"Pesach", DESC(u"פסח", u"פסח"))),
-    HOLIDAY(3, "hol_hamoed_pesach", (16, 7), "ISRAEL", [],
+    HOLIDAY(HolidayTypes.HOL_HAMOED, "hol_hamoed_pesach",
+            (16, Months.Nisan), "ISRAEL", [],
             LANG(u"Hol hamoed Pesach",
                  DESC(u"חול המועד פסח", u"חוה\"מ פסח"))),
-    HOLIDAY(3, "hol_hamoed_pesach", ([17, 18, 19], 7), "", [],
+    HOLIDAY(HolidayTypes.HOL_HAMOED, "hol_hamoed_pesach",
+            ([17, 18, 19], Months.Nisan), "", [],
             LANG(u"Hol hamoed Pesach",
                  DESC(u"חול המועד פסח", u"חוה\"מ פסח"))),
-    HOLIDAY(2, "hol_hamoed_pesach", (20, 7), "", [],
+    HOLIDAY(HolidayTypes.EREV_YOM_TOV, "hol_hamoed_pesach",
+            (20, Months.Nisan), "", [],
             LANG(u"Hol hamoed Pesach",
                  DESC(u"חול המועד פסח", u"חוה\"מ פסח"))),
-    HOLIDAY(1, "pesach_vii", (21, 7), "", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "pesach_vii",
+            (21, Months.Nisan), "", [],
             LANG(u"Pesach VII", DESC(u"שביעי פסח", u"ז' פסח"))),
-    HOLIDAY(6, "yom_haatzmaut", ([3, 4, 5], 8), "",
+    HOLIDAY(HolidayTypes.MODERN_HOLIDAY, "yom_haatzmaut",
+            ([3, 4, 5], Months.Iyyar), "",
             [year_is_after(5708), year_is_before(5764),
              move_if_not_on_dow(5, 4, 4, 3) or
              move_if_not_on_dow(5, 3, 5, 3)],
             LANG(u"Yom HaAtzma'ut", DESC(u"יום העצמאות", u"יום העצמאות"))),
-    HOLIDAY(6, "yom_haatzmaut", ([3, 4, 5, 6], 8), "",
+    HOLIDAY(HolidayTypes.MODERN_HOLIDAY, "yom_haatzmaut",
+            ([3, 4, 5, 6], Months.Iyyar), "",
             [year_is_after(5763),
              move_if_not_on_dow(5, 4, 4, 3) or
              move_if_not_on_dow(5, 3, 5, 3) or
              move_if_not_on_dow(5, 6, 0, 1)],
             LANG(u"Yom HaAtzma'ut", DESC(u"יום העצמאות", u"יום העצמאות"))),
-    HOLIDAY(7, "lag_bomer", (18, 8), "", [],
+    HOLIDAY(HolidayTypes.MINOR_HOLIDAY, "lag_bomer",
+            (18, Months.Iyyar), "", [],
             LANG(u"Lag B'Omer", DESC(u"ל\"ג בעומר", u"ל\"ג בעומר"))),
-    HOLIDAY(2, "erev_shavuot", (5, 9), "", [],
+    HOLIDAY(HolidayTypes.EREV_YOM_TOV, "erev_shavuot",
+            (5, Months.Sivan), "", [],
             LANG(u"Erev Shavuot", DESC(u"ערב שבועות", u"ערב שבועות"))),
-    HOLIDAY(1, "shavuot", (6, 9), "", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "shavuot",
+            (6, Months.Sivan), "", [],
             LANG(u"Shavuot", DESC(u"שבועות", u"שבועות"))),
-    HOLIDAY(5, "tzom_tammuz", ([17, 18], 10), "",
+    HOLIDAY(HolidayTypes.FAST_DAY, "tzom_tammuz",
+            ([17, 18], Months.Tammuz), "",
             [move_if_not_on_dow(17, 18, 5, 6)],
             LANG(u"Tzom Tammuz", DESC(u"צום שבעה עשר בתמוז", u"צום תמוז"))),
-    HOLIDAY(5, "tisha_bav", ([9, 10], 11), "",
+    HOLIDAY(HolidayTypes.FAST_DAY, "tisha_bav",
+            ([9, 10], Months.Av), "",
             [move_if_not_on_dow(9, 10, 5, 6)],
             LANG(u"Tish'a B'Av", DESC(u"תשעה באב", u"ט' באב"))),
-    HOLIDAY(7, "tu_bav", (15, 11), "", [],
+    HOLIDAY(HolidayTypes.MINOR_HOLIDAY, "tu_bav",
+            (15, Months.Av), "", [],
             LANG(u"Tu B'Av", DESC(u"ט\"ו באב", u"ט\"ו באב"))),
-    HOLIDAY(8, "yom_hashoah", ([26, 27, 28], 7), "",
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "yom_hashoah",
+            ([26, 27, 28], Months.Nisan), "",
             [move_if_not_on_dow(27, 28, 6, 0) or
              move_if_not_on_dow(27, 26, 4, 3),
              year_is_after(5718)],
             LANG(u"Yom HaShoah", DESC(u"יום השואה", u"יום השואה"))),
-    HOLIDAY(8, "yom_hazikaron", ([2, 3, 4], 8), "",
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "yom_hazikaron",
+            ([2, 3, 4], Months.Iyyar), "",
             [year_is_after(5708), year_is_before(5764),
              move_if_not_on_dow(4, 3, 3, 2) or
              move_if_not_on_dow(4, 2, 4, 2)],
             LANG(u"Yom HaZikaron", DESC(u"יום הזכרון", u"יום הזכרון"))),
-    HOLIDAY(8, "yom_hazikaron", ([2, 3, 4, 5], 8), "",
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "yom_hazikaron",
+            ([2, 3, 4, 5], Months.Iyyar), "",
             [year_is_after(5763),
              move_if_not_on_dow(4, 3, 3, 2) or
              move_if_not_on_dow(4, 2, 4, 2) or
              move_if_not_on_dow(4, 5, 6, 0)],
             LANG(u"Yom HaZikaron", DESC(u"יום הזכרון", u"יום הזכרון"))),
-    HOLIDAY(6, "yom_yerushalayim", (28, 8), "", [year_is_after(5727)],
+    HOLIDAY(HolidayTypes.MODERN_HOLIDAY, "yom_yerushalayim",
+            (28, Months.Iyyar), "", [year_is_after(5727)],
             LANG(u"Yom Yerushalayim", DESC(u"יום ירושלים", u"יום י-ם"))),
-    HOLIDAY(1, "shmini_atzeret", (22, 1), "", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "shmini_atzeret",
+            (22, Months.Tishrei), "", [],
             LANG(u"Shmini Atzeret", DESC(u"שמיני עצרת", u"שמיני עצרת"))),
-    HOLIDAY(1, "pesach_viii", (22, 7), "DIASPORA", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "pesach_viii",
+            (22, Months.Nisan), "DIASPORA", [],
             LANG(u"Pesach VIII", DESC(u"אחרון של פסח", u"אחרון של פסח"))),
-    HOLIDAY(1, "shavuot_ii", (7, 9), "DIASPORA", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "shavuot_ii",
+            (7, Months.Sivan), "DIASPORA", [],
             LANG(u"Shavuot II", DESC(u"שני של שבועות", u"ב' שבועות"))),
-    HOLIDAY(1, "sukkot_ii", (16, 1), "DIASPORA", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "sukkot_ii",
+            (16, Months.Tishrei), "DIASPORA", [],
             LANG(u"Sukkot II", DESC(u"שני של סוכות", u"ב' סוכות"))),
-    HOLIDAY(1, "pesach_ii", (16, 7), "DIASPORA", [],
+    HOLIDAY(HolidayTypes.YOM_TOV, "pesach_ii",
+            (16, Months.Nisan), "DIASPORA", [],
             LANG(u"Pesach II", DESC(u"שני של פסח", u"ב' פסח"))),
-    HOLIDAY(9, "family_day", (30, 5), "ISRAEL", [],
+    HOLIDAY(HolidayTypes.ISRAEL_NATIONAL_HOLIDAY, "family_day",
+            (30, Months.Shvat), "ISRAEL", [],
             LANG(u"Family Day", DESC(u"יום המשפחה", u"יום המשפחה"))),
-    HOLIDAY(9, "memorial_day_unknown", (7, [6, 14]), "ISRAEL", [],
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "memorial_day_unknown",
+            (7, [Months.Adar, Months.Adar_II]), "ISRAEL", [],
             LANG(u"Memorial day for fallen whose place of burial is unknown",
                  DESC(u"יום זכרון...", u"יום זכרון..."))),
-    HOLIDAY(9, "rabin_memorial_day", ([11, 12], 2), "ISRAEL",
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "rabin_memorial_day",
+            ([11, 12], Months.Marcheshvan), "ISRAEL",
             [move_if_not_on_dow(12, 11, 4, 3), year_is_after(5757)],
             LANG(u"Yitzhak Rabin memorial day",
                  DESC(u"יום הזכרון ליצחק רבין", u"יום הזכרון ליצחק רבין"))),
-    HOLIDAY(9, "zeev_zhabotinsky_day", (29, 10), "ISRAEL",
+    HOLIDAY(HolidayTypes.MEMORIAL_DAY, "zeev_zhabotinsky_day",
+            (29, Months.Tammuz), "ISRAEL",
             [year_is_after(5764)],
             LANG(u"Zeev Zhabotinsky day",
                  DESC(u"יום ז\'בוטינסקי", u"יום ז\'בוטינסקי")))
