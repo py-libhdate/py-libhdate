@@ -174,7 +174,7 @@ class HDate(BaseClass):
 
     def short_kislev(self):
         """Return whether this year has a short Kislev or not."""
-        return True if self.year_size() in [353, 383] else False
+        return self.year_size() in [353, 383]
 
     @property
     def dow(self):
