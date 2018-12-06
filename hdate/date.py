@@ -64,7 +64,7 @@ class HDate(BaseClass):
         """Return a representation of HDate for programmatic use."""
         return ("HDate(gdate={}, diaspora={}, hebrew={})".format(
             repr(self.gdate), self.diaspora, self.hebrew))
-            
+
     def __lt__(self, other):
         assert isinstance(other, HDate)
         return self.gdate < other.gdate
@@ -157,13 +157,12 @@ class HDate(BaseClass):
         return entry.name
 
     def _holiday_entry(self):
-        """Return the number of holyday."""
+        """Returns the abstract holiday information from holidays table."""
         holidays_list = self._get_holidays_for_year(self)
         holidays_list = [
             holiday for holiday, holiday_hdate in holidays_list if
             holiday_hdate.hdate == self.hdate
         ]
-
         assert len(holidays_list) <= 1
 
         # If anything is left return it, otherwise return the "NULL" holiday
@@ -205,18 +204,18 @@ class HDate(BaseClass):
     @property
     def next_day(self):
         """Returns the HDate for the next day."""
-        return HDate(self.gdate + datetime.timedelta(+1), self.diaspora, 
+        return HDate(self.gdate + datetime.timedelta(+1), self.diaspora,
                      self.hebrew)
 
     @property
     def previous_day(self):
         """Returns the HDate for the previous day."""
-        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora, 
+        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora,
                      self.hebrew)
 
     def get_upcoming_shabbat_hdate(self):
         """Returns the HDate for either the upcoming or current Shabbat.
-        
+
         If it is currently Shabbat, returns the HDate of the Saturday.
         """
         today = self.gdate
@@ -226,19 +225,20 @@ class HDate(BaseClass):
         else:
             saturday = today + datetime.timedelta((5 - today.weekday()) % 7)
         return HDate(saturday, diaspora=self.diaspora, hebrew=self.hebrew)
-    
+
     @property
     def last_day_of_holiday(self):
         pass
-        
+
     def _get_holidays_for_year(self, for_hdate, types=[]):
+        """Gets all the actual holiday days for a given HDate's year."""
         # Filter any non-related holidays depending on Israel/Diaspora only
         holidays_list = [
             holiday for holiday in htables.HOLIDAYS if
             (holiday.israel_diaspora == "") or
             (holiday.israel_diaspora == "ISRAEL" and not self.diaspora) or
             (holiday.israel_diaspora == "DIASPORA" and self.diaspora)]
-            
+
         if types:
             # Filter non-matching holiday types.
             holidays_list = [
@@ -249,8 +249,8 @@ class HDate(BaseClass):
         # Filter any special cases defined by True/False functions
         holidays_list = [
             holiday for holiday in holidays_list if
-            all(func(for_hdate) for func in holiday.date_functions_list)]           
-        
+            all(func(for_hdate) for func in holiday.date_functions_list)]
+
         holidays_list = [
             (holiday, hdate_from_hebrew_date(
                 HebrewDate(for_hdate.hdate.year, date_instance[1], date_instance[0])))
@@ -260,20 +260,20 @@ class HDate(BaseClass):
             if len(holiday.date) >= 2
         ]
         return holidays_list
-            
+
     def get_next_yom_tov(self):
-        """Return the number of holyday."""
+        """Finds the next upcoming yom tov (i.e. no-melacha holiday)."""
         this_year = self._get_holidays_for_year(self, [HolidayTypes.YOM_TOV])
         next_year = self._get_holidays_for_year(
-            hdate_from_hebrew_date(HebrewDate(self.hdate.year+1, Months.Tishrei, 1)), 
+            hdate_from_hebrew_date(HebrewDate(self.hdate.year+1, Months.Tishrei, 1)),
             [HolidayTypes.YOM_TOV])
-            
+
         # Filter anything that's past.
         holidays_list = [
             holiday_hdate for _, holiday_hdate in chain(this_year, next_year) if
             holiday_hdate >= self
         ]
-        
+
         holidays_list.sort(key=lambda h: h.gdate)
 
         return holidays_list[0]
@@ -398,7 +398,7 @@ def get_omer_string(omer):
 
 
 def hdate_from_hebrew_date(hebrew_date):
-  hdate = HDate()
-  hdate.hdate = hebrew_date
-  return hdate
-  
+    """Create an HDate object from a HebrewDate."""
+    hdate = HDate()
+    hdate.hdate = hebrew_date
+    return hdate
