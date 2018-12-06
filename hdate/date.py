@@ -158,28 +158,16 @@ class HDate(BaseClass):
 
     def _holiday_entry(self):
         """Return the number of holyday."""
-        # Get the possible list of holydays for this day
-        holydays_list = [
-            holyday for holyday in htables.HOLIDAYS if
-            (self.hdate.day, self.hdate.month) in product(
-                *([x] if isinstance(x, int) else x for x in holyday.date))]
+        holidays_list = self._get_holidays_for_year(self)
+        holidays_list = [
+            holiday for holiday, holiday_hdate in holidays_list if
+            holiday_hdate.hdate == self.hdate
+        ]
 
-        # Filter any non-related holydays depending on Israel/Diaspora only
-        holydays_list = [
-            holyday for holyday in holydays_list if
-            (holyday.israel_diaspora == "") or
-            (holyday.israel_diaspora == "ISRAEL" and not self.diaspora) or
-            (holyday.israel_diaspora == "DIASPORA" and self.diaspora)]
-
-        # Filter any special cases defined by True/False functions
-        holydays_list = [
-            holyday for holyday in holydays_list if
-            all(func(self) for func in holyday.date_functions_list)]
-
-        assert len(holydays_list) <= 1
+        assert len(holidays_list) <= 1
 
         # If anything is left return it, otherwise return the "NULL" holiday
-        return holydays_list[0] if holydays_list else htables.HOLIDAYS[0]
+        return holidays_list[0] if holidays_list else htables.HOLIDAYS[0]
 
     def short_kislev(self):
         """Return whether this year has a short Kislev or not."""
@@ -243,9 +231,7 @@ class HDate(BaseClass):
     def last_day_of_holiday(self):
         pass
         
-    def _get_holidays_for_year(self, year, types=[]):
-        hdate = HDate()
-        hdate.hdate = HebrewDate(year, Months.Tishrei, 1)
+    def _get_holidays_for_year(self, for_hdate, types=[]):
         # Filter any non-related holidays depending on Israel/Diaspora only
         holidays_list = [
             holiday for holiday in htables.HOLIDAYS if
@@ -263,31 +249,33 @@ class HDate(BaseClass):
         # Filter any special cases defined by True/False functions
         holidays_list = [
             holiday for holiday in holidays_list if
-            all(func(hdate) for func in holiday.date_functions_list)]
-            
+            all(func(for_hdate) for func in holiday.date_functions_list)]           
+        
         holidays_list = [
-            hdate_from_hebrew_date(HebrewDate(year, holiday.date[1], holiday.date[0]))
+            (holiday, hdate_from_hebrew_date(
+                HebrewDate(for_hdate.hdate.year, date_instance[1], date_instance[0])))
             for holiday in holidays_list
+            for date_instance in product(
+                *([x] if isinstance(x, int) else x for x in holiday.date))
+            if len(holiday.date) >= 2
         ]
         return holidays_list
             
     def get_next_yom_tov(self):
         """Return the number of holyday."""
-        this_year = self._get_holidays_for_year(self.hdate.year, [HolidayTypes.YOM_TOV])
-        next_year = self._get_holidays_for_year(self.hdate.year+1, [HolidayTypes.YOM_TOV])
+        this_year = self._get_holidays_for_year(self, [HolidayTypes.YOM_TOV])
+        next_year = self._get_holidays_for_year(
+            hdate_from_hebrew_date(HebrewDate(self.hdate.year+1, Months.Tishrei, 1)), 
+            [HolidayTypes.YOM_TOV])
             
-        def month_day_upcoming(day, month):
-          return (month >= self.hdate.month 
-                  or (month == self.hdate.month and day >= self.hdate.day))
         # Filter anything that's past.
         holidays_list = [
-            holiday for holiday in chain(this_year, next_year) if
-            holiday >= self
+            holiday_hdate for _, holiday_hdate in chain(this_year, next_year) if
+            holiday_hdate >= self
         ]
         
         holidays_list.sort(key=lambda h: h.gdate)
 
-        #print(holidays_list)
         return holidays_list[0]
 
     def get_reading(self):

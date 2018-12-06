@@ -79,7 +79,7 @@ class TestHDate(object):
             rand_hdate.hdate = HebrewDate(year, 7, 15)
             assert rand_hdate.dow == info[2]
             assert rand_hdate.holiday_name == "pesach"
-            
+
     UPCOMING_SHABBATOT = [
       ((2018, 11, 30), (2018, 12, 1), (5779, 3, 22)),
       ((2018, 12, 1), (2018, 12, 1), (5779, 3, 23)),
@@ -92,9 +92,9 @@ class TestHDate(object):
       ((2018, 12, 8), (2018, 12, 8), (5779, 3, 30)),
       ((2018, 12, 9), (2018, 12, 15), (5779, 4, 1)),
     ]
-    @pytest.mark.parametrize('current_date, shabbat_date, hebrew_date', 
+    @pytest.mark.parametrize('current_date, shabbat_date, hebrew_date',
                              UPCOMING_SHABBATOT)
-    def test_get_upcoming_shabbat_date(self, current_date, shabbat_date, 
+    def test_get_upcoming_shabbat_date(self, current_date, shabbat_date,
                                        hebrew_date, rand_hdate):
         rand_hdate.gdate = datetime.date(*current_date)
         assert rand_hdate.hdate == HebrewDate(*hebrew_date)
@@ -154,23 +154,37 @@ class TestSpecialDays(object):
         ([11, 13], "taanit_esther"), ([14], "purim"), ([15], "shushan_purim"),
         ([7], "memorial_day_unknown"),
     ]
-    
+
     UPCOMING_HOLIDAYS = [
-      ((2018, 8, 8), (2018, 9, 10), "rosh_hashana_i"),
-      ((2018, 9, 8), (2018, 9, 10), "rosh_hashana_i"),
-      ((2018, 9, 10), (2018, 9, 10), "rosh_hashana_i"),
-      ((2018, 9, 11), (2018, 9, 11), "rosh_hashana_ii"),
-      ((2018, 9, 12), (2018, 9, 19), "yom_kippur"),
-      ((2018, 9, 19), (2018, 9, 19), "yom_kippur"),
-      ((2018, 9, 20), (2018, 9, 24), "sukkot"),
+      ((2018, 8, 8), (2018, 9, 10), "rosh_hashana_i", "BOTH"),
+      ((2018, 9, 8), (2018, 9, 10), "rosh_hashana_i", "BOTH"),
+      ((2018, 9, 10), (2018, 9, 10), "rosh_hashana_i", "BOTH"),
+      ((2018, 9, 11), (2018, 9, 11), "rosh_hashana_ii", "BOTH"),
+      ((2018, 9, 12), (2018, 9, 19), "yom_kippur", "BOTH"),
+      ((2018, 9, 19), (2018, 9, 19), "yom_kippur", "BOTH"),
+      ((2018, 9, 20), (2018, 9, 24), "sukkot", "BOTH"),
+      ((2018, 9, 24), (2018, 9, 24), "sukkot", "BOTH"),
+      ((2018, 9, 25), (2018, 9, 25), "sukkot_ii", "DIASPORA"),
+      ((2018, 9, 25), (2018, 10, 1), "shmini_atzeret", "ISRAEL"),
+      ((2018, 9, 26), (2018, 10, 1), "shmini_atzeret", "BOTH"),
+      ((2018, 10, 2), (2018, 10, 2), "simchat_torah", "DIASPORA"),
+      ((2018, 10, 2), (2019, 4, 20), "pesach", "ISRAEL"),
+      ((2018, 10, 3), (2019, 4, 20), "pesach", "BOTH"),
     ]
-    @pytest.mark.parametrize('current_date, holiday_date, holiday_name', 
+    @pytest.mark.parametrize('current_date, holiday_date, holiday_name, where',
                              UPCOMING_HOLIDAYS)
-    def test_get_next_yom_tov(self, current_date, holiday_date, 
-                                       holiday_name, rand_hdate):
-        rand_hdate.gdate = datetime.date(*current_date)
-        next_yom_tov = rand_hdate.get_next_yom_tov()
-        assert next_yom_tov.gdate == datetime.date(*holiday_date)
+    def test_get_next_yom_tov(self, current_date, holiday_date,
+                                       holiday_name, where, rand_hdate):
+        if where == "BOTH" or where == "DIASPORA":
+          hdate = HDate(diaspora=True)
+          hdate.gdate = datetime.date(*current_date)
+          next_yom_tov = hdate.get_next_yom_tov()
+          assert next_yom_tov.gdate == datetime.date(*holiday_date)
+        if where == "BOTH" or where == "ISRAEL":
+          hdate = HDate(diaspora=False)
+          hdate.gdate = datetime.date(*current_date)
+          next_yom_tov = hdate.get_next_yom_tov()
+          assert next_yom_tov.gdate == datetime.date(*holiday_date)
 
 
     @pytest.mark.parametrize('date, holiday', NON_MOVING_HOLIDAYS)
