@@ -16,6 +16,7 @@ from dateutil import tz
 from hdate import htables
 from hdate.common import BaseClass, Location
 from hdate.date import HDate
+from hdate.htables import HolidayTypes
 
 
 class Zmanim(BaseClass):
@@ -66,11 +67,11 @@ class Zmanim(BaseClass):
         today_holiday_type = HDate(
             gdate=self.date, diaspora=self.location.diaspora).holiday_type
 
-        if weekday == 4 or tomorrow_holiday_type == 1:
+        if weekday == 4 or tomorrow_holiday_type == HolidayTypes.YOM_TOV:
             if self.time > (self.zmanim["sunset"] -
                             dt.timedelta(minutes=self.shabbat_offset)):
                 return True
-        if weekday == 5 or today_holiday_type == 1:
+        if weekday == 5 or today_holiday_type == HolidayTypes.YOM_TOV:
             if self.time < self.zmanim["three_stars"]:
                 return True
         return False

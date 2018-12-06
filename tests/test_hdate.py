@@ -191,6 +191,7 @@ class TestSpecialDays(object):
     def test_get_holidays_non_moving(self, rand_hdate, date, holiday):
         rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, date[1], date[0])
         assert rand_hdate.holiday_name == holiday
+        assert rand_hdate.is_holiday
 
     @pytest.mark.parametrize('date, diaspora_holiday, israel_holiday',
                              DIASPORA_ISRAEL_HOLIDAYS)
@@ -200,6 +201,7 @@ class TestSpecialDays(object):
         assert rand_hdate.holiday_name == israel_holiday
         rand_hdate.diaspora = True
         assert rand_hdate.holiday_name == diaspora_holiday
+        assert rand_hdate.is_holiday
 
     @pytest.mark.parametrize('possible_dates, years, holiday',
                              MOVING_HOLIDAYS)
@@ -221,6 +223,7 @@ class TestSpecialDays(object):
                         print("checking ", other_date, " doesn't match")
                         assert other_date.holiday_name != holiday
                 found_matching_holiday = True
+                assert date_under_test.is_holiday
 
         assert found_matching_holiday
 

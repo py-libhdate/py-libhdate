@@ -145,6 +145,12 @@ class HDate(BaseClass):
         return desc.hebrew.long if self.hebrew else desc.english
 
     @property
+    def is_holiday(self):
+        """Return True if this date is a holiday (any kind)."""
+        entry = self._holiday_entry()
+        return entry != HolidayTypes.UNKNOWN
+
+    @property
     def holiday_type(self):
         """Return the holiday type if exists."""
         entry = self._holiday_entry()
@@ -226,12 +232,11 @@ class HDate(BaseClass):
             saturday = today + datetime.timedelta((5 - today.weekday()) % 7)
         return HDate(saturday, diaspora=self.diaspora, hebrew=self.hebrew)
 
-    @property
-    def last_day_of_holiday(self):
-        pass
+    def _get_holidays_for_year(self, for_hdate, types=None):
+        """Gets all the actual holiday days for a given HDate's year.
 
-    def _get_holidays_for_year(self, for_hdate, types=[]):
-        """Gets all the actual holiday days for a given HDate's year."""
+        If specified, use the list of types to limit the holidays returned.
+        """
         # Filter any non-related holidays depending on Israel/Diaspora only
         holidays_list = [
             holiday for holiday in htables.HOLIDAYS if

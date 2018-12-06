@@ -24,6 +24,7 @@ class BaseClass(object):
 
     def __unicode__(self):  # pragma: no cover
         """Implement the representation of the object."""
+        pass
 
     def __eq__(self, other):
         """Override equality operator."""
