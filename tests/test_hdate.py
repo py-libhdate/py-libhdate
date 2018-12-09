@@ -96,7 +96,7 @@ class TestHDate(object):
     @pytest.mark.parametrize('current_date, shabbat_date, hebrew_date',
                              UPCOMING_SHABBATOT)
     def test_upcoming_shabbat(self, current_date, shabbat_date,
-                                       hebrew_date):
+                              hebrew_date):
         hd = HDate(gdate=datetime.date(*current_date))
         assert hd.hdate == HebrewDate(*hebrew_date)
         next_shabbat = hd.upcoming_shabbat
