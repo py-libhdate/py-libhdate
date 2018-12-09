@@ -9,7 +9,7 @@ from dateutil import tz
 HebrewDate = namedtuple("HebrewDate", ["year", "month", "day"])
 
 
-class BaseClass:
+class BaseClass(object):  # pylint: disable=useless-object-inheritance
     """Implement basic functionality for all classes."""
 
     def __str__(self):
