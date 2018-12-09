@@ -290,15 +290,17 @@ class HDate(BaseClass):
     @property
     def upcoming_yom_tov(self):
         """Find the next upcoming yom tov (i.e. no-melacha holiday).
-        
+
         If it is currently the day of yom tov (irrespective of zmanim), returns
         that yom tov.
         """
         this_year = self._get_holidays_for_year([HolidayTypes.YOM_TOV])
         next_rosh_hashana = HDate(heb_date=HebrewDate(
             self.hdate.year + 1, Months.Tishrei, 1))
+        # pylint: disable=protected-access
         next_year = next_rosh_hashana._get_holidays_for_year(
             [HolidayTypes.YOM_TOV])
+        # pylint: enable=protected-access
 
         # Filter anything that's past.
         holidays_list = [
