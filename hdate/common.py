@@ -9,15 +9,14 @@ from dateutil import tz
 HebrewDate = namedtuple("HebrewDate", ["year", "month", "day"])
 
 
-class BaseClass(object):
+class BaseClass:
     """Implement basic functionality for all classes."""
 
-    # pylint: disable=useless-object-inheritance
-    # pylint: disable=too-few-public-methods
     def __str__(self):
         """Return a string representation."""
         if sys.version_info.major < 3:
             # pylint: disable=undefined-variable
+            # pylint-comment: When using python3 and up, unicode() is undefined
             return unicode(self).encode('utf-8')  # noqa: F821
 
         return self.__unicode__()
@@ -36,9 +35,10 @@ class BaseClass(object):
         return not self.__eq__(other)
 
 
-class Location(BaseClass):  # pylint: disable=too-few-public-methods
+class Location(BaseClass):
     """Define a geolocation for Zmanim calculations."""
 
+    # pylint: disable=too-many-arguments
     def __init__(self, name="Jerusalem", latitude=31.778, longitude=35.235,
                  timezone="Asia/Jerusalem", altitude=754, diaspora=False):
         """Initialitze the location object."""

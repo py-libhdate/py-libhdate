@@ -147,7 +147,6 @@ class MonthsEnum(type):
 # pylint: disable=too-few-public-methods
 class Months(with_metaclass(MonthsEnum, object)):
     """Enum meta class for accessing Hebrew months."""
-
 # pylint: enable=too-few-public-methods
 
 
@@ -188,7 +187,7 @@ HOLIDAY = namedtuple("HOLIDAY", [
     "description"])
 
 
-class HolidayTypes(object):  # pylint: disable=too-few-public-methods
+class HolidayTypes:  # pylint: disable=too-few-public-methods
     """Container class for holiday type integer mappings."""
 
     UNKNOWN = 0
@@ -203,7 +202,6 @@ class HolidayTypes(object):  # pylint: disable=too-few-public-methods
     ISRAEL_NATIONAL_HOLIDAY = 9
 
 
-# pylint: disable=no-member
 HOLIDAYS = (
     HOLIDAY(HolidayTypes.UNKNOWN, "", (), "", [], LANG(u"", DESC(u"", u""))),
     HOLIDAY(HolidayTypes.EREV_YOM_TOV, "erev_rosh_hashana",
@@ -379,7 +377,6 @@ HOLIDAYS = (
             LANG(u"Zeev Zhabotinsky day",
                  DESC(u"יום ז\'בוטינסקי", u"יום ז\'בוטינסקי")))
 )
-# pylint: enable=no-member
 
 ZMAN = namedtuple('ZMAN', 'zman, description')
 ZMANIM = (

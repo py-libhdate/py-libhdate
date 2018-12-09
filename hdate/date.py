@@ -20,7 +20,6 @@ from hdate.htables import HolidayTypes, Months
 _LOGGER = logging.getLogger(__name__)
 
 
-# pylint: disable=no-member
 class HDate(BaseClass):
     """
     Hebrew date class.
@@ -71,20 +70,20 @@ class HDate(BaseClass):
             repr(self.gdate), self.diaspora, self.hebrew))
 
     def __lt__(self, other):
-        """The less-than operator."""
+        """Implement the less-than operator."""
         assert isinstance(other, HDate)
         return self.gdate < other.gdate
 
     def __le__(self, other):
-        """The less-than or equal operator."""
+        """Implement the less-than or equal operator."""
         return not other < self
 
     def __gt__(self, other):
-        """The greater-than operator."""
+        """Implement the greater-than operator."""
         return other < self
 
     def __ge__(self, other):
-        """The greater than or equal operator."""
+        """Implement the greater than or equal operator."""
         return not self < other
 
     @property
@@ -177,7 +176,7 @@ class HDate(BaseClass):
 
     def _holiday_entry(self):
         """Return the abstract holiday information from holidays table."""
-        holidays_list = self._get_holidays_for_year()
+        holidays_list = self.get_holidays_for_year()
         holidays_list = [
             holiday for holiday, holiday_hdate in holidays_list if
             holiday_hdate.hdate == self.hdate
@@ -243,7 +242,7 @@ class HDate(BaseClass):
             (12 - self.gdate.weekday()) % 7)
         return HDate(saturday, diaspora=self.diaspora, hebrew=self.hebrew)
 
-    def _get_holidays_for_year(self, types=None):
+    def get_holidays_for_year(self, types=None):
         """Get all the actual holiday days for a given HDate's year.
 
         If specified, use the list of types to limit the holidays returned.
@@ -294,13 +293,11 @@ class HDate(BaseClass):
         If it is currently the day of yom tov (irrespective of zmanim), returns
         that yom tov.
         """
-        this_year = self._get_holidays_for_year([HolidayTypes.YOM_TOV])
+        this_year = self.get_holidays_for_year([HolidayTypes.YOM_TOV])
         next_rosh_hashana = HDate(heb_date=HebrewDate(
             self.hdate.year + 1, Months.Tishrei, 1))
-        # pylint: disable=protected-access
-        next_year = next_rosh_hashana._get_holidays_for_year(
+        next_year = next_rosh_hashana.get_holidays_for_year(
             [HolidayTypes.YOM_TOV])
-        # pylint: enable=protected-access
 
         # Filter anything that's past.
         holidays_list = [
@@ -382,8 +379,9 @@ def hebrew_number(num, hebrew=True, short=False):
     return hstring
 
 
-def get_omer_string(omer):
+def get_omer_string(omer):  # pylint: disable=too-many-branches
     """Return a string representing the count of the Omer."""
+    # TODO: The following function should be simplified (see pylint)
     tens = [u"", u"עשרה", u"עשרים", u"שלושים", u"ארבעים"]
     ones = [u"", u"אחד", u"שנים", u"שלושה", u"ארבעה", u"חמשה",
             u"ששה", u"שבעה", u"שמונה", u"תשעה"]
