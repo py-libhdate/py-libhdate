@@ -295,12 +295,12 @@ class HDate(BaseClass):
         If it is currently the day of yom tov (irrespective of zmanim), returns
         that yom tov.
         """
-        this_year = self._get_holidays_for_year([HolidayTypes.YOM_TOV])
+        this_year = self.get_holidays_for_year([HolidayTypes.YOM_TOV])
         next_rosh_hashana = HDate(
             heb_date=HebrewDate(self.hdate.year + 1, Months.Tishrei, 1),
             diaspora=self.diaspora,
             hebrew=self.hebrew)
-        next_year = next_rosh_hashana._get_holidays_for_year(
+        next_year = next_rosh_hashana.get_holidays_for_year(
             [HolidayTypes.YOM_TOV])
 
         # Filter anything that's past.
