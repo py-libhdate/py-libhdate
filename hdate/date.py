@@ -295,9 +295,10 @@ class HDate(BaseClass):
         If it is currently the day of yom tov (irrespective of zmanim), returns
         that yom tov.
         """
-        this_year = self.get_holidays_for_year([HolidayTypes.YOM_TOV])
-        next_rosh_hashana = HDate(heb_date=HebrewDate(
-            self.hdate.year + 1, Months.Tishrei, 1), diaspora=self.diaspora,
+        this_year = self._get_holidays_for_year([HolidayTypes.YOM_TOV])
+        next_rosh_hashana = HDate(
+            heb_date=HebrewDate(self.hdate.year + 1, Months.Tishrei, 1),
+            diaspora=self.diaspora,
             hebrew=self.hebrew)
         next_year = next_rosh_hashana._get_holidays_for_year(
             [HolidayTypes.YOM_TOV])
@@ -342,7 +343,8 @@ class HDate(BaseClass):
 
         # Return the indexes for the readings of the given year
         def unpack_readings(readings):
-            return list(chain(*([x] if isinstance(x, int) else x for x in readings)))
+            return list(chain(
+                *([x] if isinstance(x, int) else x for x in readings)))
 
         reading_for_year = htables.READINGS[year_type]
         readings = unpack_readings(reading_for_year)
@@ -350,7 +352,7 @@ class HDate(BaseClass):
         # This avoids an edge case where today is before Rosh Hashana but
         # Shabbat is in a new year afterwards.
         if (weeks >= len(readings)
-            and self.hdate.year < self.upcoming_shabbat.hdate.year):
+                and self.hdate.year < self.upcoming_shabbat.hdate.year):
             return self.upcoming_shabbat.get_reading()
         return readings[weeks]
 
