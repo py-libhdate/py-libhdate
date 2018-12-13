@@ -9,6 +9,7 @@ import pytest
 
 import hdate.converters as conv
 from hdate import HDate, HebrewDate
+from hdate.htables import Months
 
 # pylint: disable=no-self-use
 # pylint-comment: In tests, classes are just a grouping semantic
@@ -337,7 +338,12 @@ class TestHDateReading(object):
                 [60], list(range(44, 51))]),
         # בחג
         (5777, [[52, 53], list(range(22)), [55, 24, 25, 0, 26, 56, 57, 31, 58],
-                list(range(34, 42)), [60], list(range(44, 51)), [61]])
+                list(range(34, 42)), [60], list(range(44, 51)), [61]]),
+
+        (5778, [[53, 0], list(range(22)),
+                [55, 24, 25, 0, 0, 26, 56, 57, 31, 58], list(range(34, 42)),
+                [60], list(range(44, 52))])
+
     ]
 
     READINGS_FOR_YEAR_ISRAEL = [
@@ -420,3 +426,8 @@ class TestHDateReading(object):
         mydate.hdate = HebrewDate(year, 1, 23)
         # VeZot Habracha in Israel always falls on 22 of Tishri
         assert mydate.get_reading() == 54
+
+    def test_rosh_hashana_diaspora_edge_case(self):
+        mydate = HDate(hebrew=False, diaspora=True)
+        mydate.hdate = HebrewDate(5778, Months.Elul, 29)
+        assert mydate.get_reading() == 52

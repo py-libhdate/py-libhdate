@@ -279,7 +279,9 @@ class HDate(BaseClass):
         holidays_list = [
             (holiday, HDate(
                 heb_date=HebrewDate(self.hdate.year, date_instance[1],
-                                    date_instance[0])))
+                                    date_instance[0]),
+                diaspora=self.diaspora,
+                hebrew=self.hebrew))
             for holiday in holidays_list
             for date_instance in holiday_dates_cross_product(holiday)
             if len(holiday.date) >= 2
@@ -294,8 +296,10 @@ class HDate(BaseClass):
         that yom tov.
         """
         this_year = self.get_holidays_for_year([HolidayTypes.YOM_TOV])
-        next_rosh_hashana = HDate(heb_date=HebrewDate(
-            self.hdate.year + 1, Months.Tishrei, 1))
+        next_rosh_hashana = HDate(
+            heb_date=HebrewDate(self.hdate.year + 1, Months.Tishrei, 1),
+            diaspora=self.diaspora,
+            hebrew=self.hebrew)
         next_year = next_rosh_hashana.get_holidays_for_year(
             [HolidayTypes.YOM_TOV])
 
@@ -327,22 +331,29 @@ class HDate(BaseClass):
         weeks = (days + self.rosh_hashana_dow() - 1) // 7
         _LOGGER.debug("Days: %d, Weeks %d", days, weeks)
 
+        # If it's currently Simchat Torah, return VeZot Haberacha.
         if weeks == 3:
             if (days <= 22 and self.diaspora and self.dow != 7 or
                     days <= 21 and not self.diaspora):
                 return 54
 
-        # Special case
+        # Special case for Simchat Torah in diaspora.
         if weeks == 4 and days == 22 and self.diaspora:
             return 54
 
         # Return the indexes for the readings of the given year
-        readings = list(
-            chain(*([x] if isinstance(x, int) else x
-                    for reading in htables.READINGS
-                    for x in reading.readings
-                    if year_type in reading.year_type)))
+        def unpack_readings(readings):
+            return list(chain(
+                *([x] if isinstance(x, int) else x for x in readings)))
 
+        reading_for_year = htables.READINGS[year_type]
+        readings = unpack_readings(reading_for_year)
+        # Maybe recompute the year type based on the upcoming shabbat.
+        # This avoids an edge case where today is before Rosh Hashana but
+        # Shabbat is in a new year afterwards.
+        if (weeks >= len(readings)
+                and self.hdate.year < self.upcoming_shabbat.hdate.year):
+            return self.upcoming_shabbat.get_reading()
         return readings[weeks]
 
 

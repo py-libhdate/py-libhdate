@@ -36,7 +36,7 @@ READINGS = (
         60, range(44, 51), 61)),
     READING([1517], (
         53, 0, range(22), 55, 24, 25, 0, 0, 26, 56, 57, 31, 58, range(34, 42),
-        60, range(44, 51))),
+        60, range(44, 52))),
     READING([703, 725], (
         0, 53, 0, 54, range(1, 29), 0, range(29, 42), 60, range(44, 51), 61)),
     READING([317, 227], (
@@ -56,6 +56,10 @@ READINGS = (
         53, 0, range(22), 55, 24, 25, 0, 26, 56, 57, range(31, 42), 60,
         range(44, 52)))
 )
+
+READINGS = dict((year_type, r.readings)
+                for r in READINGS
+                for year_type in r.year_type)
 
 DIGITS = (
     (u" ", u"א", u"ב", u"ג", u"ד", u"ה", u"ו", u"ז", u"ח", u"ט"),
