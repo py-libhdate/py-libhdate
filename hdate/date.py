@@ -157,10 +157,22 @@ class HDate(BaseClass):
         return desc.hebrew.long if self.hebrew else desc.english
 
     @property
+    def is_shabbat(self):
+        """Return True if this date is Shabbat, specifically Saturday .
+
+        Returns False on Friday because the HDate object has no notion of time.
+        For more detailed nuance, use the Zmanim object."""
+        return self.gdate.weekday() == 5
+
+    @property
     def is_holiday(self):
         """Return True if this date is a holiday (any kind)."""
-        entry = self._holiday_entry()
-        return entry != HolidayTypes.UNKNOWN
+        return self.holiday_type != HolidayTypes.UNKNOWN
+
+    @property
+    def is_yom_tov(self):
+        """Return True if this date is a Yom Tov."""
+        return self.holiday_type == HolidayTypes.YOM_TOV
 
     @property
     def holiday_type(self):
@@ -237,10 +249,57 @@ class HDate(BaseClass):
 
         If it is currently Shabbat, returns the HDate of the Saturday.
         """
+        if self.is_shabbat:
+            return self
         # If it's Sunday, fast forward to the next Shabbat.
         saturday = self.gdate + datetime.timedelta(
             (12 - self.gdate.weekday()) % 7)
         return HDate(saturday, diaspora=self.diaspora, hebrew=self.hebrew)
+
+    @property
+    def upcoming_shabbat_or_yom_tov(self):
+        """Return the HDate for the upcoming or current Shabbat or Yom Tov.
+
+        If it is currently Shabbat, returns the HDate of the Saturday.
+        If it is currently Yom Tov, returns the HDate of the first day
+        (rather than "leil" Yom Tov). To access Leil Yom Tov, use
+        upcoming_shabbat_or_yom_tov.previous_day.
+        """
+        if self.is_shabbat or self.is_yom_tov:
+            return self
+
+        if self.upcoming_yom_tov <  self.upcoming_shabbat:
+            return self.upcoming_yom_tov
+        return self.upcoming_shabbat
+
+    @property
+    def first_day(self):
+        """Return the first day of Yom Tov or Shabbat.
+
+        This is useful for three-day holidays, for example: it will return the
+        first in a string of Yom Tov + Shabbat.
+        If this HDate is Shabbat followed by no Yom Tov, returns the Saturday.
+        If this HDate is neither Yom Tov, nor Shabbat, this just returns itself.
+        """
+        day_iter = self
+        while day_iter.previous_day.holiday_type == HolidayTypes.YOM_TOV:
+            day_iter = day_iter.previous_day
+        return day_iter
+
+    @property
+    def last_day(self):
+        """Return the last day of Yom Tov or Shabbat.
+
+        This is useful for three-day holidays, for example: it will return the
+        last in a string of Yom Tov + Shabbat.
+        If this HDate is Shabbat followed by no Yom Tov, returns the Saturday.
+        If this HDate is neither Yom Tov, nor Shabbat, this just returns itself.
+        """
+        day_iter = self
+        while (day_iter.next_day.holiday_type == HolidayTypes.YOM_TOV
+               or day_iter.next_day.is_shabbat):
+            day_iter = day_iter.next_day
+        return day_iter
 
     def get_holidays_for_year(self, types=None):
         """Get all the actual holiday days for a given HDate's year.
@@ -295,6 +354,8 @@ class HDate(BaseClass):
         If it is currently the day of yom tov (irrespective of zmanim), returns
         that yom tov.
         """
+        if self.is_yom_tov:
+            return self
         this_year = self.get_holidays_for_year([HolidayTypes.YOM_TOV])
         next_rosh_hashana = HDate(
             heb_date=HebrewDate(self.hdate.year + 1, Months.Tishrei, 1),

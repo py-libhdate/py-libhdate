@@ -23,11 +23,12 @@ class Zmanim(BaseClass):
     """Return Jewish day times."""
 
     def __init__(self, date=dt.datetime.now(), location=Location(),
-                 hebrew=True, shabbat_offset=18):
+                 hebrew=True, candle_lighting_offset=18, havdalah_offset=0):
         """Initialize the Zmanim object."""
         self.location = location
         self.hebrew = hebrew
-        self.shabbat_offset = shabbat_offset
+        self.candle_lighting_offset = candle_lighting_offset
+        self.havdalah_offset = havdalah_offset
 
         if isinstance(date, dt.datetime):
             self.date = date.date()
@@ -58,6 +59,51 @@ class Zmanim(BaseClass):
                 key, value in self.get_utc_sun_time_full().items()}
 
     @property
+    def candle_lighting(self):
+        """Returns the time for candle lighting, or None if not applicable."""
+        # TODO: set candle lighting properly for two-day Yom Tov.
+        today_holiday_type = HDate(
+            gdate=self.date, diaspora=self.location.diaspora).holiday_type
+
+        tomorrow = self.date + dt.timedelta(days=1)
+        tomorrow_holiday_type = HDate(
+            gdate=tomorrow, diaspora=self.location.diaspora).holiday_type
+
+        # If today is a Yom Tov or Shabbat, and tomorrow is a Yom Tov or Shabbat
+        # return the havdalah time as the candle lighting time.
+        if ((today_holiday_type == HolidayTypes.YOM_TOV 
+              or self.date.weekday() == 5)
+            and (tomorrow_holiday_type == HolidayTypes.YOM_TOV
+                 or tomorrow.weekday() == 5)):
+            return self.havdalah
+
+        # Otherwise, if today is Friday or erev Yom Tov, return candle lighting.
+        if (self.date.weekday() == 4 
+            or tomorrow_holiday_type == HolidayTypes.YOM_TOV):
+            return (self.zmanim["sunset"]
+                    - dt.timedelta(minutes=self.candle_lighting_offset))
+        return None
+
+    @property
+    def havdalah(self):
+        """Returns the time for havdalah, or None if not applicable.
+
+        If havdalah_offset is 0, uses the time for three_stars. Otherwise,
+        adds the offset to the time of sunset and uses that.
+        """
+        today_holiday_type = HDate(
+            gdate=self.date, diaspora=self.location.diaspora).holiday_type
+
+        if (self.date.weekday() == 5 
+            or today_holiday_type == HolidayTypes.YOM_TOV):
+            if self.havdalah_offset == 0:
+              return self.zmanim["three_stars"]
+            else:
+              return (self.zmanim["sunset"]
+                      + dt.timedelta(minutes=self.havdalah_offset))
+        return None
+
+    @property
     def issur_melacha_in_effect(self):
         """At the given time, return whether issur melacha is in effect."""
         weekday = self.date.weekday()
@@ -69,7 +115,7 @@ class Zmanim(BaseClass):
 
         if weekday == 4 or tomorrow_holiday_type == HolidayTypes.YOM_TOV:
             if self.time > (self.zmanim["sunset"] -
-                            dt.timedelta(minutes=self.shabbat_offset)):
+                            dt.timedelta(minutes=self.candle_lighting_offset)):
                 return True
         if weekday == 5 or today_holiday_type == HolidayTypes.YOM_TOV:
             if self.time < self.zmanim["three_stars"]:
