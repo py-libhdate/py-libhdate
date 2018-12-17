@@ -260,7 +260,7 @@ class TestSpecialDays(object):
         # case of 0 between 5708 and 5764
         if years[0] != 5000:
             if (years[0] == 5764
-                and holiday in ['yom_hazikaron', 'yom_haatzmaut']):
+                    and holiday in ['yom_hazikaron', 'yom_haatzmaut']):
                 return
             year = random.randint(5000, years[0] - 1)
             print("Testing " + holiday + " for " + str(year))
