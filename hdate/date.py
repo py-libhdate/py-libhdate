@@ -18,6 +18,7 @@ from hdate.common import BaseClass, HebrewDate
 from hdate.htables import HolidayTypes, Months
 
 _LOGGER = logging.getLogger(__name__)
+# pylint: disable=too-many-public-methods
 
 
 class HDate(BaseClass):
@@ -158,10 +159,11 @@ class HDate(BaseClass):
 
     @property
     def is_shabbat(self):
-        """Return True if this date is Shabbat, specifically Saturday .
+        """Return True if this date is Shabbat, specifically Saturday.
 
         Returns False on Friday because the HDate object has no notion of time.
-        For more detailed nuance, use the Zmanim object."""
+        For more detailed nuance, use the Zmanim object.
+        """
         return self.gdate.weekday() == 5
 
     @property
@@ -268,7 +270,7 @@ class HDate(BaseClass):
         if self.is_shabbat or self.is_yom_tov:
             return self
 
-        if self.upcoming_yom_tov <  self.upcoming_shabbat:
+        if self.upcoming_yom_tov < self.upcoming_shabbat:
             return self.upcoming_yom_tov
         return self.upcoming_shabbat
 
@@ -279,7 +281,8 @@ class HDate(BaseClass):
         This is useful for three-day holidays, for example: it will return the
         first in a string of Yom Tov + Shabbat.
         If this HDate is Shabbat followed by no Yom Tov, returns the Saturday.
-        If this HDate is neither Yom Tov, nor Shabbat, this just returns itself.
+        If this HDate is neither Yom Tov, nor Shabbat, this just returns
+        itself.
         """
         day_iter = self
         while day_iter.previous_day.holiday_type == HolidayTypes.YOM_TOV:
@@ -293,7 +296,8 @@ class HDate(BaseClass):
         This is useful for three-day holidays, for example: it will return the
         last in a string of Yom Tov + Shabbat.
         If this HDate is Shabbat followed by no Yom Tov, returns the Saturday.
-        If this HDate is neither Yom Tov, nor Shabbat, this just returns itself.
+        If this HDate is neither Yom Tov, nor Shabbat, this just returns
+        itself.
         """
         day_iter = self
         while (day_iter.next_day.holiday_type == HolidayTypes.YOM_TOV

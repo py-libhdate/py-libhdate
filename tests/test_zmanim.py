@@ -1,7 +1,7 @@
 import datetime
-from datetime import datetime as dt
 import random
 from calendar import isleap
+from datetime import datetime as dt
 
 import pytest
 from dateutil import tz
@@ -14,6 +14,7 @@ from hdate.common import Location
 
 NYC_LAT = 40.7128
 NYC_LNG = -74.0060
+
 
 class TestZmanim(object):
 
@@ -75,15 +76,17 @@ class TestZmanim(object):
         # This is not desirable behavior; CL should match havdalah.
         (dt(2018, 9, 10, 8, 1), 18, dt(2018, 9, 10, 19, 59), True),
     ]
+
     @pytest.mark.parametrize(["now", "offset", "candle_lighting",
                               "melacha_assur"], CANDLES_TEST)
-    def test_candle_lighting(self, now, offset, candle_lighting, melacha_assur):
+    def test_candle_lighting(self, now, offset, candle_lighting,
+                             melacha_assur):
         location_tz_str = Location(
             name="New York", latitude=NYC_LAT, longitude=NYC_LNG,
             timezone="America/New_York", diaspora=True)
         # Use a constant offset for Havdalah for unit test stability.
         zmanim = Zmanim(date=now, location=location_tz_str,
-            candle_lighting_offset=offset, havdalah_offset=42)
+                        candle_lighting_offset=offset, havdalah_offset=42)
         actual = zmanim.candle_lighting
         if actual is not None:
             actual = actual.replace(tzinfo=None)
@@ -102,6 +105,7 @@ class TestZmanim(object):
         (dt(2018, 9, 11, 16, 1), 0, dt(2018, 9, 11, 19, 57), True),
         (dt(2018, 9, 10, 8, 1), 0, dt(2018, 9, 10, 19, 58), True),
     ]
+
     @pytest.mark.parametrize(["now", "offset", "havdalah", "melacha_assur"],
                              HAVDALAH_TEST)
     def test_havdalah(self, now, offset, havdalah, melacha_assur):
@@ -110,10 +114,9 @@ class TestZmanim(object):
             timezone="America/New_York", diaspora=True)
         # Use a constant offset for Havdalah for unit test stability.
         zmanim = Zmanim(date=now, location=location_tz_str,
-            havdalah_offset=offset)
+                        havdalah_offset=offset)
         actual = zmanim.havdalah
         if actual is not None:
             actual = actual.replace(tzinfo=None)
         assert actual == havdalah
         assert zmanim.issur_melacha_in_effect == melacha_assur
-

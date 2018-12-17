@@ -204,14 +204,15 @@ class TestSpecialDays(object):
         ((2017, 10, 6), True, {"start": (2017, 10, 5), "end": (2017, 10, 7)}),
         ((2017, 10, 6), False, {"start": (2017, 10, 7), "end": (2017, 10, 7)}),
     ]
+
     @pytest.mark.parametrize('current_date, diaspora, dates',
                              UPCOMING_SHABBAT_OR_YOM_TOV)
     def test_get_next_shabbat_or_yom_tov(self, current_date, diaspora,
                                          dates):
         hd = HDate(gdate=datetime.date(*current_date), diaspora=diaspora)
-        assert (hd.upcoming_shabbat_or_yom_tov.first_day.gdate 
+        assert (hd.upcoming_shabbat_or_yom_tov.first_day.gdate
                 == datetime.date(*dates["start"]))
-        assert (hd.upcoming_shabbat_or_yom_tov.last_day.gdate 
+        assert (hd.upcoming_shabbat_or_yom_tov.last_day.gdate
                 == datetime.date(*dates["end"]))
 
     @pytest.mark.parametrize('date, holiday', NON_MOVING_HOLIDAYS)
