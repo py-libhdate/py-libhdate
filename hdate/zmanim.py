@@ -134,17 +134,7 @@ class Zmanim(BaseClass):
     @property
     def issur_melacha_in_effect(self):
         """At the given time, return whether issur melacha is in effect."""
-        # if self.candle_lighting is not None and self.havdalah is not None:
-        # return self.time <
-        # today = HDate(gdate=self.date, diaspora=self.location.diaspora)
-        # last_day = Zmanim(date=today.last_day.gdate, location=self.location,
-        # candle_lighting_offset=self.candle_lighting_offset,
-        # havdalah_offset=self.havdalah_offset)
-        # if last_day.havdalah is not None:
-        # return self.time < last_day.havdalah
-
-        # if self.candle_lighting is not None:
-        # return self.time > self.candle_lighting
+        # TODO: Rewrite this in terms of candle_lighting/havdalah properties.
         weekday = self.date.weekday()
         tomorrow = self.date + dt.timedelta(days=1)
         tomorrow_holiday_type = HDate(
