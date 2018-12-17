@@ -73,7 +73,7 @@ class TestZmanim(object):
         (dt(2018, 9, 19, 22, 1), 18, None, False),
         (dt(2018, 9, 9, 16, 1), 20, dt(2018, 9, 9, 18, 59), False),
         (dt(2018, 9, 9, 19, 30), 18, dt(2018, 9, 9, 19, 1), True),
-        # This is not desirable behavior; CL should match havdalah.
+        # Candle lighting matches the time that would be havdalah.
         (dt(2018, 9, 10, 8, 1), 18, dt(2018, 9, 10, 19, 59), True),
     ]
 
@@ -103,7 +103,9 @@ class TestZmanim(object):
         (dt(2018, 9, 9, 16, 1), 0, None, False),
         (dt(2018, 9, 9, 19, 30), 0, None, True),
         (dt(2018, 9, 11, 16, 1), 0, dt(2018, 9, 11, 19, 57), True),
-        (dt(2018, 9, 10, 8, 1), 0, dt(2018, 9, 10, 19, 58), True),
+        # No havdalah in the middle of Yom Tov.
+        (dt(2018, 9, 10, 8, 1), 0, None, True),
+        (dt(2018, 9, 10, 20, 20), 0, None, True),
     ]
 
     @pytest.mark.parametrize(["now", "offset", "havdalah", "melacha_assur"],

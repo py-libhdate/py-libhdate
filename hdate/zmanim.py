@@ -20,7 +20,16 @@ from hdate.htables import HolidayTypes
 
 
 class Zmanim(BaseClass):
-    """Return Jewish day times."""
+    """Return Jewish day times.
+
+    The Zmanim class returns times for the specified day ONLY. If you wish to
+    obtain times for the interval of a multi-day holiday for example, you need
+    to use Zmanim in conjunction with some of the iterative properties of
+    HDate. Also, Zmanim are reported regardless of the current time. So the
+    havdalah value is constant if the current time is before or after it.
+    The current time is only used to report the "issur_melacha_in_effect"
+    property.
+    """
 
     # pylint: disable=too-many-arguments
     def __init__(self, date=dt.datetime.now(), location=Location(),
@@ -75,7 +84,7 @@ class Zmanim(BaseClass):
              or self.date.weekday() == 5)
                 and (tomorrow_holiday_type == HolidayTypes.YOM_TOV
                      or tomorrow.weekday() == 5)):
-            return self.havdalah
+            return self._havdalah_datetime
 
         # Otherwise, if today is Friday or erev Yom Tov, return candle
         # lighting.
@@ -86,27 +95,56 @@ class Zmanim(BaseClass):
         return None
 
     @property
+    def _havdalah_datetime(self):
+        """Compute the havdalah time based on settings."""
+        if self.havdalah_offset == 0:
+            return self.zmanim["three_stars"]
+        # Otherwise, use the offset.
+        return (self.zmanim["sunset"]
+                + dt.timedelta(minutes=self.havdalah_offset))
+
+    @property
     def havdalah(self):
         """Return the time for havdalah, or None if not applicable.
 
         If havdalah_offset is 0, uses the time for three_stars. Otherwise,
         adds the offset to the time of sunset and uses that.
+        If it's currently a multi-day YomTov, and the end of the stretch is
+        after today, the havdalah value is defined to be None (to avoid
+        misleading the user that melacha is permitted).
         """
         today_holiday_type = HDate(
             gdate=self.date, diaspora=self.location.diaspora).holiday_type
+        tomorrow = self.date + dt.timedelta(days=1)
+        tomorrow_holiday_type = HDate(
+            gdate=tomorrow, diaspora=self.location.diaspora).holiday_type
 
+        # If today is Yom Tov or Shabbat, and tomorrow is Yom Tov or Shabbat,
+        # then there is no havdalah value for today. Technically, there is
+        # havdalah mikodesh l'kodesh, but that is represented in the
+        # candle_lighting value to avoid misuse of the havdalah API.
         if (self.date.weekday() == 5
                 or today_holiday_type == HolidayTypes.YOM_TOV):
-            if self.havdalah_offset == 0:
-                return self.zmanim["three_stars"]
-            # Otherwise, use the offset.
-            return (self.zmanim["sunset"]
-                    + dt.timedelta(minutes=self.havdalah_offset))
+            if (tomorrow.weekday() == 5
+                    or tomorrow_holiday_type == HolidayTypes.YOM_TOV):
+                return None
+            return self._havdalah_datetime
         return None
 
     @property
     def issur_melacha_in_effect(self):
         """At the given time, return whether issur melacha is in effect."""
+        # if self.candle_lighting is not None and self.havdalah is not None:
+        # return self.time <
+        # today = HDate(gdate=self.date, diaspora=self.location.diaspora)
+        # last_day = Zmanim(date=today.last_day.gdate, location=self.location,
+        # candle_lighting_offset=self.candle_lighting_offset,
+        # havdalah_offset=self.havdalah_offset)
+        # if last_day.havdalah is not None:
+        # return self.time < last_day.havdalah
+
+        # if self.candle_lighting is not None:
+        # return self.time > self.candle_lighting
         weekday = self.date.weekday()
         tomorrow = self.date + dt.timedelta(days=1)
         tomorrow_holiday_type = HDate(
