@@ -74,7 +74,7 @@ class Zmanim(BaseClass):
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
 
         tomorrow = HDate(gdate=self.date + dt.timedelta(days=1),
-                                      diaspora=self.location.diaspora)
+                         diaspora=self.location.diaspora)
 
         # If today is a Yom Tov or Shabbat, and tomorrow is a Yom Tov or
         # Shabbat return the havdalah time as the candle lighting time.
@@ -117,7 +117,7 @@ class Zmanim(BaseClass):
         # havdalah mikodesh l'kodesh, but that is represented in the
         # candle_lighting value to avoid misuse of the havdalah API.
         if today.is_shabbat or today.is_yom_tov:
-            if tomorrow.is_shabbat  or tomorrow.is_yom_tov:
+            if tomorrow.is_shabbat or tomorrow.is_yom_tov:
                 return None
             return self._havdalah_datetime
         return None
