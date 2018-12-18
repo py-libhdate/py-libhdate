@@ -187,6 +187,35 @@ class TestSpecialDays(object):
             next_yom_tov = hdate.upcoming_yom_tov
             assert next_yom_tov.gdate == datetime.date(*holiday_date)
 
+    UPCOMING_SHABBAT_OR_YOM_TOV = [
+        ((2018, 9, 8), True, {"start": (2018, 9, 8), "end": (2018, 9, 8)}),
+        ((2018, 9, 9), True, {"start": (2018, 9, 10), "end": (2018, 9, 11)}),
+        ((2018, 9, 16), True, {"start": (2018, 9, 19), "end": (2018, 9, 19)}),
+        ((2018, 9, 24), True, {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
+        ((2018, 9, 25), True, {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
+        ((2018, 9, 24), False, {"start": (2018, 9, 24), "end": (2018, 9, 24)}),
+        ((2018, 9, 24), True, {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
+        ((2018, 3, 30), True, {"start": (2018, 3, 31), "end": (2018, 4, 1)}),
+        ((2018, 3, 30), False, {"start": (2018, 3, 31), "end": (2018, 3, 31)}),
+        ((2017, 9, 22), True, {"start": (2017, 9, 21), "end": (2017, 9, 23)}),
+        ((2017, 9, 22), False, {"start": (2017, 9, 21), "end": (2017, 9, 23)}),
+        ((2017, 10, 4), True, {"start": (2017, 10, 5), "end": (2017, 10, 7)}),
+        ((2017, 10, 4), False, {"start": (2017, 10, 5), "end": (2017, 10, 5)}),
+        ((2017, 10, 6), True, {"start": (2017, 10, 5), "end": (2017, 10, 7)}),
+        ((2017, 10, 6), False, {"start": (2017, 10, 7), "end": (2017, 10, 7)}),
+        ((2016, 6, 12), True, {"start": (2016, 6, 11), "end": (2016, 6, 13)})
+    ]
+
+    @pytest.mark.parametrize('current_date, diaspora, dates',
+                             UPCOMING_SHABBAT_OR_YOM_TOV)
+    def test_get_next_shabbat_or_yom_tov(self, current_date, diaspora,
+                                         dates):
+        hd = HDate(gdate=datetime.date(*current_date), diaspora=diaspora)
+        assert (hd.upcoming_shabbat_or_yom_tov.first_day.gdate
+                == datetime.date(*dates["start"]))
+        assert (hd.upcoming_shabbat_or_yom_tov.last_day.gdate
+                == datetime.date(*dates["end"]))
+
     @pytest.mark.parametrize('date, holiday', NON_MOVING_HOLIDAYS)
     def test_get_holidays_non_moving(self, rand_hdate, date, holiday):
         rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, date[1], date[0])
@@ -231,7 +260,8 @@ class TestSpecialDays(object):
         # In case of yom hazikaron and yom ha'atsmaut don't test for the
         # case of 0 between 5708 and 5764
         if years[0] != 5000:
-            if years[0] == 5764 and holiday in [17, 25]:
+            if (years[0] == 5764
+                    and holiday in ['yom_hazikaron', 'yom_haatzmaut']):
                 return
             year = random.randint(5000, years[0] - 1)
             print("Testing " + holiday + " for " + str(year))
