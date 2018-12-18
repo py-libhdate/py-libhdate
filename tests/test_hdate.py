@@ -137,10 +137,14 @@ class TestSpecialDays(object):
     ]
 
     MOVING_HOLIDAYS = [
+        # Possible dates, name
+        ([(3, 1), (4, 1)], "tzom_gedaliah"),
+        ([(17, 10), (18, 10)], "tzom_tammuz"),
+        ([(9, 11), (10, 11)], "tisha_bav")
+    ]
+
+    NEW_HOLIDAYS = [
         # Possible dates, test year range, name
-        ([(3, 1), (4, 1)], (5000, 6500), "tzom_gedaliah"),
-        ([(17, 10), (18, 10)], (5000, 6500), "tzom_tammuz"),
-        ([(9, 11), (10, 11)], (5000, 6500), "tisha_bav"),
         ([(26, 7), (27, 7), (28, 7)], (5719, 6500), "yom_hashoah"),
         ([(3, 8), (4, 8), (5, 8)], (5709, 5763), "yom_haatzmaut"),
         ([(3, 8), (4, 8), (5, 8), (6, 8)], (5764, 6500), "yom_haatzmaut"),
@@ -232,9 +236,32 @@ class TestSpecialDays(object):
         assert rand_hdate.holiday_name == diaspora_holiday
         assert rand_hdate.is_holiday
 
+    @pytest.mark.parametrize('possible_dates, holiday', MOVING_HOLIDAYS)
+    def test_get_holidays_moving(self, possible_dates, holiday):
+        found_matching_holiday = False
+        year = random.randint(5000, 6500)
+
+        print("Testing " + holiday + " for " + str(year))
+
+        for date in possible_dates:
+            date_under_test = HDate(hebrew=False)
+            date_under_test.hdate = HebrewDate(year, date[1], date[0])
+            if date_under_test.holiday_name == holiday:
+                print("date ", date_under_test, " matched")
+                for other in possible_dates:
+                    if other != date:
+                        other_date = HDate(hebrew=False)
+                        other_date.hdate = HebrewDate(year, other[1], other[0])
+                        print("checking ", other_date, " doesn't match")
+                        assert other_date.holiday_name != holiday
+                found_matching_holiday = True
+                assert date_under_test.is_holiday
+
+        assert found_matching_holiday
+
     @pytest.mark.parametrize('possible_dates, years, holiday',
-                             MOVING_HOLIDAYS)
-    def test_get_holidays_moving(self, possible_dates, years, holiday):
+                             NEW_HOLIDAYS)
+    def test_new_holidays_multiple_date(self, possible_dates, years, holiday):
         found_matching_holiday = False
         year = random.randint(*years)
 
@@ -256,25 +283,23 @@ class TestSpecialDays(object):
 
         assert found_matching_holiday
 
-        # Test holiday == 0 before 'since'
-        # In case of yom hazikaron and yom ha'atsmaut don't test for the
-        # case of 0 between 5708 and 5764
-        if years[0] != 5000:
-            if (years[0] == 5764
-                    and holiday in ['yom_hazikaron', 'yom_haatzmaut']):
-                return
-            year = random.randint(5000, years[0] - 1)
-            print("Testing " + holiday + " for " + str(year))
-            for date in possible_dates:
-                date_under_test = HDate()
-                date_under_test.hdate = HebrewDate(year, date[1], date[0])
-                assert date_under_test.holiday_name == ""
+    @pytest.mark.parametrize('possible_dates, years, holiday',
+                             NEW_HOLIDAYS)
+    def test_new_holidays_invalid_before(self, possible_dates, years, holiday):
+        # Yom hazikaron and yom ha'atsmaut don't test for before 5764
+        if years[0] == 5764 and holiday in ['yom_hazikaron', 'yom_haatzmaut']:
+            return
+        year = random.randint(5000, years[0] - 1)
+        print("Testing " + holiday + " for " + str(year))
+        for date in possible_dates:
+            date_under_test = HDate()
+            date_under_test.hdate = HebrewDate(year, date[1], date[0])
+            assert date_under_test.holiday_name == ""
 
     def test_get_holiday_hanuka_3rd_tevet(self):
         year = random.randint(5000, 6000)
         year_size = conv.get_size_of_hebrew_year(year)
-        myhdate = HDate()
-        myhdate.hdate = HebrewDate(year, 4, 3)
+        myhdate = HDate(heb_date=HebrewDate(year, 4, 3))
         print(year_size)
         if year_size in [353, 383]:
             assert myhdate.holiday_name == "chanukah"
