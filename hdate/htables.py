@@ -364,7 +364,7 @@ HOLIDAYS = (
             (16, Months.Nisan), "DIASPORA", [],
             LANG(u"Pesach II", DESC(u"שני של פסח", u"ב' פסח"))),
     HOLIDAY(HolidayTypes.ISRAEL_NATIONAL_HOLIDAY, "family_day",
-            (30, Months.Shvat), "ISRAEL", [],
+            (30, Months.Shvat), "ISRAEL", [year_is_after(5734)],
             LANG(u"Family Day", DESC(u"יום המשפחה", u"יום המשפחה"))),
     HOLIDAY(HolidayTypes.MEMORIAL_DAY, "memorial_day_unknown",
             (7, [Months.Adar, Months.Adar_II]), "ISRAEL", [],

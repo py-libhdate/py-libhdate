@@ -149,7 +149,7 @@ class TestSpecialDays(object):
         ([(28, 8)], (5728, 6500), "yom_yerushalayim"),
         ([(11, 2), (12, 2)], (5758, 6500), "rabin_memorial_day"),
         ([(29, 10)], (5765, 6500), "zeev_zhabotinsky_day"),
-        ([(30, 5)], (5000, 6500), "family_day")
+        ([(30, 5)], (5734, 6500), "family_day")
     ]
 
     ADAR_HOLIDAYS = [
