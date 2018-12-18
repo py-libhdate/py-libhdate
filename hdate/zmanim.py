@@ -71,25 +71,20 @@ class Zmanim(BaseClass):
     @property
     def candle_lighting(self):
         """Return the time for candle lighting, or None if not applicable."""
-        today_holiday_type = HDate(
-            gdate=self.date, diaspora=self.location.diaspora).holiday_type
+        today = HDate(gdate=self.date, diaspora=self.location.diaspora)
 
-        tomorrow = self.date + dt.timedelta(days=1)
-        tomorrow_holiday_type = HDate(
-            gdate=tomorrow, diaspora=self.location.diaspora).holiday_type
+        tomorrow = HDate(gdate=self.date + dt.timedelta(days=1),
+                                      diaspora=self.location.diaspora)
 
         # If today is a Yom Tov or Shabbat, and tomorrow is a Yom Tov or
         # Shabbat return the havdalah time as the candle lighting time.
-        if ((today_holiday_type == HolidayTypes.YOM_TOV
-             or self.date.weekday() == 5)
-                and (tomorrow_holiday_type == HolidayTypes.YOM_TOV
-                     or tomorrow.weekday() == 5)):
+        if ((today.is_yom_tov or today.is_shabbat)
+                and (tomorrow.is_yom_tov or tomorrow.is_shabbat)):
             return self._havdalah_datetime
 
         # Otherwise, if today is Friday or erev Yom Tov, return candle
         # lighting.
-        if (self.date.weekday() == 4
-                or tomorrow_holiday_type == HolidayTypes.YOM_TOV):
+        if tomorrow.is_shabbat or tomorrow.is_yom_tov:
             return (self.zmanim["sunset"]
                     - dt.timedelta(minutes=self.candle_lighting_offset))
         return None
@@ -113,20 +108,16 @@ class Zmanim(BaseClass):
         after today, the havdalah value is defined to be None (to avoid
         misleading the user that melacha is permitted).
         """
-        today_holiday_type = HDate(
-            gdate=self.date, diaspora=self.location.diaspora).holiday_type
-        tomorrow = self.date + dt.timedelta(days=1)
-        tomorrow_holiday_type = HDate(
-            gdate=tomorrow, diaspora=self.location.diaspora).holiday_type
+        today = HDate(gdate=self.date, diaspora=self.location.diaspora)
+        tomorrow = HDate(gdate=self.date + dt.timedelta(days=1),
+                         diaspora=self.location.diaspora)
 
         # If today is Yom Tov or Shabbat, and tomorrow is Yom Tov or Shabbat,
         # then there is no havdalah value for today. Technically, there is
         # havdalah mikodesh l'kodesh, but that is represented in the
         # candle_lighting value to avoid misuse of the havdalah API.
-        if (self.date.weekday() == 5
-                or today_holiday_type == HolidayTypes.YOM_TOV):
-            if (tomorrow.weekday() == 5
-                    or tomorrow_holiday_type == HolidayTypes.YOM_TOV):
+        if today.is_shabbat or today.is_yom_tov:
+            if tomorrow.is_shabbat  or tomorrow.is_yom_tov:
                 return None
             return self._havdalah_datetime
         return None

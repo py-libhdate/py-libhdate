@@ -285,7 +285,8 @@ class HDate(BaseClass):
         itself.
         """
         day_iter = self
-        while day_iter.previous_day.holiday_type == HolidayTypes.YOM_TOV:
+        while (day_iter.previous_day.is_yom_tov or
+               day_iter.previous_day.is_shabbat):
             day_iter = day_iter.previous_day
         return day_iter
 
@@ -300,8 +301,7 @@ class HDate(BaseClass):
         itself.
         """
         day_iter = self
-        while (day_iter.next_day.holiday_type == HolidayTypes.YOM_TOV
-               or day_iter.next_day.is_shabbat):
+        while day_iter.next_day.is_yom_tov or day_iter.next_day.is_shabbat:
             day_iter = day_iter.next_day
         return day_iter
 

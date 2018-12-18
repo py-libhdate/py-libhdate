@@ -203,6 +203,7 @@ class TestSpecialDays(object):
         ((2017, 10, 4), False, {"start": (2017, 10, 5), "end": (2017, 10, 5)}),
         ((2017, 10, 6), True, {"start": (2017, 10, 5), "end": (2017, 10, 7)}),
         ((2017, 10, 6), False, {"start": (2017, 10, 7), "end": (2017, 10, 7)}),
+        ((2016, 6, 12), True, {"start": (2016, 6, 11), "end": (2016, 6, 13)})
     ]
 
     @pytest.mark.parametrize('current_date, diaspora, dates',

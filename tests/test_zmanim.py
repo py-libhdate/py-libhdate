@@ -75,6 +75,7 @@ class TestZmanim(object):
         (dt(2018, 9, 9, 19, 30), 18, dt(2018, 9, 9, 19, 1), True),
         # Candle lighting matches the time that would be havdalah.
         (dt(2018, 9, 10, 8, 1), 18, dt(2018, 9, 10, 19, 59), True),
+        (dt(2018, 9, 10, 20, 20), 18, dt(2018, 9, 10, 19, 59), True),
     ]
 
     @pytest.mark.parametrize(["now", "offset", "candle_lighting",
