@@ -12,9 +12,10 @@ from hdate.zmanim import Zmanim
 
 __all__ = ['HDate', 'Zmanim', 'HebrewDate', 'Location', 'HolidayTypes']
 
-def get_hdate_for_datetime(now, diaspora, hebrew, location, 
+
+def get_hdate_for_datetime(now, diaspora, hebrew, location,
                            candle_lighting_offset, havdalah_offset):
-    """Gets the HDate for a given datetime; switches after tzeit."""
+    """Get the HDate for a given datetime; switches after tzeit."""
     today = now.date()
     date = HDate(today, diaspora=diaspora, hebrew=hebrew)
 
@@ -27,8 +28,8 @@ def get_hdate_for_datetime(now, diaspora, hebrew, location,
     # In case the havdalah offset is later than the calculated three stars,
     # use the later time.
     if times.havdalah is not None:
-      tzeit = max(tzeit, times.havdalah)
-    if (now >= tzeit):
-      today += timedelta(1)
-      date = HDate(today, diaspora=diaspora, hebrew=hebrew)
+        tzeit = max(tzeit, times.havdalah)
+    if now >= tzeit:
+        today += timedelta(1)
+        date = HDate(today, diaspora=diaspora, hebrew=hebrew)
     return date
