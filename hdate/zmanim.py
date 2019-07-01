@@ -125,21 +125,20 @@ class Zmanim(BaseClass):
     @property
     def issur_melacha_in_effect(self):
         """At the given time, return whether issur melacha is in effect."""
-        # TODO: Rewrite this in terms of candle_lighting/havdalah properties.
-        weekday = self.date.weekday()
-        tomorrow = self.date + dt.timedelta(days=1)
-        tomorrow_holiday_type = HDate(
-            gdate=tomorrow, diaspora=self.location.diaspora).holiday_type
-        today_holiday_type = HDate(
-            gdate=self.date, diaspora=self.location.diaspora).holiday_type
+        today = HDate(gdate=self.date, diaspora=self.location.diaspora)
+        tomorrow = HDate(gdate=self.date + dt.timedelta(days=1),
+                         diaspora=self.location.diaspora)
 
-        if weekday == 4 or tomorrow_holiday_type == HolidayTypes.YOM_TOV:
-            if self.time > (self.zmanim["sunset"] -
-                            dt.timedelta(minutes=self.candle_lighting_offset)):
-                return True
-        if weekday == 5 or today_holiday_type == HolidayTypes.YOM_TOV:
-            if self.time < self.zmanim["three_stars"]:
-                return True
+        if ((today.is_shabbat or today.is_yom_tov) and
+                (tomorrow.is_shabbat or tomorrow.is_yom_tov)):
+            return True
+        if ((today.is_shabbat or today.is_yom_tov) and
+                (self.time < self.havdalah)):
+            return True
+        if ((tomorrow.is_shabbat or tomorrow.is_yom_tov) and
+               (self.time > self.candle_lighting)):
+            return True
+
         return False
 
     def gday_of_year(self):
