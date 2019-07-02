@@ -3,7 +3,7 @@
 
 __author__ = "Royi Reshef"
 __maintainer__ = "Tsvi Mostovicz"
-__version__ = "0.8.7"
+__version__ = "0.8.8"
 
 from codecs import open
 from os.path import abspath, dirname, join
