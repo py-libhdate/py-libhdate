@@ -16,7 +16,6 @@ from dateutil import tz
 from hdate import htables
 from hdate.common import BaseClass, Location
 from hdate.date import HDate
-from hdate.htables import HolidayTypes
 
 
 class Zmanim(BaseClass):
@@ -136,7 +135,7 @@ class Zmanim(BaseClass):
                 (self.time < self.havdalah)):
             return True
         if ((tomorrow.is_shabbat or tomorrow.is_yom_tov) and
-               (self.time > self.candle_lighting)):
+                (self.time > self.candle_lighting)):
             return True
 
         return False
