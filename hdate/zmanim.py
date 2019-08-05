@@ -48,6 +48,8 @@ class Zmanim(BaseClass):
         else:
             raise TypeError
 
+        self.time = self.time.astimezone(tz.gettz('UTC'))
+
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
         return u"".join([
@@ -58,8 +60,8 @@ class Zmanim(BaseClass):
     def __repr__(self):
         """Return a representation of Zmanim for programmatic use."""
         return ("Zmanim(date={}, location={}, hebrew={})".format(
-            repr(self.time.replace(tzinfo=None)), repr(self.location),
-            self.hebrew))
+            repr(self.time.astimezone(self.location.timezone)),
+            repr(self.location), self.hebrew))
 
     @property
     def zmanim(self):
