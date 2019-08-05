@@ -64,10 +64,19 @@ class Zmanim(BaseClass):
             repr(self.location), self.hebrew))
 
     @property
+    def utc_zmanim(self):
+        """Return a dictionary of the zmanim in naive time format."""
+        basetime = dt.datetime.combine(self.date, dt.time()).replace(
+            tzinfo=tz.gettz('UTC'))
+        return {
+            key: basetime + dt.timedelta(minutes=value) for key, value in
+            self.get_utc_sun_time_full().items()}
+
+    @property
     def zmanim(self):
         """Return a dictionary of the zmanim the object represents."""
-        return {key: self.utc_minute_timezone(value) for
-                key, value in self.get_utc_sun_time_full().items()}
+        return {key: value.astimezone(self.location.timezone) for
+                key, value in self.utc_zmanim.items()}
 
     @property
     def candle_lighting(self):
@@ -145,16 +154,6 @@ class Zmanim(BaseClass):
     def gday_of_year(self):
         """Return the number of days since January 1 of the given year."""
         return (self.date - dt.date(self.date.year, 1, 1)).days
-
-    def utc_minute_timezone(self, minutes_from_utc):
-        """Return the local time for a given time UTC."""
-        from_zone = tz.gettz('UTC')
-        to_zone = self.location.timezone
-        utc = dt.datetime.combine(self.date, dt.time()) + \
-            dt.timedelta(minutes=minutes_from_utc)
-        utc = utc.replace(tzinfo=from_zone)
-        local = utc.astimezone(to_zone)
-        return local
 
     def _get_utc_sun_time_deg(self, deg):
         """
