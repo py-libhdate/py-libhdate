@@ -3,12 +3,13 @@
 """
 Jewish calendrical times for a given location.
 
-HDate calculates and generates a represantation either in English or Hebrew
+HDate calculates and generates a representation either in English or Hebrew
 of the Jewish calendrical times for a given location
 """
 from __future__ import division
 
 import datetime as dt
+import logging
 import math
 
 from dateutil import tz
@@ -16,6 +17,8 @@ from dateutil import tz
 from hdate import htables
 from hdate.common import BaseClass, Location
 from hdate.date import HDate
+
+_LOGGER = logging.getLogger(__name__)
 
 
 class Zmanim(BaseClass):
@@ -39,15 +42,24 @@ class Zmanim(BaseClass):
         self.candle_lighting_offset = candle_lighting_offset
         self.havdalah_offset = havdalah_offset
 
+        # If a non-timezone aware date is received, use timezone from location
+        # to make it timezone aware and change to UTC for calculations.
+
+        # If timezone aware is received as date, we expect it to match the
+        # timezone specified by location, so it can be overridden and changed
+        # to UTC for calculations as above.
         if isinstance(date, dt.datetime):
+            _LOGGER.debug("Date input is of type datetime: %r", date)
             self.date = date.date()
             self.time = date.replace(tzinfo=location.timezone)
         elif isinstance(date, dt.date):
+            _LOGGER.debug("Date input is of type date: %r", date)
             self.date = date
             self.time = dt.datetime.now().replace(tzinfo=location.timezone)
         else:
             raise TypeError
 
+        _LOGGER.debug("Resetting timezone to UTC for calculations")
         self.time = self.time.astimezone(tz.gettz('UTC'))
 
     def __unicode__(self):
@@ -68,6 +80,7 @@ class Zmanim(BaseClass):
         """Return a dictionary of the zmanim in naive time format."""
         basetime = dt.datetime.combine(self.date, dt.time()).replace(
             tzinfo=tz.gettz('UTC'))
+        _LOGGER.debug("Calculating UTC zmanim for %r", basetime)
         return {
             key: basetime + dt.timedelta(minutes=value) for key, value in
             self.get_utc_sun_time_full().items()}
@@ -82,7 +95,6 @@ class Zmanim(BaseClass):
     def candle_lighting(self):
         """Return the time for candle lighting, or None if not applicable."""
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
-
         tomorrow = HDate(gdate=self.date + dt.timedelta(days=1),
                          diaspora=self.location.diaspora)
 
