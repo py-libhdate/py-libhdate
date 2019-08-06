@@ -36,7 +36,17 @@ class Zmanim(BaseClass):
     # pylint: disable=too-many-arguments
     def __init__(self, date=dt.datetime.now(), location=Location(),
                  hebrew=True, candle_lighting_offset=18, havdalah_offset=0):
-        """Initialize the Zmanim object."""
+        """
+        Initialize the Zmanim object.
+
+        As the timezone is expected to be part of the location object, any
+        tzinfo passed along is discarded. Essentially making the datetime
+        object non-timezone aware.
+
+        The time zone information is appended to the date received based on the
+        location object. After which it is transformed to UTC for all internal
+        calculations.
+        """
         self.location = location
         self.hebrew = hebrew
         self.candle_lighting_offset = candle_lighting_offset
@@ -51,16 +61,16 @@ class Zmanim(BaseClass):
         if isinstance(date, dt.datetime):
             _LOGGER.debug("Date input is of type datetime: %r", date)
             self.date = date.date()
-            self.time = location.timezone.localize(date)
+            self.time = date.replace(tzinfo=None)
         elif isinstance(date, dt.date):
             _LOGGER.debug("Date input is of type date: %r", date)
             self.date = date
-            self.time = location.timezone.localize(dt.datetime.now())
+            self.time = dt.datetime.now()
         else:
             raise TypeError
 
         _LOGGER.debug("Resetting timezone to UTC for calculations")
-        self.time = self.time.astimezone(pytz.utc)
+        self.time = location.timezone.localize(self.time).astimezone(pytz.utc)
 
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
@@ -71,6 +81,8 @@ class Zmanim(BaseClass):
 
     def __repr__(self):
         """Return a representation of Zmanim for programmatic use."""
+        # As time zone information is not really reusable due to DST, when
+        # creating a __repr__ of zmanim, we show a timezone naive datetime.
         return ("Zmanim(date={}, location={}, hebrew={})".format(
             repr(self.time.astimezone(
                 self.location.timezone).replace(tzinfo=None)),
@@ -78,7 +90,7 @@ class Zmanim(BaseClass):
 
     @property
     def utc_zmanim(self):
-        """Return a dictionary of the zmanim in naive time format."""
+        """Return a dictionary of the zmanim in UTC time format."""
         basetime = dt.datetime.combine(self.date, dt.time()).replace(
             tzinfo=pytz.utc)
         _LOGGER.debug("Calculating UTC zmanim for %r", basetime)

@@ -167,3 +167,11 @@ class TestZmanimAPI(object):
             timezone="America/New_York", diaspora=True)
         z = Zmanim(date=datetime(2019, 4, 21, 20, 30), location=c)
         assert not z.issur_melacha_in_effect
+
+    def test_zmanim_localized_datetime(self):
+        c = Location(
+            name="New York", latitude=40.7128, longitude=-74.0060,
+            timezone="America/New_York", diaspora=True)
+        z = Zmanim(date=c.timezone.localize(datetime(2019, 4, 21, 20, 30)),
+                   location=c)
+        assert not z.issur_melacha_in_effect
