@@ -36,7 +36,7 @@ setup(name='hdate',
       license='GPLv3+',
       packages=['hdate'],
       install_requires=[
-          'python-dateutil',
+          'pytz',
           'six'
       ],
       extras_require={

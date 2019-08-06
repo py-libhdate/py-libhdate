@@ -5,7 +5,6 @@ from __future__ import print_function
 import datetime  # noqa: F401
 
 import pytest
-from dateutil.tz import tzfile  # noqa: F401
 
 from hdate import HDate, Location, Zmanim  # noqa: F401
 

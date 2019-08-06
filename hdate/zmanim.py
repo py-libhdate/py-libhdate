@@ -12,7 +12,7 @@ import datetime as dt
 import logging
 import math
 
-from dateutil import tz
+import pytz
 
 from hdate import htables
 from hdate.common import BaseClass, Location
@@ -51,16 +51,16 @@ class Zmanim(BaseClass):
         if isinstance(date, dt.datetime):
             _LOGGER.debug("Date input is of type datetime: %r", date)
             self.date = date.date()
-            self.time = date.replace(tzinfo=location.timezone)
+            self.time = location.timezone.localize(date)
         elif isinstance(date, dt.date):
             _LOGGER.debug("Date input is of type date: %r", date)
             self.date = date
-            self.time = dt.datetime.now().replace(tzinfo=location.timezone)
+            self.time = location.timezone.localize(dt.datetime.now())
         else:
             raise TypeError
 
         _LOGGER.debug("Resetting timezone to UTC for calculations")
-        self.time = self.time.astimezone(tz.gettz('UTC'))
+        self.time = self.time.astimezone(pytz.utc)
 
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
@@ -72,14 +72,15 @@ class Zmanim(BaseClass):
     def __repr__(self):
         """Return a representation of Zmanim for programmatic use."""
         return ("Zmanim(date={}, location={}, hebrew={})".format(
-            repr(self.time.astimezone(self.location.timezone)),
+            repr(self.time.astimezone(
+                self.location.timezone).replace(tzinfo=None)),
             repr(self.location), self.hebrew))
 
     @property
     def utc_zmanim(self):
         """Return a dictionary of the zmanim in naive time format."""
         basetime = dt.datetime.combine(self.date, dt.time()).replace(
-            tzinfo=tz.gettz('UTC'))
+            tzinfo=pytz.utc)
         _LOGGER.debug("Calculating UTC zmanim for %r", basetime)
         return {
             key: basetime + dt.timedelta(minutes=value) for key, value in

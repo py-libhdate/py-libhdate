@@ -4,7 +4,7 @@ import datetime
 import sys
 from collections import namedtuple
 
-from dateutil import tz
+import pytz
 
 HebrewDate = namedtuple("HebrewDate", ["year", "month", "day"])
 
@@ -52,8 +52,8 @@ class Location(BaseClass):
 
     def __repr__(self):
         """Return a representation of Location for programmatic use."""
-        return ("Location(name='{}', latitude={}, longitude={}, timezone={}, "
-                "altitude={}, diaspora={})".format(
+        return ("Location(name='{}', latitude={}, longitude={}, "
+                "timezone='{}', altitude={}, diaspora={})".format(
                     self.name, self.latitude, self.longitude, self.timezone,
                     self.altitude, self.diaspora))
 
@@ -66,4 +66,4 @@ class Location(BaseClass):
     def timezone(self, value):
         """Set the timezone."""
         self._timezone = (value if isinstance(value, datetime.tzinfo)
-                          else tz.gettz(value))
+                          else pytz.timezone(value))

@@ -4,7 +4,7 @@ from calendar import isleap
 from datetime import datetime as dt
 
 import pytest
-from dateutil import tz
+import pytz
 
 from hdate import Zmanim
 from hdate.common import Location
@@ -49,7 +49,7 @@ class TestZmanim(object):
     def test_using_tzinfo(self):
         day = datetime.date(2018, 9, 8)
         timezone_str = "America/New_York"
-        timezone = tz.gettz(timezone_str)
+        timezone = pytz.timezone(timezone_str)
         location_tz_str = Location(
             name="New York", latitude=NYC_LAT, longitude=NYC_LNG,
             timezone=timezone_str, diaspora=True)
