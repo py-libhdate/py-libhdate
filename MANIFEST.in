@@ -1,6 +1,5 @@
 include *.in
 include *.rst
-include .pylintrc
 include LICENSE
 include tox.ini
 recursive-include tests *.py
