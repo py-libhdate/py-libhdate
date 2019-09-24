@@ -489,7 +489,8 @@ class TestHDateReading(object):
         tdelta = datetime.timedelta((12 - mydate.gdate.weekday()) % 7 - 7)
         # Go back to the previous shabbat
         mydate.gdate += tdelta
-        print(f"Testing date: {mydate} which is {tdelta} days before Rosh Hashana")
+        print("Testing date: {} which is {} days before Rosh Hashana".format(
+            mydate, tdelta))
         assert mydate.get_reading() in [51, 61]
 
     @pytest.mark.parametrize("year", range(5740, 5800))
@@ -499,7 +500,8 @@ class TestHDateReading(object):
         tdelta = datetime.timedelta((12 - mydate.gdate.weekday()) % 7)
         # Go to the next shabbat (unless shabbat falls on Rosh Hashana)
         mydate.gdate += tdelta
-        print(f"Testing date: {mydate} which is {tdelta} days after Rosh Hashana")
+        print("Testing date: {} which is {} days after Rosh Hashana".format(
+                mydate, tdelta))
         assert mydate.get_reading() in [52, 53]
 
     def test_last_week_of_the_year(self):
