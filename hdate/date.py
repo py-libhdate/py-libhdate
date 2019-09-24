@@ -394,7 +394,7 @@ class HDate(BaseClass):
         days = self._jdn - conv.hdate_to_jdn(rosh_hashana)
         # Number of weeks since rosh hashana
         weeks = (days + self.rosh_hashana_dow() - 1) // 7
-        _LOGGER.debug("Days: %d, Weeks %d", days, weeks)
+        _LOGGER.debug("Since Rosh Hashana - Days: %d, Weeks %d", days, weeks)
 
         # If it's currently Simchat Torah, return VeZot Haberacha.
         if weeks == 3:
