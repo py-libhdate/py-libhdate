@@ -5,9 +5,6 @@ matrix:
     - python: '2.7'
       env:
        - TOXENV=py27,report,coveralls,codecov
-    - python: '3.5'
-      env:
-       - TOXENV=py35,report,coveralls,codecov
     - python: '3.6'
       env:
        - TOXENV=check,py36,report,coveralls,codecov
