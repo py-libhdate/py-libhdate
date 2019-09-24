@@ -482,7 +482,27 @@ class TestHDateReading(object):
         # VeZot Habracha in Israel always falls on 22 of Tishri
         assert mydate.get_reading() == 54
 
-    def test_rosh_hashana_diaspora_edge_case(self):
+    @pytest.mark.parametrize("year", range(5740, 5800))
+    def test_nitzavim_always_before_rosh_hashana(self, year):
+        mydate = HDate(hebrew=False, diaspora=False)
+        mydate.hdate = HebrewDate(year, Months.Tishrei, 1)
+        tdelta = datetime.timedelta((12 - mydate.gdate.weekday()) % 7 - 7)
+        # Go back to the previous shabbat
+        mydate.gdate += tdelta
+        print(f"Testing date: {mydate} which is {tdelta} days before Rosh Hashana")
+        assert mydate.get_reading() in [51, 61]
+
+    @pytest.mark.parametrize("year", range(5740, 5800))
+    def test_vayelech_or_haazinu_always_after_rosh_hashana(self, year):
         mydate = HDate(hebrew=False, diaspora=True)
-        mydate.hdate = HebrewDate(5778, Months.Elul, 29)
+        mydate.hdate = HebrewDate(year, Months.Tishrei, 1)
+        tdelta = datetime.timedelta((12 - mydate.gdate.weekday()) % 7)
+        # Go to the next shabbat (unless shabbat falls on Rosh Hashana)
+        mydate.gdate += tdelta
+        print(f"Testing date: {mydate} which is {tdelta} days after Rosh Hashana")
+        assert mydate.get_reading() in [52, 53]
+
+    def test_last_week_of_the_year(self):
+        mydate = HDate()
+        mydate.hdate = HebrewDate(5779, Months.Elul, 29)
         assert mydate.get_reading() == 52
