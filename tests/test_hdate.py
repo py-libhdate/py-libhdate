@@ -502,7 +502,7 @@ class TestHDateReading(object):
         mydate.gdate += tdelta
         print("Testing date: {} which is {} days after Rosh Hashana".format(
                 mydate, tdelta))
-        assert mydate.get_reading() in [52, 53]
+        assert mydate.get_reading() in [52, 53, 0]
 
     def test_last_week_of_the_year(self):
         mydate = HDate()
