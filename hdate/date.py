@@ -341,7 +341,6 @@ class HDate(BaseClass):
 
             If days and/or months are singletons, they are converted to a list.
             """
-            _LOGGER.debug("Calculating cross-product for holiday %r", holiday)
             return product(
                 *([x] if isinstance(x, (int, Months)) else x for x in holiday.date)
             )
