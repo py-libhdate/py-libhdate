@@ -34,10 +34,11 @@ class BaseClass(object):  # pylint: disable=useless-object-inheritance
         return not self.__eq__(other)
 
 
-class HebrewDate(BaseClass):
+class HebrewDate(BaseClass):  # pylint: disable=too-few-public-methods
     """Define a Hebrew date object."""
 
     def __init__(self, year, month, day):
+        """Initialize the Hebrew date object."""
         self.year = year
         self.month = month if isinstance(month, Months) else Months(month)
         self.day = day

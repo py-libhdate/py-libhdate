@@ -320,13 +320,24 @@ MONTHS = (
     LANG(u"Adar II", u"אדר ב"),
 )
 
-Months = Enum(
-    "Months",
-    {
-        month.english.replace("'", "").replace(" ", "_"): i + 1
-        for i, month in enumerate(MONTHS)
-    },
-)
+
+class Months(Enum):
+    """Enum class for the Hebrew months."""
+
+    Tishrei = 1
+    Marcheshvan = 2
+    Kislev = 3
+    Tevet = 4
+    Shvat = 5
+    Adar = 6
+    Nisan = 7
+    Iyyar = 8
+    Sivan = 9
+    Tammuz = 10
+    Av = 11
+    Elul = 12
+    Adar_I = 13
+    Adar_II = 14
 
 
 def year_is_after(year):
