@@ -2,11 +2,10 @@
 
 import datetime
 import sys
-from collections import namedtuple
 
 import pytz
 
-HebrewDate = namedtuple("HebrewDate", ["year", "month", "day"])
+from hdate.htables import Months
 
 
 class BaseClass(object):  # pylint: disable=useless-object-inheritance
@@ -33,6 +32,15 @@ class BaseClass(object):  # pylint: disable=useless-object-inheritance
     def __ne__(self, other):
         """Override inequality operator."""
         return not self.__eq__(other)
+
+
+class HebrewDate(BaseClass):
+    """Define a Hebrew date object."""
+
+    def __init__(self, year, month, day):
+        self.year = year
+        self.month = month if isinstance(month, Months) else Months(month)
+        self.day = day
 
 
 class Location(BaseClass):

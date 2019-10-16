@@ -2,8 +2,7 @@
 """Constant lookup tables for hdate modules."""
 
 from collections import namedtuple
-
-from six import with_metaclass
+from enum import Enum
 
 READING = namedtuple("READING", "year_type, readings")
 
@@ -134,24 +133,9 @@ MONTHS = (
     LANG(u"Adar II", u"אדר ב")
 )
 
-MONTH_INDICES = {month.english.replace("'", "").replace(" ", "_"): i + 1
-                 for i, month in enumerate(MONTHS)}
-
-
-class MonthsEnum(type):
-    """Accessor class for Hebrew months."""
-
-    def __getattr__(cls, name):
-        """Lookup the Month's name and return its index."""
-        if name in MONTH_INDICES:
-            return MONTH_INDICES[name]
-        raise AttributeError('No month named {}'.format(name))
-
-
-# pylint: disable=too-few-public-methods
-class Months(with_metaclass(MonthsEnum, object)):
-    """Enum meta class for accessing Hebrew months."""
-# pylint: enable=too-few-public-methods
+Months = Enum('Months', {
+    month.english.replace("'", "").replace(" ", "_"): i + 1
+    for i, month in enumerate(MONTHS)})
 
 
 def year_is_after(year):
@@ -191,7 +175,7 @@ HOLIDAY = namedtuple("HOLIDAY", [
     "description"])
 
 
-class HolidayTypes:  # pylint: disable=too-few-public-methods
+class HolidayTypes(Enum):
     """Container class for holiday type integer mappings."""
 
     UNKNOWN = 0

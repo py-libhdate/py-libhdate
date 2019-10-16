@@ -42,12 +42,11 @@ class TestHDate(object):
         return HDate()
 
     def test_assign_bad_hdate_value(self):
-        bad_month_value = HebrewDate(5779, 15, 3)
         bad_day_value = HebrewDate(5779, 10, 35)
         with pytest.raises(TypeError):
             HDate().hdate = "not a HebrewDate"
         with pytest.raises(ValueError):
-            HDate().hdate = bad_month_value
+            HebrewDate(5779, 15, 3)
         with pytest.raises(ValueError):
             HDate().hdate = bad_day_value
 
@@ -324,9 +323,9 @@ class TestSpecialDays(object):
 
     @pytest.mark.parametrize('execution_number', list(range(10)))
     def test_get_omer_day(self, execution_number, rand_hdate):
-        if (rand_hdate.hdate.month not in [7, 8, 9] or
-                rand_hdate.hdate.month == 7 and rand_hdate.hdate.day < 16 or
-                rand_hdate.hdate.month == 9 and rand_hdate.hdate.day > 5):
+        if (rand_hdate.hdate.month not in [Months.Nisan, Months.Iyyar, Months.Sivan] or
+                rand_hdate.hdate.month == Months.Nisan and rand_hdate.hdate.day < 16 or
+                rand_hdate.hdate.month == Months.Sivan and rand_hdate.hdate.day > 5):
             assert rand_hdate.omer_day == 0
 
         nissan = list(range(16, 30))

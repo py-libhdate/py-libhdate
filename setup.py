@@ -5,6 +5,7 @@ __author__ = "Royi Reshef"
 __maintainer__ = "Tsvi Mostovicz"
 __version__ = "0.9.0"
 
+import sys
 from codecs import open
 from os.path import abspath, dirname, join
 
@@ -16,6 +17,10 @@ here = abspath(dirname(__file__))
 with open(join(here, 'README.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
+REQUIRES = ['pytz']
+
+if sys.version_info == (2, 7):
+    REQUIRES.extend('enum34')
 
 setup(name='hdate',
       version=__version__,
@@ -35,10 +40,7 @@ setup(name='hdate',
       maintainer_email='ttmost@gmail.com',
       license='GPLv3+',
       packages=['hdate'],
-      install_requires=[
-          'pytz',
-          'six'
-      ],
+      install_requires=REQUIRES,
       extras_require={
         'dev': ['tox'],
         'pub': ['bumpversion', 'wheel', 'twine']

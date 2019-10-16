@@ -54,7 +54,7 @@ class HDate(BaseClass):
             htables.DAYS[self.dow - 1][self.hebrew][0],
             hebrew_number(self.hdate.day, hebrew=self.hebrew),
             u"ב" if self.hebrew else u"",
-            htables.MONTHS[self.hdate.month - 1][self.hebrew],
+            htables.MONTHS[self.hdate.month.value - 1][self.hebrew],
             hebrew_number(self.hdate.year, hebrew=self.hebrew))
 
         if 0 < self.omer_day < 50:
@@ -104,9 +104,6 @@ class HDate(BaseClass):
 
         if not isinstance(date, HebrewDate):
             raise TypeError('date: {} is not of type HebrewDate'.format(date))
-        if not 0 < date.month < 15:
-            raise ValueError(
-                'month ({}) legal values are 1-14'.format(date.month))
         if not 0 < date.day < 31:
             raise ValueError('day ({}) legal values are 1-31'.format(date.day))
 
@@ -137,9 +134,9 @@ class HDate(BaseClass):
     def hebrew_date(self):
         """Return the hebrew date string."""
         return u"{} {} {}".format(
-            hebrew_number(self.hdate.day, hebrew=self.hebrew),   # Day
-            htables.MONTHS[self.hdate.month - 1][self.hebrew],   # Month
-            hebrew_number(self.hdate.year, hebrew=self.hebrew))  # Year
+            hebrew_number(self.hdate.day, hebrew=self.hebrew),        # Day
+            htables.MONTHS[self.hdate.month.value - 1][self.hebrew],  # Month
+            hebrew_number(self.hdate.year, hebrew=self.hebrew))       # Year
 
     @property
     def parasha(self):
@@ -310,6 +307,7 @@ class HDate(BaseClass):
 
         If specified, use the list of types to limit the holidays returned.
         """
+        _LOGGER.info("Looking up holidays of types %s", types)
         # Filter any non-related holidays depending on Israel/Diaspora only
         holidays_list = [
             holiday for holiday in htables.HOLIDAYS if
@@ -329,12 +327,17 @@ class HDate(BaseClass):
             holiday for holiday in holidays_list if
             all(func(self) for func in holiday.date_functions_list)]
 
+        _LOGGER.debug(
+                "Holidays after filters have been applied: %s",
+                [holiday.name for holiday in holidays_list])
+
         def holiday_dates_cross_product(holiday):
             """Given a (days, months) pair, compute the cross product.
 
             If days and/or months are singletons, they are converted to a list.
             """
-            return product(*([x] if isinstance(x, int) else x
+            _LOGGER.debug("Calculating cross-product for holiday %r", holiday)
+            return product(*([x] if isinstance(x, (int, Months)) else x
                              for x in holiday.date))
 
         # Compute out every actual Hebrew date on which a holiday falls for

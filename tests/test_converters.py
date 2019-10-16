@@ -4,6 +4,7 @@ import pytest
 
 from hdate import converters as conv
 from hdate.common import HebrewDate
+from hdate.htables import Months
 
 
 class TestConverters(object):
@@ -16,8 +17,14 @@ class TestConverters(object):
     YEARS_MEUBERET = [5749, 5755, 5760]
 
     SIMPLE_MONTHS = {
-        29: [4, 8, 10, 12],
-        30: [1, 5, 7, 9, 11]
+        29: [Months.Tevet, Months.Iyyar, Months.Tammuz, Months.Elul],
+        30: [
+            Months.Tishrei,
+            Months.Shvat,
+            Months.Nisan,
+            Months.Sivan,
+            Months.Av
+            ]
     }
 
     @pytest.mark.parametrize("year", YEARS_PSHUTA)
@@ -31,21 +38,21 @@ class TestConverters(object):
     @pytest.mark.parametrize("year", YEARS_PSHUTA)
     def test_hdate_to_hdate_pshuta_adar(self, year):
         for day in range(1, 29 + 1):
-            date = HebrewDate(year, 6, day)
+            date = HebrewDate(year, Months.Adar, day)
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_PSHUTA)
     def test_hdate_to_hdate_pshuta_heshvan(self, year):
         days_in_month = 29 if not year == 5756 else 30
         for day in range(1, days_in_month + 1):
-            date = HebrewDate(year, 2, day)
+            date = HebrewDate(year, Months.Marcheshvan, day)
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_PSHUTA)
     def test_hdate_to_hdate_pshuta_kislev(self, year):
         days_in_month = 30 if not year == 5753 else 29
         for day in range(1, days_in_month + 1):
-            date = HebrewDate(year, 3, day)
+            date = HebrewDate(year, Months.Kislev, day)
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
@@ -59,22 +66,22 @@ class TestConverters(object):
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
     def test_hdate_to_hdate_meuberet_adar(self, year):
         for day in range(1, 30 + 1):
-            date = HebrewDate(year, 13, day)
+            date = HebrewDate(year, Months.Adar_I, day)
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
         for day in range(1, 29 + 1):
-            date = HebrewDate(year, 14, day)
+            date = HebrewDate(year, Months.Adar_II, day)
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
     def test_hdate_to_hdate_meuberet_heshvan(self, year):
         days_in_month = 29 if not year == 5760 else 30
         for day in range(1, days_in_month + 1):
-            date = HebrewDate(year, 2, day)
+            date = HebrewDate(year, Months.Marcheshvan, day)
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
     def test_hdate_to_hdate_meuberet_kislev(self, year):
         days_in_month = 30 if not year == 5749 else 29
         for day in range(1, days_in_month + 1):
-            date = HebrewDate(year, 3, day)
+            date = HebrewDate(year, Months.Kislev, day)
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
