@@ -14,7 +14,7 @@ from hdate import HDate, Location, Zmanim  # noqa: F401
 
 class TestClasses(object):
 
-    CLASSES = ['HDate()', 'Zmanim()', 'Location()']
+    CLASSES = ["HDate()", "Zmanim()", "Location()"]
 
     @pytest.fixture(params=CLASSES)
     def _class(self, request):
@@ -24,7 +24,9 @@ class TestClasses(object):
     def _copy(self):
         def class_copy(original):
             import copy
+
             return copy.deepcopy(original)
+
         return class_copy
 
     def test_repr(self, _class):
@@ -33,12 +35,12 @@ class TestClasses(object):
 
     def test_equality(self, _class, _copy):
         copy_ = _copy(_class)
-        copy_.foo = 'bar'
+        copy_.foo = "bar"
         assert not _class == copy_
         assert not _class == "not a class instance"
 
     def test_inequality(self, _class, _copy):
         copy_ = _copy(_class)
-        copy_.foo = 'bar'
+        copy_.foo = "bar"
         assert _class != copy_
         assert _class != "not a class instance"

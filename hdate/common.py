@@ -16,7 +16,7 @@ class BaseClass(object):  # pylint: disable=useless-object-inheritance
         if sys.version_info.major < 3:
             # pylint: disable=undefined-variable
             # pylint-comment: When using python3 and up, unicode() is undefined
-            return unicode(self).encode('utf-8')  # noqa: F821
+            return unicode(self).encode("utf-8")  # noqa: F821
 
         return self.__unicode__()
 
@@ -47,8 +47,15 @@ class Location(BaseClass):
     """Define a geolocation for Zmanim calculations."""
 
     # pylint: disable=too-many-arguments
-    def __init__(self, name="Jerusalem", latitude=31.778, longitude=35.235,
-                 timezone="Asia/Jerusalem", altitude=754, diaspora=False):
+    def __init__(
+        self,
+        name="Jerusalem",
+        latitude=31.778,
+        longitude=35.235,
+        timezone="Asia/Jerusalem",
+        altitude=754,
+        diaspora=False,
+    ):
         """Initialitze the location object."""
         self._timezone = None
         self.name = name
@@ -60,10 +67,17 @@ class Location(BaseClass):
 
     def __repr__(self):
         """Return a representation of Location for programmatic use."""
-        return ("Location(name='{}', latitude={}, longitude={}, "
-                "timezone='{}', altitude={}, diaspora={})".format(
-                    self.name, self.latitude, self.longitude, self.timezone,
-                    self.altitude, self.diaspora))
+        return (
+            "Location(name='{}', latitude={}, longitude={}, "
+            "timezone='{}', altitude={}, diaspora={})".format(
+                self.name,
+                self.latitude,
+                self.longitude,
+                self.timezone,
+                self.altitude,
+                self.diaspora,
+            )
+        )
 
     @property
     def timezone(self):
@@ -73,5 +87,6 @@ class Location(BaseClass):
     @timezone.setter
     def timezone(self, value):
         """Set the timezone."""
-        self._timezone = (value if isinstance(value, datetime.tzinfo)
-                          else pytz.timezone(value))
+        self._timezone = (
+            value if isinstance(value, datetime.tzinfo) else pytz.timezone(value)
+        )

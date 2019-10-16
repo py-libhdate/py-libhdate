@@ -28,8 +28,9 @@ class HDate(BaseClass):
     Supports converting from Gregorian and Julian to Hebrew date.
     """
 
-    def __init__(self, gdate=datetime.date.today(), diaspora=False,
-                 hebrew=True, heb_date=None):
+    def __init__(
+        self, gdate=datetime.date.today(), diaspora=False, hebrew=True, heb_date=None
+    ):
         """Initialize the HDate object."""
         # Create private variables
         self._hdate = None
@@ -55,7 +56,8 @@ class HDate(BaseClass):
             hebrew_number(self.hdate.day, hebrew=self.hebrew),
             u"ב" if self.hebrew else u"",
             htables.MONTHS[self.hdate.month.value - 1][self.hebrew],
-            hebrew_number(self.hdate.year, hebrew=self.hebrew))
+            hebrew_number(self.hdate.year, hebrew=self.hebrew),
+        )
 
         if 0 < self.omer_day < 50:
             result += u" " + hebrew_number(self.omer_day, hebrew=self.hebrew)
@@ -67,8 +69,9 @@ class HDate(BaseClass):
 
     def __repr__(self):
         """Return a representation of HDate for programmatic use."""
-        return ("HDate(gdate={}, diaspora={}, hebrew={})".format(
-            repr(self.gdate), self.diaspora, self.hebrew))
+        return "HDate(gdate={}, diaspora={}, hebrew={})".format(
+            repr(self.gdate), self.diaspora, self.hebrew
+        )
 
     def __lt__(self, other):
         """Implement the less-than operator."""
@@ -103,9 +106,9 @@ class HDate(BaseClass):
             date = self.hdate
 
         if not isinstance(date, HebrewDate):
-            raise TypeError('date: {} is not of type HebrewDate'.format(date))
+            raise TypeError("date: {} is not of type HebrewDate".format(date))
         if not 0 < date.day < 31:
-            raise ValueError('day ({}) legal values are 1-31'.format(date.day))
+            raise ValueError("day ({}) legal values are 1-31".format(date.day))
 
         self._last_updated = "hdate"
         self._hdate = date
@@ -134,9 +137,10 @@ class HDate(BaseClass):
     def hebrew_date(self):
         """Return the hebrew date string."""
         return u"{} {} {}".format(
-            hebrew_number(self.hdate.day, hebrew=self.hebrew),        # Day
+            hebrew_number(self.hdate.day, hebrew=self.hebrew),  # Day
             htables.MONTHS[self.hdate.month.value - 1][self.hebrew],  # Month
-            hebrew_number(self.hdate.year, hebrew=self.hebrew))       # Year
+            hebrew_number(self.hdate.year, hebrew=self.hebrew),  # Year
+        )
 
     @property
     def parasha(self):
@@ -189,8 +193,9 @@ class HDate(BaseClass):
         """Return the abstract holiday information from holidays table."""
         holidays_list = self.get_holidays_for_year()
         holidays_list = [
-            holiday for holiday, holiday_hdate in holidays_list if
-            holiday_hdate.hdate == self.hdate
+            holiday
+            for holiday, holiday_hdate in holidays_list
+            if holiday_hdate.hdate == self.hdate
         ]
         assert len(holidays_list) <= 1
 
@@ -233,14 +238,12 @@ class HDate(BaseClass):
     @property
     def next_day(self):
         """Return the HDate for the next day."""
-        return HDate(self.gdate + datetime.timedelta(1), self.diaspora,
-                     self.hebrew)
+        return HDate(self.gdate + datetime.timedelta(1), self.diaspora, self.hebrew)
 
     @property
     def previous_day(self):
         """Return the HDate for the previous day."""
-        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora,
-                     self.hebrew)
+        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora, self.hebrew)
 
     @property
     def upcoming_shabbat(self):
@@ -251,8 +254,7 @@ class HDate(BaseClass):
         if self.is_shabbat:
             return self
         # If it's Sunday, fast forward to the next Shabbat.
-        saturday = self.gdate + datetime.timedelta(
-            (12 - self.gdate.weekday()) % 7)
+        saturday = self.gdate + datetime.timedelta((12 - self.gdate.weekday()) % 7)
         return HDate(saturday, diaspora=self.diaspora, hebrew=self.hebrew)
 
     @property
@@ -282,8 +284,7 @@ class HDate(BaseClass):
         itself.
         """
         day_iter = self
-        while (day_iter.previous_day.is_yom_tov or
-               day_iter.previous_day.is_shabbat):
+        while day_iter.previous_day.is_yom_tov or day_iter.previous_day.is_shabbat:
             day_iter = day_iter.previous_day
         return day_iter
 
@@ -310,26 +311,30 @@ class HDate(BaseClass):
         _LOGGER.info("Looking up holidays of types %s", types)
         # Filter any non-related holidays depending on Israel/Diaspora only
         holidays_list = [
-            holiday for holiday in htables.HOLIDAYS if
-            (holiday.israel_diaspora == "") or
-            (holiday.israel_diaspora == "ISRAEL" and not self.diaspora) or
-            (holiday.israel_diaspora == "DIASPORA" and self.diaspora)]
+            holiday
+            for holiday in htables.HOLIDAYS
+            if (holiday.israel_diaspora == "")
+            or (holiday.israel_diaspora == "ISRAEL" and not self.diaspora)
+            or (holiday.israel_diaspora == "DIASPORA" and self.diaspora)
+        ]
 
         if types:
             # Filter non-matching holiday types.
             holidays_list = [
-                holiday for holiday in holidays_list if
-                holiday.type in types
+                holiday for holiday in holidays_list if holiday.type in types
             ]
 
         # Filter any special cases defined by True/False functions
         holidays_list = [
-            holiday for holiday in holidays_list if
-            all(func(self) for func in holiday.date_functions_list)]
+            holiday
+            for holiday in holidays_list
+            if all(func(self) for func in holiday.date_functions_list)
+        ]
 
         _LOGGER.debug(
-                "Holidays after filters have been applied: %s",
-                [holiday.name for holiday in holidays_list])
+            "Holidays after filters have been applied: %s",
+            [holiday.name for holiday in holidays_list],
+        )
 
         def holiday_dates_cross_product(holiday):
             """Given a (days, months) pair, compute the cross product.
@@ -337,17 +342,23 @@ class HDate(BaseClass):
             If days and/or months are singletons, they are converted to a list.
             """
             _LOGGER.debug("Calculating cross-product for holiday %r", holiday)
-            return product(*([x] if isinstance(x, (int, Months)) else x
-                             for x in holiday.date))
+            return product(
+                *([x] if isinstance(x, (int, Months)) else x for x in holiday.date)
+            )
 
         # Compute out every actual Hebrew date on which a holiday falls for
         # this year by exploding out the possible days for each holiday.
         holidays_list = [
-            (holiday, HDate(
-                heb_date=HebrewDate(self.hdate.year, date_instance[1],
-                                    date_instance[0]),
-                diaspora=self.diaspora,
-                hebrew=self.hebrew))
+            (
+                holiday,
+                HDate(
+                    heb_date=HebrewDate(
+                        self.hdate.year, date_instance[1], date_instance[0]
+                    ),
+                    diaspora=self.diaspora,
+                    hebrew=self.hebrew,
+                ),
+            )
             for holiday in holidays_list
             for date_instance in holiday_dates_cross_product(holiday)
             if len(holiday.date) >= 2
@@ -367,13 +378,14 @@ class HDate(BaseClass):
         next_rosh_hashana = HDate(
             heb_date=HebrewDate(self.hdate.year + 1, Months.Tishrei, 1),
             diaspora=self.diaspora,
-            hebrew=self.hebrew)
-        next_year = next_rosh_hashana.get_holidays_for_year(
-            [HolidayTypes.YOM_TOV])
+            hebrew=self.hebrew,
+        )
+        next_year = next_rosh_hashana.get_holidays_for_year([HolidayTypes.YOM_TOV])
 
         # Filter anything that's past.
         holidays_list = [
-            holiday_hdate for _, holiday_hdate in chain(this_year, next_year)
+            holiday_hdate
+            for _, holiday_hdate in chain(this_year, next_year)
             if holiday_hdate >= self
         ]
 
@@ -385,10 +397,11 @@ class HDate(BaseClass):
         """Return number of hebrew parasha."""
         _year_type = (self.year_size() % 10) - 3
         year_type = (
-            self.diaspora * 1000 +
-            self.rosh_hashana_dow() * 100 +
-            _year_type * 10 +
-            self.pesach_dow())
+            self.diaspora * 1000
+            + self.rosh_hashana_dow() * 100
+            + _year_type * 10
+            + self.pesach_dow()
+        )
 
         _LOGGER.debug("Year type: %d", year_type)
 
@@ -401,8 +414,13 @@ class HDate(BaseClass):
 
         # If it's currently Simchat Torah, return VeZot Haberacha.
         if weeks == 3:
-            if (days <= 22 and self.diaspora and self.dow != 7 or
-                    days <= 21 and not self.diaspora):
+            if (
+                days <= 22
+                and self.diaspora
+                and self.dow != 7
+                or days <= 21
+                and not self.diaspora
+            ):
                 return 54
 
         # Special case for Simchat Torah in diaspora.
@@ -411,16 +429,17 @@ class HDate(BaseClass):
 
         # Return the indexes for the readings of the given year
         def unpack_readings(readings):
-            return list(chain(
-                *([x] if isinstance(x, int) else x for x in readings)))
+            return list(chain(*([x] if isinstance(x, int) else x for x in readings)))
 
         reading_for_year = htables.READINGS[year_type]
         readings = unpack_readings(reading_for_year)
         # Maybe recompute the year type based on the upcoming shabbat.
         # This avoids an edge case where today is before Rosh Hashana but
         # Shabbat is in a new year afterwards.
-        if (weeks >= len(readings)
-                and self.hdate.year < self.upcoming_shabbat.hdate.year):
+        if (
+            weeks >= len(readings)
+            and self.hdate.year < self.upcoming_shabbat.hdate.year
+        ):
             return self.upcoming_shabbat.get_reading()
         return readings[weeks]
 
@@ -430,7 +449,7 @@ def hebrew_number(num, hebrew=True, short=False):
     if not hebrew:
         return str(num)
     if not 0 <= num < 10000:
-        raise ValueError('num must be between 0 to 9999, got:{}'.format(num))
+        raise ValueError("num must be between 0 to 9999, got:{}".format(num))
     hstring = u""
     if num >= 1000:
         hstring += htables.DIGITS[0][num // 1000]
@@ -462,47 +481,57 @@ def get_omer_string(omer):  # pylint: disable=too-many-branches
     """Return a string representing the count of the Omer."""
     # TODO: The following function should be simplified (see pylint)
     tens = [u"", u"עשרה", u"עשרים", u"שלושים", u"ארבעים"]
-    ones = [u"", u"אחד", u"שנים", u"שלושה", u"ארבעה", u"חמשה",
-            u"ששה", u"שבעה", u"שמונה", u"תשעה"]
+    ones = [
+        u"",
+        u"אחד",
+        u"שנים",
+        u"שלושה",
+        u"ארבעה",
+        u"חמשה",
+        u"ששה",
+        u"שבעה",
+        u"שמונה",
+        u"תשעה",
+    ]
     if not 0 < omer < 50:
-        raise ValueError('Invalid Omer day: {}'.format(omer))
+        raise ValueError("Invalid Omer day: {}".format(omer))
     ten = omer // 10
     one = omer % 10
-    omer_string = u'היום '
+    omer_string = u"היום "
     if 10 < omer < 20:
-        omer_string += ones[one] + u' עשר'
+        omer_string += ones[one] + u" עשר"
     elif omer > 9:
         omer_string += ones[one]
         if one:
-            omer_string += u' ו'
+            omer_string += u" ו"
     if omer > 2:
         if omer > 20 or omer in [10, 20]:
             omer_string += tens[ten]
         if omer < 11:
-            omer_string += ones[one] + u' ימים '
+            omer_string += ones[one] + u" ימים "
         else:
-            omer_string += u' יום '
+            omer_string += u" יום "
     elif omer == 1:
-        omer_string += u'יום אחד '
+        omer_string += u"יום אחד "
     else:  # omer == 2
-        omer_string += u'שני ימים '
+        omer_string += u"שני ימים "
     if omer > 6:
-        omer_string += u'שהם '
+        omer_string += u"שהם "
         weeks = omer // 7
         days = omer % 7
         if weeks > 2:
-            omer_string += ones[weeks] + u' שבועות '
+            omer_string += ones[weeks] + u" שבועות "
         elif weeks == 1:
-            omer_string += u'שבוע אחד '
+            omer_string += u"שבוע אחד "
         else:  # weeks == 2
-            omer_string += u'שני שבועות '
+            omer_string += u"שני שבועות "
         if days:
-            omer_string += u'ו'
+            omer_string += u"ו"
             if days > 2:
-                omer_string += ones[days] + u' ימים '
+                omer_string += ones[days] + u" ימים "
             elif days == 1:
-                omer_string += u'יום אחד '
+                omer_string += u"יום אחד "
             else:  # days == 2
-                omer_string += u'שני ימים '
-    omer_string += u'לעומר'
+                omer_string += u"שני ימים "
+    omer_string += u"לעומר"
     return omer_string

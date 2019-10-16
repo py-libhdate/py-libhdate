@@ -8,23 +8,15 @@ from hdate.htables import Months
 
 
 class TestConverters(object):
-
     def test_gdate_to_gdate(self, random_date):
-        assert conv.jdn_to_gdate(
-            conv.gdate_to_jdn(random_date)) == random_date
+        assert conv.jdn_to_gdate(conv.gdate_to_jdn(random_date)) == random_date
 
     YEARS_PSHUTA = [5753, 5762, 5756]
     YEARS_MEUBERET = [5749, 5755, 5760]
 
     SIMPLE_MONTHS = {
         29: [Months.Tevet, Months.Iyyar, Months.Tammuz, Months.Elul],
-        30: [
-            Months.Tishrei,
-            Months.Shvat,
-            Months.Nisan,
-            Months.Sivan,
-            Months.Av
-            ]
+        30: [Months.Tishrei, Months.Shvat, Months.Nisan, Months.Sivan, Months.Av],
     }
 
     @pytest.mark.parametrize("year", YEARS_PSHUTA)

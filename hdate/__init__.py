@@ -9,4 +9,4 @@ from hdate.date import HDate
 from hdate.htables import HolidayTypes
 from hdate.zmanim import Zmanim
 
-__all__ = ['HDate', 'Zmanim', 'HebrewDate', 'Location', 'HolidayTypes']
+__all__ = ["HDate", "Zmanim", "HebrewDate", "Location", "HolidayTypes"]

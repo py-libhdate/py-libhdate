@@ -28,7 +28,7 @@ class TestOmer(object):
         (30, u"היום שלושים יום שהם ארבעה שבועות ושני ימים לעומר"),
         (37, u"היום שבעה ושלושים יום שהם חמשה שבועות ושני ימים לעומר"),
         (45, u"היום חמשה וארבעים יום שהם ששה שבועות ושלושה ימים לעומר"),
-        (49, u"היום תשעה וארבעים יום שהם שבעה שבועות לעומר")
+        (49, u"היום תשעה וארבעים יום שהם שבעה שבועות לעומר"),
     ]
 
     @pytest.mark.parametrize("omer_day,hebrew_string", OMER_STRINGS)
@@ -49,13 +49,13 @@ class TestHebrewNumbers(object):
         (1, u"א'", u"א"),
         (9, u"ט'", u"ט"),
         (10, u"י'", u"י"),
-        (11, u"י\"א", u"יא"),
-        (15, u"ט\"ו", u"טו"),
-        (127, u"קכ\"ז", u"קכז"),
-        (435, u"תל\"ה", u"תלה"),
-        (770, u"תש\"ע", u"תשע"),
-        (969, u"תתקס\"ט", u"תתקסט"),
-        (1015, u"א' ט\"ו", u"א' טו")
+        (11, u'י"א', u"יא"),
+        (15, u'ט"ו', u"טו"),
+        (127, u'קכ"ז', u"קכז"),
+        (435, u'תל"ה', u"תלה"),
+        (770, u'תש"ע', u"תשע"),
+        (969, u'תתקס"ט', u"תתקסט"),
+        (1015, u"א' ט\"ו", u"א' טו"),
     ]
 
     @pytest.mark.parametrize("number,expected_string,expected_short", NUMBERS)
@@ -63,8 +63,7 @@ class TestHebrewNumbers(object):
         assert dt.hebrew_number(number) == expected_string
 
     @pytest.mark.parametrize("number,expected_string,expected_short", NUMBERS)
-    def test_hebrew_number_short_true(self, number, expected_string,
-                                      expected_short):
+    def test_hebrew_number_short_true(self, number, expected_string, expected_short):
         assert dt.hebrew_number(number, short=True) == expected_short
 
     def test_illegal_value(self):
@@ -79,5 +78,4 @@ class TestHebrewNumbers(object):
 
     def test_hebrew_number_hebrew_false_short_true(self):
         number = random.randint(0, 100000)
-        assert (dt.hebrew_number(number, hebrew=False, short=True) ==
-                str(number))
+        assert dt.hebrew_number(number, hebrew=False, short=True) == str(number)

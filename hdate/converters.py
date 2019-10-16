@@ -25,14 +25,14 @@ def _days_from_3744(hebrew_year):
     """Return: Number of days since 3,1,3744."""
     # Start point for calculation is Molad new year 3744 (16BC)
     years_from_3744 = hebrew_year - 3744
-    molad_3744 = get_chalakim(1 + 6, 779)    # Molad 3744 + 6 hours in parts
+    molad_3744 = get_chalakim(1 + 6, 779)  # Molad 3744 + 6 hours in parts
 
     # Time in months
 
     # Number of leap months
     leap_months = (years_from_3744 * 7 + 1) // 19
-    leap_left = (years_from_3744 * 7 + 1) % 19    # Months left of leap cycle
-    months = years_from_3744 * 12 + leap_months   # Total Number of months
+    leap_left = (years_from_3744 * 7 + 1) % 19  # Months left of leap cycle
+    months = years_from_3744 * 12 + leap_months  # Total Number of months
 
     # Time in parts and days
     # Molad This year + Molad 3744 - corrections
@@ -51,11 +51,20 @@ def _days_from_3744(hebrew_year):
     # the order is not kept.
 
     # Molad ד"ר ט"ג
-    if ((leap_left < 12 and week_day == 3 and
-         parts_left_in_day >= get_chalakim(9 + 6, 204)) or
-            # Molad ט"פקת ו"טב
-            (leap_left < 7 and week_day == 2 and
-             parts_left_in_day >= get_chalakim(15 + 6, 589))):
+    if (
+        (
+            leap_left < 12
+            and week_day == 3
+            and parts_left_in_day >= get_chalakim(9 + 6, 204)
+        )
+        or
+        # Molad ט"פקת ו"טב
+        (
+            leap_left < 7
+            and week_day == 2
+            and parts_left_in_day >= get_chalakim(15 + 6, 589)
+        )
+    ):
         days += 1
         week_day += 1
 
@@ -83,10 +92,13 @@ def gdate_to_jdn(date):
     not_jan_or_feb = (14 - date.month) // 12
     year_since_4800bc = date.year + 4800 - not_jan_or_feb
     month_since_4800bc = date.month + 12 * not_jan_or_feb - 3
-    jdn = date.day + (153 * month_since_4800bc + 2) // 5 \
-        + 365 * year_since_4800bc \
-        + (year_since_4800bc // 4 - year_since_4800bc // 100 +
-           year_since_4800bc // 400) - 32045
+    jdn = (
+        date.day
+        + (153 * month_since_4800bc + 2) // 5
+        + 365 * year_since_4800bc
+        + (year_since_4800bc // 4 - year_since_4800bc // 100 + year_since_4800bc // 400)
+        - 32045
+    )
     return jdn
 
 
@@ -159,15 +171,13 @@ def jdn_to_hdate(jdn):
     year = date.year + 3760
 
     jdn_tishrey1 = hdate_to_jdn(HebrewDate(year, Months.Tishrei, 1))
-    jdn_tishrey1_next_year = hdate_to_jdn(
-        HebrewDate(year + 1, Months.Tishrei, 1))
+    jdn_tishrey1_next_year = hdate_to_jdn(HebrewDate(year + 1, Months.Tishrei, 1))
 
     # Check if computed year was underestimated
     if jdn_tishrey1_next_year <= jdn:
         year = year + 1
         jdn_tishrey1 = jdn_tishrey1_next_year
-        jdn_tishrey1_next_year = hdate_to_jdn(
-            HebrewDate(year + 1, Months.Tishrei, 1))
+        jdn_tishrey1_next_year = hdate_to_jdn(HebrewDate(year + 1, Months.Tishrei, 1))
 
     size_of_year = get_size_of_hebrew_year(year)
 
@@ -187,7 +197,7 @@ def jdn_to_hdate(jdn):
             month = month + 8
     else:  # in 4-5 first months
         # Special cases for this year
-        if size_of_year % 10 > 4 and days == 59:   # long Heshvan (day 30)
+        if size_of_year % 10 > 4 and days == 59:  # long Heshvan (day 30)
             month = 1
             day = 30
         elif size_of_year % 10 > 4 and days > 59:  # long Heshvan

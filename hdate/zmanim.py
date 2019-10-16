@@ -34,8 +34,14 @@ class Zmanim(BaseClass):
     """
 
     # pylint: disable=too-many-arguments
-    def __init__(self, date=dt.datetime.now(), location=Location(),
-                 hebrew=True, candle_lighting_offset=18, havdalah_offset=0):
+    def __init__(
+        self,
+        date=dt.datetime.now(),
+        location=Location(),
+        hebrew=True,
+        candle_lighting_offset=18,
+        havdalah_offset=0,
+    ):
         """
         Initialize the Zmanim object.
 
@@ -74,54 +80,64 @@ class Zmanim(BaseClass):
 
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
-        return u"".join([
-            u"{} - {}\n".format(
-                zman.description[self.hebrew],
-                self.zmanim[zman.zman].time()) for zman in htables.ZMANIM])
+        return u"".join(
+            [
+                u"{} - {}\n".format(
+                    zman.description[self.hebrew], self.zmanim[zman.zman].time()
+                )
+                for zman in htables.ZMANIM
+            ]
+        )
 
     def __repr__(self):
         """Return a representation of Zmanim for programmatic use."""
         # As time zone information is not really reusable due to DST, when
         # creating a __repr__ of zmanim, we show a timezone naive datetime.
-        return ("Zmanim(date={}, location={}, hebrew={})".format(
-            repr(self.time.astimezone(
-                self.location.timezone).replace(tzinfo=None)),
-            repr(self.location), self.hebrew))
+        return "Zmanim(date={}, location={}, hebrew={})".format(
+            repr(self.time.astimezone(self.location.timezone).replace(tzinfo=None)),
+            repr(self.location),
+            self.hebrew,
+        )
 
     @property
     def utc_zmanim(self):
         """Return a dictionary of the zmanim in UTC time format."""
-        basetime = dt.datetime.combine(self.date, dt.time()).replace(
-            tzinfo=pytz.utc)
+        basetime = dt.datetime.combine(self.date, dt.time()).replace(tzinfo=pytz.utc)
         _LOGGER.debug("Calculating UTC zmanim for %r", basetime)
         return {
-            key: basetime + dt.timedelta(minutes=value) for key, value in
-            self.get_utc_sun_time_full().items()}
+            key: basetime + dt.timedelta(minutes=value)
+            for key, value in self.get_utc_sun_time_full().items()
+        }
 
     @property
     def zmanim(self):
         """Return a dictionary of the zmanim the object represents."""
-        return {key: value.astimezone(self.location.timezone) for
-                key, value in self.utc_zmanim.items()}
+        return {
+            key: value.astimezone(self.location.timezone)
+            for key, value in self.utc_zmanim.items()
+        }
 
     @property
     def candle_lighting(self):
         """Return the time for candle lighting, or None if not applicable."""
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
-        tomorrow = HDate(gdate=self.date + dt.timedelta(days=1),
-                         diaspora=self.location.diaspora)
+        tomorrow = HDate(
+            gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
+        )
 
         # If today is a Yom Tov or Shabbat, and tomorrow is a Yom Tov or
         # Shabbat return the havdalah time as the candle lighting time.
-        if ((today.is_yom_tov or today.is_shabbat)
-                and (tomorrow.is_yom_tov or tomorrow.is_shabbat)):
+        if (today.is_yom_tov or today.is_shabbat) and (
+            tomorrow.is_yom_tov or tomorrow.is_shabbat
+        ):
             return self._havdalah_datetime
 
         # Otherwise, if today is Friday or erev Yom Tov, return candle
         # lighting.
         if tomorrow.is_shabbat or tomorrow.is_yom_tov:
-            return (self.zmanim["sunset"]
-                    - dt.timedelta(minutes=self.candle_lighting_offset))
+            return self.zmanim["sunset"] - dt.timedelta(
+                minutes=self.candle_lighting_offset
+            )
         return None
 
     @property
@@ -130,8 +146,7 @@ class Zmanim(BaseClass):
         if self.havdalah_offset == 0:
             return self.zmanim["three_stars"]
         # Otherwise, use the offset.
-        return (self.zmanim["sunset"]
-                + dt.timedelta(minutes=self.havdalah_offset))
+        return self.zmanim["sunset"] + dt.timedelta(minutes=self.havdalah_offset)
 
     @property
     def havdalah(self):
@@ -144,8 +159,9 @@ class Zmanim(BaseClass):
         misleading the user that melacha is permitted).
         """
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
-        tomorrow = HDate(gdate=self.date + dt.timedelta(days=1),
-                         diaspora=self.location.diaspora)
+        tomorrow = HDate(
+            gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
+        )
 
         # If today is Yom Tov or Shabbat, and tomorrow is Yom Tov or Shabbat,
         # then there is no havdalah value for today. Technically, there is
@@ -161,17 +177,19 @@ class Zmanim(BaseClass):
     def issur_melacha_in_effect(self):
         """At the given time, return whether issur melacha is in effect."""
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
-        tomorrow = HDate(gdate=self.date + dt.timedelta(days=1),
-                         diaspora=self.location.diaspora)
+        tomorrow = HDate(
+            gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
+        )
 
-        if ((today.is_shabbat or today.is_yom_tov) and
-                (tomorrow.is_shabbat or tomorrow.is_yom_tov)):
+        if (today.is_shabbat or today.is_yom_tov) and (
+            tomorrow.is_shabbat or tomorrow.is_yom_tov
+        ):
             return True
-        if ((today.is_shabbat or today.is_yom_tov) and
-                (self.time < self.havdalah)):
+        if (today.is_shabbat or today.is_yom_tov) and (self.time < self.havdalah):
             return True
-        if ((tomorrow.is_shabbat or tomorrow.is_yom_tov) and
-                (self.time > self.candle_lighting)):
+        if (tomorrow.is_shabbat or tomorrow.is_yom_tov) and (
+            self.time > self.candle_lighting
+        ):
             return True
 
         return False
@@ -196,9 +214,9 @@ class Zmanim(BaseClass):
         The low accuracy solar position equations are used.
         These routines are based on Jean Meeus's book Astronomical Algorithms.
         """
-        gama = 0        # location of sun in yearly cycle in radians
-        eqtime = 0      # difference betwen sun noon and clock noon
-        decl = 0        # sun declanation
+        gama = 0  # location of sun in yearly cycle in radians
+        eqtime = 0  # difference betwen sun noon and clock noon
+        decl = 0  # sun declanation
         hour_angle = 0  # solar hour angle
         sunrise_angle = math.pi * deg / 180.0  # sun angle at sunrise/set
 
@@ -209,28 +227,34 @@ class Zmanim(BaseClass):
         gama = 2.0 * math.pi * ((day_of_year - 1) / 365.0)
 
         # get the diff betwen suns clock and wall clock in minutes
-        eqtime = 229.18 * (0.000075 + 0.001868 * math.cos(gama) -
-                           0.032077 * math.sin(gama) -
-                           0.014615 * math.cos(2.0 * gama) -
-                           0.040849 * math.sin(2.0 * gama))
+        eqtime = 229.18 * (
+            0.000075
+            + 0.001868 * math.cos(gama)
+            - 0.032077 * math.sin(gama)
+            - 0.014615 * math.cos(2.0 * gama)
+            - 0.040849 * math.sin(2.0 * gama)
+        )
 
         # calculate suns declanation at the equater in radians
-        decl = (0.006918 - 0.399912 * math.cos(gama) +
-                0.070257 * math.sin(gama) -
-                0.006758 * math.cos(2.0 * gama) +
-                0.000907 * math.sin(2.0 * gama) -
-                0.002697 * math.cos(3.0 * gama) +
-                0.00148 * math.sin(3.0 * gama))
+        decl = (
+            0.006918
+            - 0.399912 * math.cos(gama)
+            + 0.070257 * math.sin(gama)
+            - 0.006758 * math.cos(2.0 * gama)
+            + 0.000907 * math.sin(2.0 * gama)
+            - 0.002697 * math.cos(3.0 * gama)
+            + 0.00148 * math.sin(3.0 * gama)
+        )
 
         # we use radians, ratio is 2pi/360
         latitude = math.pi * self.location.latitude / 180.0
 
         # the sun real time diff from noon at sunset/rise in radians
         try:
-            hour_angle = (math.acos(
-                math.cos(sunrise_angle) /
-                (math.cos(latitude) * math.cos(decl)) -
-                math.tan(latitude) * math.tan(decl)))
+            hour_angle = math.acos(
+                math.cos(sunrise_angle) / (math.cos(latitude) * math.cos(decl))
+                - math.tan(latitude) * math.tan(decl)
+            )
         # check for too high altitudes and return negative values
         except ValueError:
             return -720, -720
@@ -241,8 +265,10 @@ class Zmanim(BaseClass):
         # get sunset/rise times in utc wall clock in minutes from 00:00 time
         # sunrise / sunset
         longitude = self.location.longitude
-        return int(720.0 - 4.0 * longitude - hour_angle - eqtime), \
-            int(720.0 - 4.0 * longitude + hour_angle - eqtime)
+        return (
+            int(720.0 - 4.0 * longitude - hour_angle - eqtime),
+            int(720.0 - 4.0 * longitude + hour_angle - eqtime),
+        )
 
     def get_utc_sun_time_full(self):
         """Return a list of Jewish times for the given location."""
@@ -260,16 +286,23 @@ class Zmanim(BaseClass):
         _, three_stars = self._get_utc_sun_time_deg(98.5)
         mga_sunhour = (midday - first_light) / 6
 
-        res = dict(sunrise=sunrise, sunset=sunset, sun_hour=sun_hour,
-                   midday=midday, first_light=first_light, talit=talit,
-                   first_stars=first_stars, three_stars=three_stars,
-                   plag_mincha=sunset - 1.25 * sun_hour,
-                   stars_out=sunset + 18. * sun_hour / 60.,
-                   small_mincha=sunrise + 9.5 * sun_hour,
-                   big_mincha=sunrise + 6.5 * sun_hour,
-                   mga_end_shma=first_light + mga_sunhour * 3.,
-                   gra_end_shma=sunrise + sun_hour * 3.,
-                   mga_end_tfila=first_light + mga_sunhour * 4.,
-                   gra_end_tfila=sunrise + sun_hour * 4.,
-                   midnight=midday + 12 * 60.)
+        res = dict(
+            sunrise=sunrise,
+            sunset=sunset,
+            sun_hour=sun_hour,
+            midday=midday,
+            first_light=first_light,
+            talit=talit,
+            first_stars=first_stars,
+            three_stars=three_stars,
+            plag_mincha=sunset - 1.25 * sun_hour,
+            stars_out=sunset + 18.0 * sun_hour / 60.0,
+            small_mincha=sunrise + 9.5 * sun_hour,
+            big_mincha=sunrise + 6.5 * sun_hour,
+            mga_end_shma=first_light + mga_sunhour * 3.0,
+            gra_end_shma=sunrise + sun_hour * 3.0,
+            mga_end_tfila=first_light + mga_sunhour * 4.0,
+            gra_end_tfila=sunrise + sun_hour * 4.0,
+            midnight=midday + 12 * 60.0,
+        )
         return res
