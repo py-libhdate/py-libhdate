@@ -19,8 +19,8 @@ with open(join(here, "README.rst"), encoding="utf-8") as f:
 
 REQUIRES = ["pytz"]
 
-if sys.version_info == (2, 7):
-    REQUIRES.extend("enum34")
+if sys.version_info.major < 3:
+    REQUIRES.extend(["enum34"])
 
 setup(
     name="hdate",
