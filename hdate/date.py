@@ -308,7 +308,7 @@ class HDate(BaseClass):
 
         If specified, use the list of types to limit the holidays returned.
         """
-        _LOGGER.info("Looking up holidays of types %s", types)
+        _LOGGER.debug("Looking up holidays of types %s", types)
         # Filter any non-related holidays depending on Israel/Diaspora only
         holidays_list = [
             holiday
