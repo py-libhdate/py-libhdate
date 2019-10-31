@@ -3,7 +3,7 @@
 
 __author__ = "Royi Reshef"
 __maintainer__ = "Tsvi Mostovicz"
-__version__ = "0.9.1"
+__version__ = "0.9.2"
 
 import sys
 from codecs import open
