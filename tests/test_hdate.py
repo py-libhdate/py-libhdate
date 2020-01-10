@@ -397,6 +397,16 @@ class TestSpecialDays(object):
             rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 9, day)
             assert rand_hdate.omer_day == day + 44
 
+    def test_daf_yomi(self):
+        # Random test date
+        myhdate = HDate(gdate=datetime.date(2014, 4, 28), hebrew=False)
+        assert myhdate.daf_yomi == ("Beitzah", 29)
+        # Beginning/end of cycle:
+        myhdate = HDate(gdate=datetime.date(2020, 1, 4), hebrew=False)
+        assert myhdate.daf_yomi == ("Niddah", 73)
+        myhdate = HDate(gdate=datetime.date(2020, 1, 5), hebrew=False)
+        assert myhdate.daf_yomi == ("Berachos", 2)
+
 
 class TestHDateReading(object):
 
