@@ -400,13 +400,16 @@ class TestSpecialDays(object):
     def test_daf_yomi(self):
         # Random test date
         myhdate = HDate(gdate=datetime.date(2014, 4, 28), hebrew=False)
-        assert myhdate.daf_yomi == ("Beitzah", 29)
+        assert myhdate.daf_yomi_string == "Beitzah 29"
         # Beginning/end of cycle:
         myhdate = HDate(gdate=datetime.date(2020, 1, 4), hebrew=False)
-        assert myhdate.daf_yomi == ("Niddah", 73)
+        assert myhdate.daf_yomi_string == "Niddah 73"
         myhdate = HDate(gdate=datetime.date(2020, 1, 5), hebrew=False)
-        assert myhdate.daf_yomi == ("Berachos", 2)
-
+        assert myhdate.daf_yomi_string == "Berachos 2"
+        myhdate = HDate(gdate=datetime.date(2020, 3, 7), hebrew=True)
+        assert myhdate.daf_yomi_string == "ברכות סד"
+        myhdate = HDate(gdate=datetime.date(2020, 3, 8), hebrew=True)
+        assert myhdate.daf_yomi_string == "שבת ב"
 
 class TestHDateReading(object):
 

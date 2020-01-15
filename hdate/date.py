@@ -239,18 +239,24 @@ class HDate(BaseClass):
     def daf_yomi(self):
         """Return a tuple of mesechta and daf."""
         days_since_start_cycle_11 = (self.gdate - htables.DAF_YOMI_CYCLE_11_START).days
-        daf_number = days_since_start_cycle_11 % (htables.DAF_YOMI_TOTAL_PAGES)
+        page_number = days_since_start_cycle_11 % (htables.DAF_YOMI_TOTAL_PAGES)
         for mesechta in htables.DAF_YOMI_MESECHTOS:
-            if daf_number >= mesechta["pages"]:
-                daf_number -= mesechta["pages"]
+            if page_number >= mesechta.pages:
+                page_number -= mesechta.pages
             else:
                 break
+        daf_number = page_number + 2
+        return mesechta, daf_number
+
+    @property
+    def daf_yomi_string(self):
+        mesechta, daf_number = self.daf_yomi
         if self.hebrew:
-            heb_number = hebrew_number(daf_number + 2)
-            heb_number = heb_number.replace("'", "").replace('"', "")
-            return mesechta["heb_name"], heb_number
+            mesechta_name = mesechta.name.hebrew
         else:
-            return mesechta["en_name"], daf_number + 2
+            mesechta_name = mesechta.name.english
+        daf = hebrew_number(daf_number, self.hebrew, short=True)
+        return "%s %s" % (mesechta_name, daf)
 
     @property
     def next_day(self):
