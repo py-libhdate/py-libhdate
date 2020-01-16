@@ -236,7 +236,7 @@ class HDate(BaseClass):
         return omer_day
 
     @property
-    def daf_yomi(self):
+    def daf_yomi_repr(self):
         """Return a tuple of mesechta and daf."""
         days_since_start_cycle_11 = (self.gdate - htables.DAF_YOMI_CYCLE_11_START).days
         page_number = days_since_start_cycle_11 % (htables.DAF_YOMI_TOTAL_PAGES)
@@ -249,8 +249,8 @@ class HDate(BaseClass):
         return mesechta, daf_number
 
     @property
-    def daf_yomi_string(self):
-        mesechta, daf_number = self.daf_yomi
+    def daf_yomi(self):
+        mesechta, daf_number = self.daf_yomi_repr
         if self.hebrew:
             mesechta_name = mesechta.name.hebrew
         else:
