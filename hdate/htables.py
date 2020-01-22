@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Constant lookup tables for hdate modules."""
 
-from collections import namedtuple
 import datetime
+from collections import namedtuple
 from enum import Enum
 
 READING = namedtuple("READING", "year_type, readings")

@@ -250,13 +250,14 @@ class HDate(BaseClass):
 
     @property
     def daf_yomi(self):
+        """Return a string representation of the daf yomi."""
         mesechta, daf_number = self.daf_yomi_repr
         if self.hebrew:
             mesechta_name = mesechta.name.hebrew
         else:
             mesechta_name = mesechta.name.english
         daf = hebrew_number(daf_number, self.hebrew, short=True)
-        return "%s %s" % (mesechta_name, daf)
+        return u"{} {}".format(mesechta_name, daf)
 
     @property
     def next_day(self):
