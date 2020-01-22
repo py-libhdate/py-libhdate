@@ -236,6 +236,29 @@ class HDate(BaseClass):
         return omer_day
 
     @property
+    def daf_yomi_repr(self):
+        """Return a tuple of mesechta and daf."""
+        days_since_start_cycle_11 = (self.gdate - htables.DAF_YOMI_CYCLE_11_START).days
+        page_number = days_since_start_cycle_11 % (htables.DAF_YOMI_TOTAL_PAGES)
+        for mesechta in htables.DAF_YOMI_MESECHTOS:
+            if page_number >= mesechta.pages:
+                page_number -= mesechta.pages
+            else:
+                break
+        daf_number = page_number + 2
+        return mesechta, daf_number
+
+    @property
+    def daf_yomi(self):
+        mesechta, daf_number = self.daf_yomi_repr
+        if self.hebrew:
+            mesechta_name = mesechta.name.hebrew
+        else:
+            mesechta_name = mesechta.name.english
+        daf = hebrew_number(daf_number, self.hebrew, short=True)
+        return "%s %s" % (mesechta_name, daf)
+
+    @property
     def next_day(self):
         """Return the HDate for the next day."""
         return HDate(self.gdate + datetime.timedelta(1), self.diaspora, self.hebrew)

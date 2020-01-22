@@ -2,6 +2,7 @@
 """Constant lookup tables for hdate modules."""
 
 from collections import namedtuple
+import datetime
 from enum import Enum
 
 READING = namedtuple("READING", "year_type, readings")
@@ -814,3 +815,50 @@ ZMANIM = (
     ZMAN("first_stars", LANG(u"First stars", u"צאת הככבים")),
     ZMAN("midnight", LANG(u"Midnight", u"חצות הלילה")),
 )
+
+# The first few cycles were only 2702 blatt. After that it became 2711. Even with
+# that, the math doesn't play nicely with the dates before the 11th cycle :(
+# From cycle 11 onwards, it was simple and sequential
+DAF_YOMI_CYCLE_11_START = datetime.date(1997, 9, 29)
+MESECHTA = namedtuple("MESECHTA", ["name", "pages"])
+DAF_YOMI_MESECHTOS = (
+    MESECHTA(LANG(u"Berachos", u"ברכות"), 63),
+    MESECHTA(LANG(u"Shabbos", u"שבת"), 156),
+    MESECHTA(LANG(u"Eruvin", u"עירובין"), 104),
+    MESECHTA(LANG(u"Pesachim", u"פסחים"), 120),
+    MESECHTA(LANG(u"Shekalim", u"שקלים"), 21),
+    MESECHTA(LANG(u"Yoma", u"יומא"), 87),
+    MESECHTA(LANG(u"Succah", u"סוכה"), 55),
+    MESECHTA(LANG(u"Beitzah", u"ביצה"), 39),
+    MESECHTA(LANG(u"Rosh Hashanah", u"ראש השנה"), 34),
+    MESECHTA(LANG(u"Taanis", u"תענית"), 30),
+    MESECHTA(LANG(u"Megillah", u"מגילה"), 31),
+    MESECHTA(LANG(u"Moed Katan", u"מועד קטן"), 28),
+    MESECHTA(LANG(u"Chagigah", u"חגיגה"), 26),
+    MESECHTA(LANG(u"Yevamos", u"יבמות"), 121),
+    MESECHTA(LANG(u"Kesubos", u"כתובות"), 111),
+    MESECHTA(LANG(u"Nedarim", u"נדרים"), 90),
+    MESECHTA(LANG(u"Nazir", u"נזיר"), 65),
+    MESECHTA(LANG(u"Sotah", u"סוטה"), 48),
+    MESECHTA(LANG(u"Gittin", u"גיטין"), 89),
+    MESECHTA(LANG(u"Kiddushin", u"קידושין"), 81),
+    MESECHTA(LANG(u"Bava Kamma", u"בבא קמא"), 118),
+    MESECHTA(LANG(u"Bava Metzia", u"בבא מציעא"), 118),
+    MESECHTA(LANG(u"Bava Basra", u"בבא בתרא"), 175),
+    MESECHTA(LANG(u"Sanhedrin", u"סנהדרין"), 112),
+    MESECHTA(LANG(u"Makkos", u"מכות"), 23),
+    MESECHTA(LANG(u"Shevuos", u"שבועות"), 48),
+    MESECHTA(LANG(u"Avodah Zarah", u"עבודה זרה"), 75),
+    MESECHTA(LANG(u"Horayos", u"הוריות"), 13),
+    MESECHTA(LANG(u"Zevachim", u"זבחים"), 119),
+    MESECHTA(LANG(u"Menachos", u"מנחות"), 109),
+    MESECHTA(LANG(u"Chullin", u"חולין"), 141),
+    MESECHTA(LANG(u"Bechoros", u"בכורות"), 60),
+    MESECHTA(LANG(u"Arachin", u"ערכין"), 33),
+    MESECHTA(LANG(u"Temurah", u"תמורה"), 33),
+    MESECHTA(LANG(u"Kereisos", u"כריתות"), 27),
+    MESECHTA(LANG(u"Meilah", u"מעילה"), 36),
+    MESECHTA(LANG(u"Niddah", u"נדה"), 72),
+)
+
+DAF_YOMI_TOTAL_PAGES = sum(mesechta.pages for mesechta in DAF_YOMI_MESECHTOS)
