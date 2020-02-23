@@ -19,15 +19,17 @@ script:
 deploy:
   - provider: releases
     api_key:
-      secure: OCMlrxuR6pchBYn+Kgwn9J+17iT7xbEGgUd20UHZJTetVI75yvjgrMIucD3F4KCaeWIdGyvM2QdHxSTv9X7UQ356RdoH3fgcfQwn+JRNjG2aDVgDSiVmayaz1CEMCpeTE8PE/o+elumpyyzbB7iYoiQcP78ciR8FMJTA2iOgTU9eRuj6dqdpHpWka7pYdpePgdNTAck0pV+l0bvq29SyGfdXgL77uP5WIOuTMsvTPjg4uxsPRtCL/Iur7Sbg1hly7f2+xTXh0iwVn5OeK8OqFJQZWC9aLWlH0eLrTxyQlgCKyNpmZBPMFSeGEtFnzO0k+RKA2PwO9MM6WXhO7aG+xA8Sgz+kGqMYqWE9zALftJiUKjn/R4CEJqzCm0N8iN+idA31zTMG7vvysAHYZ4Y2/TTWvIMn8jMb6OO92diwna8f6iF2iosTnhr20C1SOw9Uu7+qTZ4l+RXPqv5sdbfz+1pW/IdJ9VlIFSGt0tEauT3Irpph1Ipa17ECJptNjwiH2wz/TWc7V1esS4IVKzSro98m1r6LopS+xH8GCYAxDWS5Itw2YHD4q9UpWymVxco8ja+1mHHMZl/AF9h+l+TRVilfRqiEum5x7X4kGjMv4nR9ibZXbmbgQqHss+C6vTkUtZ7ZZeITFzaJ5S9MKj2PRbO4N4xnMsl7ap2OniKjuec=
+      secure: $GITHUB_DEPLOYMENT_KEY
     file_glob: true
     file: dist/*
     skip_cleanup: true
     on:
-      repo: royi/py-libhdate
+      tags: true
   - provider: pypi
     user: __token__
     distributions: sdist bdist_wheel
     skip_existing: true
     password:
-      secure: Uu5RpECz8da8KdunERnrXBV5sp+WuVp6wGqF5+TKzX9zmnecdiU4fWu13BAJArp28y8f0/FrCqFcbZu1FxXLySjRWw5s9iUh4iPfhJbc7FerFDVbCq3x6kn7TZkNhNrQezJOkxASiz557Wcaq8Lur3YY4EGoApxCdxmGi7jD2av1NRT5eeWu6VsoTdrWLRTg8GPV/v5oUSAXwMruZJ1A3M2exGcsxtoWSfp0TkhV8SrsshMsJlTOMyIJRUfcIbirhmSHxZ+yrnGsvFk8nU/HsfYKsmYusVhhqHhu26VBulsFLSuqM1+BBLn1FWpB8OeNv1dRvIZUar/z/dPnVhnMX/2NvbJrlttF4TMWs+WW5Cfn5qCBJTJn77PDqkHoeBdD3rsuy8SHo5mCSJKIDEhcCPOs1SO+zst5SqnkYnXRF0WZnApu9JVITun1q+Cjj7mNqeIPn8hAVHZgcYI5asVaymqYJUUvoZsB0Cha8FPantj8Msbg+UPh6b3XVGV8XujT20Bdp57utoYBUKm2GsC2+v5pcDSJjtERHLg52gl5s7xZV+LWemZjfCH0qaZqeH5UEEgMk7kQ8nNCjr+1FzMEPV45wjhJdxBgd1uyGPh+XvGZLWXzTQzp6vTBwMPJbgBVUnS8aanDUbd5gFOt6hhnYB1wy/GC5p/65Um85zbZVw4=
+      secure: $PYPI_DEPLOYMENT_KEY
+    on:
+      tags: true
