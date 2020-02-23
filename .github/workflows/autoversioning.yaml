@@ -25,4 +25,7 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PYPI_USERNAME: ${{ secrets.PYPI_USERNAME }}
         PYPI_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
-      run: semantic-release publish
+      run: |
+        git config --global user.email ttmost@gmail.com
+        git config --global user.name Tsvi Mostovicz
+        semantic-release publish
