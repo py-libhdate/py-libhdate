@@ -52,7 +52,7 @@ dependencies.
 Coding style guidelines
 -----------------------
 
-We use black for all of our code formatting
-No large files are allowed.
-No commits to master are allowed.
-Pull requests should match semantc versioning formatting.
+- We use black for all of our code formatting
+- No large files are allowed.
+- No commits to master are allowed.
+- Pull requests should match semantc versioning formatting.
