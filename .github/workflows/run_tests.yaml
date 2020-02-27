@@ -1,6 +1,9 @@
 name: Python package
 
-on: [push]
+on:
+  pull_request:
+    paths-ignore:
+      - '*.rst'  # Don't run tests on README/DEVELOPMENT files
 
 jobs:
   build:
