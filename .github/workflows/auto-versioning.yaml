@@ -1,0 +1,66 @@
+# Every time a new version is requested by the PR via the deploy label:
+#   - bump version
+#   - generate CHANGELOG
+#   - tag a new release with the data from the changelog
+
+name: Auto-Versioning
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  update-changelog:
+    if: github.event.pull_request.merged && contains( github.event.pull_request.labels.*.name, 'deploy-')
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.x'
+    - name: Setup dependencies and config
+      run: |
+        python -m pip install --upgrade pip
+        pip install bumpversion gitchangelog
+        git config user.name 'Py-libhdate Auto-version'
+        git config user.email 'auto-version.py-libhdate@users.noreply.github.com'
+
+    - name: Bump version patch
+      if: contains(github.event.pull_request.labels.*.name, 'deploy-patch')
+      run: bumpversion patch
+
+    - name: Bump version minor
+      if: contains(github.event.pull_request.labels.*.name, 'deploy-minor')
+      run: bumpversion minor
+
+    - name: Bump version major
+      if: contains(github.event.pull_request.labels.*.name, 'deploy-major')
+      run: bumpversion major
+
+    - name: Update changelog
+      run: |
+        gitchangelog > CHANGELOG.rst
+        git add CHANGELOG.rst
+        git commit -m "Update changelog"
+
+    - name: Get current version
+      id: current_version
+      run: echo "::set-output name=version_number::$(git describe --tags)"
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v2
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        title: 'Update to {{ steps.current_version.outputs.version_number }}'
+        body: |
+          Update version to {{ steps.current_version.outputs.version_number }}
+        labels: automerge
+    - name: Merge pull requests
+      uses: pascalgn/automerge-action@v0.7.5
+      env:
+        GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        MERGE_METHOD: "squash"
+        MERGE_DELETE_BRANCH: "true"
