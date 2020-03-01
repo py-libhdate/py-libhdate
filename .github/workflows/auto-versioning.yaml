@@ -51,13 +51,13 @@ jobs:
       run: echo "::set-output name=version_number::$(git describe --tags)"
 
     - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v2
+      uses: repo-sync/pull-request@v2
       with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        title: 'Update to {{ steps.current_version.outputs.version_number }}'
-        body: |
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        pr_title: 'Update to {{ steps.current_version.outputs.version_number }}'
+        pr_body: |
           Update version to {{ steps.current_version.outputs.version_number }}
-        labels: automerge
+        pr_label: automerge
     - name: Merge pull requests
       uses: pascalgn/automerge-action@v0.7.5
       env:
