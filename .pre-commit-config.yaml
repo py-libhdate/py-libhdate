@@ -5,7 +5,9 @@ repos:
   rev: v2.4.0
   hooks:
   - id: trailing-whitespace
+    exclude: 'setup.cfg'
   - id: end-of-file-fixer
+    exclude: 'setup.cfg|CHANGELOG.rst'
   - id: check-added-large-files
   - id: detect-private-key
   - id: no-commit-to-branch
