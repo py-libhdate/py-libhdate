@@ -27,7 +27,7 @@ setup(
     version=__version__,
     description="Hebrew date and Zmanim",
     long_description=long_description,
-    url="https://github.com/royi1000/py-libhdate",
+    url="https://github.com/py-libhdate/py-libhdate",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",  # noqa: E501
