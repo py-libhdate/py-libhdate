@@ -1,0 +1,33 @@
+# Every time a new tag is pushed publish to PyPI
+
+name: Auto-Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  publish-release:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Set up Python 3.x
+      uses: actions/setup-python@v1
+      with:
+        python-version: '3.x'
+    - name: Setup dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install wheel
+
+    - name: Generate package
+      run: python setup.py sdist bdist_wheel
+
+    - name: Publish a Python distribution to PyPI
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_PASSWORD }}
