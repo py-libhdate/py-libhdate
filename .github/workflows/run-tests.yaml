@@ -1,7 +1,7 @@
 name: Run tests
 
 on:
-  pull_request:
+  push:
     paths-ignore:
       - '*.rst'  # Don't run tests on README/DEVELOPMENT files
 
