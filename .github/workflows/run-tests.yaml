@@ -1,6 +1,13 @@
 name: Run tests
 
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore:
+      # Master is locked down and will only accept pull requests. Since they already
+      # have been tested, don't test them again.
+      - 'master'
+
+  pull_request:
 
 jobs:
   test:
