@@ -2,12 +2,10 @@ name: Run tests
 
 on:
   push:
-    branches-ignore:
-      # Master is locked down and will only accept pull requests. Since they already
-      # have been tested, don't test them again.
-      - 'master'
+    branches: [master]
 
   pull_request:
+    branches: [master]
 
 jobs:
   test:
