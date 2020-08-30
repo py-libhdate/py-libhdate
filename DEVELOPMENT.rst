@@ -14,9 +14,9 @@ create virtual environment ...
 
 .. code :: shell
 
-   $ python3 -m venv hdate
-   $ cd hdate
-   $ . bin/activate
+   $ python3 -m venv venv
+   $ source venv/bin/activate
+   
 
 and install the package as editable:
 
