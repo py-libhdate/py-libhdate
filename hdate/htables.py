@@ -812,7 +812,7 @@ ZMANIM = (
     ZMAN("small_mincha", LANG(u"Small Mincha", u"מנחה קטנה")),
     ZMAN("plag_mincha", LANG(u"Plag Mincha", u"פלג מנחה")),
     ZMAN("sunset", LANG(u"Sunset", u"שקיעה")),
-    ZMAN("first_stars", LANG(u"First stars", u"צאת הככבים")),
+    ZMAN("first_stars", LANG(u"First stars", u"צאת הכוכבים")),
     ZMAN("midnight", LANG(u"Midnight", u"חצות הלילה")),
 )
 
