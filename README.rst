@@ -1,9 +1,26 @@
+***********
 py-libhdate
-===========
+***********
 
 Jewish/Hebrew date and Zmanim in native python 2.7/3.x
 
 Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more details (including license)
+
+===========
+
+Installation using pip:
+#######################
+
+.. code :: shell
+
+    $ pip install hdate
+
+===========
+
+Examples:
+#########
+
+base code to provide times of the day in hebrew:
 
 .. code :: python
 
@@ -30,7 +47,7 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
     צאת הכוכבים - 19:35:00
     חצות הלילה - 00:39:00
 
-===========
+and in english:
 
 .. code :: python
 
@@ -56,16 +73,7 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 
 ===========
 
-.. code :: python
-
-    >>> h = hdate.HDate(datetime.date(2016, 4, 18), hebrew=False)
-    >>> print(h)
-
-::
-
-    Monday 10 Nisan 5776
-
-===========
+to provide the full hebrew date:
 
 .. code :: python
 
@@ -75,3 +83,14 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 ::
 
     יום שלישי י"ח בניסן התשע"ו ג' בעומר חול המועד פסח
+
+and in english:
+
+.. code :: python
+
+    >>> h = hdate.HDate(datetime.date(2016, 4, 18), hebrew=False)
+    >>> print(h)
+
+::
+
+    Monday 10 Nisan
