@@ -10,8 +10,8 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
     >>> import hdate
     >>> import datetime
     >>> c = hdate.Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c)
-    >>> print z
+    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c, hebrew=True)
+    >>> print(z)
 
 ::
 
@@ -27,13 +27,13 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
     מנחה קטנה - 16:26:30
     פלג מנחה - 17:48:45
     שקיעה - 19:10:00
-    צאת הככבים - 19:35:00
+    צאת הכוכבים - 19:35:00
     חצות הלילה - 00:39:00
 
 .. code :: python
 
-    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c)
-    >>> print z
+    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c, hebrew=False)
+    >>> print(z)
 
 ::
 
@@ -55,7 +55,7 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 .. code :: python
 
     >>> h=hdate.HDate(datetime.date(2016, 4, 18), hebrew=False)
-    >>> print h
+    >>> print(h)
 
 ::
 
@@ -64,7 +64,7 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
 .. code :: python
 
     >>> h=hdate.HDate(datetime.date(2016, 4, 26), hebrew=True)
-    >>> print h
+    >>> print(h)
 
 ::
 
