@@ -30,6 +30,8 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
     צאת הכוכבים - 19:35:00
     חצות הלילה - 00:39:00
 
+===========
+
 .. code :: python
 
     >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c, hebrew=False)
@@ -52,18 +54,22 @@ Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more d
     First stars - 19:35:00
     Midnight - 00:39:00
 
+===========
+
 .. code :: python
 
-    >>> h=hdate.HDate(datetime.date(2016, 4, 18), hebrew=False)
+    >>> h = hdate.HDate(datetime.date(2016, 4, 18), hebrew=False)
     >>> print(h)
 
 ::
 
     Monday 10 Nisan 5776
 
+===========
+
 .. code :: python
 
-    >>> h=hdate.HDate(datetime.date(2016, 4, 26), hebrew=True)
+    >>> h = hdate.HDate(datetime.date(2016, 4, 26), hebrew=True)
     >>> print(h)
 
 ::
