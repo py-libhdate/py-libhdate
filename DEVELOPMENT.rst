@@ -8,6 +8,7 @@ Create your personal fork of the project.
 After cloning the environment ...
 
 .. code :: shell
+
    $ git clone git@github.com:<your username>/py-libhdate.git
 
 create virtual environment ...
