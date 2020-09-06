@@ -804,15 +804,15 @@ ZMANIM = (
     ZMAN("talit", LANG(u"Talit & Tefilin's time", u"זמן טלית ותפילין")),
     ZMAN("sunrise", LANG(u"Sunrise", u"הנץ החמה")),
     ZMAN("mga_end_shma", LANG(u'Shema EOT MG"A', u'סוף זמן ק"ש מג"א')),
-    ZMAN("gra_end_shma", LANG(u'Shema EOT GR"A', u'סוף זמן ק"ש הגר"א')),
+    ZMAN("gra_end_shma", LANG(u'Shema EOT GR"A', u'סוף זמן ק"ש גר"א')),
     ZMAN("mga_end_tfila", LANG(u'Tefila EOT MG"A', u'סוף זמן תפילה מג"א')),
     ZMAN("gra_end_tfila", LANG(u'Tefila EOT GR"A', u'סוף זמן תפילה גר"א')),
     ZMAN("midday", LANG(u"Midday", u"חצות היום")),
     ZMAN("big_mincha", LANG(u"Big Mincha", u"מנחה גדולה")),
     ZMAN("small_mincha", LANG(u"Small Mincha", u"מנחה קטנה")),
-    ZMAN("plag_mincha", LANG(u"Plag Mincha", u"פלג מנחה")),
+    ZMAN("plag_mincha", LANG(u"Plag Mincha", u"פלג המנחה")),
     ZMAN("sunset", LANG(u"Sunset", u"שקיעה")),
-    ZMAN("first_stars", LANG(u"First stars", u"צאת הככבים")),
+    ZMAN("first_stars", LANG(u"First stars", u"צאת הכוכבים")),
     ZMAN("midnight", LANG(u"Midnight", u"חצות הלילה")),
 )
 
