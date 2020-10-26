@@ -188,7 +188,7 @@ class Zmanim(BaseClass):
         if (today.is_shabbat or today.is_yom_tov) and (self.time < self.havdalah):
             return True
         if (tomorrow.is_shabbat or tomorrow.is_yom_tov) and (
-            self.time > self.candle_lighting
+            self.time >= self.candle_lighting
         ):
             return True
 

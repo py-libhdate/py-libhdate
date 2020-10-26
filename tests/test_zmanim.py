@@ -82,7 +82,7 @@ class TestZmanim(object):
     # Times are assumed for NYC.
     CANDLES_TEST = [
         (dt(2018, 9, 7, 13, 1), 18, dt(2018, 9, 7, 19, 4), False),
-        (dt(2018, 9, 7, 20, 1), 18, dt(2018, 9, 7, 19, 4), True),
+        (dt(2018, 9, 7, 19, 4), 18, dt(2018, 9, 7, 19, 4), True),
         (dt(2018, 9, 8, 13, 1), 18, None, True),
         (dt(2018, 9, 19, 22, 1), 18, None, False),
         (dt(2018, 9, 9, 16, 1), 20, dt(2018, 9, 9, 18, 59), False),
