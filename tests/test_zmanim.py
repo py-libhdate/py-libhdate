@@ -1,7 +1,8 @@
 import datetime
 import random
+import sys
 from calendar import isleap
-from datetime import datetime as dt
+from datetime import datetime as dt, timedelta as td
 
 import pytest
 import pytz
@@ -9,11 +10,27 @@ import pytz
 from hdate import Zmanim
 from hdate.common import Location
 
+_ASTRAL = "astral" in sys.modules
+
 # pylint: disable=no-self-use
 # pylint-comment: In tests, classes are just a grouping semantic
 
 NYC_LAT = 40.7128
 NYC_LNG = -74.0060
+
+
+def compare_dates(date1, date2):
+    if not (date1 or date2):
+        assert date1 == date2
+    else:
+        grace = td(minutes=5 if not _ASTRAL else 0)
+        assert date1 - grace <= date2 <= date1 + grace
+
+
+def compare_times(time1, time2):
+    compare_dates(
+        dt.combine(dt.today(), time1),
+        dt.combine(dt.today(), time2))
 
 
 class TestZmanim(object):
@@ -47,10 +64,11 @@ class TestZmanim(object):
         else:
             other_date = this_date.replace(year=other_year) + shift_day
 
-        assert (
-            Zmanim(this_date).get_utc_sun_time_full()
-            == Zmanim(other_date).get_utc_sun_time_full()
-        )
+        this_zmanim = Zmanim(this_date).get_utc_sun_time_full()
+        other_zmanim = Zmanim(other_date).get_utc_sun_time_full()
+        grace = 0 if not _ASTRAL else 14
+        for key, value in this_zmanim.items():
+            assert value - grace <= other_zmanim[key] <= value + grace, key
 
     def test_using_tzinfo(self):
         day = datetime.date(2018, 9, 8)
@@ -71,25 +89,25 @@ class TestZmanim(object):
             diaspora=True,
         )
 
-        assert Zmanim(date=day, location=location_tz_str).zmanim[
+        compare_times(Zmanim(date=day, location=location_tz_str).zmanim[
             "first_stars"
-        ].time() == datetime.time(19, 48)
+        ].time(), datetime.time(19, 45))
 
-        assert Zmanim(date=day, location=location).zmanim[
+        compare_times(Zmanim(date=day, location=location).zmanim[
             "first_stars"
-        ].time() == datetime.time(19, 48)
+        ].time(), datetime.time(19, 45))
 
     # Times are assumed for NYC.
     CANDLES_TEST = [
-        (dt(2018, 9, 7, 13, 1), 18, dt(2018, 9, 7, 19, 4), False),
-        (dt(2018, 9, 7, 19, 4), 18, dt(2018, 9, 7, 19, 4), True),
+        (dt(2018, 9, 7, 13, 1), 18, dt(2018, 9, 7, 19, 0), False),
+        (dt(2018, 9, 7, 19, 4), 18, dt(2018, 9, 7, 19, 0), True),
         (dt(2018, 9, 8, 13, 1), 18, None, True),
         (dt(2018, 9, 19, 22, 1), 18, None, False),
-        (dt(2018, 9, 9, 16, 1), 20, dt(2018, 9, 9, 18, 59), False),
-        (dt(2018, 9, 9, 19, 30), 18, dt(2018, 9, 9, 19, 1), True),
+        (dt(2018, 9, 9, 16, 1), 20, dt(2018, 9, 9, 18, 55), False),
+        (dt(2018, 9, 9, 19, 30), 18, dt(2018, 9, 9, 18, 57), True),
         # Candle lighting matches the time that would be havdalah.
-        (dt(2018, 9, 10, 8, 1), 18, dt(2018, 9, 10, 19, 59), True),
-        (dt(2018, 9, 10, 20, 20), 18, dt(2018, 9, 10, 19, 59), True),
+        (dt(2018, 9, 10, 8, 1), 18, dt(2018, 9, 10, 19, 55), True),
+        (dt(2018, 9, 10, 20, 20), 18, dt(2018, 9, 10, 19, 55), True),
     ]
 
     @pytest.mark.parametrize(
@@ -113,19 +131,19 @@ class TestZmanim(object):
         actual = zmanim.candle_lighting
         if actual is not None:
             actual = actual.replace(tzinfo=None)
-        assert actual == candle_lighting
+        compare_dates(actual, candle_lighting)
         assert zmanim.issur_melacha_in_effect == melacha_assur
 
     # Times are assumed for NYC.
     HAVDALAH_TEST = [
         (dt(2018, 9, 7, 13, 1), 42, None, False),
         (dt(2018, 9, 7, 20, 1), 42, None, True),
-        (dt(2018, 9, 8, 13, 1), 42, dt(2018, 9, 8, 20, 2), True),
-        (dt(2018, 9, 8, 13, 1), 0, dt(2018, 9, 8, 20, 2), True),
-        (dt(2018, 9, 19, 22, 1), 18, dt(2018, 9, 19, 19, 20), False),
+        (dt(2018, 9, 8, 13, 1), 42, dt(2018, 9, 8, 19, 59), True),
+        (dt(2018, 9, 8, 13, 1), 0, dt(2018, 9, 8, 19, 58), True),
+        (dt(2018, 9, 19, 22, 1), 18, dt(2018, 9, 19, 19, 16), False),
         (dt(2018, 9, 9, 16, 1), 0, None, False),
         (dt(2018, 9, 9, 19, 30), 0, None, True),
-        (dt(2018, 9, 11, 16, 1), 0, dt(2018, 9, 11, 19, 57), True),
+        (dt(2018, 9, 11, 16, 1), 0, dt(2018, 9, 11, 19, 53), True),
         # No havdalah in the middle of Yom Tov.
         (dt(2018, 9, 10, 8, 1), 0, None, True),
         (dt(2018, 9, 10, 20, 20), 0, None, True),
@@ -147,5 +165,5 @@ class TestZmanim(object):
         actual = zmanim.havdalah
         if actual is not None:
             actual = actual.replace(tzinfo=None)
-        assert actual == havdalah
+        compare_dates(actual, havdalah)
         assert zmanim.issur_melacha_in_effect == melacha_assur

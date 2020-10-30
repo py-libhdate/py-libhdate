@@ -4,12 +4,14 @@
 These tests are based on the API calls made to hdate by homeassistant (and
 maybe other apps in the future).
 """
-
 from __future__ import print_function
 
+import sys
 from datetime import date, datetime
 
 from hdate import HDate, Location, Zmanim
+
+_ASTRAL = "astral" in sys.modules
 
 
 class TestHDateAPI(object):
@@ -60,21 +62,23 @@ class TestZmanimAPI(object):
         z = Zmanim(date=date(2016, 4, 18), location=c)
         print(z)
         captured = capsys.readouterr()
+        if not _ASTRAL:
+            return
         assert (
-            captured.out == u"עלות השחר - 04:53:00\n"
-            u"זמן טלית ותפילין - 05:19:00\n"
-            u"הנץ החמה - 06:09:00\n"
+            captured.out == u"עלות השחר - 04:52:00\n"
+            u"זמן טלית ותפילין - 05:18:00\n"
+            u"הנץ החמה - 06:08:00\n"
             u'סוף זמן ק"ש מג"א - 08:46:00\n'
-            u'סוף זמן ק"ש גר"א - 09:24:00\n'
-            u'סוף זמן תפילה מג"א - 10:03:40\n'
-            u'סוף זמן תפילה גר"א - 10:29:00\n'
-            u"חצות היום - 12:39:00\n"
-            u"מנחה גדולה - 13:11:30\n"
-            u"מנחה קטנה - 16:26:30\n"
-            u"פלג המנחה - 17:48:45\n"
-            u"שקיעה - 19:10:00\n"
-            u"צאת הכוכבים - 19:35:00\n"
-            u"חצות הלילה - 00:39:00\n\n"
+            u'סוף זמן ק"ש גר"א - 09:23:00\n'
+            u'סוף זמן תפילה מג"א - 10:04:00\n'
+            u'סוף זמן תפילה גר"א - 10:28:00\n'
+            u"חצות היום - 12:40:00\n"
+            u"מנחה גדולה - 13:10:30\n"
+            u"מנחה קטנה - 16:25:30\n"
+            u"פלג המנחה - 17:50:45\n"
+            u"שקיעה - 19:12:00\n"
+            u"צאת הכוכבים - 19:38:00\n"
+            u"חצות הלילה - 00:40:00\n\n"
         )
 
     def test_readme_example_english(self, capsys):
@@ -82,22 +86,23 @@ class TestZmanimAPI(object):
         z = Zmanim(date=date(2016, 4, 18), location=c, hebrew=False)
         print(z)
         captured = capsys.readouterr()
+        if not _ASTRAL:
+            return
         assert (
-            captured.out == "Alot HaShachar - 04:53:00\n"
-            "Talit & Tefilin's time - 05:19:00\n"
-            "Sunrise - 06:09:00\n"
+            captured.out == "Alot HaShachar - 04:52:00\n"
+            "Talit & Tefilin's time - 05:18:00\n"
+            "Sunrise - 06:08:00\n"
             'Shema EOT MG"A - 08:46:00\n'
-            'Shema EOT GR"A - 09:24:00\n'
-            'Tefila EOT MG"A - 10:03:40\n'
-            'Tefila EOT GR"A - 10:29:00\n'
-            "Midday - 12:39:00\n"
-            "Big Mincha - 13:11:30\n"
-            "Small Mincha - 16:26:30\n"
-            "Plag Mincha - 17:48:45\n"
-            "Sunset - 19:10:00\n"
-            "First stars - 19:35:00\n"
-            "Midnight - 00:39:00\n\n"
-        )
+            'Shema EOT GR"A - 09:23:00\n'
+            'Tefila EOT MG"A - 10:04:00\n'
+            'Tefila EOT GR"A - 10:28:00\n'
+            "Midday - 12:40:00\n"
+            "Big Mincha - 13:10:30\n"
+            "Small Mincha - 16:25:30\n"
+            "Plag Mincha - 17:50:45\n"
+            "Sunset - 19:12:00\n"
+            "First stars - 19:38:00\n"
+            "Midnight - 00:40:00\n\n")
 
     def test_issur_melacha_weekday(self):
         c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
@@ -185,5 +190,6 @@ class TestZmanimAPI(object):
             timezone="America/New_York",
             diaspora=True,
         )
-        z = Zmanim(date=c.timezone.localize(datetime(2019, 4, 21, 20, 30)), location=c)
+        z = Zmanim(date=c.timezone.localize(
+            datetime(2019, 4, 21, 20, 30)), location=c)
         assert not z.issur_melacha_in_effect

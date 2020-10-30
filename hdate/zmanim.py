@@ -18,6 +18,14 @@ from hdate import htables
 from hdate.common import BaseClass, Location
 from hdate.date import HDate
 
+try:
+    import astral
+    import astral.sun
+    _USE_ASTRAL = True
+except ImportError:
+    _USE_ASTRAL = False
+
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -77,6 +85,11 @@ class Zmanim(BaseClass):
 
         _LOGGER.debug("Resetting timezone to UTC for calculations")
         self.time = location.timezone.localize(self.time).astimezone(pytz.utc)
+
+        if _USE_ASTRAL:
+            self.astral_observer = astral.Observer(
+                latitude=self.location.latitude, longitude=self.location.longitude)
+            self.astral_sun = astral.sun.sun(self.astral_observer, self.date)
 
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
@@ -270,20 +283,41 @@ class Zmanim(BaseClass):
             int(720.0 - 4.0 * longitude + hour_angle - eqtime),
         )
 
+    def _datetime_to_minutes_offest(self, time):
+        """Return the time in minutes from 00:00 (utc) for a given time."""
+        return (time.hour * 60 +
+                time.minute +
+                (1 if time.second >= 30 else 0) +
+                int((time.date() - self.date).total_seconds() // 60))
+
+    def _get_utc_time_of_transit(self, zenith, rising):
+        """Return the time in minutes from 00:00 (utc) for a given sun altitude."""
+        return self._datetime_to_minutes_offest(astral.sun.time_of_transit(
+            self.astral_observer,
+            self.date,
+            zenith,
+            astral.SunDirection.RISING if rising else astral.SunDirection.SETTING
+        ))
+
     def get_utc_sun_time_full(self):
         """Return a list of Jewish times for the given location."""
-        # sunset and rise time
-        sunrise, sunset = self._get_utc_sun_time_deg(90.833)
+        if not _USE_ASTRAL:
+            sunrise, sunset = self._get_utc_sun_time_deg(90.833)
+            first_light, _ = self._get_utc_sun_time_deg(106.1)
+            talit, _ = self._get_utc_sun_time_deg(101.0)
+            _, first_stars = self._get_utc_sun_time_deg(96.0)
+            _, three_stars = self._get_utc_sun_time_deg(98.5)
+        else:
+            sunrise = self._datetime_to_minutes_offest(self.astral_sun["sunrise"])
+            sunset = self._datetime_to_minutes_offest(self.astral_sun["sunset"])
+            first_light = self._get_utc_time_of_transit(106.1, True)
+            talit = self._get_utc_time_of_transit(101.0, True)
+            first_stars = self._get_utc_time_of_transit(96.0, False)
+            three_stars = self._get_utc_time_of_transit(98.5, False)
 
         # shaa zmanit by gara, 1/12 of light time
         sun_hour = (sunset - sunrise) // 12
         midday = (sunset + sunrise) // 2
-
-        # get times of the different sun angles
-        first_light, _ = self._get_utc_sun_time_deg(106.1)
-        talit, _ = self._get_utc_sun_time_deg(101.0)
-        _, first_stars = self._get_utc_sun_time_deg(96.0)
-        _, three_stars = self._get_utc_sun_time_deg(98.5)
         mga_sunhour = (midday - first_light) / 6
 
         res = dict(

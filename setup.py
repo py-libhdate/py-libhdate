@@ -21,6 +21,8 @@ REQUIRES = ["pytz"]
 
 if sys.version_info.major < 3:
     REQUIRES.extend(["enum34"])
+else:
+    REQUIRES.extend(["astral"])
 
 setup(
     name="hdate",
