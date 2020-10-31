@@ -13,3 +13,8 @@ htmlcov/
 .tox
 .cache
 .pytest_cache/
+
+# sphinx
+_static
+_templates
+_build
