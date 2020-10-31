@@ -17,7 +17,7 @@ jobs:
         echo "::set-env name=VERSION::$(/usr/bin/git tag --list | sed 's|.*v\([0-9\.]*\).*|\1|')"
     - name: Bump version
       run: |
-        sed 's/^__version__ = ".*"/__version__ = "'"${{ env.VERSION }}"'" -i setup.py
+        sed 's/^__version__ = ".*"/__version__ = "'"${{ env.VERSION }}"'"/' -i setup.py
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add setup.py
