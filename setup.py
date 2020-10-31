@@ -41,6 +41,6 @@ setup(
     license="GPLv3+",
     packages=["hdate"],
     install_requires=REQUIRES,
-    extras_require={"dev": ["tox", "pre-commit"]},
+    extras_require={"dev": ["tox", "pre-commit", "sphinx"]},
     python_requires=">=2.7",
 )

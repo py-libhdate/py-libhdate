@@ -14,4 +14,8 @@ htmlcov/
 .tox
 .cache
 .pytest_cache/
-.vscode/settings.json
+
+# sphinx
+_static
+_templates
+_build
