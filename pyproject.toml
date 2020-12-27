@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "hdate"
+version = "0.9.12"
+description = "Jewish/Hebrew date and Zmanim in native Python 2.7/3.x"
+authors = ["Royi Reshef <roy.myapp@gmail.com>"]
+maintainers = ["Tsvi Mostovicz <ttmost@gmail.com>"]
+license = "GPL-3.0-or-later"
+readme = "README.rst"
+repository = "https://github.com/py-libhdate/py-libhdate"
+documentation = "https://py-libhdate.readthedocs.io/en/latest/"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Topic :: Software Development :: Libraries",
+]
+
+[tool.poetry.dependencies]
+python = "~2.7 || ^3.6.1"
+pytz = "^2020.5"
+enum34 = { version = "^1.1.10", python = "~2.7" }
+astral = {version = "^2.2", python = "^3.6"}
+
+[tool.poetry.dev-dependencies]
+tox = "^3.20.1"
+pre-commit = { version = "^2.9.3", python = "^3.6.1" }
+Sphinx = { version = "^3.4.1", python = "^3.6.1" }
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+known_third_party = "pytest"
+known_first_party = "hdate"
+profile = "black"
+
+[tool.pylint.messages_control]
+disable = "C0330, C0326"
+
+[tool.pylint.format]
+max-line-length = "88"
+
+[tool.pytest.ini_options]
+# Show summary output for all types of failures
+# Run doctest that are part of docstrings
+# Run doctest in RST files
+addopts = "-ra --doctest-modules --doctest-glob=*.rst"
