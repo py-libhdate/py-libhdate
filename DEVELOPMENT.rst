@@ -9,28 +9,23 @@ After cloning the environment ...
 
 .. code :: shell
 
-   $ git clone git@github.com:<your username>/py-libhdate.git
+   $ git clone git@github.com:your username>/py-libhdate.git
 
-create virtual environment ...
+If you don't have `poetry` installed on your system, take a look
+at https://python-poetry.org/docs/#installation
 
-.. code :: shell
-
-   $ python3 -m venv venv
-   $ source venv/bin/activate
-   
-
-and install the package as editable:
+Setup the virtual environment by installing the required packages:
 
 .. code :: shell
 
-   $ pip install -e .[dev]
+   $ poetry install
 
 At this point you should install the pre-commit hooks so your commits match those in
 the project:
 
 .. code :: shell
 
-   $ pre-commit install
+   $ poetry run pre-commit install
 
 Create your topic branch
 
@@ -43,7 +38,7 @@ Once the code is ready ...
 
 .. code :: shell
 
-   $ tox
+   $ poetry run tox
 
 If tox passes, you're ready to create a pull request.
 
