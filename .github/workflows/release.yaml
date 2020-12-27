@@ -14,15 +14,15 @@ jobs:
 
     - name: Get version
       run: |
-        echo "::set-env name=VERSION::$(/usr/bin/git tag --list | sed 's|.*v\([0-9\.]*\).*|\1|')"
+        echo "VERSION=$(/usr/bin/git tag --list | sed 's|.*v\([0-9\.]*\).*|\1|')" >> $GITHUB_ENV
     - name: Bump version
       run: |
-        sed 's/^version = ".*"/version = "'"${{ env.VERSION }}"'"/' -i pyproject.toml
+        sed 's/^version = ".*"/version = "'"$VERSION"'"/' -i pyproject.toml
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add pyproject.toml
-        git commit -m "releasing v${{ env.VERSION }}"
-        git tag -f "v${{ env.VERSION }}"
+        git commit -m "releasing v$VERSION"
+        git tag -f "v$VERSION"
     - name: Push changes
       uses: ad-m/github-push-action@v0.5.0
       with:
