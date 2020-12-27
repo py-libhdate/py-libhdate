@@ -1,10 +1,6 @@
 [tool.poetry]
 name = "hdate"
-<<<<<<< HEAD
-version = "0.9.12"
-=======
 version = "0.10.0"
->>>>>>> Accidentally added wrong version
 description = "Jewish/Hebrew date and Zmanim in native Python 2.7/3.x"
 authors = ["Royi Reshef <roy.myapp@gmail.com>"]
 maintainers = ["Tsvi Mostovicz <ttmost@gmail.com>"]
