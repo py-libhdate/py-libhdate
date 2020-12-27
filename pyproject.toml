@@ -41,7 +41,6 @@ max-line-length = "88"
 
 [tool.pytest.ini_options]
 # Show summary output for all types of failures
-# Fail also on XFAIL/XPASS
 # Run doctest that are part of docstrings
 # Run doctest in RST files
-addopts = "-ra --strict --doctest-modules --doctest-glob=*.rst"
+addopts = "-ra --doctest-modules --doctest-glob=*.rst"
