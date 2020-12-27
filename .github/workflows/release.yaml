@@ -20,7 +20,7 @@ jobs:
         sed 's/^version = ".*"/version = "'"${{ env.VERSION }}"'"/' -i pyproject.toml
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add setup.py
+        git add pyproject.toml
         git commit -m "releasing v${{ env.VERSION }}"
         git tag -f "v${{ env.VERSION }}"
     - name: Push changes
@@ -38,16 +38,9 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: '3.x'
-    - name: Setup dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install wheel
 
-    - name: Generate package
-      run: python setup.py sdist bdist_wheel
-
-    - name: Publish a Python distribution to PyPI
-      uses: pypa/gh-action-pypi-publish@master
+    - name: Build and publish using poetry
+      uses: d1618033/gh-action-python-publish-using-poetry@master
       with:
-        user: __token__
-        password: ${{ secrets.PYPI_PASSWORD }}
+        pypi_username: __token__
+        pypi_password: ${{ secrets.PYPI_PASSWORD }}
