@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hdate"
-version = "0.10.3"
+version = "0.10.4"
 description = "Jewish/Hebrew date and Zmanim in native Python 2.7/3.x"
 authors = ["Royi Reshef <roy.myapp@gmail.com>"]
 maintainers = ["Tsvi Mostovicz <ttmost@gmail.com>"]
