@@ -21,6 +21,7 @@ from hdate.date import HDate
 try:
     import astral
     import astral.sun
+
     _USE_ASTRAL = True
 except ImportError:
     _USE_ASTRAL = False
@@ -88,7 +89,8 @@ class Zmanim(BaseClass):
 
         if _USE_ASTRAL:
             self.astral_observer = astral.Observer(
-                latitude=self.location.latitude, longitude=self.location.longitude)
+                latitude=self.location.latitude, longitude=self.location.longitude
+            )
             self.astral_sun = astral.sun.sun(self.astral_observer, self.date)
 
     def __unicode__(self):
@@ -207,6 +209,40 @@ class Zmanim(BaseClass):
 
         return False
 
+    @property
+    def erev_shabbat_hag(self):
+        """At the given time, return whether erev shabat or chag"""
+        today = HDate(gdate=self.date, diaspora=self.location.diaspora)
+        tomorrow = HDate(
+            gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
+        )
+
+        if (
+            (tomorrow.is_shabbat or tomorrow.is_yom_tov)
+            and (not today.is_shabbat and not today.is_yom_tov)
+            and (self.time < self.candle_lighting)
+        ):
+            return True
+
+        return False
+
+    @property
+    def motzei_shabbat_hag(self):
+        """At the given time, return whether motzei shabat or chag"""
+        today = HDate(gdate=self.date, diaspora=self.location.diaspora)
+        tomorrow = HDate(
+            gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
+        )
+
+        if (today.is_shabbat or today.is_yom_tov) and (
+            tomorrow.is_shabbat or tomorrow.is_yom_tov
+        ):
+            return False
+        if (today.is_shabbat or today.is_yom_tov) and (self.time > self.havdalah):
+            return True
+
+        return False
+
     def gday_of_year(self):
         """Return the number of days since January 1 of the given year."""
         return (self.date - dt.date(self.date.year, 1, 1)).days
@@ -285,19 +321,23 @@ class Zmanim(BaseClass):
 
     def _datetime_to_minutes_offest(self, time):
         """Return the time in minutes from 00:00 (utc) for a given time."""
-        return (time.hour * 60 +
-                time.minute +
-                (1 if time.second >= 30 else 0) +
-                int((time.date() - self.date).total_seconds() // 60))
+        return (
+            time.hour * 60
+            + time.minute
+            + (1 if time.second >= 30 else 0)
+            + int((time.date() - self.date).total_seconds() // 60)
+        )
 
     def _get_utc_time_of_transit(self, zenith, rising):
         """Return the time in minutes from 00:00 (utc) for a given sun altitude."""
-        return self._datetime_to_minutes_offest(astral.sun.time_of_transit(
-            self.astral_observer,
-            self.date,
-            zenith,
-            astral.SunDirection.RISING if rising else astral.SunDirection.SETTING
-        ))
+        return self._datetime_to_minutes_offest(
+            astral.sun.time_of_transit(
+                self.astral_observer,
+                self.date,
+                zenith,
+                astral.SunDirection.RISING if rising else astral.SunDirection.SETTING,
+            )
+        )
 
     def get_utc_sun_time_full(self):
         """Return a list of Jewish times for the given location."""
