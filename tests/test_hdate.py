@@ -739,9 +739,9 @@ class TestHDateReading(object):
         mydate.gdate += tdelta
 
         shabatot = [item for subl in parshiyot for item in subl]
-        for shabat in shabatot:
+        for shabbat in shabatot:
             print("Testing: ", mydate)
-            assert mydate.get_reading() == shabat
+            assert mydate.get_reading() == shabbat
             mydate.gdate += datetime.timedelta(days=7)
         mydate.hdate = HebrewDate(year, 1, 22)
         # VeZot Habracha in Israel always falls on 22 of Tishri
@@ -757,9 +757,9 @@ class TestHDateReading(object):
         mydate.gdate += tdelta
 
         shabatot = [item for subl in parshiyot for item in subl]
-        for shabat in shabatot:
+        for shabbat in shabatot:
             print("Testing: ", mydate)
-            assert mydate.get_reading() == shabat
+            assert mydate.get_reading() == shabbat
             mydate.gdate += datetime.timedelta(days=7)
         mydate.hdate = HebrewDate(year, 1, 23)
         # VeZot Habracha in Israel always falls on 22 of Tishri
