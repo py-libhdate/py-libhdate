@@ -210,8 +210,8 @@ class Zmanim(BaseClass):
         return False
 
     @property
-    def erev_shabbat_hag(self):
-        """At the given time, return whether erev shabat or chag"""
+    def erev_shabbat_chag(self):
+        """At the given time, return whether erev shabbat or chag"""
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
         tomorrow = HDate(
             gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
@@ -227,8 +227,8 @@ class Zmanim(BaseClass):
         return False
 
     @property
-    def motzei_shabbat_hag(self):
-        """At the given time, return whether motzei shabat or chag"""
+    def motzei_shabbat_chag(self):
+        """At the given time, return whether motzei shabbat or chag"""
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
         tomorrow = HDate(
             gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
