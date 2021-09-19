@@ -169,7 +169,7 @@ class TestZmanim(object):
         assert zmanim.issur_melacha_in_effect == melacha_assur
 
     # Times are assumed for NYC.
-    MOTZEI_SHABBAT_HAG_TEST = [
+    MOTZEI_SHABBAT_CHAG_TEST = [
         (dt(2018, 9, 7, 13, 1), 42, False),
         (dt(2018, 9, 7, 20, 1), 42, False),
         (dt(2018, 9, 8, 13, 1), 42, False),
@@ -184,9 +184,9 @@ class TestZmanim(object):
     ]
 
     @pytest.mark.parametrize(
-        ["now", "offset", "motzei_shabbat_hag"], MOTZEI_SHABBAT_HAG_TEST
+        ["now", "offset", "motzei_shabbat_chag"], MOTZEI_SHABBAT_CHAG_TEST
     )
-    def test_motzei_shabbat_hag(self, now, offset, motzei_shabbat_hag):
+    def test_motzei_shabbat_chag(self, now, offset, motzei_shabbat_chag):
         location_tz_str = Location(
             name="New York",
             latitude=NYC_LAT,
@@ -196,10 +196,10 @@ class TestZmanim(object):
         )
         # Use a constant offset for Havdalah for unit test stability.
         zmanim = Zmanim(date=now, location=location_tz_str, havdalah_offset=offset)
-        assert zmanim.motzei_shabbat_hag == motzei_shabbat_hag
+        assert zmanim.motzei_shabbat_chag == motzei_shabbat_chag
 
     # Times are assumed for NYC.
-    EREV_SHABBAT_HAG_TEST = [
+    EREV_SHABBAT_CHAG_TEST = [
         (dt(2018, 9, 7, 13, 1), 42, True),  # fri
         (dt(2018, 9, 7, 20, 1), 42, False),
         (dt(2018, 9, 8, 13, 1), 42, False),  # sat
@@ -217,9 +217,9 @@ class TestZmanim(object):
     ]
 
     @pytest.mark.parametrize(
-        ["now", "offset", "erev_shabbat_hag"], EREV_SHABBAT_HAG_TEST
+        ["now", "offset", "erev_shabbat_chag"], EREV_SHABBAT_CHAG_TEST
     )
-    def test_erev_shabbat_hag(self, now, offset, erev_shabbat_hag):
+    def test_erev_shabbat_hag(self, now, offset, erev_shabbat_chag):
         location_tz_str = Location(
             name="New York",
             latitude=NYC_LAT,
@@ -229,4 +229,4 @@ class TestZmanim(object):
         )
         # Use a constant offset for Havdalah for unit test stability.
         zmanim = Zmanim(date=now, location=location_tz_str, havdalah_offset=offset)
-        assert zmanim.erev_shabbat_hag == erev_shabbat_hag
+        assert zmanim.erev_shabbat_chag == erev_shabbat_chag
