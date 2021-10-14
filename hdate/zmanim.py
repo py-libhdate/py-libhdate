@@ -360,23 +360,22 @@ class Zmanim(BaseClass):
         midday = (sunset + sunrise) // 2
         mga_sunhour = (midday - first_light) / 6
 
-        res = dict(
-            sunrise=sunrise,
-            sunset=sunset,
-            sun_hour=sun_hour,
-            midday=midday,
-            first_light=first_light,
-            talit=talit,
-            first_stars=first_stars,
-            three_stars=three_stars,
-            plag_mincha=sunset - 1.25 * sun_hour,
-            stars_out=sunset + 18.0 * sun_hour / 60.0,
-            small_mincha=sunrise + 9.5 * sun_hour,
-            big_mincha=sunrise + 6.5 * sun_hour,
-            mga_end_shma=first_light + mga_sunhour * 3.0,
-            gra_end_shma=sunrise + sun_hour * 3.0,
-            mga_end_tfila=first_light + mga_sunhour * 4.0,
-            gra_end_tfila=sunrise + sun_hour * 4.0,
-            midnight=midday + 12 * 60.0,
-        )
-        return res
+        return {
+            "sunrise": sunrise,
+            "sunset": sunset,
+            "sun_hour": sun_hour,
+            "midday": midday,
+            "first_light": first_light,
+            "talit": talit,
+            "first_stars": first_stars,
+            "three_stars": three_stars,
+            "plag_mincha": sunset - 1.25 * sun_hour,
+            "stars_out": sunset + 18.0 * sun_hour / 60.0,
+            "small_mincha": sunrise + 9.5 * sun_hour,
+            "big_mincha": sunrise + 6.5 * sun_hour,
+            "mga_end_shma": first_light + mga_sunhour * 3.0,
+            "gra_end_shma": sunrise + sun_hour * 3.0,
+            "mga_end_tfila": first_light + mga_sunhour * 4.0,
+            "gra_end_tfila": sunrise + sun_hour * 4.0,
+            "midnight": midday + 12 * 60.0,
+        }
