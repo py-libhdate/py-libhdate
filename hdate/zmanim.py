@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Jewish calendrical times for a given location.
 

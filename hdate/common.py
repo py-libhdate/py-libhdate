@@ -1,23 +1,17 @@
 """Small helper classes."""
 
-import datetime
-import sys
+from datetime import tzinfo
 
 import pytz
 
 from hdate.htables import Months
 
 
-class BaseClass(object):  # pylint: disable=useless-object-inheritance
+class BaseClass:
     """Implement basic functionality for all classes."""
 
     def __str__(self):
         """Return a string representation."""
-        if sys.version_info.major < 3:
-            # pylint: disable=undefined-variable
-            # pylint-comment: When using python3 and up, unicode() is undefined
-            return unicode(self).encode("utf-8")  # noqa: F821
-
         return self.__unicode__()
 
     def __unicode__(self):  # pragma: no cover
@@ -88,6 +82,4 @@ class Location(BaseClass):
     @timezone.setter
     def timezone(self, value):
         """Set the timezone."""
-        self._timezone = (
-            value if isinstance(value, datetime.tzinfo) else pytz.timezone(value)
-        )
+        self._timezone = value if isinstance(value, tzinfo) else pytz.timezone(value)

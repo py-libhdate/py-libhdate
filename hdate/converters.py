@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 """Methods for going back and forth between various calendars."""
 from __future__ import division
 
