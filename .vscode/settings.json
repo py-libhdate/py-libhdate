@@ -1,3 +1,8 @@
 {
-    "restructuredtext.confPath": ""
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true,
+    "esbonio.sphinx.confDir": "",
+    "files.associations": {
+        "*.yaml": "home-assistant"
+    }
 }
