@@ -14,19 +14,19 @@ classifiers = [
 ]
 
 [tool.poetry.dependencies]
-python = "^3.7.2"
-pytz = "^2020.5"
-astral = {version = "^2.2", python = "^3.6"}
+python = "^3.7.10"
+pytz = "^2022.2.1"
+astral = "^2.2"
 
 [tool.poetry.dev-dependencies]
-tox = "^3.20.1"
-pre-commit = "^2.9.3"
-Sphinx = "^3.4.1"
-pylint = "^2.14.3"
+tox = "^3.26.0"
+pre-commit = "^2.20.0"
+Sphinx = "^4.0"
+pylint = "^2.15.3"
 isort = "^5.10.1"
-black = "^22.6.0"
-flake8 = "^4.0.1"
-pytest = "^7.1.2"
+black = "^22.8.0"
+flake8 = "^5.0.4"
+pytest = "^7.1.3"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
