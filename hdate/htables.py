@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Constant lookup tables for hdate modules."""
 
 import datetime
