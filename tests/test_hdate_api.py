@@ -32,7 +32,7 @@ class TestHDateAPI(object):
     def test_get_hebrew_date(self):
         """Print the hebrew date."""
         test_date = datetime(2018, 11, 2)
-        assert HDate(test_date).hebrew_date == u'כ"ד מרחשוון ה\' תשע"ט'
+        assert HDate(test_date).hebrew_date == 'כ"ד מרחשוון ה\' תשע"ט'
         assert HDate(test_date, hebrew=False).hebrew_date == "24 Marcheshvan 5779"
 
     def test_get_upcoming_parasha(self):
@@ -66,10 +66,10 @@ class TestZmanimAPI(object):
             captured.out == "עלות השחר - 04:52:00\n"
             "זמן טלית ותפילין - 05:18:00\n"
             "הנץ החמה - 06:08:00\n"
-            u'סוף זמן ק"ש מג"א - 08:46:00\n'
-            u'סוף זמן ק"ש גר"א - 09:23:00\n'
-            u'סוף זמן תפילה מג"א - 10:04:00\n'
-            u'סוף זמן תפילה גר"א - 10:28:00\n'
+            'סוף זמן ק"ש מג"א - 08:46:00\n'
+            'סוף זמן ק"ש גר"א - 09:23:00\n'
+            'סוף זמן תפילה מג"א - 10:04:00\n'
+            'סוף זמן תפילה גר"א - 10:28:00\n'
             "חצות היום - 12:40:00\n"
             "מנחה גדולה - 13:10:30\n"
             "מנחה קטנה - 16:25:30\n"

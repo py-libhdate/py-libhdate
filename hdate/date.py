@@ -494,7 +494,7 @@ def hebrew_number(num, hebrew=True, short=False):
         if len(hstring) < 2:
             hstring += "'"
         else:
-            hstring = hstring[:-1] + u'"' + hstring[-1]
+            hstring = hstring[:-1] + '"' + hstring[-1]
     return hstring
 
 
