@@ -93,9 +93,9 @@ class Zmanim(BaseClass):
 
     def __unicode__(self):
         """Return a Unicode representation of Zmanim."""
-        return u"".join(
+        return "".join(
             [
-                u"{} - {}\n".format(
+                "{} - {}\n".format(
                     zman.description[self.hebrew], self.zmanim[zman.zman].time()
                 )
                 for zman in htables.ZMANIM

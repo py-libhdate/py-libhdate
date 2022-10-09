@@ -405,9 +405,9 @@ class TestSpecialDays(object):
         myhdate = HDate(gdate=datetime.date(2020, 1, 5), hebrew=False)
         assert myhdate.daf_yomi == "Berachos 2"
         myhdate = HDate(gdate=datetime.date(2020, 3, 7), hebrew=True)
-        assert myhdate.daf_yomi == u"ברכות סד"
+        assert myhdate.daf_yomi == "ברכות סד"
         myhdate = HDate(gdate=datetime.date(2020, 3, 8), hebrew=True)
-        assert myhdate.daf_yomi == u"שבת ב"
+        assert myhdate.daf_yomi == "שבת ב"
 
 
 class TestHDateReading(object):

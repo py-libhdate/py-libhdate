@@ -26,7 +26,7 @@ class TestHDateAPI(object):
         print(hdate)
         captured = capsys.readouterr()
         assert (
-            captured.out == u"יום שלישי י\"ח בניסן ה' תשע\"ו ג' בעומר חול המועד פסח\n"
+            captured.out == "יום שלישי י\"ח בניסן ה' תשע\"ו ג' בעומר חול המועד פסח\n"
         )
 
     def test_get_hebrew_date(self):
@@ -38,19 +38,19 @@ class TestHDateAPI(object):
     def test_get_upcoming_parasha(self):
         """Check that the upcoming parasha is correct."""
         test_date = datetime(2018, 11, 2)
-        assert HDate(test_date).parasha == u"חיי שרה"
+        assert HDate(test_date).parasha == "חיי שרה"
         assert HDate(test_date, hebrew=False).parasha == "Chayei Sara"
 
     def test_get_upcoming_parasha_vezot_habracha(self):
         """Check that the upcoming parasha is correct for vezot habracha."""
         test_date = datetime(2018, 9, 30)
-        assert HDate(test_date).parasha == u"וזאת הברכה"
+        assert HDate(test_date).parasha == "וזאת הברכה"
         assert HDate(test_date, hebrew=False).parasha == "Vezot Habracha"
 
     def test_get_holiday_description(self):
         """Check that the holiday description is correct."""
         test_date = datetime(2018, 12, 3)
-        assert HDate(test_date).holiday_description == u"חנוכה"
+        assert HDate(test_date).holiday_description == "חנוכה"
         assert HDate(test_date, hebrew=False).holiday_description == "Chanukah"
 
 
@@ -63,20 +63,20 @@ class TestZmanimAPI(object):
         if not _ASTRAL:
             return
         assert (
-            captured.out == u"עלות השחר - 04:52:00\n"
-            u"זמן טלית ותפילין - 05:18:00\n"
-            u"הנץ החמה - 06:08:00\n"
+            captured.out == "עלות השחר - 04:52:00\n"
+            "זמן טלית ותפילין - 05:18:00\n"
+            "הנץ החמה - 06:08:00\n"
             u'סוף זמן ק"ש מג"א - 08:46:00\n'
             u'סוף זמן ק"ש גר"א - 09:23:00\n'
             u'סוף זמן תפילה מג"א - 10:04:00\n'
             u'סוף זמן תפילה גר"א - 10:28:00\n'
-            u"חצות היום - 12:40:00\n"
-            u"מנחה גדולה - 13:10:30\n"
-            u"מנחה קטנה - 16:25:30\n"
-            u"פלג המנחה - 17:50:45\n"
-            u"שקיעה - 19:12:00\n"
-            u"צאת הכוכבים - 19:38:00\n"
-            u"חצות הלילה - 00:40:00\n\n"
+            "חצות היום - 12:40:00\n"
+            "מנחה גדולה - 13:10:30\n"
+            "מנחה קטנה - 16:25:30\n"
+            "פלג המנחה - 17:50:45\n"
+            "שקיעה - 19:12:00\n"
+            "צאת הכוכבים - 19:38:00\n"
+            "חצות הלילה - 00:40:00\n\n"
         )
 
     def test_readme_example_english(self, capsys):

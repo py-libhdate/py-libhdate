@@ -48,21 +48,21 @@ class HDate(BaseClass):
 
     def __unicode__(self):
         """Return a full Unicode representation of HDate."""
-        result = u"{}{} {} {}{} {}".format(
-            u"יום " if self.hebrew else u"",
+        result = "{}{} {} {}{} {}".format(
+            "יום " if self.hebrew else "",
             htables.DAYS[self.dow - 1][self.hebrew][0],
             hebrew_number(self.hdate.day, hebrew=self.hebrew),
-            u"ב" if self.hebrew else u"",
+            "ב" if self.hebrew else "",
             htables.MONTHS[self.hdate.month.value - 1][self.hebrew],
             hebrew_number(self.hdate.year, hebrew=self.hebrew),
         )
 
         if 0 < self.omer_day < 50:
-            result += u" " + hebrew_number(self.omer_day, hebrew=self.hebrew)
-            result += u" " + u"בעומר" if self.hebrew else u" in the Omer"
+            result += " " + hebrew_number(self.omer_day, hebrew=self.hebrew)
+            result += " " + "בעומר" if self.hebrew else " in the Omer"
 
         if self.holiday_description:
-            result += u" " + self.holiday_description
+            result += " " + self.holiday_description
         return result
 
     def __repr__(self):
@@ -134,7 +134,7 @@ class HDate(BaseClass):
     @property
     def hebrew_date(self):
         """Return the hebrew date string."""
-        return u"{} {} {}".format(
+        return "{} {} {}".format(
             hebrew_number(self.hdate.day, hebrew=self.hebrew),  # Day
             htables.MONTHS[self.hdate.month.value - 1][self.hebrew],  # Month
             hebrew_number(self.hdate.year, hebrew=self.hebrew),  # Year
@@ -255,7 +255,7 @@ class HDate(BaseClass):
         else:
             mesechta_name = mesechta.name.english
         daf = hebrew_number(daf_number, self.hebrew, short=True)
-        return u"{} {}".format(mesechta_name, daf)
+        return "{} {}".format(mesechta_name, daf)
 
     @property
     def next_day(self):
@@ -471,10 +471,10 @@ def hebrew_number(num, hebrew=True, short=False):
         return str(num)
     if not 0 <= num < 10000:
         raise ValueError("num must be between 0 to 9999, got:{}".format(num))
-    hstring = u""
+    hstring = ""
     if num >= 1000:
         hstring += htables.DIGITS[0][num // 1000]
-        hstring += u"' "
+        hstring += "' "
         num = num % 1000
     while num >= 400:
         hstring += htables.DIGITS[2][4]
@@ -492,7 +492,7 @@ def hebrew_number(num, hebrew=True, short=False):
     # possibly add the ' and " to hebrew numbers
     if not short:
         if len(hstring) < 2:
-            hstring += u"'"
+            hstring += "'"
         else:
             hstring = hstring[:-1] + u'"' + hstring[-1]
     return hstring
@@ -501,58 +501,58 @@ def hebrew_number(num, hebrew=True, short=False):
 def get_omer_string(omer):  # pylint: disable=too-many-branches
     """Return a string representing the count of the Omer."""
     # TODO: The following function should be simplified (see pylint)
-    tens = [u"", u"עשרה", u"עשרים", u"שלושים", u"ארבעים"]
+    tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
     ones = [
-        u"",
-        u"אחד",
-        u"שנים",
-        u"שלושה",
-        u"ארבעה",
-        u"חמשה",
-        u"ששה",
-        u"שבעה",
-        u"שמונה",
-        u"תשעה",
+        "",
+        "אחד",
+        "שנים",
+        "שלושה",
+        "ארבעה",
+        "חמשה",
+        "ששה",
+        "שבעה",
+        "שמונה",
+        "תשעה",
     ]
     if not 0 < omer < 50:
         raise ValueError("Invalid Omer day: {}".format(omer))
     ten = omer // 10
     one = omer % 10
-    omer_string = u"היום "
+    omer_string = "היום "
     if 10 < omer < 20:
-        omer_string += ones[one] + u" עשר"
+        omer_string += ones[one] + " עשר"
     elif omer > 9:
         omer_string += ones[one]
         if one:
-            omer_string += u" ו"
+            omer_string += " ו"
     if omer > 2:
         if omer > 20 or omer in [10, 20]:
             omer_string += tens[ten]
         if omer < 11:
-            omer_string += ones[one] + u" ימים "
+            omer_string += ones[one] + " ימים "
         else:
-            omer_string += u" יום "
+            omer_string += " יום "
     elif omer == 1:
-        omer_string += u"יום אחד "
+        omer_string += "יום אחד "
     else:  # omer == 2
-        omer_string += u"שני ימים "
+        omer_string += "שני ימים "
     if omer > 6:
-        omer_string += u"שהם "
+        omer_string += "שהם "
         weeks = omer // 7
         days = omer % 7
         if weeks > 2:
-            omer_string += ones[weeks] + u" שבועות "
+            omer_string += ones[weeks] + " שבועות "
         elif weeks == 1:
-            omer_string += u"שבוע אחד "
+            omer_string += "שבוע אחד "
         else:  # weeks == 2
-            omer_string += u"שני שבועות "
+            omer_string += "שני שבועות "
         if days:
-            omer_string += u"ו"
+            omer_string += "ו"
             if days > 2:
-                omer_string += ones[days] + u" ימים "
+                omer_string += ones[days] + " ימים "
             elif days == 1:
-                omer_string += u"יום אחד "
+                omer_string += "יום אחד "
             else:  # days == 2
-                omer_string += u"שני ימים "
-    omer_string += u"לעומר"
+                omer_string += "שני ימים "
+    omer_string += "לעומר"
     return omer_string
