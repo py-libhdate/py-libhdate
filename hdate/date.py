@@ -104,9 +104,9 @@ class HDate(BaseClass):
             date = self.hdate
 
         if not isinstance(date, HebrewDate):
-            raise TypeError("date: {} is not of type HebrewDate".format(date))
+            raise TypeError(f"date: {date} is not of type HebrewDate")
         if not 0 < date.day < 31:
-            raise ValueError("day ({}) legal values are 1-31".format(date.day))
+            raise ValueError("day ({date.day}) legal values are 1-31")
 
         self._last_updated = "hdate"
         self._hdate = date
@@ -255,7 +255,7 @@ class HDate(BaseClass):
         else:
             mesechta_name = mesechta.name.english
         daf = hebrew_number(daf_number, self.hebrew, short=True)
-        return "{} {}".format(mesechta_name, daf)
+        return f"{mesechta_name} {daf}"
 
     @property
     def next_day(self):
@@ -470,7 +470,7 @@ def hebrew_number(num, hebrew=True, short=False):
     if not hebrew:
         return str(num)
     if not 0 <= num < 10000:
-        raise ValueError("num must be between 0 to 9999, got:{}".format(num))
+        raise ValueError(f"num must be between 0 to 9999, got:{num}")
     hstring = ""
     if num >= 1000:
         hstring += htables.DIGITS[0][num // 1000]
@@ -515,7 +515,7 @@ def get_omer_string(omer):  # pylint: disable=too-many-branches
         "תשעה",
     ]
     if not 0 < omer < 50:
-        raise ValueError("Invalid Omer day: {}".format(omer))
+        raise ValueError(f"Invalid Omer day: {omer}")
     ten = omer // 10
     one = omer % 10
     omer_string = "היום "
