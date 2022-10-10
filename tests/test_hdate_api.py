@@ -12,7 +12,7 @@ from hdate import HDate, Location, Zmanim
 _ASTRAL = "astral" in sys.modules
 
 
-class TestHDateAPI(object):
+class TestHDateAPI:
     def test_readme_example_english(self, capsys):
         test_date = date(2016, 4, 18)
         hdate = HDate(test_date, hebrew=False)
@@ -25,9 +25,7 @@ class TestHDateAPI(object):
         hdate = HDate(test_date, hebrew=True)
         print(hdate)
         captured = capsys.readouterr()
-        assert (
-            captured.out == "יום שלישי י\"ח בניסן ה' תשע\"ו ג' בעומר חול המועד פסח\n"
-        )
+        assert captured.out == "יום שלישי י\"ח בניסן ה' תשע\"ו ג' בעומר חול המועד פסח\n"
 
     def test_get_hebrew_date(self):
         """Print the hebrew date."""
@@ -54,7 +52,7 @@ class TestHDateAPI(object):
         assert HDate(test_date, hebrew=False).holiday_description == "Chanukah"
 
 
-class TestZmanimAPI(object):
+class TestZmanimAPI:
     def test_readme_example_hebrew(self, capsys):
         c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
         z = Zmanim(date=date(2016, 4, 18), location=c)
@@ -100,7 +98,8 @@ class TestZmanimAPI(object):
             "Plag Mincha - 17:50:45\n"
             "Sunset - 19:12:00\n"
             "First stars - 19:38:00\n"
-            "Midnight - 00:40:00\n\n")
+            "Midnight - 00:40:00\n\n"
+        )
 
     def test_issur_melacha_weekday(self):
         c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
@@ -188,6 +187,5 @@ class TestZmanimAPI(object):
             timezone="America/New_York",
             diaspora=True,
         )
-        z = Zmanim(date=c.timezone.localize(
-            datetime(2019, 4, 21, 20, 30)), location=c)
+        z = Zmanim(date=c.timezone.localize(datetime(2019, 4, 21, 20, 30)), location=c)
         assert not z.issur_melacha_in_effect

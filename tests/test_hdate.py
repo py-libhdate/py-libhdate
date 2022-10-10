@@ -1,3 +1,4 @@
+"""Test HDate."""
 from __future__ import print_function
 
 import datetime
@@ -60,7 +61,7 @@ HEBREW_YEARS_INFO = {
 }
 
 
-class TestHDate(object):
+class TestHDate:
     @pytest.fixture
     def default_values(self):
         return HDate()
@@ -134,7 +135,7 @@ class TestHDate(object):
         assert (rand_hdate.next_day.gdate - rand_hdate.gdate) == datetime.timedelta(1)
 
 
-class TestSpecialDays(object):
+class TestSpecialDays:
 
     NON_MOVING_HOLIDAYS = [
         ((1, 1), "rosh_hashana_i"),
@@ -410,7 +411,7 @@ class TestSpecialDays(object):
         assert myhdate.daf_yomi == "שבת ב"
 
 
-class TestHDateReading(object):
+class TestHDateReading:
 
     READINGS_FOR_YEAR_DIASPORA = [
         # שנים מעוברות

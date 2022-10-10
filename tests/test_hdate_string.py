@@ -1,3 +1,4 @@
+"""Test Strings."""
 import random
 
 import pytest
@@ -8,7 +9,7 @@ import hdate.date as dt
 # pylint-comment: In tests, classes are just a grouping semantic
 
 
-class TestOmer(object):
+class TestOmer:
     """Test get_omer_string"""
 
     OMER_STRINGS = [
@@ -40,7 +41,7 @@ class TestOmer(object):
             dt.get_omer_string(random.randint(-100, 0))
 
 
-class TestHebrewNumbers(object):
+class TestHebrewNumbers:
     """Test hebrew_number"""
 
     NUMBERS = [

@@ -7,7 +7,7 @@ from hdate.common import HebrewDate
 from hdate.htables import Months
 
 
-class TestConverters(object):
+class TestConverters:
     def test_gdate_to_gdate(self, random_date):
         assert conv.jdn_to_gdate(conv.gdate_to_jdn(random_date)) == random_date
 

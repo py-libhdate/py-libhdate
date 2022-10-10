@@ -1,3 +1,4 @@
+"""Test Zmanim."""
 import datetime
 import random
 import sys
@@ -31,7 +32,7 @@ def compare_times(time1, time2):
     compare_dates(dt.combine(dt.today(), time1), dt.combine(dt.today(), time2))
 
 
-class TestZmanim(object):
+class TestZmanim:
     def test_bad_date(self):
         with pytest.raises(TypeError):
             Zmanim(date="bad value")
