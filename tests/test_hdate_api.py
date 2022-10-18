@@ -2,8 +2,6 @@
 These tests are based on the API calls made to hdate by homeassistant (and
 maybe other apps in the future).
 """
-from __future__ import print_function
-
 import sys
 from datetime import date, datetime
 
@@ -13,7 +11,11 @@ _ASTRAL = "astral" in sys.modules
 
 
 class TestHDateAPI:
+    """Test the HDate API provided in the README."""
+
     def test_readme_example_english(self, capsys):
+        """Test the README example in English."""
+
         test_date = date(2016, 4, 18)
         hdate = HDate(test_date, hebrew=False)
         print(hdate)
@@ -21,6 +23,7 @@ class TestHDateAPI:
         assert captured.out == "Monday 10 Nisan 5776\n"
 
     def test_readme_example_hebrew(self, capsys):
+        """Test the README example in Hebrew."""
         test_date = date(2016, 4, 26)
         hdate = HDate(test_date, hebrew=True)
         print(hdate)
@@ -53,10 +56,13 @@ class TestHDateAPI:
 
 
 class TestZmanimAPI:
+    """Test the API provided in the README."""
+
     def test_readme_example_hebrew(self, capsys):
-        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        z = Zmanim(date=date(2016, 4, 18), location=c)
-        print(z)
+        """Test for hebrew."""
+        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        zman = Zmanim(date=date(2016, 4, 18), location=coord)
+        print(zman)
         captured = capsys.readouterr()
         if not _ASTRAL:
             return
@@ -74,13 +80,14 @@ class TestZmanimAPI:
             "פלג המנחה - 17:50:45\n"
             "שקיעה - 19:12:00\n"
             "צאת הכוכבים - 19:38:00\n"
-            "חצות הלילה - 00:40:00\n\n"
+            "חצות הלילה - 00:40:00\n"
         )
 
     def test_readme_example_english(self, capsys):
-        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        z = Zmanim(date=date(2016, 4, 18), location=c, hebrew=False)
-        print(z)
+        """Test for english."""
+        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        zman = Zmanim(date=date(2016, 4, 18), location=coord, hebrew=False)
+        print(zman)
         captured = capsys.readouterr()
         if not _ASTRAL:
             return
@@ -98,94 +105,109 @@ class TestZmanimAPI:
             "Plag Mincha - 17:50:45\n"
             "Sunset - 19:12:00\n"
             "First stars - 19:38:00\n"
-            "Midnight - 00:40:00\n\n"
+            "Midnight - 00:40:00\n"
         )
 
     def test_issur_melacha_weekday(self):
-        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        z = Zmanim(date=date(2018, 11, 12), location=c)
-        assert not z.issur_melacha_in_effect
+        """Test for issur melacha on a weekday."""
+        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        zman = Zmanim(date=date(2018, 11, 12), location=coord)
+        assert not zman.issur_melacha_in_effect
 
     def test_issur_melacha_shabbat_morning(self):
-        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        z = Zmanim(date=datetime(2018, 11, 10, 9), location=c)
-        assert z.issur_melacha_in_effect
+        """Test for issur melacha on shabbat morning."""
+        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        zman = Zmanim(date=datetime(2018, 11, 10, 9), location=coord)
+        assert zman.issur_melacha_in_effect
 
     def test_issur_melacha_friday_morning(self):
-        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        z = Zmanim(date=datetime(2018, 11, 9, 9, 45), location=c)
-        assert not z.issur_melacha_in_effect
+        """Test for issur melacha on friday morning."""
+        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        zman = Zmanim(date=datetime(2018, 11, 9, 9, 45), location=coord)
+        assert not zman.issur_melacha_in_effect
 
     def test_issur_melacha_friday_evening(self):
-        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        z = Zmanim(date=datetime(2018, 11, 9, 16, 45), location=c)
-        assert z.issur_melacha_in_effect
+        """Test for issur melacha on friday evening."""
+        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        zman = Zmanim(date=datetime(2018, 11, 9, 16, 45), location=coord)
+        assert zman.issur_melacha_in_effect
 
     def test_issur_melacha_motsaei_shabbat(self):
-        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        z = Zmanim(date=datetime(2018, 11, 10, 17, 45), location=c)
-        assert not z.issur_melacha_in_effect
+        """Test for issur melacha on Motsaei shabbat."""
+        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        zman = Zmanim(date=datetime(2018, 11, 10, 17, 45), location=coord)
+        assert not zman.issur_melacha_in_effect
 
     def test_issur_melacha_shavuot_morning(self):
-        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        z = Zmanim(date=datetime(2019, 6, 9, 9), location=c)
-        assert z.issur_melacha_in_effect
+        """Test for issur melacha on shavuot morning."""
+        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        zman = Zmanim(date=datetime(2019, 6, 9, 9), location=coord)
+        assert zman.issur_melacha_in_effect
 
-    def test_issur_melacha_pesach_vi_mornng(self):
-        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        z = Zmanim(date=datetime(2019, 4, 25, 9, 45), location=c)
-        assert not z.issur_melacha_in_effect
+    def test_issur_melacha_pesach_vi_morning(self):
+        """Test for issur melacha on erev shvii shel pesach morning."""
+        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        zman = Zmanim(date=datetime(2019, 4, 25, 9, 45), location=coord)
+        assert not zman.issur_melacha_in_effect
 
     def test_issur_melacha_shavuot_evening(self):
-        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        z = Zmanim(date=datetime(2019, 6, 8, 21, 45), location=c)
-        assert z.issur_melacha_in_effect
+        """Test for issur melacha on shavuot evening."""
+        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        zman = Zmanim(date=datetime(2019, 6, 8, 21, 45), location=coord)
+        assert zman.issur_melacha_in_effect
 
     def test_issur_melacha_motsaei_shavuot(self):
-        c = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        z = Zmanim(date=datetime(2019, 6, 9, 20, 30), location=c)
-        assert not z.issur_melacha_in_effect
+        """Test for issur melacha on motsaei shavuot."""
+        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
+        zman = Zmanim(date=datetime(2019, 6, 9, 20, 30), location=coord)
+        assert not zman.issur_melacha_in_effect
 
     def test_issur_melacha_pesach_ii_morning(self):
-        c = Location(
+        """Test for issur melacha on the second day of pesach in the diaspora."""
+        coord = Location(
             name="New York",
             latitude=40.7128,
             longitude=-74.0060,
             timezone="America/New_York",
             diaspora=True,
         )
-        z = Zmanim(date=datetime(2019, 4, 21, 9), location=c)
-        assert z.issur_melacha_in_effect
+        zman = Zmanim(date=datetime(2019, 4, 21, 9), location=coord)
+        assert zman.issur_melacha_in_effect
 
     def test_issur_melacha_pesach_ii_evening(self):
-        c = Location(
+        """Test for issur melacha on the eve of second day of pesach in the diaspora."""
+        coord = Location(
             name="New York",
             latitude=40.7128,
             longitude=-74.0060,
             timezone="America/New_York",
             diaspora=True,
         )
-        z = Zmanim(date=datetime(2019, 4, 20, 21, 45), location=c)
-        assert z.issur_melacha_in_effect
+        zman = Zmanim(date=datetime(2019, 4, 20, 21, 45), location=coord)
+        assert zman.issur_melacha_in_effect
 
     def test_issur_melacha_motsaei_pesach_ii(self):
-        c = Location(
+        """Test for issur melacha on the end of second day of pesach in the diaspora."""
+        coord = Location(
             name="New York",
             latitude=40.7128,
             longitude=-74.0060,
             timezone="America/New_York",
             diaspora=True,
         )
-        z = Zmanim(date=datetime(2019, 4, 21, 20, 30), location=c)
-        assert not z.issur_melacha_in_effect
+        zman = Zmanim(date=datetime(2019, 4, 21, 20, 30), location=coord)
+        assert not zman.issur_melacha_in_effect
 
     def test_zmanim_localized_datetime(self):
-        c = Location(
+        """Test for issur melacha if datetime is localized."""
+        coord = Location(
             name="New York",
             latitude=40.7128,
             longitude=-74.0060,
             timezone="America/New_York",
             diaspora=True,
         )
-        z = Zmanim(date=c.timezone.localize(datetime(2019, 4, 21, 20, 30)), location=c)
-        assert not z.issur_melacha_in_effect
+        zman = Zmanim(
+            date=coord.timezone.localize(datetime(2019, 4, 21, 20, 30)), location=coord
+        )
+        assert not zman.issur_melacha_in_effect

@@ -1,11 +1,9 @@
 """
 Jewish calendrical date and times for a given location.
 
-HDate calculates and generates a represantation either in English or Hebrew
+HDate calculates and generates a representation either in English or Hebrew
 of the Jewish calendrical date and times for a given location
 """
-from __future__ import division
-
 import datetime
 import logging
 from itertools import chain, product
@@ -46,7 +44,7 @@ class HDate(BaseClass):
         self.hebrew = hebrew
         self.diaspora = diaspora
 
-    def __unicode__(self):
+    def __str__(self):
         """Return a full Unicode representation of HDate."""
         result = "{}{} {} {}{} {}".format(
             "יום " if self.hebrew else "",
@@ -67,8 +65,9 @@ class HDate(BaseClass):
 
     def __repr__(self):
         """Return a representation of HDate for programmatic use."""
-        return "HDate(gdate={}, diaspora={}, hebrew={})".format(
-            repr(self.gdate), self.diaspora, self.hebrew
+        return (
+            f"HDate(gdate={self.gdate!r}, diaspora={self.diaspora}, "
+            f"hebrew={self.hebrew})"
         )
 
     def __lt__(self, other):
@@ -106,7 +105,7 @@ class HDate(BaseClass):
         if not isinstance(date, HebrewDate):
             raise TypeError(f"date: {date} is not of type HebrewDate")
         if not 0 < date.day < 31:
-            raise ValueError("day ({date.day}) legal values are 1-31")
+            raise ValueError(f"day ({date.day}) legal values are 1-31")
 
         self._last_updated = "hdate"
         self._hdate = date
@@ -216,18 +215,18 @@ class HDate(BaseClass):
 
     def rosh_hashana_dow(self):
         """Return the Hebrew day of week for Rosh Hashana."""
-        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, Months.Tishrei, 1))
+        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, Months.TISHREI, 1))
         return (jdn + 1) % 7 + 1
 
     def pesach_dow(self):
         """Return the first day of week for Pesach."""
-        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, Months.Nisan, 15))
+        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, Months.NISAN, 15))
         return (jdn + 1) % 7 + 1
 
     @property
     def omer_day(self):
         """Return the day of the Omer."""
-        first_omer_day = HebrewDate(self.hdate.year, Months.Nisan, 16)
+        first_omer_day = HebrewDate(self.hdate.year, Months.NISAN, 16)
         omer_day = self._jdn - conv.hdate_to_jdn(first_omer_day) + 1
         if not 0 < omer_day < 50:
             return 0
@@ -397,7 +396,7 @@ class HDate(BaseClass):
             return self
         this_year = self.get_holidays_for_year([HolidayTypes.YOM_TOV])
         next_rosh_hashana = HDate(
-            heb_date=HebrewDate(self.hdate.year + 1, Months.Tishrei, 1),
+            heb_date=HebrewDate(self.hdate.year + 1, Months.TISHREI, 1),
             diaspora=self.diaspora,
             hebrew=self.hebrew,
         )
@@ -427,7 +426,7 @@ class HDate(BaseClass):
         _LOGGER.debug("Year type: %d", year_type)
 
         # Number of days since rosh hashana
-        rosh_hashana = HebrewDate(self.hdate.year, Months.Tishrei, 1)
+        rosh_hashana = HebrewDate(self.hdate.year, Months.TISHREI, 1)
         days = self._jdn - conv.hdate_to_jdn(rosh_hashana)
         # Number of weeks since rosh hashana
         weeks = (days + self.rosh_hashana_dow() - 1) // 7

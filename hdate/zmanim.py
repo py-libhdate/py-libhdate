@@ -4,8 +4,6 @@ Jewish calendrical times for a given location.
 HDate calculates and generates a representation either in English or Hebrew
 of the Jewish calendrical times for a given location
 """
-from __future__ import division
-
 import datetime as dt
 import logging
 import math
@@ -28,7 +26,7 @@ except ImportError:
 _LOGGER = logging.getLogger(__name__)
 
 
-class Zmanim(BaseClass):
+class Zmanim(BaseClass):  # pylint: disable=too-many-instance-attributes
     """Return Jewish day times.
 
     The Zmanim class returns times for the specified day ONLY. If you wish to
@@ -91,13 +89,11 @@ class Zmanim(BaseClass):
             )
             self.astral_sun = astral.sun.sun(self.astral_observer, self.date)
 
-    def __unicode__(self):
+    def __str__(self):
         """Return a Unicode representation of Zmanim."""
-        return "".join(
+        return "\n".join(
             [
-                "{} - {}\n".format(
-                    zman.description[self.hebrew], self.zmanim[zman.zman].time()
-                )
+                f"{zman.description[self.hebrew]} - {self.zmanim[zman.zman].time()}"
                 for zman in htables.ZMANIM
             ]
         )
@@ -106,10 +102,10 @@ class Zmanim(BaseClass):
         """Return a representation of Zmanim for programmatic use."""
         # As time zone information is not really reusable due to DST, when
         # creating a __repr__ of zmanim, we show a timezone naive datetime.
-        return "Zmanim(date={}, location={}, hebrew={})".format(
-            repr(self.time.astimezone(self.location.timezone).replace(tzinfo=None)),
-            repr(self.location),
-            self.hebrew,
+        return (
+            "Zmanim(date="
+            f"{self.time.astimezone(self.location.timezone).replace(tzinfo=None)!r},"
+            f" location={self.location!r}, hebrew={self.hebrew})"
         )
 
     @property

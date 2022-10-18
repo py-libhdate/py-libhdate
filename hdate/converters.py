@@ -1,6 +1,4 @@
 """Methods for going back and forth between various calendars."""
-from __future__ import division
-
 import datetime
 
 from hdate.common import HebrewDate
@@ -109,9 +107,9 @@ def hdate_to_jdn(date):
     """
     day = date.day
     month = date.month.value
-    if date.month == Months.Adar_I:
+    if date.month == Months.ADAR_I:
         month = 6
-    if date.month == Months.Adar_II:
+    if date.month == Months.ADAR_II:
         month = 6
         day += 30
 
@@ -167,14 +165,14 @@ def jdn_to_hdate(jdn):
     # Guess Hebrew year is Gregorian year + 3760
     year = date.year + 3760
 
-    jdn_tishrey1 = hdate_to_jdn(HebrewDate(year, Months.Tishrei, 1))
-    jdn_tishrey1_next_year = hdate_to_jdn(HebrewDate(year + 1, Months.Tishrei, 1))
+    jdn_tishrey1 = hdate_to_jdn(HebrewDate(year, Months.TISHREI, 1))
+    jdn_tishrey1_next_year = hdate_to_jdn(HebrewDate(year + 1, Months.TISHREI, 1))
 
     # Check if computed year was underestimated
     if jdn_tishrey1_next_year <= jdn:
         year = year + 1
         jdn_tishrey1 = jdn_tishrey1_next_year
-        jdn_tishrey1_next_year = hdate_to_jdn(HebrewDate(year + 1, Months.Tishrei, 1))
+        jdn_tishrey1_next_year = hdate_to_jdn(HebrewDate(year + 1, Months.TISHREI, 1))
 
     size_of_year = get_size_of_hebrew_year(year)
 

@@ -1,9 +1,10 @@
-"""Test Zmanim."""
+"""Test Zmanim objects."""
 import datetime
 import random
 import sys
 from calendar import isleap
-from datetime import datetime as dt, timedelta as td
+from datetime import datetime as dt
+from datetime import timedelta as td
 
 import pytest
 import pytz
@@ -13,14 +14,12 @@ from hdate.common import Location
 
 _ASTRAL = "astral" in sys.modules
 
-# pylint: disable=no-self-use
-# pylint-comment: In tests, classes are just a grouping semantic
-
 NYC_LAT = 40.7128
 NYC_LNG = -74.0060
 
 
 def compare_dates(date1, date2):
+    """Compare 2 dates to be more or less equal."""
     if not (date1 or date2):
         assert date1 == date2
     else:
@@ -29,16 +28,22 @@ def compare_dates(date1, date2):
 
 
 def compare_times(time1, time2):
+    """Compare times to be equal."""
     compare_dates(dt.combine(dt.today(), time1), dt.combine(dt.today(), time2))
 
 
 class TestZmanim:
+    """Zmanim tests"""
+
     def test_bad_date(self):
+        """Check that a bad value argument to zmanim raises an error"""
         with pytest.raises(TypeError):
             Zmanim(date="bad value")
 
     @pytest.mark.parametrize("execution_number", list(range(5)))
     def test_same_doy_is_equal(self, execution_number, random_date):
+        """Test two doy to be equal."""
+        print(f"Run number {execution_number}")
         other_year = random.randint(500, 3000)
         shift_day = datetime.timedelta(days=0)
         this_date = random_date
@@ -70,6 +75,7 @@ class TestZmanim:
             assert value - grace <= other_zmanim[key] <= value + grace, key
 
     def test_using_tzinfo(self):
+        """Test tzinfo to be correct."""
         day = datetime.date(2018, 9, 8)
         timezone_str = "America/New_York"
         timezone = pytz.timezone(timezone_str)
@@ -115,6 +121,7 @@ class TestZmanim:
         ["now", "offset", "candle_lighting", "melacha_assur"], CANDLES_TEST
     )
     def test_candle_lighting(self, now, offset, candle_lighting, melacha_assur):
+        """Test candle lighting values."""
         location_tz_str = Location(
             name="New York",
             latitude=NYC_LAT,
@@ -154,6 +161,7 @@ class TestZmanim:
         ["now", "offset", "havdalah", "melacha_assur"], HAVDALAH_TEST
     )
     def test_havdalah(self, now, offset, havdalah, melacha_assur):
+        """Test havdalah times."""
         location_tz_str = Location(
             name="New York",
             latitude=NYC_LAT,
