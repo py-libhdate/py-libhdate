@@ -48,10 +48,10 @@ class HDate(BaseClass):
         """Return a full Unicode representation of HDate."""
         result = (
             f"{'יום ' if self.hebrew else ''}"
-            f"{htables.DAYS[self.dow - 1][self.hebrew][0]} "
+            f"{htables.DAYS[self.dow - 1][self.hebrew + 1][0]} "
             f"{hebrew_number(self.hdate.day, hebrew=self.hebrew)} "
             f"{'ב' if self.hebrew else ''}"
-            f"{htables.MONTHS[self.hdate.month.value - 1][self.hebrew]} "
+            f"{htables.MONTHS[self.hdate.month.value - 1][self.hebrew + 1]} "
             f"{hebrew_number(self.hdate.year, hebrew=self.hebrew)}"
         )
 
@@ -135,14 +135,14 @@ class HDate(BaseClass):
         """Return the hebrew date string."""
         return (
             f"{hebrew_number(self.hdate.day, hebrew=self.hebrew)} "  # Day
-            f"{htables.MONTHS[self.hdate.month.value - 1][self.hebrew]} "  # Month
+            f"{htables.MONTHS[self.hdate.month.value - 1][self.hebrew + 1]} "  # Month
             f"{hebrew_number(self.hdate.year, hebrew=self.hebrew)}"  # Year
         )
 
     @property
     def parasha(self):
         """Return the upcoming parasha."""
-        return htables.PARASHAOT[self.get_reading()][self.hebrew]
+        return htables.PARASHAOT[self.get_reading()][self.hebrew + 1]
 
     @property
     def holiday_description(self):

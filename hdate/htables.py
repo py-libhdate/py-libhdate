@@ -402,7 +402,11 @@ HOLIDAYS = (
         (29, Months.ELUL),
         "",
         [],
-        LANG("Veille de Rosh Hashana", "Erev Rosh Hashana", DESC("ערב ראש השנה", 'ערב ר"ה')),
+        LANG(
+            "Veille de Rosh Hashana",
+            "Erev Rosh Hashana",
+            DESC("ערב ראש השנה", 'ערב ר"ה'),
+        ),
     ),
     HOLIDAY(
         HolidayTypes.YOM_TOV,
@@ -466,7 +470,11 @@ HOLIDAYS = (
         (16, Months.TISHREI),
         "ISRAEL",
         "",
-        LANG("Hol hamoed Souccot", "Hol hamoed Sukkot", DESC("חול המועד סוכות", 'חוה"מ סוכות')),
+        LANG(
+            "Hol hamoed Souccot",
+            "Hol hamoed Sukkot",
+            DESC("חול המועד סוכות", 'חוה"מ סוכות'),
+        ),
     ),
     HOLIDAY(
         HolidayTypes.HOL_HAMOED,
@@ -474,7 +482,11 @@ HOLIDAYS = (
         ([17, 18, 19, 20], Months.TISHREI),
         "",
         "",
-        LANG("Hol hamoed Souccot", "Hol hamoed Sukkot", DESC("חול המועד סוכות", 'חוה"מ סוכות')),
+        LANG(
+            "Hol hamoed Souccot",
+            "Hol hamoed Sukkot",
+            DESC("חול המועד סוכות", 'חוה"מ סוכות'),
+        ),
     ),
     HOLIDAY(
         HolidayTypes.EREV_YOM_TOV,
@@ -574,7 +586,9 @@ HOLIDAYS = (
         (16, Months.NISAN),
         "ISRAEL",
         [],
-        LANG("Hol hamoed Pessah", "Hol hamoed Pesach", DESC("חול המועד פסח", u'חוה"מ פסח')),
+        LANG(
+            "Hol hamoed Pessah", "Hol hamoed Pesach", DESC("חול המועד פסח", 'חוה"מ פסח')
+        ),
     ),
     HOLIDAY(
         HolidayTypes.HOL_HAMOED,
@@ -582,7 +596,9 @@ HOLIDAYS = (
         ([17, 18, 19], Months.NISAN),
         "",
         [],
-        LANG("Hol hamoed Pessah", "Hol hamoed Pesach", DESC("חול המועד פסח", u'חוה"מ פסח')),
+        LANG(
+            "Hol hamoed Pessah", "Hol hamoed Pesach", DESC("חול המועד פסח", 'חוה"מ פסח')
+        ),
     ),
     HOLIDAY(
         HolidayTypes.EREV_YOM_TOV,
@@ -590,7 +606,9 @@ HOLIDAYS = (
         (20, Months.NISAN),
         "",
         [],
-        LANG("Hol hamoed Pessah", "Hol hamoed Pesach", DESC("חול המועד פסח", u'חוה"מ פסח')),
+        LANG(
+            "Hol hamoed Pessah", "Hol hamoed Pesach", DESC("חול המועד פסח", 'חוה"מ פסח')
+        ),
     ),
     HOLIDAY(
         HolidayTypes.YOM_TOV,
@@ -631,7 +649,7 @@ HOLIDAYS = (
         (18, Months.IYYAR),
         "",
         [],
-        LANG("Lag Ba Omer", "Lag B'Omer", DESC(u'ל"ג בעומר', u'ל"ג בעומר')),
+        LANG("Lag Ba Omer", "Lag B'Omer", DESC('ל"ג בעומר', 'ל"ג בעומר')),
     ),
     HOLIDAY(
         HolidayTypes.EREV_YOM_TOV,
@@ -655,7 +673,9 @@ HOLIDAYS = (
         ([17, 18], Months.TAMMUZ),
         "",
         [move_if_not_on_dow(17, 18, 5, 6)],
-        LANG("Jeûne du 17 Tamouz", "Tzom Tammuz", DESC("צום שבעה עשר בתמוז", "צום תמוז")),
+        LANG(
+            "Jeûne du 17 Tamouz", "Tzom Tammuz", DESC("צום שבעה עשר בתמוז", "צום תמוז")
+        ),
     ),
     HOLIDAY(
         HolidayTypes.FAST_DAY,
@@ -671,7 +691,7 @@ HOLIDAYS = (
         (15, Months.AV),
         "",
         [],
-        LANG("Tou be'Av", "Tu B'Av", DESC(u'ט"ו באב', u'ט"ו באב')),
+        LANG("Tou be'Av", "Tu B'Av", DESC('ט"ו באב', 'ט"ו באב')),
     ),
     HOLIDAY(
         HolidayTypes.MEMORIAL_DAY,
@@ -772,8 +792,8 @@ HOLIDAYS = (
         "ISRAEL",
         [],
         LANG(
-            "Jour du souvenir", 
-			u"Memorial day for fallen whose place of burial is unknown",
+            "Jour du souvenir",
+            "Memorial day for fallen whose place of burial is unknown",
             DESC("יום זכרון...", "יום זכרון..."),
         ),
     ),
@@ -784,7 +804,8 @@ HOLIDAYS = (
         "ISRAEL",
         [move_if_not_on_dow(12, 11, 4, 3), year_is_after(5757)],
         LANG(
-            "Yitzhak Rabin memorial day", "Yitzhak Rabin memorial day",
+            "Yitzhak Rabin memorial day",
+            "Yitzhak Rabin memorial day",
             DESC("יום הזכרון ליצחק רבין", "יום הזכרון ליצחק רבין"),
         ),
     ),
@@ -794,25 +815,32 @@ HOLIDAYS = (
         (29, Months.TAMMUZ),
         "ISRAEL",
         [year_is_after(5764)],
-        LANG("Zeev Zhabotinsky day", "Zeev Zhabotinsky day", DESC("יום ז'בוטינסקי", "יום ז'בוטינסקי")),
+        LANG(
+            "Zeev Zhabotinsky day",
+            "Zeev Zhabotinsky day",
+            DESC("יום ז'בוטינסקי", "יום ז'בוטינסקי"),
+        ),
     ),
 )
 
 ZMAN = namedtuple("ZMAN", "zman, description")
 ZMANIM = (
     ZMAN("first_light", LANG("Alot HaShahar", "Alot HaShachar", "עלות השחר")),
-    ZMAN("talit", LANG("Début Talit & Tefilin ", "Talit & Tefilin's time", "זמן טלית ותפילין")),
+    ZMAN(
+        "talit",
+        LANG("Début Talit & Tefilin ", "Talit & Tefilin's time", "זמן טלית ותפילין"),
+    ),
     ZMAN("sunrise", LANG("Lever du jour", "Sunrise", "הנץ החמה")),
-    ZMAN("mga_end_shma", LANG(u'Shema MG"A', u'Shema EOT MG"A', u'סוף זמן ק"ש מג"א')),
-    ZMAN("gra_end_shma", LANG(u'Shema GR"A', u'Shema EOT GR"A', u'סוף זמן ק"ש הגר"א')),
-    ZMAN("mga_end_tfila", LANG(u'Tefila MG"A', u'Tefila EOT MG"A', u'סוף זמן תפילה מג"א')),
-    ZMAN("gra_end_tfila", LANG(u'Tefila GR"A', u'Tefila EOT GR"A', u'סוף זמן תפילה גר"א')),
+    ZMAN("mga_end_shma", LANG('Shema MG"A', 'Shema EOT MG"A', 'סוף זמן ק"ש מג"א')),
+    ZMAN("gra_end_shma", LANG('Shema GR"A', 'Shema EOT GR"A', 'סוף זמן ק"ש גר"א')),
+    ZMAN("mga_end_tfila", LANG('Tefila MG"A', 'Tefila EOT MG"A', 'סוף זמן תפילה מג"א')),
+    ZMAN("gra_end_tfila", LANG('Tefila GR"A', 'Tefila EOT GR"A', 'סוף זמן תפילה גר"א')),
     ZMAN("midday", LANG("Hatsot", "Midday", "חצות היום")),
     ZMAN("big_mincha", LANG("Minha Guedola", "Big Mincha", "מנחה גדולה")),
     ZMAN("small_mincha", LANG("Minha Qetana", "Small Mincha", "מנחה קטנה")),
-    ZMAN("plag_mincha", LANG("Plag haMinha", "Plag Mincha", "פלג מנחה")),
+    ZMAN("plag_mincha", LANG("Plag haMinha", "Plag Mincha", "פלג המנחה")),
     ZMAN("sunset", LANG("Shqiat", "Sunset", "שקיעה")),
-    ZMAN("first_stars", LANG("Tzeit haCokhavim", "First stars", "צאת הככבים")),
+    ZMAN("first_stars", LANG("Tzeit haCokhavim", "First stars", "צאת הכוכבים")),
     ZMAN("midnight", LANG("Hatsot laïla", "Midnight", "חצות הלילה")),
 )
 

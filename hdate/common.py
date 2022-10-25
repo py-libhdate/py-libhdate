@@ -10,13 +10,6 @@ from hdate.htables import Months
 class BaseClass:
     """Implement basic functionality for all classes."""
 
-    def __str__(self):
-        """Return a string representation."""
-        return self.__unicode__()
-
-    def __unicode__(self):  # pragma: no cover
-        """Implement the representation of the object."""
-
     def __eq__(self, other):
         """Override equality operator."""
         if isinstance(other, self.__class__):
@@ -63,15 +56,9 @@ class Location(BaseClass):
     def __repr__(self):
         """Return a representation of Location for programmatic use."""
         return (
-            "Location(name='{}', latitude={}, longitude={}, "
-            "timezone='{}', altitude={}, diaspora={})".format(
-                self.name,
-                self.latitude,
-                self.longitude,
-                self.timezone,
-                self.altitude,
-                self.diaspora,
-            )
+            f"Location(name='{self.name}', latitude={self.latitude}, "
+            f"longitude={self.longitude}, timezone='{self.timezone}', "
+            f"altitude={self.altitude}, diaspora={self.diaspora})"
         )
 
     @property
