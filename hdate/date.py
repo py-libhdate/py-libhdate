@@ -46,21 +46,21 @@ class HDate(BaseClass):
 
     def __str__(self):
         """Return a full Unicode representation of HDate."""
-        result = "{}{} {} {}{} {}".format(
-            "יום " if self.hebrew else "",
-            htables.DAYS[self.dow - 1][self.hebrew][0],
-            hebrew_number(self.hdate.day, hebrew=self.hebrew),
-            "ב" if self.hebrew else "",
-            htables.MONTHS[self.hdate.month.value - 1][self.hebrew],
-            hebrew_number(self.hdate.year, hebrew=self.hebrew),
+        result = (
+            f"{'יום ' if self.hebrew else ''}"
+            f"{htables.DAYS[self.dow - 1][self.hebrew][0]} "
+            f"{hebrew_number(self.hdate.day, hebrew=self.hebrew)} "
+            f"{'ב' if self.hebrew else ''}"
+            f"{htables.MONTHS[self.hdate.month.value - 1][self.hebrew]} "
+            f"{hebrew_number(self.hdate.year, hebrew=self.hebrew)}"
         )
 
         if 0 < self.omer_day < 50:
-            result += " " + hebrew_number(self.omer_day, hebrew=self.hebrew)
-            result += " " + "בעומר" if self.hebrew else " in the Omer"
+            result = f"{result} {hebrew_number(self.omer_day, hebrew=self.hebrew)}"
+            result = f"{result} {'בעומר' if self.hebrew else ' in the Omer'}"
 
         if self.holiday_description:
-            result += " " + self.holiday_description
+            result = f"{result} {self.holiday_description}"
         return result
 
     def __repr__(self):
@@ -133,10 +133,10 @@ class HDate(BaseClass):
     @property
     def hebrew_date(self):
         """Return the hebrew date string."""
-        return "{} {} {}".format(
-            hebrew_number(self.hdate.day, hebrew=self.hebrew),  # Day
-            htables.MONTHS[self.hdate.month.value - 1][self.hebrew],  # Month
-            hebrew_number(self.hdate.year, hebrew=self.hebrew),  # Year
+        return (
+            f"{hebrew_number(self.hdate.day, hebrew=self.hebrew)} "  # Day
+            f"{htables.MONTHS[self.hdate.month.value - 1][self.hebrew]} "  # Month
+            f"{hebrew_number(self.hdate.year, hebrew=self.hebrew)}"  # Year
         )
 
     @property
@@ -499,7 +499,6 @@ def hebrew_number(num, hebrew=True, short=False):
 
 def get_omer_string(omer):  # pylint: disable=too-many-branches
     """Return a string representing the count of the Omer."""
-    # TODO: The following function should be simplified (see pylint)
     tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
     ones = [
         "",
