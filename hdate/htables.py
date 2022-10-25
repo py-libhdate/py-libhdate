@@ -832,15 +832,15 @@ ZMANIM = (
     ),
     ZMAN("sunrise", LANG("Lever du jour", "Sunrise", "הנץ החמה")),
     ZMAN("mga_end_shma", LANG('Shema MG"A', 'Shema EOT MG"A', 'סוף זמן ק"ש מג"א')),
-    ZMAN("gra_end_shma", LANG('Shema GR"A', 'Shema EOT GR"A', 'סוף זמן ק"ש הגר"א')),
+    ZMAN("gra_end_shma", LANG('Shema GR"A', 'Shema EOT GR"A', 'סוף זמן ק"ש גר"א')),
     ZMAN("mga_end_tfila", LANG('Tefila MG"A', 'Tefila EOT MG"A', 'סוף זמן תפילה מג"א')),
     ZMAN("gra_end_tfila", LANG('Tefila GR"A', 'Tefila EOT GR"A', 'סוף זמן תפילה גר"א')),
     ZMAN("midday", LANG("Hatsot", "Midday", "חצות היום")),
     ZMAN("big_mincha", LANG("Minha Guedola", "Big Mincha", "מנחה גדולה")),
     ZMAN("small_mincha", LANG("Minha Qetana", "Small Mincha", "מנחה קטנה")),
-    ZMAN("plag_mincha", LANG("Plag haMinha", "Plag Mincha", "פלג מנחה")),
+    ZMAN("plag_mincha", LANG("Plag haMinha", "Plag Mincha", "פלג המנחה")),
     ZMAN("sunset", LANG("Shqiat", "Sunset", "שקיעה")),
-    ZMAN("first_stars", LANG("Tzeit haCokhavim", "First stars", "צאת הככבים")),
+    ZMAN("first_stars", LANG("Tzeit haCokhavim", "First stars", "צאת הכוכבים")),
     ZMAN("midnight", LANG("Hatsot laïla", "Midnight", "חצות הלילה")),
 )
 

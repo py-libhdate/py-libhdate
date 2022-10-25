@@ -93,7 +93,7 @@ class Zmanim(BaseClass):  # pylint: disable=too-many-instance-attributes
         """Return a Unicode representation of Zmanim."""
         return "\n".join(
             [
-                f"{zman.description[self.hebrew]} - {self.zmanim[zman.zman].time()}"
+                f"{zman.description[self.hebrew + 1]} - {self.zmanim[zman.zman].time()}"
                 for zman in htables.ZMANIM
             ]
         )
