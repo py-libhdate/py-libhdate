@@ -176,3 +176,66 @@ class TestZmanim:
             actual = actual.replace(tzinfo=None)
         compare_dates(actual, havdalah)
         assert zmanim.issur_melacha_in_effect == melacha_assur
+
+    # Times are assumed for NYC.
+    MOTZEI_SHABBAT_CHAG_TEST = [
+        (dt(2018, 9, 7, 13, 1), 42, False),
+        (dt(2018, 9, 7, 20, 1), 42, False),
+        (dt(2018, 9, 8, 13, 1), 42, False),
+        (dt(2018, 9, 8, 22, 1), 0, True),
+        (dt(2018, 9, 9, 16, 1), 0, False),
+        (dt(2018, 9, 9, 19, 30), 0, False),
+        (dt(2018, 9, 10, 16, 1), 0, False),
+        (dt(2018, 9, 10, 19, 30), 0, False),
+        (dt(2018, 9, 11, 16, 1), 0, False),
+        (dt(2018, 9, 11, 20, 1), 0, True),
+        (dt(2018, 9, 19, 22, 1), 18, True),
+    ]
+
+    @pytest.mark.parametrize(
+        ["now", "offset", "motzei_shabbat_chag"], MOTZEI_SHABBAT_CHAG_TEST
+    )
+    def test_motzei_shabbat_chag(self, now, offset, motzei_shabbat_chag):
+        location_tz_str = Location(
+            name="New York",
+            latitude=NYC_LAT,
+            longitude=NYC_LNG,
+            timezone="America/New_York",
+            diaspora=True,
+        )
+        # Use a constant offset for Havdalah for unit test stability.
+        zmanim = Zmanim(date=now, location=location_tz_str, havdalah_offset=offset)
+        assert zmanim.motzei_shabbat_chag == motzei_shabbat_chag
+
+    # Times are assumed for NYC.
+    EREV_SHABBAT_CHAG_TEST = [
+        (dt(2018, 9, 7, 13, 1), 42, True),  # fri
+        (dt(2018, 9, 7, 20, 1), 42, False),
+        (dt(2018, 9, 8, 13, 1), 42, False),  # sat
+        (dt(2018, 9, 8, 20, 1), 0, False),
+        (dt(2018, 9, 9, 16, 1), 0, True),  # erev rosh hashana
+        (dt(2018, 9, 9, 19, 30), 0, False),
+        (dt(2018, 9, 10, 16, 1), 0, False),  # rosh hashana I
+        (dt(2018, 9, 10, 19, 30), 0, False),
+        (dt(2018, 9, 11, 16, 1), 0, False),  # rosh hashana II
+        (dt(2018, 9, 11, 20, 1), 0, False),
+        (dt(2018, 9, 18, 13, 1), 18, True),  # erev yom kipur
+        (dt(2018, 9, 18, 22, 1), 18, False),
+        (dt(2018, 9, 19, 13, 1), 18, False),
+        (dt(2018, 9, 19, 22, 1), 18, False),
+    ]
+
+    @pytest.mark.parametrize(
+        ["now", "offset", "erev_shabbat_chag"], EREV_SHABBAT_CHAG_TEST
+    )
+    def test_erev_shabbat_hag(self, now, offset, erev_shabbat_chag):
+        location_tz_str = Location(
+            name="New York",
+            latitude=NYC_LAT,
+            longitude=NYC_LNG,
+            timezone="America/New_York",
+            diaspora=True,
+        )
+        # Use a constant offset for Havdalah for unit test stability.
+        zmanim = Zmanim(date=now, location=location_tz_str, havdalah_offset=offset)
+        assert zmanim.erev_shabbat_chag == erev_shabbat_chag

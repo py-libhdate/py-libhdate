@@ -1,5 +1,4 @@
-# -*- coding: utf-8 -*-
-
+"""Test classes."""
 from __future__ import print_function
 
 import datetime  # noqa: F401
@@ -12,7 +11,7 @@ from hdate import HDate, Location, Zmanim  # noqa: F401
 # pylint-comment: In tests, classes are just a grouping semantic
 
 
-class TestClasses(object):
+class TestClasses:
 
     CLASSES = ["HDate()", "Zmanim()", "Location()"]
 

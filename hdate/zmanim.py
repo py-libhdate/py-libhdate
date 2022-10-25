@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 Jewish calendrical times for a given location.
 
@@ -201,6 +199,40 @@ class Zmanim(BaseClass):  # pylint: disable=too-many-instance-attributes
         if (tomorrow.is_shabbat or tomorrow.is_yom_tov) and (
             self.time >= self.candle_lighting
         ):
+            return True
+
+        return False
+
+    @property
+    def erev_shabbat_chag(self):
+        """At the given time, return whether erev shabbat or chag"""
+        today = HDate(gdate=self.date, diaspora=self.location.diaspora)
+        tomorrow = HDate(
+            gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
+        )
+
+        if (
+            (tomorrow.is_shabbat or tomorrow.is_yom_tov)
+            and (not today.is_shabbat and not today.is_yom_tov)
+            and (self.time < self.candle_lighting)
+        ):
+            return True
+
+        return False
+
+    @property
+    def motzei_shabbat_chag(self):
+        """At the given time, return whether motzei shabbat or chag"""
+        today = HDate(gdate=self.date, diaspora=self.location.diaspora)
+        tomorrow = HDate(
+            gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
+        )
+
+        if (today.is_shabbat or today.is_yom_tov) and (
+            tomorrow.is_shabbat or tomorrow.is_yom_tov
+        ):
+            return False
+        if (today.is_shabbat or today.is_yom_tov) and (self.time > self.havdalah):
             return True
 
         return False
