@@ -1,5 +1,6 @@
 """Small helper classes."""
 
+from dataclasses import dataclass
 from datetime import tzinfo
 
 import pytz
@@ -21,14 +22,18 @@ class BaseClass:
         return not self.__eq__(other)
 
 
-class HebrewDate(BaseClass):  # pylint: disable=too-few-public-methods
+@dataclass
+class HebrewDate(BaseClass):
     """Define a Hebrew date object."""
 
-    def __init__(self, year, month, day):
-        """Initialize the Hebrew date object."""
-        self.year = year
-        self.month = month if isinstance(month, Months) else Months(month)
-        self.day = day
+    year: int
+    month: Months
+    day: int
+
+    def __post_init__(self):
+        self.month = (
+            self.month if isinstance(self.month, Months) else Months(self.month)
+        )
 
 
 class Location(BaseClass):
