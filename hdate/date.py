@@ -11,18 +11,31 @@ from itertools import chain, product
 
 from hdate import converters as conv
 from hdate import htables
-from hdate.common import BaseClass, HebrewDate
 from hdate.htables import HolidayTypes, Months
 
 _LOGGER = logging.getLogger(__name__)
 # pylint: disable=too-many-public-methods
 
+@dataclass
+class HebrewDate:
+    """Define a Hebrew date object."""
 
-class HDate(BaseClass):
+    year: int
+    month: Months
+    day: int
+
+    def __post_init__(self):
+        self.month = (
+            self.month if isinstance(self.month, Months) else Months(self.month)
+        )
+
+
+
+class HDate:
     """
     Hebrew date class.
 
-    Supports converting from Gregorian and Julian to Hebrew date.
+    Represents a hebrew date in the form of da
     """
 
     def __init__(

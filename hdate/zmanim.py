@@ -10,7 +10,7 @@ import logging
 import math
 
 from hdate import htables
-from hdate.common import BaseClass, Location
+from hdate.common import Location
 from hdate.date import HDate
 
 try:
@@ -25,7 +25,7 @@ MAX_LATITUDE_ASTRAL = 50.0
 _LOGGER = logging.getLogger(__name__)
 
 
-class Zmanim(BaseClass):  # pylint: disable=too-many-instance-attributes
+class Zmanim:  # pylint: disable=too-many-instance-attributes
     """Return Jewish day times.
 
     The Zmanim class returns times for the specified day ONLY. If you wish to
