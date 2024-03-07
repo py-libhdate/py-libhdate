@@ -377,11 +377,15 @@ class HDate(BaseClass):
             for date_instance in holiday_dates_cross_product(holiday)
             if len(holiday.date) >= 2
         ]
+        is_leap_year = self.year_size() > 380
         # Filter any special cases defined by True/False functions
         holidays_list = [
             (holiday, date)
             for (holiday, date) in holidays_list
             if all(func(date) for func in holiday.date_functions_list)
+            # Don't return two copies of Purim.
+            if date.hdate.month
+            not in ([Months.ADAR] if is_leap_year else [Months.ADAR_I, Months.ADAR_II])
         ]
         return holidays_list
 
