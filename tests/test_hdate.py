@@ -146,6 +146,20 @@ class TestHDate:
 class TestSpecialDays:
     """Test HDate in terms of special days."""
 
+    # Test against both a leap year and non-leap year
+    @pytest.mark.parametrize(("year"), ((5783, 5784)))
+    def test_get_holidays_for_year(self, year):
+        """Test that get_holidays_for_year() returns every holiday."""
+        cur_date = HDate(heb_date=HebrewDate(year, 1, 1))
+        expected_holiday_map = {
+            date.gdate: entry for (entry, date) in cur_date.get_holidays_for_year()
+        }
+        while cur_date.hdate.year == year:
+            actual_holiday = cur_date.holiday_name
+            if actual_holiday:
+                assert actual_holiday == expected_holiday_map[cur_date.gdate].name
+            cur_date = cur_date.next_day
+
     NON_MOVING_HOLIDAYS = [
         ((1, 1), "rosh_hashana_i"),
         ((2, 1), "rosh_hashana_ii"),

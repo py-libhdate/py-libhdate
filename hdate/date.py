@@ -4,6 +4,7 @@ Jewish calendrical date and times for a given location.
 HDate calculates and generates a representation either in English or Hebrew
 of the Jewish calendrical date and times for a given location
 """
+
 import datetime
 import logging
 from itertools import chain, product
@@ -345,13 +346,6 @@ class HDate(BaseClass):
                 holiday for holiday in holidays_list if holiday.type in types
             ]
 
-        # Filter any special cases defined by True/False functions
-        holidays_list = [
-            holiday
-            for holiday in holidays_list
-            if all(func(self) for func in holiday.date_functions_list)
-        ]
-
         _LOGGER.debug(
             "Holidays after filters have been applied: %s",
             [holiday.name for holiday in holidays_list],
@@ -382,6 +376,12 @@ class HDate(BaseClass):
             for holiday in holidays_list
             for date_instance in holiday_dates_cross_product(holiday)
             if len(holiday.date) >= 2
+        ]
+        # Filter any special cases defined by True/False functions
+        holidays_list = [
+            (holiday, date)
+            for (holiday, date) in holidays_list
+            if all(func(date) for func in holiday.date_functions_list)
         ]
         return holidays_list
 
