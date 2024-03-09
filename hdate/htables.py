@@ -373,6 +373,19 @@ def move_if_not_on_dow(original, replacement, dow_not_orig, dow_replacement):
     )
 
 
+def correct_adar():
+    """
+    Return a lambda function.
+
+    Lambda checks that the value of the month returned is correct depending on whether
+    it's a leap year.
+    """
+    return lambda x: (
+        (x.hdate.month == Months.ADAR and x.year_size() < 380)
+        or (x.hdate.month in [Months.ADAR_I, Months.ADAR_II] and x.year_size() > 380)
+    )
+
+
 HOLIDAY = namedtuple(
     "HOLIDAY",
     ["type", "name", "date", "israel_diaspora", "date_functions_list", "description"],
@@ -545,7 +558,7 @@ HOLIDAYS = (
         "taanit_esther",
         ([11, 13], [Months.ADAR, Months.ADAR_II]),
         "",
-        [move_if_not_on_dow(13, 11, 5, 3)],
+        [move_if_not_on_dow(13, 11, 5, 3), correct_adar()],
         LANG("Jeûne d'Esther", "Ta'anit Esther", DESC("תענית אסתר", "תענית אסתר")),
     ),
     HOLIDAY(
@@ -553,7 +566,7 @@ HOLIDAYS = (
         "purim",
         (14, [Months.ADAR, Months.ADAR_II]),
         "",
-        [],
+        [correct_adar()],
         LANG("Pourim", "Purim", DESC("פורים", "פורים")),
     ),
     HOLIDAY(
@@ -561,7 +574,7 @@ HOLIDAYS = (
         "shushan_purim",
         (15, [Months.ADAR, Months.ADAR_II]),
         "",
-        [],
+        [correct_adar()],
         LANG("Pourim Shoushan", "Shushan Purim", DESC("שושן פורים", "שושן פורים")),
     ),
     HOLIDAY(
@@ -790,7 +803,7 @@ HOLIDAYS = (
         "memorial_day_unknown",
         (7, [Months.ADAR, Months.ADAR_II]),
         "ISRAEL",
-        [],
+        [correct_adar()],
         LANG(
             "Jour du souvenir",
             "Memorial day for fallen whose place of burial is unknown",
