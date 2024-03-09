@@ -39,8 +39,7 @@ jobs:
       with:
         python-version: '3.x'
 
-    - name: Build and publish using poetry
-      uses: d1618033/gh-action-python-publish-using-poetry@master
+    - name: Build and publish to pypi
+      uses: JRubics/poetry-publish@v2.0
       with:
-        pypi_username: __token__
-        pypi_password: ${{ secrets.PYPI_PASSWORD }}
+        pypi_token: ${{ secrets.PYPI_PASSWORD }}
