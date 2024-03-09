@@ -15,8 +15,8 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = "^3.7.15"
-pytz = "^2022.2.1"
-astral = "^2.2"
+pytz = "^2024.1"
+astral = "^3.2"
 
 [tool.poetry.dev-dependencies]
 tox = "^3.26.0"
