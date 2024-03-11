@@ -8,15 +8,14 @@ python-versions = ">=3.6"
 
 [[package]]
 name = "astral"
-version = "3.2"
+version = "2.2"
 description = "Calculations for the position of the sun and moon."
 category = "main"
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = ">=3.6"
 
 [package.dependencies]
-"backports.zoneinfo" = {version = "*", markers = "python_version < \"3.9\""}
-tzdata = {version = "*", markers = "sys_platform == \"win32\""}
+pytz = "*"
 
 [[package]]
 name = "astroid"
@@ -48,17 +47,6 @@ pytz = {version = ">=2015.7", markers = "python_version < \"3.9\""}
 
 [package.extras]
 dev = ["pytest (>=6.0)", "pytest-cov", "freezegun (>=1.0,<2.0)"]
-
-[[package]]
-name = "backports.zoneinfo"
-version = "0.2.1"
-description = "Backport of the standard library zoneinfo module"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[package.extras]
-tzdata = ["tzdata"]
 
 [[package]]
 name = "black"
@@ -126,17 +114,6 @@ description = "Cross-platform colored terminal text."
 category = "dev"
 optional = false
 python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*,!=3.4.*,!=3.5.*,!=3.6.*,>=2.7"
-
-[[package]]
-name = "dill"
-version = "0.3.7"
-description = "serialize all of Python"
-category = "dev"
-optional = false
-python-versions = ">=3.7"
-
-[package.extras]
-graph = ["objgraph (>=1.7.2)"]
 
 [[package]]
 name = "dill"
@@ -674,14 +651,6 @@ optional = false
 python-versions = ">=3.7"
 
 [[package]]
-name = "tzdata"
-version = "2024.1"
-description = "Provider of IANA time zone data"
-category = "main"
-optional = false
-python-versions = ">=2"
-
-[[package]]
 name = "urllib3"
 version = "2.0.7"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
@@ -736,14 +705,13 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "flake8 (<5)", "pytest-co
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7.15"
-content-hash = "9a6346211ba4fe78d3e106c69147d661369c262f92ed71a3c0468e2232337456"
+content-hash = "4340bb16094c959e74bc1eae1cdf7a3937b55bef12f3b9857834f66d02d00734"
 
 [metadata.files]
 alabaster = []
 astral = []
 astroid = []
 babel = []
-"backports.zoneinfo" = []
 black = []
 certifi = []
 cfgv = []
@@ -796,7 +764,6 @@ tomlkit = []
 tox = []
 typed-ast = []
 typing-extensions = []
-tzdata = []
 urllib3 = []
 virtualenv = []
 wrapt = []
