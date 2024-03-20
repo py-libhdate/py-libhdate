@@ -5,21 +5,21 @@ repos:
     hooks:
     - id : flake8
       name: flake8
-      entry: poetry run flake8
+      entry: pdm run flake8
       language: system
       types: [python]
     - id: pylint
       name: pylint
-      entry: poetry run pylint
+      entry: pdm run pylint
       language: system
       types: [python]
     - id: isort
       name: isort
-      entry: poetry run isort
+      entry: pdm run isort
       language: system
       types: [python]
     - id: black
       name: black
-      entry: poetry run black
+      entry: pdm run black
       language: system
       types: [python]
