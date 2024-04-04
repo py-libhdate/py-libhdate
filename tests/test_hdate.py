@@ -146,6 +146,16 @@ class TestHDate:
 class TestSpecialDays:
     """Test HDate in terms of special days."""
 
+    def test_is_leap_year(self):
+        """Test that is_leap_year() working as expected for leap year."""
+        leap_date = HDate(heb_date=HebrewDate(5784, 1, 1))
+        assert leap_date.is_leap_year
+
+    def test_is_not_leap_year(self):
+        """Test that is_leap_year() working as expected for non-leap year."""
+        leap_date = HDate(heb_date=HebrewDate(5783, 1, 1))
+        assert not leap_date.is_leap_year
+
     # Test against both a leap year and non-leap year
     @pytest.mark.parametrize(("year"), ((5783, 5784)))
     def test_get_holidays_for_year(self, year):
