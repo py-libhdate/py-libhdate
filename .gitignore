@@ -19,3 +19,6 @@ htmlcov/
 _static
 _templates
 _build
+
+# Pycharm
+.idea

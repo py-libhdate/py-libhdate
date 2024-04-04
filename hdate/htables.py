@@ -381,8 +381,8 @@ def correct_adar():
     it's a leap year.
     """
     return lambda x: (
-        (x.hdate.month == Months.ADAR and x.year_size() < 380)
-        or (x.hdate.month in [Months.ADAR_I, Months.ADAR_II] and x.year_size() > 380)
+        (x.hdate.month == Months.ADAR and not x.is_leap_year)
+        or (x.hdate.month in [Months.ADAR_I, Months.ADAR_II] and x.is_leap_year)
     )
 
 
