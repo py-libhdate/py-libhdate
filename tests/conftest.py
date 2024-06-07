@@ -25,6 +25,6 @@ def random_date():
 
 
 @pytest.fixture
-def rand_hdate(random_date):
+def rand_hdate(random_date):  # pylint: disable=redefined-outer-name
     """Given a random date, generate a random HDate."""
     return hdate.HDate(random_date)

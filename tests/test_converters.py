@@ -1,4 +1,5 @@
 """Test the conversion functions."""
+
 import pytest
 
 from hdate import converters as conv

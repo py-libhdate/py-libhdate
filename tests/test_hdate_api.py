@@ -2,6 +2,7 @@
 These tests are based on the API calls made to hdate by homeassistant (and
 maybe other apps in the future).
 """
+
 import sys
 from datetime import date, datetime
 
