@@ -51,6 +51,11 @@ dev = [
     "flake8>=7.0.0",
     "pytest>=8.2.2",
     "scriv>=1.5.1",
+    "tox-pdm>=0.7.2",
+]
+test = [
+    "pytest>=8.2.2",
+    "pytest-coverage>=0.0",
 ]
 
 [tool.scriv]
