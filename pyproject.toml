@@ -53,3 +53,8 @@ dev = [
     "scriv>=1.5.1",
 ]
 
+[tool.scriv]
+version = "literal: pyproject.toml: project.version"
+entry_title_template = "{% if version %}v{{ version }} {% endif %}({{ date.strftime('%Y-%m-%d') }})"
+rst_header_chars = "-*"
+categories = ["Infrastructure", "Added", "Fixed", "Removed", "Changed"]
