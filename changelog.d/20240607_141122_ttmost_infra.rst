@@ -25,5 +25,5 @@
 Changed
 *******
 
-- Require Python version 3.9 and update development tools.
+- Require Python version 3.8 and update development tools.
 ..

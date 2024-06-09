@@ -14,7 +14,7 @@ classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Topic :: Software Development :: Libraries",
 ]
-requires-python = ">=3.9"
+requires-python = ">=3.8"
 dependencies = [
     "pytz>=2024.1",
     "astral<3.0,>=2.2",
@@ -43,15 +43,15 @@ addopts = "-ra --doctest-modules --doctest-glob=*.rst"
 [tool.pdm.dev-dependencies]
 dev = [
     "tox>=4.15.1",
-    "pre-commit>=3.7.1",
-    "Sphinx>=7.3.7",
     "pylint>=3.2.3",
     "isort>=5.13.2",
     "black>=24.4.2",
-    "flake8>=7.0.0",
     "pytest>=8.2.2",
     "scriv>=1.5.1",
     "tox-pdm>=0.7.2",
+    "pre-commit>=3.5.0",
+    "Sphinx>=7.1.2",
+    "flake8>=5.0.4",
 ]
 test = [
     "pytest>=8.2.2",
