@@ -4,52 +4,51 @@ Development guidelines
 Creating a dev environment
 --------------------------
 
-Create your personal fork of the project.
-After cloning the environment ...
-
-.. code :: shell
-
-   $ git clone git@github.com:your username>/py-libhdate.git
-
-If you don't have `poetry` installed on your system, take a look
-at https://python-poetry.org/docs/#installation
+If you don't have `pdm` installed on your system, take a look
+at ``https://pdm-project.org/latest/#installation``
 
 Setup the virtual environment by installing the required packages:
 
-.. code :: shell
+.. code:: shell
 
-   $ poetry install
+   $ pdm install
 
 At this point you should install the pre-commit hooks so your commits match those in
 the project:
 
-.. code :: shell
+.. code:: shell
 
-   $ poetry run pre-commit install
+   $ pdm run pre-commit install
 
 Create your topic branch
 
-.. code :: shell
+.. code:: shell
 
    $ git branch -b <topic>
 
 Now you're ready to write you're code.
 Once the code is ready ...
 
-.. code :: shell
+.. code:: shell
 
-   $ poetry run tox
+   $ pdm run tox
 
 If tox passes, you're ready to create a pull request.
 
 **Note:** the first commit might take some time while pre-commit installs the needed
 dependencies.
 
-**Important:** Your first commit message for a given branch will automatically be
-added to the CHANGELOG. Please keep it clear. You can prepend the summary with ``chg``,
-``fix`` or ``new`` to insert the message in the correct category.
-Adding ``!minor`` or ``!cosmetics`` will cause the commit not to be noted in the
-changelog.
+Using a different Python version
+--------------------------------
+
+PDM allows you natively to install and use a different Python version during your development.
+
+.. code:: shell
+
+   $ pdm python install 3.12  # Or any version from 3.8 onwards
+   $ pdm use                  # Will provide you a list of installed Pythons, including the one you installed
+   $ pdm install              # Recreate your virtual environment
+
 
 Coding style guidelines
 -----------------------
