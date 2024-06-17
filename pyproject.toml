@@ -47,7 +47,6 @@ dev = [
     "isort>=5.13.2",
     "black>=24.4.2",
     "pytest>=8.2.2",
-    "scriv>=1.5.1",
     "tox-pdm>=0.7.2",
     "pre-commit>=3.5.0",
     "Sphinx>=7.1.2",
@@ -57,9 +56,3 @@ test = [
     "pytest>=8.2.2",
     "pytest-coverage>=0.0",
 ]
-
-[tool.scriv]
-version = "literal: pyproject.toml: project.version"
-entry_title_template = "{% if version %}v{{ version }} {% endif %}({{ date.strftime('%Y-%m-%d') }})"
-rst_header_chars = "-*"
-categories = ["Infrastructure", "Added", "Fixed", "Removed", "Changed"]
