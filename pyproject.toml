@@ -1,36 +1,32 @@
-[tool.poetry]
+[project]
 name = "hdate"
 version = "0.10.8"
 description = "Jewish/Hebrew date and Zmanim in native Python 2.7/3.x"
-authors = ["Royi Reshef <roy.myapp@gmail.com>"]
-maintainers = ["Tsvi Mostovicz <ttmost@gmail.com>"]
-license = "GPL-3.0-or-later"
+authors = [
+    {name = "Royi Reshef", email = "roy.myapp@gmail.com"},
+]
+maintainers = [
+    {name = "Tsvi Mostovicz", email = "ttmost@gmail.com"},
+]
+license = {text = "GPL-3.0-or-later"}
 readme = "README.rst"
-repository = "https://github.com/py-libhdate/py-libhdate"
-documentation = "https://py-libhdate.readthedocs.io/en/latest/"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Topic :: Software Development :: Libraries",
 ]
+requires-python = ">=3.8"
+dependencies = [
+    "pytz>=2024.1",
+    "astral<3.0,>=2.2",
+]
 
-[tool.poetry.dependencies]
-python = "^3.7.15"
-pytz = "^2024.1"
-astral = "^2.2"
-
-[tool.poetry.dev-dependencies]
-tox = "^3.26.0"
-pre-commit = "^2.20.0"
-Sphinx = "^4.3.2"
-pylint = "^2.15.5"
-isort = "^5.10.1"
-black = "^22.10.0"
-flake8 = "^5.0.4"
-pytest = "^7.2.0"
+[project.urls]
+repository = "https://github.com/py-libhdate/py-libhdate"
+documentation = "https://py-libhdate.readthedocs.io/en/latest/"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
 
 [tool.isort]
 profile = "black"
@@ -43,3 +39,20 @@ max-line-length = "88"
 # Run doctest that are part of docstrings
 # Run doctest in RST files
 addopts = "-ra --doctest-modules --doctest-glob=*.rst"
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "tox>=4.15.1",
+    "pylint>=3.2.3",
+    "isort>=5.13.2",
+    "black>=24.4.2",
+    "pytest>=8.2.2",
+    "tox-pdm>=0.7.2",
+    "pre-commit>=3.5.0",
+    "Sphinx>=7.1.2",
+    "flake8>=5.0.4",
+]
+test = [
+    "pytest>=8.2.2",
+    "pytest-coverage>=0.0",
+]

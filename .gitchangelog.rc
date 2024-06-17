@@ -1,8 +1,0 @@
-ignore_regexps = [
-        r'!minor', r'!cosmetic',
-        r'^[c|C]hore.*',
-        r'^Bump version',
-        r'^(.{3,3}\s*:)?\s*[iI]nitial commit.?\s*$',
-  ]
-
-tag_filter_regexp = r'^(v)?[0-9]+\.[0-9]+(\.[0-9]+)?$'

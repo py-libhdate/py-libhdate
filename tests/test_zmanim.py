@@ -1,4 +1,5 @@
 """Test Zmanim objects."""
+
 import datetime
 import random
 import sys
@@ -196,6 +197,7 @@ class TestZmanim:
         ["now", "offset", "motzei_shabbat_chag"], MOTZEI_SHABBAT_CHAG_TEST
     )
     def test_motzei_shabbat_chag(self, now, offset, motzei_shabbat_chag):
+        """Test motzei shabbat chag boolean is correct."""
         location_tz_str = Location(
             name="New York",
             latitude=NYC_LAT,
@@ -229,6 +231,7 @@ class TestZmanim:
         ["now", "offset", "erev_shabbat_chag"], EREV_SHABBAT_CHAG_TEST
     )
     def test_erev_shabbat_hag(self, now, offset, erev_shabbat_chag):
+        """Test erev shabbat chag boolean is correct."""
         location_tz_str = Location(
             name="New York",
             latitude=NYC_LAT,

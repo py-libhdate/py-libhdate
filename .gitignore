@@ -5,7 +5,9 @@ dist/
 *.egg
 *.py[cod]
 __pycache__/
-venv
+.venv/
+.pdm-python
+.pdm-build/
 
 .coverage
 htmlcov/
