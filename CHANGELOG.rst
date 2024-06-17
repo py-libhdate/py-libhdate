@@ -1,85 +1,23 @@
 Changelog
 =========
 
-v0.10.8 (2024-3-11)
--------------------
 
-- Revert minimal astral version to 2.2
+(unreleased)
+------------
+- Fix(ci): Pass correct Git credentials before running semantic-release.
+  [Tsvi Mostovicz]
 
-v0.10.7 (2024-3-9)
-------------------
+  fix(ci): Pass correct Git credentials before running semantic-release
+- Fix(ci): Pass correct Git credentials before running semantic-release.
+  [Tsvi Mostovicz]
+- Fix(ci): Forgot to specify the GitHub actions in tox.ini. [Tsvi
+  Mostovicz]
 
-- Fix publishing part of workflow
+  fix(ci): Forgot to specify the GitHub actions in tox.ini
+- Fix(ci): Forgot to specify the GitHub actions in tox.ini. [Tsvi
+  Mostovicz]
+- Docs: Update development guide. [Tsvi Mostovicz]
 
-v0.10.6 (2024-1-30)
--------------------
-
-- Update Github actions
-- Fix dependabots issues
-- Fix issues with get_holidays_for_year() (#117)
-- Update .readthedocs.yaml to latest required spec
-- add Python 3.11 testing to tox and remove 3.7 (#115)
-- use-dict-literal (#114)
-- use dataclass for HebrewDate (#110)
-- Bump certifi from 2022.9.24 to 2022.12.7 (#109)
-- Fix spelling (#108)
-- Move development to 3.7 by default (#107)
-- Some more cleanups due to python2 deprecation (#105)
-- Drop support for Python 2 (#101)
-- Add french language support (#103)
-- Update packages to latest supported python version
-- Minor nitpick when printing Zmanim times
-- Cleanup py2 semantics
-- Remove linting from tox (part of pre-commit)
-- Update requirements to python 3.7
-
-v0.10.2 (2020-12-27)
---------------------
-
-- Use environment files instead of set-env
-- Fix version in pyproject.toml and fix github release flow (#84)
-- Move to poetry (#83)
-
-v0.10.0 (2020-11-2)
--------------------
-
-- Use astral in Zmanim time calculations (#79)
-- Setup read the docs configuration (#81)
-- Initial commit for working with Sphinx for documentation (#80)
-
-v0.9.12 (2020-10-26)
---------------------
-
-- issur_melacha should include candle_lighting (#78)
-- Add Python 3.9 to CI (#77)
-- Update README.rst and Fixes some typos (#75)
-- Fix instructions for setting up development environment (#73)
-
-v0.9.11 (2020-7-22)
--------------------
-- Terminate sed command
-- Fix missing closing quote (#70)
-- Fix sed search and replace for version number (#69)
-- Update workflows based on other projects (#68)
-- fix: Don't run tests on master (#64)
-- chore: Add auto-release workflow action (#63)
-- fix: Allow user to trigger tests on their forked branch as well (#62)
-- Use checkout v1 as v2 is broken with creation of PR (#60)
-- Use repo-sync instead of peter evans create pull request action (#59)
-- Fix: Use specific deploy label (#58)
-- Use regex match for label name (#57)
-- fix: when updating changlelog push back to pull request (#56)
-- fix: Minor typos - test changelog generation (#55)
-- chore: add support for automatic changelog generation (#54)
-- Fix(devops): run_tests workflow
-- style: Fix dev docs formatting
-- fix(ci): Pass correct Git credentials before running semantic-release
-- fix(ci): Forgot to specify the GitHub actions in tox.ini
-- chores(ci): Make contributions easier with pre-commit hooks and GH actions
-- docs: Update development guide
-- chore: Implement CI using Github actions
-- chore(devops): Implement pre-commit
-- chore(devops): Move to use semantic release instead of bumpversion
 
 v0.9.7 (2020-02-23)
 -------------------
