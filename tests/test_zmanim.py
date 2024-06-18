@@ -21,6 +21,9 @@ NYC_LNG = -74.0060
 LONDON_LAT = 51.5074
 LONDON_LNG = -0.1278
 
+PUNTA_ARENAS_LAT = -53.1678  # Southern example
+PUNTA_ARENAS_LNG = -70.9167
+
 
 def compare_dates(date1, date2, allow_grace=False):
     """Compare 2 dates to be more or less equal."""
@@ -80,7 +83,7 @@ class TestZmanim:
         for key, value in this_zmanim.items():
             assert value - grace <= other_zmanim[key] <= value + grace, key
 
-    def test_north_zmanim(self):
+    def test_extreme_zmanim(self):
         """Test that Zmanim north to 50 degrees latitude is correct."""
         day = datetime.date(2024, 6, 18)
         compare_times(
@@ -97,6 +100,22 @@ class TestZmanim:
             .zmanim["sunset"]
             .time(),
             datetime.time(21, 22),
+            allow_grace=True,
+        )
+        compare_times(
+            Zmanim(
+                date=day,
+                location=Location(
+                    name="Punta Arenas",
+                    latitude=PUNTA_ARENAS_LAT,
+                    longitude=PUNTA_ARENAS_LNG,
+                    timezone="America/Punta_Arenas",
+                    diaspora=True,
+                ),
+            )
+            .zmanim["sunset"]
+            .time(),
+            datetime.time(17, 31),
             allow_grace=True,
         )
 
