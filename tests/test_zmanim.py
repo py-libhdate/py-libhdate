@@ -18,19 +18,24 @@ _ASTRAL = "astral" in sys.modules
 NYC_LAT = 40.7128
 NYC_LNG = -74.0060
 
+LONDON_LAT = 51.5074
+LONDON_LNG = -0.1278
 
-def compare_dates(date1, date2):
+
+def compare_dates(date1, date2, allow_grace=False):
     """Compare 2 dates to be more or less equal."""
     if not (date1 or date2):
         assert date1 == date2
     else:
-        grace = td(minutes=5 if not _ASTRAL else 0)
+        grace = td(minutes=5 if (not _ASTRAL or allow_grace) else 0)
         assert date1 - grace <= date2 <= date1 + grace
 
 
-def compare_times(time1, time2):
+def compare_times(time1, time2, allow_grace=False):
     """Compare times to be equal."""
-    compare_dates(dt.combine(dt.today(), time1), dt.combine(dt.today(), time2))
+    compare_dates(
+        dt.combine(dt.today(), time1), dt.combine(dt.today(), time2), allow_grace
+    )
 
 
 class TestZmanim:
@@ -74,6 +79,26 @@ class TestZmanim:
         grace = 0 if not _ASTRAL else 14
         for key, value in this_zmanim.items():
             assert value - grace <= other_zmanim[key] <= value + grace, key
+
+    def test_north_zmanim(self):
+        """Test that Zmanim north to 50 degrees latitude is correct."""
+        day = datetime.date(2024, 6, 18)
+        compare_times(
+            Zmanim(
+                date=day,
+                location=Location(
+                    name="London",
+                    latitude=LONDON_LAT,
+                    longitude=LONDON_LNG,
+                    timezone="Europe/London",
+                    diaspora=True,
+                ),
+            )
+            .zmanim["sunset"]
+            .time(),
+            datetime.time(21, 22),
+            allow_grace=True,
+        )
 
     def test_using_tzinfo(self):
         """Test tzinfo to be correct."""
