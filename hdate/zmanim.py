@@ -23,7 +23,7 @@ try:
 except ImportError:
     _USE_ASTRAL = False
 
-
+MAX_LATITUDE_ASTRAL = 50.0
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -84,7 +84,7 @@ class Zmanim(BaseClass):  # pylint: disable=too-many-instance-attributes
         _LOGGER.debug("Resetting timezone to UTC for calculations")
         self.time = location.timezone.localize(self.time).astimezone(pytz.utc)
 
-        if _USE_ASTRAL:
+        if _USE_ASTRAL and (abs(location.latitude) <= MAX_LATITUDE_ASTRAL):
             self.astral_observer = astral.Observer(
                 latitude=self.location.latitude, longitude=self.location.longitude
             )
@@ -336,7 +336,7 @@ class Zmanim(BaseClass):  # pylint: disable=too-many-instance-attributes
 
     def get_utc_sun_time_full(self):
         """Return a list of Jewish times for the given location."""
-        if not _USE_ASTRAL:
+        if (not _USE_ASTRAL) or (abs(self.location.latitude) > MAX_LATITUDE_ASTRAL):
             sunrise, sunset = self._get_utc_sun_time_deg(90.833)
             first_light, _ = self._get_utc_sun_time_deg(106.1)
             talit, _ = self._get_utc_sun_time_deg(101.0)
