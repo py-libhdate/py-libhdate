@@ -9,8 +9,6 @@ import datetime as dt
 import logging
 import math
 
-import pytz
-
 from hdate import htables
 from hdate.common import BaseClass, Location
 from hdate.date import HDate
@@ -82,7 +80,9 @@ class Zmanim(BaseClass):  # pylint: disable=too-many-instance-attributes
             raise TypeError
 
         _LOGGER.debug("Resetting timezone to UTC for calculations")
-        self.time = location.timezone.localize(self.time).astimezone(pytz.utc)
+        self.time = self.time.replace(tzinfo=location.timezone).astimezone(
+            dt.timezone.utc
+        )
 
         if _USE_ASTRAL and (abs(location.latitude) <= MAX_LATITUDE_ASTRAL):
             self.astral_observer = astral.Observer(
@@ -112,7 +112,9 @@ class Zmanim(BaseClass):  # pylint: disable=too-many-instance-attributes
     @property
     def utc_zmanim(self):
         """Return a dictionary of the zmanim in UTC time format."""
-        basetime = dt.datetime.combine(self.date, dt.time()).replace(tzinfo=pytz.utc)
+        basetime = dt.datetime.combine(self.date, dt.time()).replace(
+            tzinfo=dt.timezone.utc
+        )
         _LOGGER.debug("Calculating UTC zmanim for %r", basetime)
         return {
             key: basetime + dt.timedelta(minutes=value)

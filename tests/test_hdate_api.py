@@ -209,6 +209,6 @@ class TestZmanimAPI:
             diaspora=True,
         )
         zman = Zmanim(
-            date=coord.timezone.localize(datetime(2019, 4, 21, 20, 30)), location=coord
+            date=datetime(2019, 4, 21, 20, 30, tzinfo=coord.timezone), location=coord
         )
         assert not zman.issur_melacha_in_effect

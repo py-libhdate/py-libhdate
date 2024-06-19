@@ -3,7 +3,10 @@
 from dataclasses import dataclass
 from datetime import tzinfo
 
-import pytz
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:
+    from backports.zoneinfo import ZoneInfo
 
 from hdate.htables import Months
 
@@ -74,4 +77,4 @@ class Location(BaseClass):
     @timezone.setter
     def timezone(self, value):
         """Set the timezone."""
-        self._timezone = value if isinstance(value, tzinfo) else pytz.timezone(value)
+        self._timezone = value if isinstance(value, tzinfo) else ZoneInfo(value)
