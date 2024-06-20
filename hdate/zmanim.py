@@ -10,8 +10,8 @@ import logging
 import math
 
 from hdate import htables
-from hdate.common import Location
 from hdate.date import HDate
+from hdate.location import Location
 
 try:
     import astral

@@ -3,7 +3,7 @@
 import pytest
 
 from hdate import converters as conv
-from hdate.common import HebrewDate
+from hdate.hebrew_date import HebrewDate
 from hdate.htables import Months
 
 

@@ -1,4 +1,4 @@
-"""Small helper classes."""
+"""Location data for HDate - used by Zmanim."""
 
 from dataclasses import dataclass
 from datetime import tzinfo
@@ -8,10 +8,8 @@ try:
 except ImportError:
     from backports.zoneinfo import ZoneInfo
 
-from hdate.htables import Months
 
-
-
+@dataclass
 class Location:
     """Define a geolocation for Zmanim calculations."""
 
