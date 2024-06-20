@@ -1,38 +1,76 @@
 name: Release
 
 on:
-  release:
-    types: [published]
+  workflow_dispatch:
+    inputs:
+      version_bump:
+        description: 'Version part to bump (major, minor, patch)'
+        required: true
+        default: 'patch'
 
 jobs:
   publish-release:
-
     runs-on: ubuntu-latest
+
+    permissions:
+      # Give the default GITHUB_TOKEN write permission to commit and push the
+      # added or changed files to the repository.
+      contents: write
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        ssh-key: ${{ secrets.RELEASE_KEY }}
 
-    - name: Get version
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: pip install bump-my-version
+
+    - name: Capture Upcoming Version
+      id: upcoming_version
+      run: echo "UPCOMING_VERSION=$(bump-my-version show --increment ${{ github.event.inputs.version_bump }} new_version)" >> $GITHUB_ENV
+
+    - name: Fetch Draft Release Notes
+      id: fetch_release_notes
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        echo "VERSION=$(/usr/bin/git tag --list | sed 's|.*v\([0-9\.]*\).*|\1|')" >> $GITHUB_ENV
+        DRAFT_RELEASE=$(gh api repos/${{ github.repository }}/releases -q '[.[] | select(.draft==true)] | first')
+        DRAFT_NOTES=$(echo $DRAFT_RELEASE | jq -r '.body')
+        DRAFT_ID=$(echo $DRAFT_RELEASE | jq -r '.id')
+        
+        # Write the draft notes to a temporary file to handle multiline output
+        echo "$DRAFT_NOTES" > draft_notes.txt
+    
+        # Set the output using the temporary file
+        echo "notes<<EOF" >> $GITHUB_OUTPUT
+        cat draft_notes.txt >> $GITHUB_OUTPUT
+        echo "EOF" >> $GITHUB_OUTPUT
+        gh api repos/${{ github.repository }}/releases/$DRAFT_ID -X DELETE
+
+    - name: Update Changelog
+      uses: stefanzweifel/changelog-updater-action@v1
+      with:
+        latest-version: ${{ env.UPCOMING_VERSION }}
+        release-notes: ${{ steps.fetch_release_notes.outputs.notes }}
+
     - name: Bump version
       run: |
-        sed 's/^version = ".*"/version = "'"$VERSION"'"/' -i pyproject.toml
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        git add pyproject.toml
-        git commit -m "releasing v$VERSION"
-        git tag -f "v$VERSION"
-    - name: Push changes
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-    - name: Push tags
-      uses: ad-m/github-push-action@master
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        tags: true
-        force: true
+        git config --global user.name 'HDate - release bot'
+        git config --global user.email 'hdate-release+github-actions@github.com'
+        bump-my-version bump ${{ github.event.inputs.version_bump }} -v pyproject.toml
+        git push --tags
+
+    - name: Create GitHub Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        TAG_NAME=$(bump-my-version show current_version)
+        gh release create v$TAG_NAME --title "Release v$TAG_NAME" --notes "${{ steps.fetch_release_notes.outputs.notes }}"
 
     - name: Set up PDM
       uses: pdm-project/setup-pdm@v4
@@ -41,3 +79,11 @@ jobs:
       run: pdm publish
       env:
         PDM_PUBLISH_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+
+    - name: Upload the wheel to the Github release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
+      run: |
+        TAG_NAME=$(bump-my-version show current_version)
+        pdm build
+        gh release upload -R ${{ github.repository }} v$TAG_NAME dist/*
