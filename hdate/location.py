@@ -1,4 +1,4 @@
-"""Small helper classes."""
+"""Location data for HDate - used by Zmanim."""
 
 from dataclasses import dataclass
 from datetime import tzinfo
@@ -8,38 +8,9 @@ try:
 except ImportError:
     from backports.zoneinfo import ZoneInfo
 
-from hdate.htables import Months
-
-
-class BaseClass:
-    """Implement basic functionality for all classes."""
-
-    def __eq__(self, other):
-        """Override equality operator."""
-        if isinstance(other, self.__class__):
-            return self.__dict__ == other.__dict__
-        return False
-
-    def __ne__(self, other):
-        """Override inequality operator."""
-        return not self.__eq__(other)
-
 
 @dataclass
-class HebrewDate(BaseClass):
-    """Define a Hebrew date object."""
-
-    year: int
-    month: Months
-    day: int
-
-    def __post_init__(self):
-        self.month = (
-            self.month if isinstance(self.month, Months) else Months(self.month)
-        )
-
-
-class Location(BaseClass):
+class Location:
     """Define a geolocation for Zmanim calculations."""
 
     # pylint: disable=too-many-arguments

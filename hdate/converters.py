@@ -2,7 +2,7 @@
 
 import datetime
 
-from hdate.common import HebrewDate
+from hdate.hebrew_date import HebrewDate
 from hdate.htables import Months
 
 

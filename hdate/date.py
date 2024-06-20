@@ -11,14 +11,14 @@ from itertools import chain, product
 
 from hdate import converters as conv
 from hdate import htables
-from hdate.common import BaseClass, HebrewDate
+from hdate.hebrew_date import HebrewDate
 from hdate.htables import HolidayTypes, Months
 
 _LOGGER = logging.getLogger(__name__)
 # pylint: disable=too-many-public-methods
 
 
-class HDate(BaseClass):
+class HDate:
     """
     Hebrew date class.
 

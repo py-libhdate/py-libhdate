@@ -15,7 +15,7 @@ except ImportError:
     from backports.zoneinfo import ZoneInfo
 
 from hdate import Zmanim
-from hdate.common import Location
+from hdate.location import Location
 
 _ASTRAL = "astral" in sys.modules
 
