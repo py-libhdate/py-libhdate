@@ -8,7 +8,11 @@ from datetime import datetime as dt
 from datetime import timedelta as td
 
 import pytest
-import pytz
+
+try:
+    from zoneinfo import ZoneInfo
+except ImportError:
+    from backports.zoneinfo import ZoneInfo
 
 from hdate import Zmanim
 from hdate.common import Location
@@ -123,7 +127,7 @@ class TestZmanim:
         """Test tzinfo to be correct."""
         day = datetime.date(2018, 9, 8)
         timezone_str = "America/New_York"
-        timezone = pytz.timezone(timezone_str)
+        timezone = ZoneInfo(timezone_str)
         location_tz_str = Location(
             name="New York",
             latitude=NYC_LAT,
