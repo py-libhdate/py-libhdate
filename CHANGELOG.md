@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.10.10 - 2024-06-21
+
+### 🧰 Maintenance
+
+* Cleanup the release flow (#127) @tsvi
+* Cleanup unnecessary code (#126) @tsvi
+* Use PEP-459 compatible built-in ZoneInfo (#125) @tsvi
+
 ## v0.10.9 (2024-6-18)
 
 - Allow locations to the north of 50 degrees latitude (#124) @tsvi
