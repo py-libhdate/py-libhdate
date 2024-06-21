@@ -1,45 +1,102 @@
-Changelog
-=========
+# Changelog
 
+## v0.10.9 (2024-6-18)
 
-(unreleased)
-------------
-- Fix(ci): Pass correct Git credentials before running semantic-release.
-  [Tsvi Mostovicz]
+- Allow locations to the north of 50 degrees latitude (#124) @tsvi
+- Use PDM as our package manager (#123) @tsvi
+- add Is leap year method (#120) @aviadlevy
 
-  fix(ci): Pass correct Git credentials before running semantic-release
-- Fix(ci): Pass correct Git credentials before running semantic-release.
-  [Tsvi Mostovicz]
-- Fix(ci): Forgot to specify the GitHub actions in tox.ini. [Tsvi
-  Mostovicz]
+## v0.10.8 (2024-3-11)
 
-  fix(ci): Forgot to specify the GitHub actions in tox.ini
-- Fix(ci): Forgot to specify the GitHub actions in tox.ini. [Tsvi
-  Mostovicz]
-- Docs: Update development guide. [Tsvi Mostovicz]
+- Revert minimal astral version to 2.2
 
+## v0.10.7 (2024-3-9)
 
-v0.9.7 (2020-02-23)
--------------------
+- Fix publishing part of workflow
+
+## v0.10.6 (2024-1-30)
+
+- Update Github actions
+- Fix dependabots issues
+- Fix issues with get_holidays_for_year() (#117)
+- Update .readthedocs.yaml to latest required spec
+- add Python 3.11 testing to tox and remove 3.7 (#115)
+- use-dict-literal (#114)
+- use dataclass for HebrewDate (#110)
+- Bump certifi from 2022.9.24 to 2022.12.7 (#109)
+- Fix spelling (#108)
+- Move development to 3.7 by default (#107)
+- Some more cleanups due to python2 deprecation (#105)
+- Drop support for Python 2 (#101)
+- Add french language support (#103)
+- Update packages to latest supported python version
+- Minor nitpick when printing Zmanim times
+- Cleanup py2 semantics
+- Remove linting from tox (part of pre-commit)
+- Update requirements to python 3.7
+
+## v0.10.2 (2020-12-27)
+
+- Use environment files instead of set-env
+- Fix version in pyproject.toml and fix github release flow (#84)
+- Move to poetry (#83)
+
+## v0.10.0 (2020-11-2)
+
+- Use astral in Zmanim time calculations (#79)
+- Setup read the docs configuration (#81)
+- Initial commit for working with Sphinx for documentation (#80)
+
+## v0.9.12 (2020-10-26)
+
+- issur_melacha should include candle_lighting (#78)
+- Add Python 3.9 to CI (#77)
+- Update README.rst and Fixes some typos (#75)
+- Fix instructions for setting up development environment (#73)
+
+## v0.9.11 (2020-7-22)
+
+- Terminate sed command
+- Fix missing closing quote (#70)
+- Fix sed search and replace for version number (#69)
+- Update workflows based on other projects (#68)
+- fix: Don't run tests on master (#64)
+- chore: Add auto-release workflow action (#63)
+- fix: Allow user to trigger tests on their forked branch as well (#62)
+- Use checkout v1 as v2 is broken with creation of PR (#60)
+- Use repo-sync instead of peter evans create pull request action (#59)
+- Fix: Use specific deploy label (#58)
+- Use regex match for label name (#57)
+- fix: when updating changlelog push back to pull request (#56)
+- fix: Minor typos - test changelog generation (#55)
+- chore: add support for automatic changelog generation (#54)
+- Fix(devops): run_tests workflow
+- style: Fix dev docs formatting
+- fix(ci): Pass correct Git credentials before running semantic-release
+- fix(ci): Forgot to specify the GitHub actions in tox.ini
+- chores(ci): Make contributions easier with pre-commit hooks and GH actions
+- docs: Update development guide
+- chore: Implement CI using Github actions
+- chore(devops): Implement pre-commit
+- chore(devops): Move to use semantic release instead of bumpversion
+
+## v0.9.7 (2020-02-23)
+
 - Use Travis repo environment variable. [Tsvi Mostovicz]
 - Fix deployment, temporarily remove on.tags. [Tsvi Mostovicz]
 
+## v0.9.6 (2020-02-23)
 
-v0.9.6 (2020-02-23)
--------------------
 - Add automatic deployment. [Tsvi Mostovicz]
 
+## v0.9.5 (2020-01-22)
 
-v0.9.5 (2020-01-22)
--------------------
+### Fix
 
-Fix
-~~~
 - Small lint fixes and pass tests on python2.7. [Tsvi Mostovicz]
 
+## v0.9.4 (2020-01-22)
 
-v0.9.4 (2020-01-22)
--------------------
 - Merge pull request #46 from moshekaplan/master. [Tsvi Mostovicz]
 
   Add daf yomi to hdate
@@ -48,18 +105,18 @@ v0.9.4 (2020-01-22)
 - Add daf yomi to a date. [Moshe Kaplan]
 
 
-v0.9.3 (2019-10-31)
--------------------
+## v0.9.3 (2019-10-31)
+
 - Lower verbosity of holiday calculations. [Tsvi Mostovicz]
 
 
-v0.9.2 (2019-10-31)
--------------------
+## v0.9.2 (2019-10-31)
+
 - Remove logger statement. [Tsvi Mostovicz]
 
 
-v0.9.1 (2019-10-16)
--------------------
+## v0.9.1 (2019-10-16)
+
 - Fix requirements for python 2.7. [Tsvi Mostovicz]
 - Make tox -e check pass after blackifying. [Tsvi Mostovicz]
 - Blackify hdate. [Tsvi Mostovicz]
@@ -74,8 +131,8 @@ v0.9.1 (2019-10-16)
 - Fix for Parshat shavua on last weeks of year. [Tsvi Mostovicz]
 
 
-v0.9.0 (2019-08-06)
--------------------
+## v0.9.0 (2019-08-06)
+
 - Accept timezone aware datetime as an argument to Zmanim. [Tsvi
   Mostovicz]
 - Move from dateutil to pytz. [Tsvi Mostovicz]
@@ -96,8 +153,8 @@ v0.9.0 (2019-08-06)
   Bump version: 0.8.7 → 0.8.8
 
 
-v0.8.8 (2019-07-02)
--------------------
+## v0.8.8 (2019-07-02)
+
 - Merge pull request #42 from tsvi/master. [Tsvi Mostovicz]
 
   Remove unnecessary import
@@ -118,8 +175,8 @@ v0.8.8 (2019-07-02)
    - #home-assistant/23852
 
 
-v0.8.7 (2018-12-18)
--------------------
+## v0.8.7 (2018-12-18)
+
 - Split tests so they're a bit more readable, to help us fix #36. [Tsvi
   Mostovicz]
 - Family day has only existed as a national holiday since 1974. [Tsvi
@@ -127,8 +184,8 @@ v0.8.7 (2018-12-18)
 - Cleanup whitespace errors. [Tsvi Mostovicz]
 
 
-v0.8.6 (2018-12-18)
--------------------
+## v0.8.6 (2018-12-18)
+
 - Merge pull request #37 from arigilder/upcoming. [Tsvi Mostovicz]
 
   Add additional properties for upcoming shabbat+yomtov, zmanim, & more
@@ -143,8 +200,8 @@ v0.8.6 (2018-12-18)
   first/last days. [Ari Gilder]
 
 
-v0.8.5 (2018-12-13)
--------------------
+## v0.8.5 (2018-12-13)
+
 - Merge pull request #35 from arigilder/readings. [Tsvi Mostovicz]
 
   Fix bugs with readings, sub-HDates, etc.
@@ -154,8 +211,8 @@ v0.8.5 (2018-12-13)
   HDates. [Ari Gilder]
 
 
-v0.8.4 (2018-12-09)
--------------------
+## v0.8.4 (2018-12-09)
+
 - Revert greedy removal of pylint warning. [Tsvi Mostovicz]
 
   For class inheritance to work correctly under python 2, we need BaseClass to
@@ -165,8 +222,8 @@ v0.8.4 (2018-12-09)
   Python 2 tests pass now.
 
 
-v0.8.3 (2018-12-09)
--------------------
+## v0.8.3 (2018-12-09)
+
 - Remove and update pylint warnings. [Tsvi Mostovicz]
 
   Some warnings are for Python 2.7 only. As long as the code runs on Python2.7 we don't care
@@ -203,8 +260,8 @@ v0.8.3 (2018-12-09)
   Mostovicz]
 
 
-v0.8.2 (2018-11-25)
--------------------
+## v0.8.2 (2018-11-25)
+
 - Change and add erev chagim to all be of holiday_type == 2. [Tsvi
   Mostovicz]
 
@@ -219,8 +276,8 @@ v0.8.2 (2018-11-25)
 - Add support for setting the shabbes offset. [Tsvi Mostovicz]
 
 
-v0.8.1 (2018-11-22)
--------------------
+## v0.8.1 (2018-11-22)
+
 - Remove holiday indices as they're superfluous. [Tsvi Mostovicz]
 
   The old system used indices to lookup properties baout the holidays. As holidays
@@ -265,8 +322,8 @@ v0.8.1 (2018-11-22)
   Mostovicz]
 
 
-v0.8.0 (2018-11-12)
--------------------
+## v0.8.0 (2018-11-12)
+
 - Fix tox.ini to allow running specific tests via tox. [Tsvi Mostovicz]
 - Implement tests and fix bugs for issur_melacha_in_effect. [Tsvi
   Mostovicz]
@@ -310,30 +367,30 @@ v0.8.0 (2018-11-12)
 - Initial work. [Tsvi Mostovicz]
 
 
-v0.7.5 (2018-11-07)
--------------------
+## v0.7.5 (2018-11-07)
+
 - Cleanup setup.py due to changes in hierarchy. [Tsvi Mostovicz]
 
 
-v0.7.3 (2018-11-07)
--------------------
+## v0.7.3 (2018-11-07)
+
 - Typo in README.rst. [Tsvi Mostovicz]
 
 
-v0.7.2 (2018-11-06)
--------------------
+## v0.7.2 (2018-11-06)
+
 - Implement HDate __repr__ method. [Tsvi Mostovicz]
 
 
-v0.7.1 (2018-11-06)
--------------------
+## v0.7.1 (2018-11-06)
+
 - Bring back holiday_name. [Tsvi Mostovicz]
 - Deprecate get_hebrew_date and incorporate it to simply the result of
   __unicode__ for the HDate object. [Tsvi Mostovicz]
 
 
-v0.7.0 (2018-11-06)
--------------------
+## v0.7.0 (2018-11-06)
+
 - Update README and create a test checing for the README's output to be
   valid. [Tsvi Mostovicz]
 - Performance enhancements. [Tsvi Mostovicz]
@@ -371,14 +428,14 @@ v0.7.0 (2018-11-06)
   Reorg of files in preparation for simplification of API
 
 
-v0.6.5 (2018-10-16)
--------------------
+## v0.6.5 (2018-10-16)
+
 - Add tests for timezone usage in hdate. [Tsvi Mostovicz]
 - Bring back lost fix for missing parasha. [Tsvi Mostovicz]
 
 
-v0.6.3 (2018-10-16)
--------------------
+## v0.6.3 (2018-10-16)
+
 - Add possibility to specify timezone as a datetime.tzinfo object. [Tsvi
   Mostovicz]
 - Add a second ` for markup to be interpreted correctly. [Tsvi
@@ -387,8 +444,8 @@ v0.6.3 (2018-10-16)
   publishing tools. [Tsvi Mostovicz]
 
 
-v0.6.2 (2018-09-06)
--------------------
+## v0.6.2 (2018-09-06)
+
 - Use bumpversion for updating version numbers. [Tsvi Mostovicz]
 - Make coverage combine optional (in case no coverage exists) [Tsvi
   Mostovicz]
@@ -398,8 +455,8 @@ v0.6.2 (2018-09-06)
 - Reorganize files in a more logical fashion. [Tsvi Mostovicz]
 
 
-0.6 (2017-12-19)
-----------------
+## 0.6 (2017-12-19)
+
 - Merge pull request #22 from tsvi/master. [Tsvi Mostovicz]
 
   Update README to reflect changes done in #20
@@ -453,15 +510,15 @@ v0.6.2 (2018-09-06)
 - Add tests to pylint checks. [Tsvi Mostovicz]
 
 
-0.5 (2017-09-12)
-----------------
+## 0.5 (2017-09-12)
+
 - Create 0.5 version for critical bugfix in Zmanim. [Tsvi Mostovicz]
 - Bugfix for Zmanim due to move to python 3. [Tsvi Mostovicz]
 - Add setup.cfg for creation of universal wheel. [Tsvi Mostovicz]
 
 
-0.4 (2017-09-11)
-----------------
+## 0.4 (2017-09-11)
+
 - Update package to version 0.4 which includes python 3 support. [Tsvi
   Mostovicz]
 - Merge pull request #11 from tsvi/py3. [Tsvi Mostovicz]
@@ -479,8 +536,8 @@ v0.6.2 (2018-09-06)
 - Add python3 to list of environments. [Tsvi Mostovicz]
 
 
-0.3 (2017-09-10)
-----------------
+## 0.3 (2017-09-10)
+
 - Merge pull request #10 from tsvi/dev. [Tsvi Mostovicz]
 
   More unittests and multiple bugfixes

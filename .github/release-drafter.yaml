@@ -26,13 +26,4 @@ version-resolver:
       - 'patch'
   default: patch
 template: |
-  ## Get it
-  Install it with pip
-  ```bash
-  pip install hdate==$RESOLVED_VERSION
-  ```
-  See it on pypi: [https://pypi.org/project/hdate](https://pypi.org/project/hdate/$RESOLVED_VERSION/)
-
-  ## Changes
-
   $CHANGES
