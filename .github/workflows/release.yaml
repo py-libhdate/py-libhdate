@@ -62,7 +62,9 @@ jobs:
       run: |
         git config --global user.name 'HDate - release bot'
         git config --global user.email 'hdate-release+github-actions@github.com'
+        git add CHANGELOG.md
         bump-my-version bump ${{ github.event.inputs.version_bump }} -v pyproject.toml
+        git push
         git push --tags
 
     - name: Create GitHub Release
