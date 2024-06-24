@@ -405,6 +405,7 @@ class HolidayTypes(Enum):
     MINOR_HOLIDAY = 7
     MEMORIAL_DAY = 8
     ISRAEL_NATIONAL_HOLIDAY = 9
+    ROSH_CHODESH = 10
 
 
 HOLIDAYS = (
@@ -833,6 +834,14 @@ HOLIDAYS = (
             "Zeev Zhabotinsky day",
             DESC("יום ז'בוטינסקי", "יום ז'בוטינסקי"),
         ),
+    ),
+    HOLIDAY(
+        HolidayTypes.ROSH_CHODESH,
+        "rosh_chodesh",
+        ([1, 30], [month for month in Months if month != Months.TISHREI]),
+        "",
+        [],
+        LANG("Rosh Chodesh", "Rosh Chodesh", DESC("ראש חודש", "ראש חודש")),
     ),
 )
 
