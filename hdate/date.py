@@ -152,9 +152,11 @@ class HDate:
 
         In case none exists will return None.
         """
-        entry = self._holiday_entry()
-        desc = entry.description
-        return desc.hebrew.long if self.hebrew else desc.english
+        entries = self._holiday_entries()
+        return ", ".join(
+            entry.description.hebrew.long if self.hebrew else entry.description.english
+            for entry in entries
+        )
 
     @property
     def is_shabbat(self):
@@ -183,16 +185,24 @@ class HDate:
     @property
     def holiday_type(self):
         """Return the holiday type if exists."""
-        entry = self._holiday_entry()
-        return entry.type
+        entries = self._holiday_entries()
+        if len(entries) > 1:
+            return [entry.type for entry in entries]
+        if len(entries) == 1:
+            return entries[0].type
+        return ""
 
     @property
     def holiday_name(self):
         """Return the holiday name which is good for programmatic use."""
-        entry = self._holiday_entry()
-        return entry.name
+        entries = self._holiday_entries()
+        if len(entries) > 1:
+            return [entry.name for entry in entries]
+        if len(entries) == 1:
+            return entries[0].name
+        return ""
 
-    def _holiday_entry(self):
+    def _holiday_entries(self):
         """Return the abstract holiday information from holidays table."""
         holidays_list = self.get_holidays_for_year()
         holidays_list = [
@@ -200,10 +210,9 @@ class HDate:
             for holiday, holiday_hdate in holidays_list
             if holiday_hdate.hdate == self.hdate
         ]
-        assert len(holidays_list) <= 1
 
         # If anything is left return it, otherwise return the "NULL" holiday
-        return holidays_list[0] if holidays_list else htables.HOLIDAYS[0]
+        return holidays_list
 
     def short_kislev(self):
         """Return whether this year has a short Kislev or not."""
