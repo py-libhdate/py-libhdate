@@ -840,7 +840,7 @@ HOLIDAYS = (
         "rosh_chodesh",
         ([1, 30], [month for month in Months if month != Months.TISHREI]),
         "",
-        [],
+        [correct_adar()],
         LANG("Rosh Chodesh", "Rosh Chodesh", DESC("ראש חודש", "ראש חודש")),
     ),
 )
