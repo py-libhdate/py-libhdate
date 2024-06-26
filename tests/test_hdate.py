@@ -207,7 +207,7 @@ class TestSpecialDays:
         ((27, 3), "chanukah"),
         ((28, 3), "chanukah"),
         ((29, 3), "chanukah"),
-        ((1, 4), "chanukah"),
+        ((1, 4), ["chanukah", "rosh_chodesh"]),
         ((2, 4), "chanukah"),
         ((10, 4), "asara_btevet"),
         ((15, 5), "tu_bshvat"),
