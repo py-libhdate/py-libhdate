@@ -218,6 +218,10 @@ class HDate:
         """Return whether this year has a short Kislev or not."""
         return self.year_size() in [353, 383]
 
+    def long_cheshvan(self):
+        """Return whether this year has a long Cheshvan or not."""
+        return self.year_size() in [355, 385]
+
     @property
     def dow(self):
         """Return Hebrew day of week Sunday = 1, Saturday = 7."""

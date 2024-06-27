@@ -387,6 +387,33 @@ def correct_adar():
     )
 
 
+def legal_month_length():
+    """
+    Return a lambda function.
+
+    Lambda checks that the length for the provided month is legal
+    """
+    return lambda x: (
+        x.hdate.day == 29  # 29 is always legal
+        or x.hdate.day == 30
+        and x.hdate.month
+        in [
+            Months.TISHREI,
+            Months.SHVAT,
+            Months.ADAR_I,
+            Months.NISAN,
+            Months.SIVAN,
+            Months.AV,
+        ]
+        or x.hdate.day == 30
+        and x.long_cheshvan()
+        and x.hdate.month == Months.MARCHESHVAN
+        or x.hdate.day == 30
+        and not x.short_kislev()
+        and x.hdate.month == Months.KISLEV
+    )
+
+
 HOLIDAY = namedtuple(
     "HOLIDAY",
     ["type", "name", "date", "israel_diaspora", "date_functions_list", "description"],
@@ -841,7 +868,7 @@ HOLIDAYS = (
         "rosh_chodesh",
         ([1, 30], [month for month in Months if month != Months.TISHREI]),
         "",
-        [correct_adar()],
+        [correct_adar(), legal_month_length()],
         LANG("Rosh Chodesh", "Rosh Chodesh", DESC("ראש חודש", "ראש חודש")),
     ),
 )
