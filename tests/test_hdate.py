@@ -435,6 +435,14 @@ class TestSpecialDays:
             else:
                 assert myhdate.holiday_name == holiday
 
+    def test_get_tishrei_rosh_chodesh(self):
+        """30th of Tishrei should be Rosh Chodesh"""
+        year = random.randint(5000, 6000)
+        myhdate = HDate(heb_date=HebrewDate(year, Months.TISHREI, 30))
+        assert myhdate.holiday_name == "rosh_chodesh"
+        myhdate = HDate(heb_date=HebrewDate(year, Months.TISHREI, 1))
+        assert myhdate.holiday_name == "rosh_hashana_i"
+
     @pytest.mark.parametrize("execution_number", list(range(10)))
     def test_get_omer_day(self, execution_number, rand_hdate):
         """Test value of the Omer."""

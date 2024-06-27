@@ -387,6 +387,11 @@ def correct_adar():
     )
 
 
+def not_rosh_chodesh():
+    """The 1st of Tishrei is not Rosh Chodesh."""
+    return lambda x: not (x.hdate.month == Months.TISHREI and x.hdate.day == 1)
+
+
 def legal_month_length():
     """
     Return a lambda function.
@@ -866,9 +871,9 @@ HOLIDAYS = (
     HOLIDAY(
         HolidayTypes.ROSH_CHODESH,
         "rosh_chodesh",
-        ([1, 30], [month for month in Months if month != Months.TISHREI]),
+        ([1, 30], list(Months)),
         "",
-        [correct_adar(), legal_month_length()],
+        [correct_adar(), legal_month_length(), not_rosh_chodesh()],
         LANG("Rosh Chodesh", "Rosh Chodesh", DESC("ראש חודש", "ראש חודש")),
     ),
 )
