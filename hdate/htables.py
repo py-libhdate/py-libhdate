@@ -381,8 +381,41 @@ def correct_adar():
     it's a leap year.
     """
     return lambda x: (
-        (x.hdate.month == Months.ADAR and not x.is_leap_year)
+        (x.hdate.month not in [Months.ADAR, Months.ADAR_I, Months.ADAR_II])
+        or (x.hdate.month == Months.ADAR and not x.is_leap_year)
         or (x.hdate.month in [Months.ADAR_I, Months.ADAR_II] and x.is_leap_year)
+    )
+
+
+def not_rosh_chodesh():
+    """The 1st of Tishrei is not Rosh Chodesh."""
+    return lambda x: not (x.hdate.month == Months.TISHREI and x.hdate.day == 1)
+
+
+def legal_month_length():
+    """
+    Return a lambda function.
+
+    Lambda checks that the length for the provided month is legal
+    """
+    return lambda x: (
+        x.hdate.day == 29  # 29 is always legal
+        or x.hdate.day == 30
+        and x.hdate.month
+        in [
+            Months.TISHREI,
+            Months.SHVAT,
+            Months.ADAR_I,
+            Months.NISAN,
+            Months.SIVAN,
+            Months.AV,
+        ]
+        or x.hdate.day == 30
+        and x.long_cheshvan()
+        and x.hdate.month == Months.MARCHESHVAN
+        or x.hdate.day == 30
+        and not x.short_kislev()
+        and x.hdate.month == Months.KISLEV
     )
 
 
@@ -405,6 +438,7 @@ class HolidayTypes(Enum):
     MINOR_HOLIDAY = 7
     MEMORIAL_DAY = 8
     ISRAEL_NATIONAL_HOLIDAY = 9
+    ROSH_CHODESH = 10
 
 
 HOLIDAYS = (
@@ -833,6 +867,14 @@ HOLIDAYS = (
             "Zeev Zhabotinsky day",
             DESC("יום ז'בוטינסקי", "יום ז'בוטינסקי"),
         ),
+    ),
+    HOLIDAY(
+        HolidayTypes.ROSH_CHODESH,
+        "rosh_chodesh",
+        ([1, 30], list(Months)),
+        "",
+        [correct_adar(), legal_month_length(), not_rosh_chodesh()],
+        LANG("Rosh Chodesh", "Rosh Chodesh", DESC("ראש חודש", "ראש חודש")),
     ),
 )
 
