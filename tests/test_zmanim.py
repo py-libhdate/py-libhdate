@@ -6,6 +6,7 @@ import sys
 from calendar import isleap
 from datetime import datetime as dt
 from datetime import timedelta as td
+from typing import Optional
 
 import pytest
 
@@ -29,7 +30,11 @@ PUNTA_ARENAS_LAT = -53.1678  # Southern example
 PUNTA_ARENAS_LNG = -70.9167
 
 
-def compare_dates(date1, date2, allow_grace=False):
+def compare_dates(
+    date1: Optional[datetime.datetime],
+    date2: Optional[datetime.datetime],
+    allow_grace: bool = False,
+) -> None:
     """Compare 2 dates to be more or less equal."""
     if not (date1 or date2):
         assert date1 == date2
@@ -38,7 +43,9 @@ def compare_dates(date1, date2, allow_grace=False):
         assert date1 - grace <= date2 <= date1 + grace
 
 
-def compare_times(time1, time2, allow_grace=False):
+def compare_times(
+    time1: datetime.time, time2: datetime.time, allow_grace: bool = False
+) -> None:
     """Compare times to be equal."""
     compare_dates(
         dt.combine(dt.today(), time1), dt.combine(dt.today(), time2), allow_grace
@@ -48,13 +55,15 @@ def compare_times(time1, time2, allow_grace=False):
 class TestZmanim:
     """Zmanim tests"""
 
-    def test_bad_date(self):
+    def test_bad_date(self) -> None:
         """Check that a bad value argument to zmanim raises an error"""
         with pytest.raises(TypeError):
             Zmanim(date="bad value")
 
     @pytest.mark.parametrize("execution_number", list(range(5)))
-    def test_same_doy_is_equal(self, execution_number, random_date):
+    def test_same_doy_is_equal(
+        self, execution_number: int, random_date: datetime.date
+    ) -> None:
         """Test two doy to be equal."""
         print(f"Run number {execution_number}")
         other_year = random.randint(500, 3000)
@@ -87,7 +96,7 @@ class TestZmanim:
         for key, value in this_zmanim.items():
             assert value - grace <= other_zmanim[key] <= value + grace, key
 
-    def test_extreme_zmanim(self):
+    def test_extreme_zmanim(self) -> None:
         """Test that Zmanim north to 50 degrees latitude is correct."""
         day = datetime.date(2024, 6, 18)
         compare_times(
@@ -123,7 +132,7 @@ class TestZmanim:
             allow_grace=True,
         )
 
-    def test_using_tzinfo(self):
+    def test_using_tzinfo(self) -> None:
         """Test tzinfo to be correct."""
         day = datetime.date(2018, 9, 8)
         timezone_str = "America/New_York"
@@ -169,7 +178,13 @@ class TestZmanim:
     @pytest.mark.parametrize(
         ["now", "offset", "candle_lighting", "melacha_assur"], CANDLES_TEST
     )
-    def test_candle_lighting(self, now, offset, candle_lighting, melacha_assur):
+    def test_candle_lighting(
+        self,
+        now: datetime.datetime,
+        offset: int,
+        candle_lighting: Optional[datetime.datetime],
+        melacha_assur: bool,
+    ) -> None:
         """Test candle lighting values."""
         location_tz_str = Location(
             name="New York",
@@ -209,7 +224,13 @@ class TestZmanim:
     @pytest.mark.parametrize(
         ["now", "offset", "havdalah", "melacha_assur"], HAVDALAH_TEST
     )
-    def test_havdalah(self, now, offset, havdalah, melacha_assur):
+    def test_havdalah(
+        self,
+        now: datetime.datetime,
+        offset: int,
+        havdalah: Optional[datetime.datetime],
+        melacha_assur: bool,
+    ) -> None:
         """Test havdalah times."""
         location_tz_str = Location(
             name="New York",
@@ -244,7 +265,9 @@ class TestZmanim:
     @pytest.mark.parametrize(
         ["now", "offset", "motzei_shabbat_chag"], MOTZEI_SHABBAT_CHAG_TEST
     )
-    def test_motzei_shabbat_chag(self, now, offset, motzei_shabbat_chag):
+    def test_motzei_shabbat_chag(
+        self, now: datetime.datetime, offset: int, motzei_shabbat_chag: bool
+    ) -> None:
         """Test motzei shabbat chag boolean is correct."""
         location_tz_str = Location(
             name="New York",
@@ -278,7 +301,9 @@ class TestZmanim:
     @pytest.mark.parametrize(
         ["now", "offset", "erev_shabbat_chag"], EREV_SHABBAT_CHAG_TEST
     )
-    def test_erev_shabbat_hag(self, now, offset, erev_shabbat_chag):
+    def test_erev_shabbat_hag(
+        self, now: datetime.datetime, offset: int, erev_shabbat_chag: bool
+    ) -> None:
         """Test erev shabbat chag boolean is correct."""
         location_tz_str = Location(
             name="New York",

@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import tzinfo
+from typing import Union
 
 try:
     from zoneinfo import ZoneInfo
@@ -16,13 +17,13 @@ class Location:
     # pylint: disable=too-many-arguments
     def __init__(
         self,
-        name="Jerusalem",
-        latitude=31.778,
-        longitude=35.235,
-        timezone="Asia/Jerusalem",
-        altitude=754,
-        diaspora=False,
-    ):
+        name: str = "Jerusalem",
+        latitude: float = 31.778,
+        longitude: float = 35.235,
+        timezone: Union[ZoneInfo, str] = "Asia/Jerusalem",
+        altitude: int = 754,
+        diaspora: bool = False,
+    ) -> None:
         """Initialitze the location object."""
         self._timezone = None
         self.name = name
