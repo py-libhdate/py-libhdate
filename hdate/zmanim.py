@@ -100,7 +100,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
             ]
         )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return a representation of Zmanim for programmatic use."""
         # As time zone information is not really reusable due to DST, when
         # creating a __repr__ of zmanim, we show a timezone naive datetime.
@@ -198,10 +198,16 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
             tomorrow.is_shabbat or tomorrow.is_yom_tov
         ):
             return True
-        if (today.is_shabbat or today.is_yom_tov) and (self.time < self.havdalah):
+        if (
+            (today.is_shabbat or today.is_yom_tov)
+            and self.havdalah is not None
+            and (self.time < self.havdalah)
+        ):
             return True
-        if (tomorrow.is_shabbat or tomorrow.is_yom_tov) and (
-            self.time >= self.candle_lighting
+        if (
+            (tomorrow.is_shabbat or tomorrow.is_yom_tov)
+            and self.candle_lighting is not None
+            and (self.time >= self.candle_lighting)
         ):
             return True
 
@@ -214,6 +220,9 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         tomorrow = HDate(
             gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
         )
+
+        if self.candle_lighting is None:  # No need to check further
+            return False
 
         if (
             (tomorrow.is_shabbat or tomorrow.is_yom_tov)
@@ -231,6 +240,8 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         tomorrow = HDate(
             gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
         )
+        if self.havdalah is None:  # If there's no havdala, no need to check further
+            return False
 
         if (today.is_shabbat or today.is_yom_tov) and (
             tomorrow.is_shabbat or tomorrow.is_yom_tov
