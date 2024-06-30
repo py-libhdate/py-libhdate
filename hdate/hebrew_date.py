@@ -13,7 +13,7 @@ class HebrewDate:
     month: Months
     day: int
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         self.month = (
             self.month if isinstance(self.month, Months) else Months(self.month)
         )
