@@ -6,11 +6,11 @@ from calendar import isleap
 
 import pytest
 
-import hdate
+from hdate import HDate
 
 
 @pytest.fixture
-def random_date():
+def random_date() -> datetime.date:
     """Generate a random valid date."""
     year = random.randint(400, 2500)
     month = random.randint(1, 12)
@@ -25,6 +25,8 @@ def random_date():
 
 
 @pytest.fixture
-def rand_hdate(random_date):  # pylint: disable=redefined-outer-name
+def rand_hdate(
+    random_date: datetime.date,  # pylint: disable=redefined-outer-name
+) -> HDate:
     """Given a random date, generate a random HDate."""
-    return hdate.HDate(random_date)
+    return HDate(random_date)

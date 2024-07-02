@@ -40,6 +40,8 @@ def compare_dates(
         assert date1 == date2
     else:
         grace = td(minutes=5 if (not _ASTRAL or allow_grace) else 0)
+        assert date1 is not None
+        assert date2 is not None
         assert date1 - grace <= date2 <= date1 + grace
 
 

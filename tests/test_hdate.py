@@ -63,7 +63,7 @@ class TestHDate:
     """Tests for the HDate object."""
 
     @pytest.fixture
-    def default_values(self):
+    def default_values(self) -> HDate:
         """Generate an HDate object for today's date."""
         return HDate()
 

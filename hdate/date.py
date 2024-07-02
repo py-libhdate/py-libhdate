@@ -10,7 +10,7 @@ from __future__ import annotations
 import datetime
 import logging
 from itertools import chain, product
-from typing import Any, Optional, Tuple, Union
+from typing import Optional, Tuple, Union, cast
 
 from hdate import converters as conv
 from hdate import htables
@@ -37,17 +37,17 @@ class HDate:
     ) -> None:
         """Initialize the HDate object."""
         # Create private variables
-        self._hdate = None
-        self._gdate = None
-        self._last_updated = None
+        self._hdate: Optional[HebrewDate] = None
+        self.hdate: Optional[HebrewDate] = None
+        self._gdate: Optional[datetime.date] = None
+        self.gdate: Optional[datetime.date] = None
+        self._last_updated: Optional[str] = None
 
         # Assign values
         # Keep hdate after gdate assignment so as not to cause recursion error
         if heb_date is None:
             self.gdate = gdate
-            self.hdate = None
         else:
-            self.gdate = None
             self.hdate = heb_date
         self.hebrew = hebrew
         self.diaspora = diaspora
@@ -71,7 +71,7 @@ class HDate:
             result = f"{result} {self.holiday_description}"
         return result
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return a representation of HDate for programmatic use."""
         return (
             f"HDate(gdate={self.gdate!r}, diaspora={self.diaspora}, "
@@ -81,13 +81,13 @@ class HDate:
     def __lt__(self, other: "HDate") -> bool:
         """Implement the less-than operator."""
         assert isinstance(other, HDate)
-        return self.gdate < other.gdate
+        return bool(self.gdate < other.gdate)
 
-    def __le__(self, other):
+    def __le__(self, other: "HDate") -> bool:
         """Implement the less-than or equal operator."""
         return not other < self
 
-    def __gt__(self, other):
+    def __gt__(self, other: "HDate") -> bool:
         """Implement the greater-than operator."""
         return other < self
 
@@ -96,14 +96,14 @@ class HDate:
         return not self < other
 
     @property
-    def hdate(self):
+    def hdate(self) -> HebrewDate:
         """Return the hebrew date."""
         if self._last_updated == "hdate":
-            return self._hdate
+            return cast(HebrewDate, self._hdate)
         return conv.jdn_to_hdate(self._jdn)
 
     @hdate.setter
-    def hdate(self, date):
+    def hdate(self, date: Optional[HebrewDate]) -> None:
         """Set the dates of the HDate object based on a given Hebrew date."""
         # Sanity checks
         if date is None and isinstance(self.gdate, datetime.date):
@@ -119,14 +119,14 @@ class HDate:
         self._hdate = date
 
     @property
-    def gdate(self):
+    def gdate(self) -> datetime.date:
         """Return the Gregorian date for the given Hebrew date object."""
         if self._last_updated == "gdate":
-            return self._gdate
+            return cast(datetime.date, self._gdate)
         return conv.jdn_to_gdate(self._jdn)
 
     @gdate.setter
-    def gdate(self, date):
+    def gdate(self, date: Optional[datetime.date]) -> None:
         """Set the Gregorian date for the given Hebrew date object."""
         self._last_updated = "gdate"
         self._gdate = date
@@ -150,7 +150,7 @@ class HDate:
     @property
     def parasha(self) -> str:
         """Return the upcoming parasha."""
-        return htables.PARASHAOT[self.get_reading()][self.hebrew + 1]
+        return str(htables.PARASHAOT[self.get_reading()][self.hebrew + 1])
 
     @property
     def holiday_description(self) -> str:
@@ -196,7 +196,8 @@ class HDate:
         if len(entries) > 1:
             return [entry.type for entry in entries]
         if len(entries) == 1:
-            return entries[0].type
+            _type: str = entries[0].type
+            return _type
         return ""
 
     @property
@@ -206,15 +207,16 @@ class HDate:
         if len(entries) > 1:
             return [entry.name for entry in entries]
         if len(entries) == 1:
-            return entries[0].name
+            name: str = entries[0].name
+            return name
         return ""
 
-    def _holiday_entries(self) -> list[Union[HOLIDAY, Any]]:
+    def _holiday_entries(self) -> list[HOLIDAY]:
         """Return the abstract holiday information from holidays table."""
-        holidays_list = self.get_holidays_for_year()
+        holidays_dates_tuple = self.get_holidays_for_year()
         holidays_list = [
             holiday
-            for holiday, holiday_hdate in holidays_list
+            for holiday, holiday_hdate in holidays_dates_tuple
             if holiday_hdate.hdate == self.hdate
         ]
 
@@ -233,7 +235,8 @@ class HDate:
     def dow(self) -> int:
         """Return Hebrew day of week Sunday = 1, Saturday = 7."""
         # datetime weekday maps Monday->0, Sunday->6; this remaps to Sunday->1.
-        return self.gdate.weekday() + 2 if self.gdate.weekday() != 6 else 1
+        weekday: int = self.gdate.weekday()
+        return weekday + 2 if weekday != 6 else 1
 
     def year_size(self) -> int:
         """Return the size of the given Hebrew year."""
@@ -378,7 +381,9 @@ class HDate:
             [holiday.name for holiday in holidays_list],
         )
 
-        def holiday_dates_cross_product(holiday):
+        def holiday_dates_cross_product(
+            holiday: HOLIDAY,
+        ) -> product[tuple[int, Months]]:
             """Given a (days, months) pair, compute the cross product.
 
             If days and/or months are singletons, they are converted to a list.
@@ -389,7 +394,7 @@ class HDate:
 
         # Compute out every actual Hebrew date on which a holiday falls for
         # this year by exploding out the possible days for each holiday.
-        holidays_list = [
+        holidays_dates_tuples = [
             (
                 holiday,
                 HDate(
@@ -405,12 +410,12 @@ class HDate:
             if len(holiday.date) >= 2
         ]
         # Filter any special cases defined by True/False functions
-        holidays_list = [
+        holidays_dates_tuples = [
             (holiday, date)
-            for (holiday, date) in holidays_list
+            for (holiday, date) in holidays_dates_tuples
             if all(func(date) for func in holiday.date_functions_list)
         ]
-        return holidays_list
+        return holidays_dates_tuples
 
     @property
     def upcoming_yom_tov(self) -> "HDate":
@@ -475,10 +480,10 @@ class HDate:
             return 54
 
         # Return the indexes for the readings of the given year
-        def unpack_readings(readings):
+        def unpack_readings(readings: htables.READING) -> list[int]:
             return list(chain(*([x] if isinstance(x, int) else x for x in readings)))
 
-        reading_for_year = htables.READINGS[year_type]
+        reading_for_year = htables.READINGS_PER_YEAR_TYPE[year_type]
         readings = unpack_readings(reading_for_year)
         # Maybe recompute the year type based on the upcoming shabbat.
         # This avoids an edge case where today is before Rosh Hashana but
