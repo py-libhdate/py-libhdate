@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import tzinfo
+from typing import Union
 
 try:
     from zoneinfo import ZoneInfo
@@ -16,13 +17,13 @@ class Location:
     # pylint: disable=too-many-arguments
     def __init__(
         self,
-        name="Jerusalem",
-        latitude=31.778,
-        longitude=35.235,
-        timezone="Asia/Jerusalem",
-        altitude=754,
-        diaspora=False,
-    ):
+        name: str = "Jerusalem",
+        latitude: float = 31.778,
+        longitude: float = 35.235,
+        timezone: Union[ZoneInfo, str] = "Asia/Jerusalem",
+        altitude: int = 754,
+        diaspora: bool = False,
+    ) -> None:
         """Initialitze the location object."""
         self._timezone = None
         self.name = name
@@ -32,7 +33,7 @@ class Location:
         self.altitude = altitude
         self.diaspora = diaspora
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return a representation of Location for programmatic use."""
         return (
             f"Location(name='{self.name}', latitude={self.latitude}, "
@@ -41,11 +42,11 @@ class Location:
         )
 
     @property
-    def timezone(self):
+    def timezone(self) -> ZoneInfo:
         """Return the timezone."""
         return self._timezone
 
     @timezone.setter
-    def timezone(self, value):
+    def timezone(self, value: Union[str, ZoneInfo]) -> None:
         """Set the timezone."""
         self._timezone = value if isinstance(value, tzinfo) else ZoneInfo(value)

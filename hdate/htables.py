@@ -3,6 +3,7 @@
 import datetime
 from collections import namedtuple
 from enum import Enum
+from typing import Any, Callable
 
 READING = namedtuple("READING", "year_type, readings")
 
@@ -217,7 +218,9 @@ READINGS = (
     ),
 )
 
-READINGS = dict((year_type, r.readings) for r in READINGS for year_type in r.year_type)
+READINGS_PER_YEAR_TYPE = dict(
+    (year_type, r.readings) for r in READINGS for year_type in r.year_type
+)
 
 DIGITS = (
     (" ", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"),
@@ -340,7 +343,7 @@ class Months(Enum):
     ADAR_II = 14
 
 
-def year_is_after(year):
+def year_is_after(year: int) -> Callable[[Any], bool]:
     """
     Return a lambda function.
 
@@ -350,7 +353,7 @@ def year_is_after(year):
     return lambda x: x.hdate.year > year
 
 
-def year_is_before(year):
+def year_is_before(year: int) -> Callable[[Any], bool]:
     """
     Return a lambda function.
 
@@ -360,7 +363,9 @@ def year_is_before(year):
     return lambda x: x.hdate.year < year
 
 
-def move_if_not_on_dow(original, replacement, dow_not_orig, dow_replacement):
+def move_if_not_on_dow(
+    original: int, replacement: int, dow_not_orig: int, dow_replacement: int
+) -> Callable[[Any], bool]:
     """
     Return a lambda function.
 
@@ -373,7 +378,7 @@ def move_if_not_on_dow(original, replacement, dow_not_orig, dow_replacement):
     )
 
 
-def correct_adar():
+def correct_adar() -> Callable[[Any], bool]:
     """
     Return a lambda function.
 
@@ -387,12 +392,12 @@ def correct_adar():
     )
 
 
-def not_rosh_chodesh():
+def not_rosh_chodesh() -> Callable[[Any], bool]:
     """The 1st of Tishrei is not Rosh Chodesh."""
     return lambda x: not (x.hdate.month == Months.TISHREI and x.hdate.day == 1)
 
 
-def legal_month_length():
+def legal_month_length() -> Callable[[Any], bool]:
     """
     Return a lambda function.
 

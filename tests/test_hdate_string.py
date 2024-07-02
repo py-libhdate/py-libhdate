@@ -29,11 +29,11 @@ class TestOmer:
     ]
 
     @pytest.mark.parametrize("omer_day,hebrew_string", OMER_STRINGS)
-    def test_get_omer_string(self, omer_day, hebrew_string):
+    def test_get_omer_string(self, omer_day: int, hebrew_string: str) -> None:
         """Test the value returned by calculating the Omer string."""
         assert dt.get_omer_string(omer_day) == hebrew_string
 
-    def test_illegal_value(self):
+    def test_illegal_value(self) -> None:
         """Test passing illegal values to Omer."""
         with pytest.raises(ValueError):
             dt.get_omer_string(random.randint(50, 100))
@@ -58,19 +58,21 @@ class TestHebrewNumbers:
     ]
 
     @pytest.mark.parametrize("number,expected_string,expected_short", NUMBERS)
-    def test_hebrew_number(self, number, expected_string, expected_short):
+    def test_hebrew_number(
+        self, number: int, expected_string: str, expected_short: str
+    ) -> None:
         """Test the calculating the hebrew string."""
         assert dt.hebrew_number(number, short=True) == expected_short
         assert dt.hebrew_number(number) == expected_string
 
-    def test_illegal_value(self):
+    def test_illegal_value(self) -> None:
         """Test unsupported numbers."""
         with pytest.raises(ValueError):
             dt.hebrew_number(random.randint(10000, 20000))
         with pytest.raises(ValueError):
             dt.hebrew_number(random.randint(-100, -1))
 
-    def test_hebrew_number_hebrew_false(self):
+    def test_hebrew_number_hebrew_false(self) -> None:
         """Test returning a non-hebrew number."""
         number = random.randint(0, 100000)
         assert dt.hebrew_number(number, hebrew=False) == str(number)
