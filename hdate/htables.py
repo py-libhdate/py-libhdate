@@ -554,7 +554,7 @@ HOLIDAYS = (
     HOLIDAY(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "chanukah",
-        (list(range(25, 30)), Months.KISLEV),
+        (list(range(25, 31)), Months.KISLEV),
         "",
         [],
         LANG("Hanouka", "Chanukah", DESC("חנוכה", "חנוכה")),
