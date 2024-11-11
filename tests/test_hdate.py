@@ -418,6 +418,12 @@ class TestSpecialDays:
         else:
             assert myhdate.holiday_name == ""
 
+    def test_hanukah_5785(self):
+        """December 31, 2024 is Hanuka."""
+        mydate = HDate(gdate=datetime.date(2024, 12, 31))
+        assert "chanukah" in mydate.holiday_name
+        assert "rosh_chodesh" in mydate.holiday_name
+
     @pytest.mark.parametrize("possible_days, holiday", ADAR_HOLIDAYS)
     def test_get_holiday_adar(self, possible_days, holiday):
         """Test holidays for Adar I/Adar II."""
