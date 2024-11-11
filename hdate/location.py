@@ -2,6 +2,7 @@
 
 from dataclasses import dataclass
 from datetime import tzinfo
+from typing import Union
 from zoneinfo import ZoneInfo
 
 
@@ -12,7 +13,7 @@ class Location:
     name: str = "Jerusalem"
     latitude: float = 31.778
     longitude: float = 35.235
-    timezone: str | tzinfo = ZoneInfo("Asia/Jerusalem")
+    timezone: Union[str, tzinfo] = ZoneInfo("Asia/Jerusalem")
     altitude: float = 754
     diaspora: bool = False
 
