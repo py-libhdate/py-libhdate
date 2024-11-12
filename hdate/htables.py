@@ -3,6 +3,9 @@
 import datetime
 from collections import namedtuple
 from enum import Enum
+from typing import Callable, TypeVar
+
+HDateT = TypeVar("HDateT", bound="HDate")  # type: ignore # noqa: F821
 
 READING = namedtuple("READING", "year_type, readings")
 
@@ -340,7 +343,7 @@ class Months(Enum):
     ADAR_II = 14
 
 
-def year_is_after(year):
+def year_is_after(year: int) -> Callable[[HDateT], bool]:
     """
     Return a lambda function.
 
@@ -350,7 +353,7 @@ def year_is_after(year):
     return lambda x: x.hdate.year > year
 
 
-def year_is_before(year):
+def year_is_before(year: int) -> Callable[[HDateT], bool]:
     """
     Return a lambda function.
 
@@ -360,7 +363,9 @@ def year_is_before(year):
     return lambda x: x.hdate.year < year
 
 
-def move_if_not_on_dow(original, replacement, dow_not_orig, dow_replacement):
+def move_if_not_on_dow(
+    original: int, replacement: int, dow_not_orig: int, dow_replacement: int
+) -> Callable[[HDateT], bool]:
     """
     Return a lambda function.
 
@@ -373,7 +378,7 @@ def move_if_not_on_dow(original, replacement, dow_not_orig, dow_replacement):
     )
 
 
-def correct_adar():
+def correct_adar() -> Callable[[HDateT], bool]:
     """
     Return a lambda function.
 
@@ -387,12 +392,12 @@ def correct_adar():
     )
 
 
-def not_rosh_chodesh():
+def not_rosh_chodesh() -> Callable[[HDateT], bool]:
     """The 1st of Tishrei is not Rosh Chodesh."""
     return lambda x: not (x.hdate.month == Months.TISHREI and x.hdate.day == 1)
 
 
-def legal_month_length():
+def legal_month_length() -> Callable[[HDateT], bool]:
     """
     Return a lambda function.
 
@@ -673,7 +678,8 @@ HOLIDAYS = (
         [
             year_is_after(5708),
             year_is_before(5764),
-            move_if_not_on_dow(5, 4, 4, 3) or move_if_not_on_dow(5, 3, 5, 3),
+            move_if_not_on_dow(5, 4, 4, 3)  # type: ignore
+            or move_if_not_on_dow(5, 3, 5, 3),
         ],
         LANG("Yom HaAtsmaout", "Yom HaAtzma'ut", DESC("יום העצמאות", "יום העצמאות")),
     ),
@@ -684,7 +690,7 @@ HOLIDAYS = (
         "",
         [
             year_is_after(5763),
-            move_if_not_on_dow(5, 4, 4, 3)
+            move_if_not_on_dow(5, 4, 4, 3)  # type: ignore
             or move_if_not_on_dow(5, 3, 5, 3)
             or move_if_not_on_dow(5, 6, 0, 1),
         ],
@@ -746,7 +752,8 @@ HOLIDAYS = (
         ([26, 27, 28], Months.NISAN),
         "",
         [
-            move_if_not_on_dow(27, 28, 6, 0) or move_if_not_on_dow(27, 26, 4, 3),
+            move_if_not_on_dow(27, 28, 6, 0)  # type: ignore
+            or move_if_not_on_dow(27, 26, 4, 3),
             year_is_after(5718),
         ],
         LANG("Yom HaShoah", "Yom HaShoah", DESC("יום השואה", "יום השואה")),
@@ -759,7 +766,8 @@ HOLIDAYS = (
         [
             year_is_after(5708),
             year_is_before(5764),
-            move_if_not_on_dow(4, 3, 3, 2) or move_if_not_on_dow(4, 2, 4, 2),
+            move_if_not_on_dow(4, 3, 3, 2)  # type: ignore
+            or move_if_not_on_dow(4, 2, 4, 2),
         ],
         LANG("Yom haZicaron", "Yom HaZikaron", DESC("יום הזכרון", "יום הזכרון")),
     ),
@@ -770,7 +778,7 @@ HOLIDAYS = (
         "",
         [
             year_is_after(5763),
-            move_if_not_on_dow(4, 3, 3, 2)
+            move_if_not_on_dow(4, 3, 3, 2)  # type: ignore
             or move_if_not_on_dow(4, 2, 4, 2)
             or move_if_not_on_dow(4, 5, 6, 0),
         ],

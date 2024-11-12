@@ -81,7 +81,7 @@ class HDate:
     def __lt__(self, other: "HDate") -> bool:
         """Implement the less-than operator."""
         assert isinstance(other, HDate)
-        return self.gdate < other.gdate
+        return bool(self.gdate < other.gdate)
 
     def __le__(self, other: "HDate") -> bool:
         """Implement the less-than or equal operator."""
