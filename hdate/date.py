@@ -191,14 +191,15 @@ class HDate:
     def hebrew_date(self):
         """Return the Hebrew date string in the selected language."""
         day = self.get_number_repr(self.hdate.day)
-        month = htables.MONTHS[self.hdate.month.value - 1][self.LANGUAGE_INDICES[self.lang]]
+        month = getattr(htables.MONTHS[self.hdate.month.value - 1], self.lang)
         year = self.get_number_repr(self.hdate.year)
         return f"{day} {month} {year}"
     @property
     def parasha(self):
         """Return the upcoming parasha in the selected language."""
-        lang_index = self.LANGUAGE_INDICES.get(self.lang, 2)
-        return htables.PARASHAOT[self.get_reading()][lang_index]
+        parasha_index = self.get_reading()
+        parasha = getattr(htables.PARASHAOT[parasha_index], self.lang)
+        return parasha
 
     @property
     def holiday_description(self):
