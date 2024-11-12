@@ -4,7 +4,8 @@ maybe other apps in the future).
 """
 
 import sys
-from datetime import date, datetime
+from datetime import date, datetime, tzinfo
+from typing import cast
 
 from _pytest.capture import CaptureFixture
 
@@ -210,7 +211,8 @@ class TestZmanimAPI:
             timezone="America/New_York",
             diaspora=True,
         )
+        _timezone = cast(tzinfo, coord.timezone)
         zman = Zmanim(
-            date=datetime(2019, 4, 21, 20, 30, tzinfo=coord.timezone), location=coord
+            date=datetime(2019, 4, 21, 20, 30, tzinfo=_timezone), location=coord
         )
         assert not zman.issur_melacha_in_effect

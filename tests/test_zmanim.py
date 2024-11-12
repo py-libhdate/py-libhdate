@@ -7,13 +7,9 @@ from calendar import isleap
 from datetime import datetime as dt
 from datetime import timedelta as td
 from typing import Optional
+from zoneinfo import ZoneInfo
 
 import pytest
-
-try:
-    from zoneinfo import ZoneInfo
-except ImportError:
-    from backports.zoneinfo import ZoneInfo
 
 from hdate import Zmanim
 from hdate.location import Location
@@ -40,6 +36,8 @@ def compare_dates(
         assert date1 == date2
     else:
         grace = td(minutes=5 if (not _ASTRAL or allow_grace) else 0)
+        assert date1 is not None
+        assert date2 is not None
         assert date1 - grace <= date2 <= date1 + grace
 
 

@@ -108,7 +108,8 @@ def hdate_to_jdn(date: HebrewDate) -> int:
             1 of tishrey julians next year
     """
     day = date.day
-    month = date.month.value
+    month = date.month.value if isinstance(date.month, Months) else date.month
+
     if date.month == Months.ADAR_I:
         month = 6
     if date.month == Months.ADAR_II:
