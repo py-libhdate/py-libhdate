@@ -219,11 +219,23 @@ READINGS = (
 
 READINGS = dict((year_type, r.readings) for r in READINGS for year_type in r.year_type)
 
-DIGITS = (
-    (" ", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"),
-    ("ט", "י", "כ", "ל", "מ", "נ", "ס", "ע", "פ", "צ"),
-    (" ", "ק", "ר", "ש", "ת"),
-)
+DIGITS = {
+    0: {  # Ones place
+        1: 'א', 2: 'ב', 3: 'ג', 4: 'ד', 5: 'ה',
+        6: 'ו', 7: 'ז', 8: 'ח', 9: 'ט'
+    },
+    1: {  # Tens place
+        10: 'י', 20: 'כ', 30: 'ל', 40: 'מ', 50: 'נ',
+        60: 'ס', 70: 'ע', 80: 'פ', 90: 'צ'
+    },
+    2: {  # Hundreds place
+        100: 'ק', 200: 'ר', 300: 'ש', 400: 'ת'
+    },
+    3: {  # Thousands place (represented by adding a geresh after the letter)
+        1000: 'ת'
+    }
+}
+
 
 LANG = namedtuple("LANG", "french, english, hebrew")
 DESC = namedtuple("DESC", "long, short")
@@ -896,6 +908,7 @@ ZMANIM = (
     ZMAN("plag_mincha", LANG("Plag haMinha", "Plag Mincha", "פלג המנחה")),
     ZMAN("sunset", LANG("Shqiat", "Sunset", "שקיעה")),
     ZMAN("first_stars", LANG("Tzeit haCokhavim", "First stars", "צאת הכוכבים")),
+    ZMAN("rabbeinu_tam", LANG("Nuit selon Rabbénou Tam", "Night by Rabbeinu Tam", "לילה לרבנו תם")),
     ZMAN("midnight", LANG("Hatsot laïla", "Midnight", "חצות הלילה")),
 )
 
@@ -903,45 +916,43 @@ ZMANIM = (
 # that, the math doesn't play nicely with the dates before the 11th cycle :(
 # From cycle 11 onwards, it was simple and sequential
 DAF_YOMI_CYCLE_11_START = datetime.date(1997, 9, 29)
-MESECHTA = namedtuple("MESECHTA", ["name", "pages"])
 DAF_YOMI_MESECHTOS = (
-    MESECHTA(LANG("Berachos", "Berachos", "ברכות"), 63),
-    MESECHTA(LANG("Shabbos", "Shabbos", "שבת"), 156),
-    MESECHTA(LANG("Eruvin", "Eruvin", "עירובין"), 104),
-    MESECHTA(LANG("Pesachim", "Pesachim", "פסחים"), 120),
-    MESECHTA(LANG("Shekalim", "Shekalim", "שקלים"), 21),
+    MESECHTA(LANG("Berakhot", "Berachos", "ברכות"), 63),
+    MESECHTA(LANG("Shabbat", "Shabbos", "שבת"), 156),
+    MESECHTA(LANG("Erouvin", "Eruvin", "עירובין"), 104),
+    MESECHTA(LANG("Pessa'him", "Pesachim", "פסחים"), 120),
+    MESECHTA(LANG("Chekalim", "Shekalim", "שקלים"), 21),
     MESECHTA(LANG("Yoma", "Yoma", "יומא"), 87),
-    MESECHTA(LANG("Succah", "Succah", "סוכה"), 55),
-    MESECHTA(LANG("Beitzah", "Beitzah", "ביצה"), 39),
-    MESECHTA(LANG("Rosh Hashanah", "Rosh Hashanah", "ראש השנה"), 34),
-    MESECHTA(LANG("Taanis", "Taanis", "תענית"), 30),
-    MESECHTA(LANG("Megillah", "Megillah", "מגילה"), 31),
-    MESECHTA(LANG("Moed Katan", "Moed Katan", "מועד קטן"), 28),
-    MESECHTA(LANG("Chagigah", "Chagigah", "חגיגה"), 26),
-    MESECHTA(LANG("Yevamos", "Yevamos", "יבמות"), 121),
-    MESECHTA(LANG("Kesubos", "Kesubos", "כתובות"), 111),
-    MESECHTA(LANG("Nedarim", "Nedarim", "נדרים"), 90),
+    MESECHTA(LANG("Soucca", "Succah", "סוכה"), 55),
+    MESECHTA(LANG("Beitsa", "Beitzah", "ביצה"), 39),
+    MESECHTA(LANG("Roch Hachana", "Rosh Hashanah", "ראש השנה"), 34),
+    MESECHTA(LANG("Ta'anit", "Taanis", "תענית"), 30),
+    MESECHTA(LANG("Meguila", "Megillah", "מגילה"), 31),
+    MESECHTA(LANG("Moëd Katan", "Moed Katan", "מועד קטן"), 28),
+    MESECHTA(LANG("Haguiga", "Chagigah", "חגיגה"), 26),
+    MESECHTA(LANG("Yevamot", "Yevamos", "יבמות"), 121),
+    MESECHTA(LANG("Ketouvot", "Kesubos", "כתובות"), 111),
+    MESECHTA(LANG("Nédarim", "Nedarim", "נדרים"), 90),
     MESECHTA(LANG("Nazir", "Nazir", "נזיר"), 65),
-    MESECHTA(LANG("Sotah", "Sotah", "סוטה"), 48),
-    MESECHTA(LANG("Gittin", "Gittin", "גיטין"), 89),
-    MESECHTA(LANG("Kiddushin", "Kiddushin", "קידושין"), 81),
-    MESECHTA(LANG("Bava Kamma", "Bava Kamma", "בבא קמא"), 118),
-    MESECHTA(LANG("Bava Metzia", "Bava Metzia", "בבא מציעא"), 118),
-    MESECHTA(LANG("Bava Basra", "Bava Basra", "בבא בתרא"), 175),
+    MESECHTA(LANG("Sota", "Sotah", "סוטה"), 48),
+    MESECHTA(LANG("Guittin", "Gittin", "גיטין"), 89),
+    MESECHTA(LANG("Kidouchin", "Kiddushin", "קידושין"), 81),
+    MESECHTA(LANG("Baba Kama", "Bava Kamma", "בבא קמא"), 118),
+    MESECHTA(LANG("Baba Metsia", "Bava Metzia", "בבא מציעא"), 118),
+    MESECHTA(LANG("Baba Batra", "Bava Basra", "בבא בתרא"), 175),
     MESECHTA(LANG("Sanhedrin", "Sanhedrin", "סנהדרין"), 112),
-    MESECHTA(LANG("Makkos", "Makkos", "מכות"), 23),
-    MESECHTA(LANG("Shevuos", "Shevuos", "שבועות"), 48),
-    MESECHTA(LANG("Avodah Zarah", "Avodah Zarah", "עבודה זרה"), 75),
-    MESECHTA(LANG("Horayos", "Horayos", "הוריות"), 13),
-    MESECHTA(LANG("Zevachim", "Zevachim", "זבחים"), 119),
-    MESECHTA(LANG("Menachos", "Menachos", "מנחות"), 109),
-    MESECHTA(LANG("Chullin", "Chullin", "חולין"), 141),
-    MESECHTA(LANG("Bechoros", "Bechoros", "בכורות"), 60),
-    MESECHTA(LANG("Arachin", "Arachin", "ערכין"), 33),
-    MESECHTA(LANG("Temurah", "Temurah", "תמורה"), 33),
-    MESECHTA(LANG("Kereisos", "Kereisos", "כריתות"), 27),
-    MESECHTA(LANG("Meilah", "Meilah", "מעילה"), 36),
-    MESECHTA(LANG("Niddah", "Niddah", "נדה"), 72),
+    MESECHTA(LANG("Makot", "Makkos", "מכות"), 23),
+    MESECHTA(LANG("Chevouot", "Shevuos", "שבועות"), 48),
+    MESECHTA(LANG("Avoda Zara", "Avodah Zarah", "עבודה זרה"), 75),
+    MESECHTA(LANG("Horayot", "Horayos", "הוריות"), 13),
+    MESECHTA(LANG("Zevahim", "Zevachim", "זבחים"), 119),
+    MESECHTA(LANG("Menahot", "Menachos", "מנחות"), 109),
+    MESECHTA(LANG("Houlin", "Chullin", "חולין"), 141),
+    MESECHTA(LANG("Bekhorot", "Bechoros", "בכורות"), 60),
+    MESECHTA(LANG("Arakhin", "Arachin", "ערכין"), 33),
+    MESECHTA(LANG("Temoura", "Temurah", "תמורה"), 33),
+    MESECHTA(LANG("Keritot", "Kereisos", "כריתות"), 27),
+    MESECHTA(LANG("Me'ila", "Meilah", "מעילה"), 36),
+    MESECHTA(LANG("Nida", "Niddah", "נדה"), 72),
 )
-
 DAF_YOMI_TOTAL_PAGES = sum(mesechta.pages for mesechta in DAF_YOMI_MESECHTOS)

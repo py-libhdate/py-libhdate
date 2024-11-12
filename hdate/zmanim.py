@@ -42,7 +42,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         self,
         date=dt.datetime.now(),
         location=Location(),
-        hebrew=True,
+        lang='hebrew',
         candle_lighting_offset=18,
         havdalah_offset=0,
     ):
@@ -58,7 +58,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         calculations.
         """
         self.location = location
-        self.hebrew = hebrew
+        self.lang = lang
         self.candle_lighting_offset = candle_lighting_offset
         self.havdalah_offset = havdalah_offset
 
@@ -91,23 +91,23 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
             self.astral_sun = astral.sun.sun(self.astral_observer, self.date)
 
     def __str__(self):
-        """Return a Unicode representation of Zmanim."""
+        """Return a string representation of Zmanim in the selected language."""
         return "\n".join(
             [
-                f"{zman.description[self.hebrew + 1]} - {self.zmanim[zman.zman].time()}"
+                f"{getattr(zman.description, self.lang)} - {self.zmanim[zman.zman].time()}"
                 for zman in htables.ZMANIM
             ]
         )
 
+
     def __repr__(self):
         """Return a representation of Zmanim for programmatic use."""
-        # As time zone information is not really reusable due to DST, when
-        # creating a __repr__ of zmanim, we show a timezone naive datetime.
         return (
             "Zmanim(date="
-            f"{self.time.astimezone(self.location.timezone).replace(tzinfo=None)!r},"
-            f" location={self.location!r}, hebrew={self.hebrew})"
+            f"{self.time.astimezone(self.location.timezone).replace(tzinfo=None)!r}, "
+            f"location={self.location!r}, lang={self.lang!r})"
         )
+
 
     @property
     def utc_zmanim(self):
@@ -374,6 +374,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
             "gra_end_shma": sunrise + sun_hour * 3.0,
             "mga_end_tfila": first_light + mga_sunhour * 4.0,
             "gra_end_tfila": sunrise + sun_hour * 4.0,
+            "rabbeinu_tam": sunset + sun_hour * 1.2,
             "midnight": midday + 12 * 60.0,
         }
 

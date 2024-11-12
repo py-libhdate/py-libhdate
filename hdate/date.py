@@ -17,7 +17,6 @@ from hdate.htables import HolidayTypes, Months
 _LOGGER = logging.getLogger(__name__)
 # pylint: disable=too-many-public-methods
 
-
 class HDate:
     """
     Hebrew date class.
@@ -25,8 +24,16 @@ class HDate:
     Supports converting from Gregorian and Julian to Hebrew date.
     """
 
+    # Mapping for language indices used in htables
+    LANGUAGE_INDICES = {'french': 1, 'english': 2, 'hebrew': 3}
+
+    # Prefixes and strings for different languages
+    DAY_PREFIXES = {'hebrew': 'יום ', 'english': '', 'french': 'Jour '}
+    IN_PREFIXES = {'hebrew': 'ב', 'english': 'of ', 'french': 'de '}
+    OMER_STRINGS = {'hebrew': 'בעומר', 'english': 'in the Omer', 'french': "dans l'Omer"}
+
     def __init__(
-        self, gdate=datetime.date.today(), diaspora=False, hebrew=True, heb_date=None
+        self, gdate=datetime.date.today(), diaspora=False, lang='hebrew', heb_date=None
     ):
         """Initialize the HDate object."""
         # Create private variables
@@ -42,33 +49,65 @@ class HDate:
         else:
             self.gdate = None
             self.hdate = heb_date
-        self.hebrew = hebrew
+        self.lang = lang
         self.diaspora = diaspora
+    
+    def get_holiday_name(self):
+        """Retrieve the holiday name based on the current language."""
+        entries = self._holiday_entries()
+        names = []
+        for entry in entries:
+            if self.lang == 'hebrew':
+                names.append(entry.lang.hebrew.long)
+            else:
+                names.append(getattr(entry.lang, self.lang))
+        return ", ".join(names)
+    
+    def get_number_repr(self, number, short=False):
+        """Get the number representation based on the current language."""
+        return hebrew_number(number, lang=self.lang, short=short)
 
+    
     def __str__(self):
         """Return a full Unicode representation of HDate."""
-        result = (
-            f"{'יום ' if self.hebrew else ''}"
-            f"{htables.DAYS[self.dow - 1][self.hebrew + 1][0]} "
-            f"{hebrew_number(self.hdate.day, hebrew=self.hebrew)} "
-            f"{'ב' if self.hebrew else ''}"
-            f"{htables.MONTHS[self.hdate.month.value - 1][self.hebrew + 1]} "
-            f"{hebrew_number(self.hdate.year, hebrew=self.hebrew)}"
-        )
+        # Get the language index for htables
+        lang_index = self.LANGUAGE_INDICES.get(self.lang, 2)  # default to English if not found
 
+        # Get prefixes and strings based on language
+        day_prefix = self.DAY_PREFIXES.get(self.lang, '')
+        in_prefix = self.IN_PREFIXES.get(self.lang, '')
+
+        # Get day name
+        day_name = htables.DAYS[self.dow - 1][lang_index][0]
+
+        # Get day number representation
+        day_number = self.get_number_repr(self.hdate.day)
+
+        # Get month name
+        month_name = htables.MONTHS[self.hdate.month.value - 1][lang_index]
+
+        # Get year number representation
+        year_number = self.get_number_repr(self.hdate.year)
+
+        result = f"{day_prefix}{day_name} {day_number} {in_prefix}{month_name} {year_number}"
+
+        # Handle Omer day
         if 0 < self.omer_day < 50:
-            result = f"{result} {hebrew_number(self.omer_day, hebrew=self.hebrew)}"
-            result = f"{result} {'בעומר' if self.hebrew else ' in the Omer'}"
+            omer_day_number = self.get_number_repr(self.omer_day)
+            omer_string = self.OMER_STRINGS.get(self.lang, 'in the Omer')
+            result = f"{result} {omer_day_number} {omer_string}"
 
+        # Append holiday description if any
         if self.holiday_description:
-            result = f"{result} {self.holiday_description}"
+            holiday_name = self.get_holiday_name()
+            result = f"{result} {holiday_name}"
         return result
 
     def __repr__(self):
         """Return a representation of HDate for programmatic use."""
         return (
             f"HDate(gdate={self.gdate!r}, diaspora={self.diaspora}, "
-            f"hebrew={self.hebrew})"
+            f"lang={self.lang!r})"
         )
 
     def __lt__(self, other):
@@ -130,33 +169,35 @@ class HDate:
         if self._last_updated == "gdate":
             return conv.gdate_to_jdn(self.gdate)
         return conv.hdate_to_jdn(self.hdate)
-
+    
     @property
     def hebrew_date(self):
-        """Return the hebrew date string."""
-        return (
-            f"{hebrew_number(self.hdate.day, hebrew=self.hebrew)} "  # Day
-            f"{htables.MONTHS[self.hdate.month.value - 1][self.hebrew + 1]} "  # Month
-            f"{hebrew_number(self.hdate.year, hebrew=self.hebrew)}"  # Year
-        )
-
+        """Return the Hebrew date string in the selected language."""
+        day = self.get_number_repr(self.hdate.day)
+        month = htables.MONTHS[self.hdate.month.value - 1][self.LANGUAGE_INDICES[self.lang]]
+        year = self.get_number_repr(self.hdate.year)
+        return f"{day} {month} {year}"
     @property
     def parasha(self):
-        """Return the upcoming parasha."""
-        return htables.PARASHAOT[self.get_reading()][self.hebrew + 1]
+        """Return the upcoming parasha in the selected language."""
+        lang_index = self.LANGUAGE_INDICES.get(self.lang, 2)
+        return htables.PARASHAOT[self.get_reading()][lang_index]
 
     @property
     def holiday_description(self):
         """
-        Return the holiday description.
+        Return the holiday description in the selected language.
 
-        In case none exists will return None.
+        Returns an empty string if none exists.
         """
         entries = self._holiday_entries()
-        return ", ".join(
-            entry.description.hebrew.long if self.hebrew else entry.description.english
-            for entry in entries
-        )
+        descriptions = []
+        for entry in entries:
+            if self.lang == 'hebrew':
+                descriptions.append(entry.description.hebrew.long)
+            else:
+                descriptions.append(getattr(entry.description, self.lang))
+        return ", ".join(descriptions)
 
     @property
     def is_shabbat(self):
@@ -266,24 +307,22 @@ class HDate:
 
     @property
     def daf_yomi(self):
-        """Return a string representation of the daf yomi."""
+        """Return a string representation of the daf yomi in the selected language."""
         mesechta, daf_number = self.daf_yomi_repr
-        if self.hebrew:
-            mesechta_name = mesechta.name.hebrew
-        else:
-            mesechta_name = mesechta.name.english
-        daf = hebrew_number(daf_number, self.hebrew, short=True)
+        mesechta_name = getattr(mesechta.name, self.lang)
+        daf = self.get_number_repr(daf_number)
         return f"{mesechta_name} {daf}"
 
     @property
     def next_day(self):
         """Return the HDate for the next day."""
-        return HDate(self.gdate + datetime.timedelta(1), self.diaspora, self.hebrew)
+        return HDate(self.gdate + datetime.timedelta(1), self.diaspora, self.lang)
+
 
     @property
     def previous_day(self):
         """Return the HDate for the previous day."""
-        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora, self.hebrew)
+        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora, self.lang)
 
     @property
     def upcoming_shabbat(self):
@@ -295,7 +334,7 @@ class HDate:
             return self
         # If it's Sunday, fast forward to the next Shabbat.
         saturday = self.gdate + datetime.timedelta((12 - self.gdate.weekday()) % 7)
-        return HDate(saturday, diaspora=self.diaspora, hebrew=self.hebrew)
+        return HDate(saturday, diaspora=self.diaspora, lang=self.lang)
 
     @property
     def upcoming_shabbat_or_yom_tov(self):
@@ -388,7 +427,7 @@ class HDate:
                         self.hdate.year, date_instance[1], date_instance[0]
                     ),
                     diaspora=self.diaspora,
-                    hebrew=self.hebrew,
+                    lang=self.lang,
                 ),
             )
             for holiday in holidays_list
@@ -416,7 +455,7 @@ class HDate:
         next_rosh_hashana = HDate(
             heb_date=HebrewDate(self.hdate.year + 1, Months.TISHREI, 1),
             diaspora=self.diaspora,
-            hebrew=self.hebrew,
+            lang=self.lang,
         )
         next_year = next_rosh_hashana.get_holidays_for_year([HolidayTypes.YOM_TOV])
 
@@ -482,93 +521,156 @@ class HDate:
         return readings[weeks]
 
 
-def hebrew_number(num, hebrew=True, short=False):
-    """Return "Gimatria" number."""
-    if not hebrew:
+def hebrew_number(num, lang='hebrew', short=False):
+    """Return the number representation in the specified language.
+
+    For 'hebrew', return the Hebrew numeral representation.
+    For other languages, return the number as a string.
+    """
+    if lang != 'hebrew':
         return str(num)
-    if not 0 <= num < 10000:
-        raise ValueError(f"num must be between 0 to 9999, got:{num}")
+    if not 0 < num < 10000:
+        raise ValueError(f"num must be between 1 to 9999, got: {num}")
     hstring = ""
+    original_num = num  # Keep the original number for reference
+    # Handle thousands
     if num >= 1000:
-        hstring += htables.DIGITS[0][num // 1000]
-        hstring += "' "
+        thousands = num // 1000
+        hstring += DIGITS[0][thousands] + "'"
         num = num % 1000
-    while num >= 400:
-        hstring += htables.DIGITS[2][4]
-        num = num - 400
-    if num >= 100:
-        hstring += htables.DIGITS[2][num // 100]
-        num = num % 100
+    # Handle hundreds
+    hundreds = [400, 300, 200, 100]
+    for value in hundreds:
+        while num >= value:
+            hstring += DIGITS[2][value]
+            num -= value
+    # Handle tens
     if num >= 10:
-        if num in [15, 16]:
-            num = num - 9
-        hstring += htables.DIGITS[1][num // 10]
-        num = num % 10
-    if num > 0:
-        hstring += htables.DIGITS[0][num]
-    # possibly add the ' and " to hebrew numbers
-    if not short:
-        if len(hstring) < 2:
-            hstring += "'"
+        # Special cases for 15 and 16 to avoid sacred names
+        if num == 15:
+            hstring += DIGITS[1][9] + DIGITS[0][6]  # ט"ו
+            num = 0
+        elif num == 16:
+            hstring += DIGITS[1][9] + DIGITS[0][7]  # ט"ז
+            num = 0
         else:
+            tens_value = (num // 10) * 10
+            hstring += DIGITS[1][tens_value]
+            num = num % 10
+    # Handle ones
+    if num > 0:
+        hstring += DIGITS[0][num]
+    # Add geresh or gershayim
+    if not short:
+        if len(hstring) == 1:
+            hstring += "'"
+        elif len(hstring) > 1:
             hstring = hstring[:-1] + '"' + hstring[-1]
     return hstring
 
 
-def get_omer_string(omer):  # pylint: disable=too-many-branches
-    """Return a string representing the count of the Omer."""
-    tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
-    ones = [
-        "",
-        "אחד",
-        "שנים",
-        "שלושה",
-        "ארבעה",
-        "חמשה",
-        "ששה",
-        "שבעה",
-        "שמונה",
-        "תשעה",
-    ]
+
+def get_omer_string(omer, lang='hebrew'):
+    """Return a string representing the count of the Omer in the specified language."""
     if not 0 < omer < 50:
         raise ValueError(f"Invalid Omer day: {omer}")
-    ten = omer // 10
-    one = omer % 10
-    omer_string = "היום "
-    if 10 < omer < 20:
-        omer_string += ones[one] + " עשר"
-    elif omer > 9:
-        omer_string += ones[one]
-        if one:
-            omer_string += " ו"
-    if omer > 2:
-        if omer > 20 or omer in [10, 20]:
+
+    if lang == 'hebrew':
+        tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
+        ones = ["", "אחד", "שניים", "שלושה", "ארבעה", "חמישה", "שישה", "שבעה", "שמונה", "תשעה"]
+        omer_string = "היום "
+        ten = omer // 10
+        one = omer % 10
+
+        if 10 < omer < 20:
+            omer_string += ones[one] + " עשר"
+        elif omer >= 20:
+            if one != 0:
+                omer_string += ones[one] + " ו"
             omer_string += tens[ten]
-        if omer < 11:
-            omer_string += ones[one] + " ימים "
         else:
-            omer_string += " יום "
-    elif omer == 1:
-        omer_string += "יום אחד "
-    else:  # omer == 2
-        omer_string += "שני ימים "
-    if omer > 6:
-        omer_string += "שהם "
+            omer_string += ones[omer]
+
+        omer_string += " יום"
+        # Add weeks and days
         weeks = omer // 7
         days = omer % 7
-        if weeks > 2:
-            omer_string += ones[weeks] + " שבועות "
-        elif weeks == 1:
-            omer_string += "שבוע אחד "
-        else:  # weeks == 2
-            omer_string += "שני שבועות "
-        if days:
-            omer_string += "ו"
-            if days > 2:
-                omer_string += ones[days] + " ימים "
-            elif days == 1:
-                omer_string += "יום אחד "
-            else:  # days == 2
-                omer_string += "שני ימים "
-    omer_string += "לעומר"
+        if weeks > 0:
+            omer_string += f", שהם {hebrew_number(weeks)} שבוע"
+            if weeks > 1:
+                omer_string += "ות"
+            if days > 0:
+                omer_string += f" ו-{hebrew_number(days)} יום"
+        omer_string += " לעומר"
+    elif lang == 'english':
+        ones = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
+        teens = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
+                 "seventeen", "eighteen", "nineteen"]
+        tens = ["", "", "twenty", "thirty", "forty"]
+        omer_string = "Today is "
+        if omer < 10:
+            omer_string += ones[omer]
+        elif 10 <= omer < 20:
+            omer_string += teens[omer - 10]
+        else:
+            ten = omer // 10
+            one = omer % 10
+            omer_string += tens[ten]
+            if one != 0:
+                omer_string += "-" + ones[one]
+        omer_string += " day"
+        if omer != 1:
+            omer_string += "s"
+        omer_string += " of the Omer"
+        # Add weeks and days
+        weeks = omer // 7
+        days = omer % 7
+        if weeks > 0:
+            omer_string += f", which is {weeks} week"
+            if weeks != 1:
+                omer_string += "s"
+            if days > 0:
+                omer_string += f" and {days} day"
+                if days != 1:
+                    omer_string += "s"
+        omer_string += "."
+    elif lang == 'french':
+        ones = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf"]
+        teens = ["dix", "onze", "douze", "treize", "quatorze", "quinze", "seize",
+                 "dix-sept", "dix-huit", "dix-neuf"]
+        tens = ["", "", "vingt", "trente", "quarante"]
+        omer_string = "Aujourd'hui c'est le "
+        if one == 1 and ten > 1:
+            omer_string += tens[ten] + " et un"
+        else:
+            omer_string += tens[ten]
+            if one != 0:
+                omer_string += "-" + ones[one]
+        if omer < 10:
+            omer_string += ones[omer]
+        elif 10 <= omer < 20:
+            omer_string += teens[omer - 10]
+        else:
+            ten = omer // 10
+            one = omer % 10
+            omer_string += tens[ten]
+            if one != 0:
+                omer_string += "-" + ones[one]
+        omer_string += "ième jour de l'Omer"
+        # Add weeks and days
+        weeks = omer // 7
+        days = omer % 7
+        if weeks > 0:
+            omer_string += f", ce qui fait {weeks} semaine"
+            if weeks != 1:
+                omer_string += "s"
+            if days > 0:
+                omer_string += f" et {days} jour"
+                if days != 1:
+                    omer_string += "s"
+        omer_string += "."
+    else:
+        # Default to English if language is not recognized
+        omer_string = f"Today is day {omer} of the Omer."
     return omer_string
+
