@@ -27,7 +27,7 @@ class HDate:
     # Prefixes and strings for different languages
     DAY_PREFIXES = {'hebrew': 'יום ', 'english': '', 'french': ''}
     IN_PREFIXES = {'hebrew': 'ב', 'english': 'of ', 'french': ''}
-    OMER_STRINGS = {'hebrew': 'בעומר', 'english': 'in the Omer', 'french': " jour du Omer"}
+    OMER_STRINGS = {'hebrew': 'בעומר', 'english': 'in the Omer', 'french': 'jour du Omer'}
 
     def __init__(
         self, gdate=datetime.date.today(), diaspora=False, lang='hebrew', heb_date=None
