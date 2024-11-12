@@ -25,6 +25,6 @@ repos:
       types: [python]
     - id: mypy
       name: mypy
-      entry: pdm run mypy --ignore-missing-imports
+      entry: pdm run mypy --ignore-missing-imports --strict
       language: system
       types: [python]
