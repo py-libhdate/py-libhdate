@@ -211,10 +211,10 @@ class HDate:
 
     def _holiday_entries(self) -> list[Union[HOLIDAY, Any]]:
         """Return the abstract holiday information from holidays table."""
-        holidays_list = self.get_holidays_for_year()
+        _holidays_list = self.get_holidays_for_year()
         holidays_list = [
             holiday
-            for holiday, holiday_hdate in holidays_list
+            for holiday, holiday_hdate in _holidays_list
             if holiday_hdate.hdate == self.hdate
         ]
 
@@ -359,7 +359,7 @@ class HDate:
         """
         _LOGGER.debug("Looking up holidays of types %s", types)
         # Filter any non-related holidays depending on Israel/Diaspora only
-        holidays_list = [
+        _holidays_list = [
             holiday
             for holiday in htables.HOLIDAYS
             if (holiday.israel_diaspora == "")
@@ -369,13 +369,13 @@ class HDate:
 
         if types:
             # Filter non-matching holiday types.
-            holidays_list = [
-                holiday for holiday in holidays_list if holiday.type in types
+            _holidays_list = [
+                holiday for holiday in _holidays_list if holiday.type in types
             ]
 
         _LOGGER.debug(
             "Holidays after filters have been applied: %s",
-            [holiday.name for holiday in holidays_list],
+            [holiday.name for holiday in _holidays_list],
         )
 
         def holiday_dates_cross_product(holiday):
@@ -389,7 +389,7 @@ class HDate:
 
         # Compute out every actual Hebrew date on which a holiday falls for
         # this year by exploding out the possible days for each holiday.
-        holidays_list = [
+        _holidays_list_1 = [
             (
                 holiday,
                 HDate(
@@ -400,14 +400,14 @@ class HDate:
                     hebrew=self.hebrew,
                 ),
             )
-            for holiday in holidays_list
+            for holiday in _holidays_list
             for date_instance in holiday_dates_cross_product(holiday)
             if len(holiday.date) >= 2
         ]
         # Filter any special cases defined by True/False functions
         holidays_list = [
             (holiday, date)
-            for (holiday, date) in holidays_list
+            for (holiday, date) in _holidays_list_1
             if all(func(date) for func in holiday.date_functions_list)
         ]
         return holidays_list
