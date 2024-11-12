@@ -42,6 +42,7 @@ base code to provide times of the day in hebrew:
     פלג המנחה - 17:50:45
     שקיעה - 19:12:00
     צאת הכוכבים - 19:38:00
+    20:30:00 - לילה לרבנו תם
     חצות הלילה - 00:40:00
 
 and in english:
@@ -63,6 +64,7 @@ and in english:
     Plag Mincha - 17:50:45
     Sunset - 19:12:00
     First stars - 19:38:00
+    Night by Rabbeinu Tam - 20:30:00
     Midnight - 00:40:00
 
 ===========
@@ -80,5 +82,12 @@ and in french:
 .. code :: python
 
     >>> h = hdate.HDate(datetime.date(2016, 4, 18), lang='french')
+    >>> print(h)
+    Lundi 10 Nissan 5776
+
+and in english:
+.. code :: python
+
+    >>> h = hdate.HDate(datetime.date(2016, 4, 18), lang='english')
     >>> print(h)
     Monday 10 Nisan 5776

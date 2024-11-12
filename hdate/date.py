@@ -24,13 +24,10 @@ class HDate:
     Supports converting from Gregorian and Julian to Hebrew date.
     """
 
-    # Mapping for language indices used in htables
-    LANGUAGE_INDICES = {'french': 1, 'english': 2, 'hebrew': 3}
-
     # Prefixes and strings for different languages
-    DAY_PREFIXES = {'hebrew': 'יום ', 'english': '', 'french': 'Jour '}
-    IN_PREFIXES = {'hebrew': 'ב', 'english': 'of ', 'french': 'de '}
-    OMER_STRINGS = {'hebrew': 'בעומר', 'english': 'in the Omer', 'french': "dans l'Omer"}
+    DAY_PREFIXES = {'hebrew': 'יום ', 'english': '', 'french': ''}
+    IN_PREFIXES = {'hebrew': 'ב', 'english': 'of ', 'french': ''}
+    OMER_STRINGS = {'hebrew': 'בעומר', 'english': 'in the Omer', 'french': " jour du Omer"}
 
     def __init__(
         self, gdate=datetime.date.today(), diaspora=False, lang='hebrew', heb_date=None
@@ -67,24 +64,44 @@ class HDate:
         """Get the number representation based on the current language."""
         return hebrew_number(number, lang=self.lang, short=short)
 
-    
+    def get_month_name(self):
+        """Return the month name in the selected language, handling leap years."""
+        month = self.hdate.month
+        is_leap = self.is_leap_year
+        month_value = month.value
+
+        # Adjust the month index for non-leap years
+        if not is_leap:
+            if month == Months.ADAR_II:
+                # In non-leap years, Adar II is actually Adar
+                month_value = Months.ADAR.value
+            elif month.value > Months.ADAR.value:
+                # Months after Adar II need to be adjusted down by one
+                month_value -= 1
+
+        # Adjust index for 0-based MONTHS tuple
+        month_index = month_value - 1
+
+        # Get the month name in the selected language
+        month_lang = getattr(htables.MONTHS[month_index], self.lang)
+        return month_lang
+
     def __str__(self):
         """Return a full Unicode representation of HDate."""
-        # Get the language index for htables
-        lang_index = self.LANGUAGE_INDICES.get(self.lang, 2)  # default to English if not found
-
         # Get prefixes and strings based on language
         day_prefix = self.DAY_PREFIXES.get(self.lang, '')
         in_prefix = self.IN_PREFIXES.get(self.lang, '')
 
         # Get day name
-        day_name = htables.DAYS[self.dow - 1][lang_index][0]
+        day_index = self.dow - 1  # Assuming dow is 1-based (Sunday=1)
+        day_lang = getattr(htables.DAYS[day_index], self.lang)
+        day_name = day_lang.long  # Use 'long' or 'short' as needed
 
         # Get day number representation
         day_number = self.get_number_repr(self.hdate.day)
 
         # Get month name
-        month_name = htables.MONTHS[self.hdate.month.value - 1][lang_index]
+        month_name = self.get_month_name()
 
         # Get year number representation
         year_number = self.get_number_repr(self.hdate.year)
@@ -99,9 +116,9 @@ class HDate:
 
         # Append holiday description if any
         if self.holiday_description:
-            holiday_name = self.get_holiday_name()
-            result = f"{result} {holiday_name}"
+            result = f"{result} {self.holiday_description}"
         return result
+
 
     def __repr__(self):
         """Return a representation of HDate for programmatic use."""
@@ -532,34 +549,33 @@ def hebrew_number(num, lang='hebrew', short=False):
     if not 0 < num < 10000:
         raise ValueError(f"num must be between 1 to 9999, got: {num}")
     hstring = ""
-    original_num = num  # Keep the original number for reference
     # Handle thousands
     if num >= 1000:
         thousands = num // 1000
-        hstring += DIGITS[0][thousands] + "'"
+        hstring += htables.DIGITS[0][thousands] + "'"
         num = num % 1000
     # Handle hundreds
     hundreds = [400, 300, 200, 100]
     for value in hundreds:
         while num >= value:
-            hstring += DIGITS[2][value]
+            hstring += htables.DIGITS[2][value]
             num -= value
     # Handle tens
     if num >= 10:
         # Special cases for 15 and 16 to avoid sacred names
         if num == 15:
-            hstring += DIGITS[1][9] + DIGITS[0][6]  # ט"ו
+            hstring += htables.DIGITS[0][9] + htables.DIGITS[0][6]  # ט"ו
             num = 0
         elif num == 16:
-            hstring += DIGITS[1][9] + DIGITS[0][7]  # ט"ז
+            hstring += htables.DIGITS[0][9] + htables.DIGITS[0][7]  # ט"ז
             num = 0
         else:
             tens_value = (num // 10) * 10
-            hstring += DIGITS[1][tens_value]
+            hstring += htables.DIGITS[1][tens_value]
             num = num % 10
     # Handle ones
     if num > 0:
-        hstring += DIGITS[0][num]
+        hstring += htables.DIGITS[0][num]
     # Add geresh or gershayim
     if not short:
         if len(hstring) == 1:
