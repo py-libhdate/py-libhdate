@@ -916,6 +916,7 @@ ZMANIM = (
 # that, the math doesn't play nicely with the dates before the 11th cycle :(
 # From cycle 11 onwards, it was simple and sequential
 DAF_YOMI_CYCLE_11_START = datetime.date(1997, 9, 29)
+MESECHTA = namedtuple("MESECHTA", ["name", "pages"])
 DAF_YOMI_MESECHTOS = (
     MESECHTA(LANG("Berakhot", "Berachos", "ברכות"), 63),
     MESECHTA(LANG("Shabbat", "Shabbos", "שבת"), 156),
