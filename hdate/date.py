@@ -10,7 +10,7 @@ from __future__ import annotations
 import datetime
 import logging
 from itertools import chain, product
-from typing import Any, Optional, Tuple, Union
+from typing import Any, Optional, Tuple, Union, cast
 
 from hdate import converters as conv
 from hdate import htables
@@ -37,9 +37,9 @@ class HDate:
     ) -> None:
         """Initialize the HDate object."""
         # Create private variables
-        self._hdate = None
+        self._hdate: Optional[HebrewDate] = None
         self._gdate = None
-        self._last_updated = None
+        self._last_updated: Optional[str] = None
 
         # Assign values
         # Keep hdate after gdate assignment so as not to cause recursion error
@@ -71,7 +71,7 @@ class HDate:
             result = f"{result} {self.holiday_description}"
         return result
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return a representation of HDate for programmatic use."""
         return (
             f"HDate(gdate={self.gdate!r}, diaspora={self.diaspora}, "
@@ -83,11 +83,11 @@ class HDate:
         assert isinstance(other, HDate)
         return self.gdate < other.gdate
 
-    def __le__(self, other):
+    def __le__(self, other: "HDate") -> bool:
         """Implement the less-than or equal operator."""
         return not other < self
 
-    def __gt__(self, other):
+    def __gt__(self, other: "HDate") -> bool:
         """Implement the greater-than operator."""
         return other < self
 
@@ -103,7 +103,7 @@ class HDate:
         return conv.jdn_to_hdate(self._jdn)
 
     @hdate.setter
-    def hdate(self, date):
+    def hdate(self, date: Optional[Union[HebrewDate, datetime.date]]) -> None:
         """Set the dates of the HDate object based on a given Hebrew date."""
         # Sanity checks
         if date is None and isinstance(self.gdate, datetime.date):
@@ -126,7 +126,7 @@ class HDate:
         return conv.jdn_to_gdate(self._jdn)
 
     @gdate.setter
-    def gdate(self, date):
+    def gdate(self, date: datetime.date) -> None:
         """Set the Gregorian date for the given Hebrew date object."""
         self._last_updated = "gdate"
         self._gdate = date
@@ -172,7 +172,8 @@ class HDate:
         Returns False on Friday because the HDate object has no notion of time.
         For more detailed nuance, use the Zmanim object.
         """
-        return self.gdate.weekday() == 5
+        _gdate = cast(datetime.date, self.gdate)
+        return _gdate.weekday() == 5
 
     @property
     def is_holiday(self) -> bool:
