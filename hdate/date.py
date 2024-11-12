@@ -202,20 +202,27 @@ class HDate:
         return parasha
 
     @property
-    def holiday_description(self):
+    def holiday_description(self) -> Optional[str]:
         """
         Return the holiday description in the selected language.
 
-        Returns an empty string if none exists.
+        If none exists, will return None.
         """
         entries = self._holiday_entries()
         descriptions = []
         for entry in entries:
-            if self.lang == 'hebrew':
-                descriptions.append(entry.description.hebrew.long)
-            else:
-                descriptions.append(getattr(entry.description, self.lang))
-        return ", ".join(descriptions)
+            # Access the language-specific description
+            description_lang = getattr(entry.description, self.lang, None)
+            if description_lang:
+                # Check if it's a DESC namedtuple with 'long' and 'short' attributes
+                if isinstance(description_lang, DESC):
+                    descriptions.append(description_lang.long)
+                else:
+                    descriptions.append(description_lang)
+        if descriptions:
+            return ", ".join(descriptions)
+        else:
+            return None
 
     @property
     def is_shabbat(self):
@@ -242,36 +249,26 @@ class HDate:
         return self.hdate.year % 19 in [0, 3, 6, 8, 11, 14, 17]
 
     @property
-    def holiday_type(self):
-        """Return the holiday type if exists."""
+    def holiday_type(self) -> List[HolidayTypes]:
+        """Return a list of holiday types if they exist."""
         entries = self._holiday_entries()
-        if len(entries) > 1:
-            return [entry.type for entry in entries]
-        if len(entries) == 1:
-            return entries[0].type
-        return ""
+        return [entry.type for entry in entries]
 
     @property
-    def holiday_name(self):
-        """Return the holiday name which is good for programmatic use."""
+    def holiday_name(self) -> List[str]:
+        """Return a list of holiday names for programmatic use."""
         entries = self._holiday_entries()
-        if len(entries) > 1:
-            return [entry.name for entry in entries]
-        if len(entries) == 1:
-            return entries[0].name
-        return ""
+        return [entry.name for entry in entries]
 
-    def _holiday_entries(self):
-        """Return the abstract holiday information from holidays table."""
+    def _holiday_entries(self) -> List[HOLIDAY]:
+        """Return the abstract holiday information from the holidays table."""
         holidays_list = self.get_holidays_for_year()
-        holidays_list = [
+        entries = [
             holiday
             for holiday, holiday_hdate in holidays_list
             if holiday_hdate.hdate == self.hdate
         ]
-
-        # If anything is left return it, otherwise return the "NULL" holiday
-        return holidays_list
+        return entries
 
     def short_kislev(self):
         """Return whether this year has a short Kislev or not."""
