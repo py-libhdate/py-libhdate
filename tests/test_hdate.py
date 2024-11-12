@@ -71,7 +71,7 @@ class TestHDate:
         """Confirm that bad values raise an error."""
         bad_day_value = HebrewDate(5779, 10, 35)
         with pytest.raises(TypeError):
-            HDate().hdate = "not a HebrewDate"
+            HDate().hdate = "not a HebrewDate"  # type: ignore
         with pytest.raises(ValueError):
             HebrewDate(5779, 15, 3)
         with pytest.raises(ValueError):

@@ -45,21 +45,20 @@ class HDate:
         # Keep hdate after gdate assignment so as not to cause recursion error
         if heb_date is None:
             self.gdate = gdate
-            self.hdate = None
         else:
-            self.gdate = None
             self.hdate = heb_date
         self.hebrew = hebrew
         self.diaspora = diaspora
 
     def __str__(self) -> str:
         """Return a full Unicode representation of HDate."""
+        _month = cast(Months, self.hdate.month)
         result = (
             f"{'יום ' if self.hebrew else ''}"
             f"{htables.DAYS[self.dow - 1][self.hebrew + 1][0]} "
             f"{hebrew_number(self.hdate.day, hebrew=self.hebrew)} "
             f"{'ב' if self.hebrew else ''}"
-            f"{htables.MONTHS[self.hdate.month.value - 1][self.hebrew + 1]} "
+            f"{htables.MONTHS[_month.value - 1][self.hebrew + 1]} "
             f"{hebrew_number(self.hdate.year, hebrew=self.hebrew)}"
         )
 
@@ -96,10 +95,10 @@ class HDate:
         return not self < other
 
     @property
-    def hdate(self):
+    def hdate(self) -> HebrewDate:
         """Return the hebrew date."""
         if self._last_updated == "hdate":
-            return self._hdate
+            return cast(HebrewDate, self._hdate)
         return conv.jdn_to_hdate(self._jdn)
 
     @hdate.setter
@@ -119,10 +118,10 @@ class HDate:
         self._hdate = date
 
     @property
-    def gdate(self):
+    def gdate(self) -> datetime.date:
         """Return the Gregorian date for the given Hebrew date object."""
         if self._last_updated == "gdate":
-            return self._gdate
+            return cast(datetime.date, self._gdate)
         return conv.jdn_to_gdate(self._jdn)
 
     @gdate.setter
@@ -141,16 +140,17 @@ class HDate:
     @property
     def hebrew_date(self) -> str:
         """Return the hebrew date string."""
+        _month = cast(Months, self.hdate.month)
         return (
             f"{hebrew_number(self.hdate.day, hebrew=self.hebrew)} "  # Day
-            f"{htables.MONTHS[self.hdate.month.value - 1][self.hebrew + 1]} "  # Month
+            f"{htables.MONTHS[_month.value - 1][self.hebrew + 1]} "  # Month
             f"{hebrew_number(self.hdate.year, hebrew=self.hebrew)}"  # Year
         )
 
     @property
     def parasha(self) -> str:
         """Return the upcoming parasha."""
-        return htables.PARASHAOT[self.get_reading()][self.hebrew + 1]
+        return cast(str, htables.PARASHAOT[self.get_reading()][self.hebrew + 1])
 
     @property
     def holiday_description(self) -> str:
@@ -172,8 +172,7 @@ class HDate:
         Returns False on Friday because the HDate object has no notion of time.
         For more detailed nuance, use the Zmanim object.
         """
-        _gdate = cast(datetime.date, self.gdate)
-        return _gdate.weekday() == 5
+        return self.gdate.weekday() == 5
 
     @property
     def is_holiday(self) -> bool:
@@ -197,7 +196,7 @@ class HDate:
         if len(entries) > 1:
             return [entry.type for entry in entries]
         if len(entries) == 1:
-            return entries[0].type
+            return cast(HolidayTypes, entries[0].type)
         return ""
 
     @property
@@ -207,7 +206,7 @@ class HDate:
         if len(entries) > 1:
             return [entry.name for entry in entries]
         if len(entries) == 1:
-            return entries[0].name
+            return cast(str, entries[0].name)
         return ""
 
     def _holiday_entries(self) -> list[Union[HOLIDAY, Any]]:
@@ -379,7 +378,9 @@ class HDate:
             [holiday.name for holiday in _holidays_list],
         )
 
-        def holiday_dates_cross_product(holiday):
+        def holiday_dates_cross_product(
+            holiday: HOLIDAY,
+        ) -> product[tuple[int, Months]]:
             """Given a (days, months) pair, compute the cross product.
 
             If days and/or months are singletons, they are converted to a list.
@@ -476,7 +477,7 @@ class HDate:
             return 54
 
         # Return the indexes for the readings of the given year
-        def unpack_readings(readings):
+        def unpack_readings(readings: list[Union[int, list[int]]]) -> list[int]:
             return list(chain(*([x] if isinstance(x, int) else x for x in readings)))
 
         reading_for_year = htables.READINGS[year_type]
