@@ -17,7 +17,7 @@ _ASTRAL = "astral" in sys.modules
 class TestHDateAPI:
     """Test the HDate API provided in the README."""
 
-    def test_readme_example_english(self, capsys: CaptureFixture) -> None:
+    def test_readme_example_english(self, capsys: CaptureFixture[str]) -> None:
         """Test the README example in English."""
 
         test_date = date(2016, 4, 18)
@@ -26,7 +26,7 @@ class TestHDateAPI:
         captured = capsys.readouterr()
         assert captured.out == "Monday 10 Nisan 5776\n"
 
-    def test_readme_example_hebrew(self, capsys: CaptureFixture) -> None:
+    def test_readme_example_hebrew(self, capsys: CaptureFixture[str]) -> None:
         """Test the README example in Hebrew."""
         test_date = date(2016, 4, 26)
         hdate = HDate(test_date, hebrew=True)
@@ -62,7 +62,7 @@ class TestHDateAPI:
 class TestZmanimAPI:
     """Test the API provided in the README."""
 
-    def test_readme_example_hebrew(self, capsys: CaptureFixture) -> None:
+    def test_readme_example_hebrew(self, capsys: CaptureFixture[str]) -> None:
         """Test for hebrew."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
         zman = Zmanim(date=date(2016, 4, 18), location=coord)
@@ -87,7 +87,7 @@ class TestZmanimAPI:
             "חצות הלילה - 00:40:00\n"
         )
 
-    def test_readme_example_english(self, capsys: CaptureFixture) -> None:
+    def test_readme_example_english(self, capsys: CaptureFixture[str]) -> None:
         """Test for english."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
         zman = Zmanim(date=date(2016, 4, 18), location=coord, hebrew=False)

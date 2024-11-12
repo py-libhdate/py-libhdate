@@ -3,7 +3,7 @@
 import datetime
 import random
 from collections import defaultdict
-from typing import Dict, List, Tuple, Union
+from typing import Union
 
 import pytest
 
@@ -63,7 +63,7 @@ class TestHDate:
     """Tests for the HDate object."""
 
     @pytest.fixture
-    def default_values(self):
+    def default_values(self) -> HDate:
         """Generate an HDate object for today's date."""
         return HDate()
 
@@ -134,9 +134,9 @@ class TestHDate:
     )
     def test_upcoming_shabbat(
         self,
-        current_date: Tuple[int, int, int],
-        shabbat_date: Tuple[int, int, int],
-        hebrew_date: Tuple[int, int, int],
+        current_date: tuple[int, int, int],
+        shabbat_date: tuple[int, int, int],
+        hebrew_date: tuple[int, int, int],
     ) -> None:
         """Check the date of the upcoming Shabbat."""
         date = HDate(gdate=datetime.date(*current_date))
@@ -288,8 +288,8 @@ class TestSpecialDays:
     )
     def test_get_next_yom_tov(
         self,
-        current_date: Tuple[int, int, int],
-        holiday_date: Tuple[int, int, int],
+        current_date: tuple[int, int, int],
+        holiday_date: tuple[int, int, int],
         holiday_name: str,
         where: str,
     ) -> None:
@@ -328,9 +328,9 @@ class TestSpecialDays:
     )
     def test_get_next_shabbat_or_yom_tov(
         self,
-        current_date: Tuple[int, int, int],
+        current_date: tuple[int, int, int],
         diaspora: bool,
-        dates: Dict[str, Tuple[int, int, int]],
+        dates: dict[str, tuple[int, int, int]],
     ) -> None:
         """Test getting the next shabbat or Yom Tov works."""
         date = HDate(gdate=datetime.date(*current_date), diaspora=diaspora)
@@ -345,8 +345,8 @@ class TestSpecialDays:
     def test_get_holidays_non_moving(
         self,
         rand_hdate: HDate,
-        date: Tuple[int, int],
-        holiday: Union[List[str], str],
+        date: tuple[int, int],
+        holiday: Union[list[str], str],
     ) -> None:
         """Test holidays that have a fixed hebrew date."""
         rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, date[1], date[0])
@@ -362,7 +362,7 @@ class TestSpecialDays:
     def test_get_diaspora_israel_holidays(
         self,
         rand_hdate: HDate,
-        date: Tuple[int, int],
+        date: tuple[int, int],
         diaspora_holiday: str,
         israel_holiday: str,
     ) -> None:
@@ -375,7 +375,7 @@ class TestSpecialDays:
 
     @pytest.mark.parametrize("possible_dates, holiday", MOVING_HOLIDAYS)
     def test_get_holidays_moving(
-        self, possible_dates: List[Tuple[int, int]], holiday: str
+        self, possible_dates: list[tuple[int, int]], holiday: str
     ) -> None:
         """Test holidays that are moved based on the DOW."""
         found_matching_holiday = False
@@ -402,9 +402,9 @@ class TestSpecialDays:
     @pytest.mark.parametrize("possible_dates, years, holiday", NEW_HOLIDAYS)
     def test_new_holidays_multiple_date(
         self,
-        possible_dates: List[Tuple[int, int]],
-        years: Tuple[int, int],
-        holiday: Union[List[str], str],
+        possible_dates: list[tuple[int, int]],
+        years: tuple[int, int],
+        holiday: Union[list[str], str],
     ) -> None:
         """Test holidays that have multiple possible dates."""
         found_matching_holiday = False
@@ -431,9 +431,9 @@ class TestSpecialDays:
     @pytest.mark.parametrize("possible_dates, years, holiday", NEW_HOLIDAYS)
     def test_new_holidays_invalid_before(
         self,
-        possible_dates: List[Tuple[int, int]],
-        years: Tuple[int, int],
-        holiday: Union[List[str], str],
+        possible_dates: list[tuple[int, int]],
+        years: tuple[int, int],
+        holiday: Union[list[str], str],
     ) -> None:
         """Test holidays that were created over time."""
         # Yom hazikaron and yom ha'atsmaut don't test for before 5764
@@ -458,14 +458,14 @@ class TestSpecialDays:
         else:
             assert myhdate.holiday_name == ""
 
-    def test_hanukah_5785(self):
+    def test_hanukah_5785(self) -> None:
         """December 31, 2024 is Hanuka."""
         mydate = HDate(gdate=datetime.date(2024, 12, 31))
         assert "chanukah" in mydate.holiday_name
         assert "rosh_chodesh" in mydate.holiday_name
 
     @pytest.mark.parametrize("possible_days, holiday", ADAR_HOLIDAYS)
-    def test_get_holiday_adar(self, possible_days: List[int], holiday: str) -> None:
+    def test_get_holiday_adar(self, possible_days: list[int], holiday: str) -> None:
         """Test holidays for Adar I/Adar II."""
         year = random.randint(5000, 6000)
         year_size = conv.get_size_of_hebrew_year(year)
@@ -851,7 +851,7 @@ class TestHDateReading:
     ]
 
     @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_ISRAEL)
-    def test_get_reading_israel(self, year: int, parshiyot: List[List[int]]) -> None:
+    def test_get_reading_israel(self, year: int, parshiyot: list[list[int]]) -> None:
         """Test parshat hashavua in Israel."""
         mydate = HDate(hebrew=False, diaspora=False)
         mydate.hdate = HebrewDate(year, 1, 1)
@@ -870,7 +870,7 @@ class TestHDateReading:
         assert mydate.get_reading() == 54
 
     @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_DIASPORA)
-    def test_get_reading_diaspora(self, year: int, parshiyot: List[List[int]]) -> None:
+    def test_get_reading_diaspora(self, year: int, parshiyot: list[list[int]]) -> None:
         """Test parshat hashavua in the diaspora."""
         mydate = HDate(hebrew=False, diaspora=True)
         mydate.hdate = HebrewDate(year, 1, 1)
