@@ -8,7 +8,7 @@ of the Jewish calendrical times for a given location
 import datetime as dt
 import logging
 import math
-from typing import Dict, Optional, Tuple, Union
+from typing import Dict, Optional, Tuple, Union, cast
 
 from hdate import htables
 from hdate.date import HDate
@@ -81,9 +81,9 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
             raise TypeError
 
         _LOGGER.debug("Resetting timezone to UTC for calculations")
-        self.time = self.time.replace(tzinfo=location.timezone).astimezone(
-            dt.timezone.utc
-        )
+        self.time = self.time.replace(
+            tzinfo=cast(dt.tzinfo, location.timezone)
+        ).astimezone(dt.timezone.utc)
 
         if _USE_ASTRAL and (abs(location.latitude) <= MAX_LATITUDE_ASTRAL):
             self.astral_observer = astral.Observer(
@@ -104,9 +104,10 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         """Return a representation of Zmanim for programmatic use."""
         # As time zone information is not really reusable due to DST, when
         # creating a __repr__ of zmanim, we show a timezone naive datetime.
+        _timezone = cast(dt.tzinfo, self.location.timezone)
         return (
             "Zmanim(date="
-            f"{self.time.astimezone(self.location.timezone).replace(tzinfo=None)!r},"
+            f"{self.time.astimezone(_timezone).replace(tzinfo=None)!r},"
             f" location={self.location!r}, hebrew={self.hebrew})"
         )
 
@@ -126,7 +127,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
     def zmanim(self) -> Dict[str, dt.datetime]:
         """Return a dictionary of the zmanim the object represents."""
         return {
-            key: value.astimezone(self.location.timezone)
+            key: value.astimezone(cast(dt.tzinfo, self.location.timezone))
             for key, value in self.utc_zmanim.items()
         }
 
