@@ -27,7 +27,7 @@ base code to provide times of the day in hebrew:
     >>> import hdate
     >>> import datetime
     >>> c = hdate.Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c, hebrew=True)
+    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c, lang='hebrew')
     >>> print(z)
     עלות השחר - 04:52:00
     זמן טלית ותפילין - 05:18:00
@@ -48,7 +48,7 @@ and in english:
 
 .. code :: python
 
-    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c, hebrew=False)
+    >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c, lang='english')
     >>> print(z)
     Alot HaShachar - 04:52:00
     Talit & Tefilin's time - 05:18:00
@@ -71,14 +71,14 @@ to provide the full hebrew date:
 
 .. code :: python
 
-    >>> h = hdate.HDate(datetime.date(2016, 4, 26), hebrew=True)
+    >>> h = hdate.HDate(datetime.date(2016, 4, 26), lang='hebrew')
     >>> print(h)
     יום שלישי י"ח בניסן ה' תשע"ו ג' בעומר חול המועד פסח
 
-and in english:
+and in french:
 
 .. code :: python
 
-    >>> h = hdate.HDate(datetime.date(2016, 4, 18), hebrew=False)
+    >>> h = hdate.HDate(datetime.date(2016, 4, 18), lang='french')
     >>> print(h)
     Monday 10 Nisan 5776
