@@ -86,6 +86,7 @@ and in french:
     Lundi 10 Nissan 5776
 
 and in english:
+
 .. code :: python
 
     >>> h = hdate.HDate(datetime.date(2016, 4, 18), lang='english')
