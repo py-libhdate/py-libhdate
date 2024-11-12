@@ -8,6 +8,7 @@ __pycache__/
 .venv/
 .pdm-python
 .pdm-build/
+.mypy_cache/
 
 .coverage
 htmlcov/
