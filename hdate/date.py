@@ -10,7 +10,7 @@ from __future__ import annotations
 import datetime
 import logging
 from itertools import chain, product
-from typing import Any, Optional, Tuple, Union, cast
+from typing import Any, Optional, Union, cast
 
 from hdate import converters as conv
 from hdate import htables
@@ -260,7 +260,7 @@ class HDate:
         return omer_day
 
     @property
-    def daf_yomi_repr(self) -> Tuple[MESECHTA, int]:
+    def daf_yomi_repr(self) -> tuple[MESECHTA, int]:
         """Return a tuple of mesechta and daf."""
         days_since_start_cycle_11 = (self.gdate - htables.DAF_YOMI_CYCLE_11_START).days
         page_number = days_since_start_cycle_11 % (htables.DAF_YOMI_TOTAL_PAGES)
@@ -353,7 +353,7 @@ class HDate:
 
     def get_holidays_for_year(
         self, types: Optional[list[HolidayTypes]] = None
-    ) -> list[Tuple[HOLIDAY, HDate]]:
+    ) -> list[tuple[HOLIDAY, HDate]]:
         """Get all the actual holiday days for a given HDate's year.
 
         If specified, use the list of types to limit the holidays returned.

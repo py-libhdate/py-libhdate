@@ -8,7 +8,7 @@ of the Jewish calendrical times for a given location
 import datetime as dt
 import logging
 import math
-from typing import Dict, Optional, Tuple, Union, cast
+from typing import Optional, Union, cast
 
 from hdate import htables
 from hdate.date import HDate
@@ -112,7 +112,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         )
 
     @property
-    def utc_zmanim(self) -> Dict[str, dt.datetime]:
+    def utc_zmanim(self) -> dict[str, dt.datetime]:
         """Return a dictionary of the zmanim in UTC time format."""
         basetime = dt.datetime.combine(self.date, dt.time()).replace(
             tzinfo=dt.timezone.utc
@@ -124,7 +124,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         }
 
     @property
-    def zmanim(self) -> Dict[str, dt.datetime]:
+    def zmanim(self) -> dict[str, dt.datetime]:
         """Return a dictionary of the zmanim the object represents."""
         return {
             key: value.astimezone(cast(dt.tzinfo, self.location.timezone))
@@ -257,7 +257,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         """Return the number of days since January 1 of the given year."""
         return (self.date - dt.date(self.date.year, 1, 1)).days
 
-    def _get_utc_sun_time_deg(self, deg: float) -> Tuple[int, int]:
+    def _get_utc_sun_time_deg(self, deg: float) -> tuple[int, int]:
         """
         Return the times in minutes from 00:00 (utc) for a given sun altitude.
 
@@ -349,7 +349,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
             )
         )
 
-    def get_utc_sun_time_full(self) -> Dict[str, Union[int, float]]:
+    def get_utc_sun_time_full(self) -> dict[str, Union[int, float]]:
         """Return a list of Jewish times for the given location."""
         if (not _USE_ASTRAL) or (abs(self.location.latitude) > MAX_LATITUDE_ASTRAL):
             sunrise, sunset = self._get_utc_sun_time_deg(90.833)
