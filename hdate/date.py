@@ -8,6 +8,7 @@ of the Jewish calendrical date and times for a given location
 import datetime
 import logging
 from itertools import chain, product
+from typing import List, Optional
 
 from hdate import converters as conv
 from hdate import htables
