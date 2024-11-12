@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.11.0 - 2024-11-12
+
+### 🚀 Features
+
+* Make libhdate fully typed (#136) @tsvi
+* Add Rosh Chodesh holiday (#129) @tsvi
+
+### 🐛 Bug Fixes
+
+* 30th of Kislev should also be considered chanuka (#135) @tsvi
+
+### 🧰 Maintenance
+
+* Deprecate support for Python 3.8, add support for Python 3.13 (#134) @tsvi
+
 ## 0.10.11 - 2024-06-21
 
 ### 🧰 Maintenance
