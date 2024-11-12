@@ -6,7 +6,7 @@ from enum import Enum
 
 READING = namedtuple("READING", "year_type, readings")
 
-READINGS = (
+_READINGS = (
     READING(
         [1725],
         (
@@ -217,7 +217,7 @@ READINGS = (
     ),
 )
 
-READINGS = dict((year_type, r.readings) for r in READINGS for year_type in r.year_type)
+READINGS = dict((year_type, r.readings) for r in _READINGS for year_type in r.year_type)
 
 DIGITS = (
     (" ", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"),
