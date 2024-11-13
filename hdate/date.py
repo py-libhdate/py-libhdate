@@ -556,7 +556,7 @@ class HDate:
         return readings[weeks]
 
 
-def hebrew_number(num, lang='hebrew', short=True) -> str:
+def hebrew_number(num, lang='hebrew', short=False) -> str:
     """Return the number representation in the specified language.
 
     For 'hebrew', return the Hebrew numeral representation.
@@ -610,7 +610,9 @@ def get_omer_string(omer, lang='hebrew'):
 
     if lang == 'hebrew':
         tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
-        ones = ["", "אחד", "שניים", "שלושה", "ארבעה", "חמישה", "שישה", "שבעה", "שמונה", "תשעה"]
+        ones = ["", "אחד", "שניים", "שלושה", 
+        "ארבעה", "חמישה", "שישה", 
+        "שבעה", "שמונה", "תשעה"]
         
         ten = omer // 10
         one = omer % 10
@@ -654,9 +656,14 @@ def get_omer_string(omer, lang='hebrew'):
         omer_string += "לעומר"
     
     elif lang == 'english':
-        ones = ["", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine"]
-        teens = ["ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen",
-                 "seventeen", "eighteen", "nineteen"]
+        ones = ["", "one", "two", 
+        "three", "four", 
+        "five", "six", 
+        "seven", "eight", "nine"]
+        teens = ["ten", "eleven", 
+        "twelve", "thirteen", "fourteen", 
+        "fifteen", "sixteen", "seventeen", 
+        "eighteen", "nineteen"]
         tens = ["", "", "twenty", "thirty", "forty"]
         omer_string = "Today is "
         if omer < 10:
@@ -686,9 +693,13 @@ def get_omer_string(omer, lang='hebrew'):
                     omer_string += "s"
         omer_string += "."
     elif lang == 'french':
-        ones = ["", "un", "deux", "trois", "quatre", "cinq", "six", "sept", "huit", "neuf"]
-        teens = ["dix", "onze", "douze", "treize", "quatorze", "quinze", "seize",
-                "dix-sept", "dix-huit", "dix-neuf"]
+        ones = ["", "un", "deux", "trois", 
+        "quatre", "cinq", "six", 
+        "sept", "huit", "neuf"]
+        teens = ["dix", "onze", "douze", 
+        "treize", "quatorze", "quinze", 
+        "seize",  "dix-sept", "dix-huit", 
+        "dix-neuf"]
         tens = ["", "", "vingt", "trente", "quarante"]
         omer_string = "Aujourd'hui c'est le "
         ten = omer // 10
