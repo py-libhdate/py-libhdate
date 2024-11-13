@@ -10,7 +10,7 @@ from __future__ import annotations
 import datetime
 import logging
 from itertools import chain, product
-from typing import List, Optional
+from typing import List, Optional, cast
 
 from hdate import converters as conv
 from hdate import htables
@@ -33,8 +33,12 @@ class HDate:
     OMER_STRINGS = {'hebrew': 'בעומר', 'english': 'in the Omer', 'french': 'jour du Omer'}
 
     def __init__(
-        self, gdate=datetime.date.today(), diaspora=False, lang='hebrew', heb_date=None
-    ):
+        self, 
+        gdate: Union[datetime.date, datetime.datetime] = datetime.date.today(), 
+        diaspora: bool = False, 
+        lang='hebrew', 
+        heb_date: Optional[HebrewDate] = None
+    ) -> None:
         """Initialize the HDate object."""
         # Create private variables
         self._hdate: Optional[HebrewDate] = None
@@ -87,7 +91,7 @@ class HDate:
         month_lang = getattr(htables.MONTHS[month_index], self.lang)
         return month_lang
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return a full Unicode representation of HDate."""
         # Get prefixes and strings based on language
         day_prefix = self.DAY_PREFIXES.get(self.lang, '')
@@ -121,7 +125,7 @@ class HDate:
         return result
 
 
-    def __repr__(self):
+    def __repr__(self) -> str: 
         """Return a representation of HDate for programmatic use."""
         return (
             f"HDate(gdate={self.gdate!r}, diaspora={self.diaspora}, "
@@ -189,21 +193,22 @@ class HDate:
         return conv.hdate_to_jdn(self.hdate)
     
     @property
-    def hebrew_date(self):
+    def hebrew_date(self) -> str:
         """Return the Hebrew date string in the selected language."""
         day = self.get_number_repr(self.hdate.day)
         month = getattr(htables.MONTHS[self.hdate.month.value - 1], self.lang)
         year = self.get_number_repr(self.hdate.year)
         return f"{day} {month} {year}"
+    
     @property
-    def parasha(self):
+    def parasha(self) -> str:
         """Return the upcoming parasha in the selected language."""
         parasha_index = self.get_reading()
         parasha = getattr(htables.PARASHAOT[parasha_index], self.lang)
         return parasha
 
     @property
-    def holiday_description(self) -> Optional[str]:
+    def holiday_description(self) -> str:
         """
         Return the holiday description in the selected language.
 
@@ -250,28 +255,28 @@ class HDate:
         return self.hdate.year % 19 in [0, 3, 6, 8, 11, 14, 17]
 
     @property
-    def holiday_type(self) -> List[HolidayTypes]:
+    def holiday_type(self) -> Union[HolidayTypes, str, list[HolidayTypes]]:
         """Return a list of holiday types if they exist."""
         entries = self._holiday_entries()
         return [entry.type for entry in entries]
 
     @property
-    def holiday_name(self) -> List[str]:
+    def holiday_name(self) -> Union[str, list[str]]:
         """Return a list of holiday names for programmatic use."""
         entries = self._holiday_entries()
         return [entry.name for entry in entries]
 
-    def _holiday_entries(self) -> List[HOLIDAY]:
+    def _holiday_entries(self) -> list[Union[HOLIDAY, Any]]:
         """Return the abstract holiday information from the holidays table."""
-        holidays_list = self.get_holidays_for_year()
-        entries = [
+        _holidays_list = self.get_holidays_for_year()
+        holidays_list = [
             holiday
             for holiday, holiday_hdate in _holidays_list
             if holiday_hdate.hdate == self.hdate
         ]
-        return entries
+        return holidays_list
 
-    def short_kislev(self):
+    def short_kislev(self) -> bool:
         """Return whether this year has a short Kislev or not."""
         return self.year_size() in [353, 383]
 
@@ -322,7 +327,7 @@ class HDate:
         return mesechta, daf_number
 
     @property
-    def daf_yomi(self):
+    def daf_yomi(self) -> str:
         """Return a string representation of the daf yomi in the selected language."""
         mesechta, daf_number = self.daf_yomi_repr
         mesechta_name = getattr(mesechta.name, self.lang)
@@ -541,7 +546,7 @@ class HDate:
         return readings[weeks]
 
 
-def hebrew_number(num, lang='hebrew', short=False):
+def hebrew_number(num, lang='hebrew', short=False) -> str:
     """Return the number representation in the specified language.
 
     For 'hebrew', return the Hebrew numeral representation.
@@ -589,7 +594,7 @@ def hebrew_number(num, lang='hebrew', short=False):
 
 
 
-def get_omer_string(omer, lang='hebrew'):
+def get_omer_string(omer, lang='hebrew') -> str:
     """Return a string representing the count of the Omer in the specified language."""
     if not 0 < omer < 50:
         raise ValueError(f"Invalid Omer day: {omer}")
