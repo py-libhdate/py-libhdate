@@ -110,7 +110,7 @@ class TestZmanimAPI:
             "Plag Mincha - 17:50:45\n"
             "Sunset - 19:12:00\n"
             "First stars - 19:38:00\n"
-            "Night by Rabbeinu Tam - 120:30:00\n"
+            "Night by Rabbeinu Tam - 20:30:00\n"
             "Midnight - 00:40:00\n"
         )
 
