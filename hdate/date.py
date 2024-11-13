@@ -1,5 +1,5 @@
 """
-Jewish calendrical date and times for a given location. 
+Jewish calendrical date and times for a given location.
 
 HDate calculates and generates a representation either in English or Hebrew
 of the Jewish calendrical date and times for a given location
@@ -122,7 +122,6 @@ class HDate:
         if self.holiday_description:
             result = f"{result} {self.holiday_description}"
         return result
-
 
     def __repr__(self) -> str: 
         """Return a representation of HDate for programmatic use."""
@@ -479,7 +478,6 @@ class HDate:
     @property
     def upcoming_yom_tov(self) -> "HDate":
         """Find the next upcoming yom tov (i.e. no-melacha holiday).
-
         If it is currently the day of yom tov (irrespective of zmanim), returns
         that yom tov.
         """
@@ -492,16 +490,13 @@ class HDate:
             lang=self.lang,
         )
         next_year = next_rosh_hashana.get_holidays_for_year([HolidayTypes.YOM_TOV])
-
         # Filter anything that's past.
         holidays_list = [
             holiday_hdate
             for _, holiday_hdate in chain(this_year, next_year)
             if holiday_hdate >= self
         ]
-
         holidays_list.sort(key=lambda h: h.gdate)
-
         return holidays_list[0]
 
     def get_reading(self) -> int:
@@ -513,16 +508,13 @@ class HDate:
             + _year_type * 10
             + self.pesach_dow()
         )
-
         _LOGGER.debug("Year type: %d", year_type)
-
         # Number of days since rosh hashana
         rosh_hashana = HebrewDate(self.hdate.year, Months.TISHREI, 1)
         days = self._jdn - conv.hdate_to_jdn(rosh_hashana)
         # Number of weeks since rosh hashana
         weeks = (days + self.rosh_hashana_dow() - 1) // 7
         _LOGGER.debug("Since Rosh Hashana - Days: %d, Weeks %d", days, weeks)
-
         # If it's currently Simchat Torah, return VeZot Haberacha.
         if weeks == 3:
             if (
@@ -533,15 +525,12 @@ class HDate:
                 and not self.diaspora
             ):
                 return 54
-
         # Special case for Simchat Torah in diaspora.
         if weeks == 4 and days == 22 and self.diaspora:
             return 54
-
         # Return the indexes for the readings of the given year
         def unpack_readings(readings: list[Union[int, list[int]]]) -> list[int]:
             return list(chain(*([x] if isinstance(x, int) else x for x in readings)))
-
         reading_for_year = htables.READINGS[year_type]
         readings = unpack_readings(reading_for_year)
         # Maybe recompute the year type based on the upcoming shabbat.
@@ -553,7 +542,6 @@ class HDate:
         ):
             return self.upcoming_shabbat.get_reading()
         return readings[weeks]
-
 
 def hebrew_number(num, lang='hebrew', short=False) -> str:
     """Return the number representation in the specified language.
@@ -606,16 +594,13 @@ def get_omer_string(omer, lang='hebrew'):
     """Return a string representing the count of the Omer in the specified language."""
     if not 0 < omer < 50:
         raise ValueError(f"Invalid Omer day: {omer}")
-
     if lang == 'hebrew':
         tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
         ones = ["", "אחד", "שניים", "שלושה", 
         "ארבעה", "חמישה", "שישה", 
         "שבעה", "שמונה", "תשעה"]
-        
         ten = omer // 10
         one = omer % 10
-
         omer_string = "היום "
         if 10 < omer < 20:
             omer_string += ones[one] + " עשר"
@@ -653,7 +638,6 @@ def get_omer_string(omer, lang='hebrew'):
                 else:  # days == 2
                     omer_string += "שני ימים "
         omer_string += "לעומר"
-    
     elif lang == 'english':
         ones = ["", "one", "two", 
         "three", "four", 
@@ -703,7 +687,6 @@ def get_omer_string(omer, lang='hebrew'):
         omer_string = "Aujourd'hui c'est le "
         ten = omer // 10
         one = omer % 10
-
         if omer < 10:
             omer_string += ones[omer]
         elif 10 <= omer < 20:
@@ -728,9 +711,7 @@ def get_omer_string(omer, lang='hebrew'):
                 if days != 1:
                     omer_string += "s"
         omer_string += "."
-
     else:
         # Default to English if language is not recognized
         omer_string = f"Today is day {omer} of the Omer."
     return omer_string
-

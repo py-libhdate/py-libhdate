@@ -354,7 +354,6 @@ class Months(Enum):
     ADAR_I = 13
     ADAR_II = 14
 
-
 def year_is_after(year: int) -> Callable[[HDateT], bool]:
     """
     Return a lambda function.
@@ -364,7 +363,6 @@ def year_is_after(year: int) -> Callable[[HDateT], bool]:
     """
     return lambda x: x.hdate.year > year
 
-
 def year_is_before(year: int) -> Callable[[HDateT], bool]:
     """
     Return a lambda function.
@@ -373,7 +371,6 @@ def year_is_before(year: int) -> Callable[[HDateT], bool]:
     requested year.
     """
     return lambda x: x.hdate.year < year
-
 
 def move_if_not_on_dow(
     original: int, replacement: int, dow_not_orig: int, dow_replacement: int
@@ -389,7 +386,6 @@ def move_if_not_on_dow(
         or (x.hdate.day == replacement and x.gdate.weekday() == dow_replacement)
     )
 
-
 def correct_adar() -> Callable[[HDateT], bool]:
     """
     Return a lambda function.
@@ -403,11 +399,9 @@ def correct_adar() -> Callable[[HDateT], bool]:
         or (x.hdate.month in [Months.ADAR_I, Months.ADAR_II] and x.is_leap_year)
     )
 
-
 def not_rosh_chodesh() -> Callable[[HDateT], bool]:
     """The 1st of Tishrei is not Rosh Chodesh."""
     return lambda x: not (x.hdate.month == Months.TISHREI and x.hdate.day == 1)
-
 
 def legal_month_length() -> Callable[[HDateT], bool]:
     """
@@ -435,16 +429,13 @@ def legal_month_length() -> Callable[[HDateT], bool]:
         and x.hdate.month == Months.KISLEV
     )
 
-
 HOLIDAY = namedtuple(
     "HOLIDAY",
     ["type", "name", "date", "israel_diaspora", "date_functions_list", "description"],
 )
 
-
 class HolidayTypes(Enum):
     """Container class for holiday type integer mappings."""
-
     UNKNOWN = 0
     YOM_TOV = 1
     EREV_YOM_TOV = 2
@@ -456,7 +447,6 @@ class HolidayTypes(Enum):
     MEMORIAL_DAY = 8
     ISRAEL_NATIONAL_HOLIDAY = 9
     ROSH_CHODESH = 10
-
 
 HOLIDAYS = (
     HOLIDAY(HolidayTypes.UNKNOWN, "", (), "", [], LANG("", "", DESC("", ""))),
@@ -919,7 +909,6 @@ ZMANIM = (
     ZMAN("rabbeinu_tam", LANG("Nuit selon Rabbénou Tam", "Night by Rabbeinu Tam", "לילה לרבנו תם")),
     ZMAN("midnight", LANG("Minuit", "Midnight", "חצות הלילה")),
 )
-
 
 # The first few cycles were only 2702 blatt. After that it became 2711. Even with
 # that, the math doesn't play nicely with the dates before the 11th cycle :(
