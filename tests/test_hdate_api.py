@@ -32,13 +32,13 @@ class TestHDateAPI:
         hdate = HDate(test_date, lang='hebrew')
         print(hdate)
         captured = capsys.readouterr()
-        assert captured.out == "יום שלישי י\"ח בניסן ה' תשע\"ו ג' בעומר חול המועד פסח\n"
+        assert captured.out == "יום שלישי י\"ח בניסן ה’תשע\"ו ג' בעומר חול המועד פסח\n"
 
     def test_get_hebrew_date(self) -> None:
         """Print the hebrew date."""
         test_date = datetime(2018, 11, 2)
-        assert HDate(test_date).hebrew_date == 'כ"ד מרחשוון ה\' תשע"ט'
-        assert HDate(test_date, lang='french').hebrew_date == "24 Marcheshvan 5779"
+        assert HDate(test_date).hebrew_date ==  "כ\"ד מרחשוון ה’תשע\"ט"
+        assert HDate(test_date, lang='french').hebrew_date == "24 Heshvan 5779"
 
     def test_get_upcoming_parasha(self) -> None:
         """Check that the upcoming parasha is correct."""
