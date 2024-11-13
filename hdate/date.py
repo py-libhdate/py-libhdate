@@ -242,12 +242,12 @@ class HDate:
     @property
     def is_holiday(self) -> bool:
         """Return True if this date is a holiday (any kind)."""
-        return self.holiday_type != HolidayTypes.UNKNOWN
+        return HolidayTypes.UNKNOWN not in self.holiday_type
 
     @property
     def is_yom_tov(self) -> bool:
         """Return True if this date is a Yom Tov."""
-        return self.holiday_type == HolidayTypes.YOM_TOV
+        return HolidayTypes.YOM_TOV in self.holiday_type
 
     @property
     def is_leap_year(self) -> bool:
@@ -255,14 +255,14 @@ class HDate:
         return self.hdate.year % 19 in [0, 3, 6, 8, 11, 14, 17]
 
     @property
-    def holiday_type(self) -> Union[HolidayTypes, str, list[HolidayTypes]]:
+    def holiday_type(self) -> Union[HolidayTypes, list[HolidayTypes]]:
         """Return a list of holiday types if they exist."""
         entries = self._holiday_entries()
         if len(entries) > 1:
             return [entry.type for entry in entries]
         if len(entries) == 1:
             return cast(HolidayTypes, entries[0].type)
-        return ""
+        return HolidayTypes.UNKNOWN
 
     @property
     def holiday_name(self) -> Union[str, list[str]]:
