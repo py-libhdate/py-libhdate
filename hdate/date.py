@@ -581,9 +581,9 @@ def hebrew_number(num, lang='hebrew', short=False) -> str:
     # Add geresh or gershayim
     if not short:
         if len(hstring) == 1:
-            hstring += "’"
+            hstring += "'"
         elif len(hstring) > 1:
-            hstring = hstring[:-1] + '”' + hstring[-1]
+            hstring = hstring[:-1] + '"' + hstring[-1]
     return hstring
 
 def get_omer_string(omer, lang='hebrew'):
