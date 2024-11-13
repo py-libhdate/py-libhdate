@@ -896,17 +896,32 @@ ZMANIM = (
         LANG("Heure de Talit & Tefilin", "Talit & Tefilin's time", "זמן טלית ותפילין"),
     ),
     ZMAN("sunrise", LANG("Lever du jour", "Sunrise", "הנץ החמה")),
-    ZMAN("mga_end_shma", LANG('Fin du Shema (MG"A)', 'Shema EOT MG"A', 'סוף זמן ק"ש מג"א')),
-    ZMAN("gra_end_shma", LANG('Fin du Shema (GR"A)', 'Shema EOT GR"A', 'סוף זמן ק"ש גר"א')),
-    ZMAN("mga_end_tfila", LANG('Fin de la Tefila (MG"A)', 'Tefila EOT MG"A', 'סוף זמן תפילה מג"א')),
-    ZMAN("gra_end_tfila", LANG('Fin de la Tefila (GR"A)', 'Tefila EOT GR"A', 'סוף זמן תפילה גר"א')),
+    ZMAN(
+        "mga_end_shma", 
+        LANG('Fin du Shema (MG"A)', 'Shema EOT MG"A', 'סוף זמן ק"ש מג"א')
+    ),
+    ZMAN(
+        "gra_end_shma", 
+        LANG('Fin du Shema (GR"A)', 'Shema EOT GR"A', 'סוף זמן ק"ש גר"א')
+    ),
+    ZMAN(
+        "mga_end_tfila", 
+        LANG('Fin de la Tefila (MG"A)', 'Tefila EOT MG"A', 'סוף זמן תפילה מג"א')
+    ),
+    ZMAN(
+        "gra_end_tfila", 
+        LANG('Fin de la Tefila (GR"A)', 'Tefila EOT GR"A', 'סוף זמן תפילה גר"א')
+    ),
     ZMAN("midday", LANG("Midi", "Midday", "חצות היום")),
     ZMAN("big_mincha", LANG("Mincha Gedola", "Big Mincha", "מנחה גדולה")),
     ZMAN("small_mincha", LANG("Mincha Ketana", "Small Mincha", "מנחה קטנה")),
     ZMAN("plag_mincha", LANG("Plag HaMincha", "Plag Mincha", "פלג המנחה")),
     ZMAN("sunset", LANG("Coucher du soleil", "Sunset", "שקיעה")),
     ZMAN("first_stars", LANG("Sortie des étoiles", "First stars", "צאת הכוכבים")),
-    ZMAN("rabbeinu_tam", LANG("Nuit selon Rabbénou Tam", "Night by Rabbeinu Tam", "לילה לרבנו תם")),
+    ZMAN(
+        "rabbeinu_tam", 
+        LANG("Nuit selon Rabbénou Tam", "Night by Rabbeinu Tam", "לילה לרבנו תם")
+    ),
     ZMAN("midnight", LANG("Minuit", "Midnight", "חצות הלילה")),
 )
 

@@ -29,7 +29,9 @@ class HDate:
     # Prefixes and strings for different languages
     DAY_PREFIXES = {'hebrew': 'יום ', 'english': '', 'french': ''}
     IN_PREFIXES = {'hebrew': 'ב', 'english': 'of ', 'french': ''}
-    OMER_STRINGS = {'hebrew': 'בעומר', 'english': 'in the Omer', 'french': 'jour du Omer'}
+    OMER_STRINGS = {'hebrew': 'בעומר', 
+    'english': 'in the Omer', 
+    'french': 'jour du Omer'}
 
     def __init__(
         self, 
@@ -107,8 +109,10 @@ class HDate:
         # Get year number representation
         year_number = self.get_number_repr(self.hdate.year)
 
-        result = f"{day_prefix}{day_name} {day_number} {in_prefix}{month_name} {year_number}"
-
+        result = (
+            f"{day_prefix}{day_name} {day_number} "
+            f"{in_prefix}{month_name} {year_number}"
+        )
         # Handle Omer day
         if 0 < self.omer_day < 50:
             omer_day_number = self.get_number_repr(self.omer_day)
