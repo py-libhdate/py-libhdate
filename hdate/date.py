@@ -28,7 +28,7 @@ class HDate:
 
     # Prefixes and strings for different languages
     DAY_PREFIXES = {'hebrew': 'יום ', 'english': '', 'french': ''}
-    IN_PREFIXES = {'hebrew': 'ב', 'english': 'of ', 'french': ''}
+    IN_PREFIXES = {'hebrew': 'ב', 'english': '', 'french': ''}
     OMER_STRINGS = {'hebrew': 'בעומר', 
     'english': 'in the Omer', 
     'french': 'jour du Omer'}
