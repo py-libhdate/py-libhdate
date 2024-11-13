@@ -242,7 +242,9 @@ class HDate:
     @property
     def is_holiday(self) -> bool:
         """Return True if this date is a holiday (any kind)."""
-        return HolidayTypes.UNKNOWN not in self.holiday_type
+        if isinstance(self.holiday_type, list):
+            return HolidayTypes.UNKNOWN not in self.holiday_type
+        return self.holiday_type != HolidayTypes.UNKNOWN
 
     @property
     def is_yom_tov(self) -> bool:
