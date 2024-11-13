@@ -1,5 +1,5 @@
 """
-Jewish calendrical date and times for a given location.
+Jewish calendrical date and times for a given location. 
 
 HDate calculates and generates a representation either in English or Hebrew
 of the Jewish calendrical date and times for a given location

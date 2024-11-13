@@ -1,4 +1,4 @@
-"""Constant lookup tables for hdate modules."""
+"""Constant lookup tables for hdate modules.""" 
 
 import datetime
 from collections import namedtuple
