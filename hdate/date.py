@@ -249,7 +249,7 @@ class HDate:
     @property
     def is_yom_tov(self) -> bool:
         """Return True if this date is a Yom Tov."""
-        return HolidayTypes.YOM_TOV in self.holiday_type
+        return self.holiday_type == HolidayTypes.YOM_TOV
 
     @property
     def is_leap_year(self) -> bool:
