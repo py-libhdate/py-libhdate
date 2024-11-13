@@ -67,7 +67,7 @@ class HDate:
     
     def get_number_repr(self, number, short=False):
         """Get the number representation based on the current language."""
-        return hebrew_number(number, lang=self.lang, short=short)
+        return hebrew_number(number, lang=self.lang, short=False)
 
     def get_month_name(self):
         """Return the month name in the selected language, handling leap years."""
