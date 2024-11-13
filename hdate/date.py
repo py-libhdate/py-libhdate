@@ -72,7 +72,8 @@ class HDate:
 
     def get_month_name(self):
         """Return the month name in the selected language, handling leap years."""
-        month = cast(Months, self.hdate.month)  # Informer le type checker que month est Months
+        # Informer le type checker que month est Months
+        month = cast(Months, self.hdate.month)
         is_leap = self.is_leap_year
         month_value = month.value
         # Adjust the month index for non-leap years
