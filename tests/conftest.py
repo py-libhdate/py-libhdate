@@ -1,30 +1,30 @@
 """Fixtures for py.test."""
 
-import datetime
-import random
 from calendar import isleap
+from datetime import date
+from random import randint
 
 import pytest
 
-import hdate
+from hdate import HDate
 
 
 @pytest.fixture
-def random_date():
+def random_date() -> date:
     """Generate a random valid date."""
-    year = random.randint(400, 2500)
-    month = random.randint(1, 12)
+    year = randint(400, 2500)
+    month = randint(1, 12)
     maxday = 31 if month in [1, 3, 5, 7, 8, 10, 12] else 30
     if month == 2:
         if isleap(year):
             maxday = 29
         else:
             maxday = 28
-    day = random.randint(1, maxday)
-    return datetime.date(year, month, day)
+    day = randint(1, maxday)
+    return date(year, month, day)
 
 
 @pytest.fixture
-def rand_hdate(random_date):  # pylint: disable=redefined-outer-name
+def rand_hdate(random_date: date) -> HDate:  # pylint: disable=redefined-outer-name
     """Given a random date, generate a random HDate."""
-    return hdate.HDate(random_date)
+    return HDate(random_date)

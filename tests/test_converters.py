@@ -1,5 +1,7 @@
 """Test the conversion functions."""
 
+import datetime as dt
+
 import pytest
 
 from hdate import converters as conv
@@ -10,7 +12,7 @@ from hdate.htables import Months
 class TestConverters:
     """Tests for converting one date type to another."""
 
-    def test_gdate_to_gdate(self, random_date):
+    def test_gdate_to_gdate(self, random_date: dt.date) -> None:
         """ "Transform Gregorian date to Gregorian date."""
         assert conv.jdn_to_gdate(conv.gdate_to_jdn(random_date)) == random_date
 
@@ -23,7 +25,7 @@ class TestConverters:
     }
 
     @pytest.mark.parametrize("year", YEARS_PSHUTA)
-    def test_hdate_to_hdate_pshuta_simple(self, year):
+    def test_hdate_to_hdate_pshuta_simple(self, year: int) -> None:
         """Transform Hebrew date to Hebrew date (single Adar)."""
         for days_in_month, months in self.SIMPLE_MONTHS.items():
             for month in months:
@@ -32,14 +34,14 @@ class TestConverters:
                     assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_PSHUTA)
-    def test_hdate_to_hdate_pshuta_adar(self, year):
+    def test_hdate_to_hdate_pshuta_adar(self, year: int) -> None:
         """Transform Hebrew date to Hebrew date (in Adar)."""
         for day in range(1, 29 + 1):
             date = HebrewDate(year, Months.ADAR, day)
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_PSHUTA)
-    def test_hdate_to_hdate_pshuta_heshvan(self, year):
+    def test_hdate_to_hdate_pshuta_heshvan(self, year: int) -> None:
         """Transform Hebrew date to hebrew date (Heshvan)."""
         days_in_month = 29 if not year == 5756 else 30
         for day in range(1, days_in_month + 1):
@@ -47,7 +49,7 @@ class TestConverters:
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_PSHUTA)
-    def test_hdate_to_hdate_pshuta_kislev(self, year):
+    def test_hdate_to_hdate_pshuta_kislev(self, year: int) -> None:
         """Transform Hebrew date to hebrew date (Kislev)."""
         days_in_month = 30 if not year == 5753 else 29
         for day in range(1, days_in_month + 1):
@@ -55,7 +57,7 @@ class TestConverters:
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
-    def test_hdate_to_hdate_meuberet_simple(self, year):
+    def test_hdate_to_hdate_meuberet_simple(self, year: int) -> None:
         """Transform Hebrew date to hebrew date (two Adars)."""
         for days_in_month, months in self.SIMPLE_MONTHS.items():
             for month in months:
@@ -64,7 +66,7 @@ class TestConverters:
                     assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
-    def test_hdate_to_hdate_meuberet_adar(self, year):
+    def test_hdate_to_hdate_meuberet_adar(self, year: int) -> None:
         """Transform Hebrew date to hebrew date (two Adars - test Adar)."""
         for day in range(1, 30 + 1):
             date = HebrewDate(year, Months.ADAR_I, day)
@@ -74,7 +76,7 @@ class TestConverters:
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
-    def test_hdate_to_hdate_meuberet_heshvan(self, year):
+    def test_hdate_to_hdate_meuberet_heshvan(self, year: int) -> None:
         """Transform Hebrew date to hebrew date (two Adars - test Heshvan)."""
         days_in_month = 29 if not year == 5760 else 30
         for day in range(1, days_in_month + 1):
@@ -82,7 +84,7 @@ class TestConverters:
             assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
 
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
-    def test_hdate_to_hdate_meuberet_kislev(self, year):
+    def test_hdate_to_hdate_meuberet_kislev(self, year: int) -> None:
         """Transform Hebrew date to hebrew date (two Adars - test Kislev)."""
         days_in_month = 30 if not year == 5749 else 29
         for day in range(1, days_in_month + 1):

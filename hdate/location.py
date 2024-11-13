@@ -17,11 +17,11 @@ class Location:
     altitude: float = 754
     diaspora: bool = False
 
-    def __post_init__(self):
+    def __post_init__(self) -> None:
         if isinstance(self.timezone, str):
             self.timezone = ZoneInfo(self.timezone)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """Return a representation of Location for programmatic use."""
         return (
             f"Location(name={self.name!r}, latitude={self.latitude}, "
