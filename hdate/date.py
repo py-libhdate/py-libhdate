@@ -554,7 +554,7 @@ def hebrew_number(num, lang='hebrew', short=False) -> str:
     # Handle thousands
     if num >= 1000:
         thousands = num // 1000
-        hstring += htables.DIGITS[0][thousands] + "’"
+        hstring += htables.DIGITS[0][thousands] + "'"
         num = num % 1000
     # Handle hundreds
     hundreds = [400, 300, 200, 100]
