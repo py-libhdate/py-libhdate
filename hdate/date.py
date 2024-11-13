@@ -415,7 +415,6 @@ class HDate:
         self, types: Optional[list[HolidayTypes]] = None
     ) -> list[tuple[HOLIDAY, HDate]]:
         """Get all the actual holiday days for a given HDate's year.
-
         If specified, use the list of types to limit the holidays returned.
         """
         _LOGGER.debug("Looking up holidays of types %s", types)
@@ -427,18 +426,15 @@ class HDate:
             or (holiday.israel_diaspora == "ISRAEL" and not self.diaspora)
             or (holiday.israel_diaspora == "DIASPORA" and self.diaspora)
         ]
-
         if types:
             # Filter non-matching holiday types.
             _holidays_list = [
                 holiday for holiday in _holidays_list if holiday.type in types
             ]
-
         _LOGGER.debug(
             "Holidays after filters have been applied: %s",
             [holiday.name for holiday in _holidays_list],
         )
-
         def holiday_dates_cross_product(
             holiday: HOLIDAY,
         ) -> product[tuple[int, Months]]:
@@ -449,7 +445,6 @@ class HDate:
             return product(
                 *([x] if isinstance(x, (int, Months)) else x for x in holiday.date)
             )
-
         # Compute out every actual Hebrew date on which a holiday falls for
         # this year by exploding out the possible days for each holiday.
         _holidays_list_1 = [
