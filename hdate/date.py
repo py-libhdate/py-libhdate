@@ -34,10 +34,10 @@ class HDate:
     'french': 'jour du Omer'}
 
     def __init__(
-        self, 
-        gdate: Union[datetime.date, datetime.datetime] = datetime.date.today(), 
-        diaspora: bool = False, 
-        lang='hebrew', 
+        self,
+        gdate: Union[datetime.date, datetime.datetime] = datetime.date.today(),
+        diaspora: bool = False,
+        lang='hebrew',
         heb_date: Optional[HebrewDate] = None
     ) -> None:
         """Initialize the HDate object."""
@@ -125,7 +125,7 @@ class HDate:
             result = f"{result} {self.holiday_description}"
         return result
 
-    def __repr__(self) -> str: 
+    def __repr__(self) -> str:
         """Return a representation of HDate for programmatic use."""
         return (
             f"HDate(gdate={self.gdate!r}, diaspora={self.diaspora}, "
@@ -191,7 +191,7 @@ class HDate:
         if self._last_updated == "gdate":
             return conv.gdate_to_jdn(self.gdate)
         return conv.hdate_to_jdn(self.hdate)
-    
+
     @property
     def hebrew_date(self) -> str:
         """Return the Hebrew date string in the selected language."""
@@ -548,7 +548,6 @@ def hebrew_number(num, lang='hebrew', short=False) -> str:
     """
     if lang != 'hebrew':
         return str(num)
-    
     if not 0 < num < 10000:
         raise ValueError(f"num must be between 1 to 9999, got: {num}")
     hstring = ""
