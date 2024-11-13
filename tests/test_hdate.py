@@ -529,7 +529,7 @@ class TestSpecialDays:
         myhdate = HDate(gdate=datetime.date(2020, 3, 7), lang='hebrew')
         assert myhdate.daf_yomi == 'ברכות ס"ד'
         myhdate = HDate(gdate=datetime.date(2020, 3, 8), lang='hebrew')
-        assert myhdate.daf_yomi == 'שבת ב''
+        assert myhdate.daf_yomi == 'שבת ב'
 
 class TestHDateReading:
     """Tests dealing with parshat hashavua."""
