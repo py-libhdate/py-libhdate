@@ -10,8 +10,7 @@ from __future__ import annotations
 import datetime
 import logging
 from itertools import chain, product
-from typing import List, Optional, cast
-
+from typing import List, Optional, cast, Union, Any, Tuple  
 from hdate import converters as conv
 from hdate import htables
 from hdate.hebrew_date import HebrewDate
