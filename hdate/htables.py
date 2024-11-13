@@ -502,7 +502,7 @@ HOLIDAYS = (
         (9, Months.TISHREI),
         "",
         [],
-        LANG("Veille de Yom Kipour", "Erev Yom Kippur", DESC('עיוה"כ', 'עיוה"כ')),
+        LANG("Veille de Yom Kippour", "Erev Yom Kippur", DESC('עיוה"כ', 'עיוה"כ')),
     ),
     HOLIDAY(
         HolidayTypes.YOM_TOV,
@@ -510,7 +510,7 @@ HOLIDAYS = (
         (10, Months.TISHREI),
         "",
         [],
-        LANG("Yom Kipour", "Yom Kippur", DESC("יום הכפורים", 'יוה"כ')),
+        LANG("Yom Kippour", "Yom Kippur", DESC("יום הכפורים", 'יוה"כ')),
     ),
     HOLIDAY(
         HolidayTypes.EREV_YOM_TOV,
@@ -574,7 +574,7 @@ HOLIDAYS = (
         (list(range(25, 31)), Months.KISLEV),
         "",
         [],
-        LANG("Hanouka", "Chanukah", DESC("חנוכה", "חנוכה")),
+        LANG("Hanoukka", "Chanukah", DESC("חנוכה", "חנוכה")),
     ),
     HOLIDAY(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
@@ -586,7 +586,7 @@ HOLIDAYS = (
                 (x.short_kislev() and x.hdate.day == 3) or (x.hdate.day in [1, 2])
             )
         ],
-        LANG("Hanouka", "Chanukah", DESC("חנוכה", "חנוכה")),
+        LANG("Hanoukka", "Chanukah", DESC("חנוכה", "חנוכה")),
     ),
     HOLIDAY(
         HolidayTypes.FAST_DAY,
@@ -594,7 +594,7 @@ HOLIDAYS = (
         (10, Months.TEVET),
         "",
         [],
-        LANG("10 Tevet", "Asara B'Tevet", DESC("צום עשרה בטבת", "י' בטבת")),
+        LANG("Dix Tevet", "Asara B'Tevet", DESC("צום עשרה בטבת", "י' בטבת")),
     ),
     HOLIDAY(
         HolidayTypes.MINOR_HOLIDAY,
@@ -602,7 +602,7 @@ HOLIDAYS = (
         (15, Months.SHVAT),
         "",
         [],
-        LANG("Tou Bi Shvat", "Tu B'Shvat", DESC('ט"ו בשבט', 'ט"ו בשבט')),
+        LANG("Tou Bichvat", "Tu B'Shvat", DESC('ט"ו בשבט', 'ט"ו בשבט')),
     ),
     HOLIDAY(
         HolidayTypes.FAST_DAY,
@@ -850,7 +850,7 @@ HOLIDAYS = (
         (30, Months.SHVAT),
         "ISRAEL",
         [year_is_after(5734)],
-        LANG("Family Day", "Family Day", DESC("יום המשפחה", "יום המשפחה")),
+        LANG("Fête de la Famille", "Family Day", DESC("יום המשפחה", "יום המשפחה")),
     ),
     HOLIDAY(
         HolidayTypes.MEMORIAL_DAY,
@@ -871,7 +871,7 @@ HOLIDAYS = (
         "ISRAEL",
         [move_if_not_on_dow(12, 11, 4, 3), year_is_after(5757)],
         LANG(
-            "Yitzhak Rabin memorial day",
+            "Jour commémoratif Yitzhak Rabin",
             "Yitzhak Rabin memorial day",
             DESC("יום הזכרון ליצחק רבין", "יום הזכרון ליצחק רבין"),
         ),
@@ -883,7 +883,7 @@ HOLIDAYS = (
         "ISRAEL",
         [year_is_after(5764)],
         LANG(
-            "Zeev Zhabotinsky day",
+            "Jour de Zeev Zhabotinsky",
             "Zeev Zhabotinsky day",
             DESC("יום ז'בוטינסקי", "יום ז'בוטינסקי"),
         ),
@@ -894,31 +894,32 @@ HOLIDAYS = (
         ([1, 30], list(Months)),
         "",
         [correct_adar(), legal_month_length(), not_rosh_chodesh()],
-        LANG("Rosh Chodesh", "Rosh Chodesh", DESC("ראש חודש", "ראש חודש")),
+        LANG("Rosh Hodesh", "Rosh Chodesh", DESC("ראש חודש", "ראש חודש")),
     ),
 )
 
 ZMAN = namedtuple("ZMAN", "zman, description")
 ZMANIM = (
-    ZMAN("first_light", LANG("Alot HaShahar", "Alot HaShachar", "עלות השחר")),
+    ZMAN("first_light", LANG("Aube", "Alot HaShachar", "עלות השחר")),
     ZMAN(
         "talit",
-        LANG("Début Talit & Tefilin ", "Talit & Tefilin's time", "זמן טלית ותפילין"),
+        LANG("Heure de Talit & Tefilin", "Talit & Tefilin's time", "זמן טלית ותפילין"),
     ),
     ZMAN("sunrise", LANG("Lever du jour", "Sunrise", "הנץ החמה")),
-    ZMAN("mga_end_shma", LANG('Shema MG"A', 'Shema EOT MG"A', 'סוף זמן ק"ש מג"א')),
-    ZMAN("gra_end_shma", LANG('Shema GR"A', 'Shema EOT GR"A', 'סוף זמן ק"ש גר"א')),
-    ZMAN("mga_end_tfila", LANG('Tefila MG"A', 'Tefila EOT MG"A', 'סוף זמן תפילה מג"א')),
-    ZMAN("gra_end_tfila", LANG('Tefila GR"A', 'Tefila EOT GR"A', 'סוף זמן תפילה גר"א')),
-    ZMAN("midday", LANG("Hatsot", "Midday", "חצות היום")),
-    ZMAN("big_mincha", LANG("Minha Guedola", "Big Mincha", "מנחה גדולה")),
-    ZMAN("small_mincha", LANG("Minha Qetana", "Small Mincha", "מנחה קטנה")),
-    ZMAN("plag_mincha", LANG("Plag haMinha", "Plag Mincha", "פלג המנחה")),
-    ZMAN("sunset", LANG("Shqiat", "Sunset", "שקיעה")),
-    ZMAN("first_stars", LANG("Tzeit haCokhavim", "First stars", "צאת הכוכבים")),
+    ZMAN("mga_end_shma", LANG('Fin du Shema (MG"A)', 'Shema EOT MG"A', 'סוף זמן ק"ש מג"א')),
+    ZMAN("gra_end_shma", LANG('Fin du Shema (GR"A)', 'Shema EOT GR"A', 'סוף זמן ק"ש גר"א')),
+    ZMAN("mga_end_tfila", LANG('Fin de la Tefila (MG"A)', 'Tefila EOT MG"A', 'סוף זמן תפילה מג"א')),
+    ZMAN("gra_end_tfila", LANG('Fin de la Tefila (GR"A)', 'Tefila EOT GR"A', 'סוף זמן תפילה גר"א')),
+    ZMAN("midday", LANG("Midi", "Midday", "חצות היום")),
+    ZMAN("big_mincha", LANG("Mincha Gedola", "Big Mincha", "מנחה גדולה")),
+    ZMAN("small_mincha", LANG("Mincha Ketana", "Small Mincha", "מנחה קטנה")),
+    ZMAN("plag_mincha", LANG("Plag HaMincha", "Plag Mincha", "פלג המנחה")),
+    ZMAN("sunset", LANG("Coucher du soleil", "Sunset", "שקיעה")),
+    ZMAN("first_stars", LANG("Sortie des étoiles", "First stars", "צאת הכוכבים")),
     ZMAN("rabbeinu_tam", LANG("Nuit selon Rabbénou Tam", "Night by Rabbeinu Tam", "לילה לרבנו תם")),
-    ZMAN("midnight", LANG("Hatsot laïla", "Midnight", "חצות הלילה")),
+    ZMAN("midnight", LANG("Minuit", "Midnight", "חצות הלילה")),
 )
+
 
 # The first few cycles were only 2702 blatt. After that it became 2711. Even with
 # that, the math doesn't play nicely with the dates before the 11th cycle :(
