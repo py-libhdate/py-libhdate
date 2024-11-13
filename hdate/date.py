@@ -15,7 +15,7 @@ from typing import List, Optional
 from hdate import converters as conv
 from hdate import htables
 from hdate.hebrew_date import HebrewDate
-from hdate.htables import HOLIDAY, DESC, HolidayTypes, Months
+from hdate.htables import HOLIDAY, DESC, MESECHTA, HolidayTypes, Months
 
 _LOGGER = logging.getLogger(__name__)
 # pylint: disable=too-many-public-methods
