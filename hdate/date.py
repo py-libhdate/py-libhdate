@@ -59,9 +59,9 @@ class HDate:
         names = []
         for entry in entries:
             if self.lang == 'hebrew':
-                names.append(entry.lang.hebrew.long)
+                names.append(entry.description.hebrew.long)
             else:
-                names.append(getattr(entry.lang, self.lang))
+                names.append(getattr(entry.description, self.lang))
         return ", ".join(names)
     
     def get_number_repr(self, number, short=False):
@@ -70,10 +70,9 @@ class HDate:
 
     def get_month_name(self):
         """Return the month name in the selected language, handling leap years."""
-        month = self.hdate.month
+        month = cast(Months, self.hdate.month)  # Informer le type checker que month est Months
         is_leap = self.is_leap_year
         month_value = month.value
-
         # Adjust the month index for non-leap years
         if not is_leap:
             if month == Months.ADAR_II:
@@ -82,10 +81,8 @@ class HDate:
             elif month.value > Months.ADAR.value:
                 # Months after Adar II need to be adjusted down by one
                 month_value -= 1
-
         # Adjust index for 0-based MONTHS tuple
         month_index = month_value - 1
-
         # Get the month name in the selected language
         month_lang = getattr(htables.MONTHS[month_index], self.lang)
         return month_lang
