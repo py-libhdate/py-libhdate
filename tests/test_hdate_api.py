@@ -84,6 +84,7 @@ class TestZmanimAPI:
             "פלג המנחה - 17:50:45\n"
             "שקיעה - 19:12:00\n"
             "צאת הכוכבים - 19:38:00\n"
+            "לילה לרבנו תם - 20:30:00\n"
             "חצות הלילה - 00:40:00\n"
         )
 
@@ -109,6 +110,7 @@ class TestZmanimAPI:
             "Plag Mincha - 17:50:45\n"
             "Sunset - 19:12:00\n"
             "First stars - 19:38:00\n"
+            "Night by Rabbeinu Tam - 20:30:00\n"
             "Midnight - 00:40:00\n"
         )
 

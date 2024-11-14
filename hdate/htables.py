@@ -904,6 +904,10 @@ ZMANIM = (
     ZMAN("plag_mincha", LANG("Plag haMinha", "Plag Mincha", "פלג המנחה")),
     ZMAN("sunset", LANG("Shqiat", "Sunset", "שקיעה")),
     ZMAN("first_stars", LANG("Tzeit haCokhavim", "First stars", "צאת הכוכבים")),
+    ZMAN(
+        "rabbeinu_tam", 
+        LANG("Nuit selon Rabbénou Tam", "Night by Rabbeinu Tam", "לילה לרבנו תם")
+    ),
     ZMAN("midnight", LANG("Hatsot laïla", "Midnight", "חצות הלילה")),
 )
 

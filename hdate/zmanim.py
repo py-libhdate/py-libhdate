@@ -387,6 +387,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
             "gra_end_shma": sunrise + sun_hour * 3.0,
             "mga_end_tfila": first_light + mga_sunhour * 4.0,
             "gra_end_tfila": sunrise + sun_hour * 4.0,
+            "rabbeinu_tam": sunset + sun_hour * 1.2,
             "midnight": midday + 12 * 60.0,
         }
 
