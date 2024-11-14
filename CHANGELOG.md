@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.11.1 - 2024-11-14
+
+### 🚀 Features
+
+* Add helper method for all holiday options (#143) @tsvi
+
+### 🐛 Bug Fixes
+
+* Fix is_holiday behavior (#140) @tsvi
+
 ## 0.11.0 - 2024-11-12
 
 ### 🚀 Features
