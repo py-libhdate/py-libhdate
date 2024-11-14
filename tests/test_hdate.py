@@ -394,6 +394,7 @@ class TestSpecialDays:
                         other_date.hdate = HebrewDate(year, other[1], other[0])
                         print("checking ", other_date, " doesn't match")
                         assert other_date.holiday_name != holiday
+                        assert other_date.is_holiday is False
                 found_matching_holiday = True
                 assert date_under_test.is_holiday
 
@@ -457,6 +458,7 @@ class TestSpecialDays:
             assert myhdate.holiday_name == "chanukah"
         else:
             assert myhdate.holiday_name == ""
+            assert myhdate.is_holiday is False
 
     def test_hanukah_5785(self) -> None:
         """December 31, 2024 is Hanuka."""
@@ -476,8 +478,10 @@ class TestSpecialDays:
             myhdate.hdate = HebrewDate(year, month, day)
             if day == 13 and myhdate.dow == 7 and holiday == "taanit_esther":
                 assert myhdate.holiday_name == ""
+                assert myhdate.is_holiday is False
             elif day == 11 and myhdate.dow != 5 and holiday == "taanit_esther":
                 assert myhdate.holiday_name == ""
+                assert myhdate.is_holiday is False
             else:
                 assert myhdate.holiday_name == holiday
 

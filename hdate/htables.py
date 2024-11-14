@@ -433,7 +433,7 @@ HOLIDAY = namedtuple(
 class HolidayTypes(Enum):
     """Container class for holiday type integer mappings."""
 
-    UNKNOWN = 0
+    NONE = 0
     YOM_TOV = 1
     EREV_YOM_TOV = 2
     HOL_HAMOED = 3
@@ -447,7 +447,7 @@ class HolidayTypes(Enum):
 
 
 HOLIDAYS = (
-    HOLIDAY(HolidayTypes.UNKNOWN, "", (), "", [], LANG("", "", DESC("", ""))),
+    HOLIDAY(HolidayTypes.NONE, "", (), "", [], LANG("", "", DESC("", ""))),
     HOLIDAY(
         HolidayTypes.EREV_YOM_TOV,
         "erev_rosh_hashana",
@@ -885,6 +885,15 @@ HOLIDAYS = (
         LANG("Rosh Chodesh", "Rosh Chodesh", DESC("ראש חודש", "ראש חודש")),
     ),
 )
+
+
+def get_all_holidays(language: str) -> list[str]:
+    """Helper method to get all the holiday descriptions."""
+    return [
+        h.description.hebrew.long if language == "hebrew" else h.description.english
+        for h in HOLIDAYS
+    ] + ["Chanukah, Rosh Chodesh"]
+
 
 ZMAN = namedtuple("ZMAN", "zman, description")
 ZMANIM = (
