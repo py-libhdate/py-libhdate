@@ -5,7 +5,6 @@ from datetime import tzinfo
 from typing import Union
 from zoneinfo import ZoneInfo
 
-
 @dataclass
 class Location:
     """Define a geolocation for Zmanim calculations."""

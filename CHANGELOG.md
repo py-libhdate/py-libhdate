@@ -1,4 +1,15 @@
 # Changelog
+## 0.12.0 - 2024-11-14
+
+
+### 🚀 Features
+Breaking change
+* Make libhadate multilanguage with french @DanBendavid 
+* Add Rabenou Tam Night
+### 🧰 Maintenance
+
+*Fix Minha Guedola time calculation 
+
 
 ## 0.11.0 - 2024-11-12
 
