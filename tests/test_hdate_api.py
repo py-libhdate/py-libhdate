@@ -32,7 +32,7 @@ class TestHDateAPI:
         hdate = HDate(test_date, lang='hebrew')
         print(hdate)
         captured = capsys.readouterr()
-        assert captured.out == "יום שלישי י\"ח בניסן ה' תשע\"ו ג' בעומר חול המועד פסח"
+        assert captured.out == 'יום שלישי י"ח בניסן ה\' תשע"ו ג\' בעומר חול המועד פסח'
 
     def test_get_hebrew_date(self) -> None:
         """Print the hebrew date."""
