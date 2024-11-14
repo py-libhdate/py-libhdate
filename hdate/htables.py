@@ -886,6 +886,15 @@ HOLIDAYS = (
     ),
 )
 
+
+def get_all_holidays(language: str) -> list[str]:
+    """Helper method to get all the holiday descriptions."""
+    return [
+        h.description.hebrew.long if language == "hebrew" else h.description.english
+        for h in HOLIDAYS
+    ] + ["Chanukah, Rosh Chodesh"]
+
+
 ZMAN = namedtuple("ZMAN", "zman, description")
 ZMANIM = (
     ZMAN("first_light", LANG("Alot HaShahar", "Alot HaShachar", "עלות השחר")),
