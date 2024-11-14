@@ -107,7 +107,7 @@ class TestZmanimAPI:
             'Tefila EOT GR"A - 10:28:00\n'
             "Midday - 12:40:00\n"
             "Big Mincha - 13:10:30\n"
-            "Big Mincha 30- 13:10:00\n"
+            "Big Mincha 30 - 13:10:00\n"
             "Small Mincha - 16:25:30\n"
             "Plag Mincha - 17:50:45\n"
             "Sunset - 19:12:00\n"
