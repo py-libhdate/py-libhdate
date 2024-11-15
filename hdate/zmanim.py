@@ -383,10 +383,12 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
             "stars_out": sunset + 18.0 * sun_hour / 60.0,
             "small_mincha": sunrise + 9.5 * sun_hour,
             "big_mincha": sunrise + 6.5 * sun_hour,
+            "big_mincha_30": midday + 30,
             "mga_end_shma": first_light + mga_sunhour * 3.0,
             "gra_end_shma": sunrise + sun_hour * 3.0,
             "mga_end_tfila": first_light + mga_sunhour * 4.0,
             "gra_end_tfila": sunrise + sun_hour * 4.0,
+            "rabbeinu_tam": sunset + sun_hour * 1.2,
             "midnight": midday + 12 * 60.0,
         }
 
