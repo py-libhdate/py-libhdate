@@ -909,10 +909,18 @@ ZMANIM = (
     ZMAN("gra_end_tfila", LANG('Tefila GR"A', 'Tefila EOT GR"A', 'סוף זמן תפילה גר"א')),
     ZMAN("midday", LANG("Hatsot", "Midday", "חצות היום")),
     ZMAN("big_mincha", LANG("Minha Guedola", "Big Mincha", "מנחה גדולה")),
+    ZMAN(
+        "big_mincha_30",
+        LANG("Minha Guedola 30 min", "Big Mincha 30 min", "מנחה גדולה 30 דק"),
+    ),
     ZMAN("small_mincha", LANG("Minha Qetana", "Small Mincha", "מנחה קטנה")),
     ZMAN("plag_mincha", LANG("Plag haMinha", "Plag Mincha", "פלג המנחה")),
     ZMAN("sunset", LANG("Shqiat", "Sunset", "שקיעה")),
     ZMAN("first_stars", LANG("Tzeit haCokhavim", "First stars", "צאת הכוכבים")),
+    ZMAN(
+        "rabbeinu_tam",
+        LANG("Nuit selon Rabbénou Tam", "Night by Rabbeinu Tam", "לילה לרבנו תם"),
+    ),
     ZMAN("midnight", LANG("Hatsot laïla", "Midnight", "חצות הלילה")),
 )
 
