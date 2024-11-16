@@ -384,13 +384,13 @@ class TestSpecialDays:
         print("Testing " + holiday + " for " + str(year))
 
         for date in possible_dates:
-            date_under_test = HDate(hebrew=False)
+            date_under_test = HDate(lang="english")
             date_under_test.hdate = HebrewDate(year, date[1], date[0])
             if date_under_test.holiday_name == holiday:
                 print("date ", date_under_test, " matched")
                 for other in possible_dates:
                     if other != date:
-                        other_date = HDate(hebrew=False)
+                        other_date = HDate(lang="english")
                         other_date.hdate = HebrewDate(year, other[1], other[0])
                         print("checking ", other_date, " doesn't match")
                         assert other_date.holiday_name != holiday
@@ -414,13 +414,13 @@ class TestSpecialDays:
         print(f"Testing {holiday} for {year}")
 
         for date in possible_dates:
-            date_under_test = HDate(hebrew=False)
+            date_under_test = HDate(lang="english")
             date_under_test.hdate = HebrewDate(year, date[1], date[0])
             if date_under_test.holiday_name == holiday:
                 print("date ", date_under_test, " matched")
                 for other in possible_dates:
                     if other != date:
-                        other_date = HDate(hebrew=False)
+                        other_date = HDate(lang="english")
                         other_date.hdate = HebrewDate(year, other[1], other[0])
                         print("checking ", other_date, " doesn't match")
                         assert other_date.holiday_name != holiday
@@ -523,16 +523,16 @@ class TestSpecialDays:
     def test_daf_yomi(self) -> None:
         """Test value of Daf Yomi."""
         # Random test date
-        myhdate = HDate(gdate=datetime.date(2014, 4, 28), hebrew=False)
+        myhdate = HDate(gdate=datetime.date(2014, 4, 28), lang="english")
         assert myhdate.daf_yomi == "Beitzah 29"
         # Beginning/end of cycle:
-        myhdate = HDate(gdate=datetime.date(2020, 1, 4), hebrew=False)
+        myhdate = HDate(gdate=datetime.date(2020, 1, 4), lang="english")
         assert myhdate.daf_yomi == "Niddah 73"
-        myhdate = HDate(gdate=datetime.date(2020, 1, 5), hebrew=False)
+        myhdate = HDate(gdate=datetime.date(2020, 1, 5), lang="english")
         assert myhdate.daf_yomi == "Berachos 2"
-        myhdate = HDate(gdate=datetime.date(2020, 3, 7), hebrew=True)
+        myhdate = HDate(gdate=datetime.date(2020, 3, 7), lang="hebrew")
         assert myhdate.daf_yomi == "ברכות סד"
-        myhdate = HDate(gdate=datetime.date(2020, 3, 8), hebrew=True)
+        myhdate = HDate(gdate=datetime.date(2020, 3, 8), lang="hebrew")
         assert myhdate.daf_yomi == "שבת ב"
 
 
@@ -857,7 +857,7 @@ class TestHDateReading:
     @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_ISRAEL)
     def test_get_reading_israel(self, year: int, parshiyot: list[list[int]]) -> None:
         """Test parshat hashavua in Israel."""
-        mydate = HDate(hebrew=False, diaspora=False)
+        mydate = HDate(lang="english", diaspora=False)
         mydate.hdate = HebrewDate(year, 1, 1)
 
         # Get next Saturday
@@ -876,7 +876,7 @@ class TestHDateReading:
     @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_DIASPORA)
     def test_get_reading_diaspora(self, year: int, parshiyot: list[list[int]]) -> None:
         """Test parshat hashavua in the diaspora."""
-        mydate = HDate(hebrew=False, diaspora=True)
+        mydate = HDate(lang="english", diaspora=True)
         mydate.hdate = HebrewDate(year, 1, 1)
 
         # Get next Saturday
@@ -895,7 +895,7 @@ class TestHDateReading:
     @pytest.mark.parametrize("year", range(5740, 5800))
     def test_nitzavim_always_before_rosh_hashana(self, year: int) -> None:
         """A property: Nitzavim alway falls before rosh hashana."""
-        mydate = HDate(hebrew=False, diaspora=False)
+        mydate = HDate(lang="english", diaspora=False)
         mydate.hdate = HebrewDate(year, Months.TISHREI, 1)
         tdelta = datetime.timedelta((12 - mydate.gdate.weekday()) % 7 - 7)
         # Go back to the previous shabbat
@@ -906,7 +906,7 @@ class TestHDateReading:
     @pytest.mark.parametrize("year", range(5740, 5800))
     def test_vayelech_or_haazinu_always_after_rosh_hashana(self, year: int) -> None:
         """A property: Vayelech or Haazinu always falls after rosh hashana."""
-        mydate = HDate(hebrew=False, diaspora=True)
+        mydate = HDate(lang="english", diaspora=True)
         mydate.hdate = HebrewDate(year, Months.TISHREI, 1)
         tdelta = datetime.timedelta((12 - mydate.gdate.weekday()) % 7)
         # Go to the next shabbat (unless shabbat falls on Rosh Hashana)
