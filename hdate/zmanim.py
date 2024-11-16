@@ -95,7 +95,8 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         """Return a string representation of Zmanim in the selected language."""
         return "\n".join(
             [
-                f"{getattr(zman.description, self.lang)} - {self.zmanim[zman.zman].time()}"
+                f"{getattr(zman.description, self.lang)} - "
+                f"{self.zmanim[zman.zman].time()}"
                 for zman in htables.ZMANIM
             ]
         )
