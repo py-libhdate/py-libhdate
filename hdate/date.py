@@ -218,10 +218,7 @@ class HDate:
                     descriptions.append(description_lang.long)
                 else:
                     descriptions.append(description_lang)
-        if descriptions:
-            return ", ".join(descriptions)
-        else:
-            return None
+        return ", ".join(descriptions) if descriptions else None
 
     @property
     def is_shabbat(self) -> bool:
