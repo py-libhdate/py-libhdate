@@ -119,11 +119,11 @@ class HDate:
         """Implement the greater than or equal operator."""
         return not self < other
 
-    def get_hebrew_number(self, number, short=False):
+    def get_hebrew_number(self, number, short=False) -> str:
         """Get the number representation based on the current language."""
         return hebrew_number(number, lang=self.lang, short=short)
 
-    def get_month_name(self):
+    def get_month_name(self) -> str:
         """Return the month name in the selected language, handling leap years."""
         # Informer le type checker que month est Months
         month = cast(Months, self.hdate.month)
