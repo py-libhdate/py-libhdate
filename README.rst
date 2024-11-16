@@ -61,7 +61,7 @@ and in english:
     Tefila EOT GR"A - 10:28:00
     Midday - 12:40:00
     Big Mincha - 13:10:30
-    Big Mincha 30 - 13:10:00
+    Big Mincha 30 min - 13:10:00
     Small Mincha - 16:25:30
     Plag Mincha - 17:50:45
     Sunset - 19:12:00
