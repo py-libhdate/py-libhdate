@@ -141,9 +141,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
 
         # If today is a Yom Tov or Shabbat, and tomorrow is a Yom Tov or
         # Shabbat return the havdalah time as the candle lighting time.
-        if (today.is_yom_tov or today.is_shabbat) and (
-            tomorrow.is_yom_tov or tomorrow.is_shabbat
-        ):
+        if (today.is_yom_tov or today.is_shabbat) and (tomorrow.is_yom_tov):
             return self._havdalah_datetime
 
         # Otherwise, if today is Friday or erev Yom Tov, return candle
