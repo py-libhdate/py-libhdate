@@ -141,7 +141,7 @@ class HDate:
         # Adjust index for 0-based MONTHS tuple
         month_index = month_value - 1
         # Get the month name in the selected language
-        month_lang = getattr(htables.MONTHS[month_index], self.lang)
+        month_lang = cast(str, getattr(htables.MONTHS[month_index], self.lang))
         return month_lang
 
     @property
@@ -200,7 +200,7 @@ class HDate:
     def parasha(self) -> str:
         """Return the upcoming parasha in the selected language."""
         parasha_index = self.get_reading()
-        parasha = getattr(htables.PARASHAOT[parasha_index], self.lang)
+        parasha = cast(str, getattr(htables.PARASHAOT[parasha_index], self.lang))
         return parasha
 
     @property
