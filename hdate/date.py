@@ -598,7 +598,6 @@ def get_omer_string(omer: int, lang: str = "hebrew") -> str:
 
 def _get_omer_string_hebrew(omer: int) -> str:
     """Représentation hébraïque du compte de l'Omer."""
-    # Implémentation spécifique à l'hébreu
     tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
     ones = [
         "",
@@ -615,41 +614,46 @@ def _get_omer_string_hebrew(omer: int) -> str:
     ten = omer // 10
     one = omer % 10
     omer_string = "היום "
+
     if 10 < omer < 20:
-        omer_string += ones[one] + " עשר"
-    elif omer > 9:
+        omer_string += f"{ones[one]} עשר"
+    elif omer >= 10:
         omer_string += ones[one]
         if one:
             omer_string += " ו"
+
     if omer > 2:
-        if omer > 20 or omer in [10, 20]:
+        if (omer > 20) or (omer in (10, 20)):
             omer_string += tens[ten]
         if omer < 11:
-            omer_string += ones[one] + " ימים "
+            omer_string += f"{ones[one]} ימים "
         else:
             omer_string += " יום "
     elif omer == 1:
         omer_string += "יום אחד "
     else:  # omer == 2
         omer_string += "שני ימים "
+
     if omer > 6:
         omer_string += "שהם "
         weeks = omer // 7
         days = omer % 7
         if weeks > 2:
-            omer_string += ones[weeks] + " שבועות "
+            omer_string += f"{ones[weeks]} שבועות "
         elif weeks == 1:
             omer_string += "שבוע אחד "
         else:  # weeks == 2
             omer_string += "שני שבועות "
+
         if days:
             omer_string += "ו"
             if days > 2:
-                omer_string += ones[days] + " ימים "
+                omer_string += f"{ones[days]} ימים "
             elif days == 1:
                 omer_string += "יום אחד "
             else:  # days == 2
                 omer_string += "שני ימים "
+
     omer_string += "לעומר"
     return omer_string
 
