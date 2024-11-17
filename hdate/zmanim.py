@@ -26,7 +26,7 @@ MAX_LATITUDE_ASTRAL = 50.0
 _LOGGER = logging.getLogger(__name__)
 
 
-class Zmanim:  # pylint: disable=too-many-instance-attributes
+class Zmanim:  # pylint: disable=too-many-arguments
     """Return Jewish day times.
 
     The Zmanim class returns times for the specified day ONLY. If you wish to
@@ -38,7 +38,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
     property.
     """
 
-    def __init__(
+    def __init__(  # pylint: disable=too-many-arguments
         self,
         date: Union[dt.date, str, dt.datetime] = dt.datetime.now(),
         location: Location = Location(),
