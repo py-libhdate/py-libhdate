@@ -21,7 +21,7 @@ class TestHDateAPI:
         """Test the README example in English."""
 
         test_date = date(2016, 4, 18)
-        hdate = HDate(test_date, lang="english")
+        hdate = HDate(test_date, language="english")
         print(hdate)
         captured = capsys.readouterr()
         assert captured.out == "Monday 10 Nisan 5776\n"
@@ -29,7 +29,7 @@ class TestHDateAPI:
     def test_readme_example_hebrew(self, capsys: CaptureFixture[str]) -> None:
         """Test the README example in Hebrew."""
         test_date = date(2016, 4, 26)
-        hdate = HDate(test_date, lang="hebrew")
+        hdate = HDate(test_date, language="hebrew")
         print(hdate)
         captured = capsys.readouterr()
         assert captured.out == "יום שלישי י\"ח בניסן ה' תשע\"ו ג' בעומר חול המועד פסח\n"
@@ -38,25 +38,25 @@ class TestHDateAPI:
         """Print the hebrew date."""
         test_date = datetime(2018, 11, 2)
         assert HDate(test_date).hebrew_date == 'כ"ד מרחשוון ה\' תשע"ט'
-        assert HDate(test_date, lang="english").hebrew_date == "24 Marcheshvan 5779"
+        assert HDate(test_date, language="english").hebrew_date == "24 Marcheshvan 5779"
 
     def test_get_upcoming_parasha(self) -> None:
         """Check that the upcoming parasha is correct."""
         test_date = datetime(2018, 11, 2)
         assert HDate(test_date).parasha == "חיי שרה"
-        assert HDate(test_date, lang="english").parasha == "Chayei Sara"
+        assert HDate(test_date, language="english").parasha == "Chayei Sara"
 
     def test_get_upcoming_parasha_vezot_habracha(self) -> None:
         """Check that the upcoming parasha is correct for vezot habracha."""
         test_date = datetime(2018, 9, 30)
         assert HDate(test_date).parasha == "וזאת הברכה"
-        assert HDate(test_date, lang="english").parasha == "Vezot Habracha"
+        assert HDate(test_date, language="english").parasha == "Vezot Habracha"
 
     def test_get_holiday_description(self) -> None:
         """Check that the holiday description is correct."""
         test_date = datetime(2018, 12, 3)
         assert HDate(test_date).holiday_description == "חנוכה"
-        assert HDate(test_date, lang="english").holiday_description == "Chanukah"
+        assert HDate(test_date, language="english").holiday_description == "Chanukah"
 
 
 class TestZmanimAPI:
@@ -92,7 +92,7 @@ class TestZmanimAPI:
     def test_readme_example_english(self, capsys: CaptureFixture[str]) -> None:
         """Test for english."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=date(2016, 4, 18), location=coord, lang="english")
+        zman = Zmanim(date=date(2016, 4, 18), location=coord, language="english")
         print(zman)
         captured = capsys.readouterr()
         if not _ASTRAL:

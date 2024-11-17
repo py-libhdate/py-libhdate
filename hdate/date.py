@@ -41,7 +41,7 @@ class HDate:
         self,
         gdate: Union[datetime.date, datetime.datetime] = datetime.date.today(),
         diaspora: bool = False,
-        lang: str = "hebrew",
+        language: str = "hebrew",
         heb_date: Optional[HebrewDate] = None,
     ) -> None:
         """Initialize the HDate object."""
@@ -56,19 +56,19 @@ class HDate:
             self.gdate = gdate
         else:
             self.hdate = heb_date
-        self.lang: str = lang
+        self.language: str = language
         self.diaspora = diaspora
 
     def __str__(self) -> str:
         """Return a full Unicode representation of HDate."""
         # Get prefixes and strings based on language
-        day_prefix = self.DAY_PREFIXES.get(self.lang, "")
-        in_prefix = self.IN_PREFIXES.get(self.lang, "")
+        day_prefix = self.DAY_PREFIXES.get(self.language, "")
+        in_prefix = self.IN_PREFIXES.get(self.language, "")
 
         # Get day name
         day_index = self.dow - 1  # Assuming dow is 1-based (Sunday=1)
-        day_lang = getattr(htables.DAYS[day_index], self.lang)
-        day_name = day_lang.long  # Use 'long' or 'short' as needed
+        day_language = getattr(htables.DAYS[day_index], self.language)
+        day_name = day_language.long  # Use 'long' or 'short' as needed
 
         # Get day number representation
         day_number = self.get_hebrew_number(self.hdate.day)
@@ -86,8 +86,8 @@ class HDate:
         # Handle Omer day
         if 0 < self.omer_day < 50:
             omer_day_number = self.get_hebrew_number(self.omer_day)
-            # omer_string_long = get_omer_string(self.omer_day, self.lang)
-            omer_suffix = self.OMER_SUFFIX.get(self.lang, "in the Omer")
+            # omer_string_long = get_omer_string(self.omer_day, self.language)
+            omer_suffix = self.OMER_SUFFIX.get(self.language, "in the Omer")
             result = f"{result} {omer_day_number} {omer_suffix}"
 
         # Append holiday description if any
@@ -99,7 +99,7 @@ class HDate:
         """Return a representation of HDate for programmatic use."""
         return (
             f"HDate(gdate={self.gdate!r}, diaspora={self.diaspora}, "
-            f"lang={self.lang!r})"
+            f"language={self.language!r})"
         )
 
     def __lt__(self, other: "HDate") -> bool:
@@ -120,8 +120,8 @@ class HDate:
         return not self < other
 
     def get_hebrew_number(self, number: int, short: bool = False) -> str:
-        """Get the number representation based on the current language."""
-        hstring: str = hebrew_number(num=number, lang=self.lang, short=short)
+        """Get the number representation based on the current languageuage."""
+        hstring: str = hebrew_number(num=number, language=self.language, short=short)
         return hstring
 
     def get_month_name(self) -> str:
@@ -141,8 +141,8 @@ class HDate:
         # Adjust index for 0-based MONTHS tuple
         month_index = month_value - 1
         # Get the month name in the selected language
-        month_lang = cast(str, getattr(htables.MONTHS[month_index], self.lang))
-        return month_lang
+        month_language = cast(str, getattr(htables.MONTHS[month_index], self.language))
+        return month_language
 
     @property
     def hdate(self) -> HebrewDate:
@@ -192,7 +192,7 @@ class HDate:
         """Return the hebrew date string in the selected language."""
         day = self.get_hebrew_number(self.hdate.day)
         month_enum = cast(Months, self.hdate.month)
-        month = getattr(htables.MONTHS[month_enum.value - 1], self.lang)
+        month = getattr(htables.MONTHS[month_enum.value - 1], self.language)
         year = self.get_hebrew_number(self.hdate.year)
         return f"{day} {month} {year}"
 
@@ -200,7 +200,7 @@ class HDate:
     def parasha(self) -> str:
         """Return the upcoming parasha in the selected language."""
         parasha_index = self.get_reading()
-        parasha = cast(str, getattr(htables.PARASHAOT[parasha_index], self.lang))
+        parasha = cast(str, getattr(htables.PARASHAOT[parasha_index], self.language))
         return parasha
 
     @property
@@ -213,13 +213,13 @@ class HDate:
         descriptions = []
         for entry in entries:
             # Access the language-specific description
-            description_lang = getattr(entry.description, self.lang, None)
-            if description_lang:
+            description_language = getattr(entry.description, self.language, None)
+            if description_language:
                 # Check if it's a DESC namedtuple with 'long' and 'short' attributes
-                if isinstance(description_lang, DESC):
-                    descriptions.append(description_lang.long)
+                if isinstance(description_language, DESC):
+                    descriptions.append(description_language.long)
                 else:
-                    descriptions.append(description_lang)
+                    descriptions.append(description_language)
         return ", ".join(descriptions) if descriptions else None
 
     @property
@@ -332,19 +332,19 @@ class HDate:
     def daf_yomi(self) -> str:
         """Return a string representation of the daf yomi."""
         mesechta, daf_number = self.daf_yomi_repr
-        mesechta_name = getattr(mesechta.name, self.lang)
+        mesechta_name = getattr(mesechta.name, self.language)
         daf = self.get_hebrew_number(daf_number, short=True)
         return f"{mesechta_name} {daf}"
 
     @property
     def next_day(self) -> "HDate":
         """Return the HDate for the next day."""
-        return HDate(self.gdate + datetime.timedelta(1), self.diaspora, self.lang)
+        return HDate(self.gdate + datetime.timedelta(1), self.diaspora, self.language)
 
     @property
     def previous_day(self) -> "HDate":
         """Return the HDate for the previous day."""
-        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora, self.lang)
+        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora, self.language)
 
     @property
     def upcoming_shabbat(self) -> "HDate":
@@ -356,7 +356,7 @@ class HDate:
             return self
         # If it's Sunday, fast forward to the next Shabbat.
         saturday = self.gdate + datetime.timedelta((12 - self.gdate.weekday()) % 7)
-        return HDate(saturday, diaspora=self.diaspora, lang=self.lang)
+        return HDate(saturday, diaspora=self.diaspora, language=self.language)
 
     @property
     def upcoming_shabbat_or_yom_tov(self) -> "HDate":
@@ -453,7 +453,7 @@ class HDate:
                         self.hdate.year, date_instance[1], date_instance[0]
                     ),
                     diaspora=self.diaspora,
-                    lang=self.lang,
+                    language=self.language,
                 ),
             )
             for holiday in _holidays_list
@@ -481,7 +481,7 @@ class HDate:
         next_rosh_hashana = HDate(
             heb_date=HebrewDate(self.hdate.year + 1, Months.TISHREI, 1),
             diaspora=self.diaspora,
-            lang=self.lang,
+            language=self.language,
         )
         next_year = next_rosh_hashana.get_holidays_for_year([HolidayTypes.YOM_TOV])
 
@@ -547,9 +547,9 @@ class HDate:
         return readings[weeks]
 
 
-def hebrew_number(num: int, lang: str = "hebrew", short: bool = False) -> str:
+def hebrew_number(num: int, language: str = "hebrew", short: bool = False) -> str:
     """Return "Gimatria" number."""
-    if lang != "hebrew":
+    if language != "hebrew":
         return str(num)
     if not 0 <= num < 10000:
         raise ValueError(f"num must be between 0 to 9999, got:{num}")
@@ -580,17 +580,17 @@ def hebrew_number(num: int, lang: str = "hebrew", short: bool = False) -> str:
     return hstring
 
 
-def get_omer_string(omer: int, lang: str = "hebrew") -> str:
+def get_omer_string(omer: int, language: str = "hebrew") -> str:
     """Retourne une chaîne représentant le compte de l'Omer."""
 
     if not 0 < omer < 50:
         raise ValueError(f"Invalid Omer day: {omer}")
 
-    if lang == "hebrew":
+    if language == "hebrew":
         return _get_omer_string_hebrew(omer)
-    elif lang == "english":
+    elif language == "english":
         return _get_omer_string_english(omer)
-    elif lang == "french":
+    elif language == "french":
         return _get_omer_string_french(omer)
     else:
         return f"Today is day {omer} of the Omer."
