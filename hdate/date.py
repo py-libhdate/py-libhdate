@@ -121,7 +121,8 @@ class HDate:
 
     def get_hebrew_number(self, number: int, short: bool = False) -> str:
         """Get the number representation based on the current language."""
-        return hebrew_number(num=number, lang=self.lang, short=short)
+        hstring: str = hebrew_number(num=number, lang=self.lang, short=short)
+        return hstring
 
     def get_month_name(self) -> str:
         """Return the month name in the selected language, handling leap years."""
