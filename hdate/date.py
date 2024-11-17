@@ -581,169 +581,232 @@ def hebrew_number(num: int, lang: str = "hebrew", short: bool = False) -> str:
 
 
 def get_omer_string(omer: int, lang: str = "hebrew") -> str:
-    """Return a string representing the count of the Omer."""
+    """Retourne une chaîne représentant le compte de l'Omer."""
+
     if not 0 < omer < 50:
         raise ValueError(f"Invalid Omer day: {omer}")
+
     if lang == "hebrew":
-        tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
-        ones = [
-            "",
-            "אחד",
-            "שנים",
-            "שלושה",
-            "ארבעה",
-            "חמשה",
-            "ששה",
-            "שבעה",
-            "שמונה",
-            "תשעה",
-        ]
-        ten = omer // 10
-        one = omer % 10
-        omer_string = "היום "
-        if 10 < omer < 20:
-            omer_string += ones[one] + " עשר"
-        elif omer > 9:
-            omer_string += ones[one]
-            if one:
-                omer_string += " ו"
-        if omer > 2:
-            if omer > 20 or omer in [10, 20]:
-                omer_string += tens[ten]
-            if omer < 11:
-                omer_string += ones[one] + " ימים "
-            else:
-                omer_string += " יום "
-        elif omer == 1:
-            omer_string += "יום אחד "
-        else:  # omer == 2
-            omer_string += "שני ימים "
-        if omer > 6:
-            omer_string += "שהם "
-            weeks = omer // 7
-            days = omer % 7
-            if weeks > 2:
-                omer_string += ones[weeks] + " שבועות "
-            elif weeks == 1:
-                omer_string += "שבוע אחד "
-            else:  # weeks == 2
-                omer_string += "שני שבועות "
-            if days:
-                omer_string += "ו"
-                if days > 2:
-                    omer_string += ones[days] + " ימים "
-                elif days == 1:
-                    omer_string += "יום אחד "
-                else:  # days == 2
-                    omer_string += "שני ימים "
-        omer_string += "לעומר"
+        return _get_omer_string_hebrew(omer)
     elif lang == "english":
-        ones = [
-            "",
-            "one",
-            "two",
-            "three",
-            "four",
-            "five",
-            "six",
-            "seven",
-            "eight",
-            "nine",
-        ]
-        teens = [
-            "ten",
-            "eleven",
-            "twelve",
-            "thirteen",
-            "fourteen",
-            "fifteen",
-            "sixteen",
-            "seventeen",
-            "eighteen",
-            "nineteen",
-        ]
-        tens = ["", "", "twenty", "thirty", "forty"]
-        omer_string = "Today is "
-        if omer < 10:
-            omer_string += ones[omer]
-        elif 10 <= omer < 20:
-            omer_string += teens[omer - 10]
-        else:
-            ten = omer // 10
-            one = omer % 10
+        return _get_omer_string_english(omer)
+    elif lang == "french":
+        return _get_omer_string_french(omer)
+    else:
+        return f"Today is day {omer} of the Omer."
+
+
+def _get_omer_string_hebrew(omer: int) -> str:
+    """Représentation hébraïque du compte de l'Omer."""
+    # Implémentation spécifique à l'hébreu
+    tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
+    ones = [
+        "",
+        "אחד",
+        "שנים",
+        "שלושה",
+        "ארבעה",
+        "חמשה",
+        "ששה",
+        "שבעה",
+        "שמונה",
+        "תשעה",
+    ]
+    ten = omer // 10
+    one = omer % 10
+    omer_string = "היום "
+    if 10 < omer < 20:
+        omer_string += ones[one] + " עשר"
+    elif omer > 9:
+        omer_string += ones[one]
+        if one:
+            omer_string += " ו"
+    if omer > 2:
+        if omer > 20 or omer in [10, 20]:
             omer_string += tens[ten]
-            if one != 0:
-                omer_string += "-" + ones[one]
-        omer_string += " day"
-        if omer != 1:
-            omer_string += "s"
-        omer_string += " of the Omer"
-        # Add weeks and days
+        if omer < 11:
+            omer_string += ones[one] + " ימים "
+        else:
+            omer_string += " יום "
+    elif omer == 1:
+        omer_string += "יום אחד "
+    else:  # omer == 2
+        omer_string += "שני ימים "
+    if omer > 6:
+        omer_string += "שהם "
         weeks = omer // 7
         days = omer % 7
-        if weeks > 0:
-            omer_string += f", which is {weeks} week"
-            if weeks != 1:
-                omer_string += "s"
-            if days > 0:
-                omer_string += f" and {days} day"
-                if days != 1:
-                    omer_string += "s"
-        omer_string += "."
-    elif lang == "french":
-        ones = [
-            "",
-            "un",
-            "deux",
-            "trois",
-            "quatre",
-            "cinq",
-            "six",
-            "sept",
-            "huit",
-            "neuf",
-        ]
-        teens = [
-            "dix",
-            "onze",
-            "douze",
-            "treize",
-            "quatorze",
-            "quinze",
-            "seize",
-            "dix-sept",
-            "dix-huit",
-            "dix-neuf",
-        ]
-        tens = ["", "", "vingt", "trente", "quarante"]
-        omer_string = "Aujourd'hui c'est le "
+        if weeks > 2:
+            omer_string += ones[weeks] + " שבועות "
+        elif weeks == 1:
+            omer_string += "שבוע אחד "
+        else:  # weeks == 2
+            omer_string += "שני שבועות "
+        if days:
+            omer_string += "ו"
+            if days > 2:
+                omer_string += ones[days] + " ימים "
+            elif days == 1:
+                omer_string += "יום אחד "
+            else:  # days == 2
+                omer_string += "שני ימים "
+    omer_string += "לעומר"
+    return omer_string
+
+
+def _get_omer_string_english(omer: int) -> str:
+    """Représentation anglaise du compte de l'Omer."""
+    # Implémentation spécifique à l'anglais
+    ones = [
+        "",
+        "one",
+        "two",
+        "three",
+        "four",
+        "five",
+        "six",
+        "seven",
+        "eight",
+        "nine",
+    ]
+    teens = [
+        "ten",
+        "eleven",
+        "twelve",
+        "thirteen",
+        "fourteen",
+        "fifteen",
+        "sixteen",
+        "seventeen",
+        "eighteen",
+        "nineteen",
+    ]
+    tens = ["", "", "twenty", "thirty", "forty"]
+    omer_string = "Today is "
+    if omer < 10:
+        omer_string += ones[omer]
+    elif 10 <= omer < 20:
+        omer_string += teens[omer - 10]
+    else:
         ten = omer // 10
         one = omer % 10
+        omer_string += tens[ten]
+        if one != 0:
+            omer_string += "-" + ones[one]
+    omer_string += " day"
+    if omer != 1:
+        omer_string += "s"
+    omer_string += " of the Omer"
+    # Add weeks and days
+    weeks = omer // 7
+    days = omer % 7
+    if weeks > 0:
+        omer_string += f", which is {weeks} week"
+        if weeks != 1:
+            omer_string += "s"
+        if days > 0:
+            omer_string += f" and {days} day"
+            if days != 1:
+                omer_string += "s"
+    omer_string += "."
+    return omer_string
+
+
+def _get_omer_string_french(omer: int) -> str:
+    """Représentation française du compte de l'Omer."""
+    # Implémentation spécifique au français
+    ones = [
+        "",
+        "un",
+        "deux",
+        "trois",
+        "quatre",
+        "cinq",
+        "six",
+        "sept",
+        "huit",
+        "neuf",
+    ]
+    teens = [
+        "dix",
+        "onze",
+        "douze",
+        "treize",
+        "quatorze",
+        "quinze",
+        "seize",
+        "dix-sept",
+        "dix-huit",
+        "dix-neuf",
+    ]
+    tens = ["", "", "vingt", "trente", "quarante"]
+
+    # Dictionnaire des ordinals irréguliers
+    irregular_ordinals = {
+        1: "premier",
+        2: "deuxième",
+        3: "troisième",
+        4: "quatrième",
+        5: "cinquième",
+        6: "sixième",
+        7: "septième",
+        8: "huitième",
+        9: "neuvième",
+        10: "dixième",
+        11: "onzième",
+        12: "douzième",
+        13: "treizième",
+        14: "quatorzième",
+        15: "quinzième",
+        16: "seizième",
+        20: "vingtième",
+        30: "trentième",
+        40: "quarantième",
+    }
+
+    # Vérification que le nombre est dans la plage valide
+    if not (1 <= omer <= 49):
+        return "Le nombre doit être entre 1 et 49."
+
+    # Initialisation de la phrase
+    omer_string = "Aujourd'hui c'est le "
+
+    ten = omer // 10
+    one = omer % 10
+
+    # Construction de la partie numérique
+    if omer in irregular_ordinals:
+        ordinal = irregular_ordinals[omer]
+    else:
         if omer < 10:
-            omer_string += ones[omer]
-        elif 10 <= omer < 20:
-            omer_string += teens[omer - 10]
+            number_word = ones[omer]
+        elif 10 < omer < 20:
+            number_word = teens[omer - 10]
         else:
             if one == 1 and ten > 1:
-                omer_string += tens[ten] + " et un"
+                number_word = tens[ten] + " et un"
             else:
-                omer_string += tens[ten]
+                number_word = tens[ten]
                 if one != 0:
-                    omer_string += "-" + ones[one]
-        omer_string += "ième jour de l'Omer"
-        # Ajout des semaines et des jours
-        weeks = omer // 7
-        days = omer % 7
-        if weeks > 0:
-            omer_string += f", ce qui fait {weeks} semaine"
-            if weeks != 1:
+                    number_word += "-" + ones[one]
+
+        # Formation de l'ordinal régulier
+        ordinal = number_word + "ième"
+
+    omer_string += ordinal + " jour de l'Omer"
+
+    # Calcul des semaines et des jours
+    weeks = omer // 7
+    days = omer % 7
+
+    if weeks > 0:
+        omer_string += f", ce qui fait {weeks} semaine"
+        if weeks != 1:
+            omer_string += "s"
+        if days > 0:
+            omer_string += f" et {days} jour"
+            if days != 1:
                 omer_string += "s"
-            if days > 0:
-                omer_string += f" et {days} jour"
-                if days != 1:
-                    omer_string += "s"
+
         omer_string += "."
-    else:
-        # Default to English if language is not recognized
-        omer_string = f"Today is day {omer} of the Omer."
     return omer_string
