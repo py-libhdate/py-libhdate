@@ -191,7 +191,8 @@ class HDate:
     def hebrew_date(self) -> str:
         """Return the hebrew date string in the selected language."""
         day = self.get_hebrew_number(self.hdate.day)
-        month = getattr(htables.MONTHS[self.hdate.month.value - 1], self.lang)
+        month_enum = cast(Months, self.hdate.month)
+        month = getattr(htables.MONTHS[month_enum.value - 1], self.lang)
         year = self.get_hebrew_number(self.hdate.year)
         return f"{day} {month} {year}"
 
