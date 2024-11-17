@@ -75,5 +75,5 @@ class TestHebrewNumbers:
     def test_hebrew_number_hebrew_false(self) -> None:
         """Test returning a non-hebrew number."""
         number = random.randint(0, 100000)
-        assert dt.hebrew_number(number, language='english') == str(number)
-        assert dt.hebrew_number(number, language='english', short=True) == str(number)
+        assert dt.hebrew_number(number, language="english") == str(number)
+        assert dt.hebrew_number(number, language="english", short=True) == str(number)
