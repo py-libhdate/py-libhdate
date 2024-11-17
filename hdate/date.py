@@ -41,7 +41,7 @@ class HDate:
         self,
         gdate: Union[datetime.date, datetime.datetime] = datetime.date.today(),
         diaspora: bool = False,
-        lang="hebrew",
+        lang: str = "hebrew",
         heb_date: Optional[HebrewDate] = None,
     ) -> None:
         """Initialize the HDate object."""
@@ -56,7 +56,7 @@ class HDate:
             self.gdate = gdate
         else:
             self.hdate = heb_date
-        self.lang = lang
+        self.lang: str = lang
         self.diaspora = diaspora
 
     def __str__(self) -> str:

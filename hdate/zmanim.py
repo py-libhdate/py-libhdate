@@ -43,7 +43,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         self,
         date: Union[dt.date, str, dt.datetime] = dt.datetime.now(),
         location: Location = Location(),
-        lang="hebrew",
+        lang: str = "hebrew",
         candle_lighting_offset: int = 18,
         havdalah_offset: int = 0,
     ) -> None:
@@ -59,9 +59,9 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         calculations.
         """
         self.location = location
-        self.lang = lang
-        self.candle_lighting_offset = candle_lighting_offset
-        self.havdalah_offset = havdalah_offset
+        self.lang: str = lang
+        self.candle_lighting_offset: int = candle_lighting_offset
+        self.havdalah_offset: int = havdalah_offset
 
         # If a non-timezone aware date is received, use timezone from location
         # to make it timezone aware and change to UTC for calculations.
