@@ -1,7 +1,7 @@
 """
 Jewish calendrical date and times for a given location.
 
-HDate calculates and generates a representation either in English or Hebrew
+HDate calculates and generates a representation either in English, French or Hebrew
 of the Jewish calendrical date and times for a given location
 """
 
@@ -119,9 +119,9 @@ class HDate:
         """Implement the greater than or equal operator."""
         return not self < other
 
-    def get_hebrew_number(self, number, short=False) -> str:
+    def get_hebrew_number(self, number: int, short: bool = False) -> str:
         """Get the number representation based on the current language."""
-        return hebrew_number(number, lang=self.lang, short=short)
+        return hebrew_number(num=number, lang=self.lang, short=short)
 
     def get_month_name(self) -> str:
         """Return the month name in the selected language, handling leap years."""
@@ -202,7 +202,7 @@ class HDate:
         return parasha
 
     @property
-    def holiday_description(self) -> str:
+    def holiday_description(self) -> Optional[str]:
         """
         Return the holiday description in the selected language.
         If none exists, will return None.
@@ -545,7 +545,7 @@ class HDate:
         return readings[weeks]
 
 
-def hebrew_number(num: int, lang="hebrew", short: bool = False) -> str:
+def hebrew_number(num: int, lang: str = "hebrew", short: bool = False) -> str:
     """Return "Gimatria" number."""
     if lang != "hebrew":
         return str(num)
@@ -578,7 +578,7 @@ def hebrew_number(num: int, lang="hebrew", short: bool = False) -> str:
     return hstring
 
 
-def get_omer_string(omer: int, lang="hebrew") -> str:
+def get_omer_string(omer: int, lang: str = "hebrew") -> str:
     """Return a string representing the count of the Omer."""
     if not 0 < omer < 50:
         raise ValueError(f"Invalid Omer day: {omer}")
