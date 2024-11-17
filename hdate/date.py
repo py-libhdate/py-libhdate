@@ -331,7 +331,7 @@ class HDate:
         """Return a string representation of the daf yomi."""
         mesechta, daf_number = self.daf_yomi_repr
         mesechta_name = getattr(mesechta.name, self.lang)
-        daf = self.get_hebrew_number(daf_number, self.lang)
+        daf = self.get_hebrew_number(daf_number, short=True)
         return f"{mesechta_name} {daf}"
 
     @property
