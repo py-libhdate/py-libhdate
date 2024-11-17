@@ -588,12 +588,12 @@ def get_omer_string(omer: int, language: str = "hebrew") -> str:
 
     if language == "hebrew":
         return _get_omer_string_hebrew(omer)
-    elif language == "english":
+    if language == "english":
         return _get_omer_string_english(omer)
-    elif language == "french":
+    if language == "french":
         return _get_omer_string_french(omer)
-    else:
-        return f"Today is day {omer} of the Omer."
+
+    return f"Today is day {omer} of the Omer."
 
 
 def _get_omer_string_hebrew(omer: int) -> str:
@@ -611,22 +611,26 @@ def _get_omer_string_hebrew(omer: int) -> str:
         "שמונה",
         "תשעה",
     ]
-    ten = omer // 10
-    one = omer % 10
+
     omer_string = "היום "
 
+    # Gestion des dizaines et unités
     if 10 < omer < 20:
-        omer_string += f"{ones[one]} עשר"
+        omer_string += f"{ones[omer % 10]} עשר"
     elif omer >= 10:
-        omer_string += ones[one]
-        if one:
-            omer_string += " ו"
+        unit_part = ones[omer % 10]
+        if omer % 10:
+            unit_part += " ו"
+        omer_string += unit_part + tens[omer // 10]
+    else:
+        # Ne pas ajouter 'אחד' ou 'שנים' ici pour éviter la duplication
+        if omer > 2:
+            omer_string += ones[omer]
 
+    # Gestion des jours
     if omer > 2:
-        if (omer > 20) or (omer in (10, 20)):
-            omer_string += tens[ten]
         if omer < 11:
-            omer_string += f"{ones[one]} ימים "
+            omer_string += " ימים "
         else:
             omer_string += " יום "
     elif omer == 1:
@@ -634,25 +638,17 @@ def _get_omer_string_hebrew(omer: int) -> str:
     else:  # omer == 2
         omer_string += "שני ימים "
 
+    # Gestion des semaines et des jours restants
     if omer > 6:
         omer_string += "שהם "
-        weeks = omer // 7
-        days = omer % 7
-        if weeks > 2:
-            omer_string += f"{ones[weeks]} שבועות "
-        elif weeks == 1:
-            omer_string += "שבוע אחד "
-        else:  # weeks == 2
-            omer_string += "שני שבועות "
+        weeks, days = divmod(omer, 7)
+
+        week_mapping = {1: "שבוע אחד ", 2: "שני שבועות "}
+        omer_string += week_mapping.get(weeks, f"{ones[weeks]} שבועות ")
 
         if days:
-            omer_string += "ו"
-            if days > 2:
-                omer_string += f"{ones[days]} ימים "
-            elif days == 1:
-                omer_string += "יום אחד "
-            else:  # days == 2
-                omer_string += "שני ימים "
+            day_mapping = {1: "יום אחד ", 2: "שני ימים "}
+            omer_string += "ו" + day_mapping.get(days, f"{ones[days]} ימים ")
 
     omer_string += "לעומר"
     return omer_string
@@ -769,7 +765,7 @@ def _get_omer_string_french(omer: int) -> str:
     }
 
     # Vérification que le nombre est dans la plage valide
-    if not (1 <= omer <= 49):
+    if omer < 1 or omer > 49:
         return "Le nombre doit être entre 1 et 49."
 
     # Initialisation de la phrase
