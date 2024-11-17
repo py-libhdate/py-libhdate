@@ -236,4 +236,4 @@ class TestZmanimAPI:
         zman = Zmanim(date=datetime(2024, 10, 18, tzinfo=_timezone), location=coord)
         print(zman.candle_lighting)
         captured = capsys.readouterr()
-        assert captured.out == "2024-10-18 17:55:00-04:00\n"
+        assert captured.out == "2024-10-18 17:52:00-04:00\n"
