@@ -315,7 +315,7 @@ class TestZmanim:
         assert zmanim.erev_shabbat_chag == erev_shabbat_chag
 
     def test_candle_lighting_erev_shabbat_is_yom_tov(self) -> None:
-        """Test for issur melacha if datetime is localized."""
+        """Test for candle lighting when erev shabbat is yom tov"""
         day = datetime.date(2024, 10, 18)
         actual_candle_lighting = datetime.datetime(
             2024, 10, 18, 17, 52, 00, tzinfo=ZoneInfo("America/New_York")
