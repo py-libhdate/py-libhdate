@@ -313,3 +313,23 @@ class TestZmanim:
         # Use a constant offset for Havdalah for unit test stability.
         zmanim = Zmanim(date=now, location=location_tz_str, havdalah_offset=offset)
         assert zmanim.erev_shabbat_chag == erev_shabbat_chag
+
+    def test_candle_lighting_erev_shabbat_is_yom_tov(self) -> None:
+        """Test for issur melacha if datetime is localized."""
+        day = datetime.date(2024, 10, 18)
+        actual_candle_lighting = datetime.datetime(2024, 10, 18, 17, 52, 00)
+        coord = Location(
+            name="New York",
+            latitude=40.7128,
+            longitude=-74.0060,
+            timezone="America/New_York",
+            diaspora=True,
+        )
+        zman = Zmanim(
+            date=day,
+            location=coord,
+            candle_lighting_offset=18,
+        )
+        #        print(zman.candle_lighting)
+        #        captured = capsys.readouterr()
+        assert zman.candle_lighting == actual_candle_lighting
