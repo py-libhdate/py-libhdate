@@ -76,6 +76,7 @@ class TestHDateAPI:
         assert HDate(test_date).holiday_description == "חנוכה"
         assert HDate(test_date, language="french").holiday_description == "Hanoukka"
 
+
 class TestZmanimAPI:
     """Test the API provided in the README."""
 
