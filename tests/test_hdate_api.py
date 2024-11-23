@@ -40,6 +40,12 @@ class TestHDateAPI:
         assert HDate(test_date).hebrew_date == 'כ"ד מרחשוון ה\' תשע"ט'
         assert HDate(test_date, language="english").hebrew_date == "24 Marcheshvan 5779"
 
+    def test_get_hebrew_date_multilanguage(self) -> None:
+        """Print the hebrew date."""
+        test_date = datetime(2018, 11, 2)
+        assert HDate(test_date).hebrew_date == 'כ"ד מרחשוון ה\' תשע"ט'
+        assert HDate(test_date, language="french").hebrew_date == "24 Heshvan 5779"
+
     def test_get_upcoming_parasha(self) -> None:
         """Check that the upcoming parasha is correct."""
         test_date = datetime(2018, 11, 2)
@@ -52,12 +58,23 @@ class TestHDateAPI:
         assert HDate(test_date).parasha == "וזאת הברכה"
         assert HDate(test_date, language="english").parasha == "Vezot Habracha"
 
+    def test_get_upcoming_parasha_vezot_habracha_french(self) -> None:
+        """Check that the upcoming parasha is correct for vezot habracha in french."""
+        test_date = datetime(2018, 9, 30)
+        assert HDate(test_date).parasha == "וזאת הברכה"
+        assert HDate(test_date, language="french").parasha == "Vezot Haberakha"
+
     def test_get_holiday_description(self) -> None:
         """Check that the holiday description is correct."""
         test_date = datetime(2018, 12, 3)
         assert HDate(test_date).holiday_description == "חנוכה"
         assert HDate(test_date, language="english").holiday_description == "Chanukah"
 
+    def test_get_holiday_description_multi_language(self) -> None:
+        """Check that the holiday description is correct in french."""
+        test_date = datetime(2018, 12, 3)
+        assert HDate(test_date).holiday_description == "חנוכה"
+        assert HDate(test_date, language="french").holiday_description == "Hanoukka"
 
 class TestZmanimAPI:
     """Test the API provided in the README."""
