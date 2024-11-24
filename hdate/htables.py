@@ -754,11 +754,34 @@ HOLIDAY_DESCRIPTIONS = {
 
 
 def get_all_holidays(language: str) -> list[str]:
-    """Helper method to get all the holiday descriptions."""
-    return [
-        h.description.hebrew.long if language == "hebrew" else h.description.english
-        for h in HOLIDAYS
-    ] + ["Chanukah, Rosh Chodesh"]
+    """Helper method to get all the holiday descriptions in the specified language."""
+    holidays_list = []
+
+    for h in HOLIDAYS:
+        # Get the description entry from the dictionary using the holiday name
+        description_entry = HOLIDAY_DESCRIPTIONS.get(h.name)
+
+        if description_entry:
+            # Try to access the description in the specified language
+            description_language = getattr(description_entry, language, None)
+
+            if description_language:
+                # Check if it's an instance of DESC with 'long' and 'short'
+                if isinstance(description_language, DESC):
+                    holidays_list.append(description_language.long)
+                else:
+                    holidays_list.append(description_language)
+            else:
+                # If the specified language is not available, default to English
+                holidays_list.append(description_entry.english)
+        else:
+            # If no description is found, use the holiday name
+            holidays_list.append(h.name)
+
+    # Add any additional entries if necessary
+    holidays_list.extend(["Chanukah, Rosh Chodesh"])
+
+    return holidays_list
 
 
 ZMAN = namedtuple("ZMAN", "zman, description")
