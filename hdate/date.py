@@ -15,7 +15,14 @@ from typing import Any, Optional, Union, cast
 from hdate import converters as conv
 from hdate import htables
 from hdate.hebrew_date import HebrewDate
-from hdate.htables import DESC, HOLIDAY, MESECHTA, HolidayTypes, Months
+from hdate.htables import (
+    DESC,
+    HOLIDAY,
+    HOLIDAY_DESCRIPTIONS,
+    MESECHTA,
+    HolidayTypes,
+    Months,
+)
 
 _LOGGER = logging.getLogger(__name__)
 # pylint: disable=too-many-public-methods
@@ -213,7 +220,9 @@ class HDate:
         descriptions = []
         for entry in entries:
             # Access the language-specific description
-            description_language = getattr(entry.description, self.language, None)
+            description_language = getattr(
+                HOLIDAY_DESCRIPTIONS.get(entry.name), self.language, None
+            )
             if description_language:
                 # Check if it's a DESC namedtuple with 'long' and 'short' attributes
                 if isinstance(description_language, DESC):
