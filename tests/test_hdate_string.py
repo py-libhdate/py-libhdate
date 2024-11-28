@@ -31,7 +31,7 @@ class TestOmer:
     @pytest.mark.parametrize("omer_day,hebrew_string", OMER_STRINGS)
     def test_get_omer_string(self, omer_day: int, hebrew_string: str) -> None:
         """Test the value returned by calculating the Omer string."""
-        assert dt.get_omer_string(omer_day) == hebrew_string
+        assert dt.get_omer_string(omer_day, language="hebrew") == hebrew_string
 
     def test_illegal_value(self) -> None:
         """Test passing illegal values to Omer."""
