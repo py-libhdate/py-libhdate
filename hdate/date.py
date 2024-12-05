@@ -127,7 +127,7 @@ class HDate:
         return not self < other
 
     def get_hebrew_number(self, number: int, short: bool = False) -> str:
-        """Get the number representation based on the current languageuage."""
+        """Get the number representation based on the current language."""
         hstring: str = hebrew_number(num=number, language=self.language, short=short)
         return hstring
 
