@@ -78,13 +78,13 @@ class HDate:
         day_name = day_language.long  # Use 'long' or 'short' as needed
 
         # Get day number representation
-        day_number = self.get_hebrew_number(self.hdate.day)
+        day_number = hebrew_number(self.hdate.day)
 
         # Get month name
         month_name = self.get_month_name()
 
         # Get year number representation
-        year_number = self.get_hebrew_number(self.hdate.year)
+        year_number = hebrew_number(self.hdate.year)
 
         result = (
             f"{day_prefix}{day_name} {day_number} "
@@ -92,8 +92,7 @@ class HDate:
         )
         # Handle Omer day
         if 0 < self.omer_day < 50:
-            omer_day_number = self.get_hebrew_number(self.omer_day)
-            # omer_string_long = get_omer_string(self.omer_day, self.language)
+            omer_day_number = hebrew_number(self.omer_day)
             omer_suffix = self.OMER_SUFFIX.get(self.language, "in the Omer")
             result = f"{result} {omer_day_number} {omer_suffix}"
 
@@ -197,10 +196,10 @@ class HDate:
     @property
     def hebrew_date(self) -> str:
         """Return the hebrew date string in the selected language."""
-        day = self.get_hebrew_number(self.hdate.day)
+        day = hebrew_number(self.hdate.day)
         month_enum = cast(Months, self.hdate.month)
         month = getattr(htables.MONTHS[month_enum.value - 1], self.language)
-        year = self.get_hebrew_number(self.hdate.year)
+        year = hebrew_number(self.hdate.year)
         return f"{day} {month} {year}"
 
     @property
@@ -342,7 +341,7 @@ class HDate:
         """Return a string representation of the daf yomi."""
         mesechta, daf_number = self.daf_yomi_repr
         mesechta_name = getattr(mesechta.name, self.language)
-        daf = self.get_hebrew_number(daf_number, short=True)
+        daf = hebrew_number(daf_number, short=True)
         return f"{mesechta_name} {daf}"
 
     @property
@@ -590,7 +589,7 @@ def hebrew_number(num: int, language: str = "hebrew", short: bool = False) -> st
 
 
 def get_omer_string(omer: int, language: str = "hebrew") -> str:
-    """Retourne une chaîne représentant le compte de l'Omer."""
+    """Return a string representing the count of the Omer."""
 
     if not 0 < omer < 50:
         raise ValueError(f"Invalid Omer day: {omer}")
@@ -606,7 +605,7 @@ def get_omer_string(omer: int, language: str = "hebrew") -> str:
 
 
 def _get_omer_string_hebrew(omer: int) -> str:
-    """Représentation hébraïque du compte de l'Omer."""
+    """Return a string representing the count of the Omer in hebrew."""
     tens = ["", "עשרה", "עשרים", "שלושים", "ארבעים"]
     ones = [
         "",
@@ -623,7 +622,6 @@ def _get_omer_string_hebrew(omer: int) -> str:
 
     omer_string = "היום "
 
-    # Gestion des dizaines et unités
     if 10 < omer < 20:
         omer_string += f"{ones[omer % 10]} עשר"
     elif omer >= 10:
@@ -632,11 +630,10 @@ def _get_omer_string_hebrew(omer: int) -> str:
             unit_part += " ו"
         omer_string += unit_part + tens[omer // 10]
     else:
-        # Ne pas ajouter 'אחד' ou 'שנים' ici pour éviter la duplication
+
         if omer > 2:
             omer_string += ones[omer]
 
-    # Gestion des jours
     if omer > 2:
         if omer < 11:
             omer_string += " ימים "
@@ -647,7 +644,6 @@ def _get_omer_string_hebrew(omer: int) -> str:
     else:  # omer == 2
         omer_string += "שני ימים "
 
-    # Gestion des semaines et des jours restants
     if omer > 6:
         omer_string += "שהם "
         weeks, days = divmod(omer, 7)
@@ -664,8 +660,7 @@ def _get_omer_string_hebrew(omer: int) -> str:
 
 
 def _get_omer_string_english(omer: int) -> str:
-    """Représentation anglaise du compte de l'Omer."""
-    # Implémentation spécifique à l'anglais
+    """Return a string representing the count of the Omer in english."""
     ones = [
         "",
         "one",
@@ -722,8 +717,7 @@ def _get_omer_string_english(omer: int) -> str:
 
 
 def _get_omer_string_french(omer: int) -> str:
-    """Représentation française du compte de l'Omer."""
-    # Implémentation spécifique au français
+    """Return a string representing the count of the Omer in french."""
     ones = [
         "",
         "un",
@@ -750,7 +744,6 @@ def _get_omer_string_french(omer: int) -> str:
     ]
     tens = ["", "", "vingt", "trente", "quarante"]
 
-    # Dictionnaire des ordinals irréguliers
     irregular_ordinals = {
         1: "premier",
         2: "deuxième",
@@ -773,17 +766,13 @@ def _get_omer_string_french(omer: int) -> str:
         40: "quarantième",
     }
 
-    # Vérification que le nombre est dans la plage valide
-    if omer < 1 or omer > 49:
-        return "Le nombre doit être entre 1 et 49."
-
-    # Initialisation de la phrase
+    # Init
     omer_string = "Aujourd'hui c'est le "
 
     ten = omer // 10
     one = omer % 10
 
-    # Construction de la partie numérique
+    # Construction
     if omer in irregular_ordinals:
         ordinal = irregular_ordinals[omer]
     else:
@@ -799,12 +788,10 @@ def _get_omer_string_french(omer: int) -> str:
                 if one != 0:
                     number_word += "-" + ones[one]
 
-        # Formation de l'ordinal régulier
         ordinal = number_word + "ième"
 
     omer_string += ordinal + " jour de l'Omer"
-
-    # Calcul des semaines et des jours
+    # Add weeks and days
     weeks = omer // 7
     days = omer % 7
 
