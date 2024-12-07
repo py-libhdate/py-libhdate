@@ -38,7 +38,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
     property.
     """
 
-    # pylint: disable=too-many-arguments, too-many-positional-arguments
+    # pylint: disable=too-many-arguments, too-many-positional-arguments, no-untyped-def
     def __init__(
         self,
         date: Union[dt.date, str, dt.datetime] = dt.datetime.now(),
