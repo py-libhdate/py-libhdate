@@ -38,7 +38,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
     property.
     """
 
-    # pylint: disable=too-many-arguments, too-many-positional-arguments, no-untyped-def
+    # pylint: disable=too-many-arguments, too-many-positional-arguments
     def __init__(
         self,
         date: Union[dt.date, str, dt.datetime] = dt.datetime.now(),
@@ -60,8 +60,8 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         """
         self.location = location
         self.language: str = language
-        self.candle_lighting_offset = candle_lighting_offset
-        self.havdalah_offset = havdalah_offset
+        self.candle_lighting_offset: int = candle_lighting_offset
+        self.havdalah_offset: int = havdalah_offset
 
         # If a non-timezone aware date is received, use timezone from location
         # to make it timezone aware and change to UTC for calculations.
