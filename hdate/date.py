@@ -78,13 +78,13 @@ class HDate:
         day_name = day_language.long  # Use 'long' or 'short' as needed
 
         # Get day number representation
-        day_number = hebrew_number(self.hdate.day)
+        day_number = hebrew_number(self.hdate.day, language=self.language)
 
         # Get month name
         month_name = self.get_month_name()
 
         # Get year number representation
-        year_number = hebrew_number(self.hdate.year)
+        year_number = hebrew_number(self.hdate.year, language=self.language)
 
         result = (
             f"{day_prefix}{day_name} {day_number} "
@@ -92,7 +92,7 @@ class HDate:
         )
         # Handle Omer day
         if 0 < self.omer_day < 50:
-            omer_day_number = hebrew_number(self.omer_day)
+            omer_day_number = hebrew_number(self.omer_day, language=self.language)
             omer_suffix = self.OMER_SUFFIX.get(self.language, "in the Omer")
             result = f"{result} {omer_day_number} {omer_suffix}"
 
@@ -124,11 +124,6 @@ class HDate:
     def __ge__(self, other: "HDate") -> bool:
         """Implement the greater than or equal operator."""
         return not self < other
-
-    def get_hebrew_number(self, number: int, short: bool = False) -> str:
-        """Get the number representation based on the current language."""
-        hstring: str = hebrew_number(num=number, language=self.language, short=short)
-        return hstring
 
     def get_month_name(self) -> str:
         """Return the month name in the selected language, handling leap years."""
@@ -196,10 +191,10 @@ class HDate:
     @property
     def hebrew_date(self) -> str:
         """Return the hebrew date string in the selected language."""
-        day = hebrew_number(self.hdate.day)
+        day = hebrew_number(self.hdate.day, language=self.language)
         month_enum = cast(Months, self.hdate.month)
         month = getattr(htables.MONTHS[month_enum.value - 1], self.language)
-        year = hebrew_number(self.hdate.year)
+        year = hebrew_number(self.hdate.year, language=self.language)
         return f"{day} {month} {year}"
 
     @property
@@ -341,7 +336,7 @@ class HDate:
         """Return a string representation of the daf yomi."""
         mesechta, daf_number = self.daf_yomi_repr
         mesechta_name = getattr(mesechta.name, self.language)
-        daf = hebrew_number(daf_number, short=True)
+        daf = hebrew_number(daf_number, language=self.language, short=True)
         return f"{mesechta_name} {daf}"
 
     @property
