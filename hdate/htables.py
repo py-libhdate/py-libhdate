@@ -753,7 +753,7 @@ HOLIDAY_DESCRIPTIONS = {
 }
 
 
-def holiday_name(entry, language: str) -> str:  # type: ignore
+def holiday_name(entry: HOLIDAY, language: str) -> str:
     """Return the description of a holiday in the specified language."""
     # Assume each `entry` has a `name` attribute that corresponds to a key in list.
     description_entry = HOLIDAY_DESCRIPTIONS.get(entry.name)
@@ -772,7 +772,7 @@ def holiday_name(entry, language: str) -> str:  # type: ignore
     return description_entry.english
 
 
-def get_all_holidays(language: str) -> list[str]:  # type: ignore
+def get_all_holidays(language: str) -> list[str]:
     """Helper method to get all the holiday descriptions in the specified language."""
 
     holidays_list = [holiday_name(h, language) for h in HOLIDAYS]
