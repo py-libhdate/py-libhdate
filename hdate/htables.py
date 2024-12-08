@@ -753,33 +753,29 @@ HOLIDAY_DESCRIPTIONS = {
 }
 
 
+def holiday_name(entry, language: str) -> str:
+    """Return the description of a holiday in the specified language."""
+    # Assume each `entry` has a `name` attribute that corresponds to a key in list.
+    description_entry = HOLIDAY_DESCRIPTIONS.get(entry.name)
+
+    if not description_entry:
+        return "Unknown Holiday"
+
+    # Try to get the requested language description
+    entry_language = getattr(description_entry, language, None)
+    if entry_language:
+        return (
+            entry_language.long if isinstance(entry_language, DESC) else entry_language
+        )
+
+    # If the requested language is not available, fallback to English
+    return description_entry.english
+
+
 def get_all_holidays(language: str) -> list[str]:
     """Helper method to get all the holiday descriptions in the specified language."""
-    holidays_list = []
 
-    for h in HOLIDAYS:
-        # Get the description entry from the dictionary using the holiday name
-        description_entry = HOLIDAY_DESCRIPTIONS.get(h.name)
-
-        if description_entry:
-            # Try to access the description in the specified language
-            description_language = getattr(description_entry, language, None)
-
-            if description_language:
-                # Check if it's an instance of DESC with 'long' and 'short'
-                if isinstance(description_language, DESC):
-                    holidays_list.append(description_language.long)
-                else:
-                    holidays_list.append(description_language)
-            else:
-                # If the specified language is not available, default to English
-                holidays_list.append(description_entry.english)
-        else:
-            # If no description is found, use the holiday name
-            holidays_list.append(h.name)
-
-    # Add any additional entries if necessary
-    holidays_list.extend(["Chanukah, Rosh Chodesh"])
+    holidays_list = [holiday_name(h, language) for h in HOLIDAYS]
 
     return holidays_list
 
