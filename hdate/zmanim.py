@@ -43,7 +43,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         self,
         date: Union[dt.date, str, dt.datetime] = dt.datetime.now(),
         location: Location = Location(),
-        hebrew: bool = True,
+        language: str = "hebrew",
         candle_lighting_offset: int = 18,
         havdalah_offset: int = 0,
     ) -> None:
@@ -59,7 +59,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         calculations.
         """
         self.location = location
-        self.hebrew = hebrew
+        self.language = language
         self.candle_lighting_offset = candle_lighting_offset
         self.havdalah_offset = havdalah_offset
 
@@ -92,10 +92,11 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
             self.astral_sun = astral.sun.sun(self.astral_observer, self.date)
 
     def __str__(self) -> str:
-        """Return a Unicode representation of Zmanim."""
+        """Return a string representation of Zmanim in the selected language."""
         return "\n".join(
             [
-                f"{zman.description[self.hebrew + 1]} - {self.zmanim[zman.zman].time()}"
+                f"{getattr(zman.description, self.language)} - "
+                f"{self.zmanim[zman.zman].time()}"
                 for zman in htables.ZMANIM
             ]
         )
@@ -108,7 +109,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         return (
             "Zmanim(date="
             f"{self.time.astimezone(_timezone).replace(tzinfo=None)!r},"
-            f" location={self.location!r}, hebrew={self.hebrew})"
+            f" location={self.location!r}, language={self.language!r})"
         )
 
     @property
