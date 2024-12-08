@@ -753,29 +753,39 @@ HOLIDAY_DESCRIPTIONS = {
 }
 
 
-def holiday_name(entry: HOLIDAY, language: str) -> str:  # type: ignore[no-any-return]
-    """Return the description of a holiday in the specified language."""
-    # Assume each `entry` has a `name` attribute that corresponds to a key in list.
-    description_entry = HOLIDAY_DESCRIPTIONS.get(entry.name)
-
-    if not description_entry:
-        return "Unknown Holiday"
-
-    # Try to get the requested language description
-    entry_language = getattr(description_entry, language, None)
-    if entry_language:
-        return (
-            entry_language.long if isinstance(entry_language, DESC) else entry_language
-        )
-
-    # If the requested language is not available, fallback to English
-    return description_entry.english
-
-
-def get_all_holidays(language: str) -> list[str]:  # type: ignore[no-any-return]
+def get_all_holidays(language: str) -> list[str]:
     """Helper method to get all the holiday descriptions in the specified language."""
 
-    holidays_list = [holiday_name(h, language) for h in HOLIDAYS]
+    def holiday_name(entry: HOLIDAY, language: str) -> str:
+        """Return the description of a holiday in the specified language."""
+        description_entry = HOLIDAY_DESCRIPTIONS.get(entry.name)
+        result: str = ""
+
+        if not description_entry:
+            return "Unknown Holiday"
+
+        # Try to get the requested language description
+        entry_language = getattr(description_entry, language, None)
+        if entry_language:
+            result = (
+                entry_language.long
+                if isinstance(entry_language, DESC)
+                else entry_language
+            )
+            return result
+
+        # If the requested language is not available, fallback to English
+        result = description_entry.english
+        return result
+
+    doubles = {
+        "french": "Rosh Hodesh, Hanoukka",
+        "hebrew": "ראש חודש, חנוכה",
+        "english": "Rosh Chodesh, Chanukah",
+    }
+    holidays_list = [holiday_name(h, language) for h in HOLIDAYS] + [
+        doubles.get(language, doubles["english"])
+    ]
 
     return holidays_list
 

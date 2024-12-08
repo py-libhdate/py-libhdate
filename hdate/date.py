@@ -63,7 +63,7 @@ class HDate:
             self.gdate = gdate
         else:
             self.hdate = heb_date
-        self.language: str = language
+        self.language = language
         self.diaspora = diaspora
 
     def __str__(self) -> str:
@@ -127,7 +127,6 @@ class HDate:
 
     def get_month_name(self) -> str:
         """Return the month name in the selected language, handling leap years."""
-        # Informer le type checker que month est Months
         month = cast(Months, self.hdate.month)
         is_leap = self.is_leap_year
         month_value = month.value
