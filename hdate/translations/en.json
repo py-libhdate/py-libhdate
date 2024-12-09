@@ -1,0 +1,18 @@
+{
+    "months": {
+        "tishrei": "Tishrei",
+        "marcheshvan": "Marcheshvan",
+        "kislev": "Kislev",
+        "tevet": "Tevet",
+        "shvat": "Sh'vat",
+        "adar": "Adar",
+        "nisan": "Nisan",
+        "iyyar": "Iyyar",
+        "sivan": "Sivan",
+        "tammuz": "Tammuz",
+        "av": "Av",
+        "elul": "Elul",
+        "adari": "Adar I",
+        "adarii": "Adar II"
+    }
+}
