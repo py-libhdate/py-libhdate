@@ -6,7 +6,24 @@ import json
 from pathlib import Path
 from typing import cast
 
-from hdate.htables import LANG
+from hdate.htables import DESC, LANG
+
+
+def get_lang_value(item: LANG, lang: str) -> str:
+    """
+    Return the value of a given LANG object in a given language.
+
+    item: LANG object
+    lang: str, the language to get the value in
+
+    Returns:
+        str, the value in the given language. If the value
+        is a DESC object, the long description is returned.
+    """
+    value: str | DESC = getattr(item, lang)
+    if isinstance(value, DESC):
+        value = cast(str, value.long)
+    return value
 
 
 def main() -> None:
@@ -59,8 +76,15 @@ def main() -> None:
         object_key = obj.lower()
         translations[object_key] = {}
         for item in _obj:
-            item_key = "".join(filter(str.isalpha, getattr(item, "english").lower()))
-            translations[object_key][item_key] = getattr(item, key)
+            if isinstance(_obj, dict):
+                item_key = item
+                value = get_lang_value(_obj[item], key)
+            else:
+                item_key = "".join(
+                    filter(str.isalpha, get_lang_value(item, "english").lower())
+                )
+                value = get_lang_value(item, key)
+            translations[object_key][item_key] = value
 
         translation_file.write_text(
             json.dumps(translations, ensure_ascii=False, indent=4), encoding="utf-8"
