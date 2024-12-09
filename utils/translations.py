@@ -4,7 +4,7 @@ import argparse
 import importlib
 import json
 from pathlib import Path
-from typing import cast
+from typing import Union, cast
 
 from hdate.htables import DESC, LANG
 
@@ -20,7 +20,7 @@ def get_lang_value(item: LANG, lang: str) -> str:
         str, the value in the given language. If the value
         is a DESC object, the long description is returned.
     """
-    value: str | DESC = getattr(item, lang)
+    value: Union[str, DESC] = getattr(item, lang)
     if isinstance(value, DESC):
         value = cast(str, value.long)
     return value
