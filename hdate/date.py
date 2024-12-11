@@ -53,6 +53,7 @@ class HDate(TranslatorMixin):
         heb_date: Optional[HebrewDate] = None,
     ) -> None:
         """Initialize the HDate object."""
+        super().__init__()
         # Create private variables
         self._hdate: Optional[HebrewDate] = None
         self._gdate = None
@@ -70,8 +71,8 @@ class HDate(TranslatorMixin):
     def __str__(self) -> str:
         """Return a full Unicode representation of HDate."""
         # Get prefixes and strings based on language
-        day_prefix = self.DAY_PREFIXES.get(self.language, "")
-        in_prefix = self.IN_PREFIXES.get(self.language, "")
+        day_prefix = self.DAY_PREFIXES.get(self._language, "")
+        in_prefix = self.IN_PREFIXES.get(self._language, "")
 
         # Get day name
         day_index = self.dow - 1  # Assuming dow is 1-based (Sunday=1)
@@ -316,12 +317,12 @@ class HDate(TranslatorMixin):
     @property
     def next_day(self) -> "HDate":
         """Return the HDate for the next day."""
-        return HDate(self.gdate + datetime.timedelta(1), self.diaspora, self.language)
+        return HDate(self.gdate + datetime.timedelta(1), self.diaspora, self._language)
 
     @property
     def previous_day(self) -> "HDate":
         """Return the HDate for the previous day."""
-        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora, self.language)
+        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora, self._language)
 
     @property
     def upcoming_shabbat(self) -> "HDate":
@@ -333,7 +334,7 @@ class HDate(TranslatorMixin):
             return self
         # If it's Sunday, fast forward to the next Shabbat.
         saturday = self.gdate + datetime.timedelta((12 - self.gdate.weekday()) % 7)
-        return HDate(saturday, diaspora=self.diaspora, language=self.language)
+        return HDate(saturday, diaspora=self.diaspora, language=self._language)
 
     @property
     def upcoming_shabbat_or_yom_tov(self) -> "HDate":
