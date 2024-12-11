@@ -25,7 +25,7 @@ class TranslatorMixin:
     _language: str = "english"
     _translations: dict[str, str] = {}
 
-    def __init__(self, *args: tuple[Any, ...], **kwargs: dict[str, Any]) -> None:
+    def __init__(self, *args: Any, **kwargs: dict[str, Any]) -> None:
         self.load_translations()
         if isinstance(self, Enum) and sys.version_info < (3, 11):
             super().__init__()
