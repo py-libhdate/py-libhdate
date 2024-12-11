@@ -4,10 +4,11 @@ from dataclasses import dataclass
 from typing import Union
 
 from hdate.htables import Months
+from hdate.translator import TranslatorMixin
 
 
 @dataclass
-class HebrewDate:
+class HebrewDate(TranslatorMixin):
     """Define a Hebrew date object."""
 
     year: int
