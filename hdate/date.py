@@ -23,12 +23,13 @@ from hdate.htables import (
     Masechta,
     Months,
 )
+from hdate.translator import TranslatorMixin
 
 _LOGGER = logging.getLogger(__name__)
 # pylint: disable=too-many-public-methods
 
 
-class HDate:
+class HDate(TranslatorMixin):
     """
     Hebrew date class.
 
@@ -63,8 +64,8 @@ class HDate:
             self.gdate = gdate
         else:
             self.hdate = heb_date
-        self.language = language
         self.diaspora = diaspora
+        self.set_language(language)
 
     def __str__(self) -> str:
         """Return a full Unicode representation of HDate."""
@@ -74,17 +75,17 @@ class HDate:
 
         # Get day name
         day_index = self.dow - 1  # Assuming dow is 1-based (Sunday=1)
-        day_language = getattr(htables.DAYS[day_index], self.language)
+        day_language = getattr(htables.DAYS[day_index], self._language)
         day_name = day_language.long  # Use 'long' or 'short' as needed
 
         # Get day number representation
-        day_number = hebrew_number(self.hdate.day, language=self.language)
+        day_number = hebrew_number(self.hdate.day, language=self._language)
 
         # Get month name
         month_name = self.get_month_name()
 
         # Get year number representation
-        year_number = hebrew_number(self.hdate.year, language=self.language)
+        year_number = hebrew_number(self.hdate.year, language=self._language)
 
         result = (
             f"{day_prefix}{day_name} {day_number} "
@@ -92,8 +93,8 @@ class HDate:
         )
         # Handle Omer day
         if 0 < self.omer_day < 50:
-            omer_day_number = hebrew_number(self.omer_day, language=self.language)
-            omer_suffix = self.OMER_SUFFIX.get(self.language, "in the Omer")
+            omer_day_number = hebrew_number(self.omer_day, language=self._language)
+            omer_suffix = self.OMER_SUFFIX.get(self._language, "in the Omer")
             result = f"{result} {omer_day_number} {omer_suffix}"
 
         # Append holiday description if any
@@ -105,7 +106,7 @@ class HDate:
         """Return a representation of HDate for programmatic use."""
         return (
             f"HDate(gdate={self.gdate!r}, diaspora={self.diaspora}, "
-            f"language={self.language!r})"
+            f"language={self._language!r})"
         )
 
     def __lt__(self, other: "HDate") -> bool:
@@ -128,7 +129,7 @@ class HDate:
     def get_month_name(self) -> str:
         """Return the month name in the selected language, handling leap years."""
         month = cast(Months, self.hdate.month)
-        month.set_language(self.language)
+        month.set_language(self._language)
         return str(self.hdate.month)
 
     @property
@@ -177,17 +178,17 @@ class HDate:
     @property
     def hebrew_date(self) -> str:
         """Return the hebrew date string in the selected language."""
-        day = hebrew_number(self.hdate.day, language=self.language)
+        day = hebrew_number(self.hdate.day, language=self._language)
         month = cast(Months, self.hdate.month)
-        month.set_language(self.language)
-        year = hebrew_number(self.hdate.year, language=self.language)
+        month.set_language(self._language)
+        year = hebrew_number(self.hdate.year, language=self._language)
         return f"{day} {month} {year}"
 
     @property
     def parasha(self) -> str:
         """Return the upcoming parasha in the selected language."""
         parasha_index = self.get_reading()
-        parasha = cast(str, getattr(htables.PARASHAOT[parasha_index], self.language))
+        parasha = cast(str, getattr(htables.PARASHAOT[parasha_index], self._language))
         return parasha
 
     @property
@@ -201,7 +202,7 @@ class HDate:
         for entry in entries:
             # Access the language-specific description
             description_language = getattr(
-                HOLIDAY_DESCRIPTIONS.get(entry.name), self.language, None
+                HOLIDAY_DESCRIPTIONS.get(entry.name), self._language, None
             )
             if description_language:
                 # Check if it's a DESC namedtuple with 'long' and 'short' attributes
@@ -321,8 +322,8 @@ class HDate:
     def daf_yomi(self) -> str:
         """Return a string representation of the daf yomi."""
         mesechta, daf_number = self.daf_yomi_repr
-        mesechta.set_language(self.language)
-        daf = hebrew_number(daf_number, language=self.language, short=True)
+        mesechta.set_language(self._language)
+        daf = hebrew_number(daf_number, language=self._language, short=True)
         return f"{mesechta} {daf}"
 
     @property
@@ -442,7 +443,7 @@ class HDate:
                         self.hdate.year, date_instance[1], date_instance[0]
                     ),
                     diaspora=self.diaspora,
-                    language=self.language,
+                    language=self._language,
                 ),
             )
             for holiday in _holidays_list
@@ -470,7 +471,7 @@ class HDate:
         next_rosh_hashana = HDate(
             heb_date=HebrewDate(self.hdate.year + 1, Months.TISHREI, 1),
             diaspora=self.diaspora,
-            language=self.language,
+            language=self._language,
         )
         next_year = next_rosh_hashana.get_holidays_for_year([HolidayTypes.YOM_TOV])
 
