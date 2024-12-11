@@ -37,7 +37,7 @@ class TranslatorMixin:
         """Load the translations for the class."""
         translation_file = TRANSLATIONS_PATH / f"{self._language[:2]}.json"
         if not translation_file.exists():
-            _LOGGER.error(
+            _LOGGER.warning(
                 "Translation file for %s not found, falling back to english",
                 self._language,
             )
@@ -50,7 +50,8 @@ class TranslatorMixin:
         """Return the translation for the given key."""
         value = self._translations.get(key.lower(), None)
         if value is None:
-            raise ValueError(f"Translation for {key} not found")
+            _LOGGER.error("Translation for %s not found", key)
+            value = key
         return value
 
     def set_language(self, language: str) -> None:
