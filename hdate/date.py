@@ -19,8 +19,8 @@ from hdate.htables import (
     DESC,
     HOLIDAY,
     HOLIDAY_DESCRIPTIONS,
-    MESECHTA,
     HolidayTypes,
+    Masechta,
     Months,
 )
 
@@ -305,7 +305,7 @@ class HDate:
         return omer_day
 
     @property
-    def daf_yomi_repr(self) -> tuple[MESECHTA, int]:
+    def daf_yomi_repr(self) -> tuple[Masechta, int]:
         """Return a tuple of mesechta and daf."""
         days_since_start_cycle_11 = (self.gdate - htables.DAF_YOMI_CYCLE_11_START).days
         page_number = days_since_start_cycle_11 % (htables.DAF_YOMI_TOTAL_PAGES)
@@ -321,9 +321,9 @@ class HDate:
     def daf_yomi(self) -> str:
         """Return a string representation of the daf yomi."""
         mesechta, daf_number = self.daf_yomi_repr
-        mesechta_name = getattr(mesechta.name, self.language)
+        mesechta.set_language(self.language)
         daf = hebrew_number(daf_number, language=self.language, short=True)
-        return f"{mesechta_name} {daf}"
+        return f"{mesechta} {daf}"
 
     @property
     def next_day(self) -> "HDate":
