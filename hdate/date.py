@@ -47,7 +47,7 @@ class HDate(TranslatorMixin):
 
     def __init__(
         self,
-        gdate: Union[datetime.date, datetime.datetime] = datetime.date.today(),
+        gdate: datetime.date = datetime.date.today(),
         diaspora: bool = False,
         language: str = "hebrew",
         heb_date: Optional[HebrewDate] = None,
@@ -252,11 +252,7 @@ class HDate(TranslatorMixin):
     @property
     def daf_yomi_repr(self) -> tuple[Masechta, int]:
         """Return a tuple of mesechta and daf."""
-        date = self.gdate
-        if isinstance(self.gdate, datetime.datetime):
-            date = date.date()
-
-        days_since_start_cycle_11 = (date - htables.DAF_YOMI_CYCLE_11_START).days
+        days_since_start_cycle_11 = (self.gdate - htables.DAF_YOMI_CYCLE_11_START).days
         page_number = days_since_start_cycle_11 % (htables.DAF_YOMI_TOTAL_PAGES)
         for mesechta in htables.DAF_YOMI_MESECHTOS:
             if page_number >= mesechta.pages:
