@@ -54,17 +54,16 @@ class HDate(TranslatorMixin):
     ) -> None:
         """Initialize the HDate object."""
         super().__init__()
-        # Create private variables
-        self._hdate: Optional[HebrewDate] = None
-        self._gdate = None
-        self._last_updated: Optional[str] = None
 
-        # Assign values
-        # Keep hdate after gdate assignment so as not to cause recursion error
         if heb_date is None:
+            self._jdn = conv.gdate_to_jdn(gdate)
             self.gdate = gdate
+            self.hdate = conv.jdn_to_hdate(self._jdn)
         else:
+            self._jdn = conv.hdate_to_jdn(heb_date)
             self.hdate = heb_date
+            self.gdate = conv.jdn_to_gdate(self._jdn)
+
         self.diaspora = diaspora
         self.set_language(language)
 
@@ -121,49 +120,6 @@ class HDate(TranslatorMixin):
     def __ge__(self, other: "HDate") -> bool:
         """Implement the greater than or equal operator."""
         return not self < other
-
-    @property
-    def hdate(self) -> HebrewDate:
-        """Return the hebrew date."""
-        if self._last_updated == "hdate":
-            return cast(HebrewDate, self._hdate)
-        return conv.jdn_to_hdate(self._jdn)
-
-    @hdate.setter
-    def hdate(self, date: Optional[Union[HebrewDate, datetime.date]]) -> None:
-        """Set the dates of the HDate object based on a given Hebrew date."""
-        # Sanity checks
-        if date is None and isinstance(self.gdate, datetime.date):
-            # Calculate the value since gdate has been set
-            date = self.hdate
-
-        if not isinstance(date, HebrewDate):
-            raise TypeError(f"date: {date} is not of type HebrewDate")
-        if not 0 < date.day < 31:
-            raise ValueError(f"day ({date.day}) legal values are 1-31")
-
-        self._last_updated = "hdate"
-        self._hdate = date
-
-    @property
-    def gdate(self) -> datetime.date:
-        """Return the Gregorian date for the given Hebrew date object."""
-        if self._last_updated == "gdate":
-            return cast(datetime.date, self._gdate)
-        return conv.jdn_to_gdate(self._jdn)
-
-    @gdate.setter
-    def gdate(self, date: datetime.date) -> None:
-        """Set the Gregorian date for the given Hebrew date object."""
-        self._last_updated = "gdate"
-        self._gdate = date
-
-    @property
-    def _jdn(self) -> int:
-        """Return the Julian date number for the given date."""
-        if self._last_updated == "gdate":
-            return conv.gdate_to_jdn(self.gdate)
-        return conv.hdate_to_jdn(self.hdate)
 
     @property
     def hebrew_date(self) -> str:
