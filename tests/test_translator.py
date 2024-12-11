@@ -1,17 +1,27 @@
 """Tests for the TranslatorMixin class."""
 
+import pytest
+
 from hdate.htables import Months
 
+LANGUAGES = ["english", "french", "hebrew"]
 
-def test_available_languages() -> None:
+
+@pytest.mark.parametrize("language", LANGUAGES)
+def test_available_languages(language: str) -> None:
     """Test the available_languages method."""
-    known_languages = ["english", "french", "hebrew"]
     month = Months.TISHREI
-    for language in known_languages:
-        assert language[:2] in month.available_languages()
+    assert language[:2] in month.available_languages()
 
 
-def test_load_language() -> None:
+@pytest.mark.parametrize("language", LANGUAGES)
+def test_set_language(language: str) -> None:
     """Test the load_language method."""
     month = Months.TISHREI
-    assert str(month) == "Tishrei"
+    result = {
+        "english": "Tishrei",
+        "french": "Tishri",
+        "hebrew": "תשרי",
+    }
+    month.set_language(language)
+    assert str(month) == result[language]
