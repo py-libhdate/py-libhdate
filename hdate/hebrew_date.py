@@ -16,8 +16,8 @@ class HebrewDate(TranslatorMixin):
     day: int
 
     def __post_init__(self) -> None:
-        if not 0 < date.day < 31:
-            raise ValueError(f"day ({day}) legal values are 1-30")
+        if not 0 < self.day < 31:
+            raise ValueError(f"day ({self.day}) legal values are 1-30")
         self.month = (
             self.month if isinstance(self.month, Months) else Months(self.month)
         )
