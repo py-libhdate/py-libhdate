@@ -2,8 +2,10 @@
 
 import datetime
 from collections import namedtuple
-from enum import Enum
+from enum import Enum, IntEnum
 from typing import Callable, TypeVar
+
+from hdate.translator import TranslatorMixin
 
 HDateT = TypeVar("HDateT", bound="HDate")  # type: ignore # noqa: F821
 
@@ -306,25 +308,8 @@ PARASHAOT = (
     LANG("Nitzavim-Vayelekh", "Nitzavim-Vayeilech", "נצבים-וילך"),
 )
 
-MONTHS = (
-    LANG("Tishri", "Tishrei", "תשרי"),
-    LANG("Heshvan", "Marcheshvan", "מרחשוון"),
-    LANG("Kislev", "Kislev", "כסלו"),
-    LANG("Tevet", "Tevet", "טבת"),
-    LANG("Shvat", "Sh'vat", "שבט"),
-    LANG("Adar", "Adar", "אדר"),
-    LANG("Nissan", "Nisan", "ניסן"),
-    LANG("Iyar", "Iyyar", "אייר"),
-    LANG("Sivan", "Sivan", "סיון"),
-    LANG("Tamouz", "Tammuz", "תמוז"),
-    LANG("Av", "Av", "אב"),
-    LANG("Eloul", "Elul", "אלול"),
-    LANG("Adar I", "Adar I", "אדר א"),
-    LANG("Adar II", "Adar II", "אדר ב"),
-)
 
-
-class Months(Enum):
+class Months(TranslatorMixin, IntEnum):
     """Enum class for the Hebrew months."""
 
     TISHREI = 1
@@ -341,6 +326,9 @@ class Months(Enum):
     ELUL = 12
     ADAR_I = 13
     ADAR_II = 14
+
+    def __str__(self) -> str:
+        return self.get_translation(self.name)
 
 
 def year_is_after(year: int) -> Callable[[HDateT], bool]:
