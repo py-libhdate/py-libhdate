@@ -6,6 +6,8 @@ based on the language specified.
 
 import json
 import logging
+import sys
+from enum import Enum
 from pathlib import Path
 from typing import Any
 
@@ -25,7 +27,10 @@ class TranslatorMixin:
 
     def __init__(self, *args: tuple[Any, ...], **kwargs: dict[str, Any]) -> None:
         self.load_translations()
-        super().__init__(*args, **kwargs)
+        if isinstance(self, Enum) and sys.version_info < (3, 11):
+            super().__init__()
+        else:
+            super().__init__(*args, **kwargs)
 
     def available_languages(self) -> list[str]:
         """Return a list of available languages."""
