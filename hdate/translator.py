@@ -26,11 +26,11 @@ class TranslatorMixin:
     _translations: dict[str, str] = {}
 
     def __init__(self, *args: Any, **kwargs: dict[str, Any]) -> None:
-        self.load_translations()
         if isinstance(self, Enum) and sys.version_info < (3, 11):
             super().__init__()
         else:
             super().__init__(*args, **kwargs)
+        self.load_translations()
 
     def available_languages(self) -> list[str]:
         """Return a list of available languages."""
@@ -63,3 +63,6 @@ class TranslatorMixin:
         """Set the language for the translator."""
         self._language = language
         self.load_translations()
+        for _, attr in vars(self).items():
+            if isinstance(attr, TranslatorMixin):
+                attr.set_language(language)
