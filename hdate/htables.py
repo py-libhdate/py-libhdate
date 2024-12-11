@@ -308,23 +308,6 @@ PARASHAOT = (
     LANG("Nitzavim-Vayelekh", "Nitzavim-Vayeilech", "נצבים-וילך"),
 )
 
-MONTHS = (
-    LANG("Tishri", "Tishrei", "תשרי"),
-    LANG("Heshvan", "Marcheshvan", "מרחשוון"),
-    LANG("Kislev", "Kislev", "כסלו"),
-    LANG("Tevet", "Tevet", "טבת"),
-    LANG("Shvat", "Sh'vat", "שבט"),
-    LANG("Adar", "Adar", "אדר"),
-    LANG("Nissan", "Nisan", "ניסן"),
-    LANG("Iyar", "Iyyar", "אייר"),
-    LANG("Sivan", "Sivan", "סיון"),
-    LANG("Tamouz", "Tammuz", "תמוז"),
-    LANG("Av", "Av", "אב"),
-    LANG("Eloul", "Elul", "אלול"),
-    LANG("Adar I", "Adar I", "אדר א"),
-    LANG("Adar II", "Adar II", "אדר ב"),
-)
-
 
 class Months(TranslatorMixin, IntEnum):
     """Enum class for the Hebrew months."""

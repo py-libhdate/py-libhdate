@@ -128,21 +128,8 @@ class HDate:
     def get_month_name(self) -> str:
         """Return the month name in the selected language, handling leap years."""
         month = cast(Months, self.hdate.month)
-        is_leap = self.is_leap_year
-        month_value = month.value
-        # Adjust the month index for non-leap years
-        if not is_leap:
-            if month == Months.ADAR_II:
-                # In non-leap years, Adar II is actually Adar
-                month_value = Months.ADAR.value
-            elif month.value > Months.ADAR.value:
-                # Months after Adar II need to be adjusted down by one
-                month_value -= 1
-        # Adjust index for 0-based MONTHS tuple
-        month_index = month_value - 1
-        # Get the month name in the selected language
-        month_language = cast(str, getattr(htables.MONTHS[month_index], self.language))
-        return month_language
+        month.set_language(self.language)
+        return str(self.hdate.month)
 
     @property
     def hdate(self) -> HebrewDate:
@@ -191,8 +178,8 @@ class HDate:
     def hebrew_date(self) -> str:
         """Return the hebrew date string in the selected language."""
         day = hebrew_number(self.hdate.day, language=self.language)
-        month_enum = cast(Months, self.hdate.month)
-        month = getattr(htables.MONTHS[month_enum.value - 1], self.language)
+        month = cast(Months, self.hdate.month)
+        month.set_language(self.language)
         year = hebrew_number(self.hdate.year, language=self.language)
         return f"{day} {month} {year}"
 
