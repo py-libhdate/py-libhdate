@@ -3,6 +3,7 @@
 import argparse
 import importlib
 import json
+import re
 from pathlib import Path
 from typing import Union, cast
 
@@ -73,8 +74,7 @@ def main() -> None:
         if translation_file.exists():
             translations = json.loads(translation_file.read_text(encoding="utf-8"))
 
-        object_key = obj.lower()
-        translations[object_key] = {}
+        translations[obj.lower()] = {}
         for item in _obj:
             if not isinstance(item, LANG):
                 item = [field for field in item if isinstance(field, LANG)][0]
@@ -82,11 +82,10 @@ def main() -> None:
                 item_key = item
                 value = get_lang_value(_obj[item], key)
             else:
-                item_key = "".join(
-                    filter(str.isalpha, get_lang_value(item, "english").lower())
-                )
+                _tmp_key = get_lang_value(item, "english").lower().replace(" ", "_")
+                item_key = re.sub(r"[^a-z_]", "", _tmp_key)
                 value = get_lang_value(item, key)
-            translations[object_key][item_key] = value
+            translations[obj.lower()][item_key] = value
 
         translation_file.write_text(
             json.dumps(translations, ensure_ascii=False, indent=4), encoding="utf-8"
