@@ -44,7 +44,7 @@ class TranslatorMixin:
             translation_file = TRANSLATIONS_PATH / "en.json"
 
         all_translations = json.loads(translation_file.read_text(encoding="utf-8"))
-        self._translations = all_translations.get(self.__class__.__name__.lower(), {})
+        self._translations = all_translations.get(self.__class__.__name__, {})
 
     def get_translation(self, key: str) -> str:
         """Return the translation for the given key."""
