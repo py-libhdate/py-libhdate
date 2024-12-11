@@ -78,18 +78,13 @@ class HDate(TranslatorMixin):
         day_language = getattr(htables.DAYS[day_index], self._language)
         day_name = day_language.long  # Use 'long' or 'short' as needed
 
-        # Get day number representation
+        # Get day and year number representation
         day_number = hebrew_number(self.hdate.day, language=self._language)
-
-        # Get month name
-        month_name = self.get_month_name()
-
-        # Get year number representation
         year_number = hebrew_number(self.hdate.year, language=self._language)
 
         result = (
             f"{day_prefix}{day_name} {day_number} "
-            f"{in_prefix}{month_name} {year_number}"
+            f"{in_prefix}{self.hdate.month} {year_number}"
         )
         # Handle Omer day
         if 0 < self.omer_day < 50:
@@ -125,12 +120,6 @@ class HDate(TranslatorMixin):
     def __ge__(self, other: "HDate") -> bool:
         """Implement the greater than or equal operator."""
         return not self < other
-
-    def get_month_name(self) -> str:
-        """Return the month name in the selected language, handling leap years."""
-        month = cast(Months, self.hdate.month)
-        month.set_language(self._language)
-        return str(self.hdate.month)
 
     @property
     def hdate(self) -> HebrewDate:
@@ -179,10 +168,8 @@ class HDate(TranslatorMixin):
     def hebrew_date(self) -> str:
         """Return the hebrew date string in the selected language."""
         day = hebrew_number(self.hdate.day, language=self._language)
-        month = cast(Months, self.hdate.month)
-        month.set_language(self._language)
         year = hebrew_number(self.hdate.year, language=self._language)
-        return f"{day} {month} {year}"
+        return f"{day} {self.hdate.month} {year}"
 
     @property
     def parasha(self) -> str:
