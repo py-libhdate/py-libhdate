@@ -24,12 +24,12 @@ jobs:
         cache: true
     - name: Install dependencies
       run: |
-        pdm install
+        python -m pip install --upgrade tox tox-pdm .
     - name: Run pre-commit linters
       run: |
-        git fetch origin
-        git remote set-head origin ${{ github.event.pull_request.base.ref }}
-        pdm run pre-commit run --from-ref origin/${{ github.event.pull_request.base.ref }} --to-ref ${{ github.event.pull_request.head.sha }}
+        tox --version
+        tox -e lint
+        git diff --exit-code
 
   test:
 
