@@ -1,4 +1,4 @@
-,"""Generate translations from LANG named tuples."""
+"""Generate translations from LANG named tuples."""
 
 import argparse
 import importlib
