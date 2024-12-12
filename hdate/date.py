@@ -54,13 +54,16 @@ class HDate(TranslatorMixin):
     ) -> None:
         """Initialize the HDate object."""
         super().__init__()
+        # Initialize private variables
+        self._jdn = 0
+        self._last_updated = ""
+        self._gdate = None
+        self._hdate = None
 
         if heb_date is None:
-            self._jdn = conv.gdate_to_jdn(gdate)
             self.gdate = gdate
             self.hdate = conv.jdn_to_hdate(self._jdn)
         else:
-            self._jdn = conv.hdate_to_jdn(heb_date)
             self.hdate = heb_date
             self.gdate = conv.jdn_to_gdate(self._jdn)
 
@@ -120,6 +123,34 @@ class HDate(TranslatorMixin):
     def __ge__(self, other: "HDate") -> bool:
         """Implement the greater than or equal operator."""
         return not self < other
+
+    @property
+    def hdate(self) -> HebrewDate:
+        """Return the hebrew date."""
+        if self._last_updated == "hdate":
+            return cast(HebrewDate, self._hdate)
+        return conv.jdn_to_hdate(self._jdn)
+
+    @hdate.setter
+    def hdate(self, date: HebrewDate) -> None:
+        """Set the dates of the HDate object based on a given Hebrew date."""
+        self._last_updated = "hdate"
+        self._hdate = date
+        self._jdn = conv.hdate_to_jdn(date)
+
+    @property
+    def gdate(self) -> datetime.date:
+        """Return the Gregorian date for the given Hebrew date object."""
+        if self._last_updated == "gdate":
+            return cast(datetime.date, self._gdate)
+        return conv.jdn_to_gdate(self._jdn)
+
+    @gdate.setter
+    def gdate(self, date: datetime.date) -> None:
+        """Set the Gregorian date for the given Hebrew date object."""
+        self._last_updated = "gdate"
+        self._gdate = date
+        self._jdn = conv.gdate_to_jdn(date)
 
     @property
     def hebrew_date(self) -> str:
