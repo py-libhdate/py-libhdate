@@ -18,6 +18,9 @@ htmlcov/
 .cache
 .pytest_cache/
 
+# Profiling data
+prof/
+
 # sphinx
 _static
 _templates

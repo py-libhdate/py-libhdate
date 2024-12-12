@@ -4,14 +4,13 @@ Classes using the translator base-classes will be able to pick up the correct st
 based on the language specified.
 """
 
-import json
 import logging
 import sys
 from enum import Enum
-from pathlib import Path
 from typing import Any
 
-TRANSLATIONS_PATH = Path(__file__).parent / "translations"
+from hdate.translations import TRANSLATIONS
+
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -34,22 +33,17 @@ class TranslatorMixin:
 
     def available_languages(self) -> list[str]:
         """Return a list of available languages."""
-        return [
-            file.stem for file in TRANSLATIONS_PATH.iterdir() if file.suffix == ".json"
-        ]
+        return list(TRANSLATIONS.keys())
 
     def load_translations(self) -> None:
         """Load the translations for the class."""
-        translation_file = TRANSLATIONS_PATH / f"{self._language[:2]}.json"
-        if not translation_file.exists():
+        lang = self._language[:2]
+        if lang not in TRANSLATIONS:
             _LOGGER.warning(
-                "Translation file for %s not found, falling back to english",
-                self._language,
+                "Language %s not found, falling back to english", self._language
             )
-            translation_file = TRANSLATIONS_PATH / "en.json"
-
-        all_translations = json.loads(translation_file.read_text(encoding="utf-8"))
-        self._translations = all_translations.get(self.__class__.__name__, {})
+            self._language = "en"
+        self._translations = TRANSLATIONS[lang].get(self.__class__.__name__, {})
 
     def get_translation(self, key: str) -> str:
         """Return the translation for the given key."""
