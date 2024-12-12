@@ -4,10 +4,11 @@ from dataclasses import dataclass
 from typing import Union
 
 from hdate.htables import Months
+from hdate.translator import TranslatorMixin
 
 
 @dataclass
-class HebrewDate:
+class HebrewDate(TranslatorMixin):
     """Define a Hebrew date object."""
 
     year: int
@@ -15,6 +16,8 @@ class HebrewDate:
     day: int
 
     def __post_init__(self) -> None:
+        if not 0 < self.day < 31:
+            raise ValueError(f"day ({self.day}) legal values are 1-30")
         self.month = (
             self.month if isinstance(self.month, Months) else Months(self.month)
         )

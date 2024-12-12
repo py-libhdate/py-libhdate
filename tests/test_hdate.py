@@ -69,13 +69,12 @@ class TestHDate:
 
     def test_assign_bad_hdate_value(self) -> None:
         """Confirm that bad values raise an error."""
-        bad_day_value = HebrewDate(5779, 10, 35)
         with pytest.raises(TypeError):
             HDate().hdate = "not a HebrewDate"  # type: ignore
         with pytest.raises(ValueError):
             HebrewDate(5779, 15, 3)
         with pytest.raises(ValueError):
-            HDate().hdate = bad_day_value
+            HDate().hdate = HebrewDate(5779, 10, 35)
 
     @pytest.mark.parametrize("execution_number", list(range(10)))
     def test_random_hdate(self, execution_number: int, rand_hdate: HDate) -> None:
