@@ -1,4 +1,4 @@
-"""Generate translations from LANG named tuples."""
+,"""Generate translations from LANG named tuples."""
 
 import argparse
 import importlib
@@ -36,7 +36,7 @@ def generate(args: argparse.Namespace) -> None:  # pylint: disable=unused-argume
     # Get all the JSON files in the translations directory
     translation_files = Path("hdate/translations").glob("*.json")
     translations = {}
-    for translation_file in translation_files:
+    for translation_file in sorted(translation_files):
         translations[translation_file.stem] = json.loads(
             translation_file.read_text(encoding="utf-8")
         )
