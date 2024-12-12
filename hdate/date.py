@@ -15,14 +15,7 @@ from typing import Any, Optional, Union, cast
 from hdate import converters as conv
 from hdate import htables
 from hdate.hebrew_date import HebrewDate
-from hdate.htables import (
-    DESC,
-    HOLIDAY,
-    HOLIDAY_DESCRIPTIONS,
-    HolidayTypes,
-    Masechta,
-    Months,
-)
+from hdate.htables import Holiday, HolidayTypes, Masechta, Months
 
 _LOGGER = logging.getLogger(__name__)
 # pylint: disable=too-many-public-methods
@@ -197,19 +190,9 @@ class HDate:
         If none exists, will return None.
         """
         entries = self._holiday_entries()
-        descriptions = []
         for entry in entries:
-            # Access the language-specific description
-            description_language = getattr(
-                HOLIDAY_DESCRIPTIONS.get(entry.name), self.language, None
-            )
-            if description_language:
-                # Check if it's a DESC namedtuple with 'long' and 'short' attributes
-                if isinstance(description_language, DESC):
-                    descriptions.append(description_language.long)
-                else:
-                    descriptions.append(description_language)
-        return ", ".join(descriptions) if descriptions else None
+            entry.set_language(self.language)
+        return ", ".join(str(entry) for entry in entries) if entries else None
 
     @property
     def is_shabbat(self) -> bool:
@@ -255,7 +238,7 @@ class HDate:
             return cast(str, entries[0].name)
         return ""
 
-    def _holiday_entries(self) -> list[Union[HOLIDAY, Any]]:
+    def _holiday_entries(self) -> list[Union[Holiday, Any]]:
         """Return the abstract holiday information from holidays table."""
         _holidays_list = self.get_holidays_for_year()
         holidays_list = [
@@ -395,7 +378,7 @@ class HDate:
 
     def get_holidays_for_year(
         self, types: Optional[list[HolidayTypes]] = None
-    ) -> list[tuple[HOLIDAY, HDate]]:
+    ) -> list[tuple[Holiday, HDate]]:
         """Get all the actual holiday days for a given HDate's year.
 
         If specified, use the list of types to limit the holidays returned.
@@ -422,8 +405,8 @@ class HDate:
         )
 
         def holiday_dates_cross_product(
-            holiday: HOLIDAY,
-        ) -> product[tuple[int, Months]]:
+            holiday: Holiday,
+        ) -> product[tuple[int, ...]]:
             """Given a (days, months) pair, compute the cross product.
 
             If days and/or months are singletons, they are converted to a list.

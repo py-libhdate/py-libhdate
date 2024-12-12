@@ -76,7 +76,7 @@ def main() -> None:
 
         translations[obj.lower()] = {}
         for item in _obj:
-            if not isinstance(item, LANG):
+            if not isinstance(item, LANG) and isinstance(item, tuple):
                 item = [field for field in item if isinstance(field, LANG)][0]
             if isinstance(_obj, dict):
                 item_key = item
