@@ -29,6 +29,8 @@ jobs:
       run: |
         tox --version
         tox -e lint
+    - name: Show changes if any
+      run: |
         git diff --exit-code
 
   test:
