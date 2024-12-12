@@ -18,7 +18,6 @@ from hdate.hebrew_date import HebrewDate
 from hdate.htables import Holiday, HolidayTypes, Masechta, Months
 from hdate.translator import TranslatorMixin
 
-
 _LOGGER = logging.getLogger(__name__)
 # pylint: disable=too-many-public-methods
 
@@ -51,15 +50,13 @@ class HDate(TranslatorMixin):
         # Initialize private variables
         self._jdn = 0
         self._last_updated = ""
-        self._gdate = None
-        self._hdate = None
 
         if heb_date is None:
             self.gdate = gdate
-            self.hdate = conv.jdn_to_hdate(self._jdn)
+            self._hdate = conv.jdn_to_hdate(self._jdn)
         else:
             self.hdate = heb_date
-            self.gdate = conv.jdn_to_gdate(self._jdn)
+            self._gdate = conv.jdn_to_gdate(self._jdn)
 
         self.diaspora = diaspora
         self.set_language(language)
@@ -122,12 +119,16 @@ class HDate(TranslatorMixin):
     def hdate(self) -> HebrewDate:
         """Return the hebrew date."""
         if self._last_updated == "hdate":
-            return cast(HebrewDate, self._hdate)
+            return self._hdate
         return conv.jdn_to_hdate(self._jdn)
 
     @hdate.setter
     def hdate(self, date: HebrewDate) -> None:
         """Set the dates of the HDate object based on a given Hebrew date."""
+
+        if not isinstance(date, HebrewDate):
+            raise TypeError(f"date: {date} is not of type HebrewDate")
+
         self._last_updated = "hdate"
         self._hdate = date
         self._jdn = conv.hdate_to_jdn(date)
@@ -136,7 +137,7 @@ class HDate(TranslatorMixin):
     def gdate(self) -> datetime.date:
         """Return the Gregorian date for the given Hebrew date object."""
         if self._last_updated == "gdate":
-            return cast(datetime.date, self._gdate)
+            return self._gdate
         return conv.jdn_to_gdate(self._jdn)
 
     @gdate.setter
