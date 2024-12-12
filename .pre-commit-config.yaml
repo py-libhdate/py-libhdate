@@ -28,3 +28,9 @@ repos:
       entry: pdm run mypy --ignore-missing-imports --strict
       language: system
       types: [python]
+    - id: translations
+      name: Generate translations
+      entry: pdm run python utils/translations.py generate
+      language: system
+      types: [json]
+      pass_filenames: false
