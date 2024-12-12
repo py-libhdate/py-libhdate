@@ -29,8 +29,8 @@ jobs:
       run: |
         tox --version
         tox -e lint
-      continue-on-error: true
-    - name: Show changes if any
+    - name: Show changes if failed
+      if: failure()
       run: |
         git diff --exit-code
 
