@@ -112,7 +112,8 @@ def extract(args: argparse.Namespace) -> None:
                 value = get_lang_value(_obj[item], key)
             else:
                 _tmp_key = get_lang_value(item, "english").lower().replace(" ", "_")
-                item_key = re.sub(r"[^a-z_]", "", _tmp_key)
+                _tmp_key = re.sub(r"[^a-z_]", "", _tmp_key)
+                item_key = re.sub(r"(_)+", "_", _tmp_key)
                 value = get_lang_value(item, key)
             translations[obj.lower()][item_key] = value
 

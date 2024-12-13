@@ -97,5 +97,23 @@
         "rabin_memorial_day": "יום הזכרון ליצחק רבין",
         "zeev_zhabotinsky_day": "יום ז'בוטינסקי",
         "rosh_chodesh": "ראש חודש"
+    },
+    "zmanim": {
+        "alot_hashachar": "עלות השחר",
+        "talit_tefilins_time": "זמן טלית ותפילין",
+        "sunrise": "הנץ החמה",
+        "shema_eot_mga": "סוף זמן ק\"ש מג\"א",
+        "shema_eot_gra": "סוף זמן ק\"ש גר\"א",
+        "tefila_eot_mga": "סוף זמן תפילה מג\"א",
+        "tefila_eot_gra": "סוף זמן תפילה גר\"א",
+        "midday": "חצות היום",
+        "big_mincha": "מנחה גדולה",
+        "big_mincha_min": "מנחה גדולה 30 דק",
+        "small_mincha": "מנחה קטנה",
+        "plag_mincha": "פלג המנחה",
+        "sunset": "שקיעה",
+        "first_stars": "צאת הכוכבים",
+        "night_by_rabbeinu_tam": "לילה לרבנו תם",
+        "midnight": "חצות הלילה"
     }
 }
