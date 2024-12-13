@@ -11,7 +11,6 @@ import math
 from dataclasses import dataclass
 from typing import Optional, Union, cast
 
-from hdate import htables
 from hdate.date import HDate
 from hdate.location import Location
 from hdate.translator import TranslatorMixin
@@ -32,11 +31,22 @@ _LOGGER = logging.getLogger(__name__)
 class Zman(TranslatorMixin):
     """A specific time."""
 
-    description: str
-    zman: dt.datetime
+    name: str
+    minutes: float
+    date: dt.date
+    timezone: dt.tzinfo
+    utc_zman: dt.datetime = dt.datetime.now()
+    local_zman: dt.datetime = dt.datetime.now()
+
+    def __post_init__(self) -> None:
+        basetime = dt.datetime.combine(self.date, dt.time()).replace(
+            tzinfo=dt.timezone.utc
+        )
+        self.utc_zman = basetime + dt.timedelta(minutes=self.minutes)
+        self.local_zman = self.utc_zman.astimezone(self.timezone)
 
     def __str__(self) -> str:
-        return self.get_translation(self.description)
+        return self.get_translation(self.name)
 
 
 class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
@@ -75,6 +85,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         self.location = location
         self.candle_lighting_offset = candle_lighting_offset
         self.havdalah_offset = havdalah_offset
+        self.set_language(language)
 
         # If a non-timezone aware date is received, use timezone from location
         # to make it timezone aware and change to UTC for calculations.
@@ -104,15 +115,12 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             )
             self.astral_sun = astral.sun.sun(self.astral_observer, self.date)
 
-        self.set_language(language)
-
     def __str__(self) -> str:
         """Return a string representation of Zmanim in the selected language."""
         return "\n".join(
             [
-                f"{getattr(zman.description, self._language)} - "
-                f"{self.zmanim[zman.zman].time()}"
-                for zman in htables.ZMANIM
+                f"{zman} - {zman.local_zman.time()}"
+                for zman in self.get_utc_sun_time_full()
             ]
         )
 
@@ -128,24 +136,9 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         )
 
     @property
-    def utc_zmanim(self) -> dict[str, dt.datetime]:
-        """Return a dictionary of the zmanim in UTC time format."""
-        basetime = dt.datetime.combine(self.date, dt.time()).replace(
-            tzinfo=dt.timezone.utc
-        )
-        _LOGGER.debug("Calculating UTC zmanim for %r", basetime)
-        return {
-            key: basetime + dt.timedelta(minutes=value)
-            for key, value in self.get_utc_sun_time_full().items()
-        }
-
-    @property
     def zmanim(self) -> dict[str, dt.datetime]:
         """Return a dictionary of the zmanim the object represents."""
-        return {
-            key: value.astimezone(cast(dt.tzinfo, self.location.timezone))
-            for key, value in self.utc_zmanim.items()
-        }
+        return {zman.name: zman.local_zman for zman in self.get_utc_sun_time_full()}
 
     @property
     def candle_lighting(self) -> Optional[dt.datetime]:
@@ -363,7 +356,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             )
         )
 
-    def get_utc_sun_time_full(self) -> dict[str, Union[int, float]]:
+    def get_utc_sun_time_full(self) -> tuple[Zman, ...]:
         """Return a list of Jewish times for the given location."""
         if (not _USE_ASTRAL) or (abs(self.location.latitude) > MAX_LATITUDE_ASTRAL):
             sunrise, sunset = self._get_utc_sun_time_deg(90.833)
@@ -384,26 +377,32 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         midday = (sunset + sunrise) // 2
         mga_sunhour = (midday - first_light) / 6
 
-        zmanim = {
-            "sunrise": sunrise,
-            "sunset": sunset,
-            "sun_hour": sun_hour,
-            "midday": midday,
-            "first_light": first_light,
-            "talit": talit,
-            "first_stars": first_stars,
-            "three_stars": three_stars,
-            "plag_mincha": sunset - 1.25 * sun_hour,
-            "stars_out": sunset + 18.0 * sun_hour / 60.0,
-            "small_mincha": sunrise + 9.5 * sun_hour,
-            "big_mincha": sunrise + 6.5 * sun_hour,
-            "big_mincha_30": midday + 30,
-            "mga_end_shma": first_light + mga_sunhour * 3.0,
-            "gra_end_shma": sunrise + sun_hour * 3.0,
-            "mga_end_tfila": first_light + mga_sunhour * 4.0,
-            "gra_end_tfila": sunrise + sun_hour * 4.0,
-            "rabbeinu_tam": sunset + sun_hour * 1.2,
-            "midnight": midday + 12 * 60.0,
-        }
+        def make_zman(key: str, time: float) -> Zman:
+            timezone = cast(dt.tzinfo, self.location.timezone)
+            zman = Zman(key, time, self.date, timezone)
+            zman.set_language(self._language)
+            return zman
+
+        zmanim = (
+            make_zman("sunrise", sunrise),
+            make_zman("sunset", sunset),
+            make_zman("sun_hour", sun_hour),
+            make_zman("midday", midday),
+            make_zman("first_light", first_light),
+            make_zman("talit", talit),
+            make_zman("first_stars", first_stars),
+            make_zman("three_stars", three_stars),
+            make_zman("plag_mincha", sunset - 1.25 * sun_hour),
+            make_zman("stars_out", sunset + 18.0 * sun_hour / 60.0),
+            make_zman("small_mincha", sunrise + 9.5 * sun_hour),
+            make_zman("big_mincha", sunrise + 6.5 * sun_hour),
+            make_zman("big_mincha_30", midday + 30),
+            make_zman("mga_end_shma", first_light + mga_sunhour * 3.0),
+            make_zman("gra_end_shma", sunrise + sun_hour * 3.0),
+            make_zman("mga_end_tfila", first_light + mga_sunhour * 4.0),
+            make_zman("gra_end_tfila", sunrise + sun_hour * 4.0),
+            make_zman("rabbeinu_tam", sunset + sun_hour * 1.2),
+            make_zman("midnight", midday + 12 * 60.0),
+        )
 
         return zmanim

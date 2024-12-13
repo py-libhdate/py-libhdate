@@ -91,8 +91,11 @@ class TestZmanim:
         this_zmanim = Zmanim(this_date).get_utc_sun_time_full()
         other_zmanim = Zmanim(other_date).get_utc_sun_time_full()
         grace = 0 if not _ASTRAL else 14
-        for key, value in this_zmanim.items():
-            assert value - grace <= other_zmanim[key] <= value + grace, key
+        for zman in this_zmanim:
+            other = next(o for o in other_zmanim if o.name == zman.name)
+            assert (
+                zman.minutes - grace <= other.minutes <= zman.minutes + grace
+            ), zman.name
 
     def test_extreme_zmanim(self) -> None:
         """Test that Zmanim north to 50 degrees latitude is correct."""

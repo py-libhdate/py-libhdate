@@ -107,7 +107,7 @@ TRANSLATIONS = {
             "zeev_zhabotinsky_day": "Zeev Zhabotinsky day",
             "rosh_chodesh": "Rosh Chodesh",
         },
-        "zmanim": {
+        "Zman": {
             "alot_hashachar": "Alot HaShachar",
             "talit_tefilins_time": "Talit & Tefilin's time",
             "sunrise": "Sunrise",
@@ -226,7 +226,7 @@ TRANSLATIONS = {
             "zeev_zhabotinsky_day": "Jour de Zeev Zhabotinsky",
             "rosh_chodesh": "Rosh Hodesh",
         },
-        "zmanim": {
+        "Zman": {
             "alot_hashachar": "Alot HaShahar",
             "talit_tefilins_time": "Début Talit & Tefilin ",
             "sunrise": "Lever du jour",
@@ -345,7 +345,7 @@ TRANSLATIONS = {
             "zeev_zhabotinsky_day": "יום ז'בוטינסקי",
             "rosh_chodesh": "ראש חודש",
         },
-        "zmanim": {
+        "Zman": {
             "alot_hashachar": "עלות השחר",
             "talit_tefilins_time": "זמן טלית ותפילין",
             "sunrise": "הנץ החמה",
