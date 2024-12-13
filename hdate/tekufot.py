@@ -194,7 +194,9 @@ class Tekufot:  # pylint: disable=too-many-instance-attributes
         self.tekufa_tishrei = self.tekufa_tevet - tekufa_delta
         self.tekufa_tammuz = self.tekufa_nissan + tekufa_delta
 
-    def get_cheilat_geshamim(self):
+    def get_cheilat_geshamim(
+        self,
+    ):
         """
         Calculates the start date for the prayers for rain (Cheilat Geshamim).
         In the diaspora, it is 60 days (add 59 days) after Tekufat Tishrei.
