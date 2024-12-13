@@ -8,11 +8,13 @@ of the Jewish calendrical times for a given location
 import datetime as dt
 import logging
 import math
+from dataclasses import dataclass
 from typing import Optional, Union, cast
 
 from hdate import htables
 from hdate.date import HDate
 from hdate.location import Location
+from hdate.translator import TranslatorMixin
 
 try:
     import astral
@@ -26,7 +28,18 @@ MAX_LATITUDE_ASTRAL = 50.0
 _LOGGER = logging.getLogger(__name__)
 
 
-class Zmanim:  # pylint: disable=too-many-instance-attributes
+@dataclass
+class Zman(TranslatorMixin):
+    """A specific time."""
+
+    description: str
+    zman: dt.datetime
+
+    def __str__(self) -> str:
+        return self.get_translation(self.description)
+
+
+class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     """Return Jewish day times.
 
     The Zmanim class returns times for the specified day ONLY. If you wish to
@@ -58,8 +71,8 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         location object. After which it is transformed to UTC for all internal
         calculations.
         """
+        super().__init__()
         self.location = location
-        self.language = language
         self.candle_lighting_offset = candle_lighting_offset
         self.havdalah_offset = havdalah_offset
 
@@ -91,11 +104,13 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
             )
             self.astral_sun = astral.sun.sun(self.astral_observer, self.date)
 
+        self.set_language(language)
+
     def __str__(self) -> str:
         """Return a string representation of Zmanim in the selected language."""
         return "\n".join(
             [
-                f"{getattr(zman.description, self.language)} - "
+                f"{getattr(zman.description, self._language)} - "
                 f"{self.zmanim[zman.zman].time()}"
                 for zman in htables.ZMANIM
             ]
@@ -109,7 +124,7 @@ class Zmanim:  # pylint: disable=too-many-instance-attributes
         return (
             "Zmanim(date="
             f"{self.time.astimezone(_timezone).replace(tzinfo=None)!r},"
-            f" location={self.location!r}, language={self.language!r})"
+            f" location={self.location!r}, language={self._language!r})"
         )
 
     @property
