@@ -8,7 +8,7 @@ The class attempts to compute:
 
 import datetime
 from collections import namedtuple
-from typing import Union
+from typing import Optional, Union
 
 from hdate import converters as conv
 from hdate.hebrew_date import HebrewDate
@@ -154,7 +154,7 @@ class Tekufot:  # pylint: disable=too-many-instance-attributes
         """Determine if a given Gregorian year is a leap year."""
         return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
 
-    def get_tekufa(self):
+    def get_tekufa(self) -> None:
         """
         Calculates the approximate dates and times of the Tekufot.
         This is a simplified approximation. Traditional calculations may differ.
@@ -246,7 +246,7 @@ class Tekufot:  # pylint: disable=too-many-instance-attributes
             jdn_7_cheshvan = conv.hdate_to_jdn(hdate_7_cheshvan)
             self.cheilat_geshamim = conv.jdn_to_gdate(jdn_7_cheshvan)
 
-    def set_prayer_periods(self):
+    def set_prayer_periods(self) -> None:
         """
         Defines the prayer periods based on the calculated dates.
         """
@@ -321,7 +321,7 @@ class Tekufot:  # pylint: disable=too-many-instance-attributes
                             )
         return "No prayer phrase found for this date, tradition, and language."
 
-    def get_results(self):
+    def get_results(self) -> dict[str, object]:
         """
         Returns a dictionary containing all the calculated dates and times.
         """
