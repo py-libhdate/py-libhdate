@@ -362,14 +362,14 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             sunrise, sunset = self._get_utc_sun_time_deg(90.833)
             first_light, _ = self._get_utc_sun_time_deg(106.1)
             talit, _ = self._get_utc_sun_time_deg(101.0)
-            _, first_stars = self._get_utc_sun_time_deg(96.0)
+            _, first_stars = self._get_utc_sun_time_deg(96.45)
             _, three_stars = self._get_utc_sun_time_deg(98.5)
         else:
             sunrise = self._datetime_to_minutes_offest(self.astral_sun["sunrise"])
             sunset = self._datetime_to_minutes_offest(self.astral_sun["sunset"])
             first_light = self._get_utc_time_of_transit(106.1, True)
             talit = self._get_utc_time_of_transit(101.0, True)
-            first_stars = self._get_utc_time_of_transit(96.0, False)
+            first_stars = self._get_utc_time_of_transit(96.45, False)
             three_stars = self._get_utc_time_of_transit(98.5, False)
 
         # shaa zmanit by gara, 1/12 of light time

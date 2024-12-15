@@ -42,7 +42,9 @@ base code to provide times of the day in hebrew:
     מנחה קטנה - 16:25:30
     פלג המנחה - 17:50:45
     שקיעה - 19:12:00
-    צאת הכוכבים - 19:38:00
+    מוצאי צום - 19:40:00
+    מוצאי שבת - 19:50:00
+    צאת הכוכבים (18 דק) - 19:31:30
     לילה לרבנו תם - 20:30:00
     חצות הלילה - 00:40:00
 
@@ -65,7 +67,9 @@ and in english:
     Small Mincha - 16:25:30
     Plag Mincha - 17:50:45
     Sunset - 19:12:00
-    First stars - 19:38:00
+    End of fast - 19:40:00
+    End of Shabbat - 19:50:00
+    Tset Hakochavim (18 minutes) - 19:31:30
     Night by Rabbeinu Tam - 20:30:00
     Midnight - 00:40:00
 

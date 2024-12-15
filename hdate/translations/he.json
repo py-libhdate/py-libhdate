@@ -112,7 +112,9 @@
         "small_mincha": "מנחה קטנה",
         "plag_mincha": "פלג המנחה",
         "sunset": "שקיעה",
-        "first_stars": "צאת הכוכבים",
+        "first_stars": "מוצאי צום",
+        "three_stars": "מוצאי שבת",
+        "stars_out": "צאת הכוכבים (18 דק)",
         "night_by_rabbeinu_tam": "לילה לרבנו תם",
         "midnight": "חצות הלילה"
     }

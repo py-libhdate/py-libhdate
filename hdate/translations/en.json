@@ -112,7 +112,9 @@
         "small_mincha": "Small Mincha",
         "plag_mincha": "Plag Mincha",
         "sunset": "Sunset",
-        "first_stars": "First stars",
+        "first_stars": "End of fast",
+        "three_stars": "End of Shabbat",
+        "stars_out": "Tset Hakochavim (18 minutes)",
         "night_by_rabbeinu_tam": "Night by Rabbeinu Tam",
         "midnight": "Midnight"
     }
