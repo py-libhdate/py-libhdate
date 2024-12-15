@@ -102,7 +102,9 @@ class TestZmanimAPI:
             "מנחה קטנה - 16:25:30\n"
             "פלג המנחה - 17:50:45\n"
             "שקיעה - 19:12:00\n"
-            "צאת הכוכבים - 19:38:00\n"
+            "מוצאי צום - 19:40:00\n"
+            "מוצאי שבת - 19:50:00\n"
+            "צאת הכוכבים (18 דק) - 19:31:30\n"
             "לילה לרבנו תם - 20:30:00\n"
             "חצות הלילה - 00:40:00\n"
         )
@@ -129,7 +131,9 @@ class TestZmanimAPI:
             "Small Mincha - 16:25:30\n"
             "Plag Mincha - 17:50:45\n"
             "Sunset - 19:12:00\n"
-            "First stars - 19:38:00\n"
+            "End of fast - 19:40:00\n"
+            "End of Shabbat - 19:50:00\n"
+            "Tset Hakochavim (18 minutes) - 19:31:30\n"
             "Night by Rabbeinu Tam - 20:30:00\n"
             "Midnight - 00:40:00\n"
         )
@@ -191,11 +195,7 @@ class TestZmanimAPI:
     def test_issur_melacha_pesach_ii_morning(self) -> None:
         """Test for issur melacha on the second day of pesach in the diaspora."""
         coord = Location(
-            name="New York",
-            latitude=40.7128,
-            longitude=-74.0060,
-            timezone="America/New_York",
-            diaspora=True,
+            "New York", 40.7128, -74.0060, "America/New_York", diaspora=True
         )
         zman = Zmanim(date=datetime(2019, 4, 21, 9), location=coord)
         assert zman.issur_melacha_in_effect
@@ -203,11 +203,7 @@ class TestZmanimAPI:
     def test_issur_melacha_pesach_ii_evening(self) -> None:
         """Test for issur melacha on the eve of second day of pesach in the diaspora."""
         coord = Location(
-            name="New York",
-            latitude=40.7128,
-            longitude=-74.0060,
-            timezone="America/New_York",
-            diaspora=True,
+            "New York", 40.7128, -74.0060, "America/New_York", diaspora=True
         )
         zman = Zmanim(date=datetime(2019, 4, 20, 21, 45), location=coord)
         assert zman.issur_melacha_in_effect

@@ -91,8 +91,11 @@ class TestZmanim:
         this_zmanim = Zmanim(this_date).get_utc_sun_time_full()
         other_zmanim = Zmanim(other_date).get_utc_sun_time_full()
         grace = 0 if not _ASTRAL else 14
-        for key, value in this_zmanim.items():
-            assert value - grace <= other_zmanim[key] <= value + grace, key
+        for zman in this_zmanim:
+            other = next(o for o in other_zmanim if o.name == zman.name)
+            assert (
+                zman.minutes - grace <= other.minutes <= zman.minutes + grace
+            ), zman.name
 
     def test_extreme_zmanim(self) -> None:
         """Test that Zmanim north to 50 degrees latitude is correct."""
@@ -136,28 +139,18 @@ class TestZmanim:
         timezone_str = "America/New_York"
         timezone = ZoneInfo(timezone_str)
         location_tz_str = Location(
-            name="New York",
-            latitude=NYC_LAT,
-            longitude=NYC_LNG,
-            timezone=timezone_str,
-            diaspora=True,
+            "New York", NYC_LAT, NYC_LNG, timezone_str, diaspora=True
         )
-        location = Location(
-            name="New York",
-            latitude=NYC_LAT,
-            longitude=NYC_LNG,
-            timezone=timezone,
-            diaspora=True,
-        )
+        location = Location("New York", NYC_LAT, NYC_LNG, timezone, diaspora=True)
 
         compare_times(
             Zmanim(date=day, location=location_tz_str).zmanim["first_stars"].time(),
-            datetime.time(19, 45),
+            datetime.time(19, 47),
         )
 
         compare_times(
             Zmanim(date=day, location=location).zmanim["first_stars"].time(),
-            datetime.time(19, 45),
+            datetime.time(19, 47),
         )
 
     # Times are assumed for NYC.
@@ -321,11 +314,7 @@ class TestZmanim:
             2024, 10, 18, 17, 52, 00, tzinfo=ZoneInfo("America/New_York")
         )
         coord = Location(
-            name="New York",
-            latitude=40.7128,
-            longitude=-74.0060,
-            timezone="America/New_York",
-            diaspora=True,
+            "New York", 40.7128, -74.0060, "America/New_York", diaspora=True
         )
         zman = Zmanim(
             date=day,

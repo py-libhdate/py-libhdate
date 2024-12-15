@@ -97,5 +97,25 @@
         "rabin_memorial_day": "Yitzhak Rabin memorial day",
         "zeev_zhabotinsky_day": "Zeev Zhabotinsky day",
         "rosh_chodesh": "Rosh Chodesh"
+    },
+    "Zman": {
+        "alot_hashachar": "Alot HaShachar",
+        "talit_tefilins_time": "Talit & Tefilin's time",
+        "sunrise": "Sunrise",
+        "shema_eot_mga": "Shema EOT MG\"A",
+        "shema_eot_gra": "Shema EOT GR\"A",
+        "tefila_eot_mga": "Tefila EOT MG\"A",
+        "tefila_eot_gra": "Tefila EOT GR\"A",
+        "midday": "Midday",
+        "big_mincha": "Big Mincha",
+        "big_mincha_min": "Big Mincha 30 min",
+        "small_mincha": "Small Mincha",
+        "plag_mincha": "Plag Mincha",
+        "sunset": "Sunset",
+        "first_stars": "End of fast",
+        "three_stars": "End of Shabbat",
+        "stars_out": "Tset Hakochavim (18 minutes)",
+        "night_by_rabbeinu_tam": "Night by Rabbeinu Tam",
+        "midnight": "Midnight"
     }
 }

@@ -42,7 +42,7 @@ class TranslatorMixin:
             _LOGGER.warning(
                 "Language %s not found, falling back to english", self._language
             )
-            self._language = "en"
+            lang = "en"
         self._translations = TRANSLATIONS[lang].get(self.__class__.__name__, {})
 
     def get_translation(self, key: str) -> str:

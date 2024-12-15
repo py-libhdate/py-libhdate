@@ -674,35 +674,6 @@ def get_all_holidays(language: str) -> list[str]:
     return holidays_list
 
 
-ZMAN = namedtuple("ZMAN", "zman, description")
-ZMANIM = (
-    ZMAN("first_light", LANG("Alot HaShahar", "Alot HaShachar", "עלות השחר")),
-    ZMAN(
-        "talit",
-        LANG("Début Talit & Tefilin ", "Talit & Tefilin's time", "זמן טלית ותפילין"),
-    ),
-    ZMAN("sunrise", LANG("Lever du jour", "Sunrise", "הנץ החמה")),
-    ZMAN("mga_end_shma", LANG('Shema MG"A', 'Shema EOT MG"A', 'סוף זמן ק"ש מג"א')),
-    ZMAN("gra_end_shma", LANG('Shema GR"A', 'Shema EOT GR"A', 'סוף זמן ק"ש גר"א')),
-    ZMAN("mga_end_tfila", LANG('Tefila MG"A', 'Tefila EOT MG"A', 'סוף זמן תפילה מג"א')),
-    ZMAN("gra_end_tfila", LANG('Tefila GR"A', 'Tefila EOT GR"A', 'סוף זמן תפילה גר"א')),
-    ZMAN("midday", LANG("Hatsot", "Midday", "חצות היום")),
-    ZMAN("big_mincha", LANG("Minha Guedola", "Big Mincha", "מנחה גדולה")),
-    ZMAN(
-        "big_mincha_30",
-        LANG("Minha Guedola 30 min", "Big Mincha 30 min", "מנחה גדולה 30 דק"),
-    ),
-    ZMAN("small_mincha", LANG("Minha Qetana", "Small Mincha", "מנחה קטנה")),
-    ZMAN("plag_mincha", LANG("Plag haMinha", "Plag Mincha", "פלג המנחה")),
-    ZMAN("sunset", LANG("Shqiat", "Sunset", "שקיעה")),
-    ZMAN("first_stars", LANG("Tzeit haCokhavim", "First stars", "צאת הכוכבים")),
-    ZMAN(
-        "rabbeinu_tam",
-        LANG("Nuit selon Rabbénou Tam", "Night by Rabbeinu Tam", "לילה לרבנו תם"),
-    ),
-    ZMAN("midnight", LANG("Hatsot laïla", "Midnight", "חצות הלילה")),
-)
-
 # The first few cycles were only 2702 blatt. After that it became 2711. Even with
 # that, the math doesn't play nicely with the dates before the 11th cycle :(
 # From cycle 11 onwards, it was simple and sequential
