@@ -127,7 +127,7 @@ TRANSLATIONS = {
             "night_by_rabbeinu_tam": "Night by Rabbeinu Tam",
             "midnight": "Midnight",
         },
-        "parashaot": {
+        "Parasha": {
             "none": "none",
             "bereshit": "Bereshit",
             "noach": "Noach",
@@ -312,7 +312,7 @@ TRANSLATIONS = {
             "night_by_rabbeinu_tam": "Nuit selon Rabbénou Tam",
             "midnight": "Hatsot laïla",
         },
-        "parashaot": {
+        "Parasha": {
             "none": "none",
             "bereshit": "Bereshit",
             "noach": "Noa'h",
@@ -497,7 +497,7 @@ TRANSLATIONS = {
             "night_by_rabbeinu_tam": "לילה לרבנו תם",
             "midnight": "חצות הלילה",
         },
-        "parashaot": {
+        "Parasha": {
             "none": "none",
             "bereshit": "בראשית",
             "noach": "נח",
