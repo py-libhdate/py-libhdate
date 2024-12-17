@@ -3,227 +3,354 @@
 import datetime
 from collections import namedtuple
 from dataclasses import dataclass
-from enum import Enum, IntEnum
+from enum import Enum, IntEnum, auto
 from typing import Callable, TypeVar, Union
 
 from hdate.translator import TranslatorMixin
 
 HDateT = TypeVar("HDateT", bound="HDate")  # type: ignore # noqa: F821
 
-READING = namedtuple("READING", "year_type, readings")
 
-_READINGS = (
-    READING(
-        [1725],
-        (
-            0,
-            53,
-            0,
-            range(29),
-            0,
-            range(29, 35),
-            0,
-            range(35, 39),
-            59,
-            41,
-            60,
-            range(44, 51),
-            61,
-        ),
-    ),
-    READING([1703], (0, 53, 0, range(29), 0, range(29, 42), 60, range(44, 51), 61)),
-    READING([1523, 523], (53, 0, range(30), 0, range(30, 51), 61)),
-    READING([1501, 501], (53, 0, range(30), 0, range(30, 52))),
-    READING([1317, 1227], (52, 53, range(29), 0, 0, range(29, 42), 60, range(44, 52))),
-    READING(
-        [1205],
-        (
-            52,
-            53,
-            range(29),
-            0,
-            range(29, 35),
-            0,
-            range(35, 39),
-            59,
-            41,
-            60,
-            range(44, 51),
-            61,
-        ),
-    ),
-    READING(
-        [521, 1521],
-        (53, 0, range(26), 0, 26, 56, 57, 31, 58, range(34, 42), 60, range(44, 52)),
-    ),
-    READING(
-        [1225, 1315],
-        (
-            52,
-            53,
-            range(22),
-            55,
-            24,
-            25,
-            0,
-            26,
-            56,
-            57,
-            31,
-            58,
-            34,
-            0,
-            range(35, 39),
-            59,
-            41,
-            60,
-            range(44, 51),
-            61,
-        ),
-    ),
-    READING(
-        [1701],
-        (
-            0,
-            53,
-            0,
-            range(22),
-            55,
-            24,
-            25,
-            0,
-            26,
-            56,
-            57,
-            31,
-            58,
-            range(34, 42),
-            60,
-            range(44, 52),
-        ),
-    ),
-    READING(
-        [1723],
-        (
-            0,
-            53,
-            0,
-            range(22),
-            55,
-            24,
-            25,
-            0,
-            26,
-            56,
-            57,
-            31,
-            58,
-            range(34, 42),
-            60,
-            range(44, 51),
-            61,
-        ),
-    ),
-    READING(
-        [1517],
-        (
-            53,
-            0,
-            range(22),
-            55,
-            24,
-            25,
-            0,
-            0,
-            26,
-            56,
-            57,
-            31,
-            58,
-            range(34, 42),
-            60,
-            range(44, 52),
-        ),
-    ),
-    READING(
-        [703, 725],
-        (0, 53, 0, 54, range(1, 29), 0, range(29, 42), 60, range(44, 51), 61),
-    ),
-    READING([317, 227], (52, 53, range(29), 0, range(29, 52))),
-    READING([205], (52, 53, range(29), 0, range(29, 42), 60, range(44, 51), 61)),
-    READING(
-        [701],
-        (
-            0,
-            53,
-            0,
-            54,
-            range(1, 22),
-            55,
-            24,
-            25,
-            0,
-            26,
-            56,
-            57,
-            31,
-            58,
-            range(34, 42),
-            60,
-            range(44, 52),
-        ),
-    ),
-    READING(
-        [315, 203, 225, 1203],
-        (
-            52,
-            53,
-            range(22),
-            55,
-            24,
-            25,
-            0,
-            26,
-            56,
-            57,
-            31,
-            58,
-            range(34, 42),
-            60,
-            range(44, 51),
-            61,
-        ),
-    ),
-    READING(
-        [723],
-        (
-            0,
-            53,
-            0,
-            54,
-            range(1, 22),
-            55,
-            24,
-            25,
-            0,
-            26,
-            56,
-            57,
-            31,
-            58,
-            range(34, 42),
-            60,
-            range(44, 51),
-            61,
-        ),
-    ),
-    READING(
-        [517],
-        (53, 0, range(22), 55, 24, 25, 0, 26, 56, 57, range(31, 42), 60, range(44, 52)),
-    ),
-)
+def erange(start: Enum, end: Enum) -> list[Enum]:
+    """Return a range of Enums between `start` and `end`, exclusive."""
+    if start.__class__ != end.__class__:
+        raise TypeError(
+            f"The `erange` method can only operate on the same enum types. "
+            f"Start type: {start.__class__.__name__}, "
+            f"End type: {end.__class__.__name__}"
+        )
+    enum_list = list(start.__class__)
+    start_idx = enum_list.index(start)
+    end_idx = enum_list.index(end) + 1
+    return enum_list[start_idx:end_idx]
 
-READINGS = dict((year_type, r.readings) for r in _READINGS for year_type in r.year_type)
+
+class Parasha(TranslatorMixin, IntEnum):
+    """Parasha enum."""
+
+    NONE = 0
+    BERESHIT = auto()
+    NOACH = auto()
+    LECH_LECHA = auto()
+    VAYERA = auto()
+    CHAYEI_SARA = auto()
+    TOLDOT = auto()
+    VAYETZEI = auto()
+    VAYISHLACH = auto()
+    VAYESHEV = auto()
+    MIKETZ = auto()
+    VAYIGASH = auto()
+    VAYECHI = auto()
+    SHEMOT = auto()
+    VAERA = auto()
+    BO = auto()
+    BESHALACH = auto()
+    YITRO = auto()
+    MISHPATIM = auto()
+    TERUMAH = auto()
+    TETZAVEH = auto()
+    KI_TISA = auto()
+    VAYAKHEL = auto()
+    PEKUDEI = auto()
+    VAYIKRA = auto()
+    TZAV = auto()
+    SHMINI = auto()
+    TAZRIA = auto()
+    METZORA = auto()
+    ACHREI_MOT = auto()
+    KEDOSHIM = auto()
+    EMOR = auto()
+    BEHAR = auto()
+    BECHUKOTAI = auto()
+    BAMIDBAR = auto()
+    NASSO = auto()
+    BEHAALOTCHA = auto()
+    SHLACH = auto()
+    KORACH = auto()
+    CHUKAT = auto()
+    BALAK = auto()
+    PINCHAS = auto()
+    MATOT = auto()
+    MASEI = auto()
+    DEVARIM = auto()
+    VAETCHANAN = auto()
+    EIKEV = auto()
+    REEH = auto()
+    SHOFTIM = auto()
+    KI_TEITZEI = auto()
+    KI_TAVO = auto()
+    NITZAVIM = auto()
+    VAYEILECH = auto()
+    HAAZINU = auto()
+    VEZOT_HABRACHA = auto()
+    VAYAKHEL_PEKUDEI = auto()
+    TAZRIA_METZORA = auto()
+    ACHREI_MOT_KEDOSHIM = auto()
+    BEHAR_BECHUKOTAI = auto()
+    CHUKAT_BALAK = auto()
+    MATOT_MASEI = auto()
+    NITZAVIM_VAYEILECH = auto()
+
+
+PARASHA_SEQUENCES: dict[tuple[int, ...], tuple[Enum, ...]] = {
+    (1725,): (
+        Parasha.NONE,
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        *erange(Parasha.NONE, Parasha.METZORA),
+        Parasha.NONE,
+        *erange(Parasha.ACHREI_MOT, Parasha.BAMIDBAR),
+        Parasha.NONE,
+        *erange(Parasha.NASSO, Parasha.KORACH),
+        Parasha.CHUKAT_BALAK,
+        Parasha.PINCHAS,
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.KI_TAVO),
+        Parasha.NITZAVIM_VAYEILECH,
+    ),
+    (1703,): (
+        Parasha.NONE,
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        *erange(Parasha.NONE, Parasha.METZORA),
+        Parasha.NONE,
+        *erange(Parasha.ACHREI_MOT, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.KI_TAVO),
+        Parasha.NITZAVIM_VAYEILECH,
+    ),
+    (1523, 523): (
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        *erange(Parasha.NONE, Parasha.ACHREI_MOT),
+        Parasha.NONE,
+        *erange(Parasha.KEDOSHIM, Parasha.KI_TAVO),
+        Parasha.NITZAVIM_VAYEILECH,
+    ),
+    (1501, 501): (
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        *erange(Parasha.NONE, Parasha.ACHREI_MOT),
+        Parasha.NONE,
+        *erange(Parasha.KEDOSHIM, Parasha.NITZAVIM),
+    ),
+    (1317, 1227): (
+        Parasha.VAYEILECH,
+        Parasha.HAAZINU,
+        *erange(Parasha.NONE, Parasha.METZORA),
+        Parasha.NONE,
+        Parasha.NONE,
+        *erange(Parasha.ACHREI_MOT, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.NITZAVIM),
+    ),
+    (1205,): (
+        Parasha.VAYEILECH,
+        Parasha.HAAZINU,
+        *erange(Parasha.NONE, Parasha.METZORA),
+        Parasha.NONE,
+        *erange(Parasha.ACHREI_MOT, Parasha.BAMIDBAR),
+        Parasha.NONE,
+        *erange(Parasha.NASSO, Parasha.KORACH),
+        Parasha.CHUKAT_BALAK,
+        Parasha.PINCHAS,
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.KI_TAVO),
+        Parasha.NITZAVIM_VAYEILECH,
+    ),
+    (521, 1521): (
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        *erange(Parasha.NONE, Parasha.TZAV),
+        Parasha.NONE,
+        Parasha.SHMINI,
+        Parasha.TAZRIA_METZORA,
+        Parasha.ACHREI_MOT_KEDOSHIM,
+        Parasha.EMOR,
+        Parasha.BEHAR_BECHUKOTAI,
+        *erange(Parasha.BAMIDBAR, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.NITZAVIM),
+    ),
+    (1225, 1315): (
+        Parasha.VAYEILECH,
+        Parasha.HAAZINU,
+        *erange(Parasha.NONE, Parasha.KI_TISA),
+        Parasha.VAYAKHEL_PEKUDEI,
+        Parasha.VAYIKRA,
+        Parasha.TZAV,
+        Parasha.NONE,
+        Parasha.SHMINI,
+        Parasha.TAZRIA_METZORA,
+        Parasha.ACHREI_MOT_KEDOSHIM,
+        Parasha.EMOR,
+        Parasha.BEHAR_BECHUKOTAI,
+        Parasha.BAMIDBAR,
+        Parasha.NONE,
+        *erange(Parasha.NASSO, Parasha.KORACH),
+        Parasha.CHUKAT_BALAK,
+        Parasha.PINCHAS,
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.KI_TAVO),
+        Parasha.NITZAVIM_VAYEILECH,
+    ),
+    (1701,): (
+        Parasha.NONE,
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        *erange(Parasha.NONE, Parasha.KI_TISA),
+        Parasha.VAYAKHEL_PEKUDEI,
+        Parasha.VAYIKRA,
+        Parasha.TZAV,
+        Parasha.NONE,
+        Parasha.SHMINI,
+        Parasha.TAZRIA_METZORA,
+        Parasha.ACHREI_MOT_KEDOSHIM,
+        Parasha.EMOR,
+        Parasha.BEHAR_BECHUKOTAI,
+        *erange(Parasha.BAMIDBAR, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.NITZAVIM),
+    ),
+    (1723,): (
+        Parasha.NONE,
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        *erange(Parasha.NONE, Parasha.KI_TISA),
+        Parasha.VAYAKHEL_PEKUDEI,
+        Parasha.VAYIKRA,
+        Parasha.TZAV,
+        Parasha.NONE,
+        Parasha.SHMINI,
+        Parasha.TAZRIA_METZORA,
+        Parasha.ACHREI_MOT_KEDOSHIM,
+        Parasha.EMOR,
+        Parasha.BEHAR_BECHUKOTAI,
+        *erange(Parasha.BAMIDBAR, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.KI_TAVO),
+        Parasha.NITZAVIM_VAYEILECH,
+    ),
+    (1517,): (
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        *erange(Parasha.NONE, Parasha.KI_TISA),
+        Parasha.VAYAKHEL_PEKUDEI,
+        Parasha.VAYIKRA,
+        Parasha.TZAV,
+        Parasha.NONE,
+        Parasha.NONE,
+        Parasha.SHMINI,
+        Parasha.TAZRIA_METZORA,
+        Parasha.ACHREI_MOT_KEDOSHIM,
+        Parasha.EMOR,
+        Parasha.BEHAR_BECHUKOTAI,
+        *erange(Parasha.BAMIDBAR, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.NITZAVIM),
+    ),
+    (703, 725): (
+        Parasha.NONE,
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        Parasha.VEZOT_HABRACHA,
+        *erange(Parasha.BERESHIT, Parasha.METZORA),
+        Parasha.NONE,
+        *erange(Parasha.ACHREI_MOT, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.KI_TAVO),
+        Parasha.NITZAVIM_VAYEILECH,
+    ),
+    (317, 227): (
+        Parasha.VAYEILECH,
+        Parasha.HAAZINU,
+        *erange(Parasha.NONE, Parasha.METZORA),
+        Parasha.NONE,
+        *erange(Parasha.ACHREI_MOT, Parasha.NITZAVIM),
+    ),
+    (205,): (
+        Parasha.VAYEILECH,
+        Parasha.HAAZINU,
+        *erange(Parasha.NONE, Parasha.METZORA),
+        Parasha.NONE,
+        *erange(Parasha.ACHREI_MOT, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.KI_TAVO),
+        Parasha.NITZAVIM_VAYEILECH,
+    ),
+    (701,): (
+        Parasha.NONE,
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        Parasha.VEZOT_HABRACHA,
+        *erange(Parasha.BERESHIT, Parasha.KI_TISA),
+        Parasha.VAYAKHEL_PEKUDEI,
+        Parasha.VAYIKRA,
+        Parasha.TZAV,
+        Parasha.NONE,
+        Parasha.SHMINI,
+        Parasha.TAZRIA_METZORA,
+        Parasha.ACHREI_MOT_KEDOSHIM,
+        Parasha.EMOR,
+        Parasha.BEHAR_BECHUKOTAI,
+        *erange(Parasha.BAMIDBAR, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.NITZAVIM),
+    ),
+    (315, 203, 225, 1203): (
+        Parasha.VAYEILECH,
+        Parasha.HAAZINU,
+        *erange(Parasha.NONE, Parasha.KI_TISA),
+        Parasha.VAYAKHEL_PEKUDEI,
+        Parasha.VAYIKRA,
+        Parasha.TZAV,
+        Parasha.NONE,
+        Parasha.SHMINI,
+        Parasha.TAZRIA_METZORA,
+        Parasha.ACHREI_MOT_KEDOSHIM,
+        Parasha.EMOR,
+        Parasha.BEHAR_BECHUKOTAI,
+        *erange(Parasha.BAMIDBAR, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.KI_TAVO),
+        Parasha.NITZAVIM_VAYEILECH,
+    ),
+    (723,): (
+        Parasha.NONE,
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        Parasha.VEZOT_HABRACHA,
+        *erange(Parasha.BERESHIT, Parasha.KI_TISA),
+        Parasha.VAYAKHEL_PEKUDEI,
+        Parasha.VAYIKRA,
+        Parasha.TZAV,
+        Parasha.NONE,
+        Parasha.SHMINI,
+        Parasha.TAZRIA_METZORA,
+        Parasha.ACHREI_MOT_KEDOSHIM,
+        Parasha.EMOR,
+        Parasha.BEHAR_BECHUKOTAI,
+        *erange(Parasha.BAMIDBAR, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.KI_TAVO),
+        Parasha.NITZAVIM_VAYEILECH,
+    ),
+    (517,): (
+        Parasha.HAAZINU,
+        Parasha.NONE,
+        *erange(Parasha.NONE, Parasha.KI_TISA),
+        Parasha.VAYAKHEL_PEKUDEI,
+        Parasha.VAYIKRA,
+        Parasha.TZAV,
+        Parasha.NONE,
+        Parasha.SHMINI,
+        Parasha.TAZRIA_METZORA,
+        Parasha.ACHREI_MOT_KEDOSHIM,
+        *erange(Parasha.EMOR, Parasha.PINCHAS),
+        Parasha.MATOT_MASEI,
+        *erange(Parasha.DEVARIM, Parasha.NITZAVIM),
+    ),
+}
 
 DIGITS = (
     (" ", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"),
@@ -242,71 +369,6 @@ DAYS = (
     LANG(DESC("Jeudi", "Jeu"), DESC("Thursday", "Thu"), DESC("חמישי", "ה")),
     LANG(DESC("Vendredi", "Ven"), DESC("Friday", "Fri"), DESC("שישי", "ו")),
     LANG(DESC("Samedi", "Sam"), DESC("Saturday", "Sat"), DESC("שבת", "ז")),
-)
-
-PARASHAOT = (
-    LANG("none", "none", "none"),
-    LANG("Bereshit", "Bereshit", "בראשית"),
-    LANG("Noa'h", "Noach", "נח"),
-    LANG("Lekh Lekha", "Lech-Lecha", "לך לך"),
-    LANG("Vayera", "Vayera", "וירא"),
-    LANG("Haye Sarah", "Chayei Sara", "חיי שרה"),
-    LANG("Toledot", "Toldot", "תולדות"),
-    LANG("Vayetze", "Vayetzei", "ויצא"),
-    LANG("Vayishla'h", "Vayishlach", "וישלח"),
-    LANG("Vayeshev", "Vayeshev", "וישב"),
-    LANG("Miketz", "Miketz", "מקץ"),
-    LANG("Vayigash", "Vayigash", "ויגש"),
-    LANG("Vaye'hi", "Vayechi", "ויחי"),
-    LANG("Shemot", "Shemot", "שמות"),
-    LANG("Va'era", "Vaera", "וארא"),
-    LANG("Bo", "Bo", "בא"),
-    LANG("Beshalakh", "Beshalach", "בשלח"),
-    LANG("Yitro", "Yitro", "יתרו"),
-    LANG("Mishpatim", "Mishpatim", "משפטים"),
-    LANG("Teroumah", "Terumah", "תרומה"),
-    LANG("Tetzave", "Tetzaveh", "תצוה"),
-    LANG("Ki Tissa", "Ki Tisa", "כי תשא"),
-    LANG("Vayaqhel", "Vayakhel", "ויקהל"),
-    LANG("Peqoudei", "Pekudei", "פקודי"),
-    LANG("Vayikra", "Vayikra", "ויקרא"),
-    LANG("Tzav", "Tzav", "צו"),
-    LANG("Shemini", "Shmini", "שמיני"),
-    LANG("Tazria", "Tazria", "תזריע"),
-    LANG("Metzora", "Metzora", "מצורע"),
-    LANG("A'harei Mot", "Achrei Mot", "אחרי מות"),
-    LANG("Kedoshim", "Kedoshim", "קדושים"),
-    LANG("Emor", "Emor", "אמור"),
-    LANG("Behar", "Behar", "בהר"),
-    LANG("Be'houkotai", "Bechukotai", "בחוקתי"),
-    LANG("Bamidbar", "Bamidbar", "במדבר"),
-    LANG("Nasso", "Nasso", "נשא"),
-    LANG("Beha'alotkha", "Beha'alotcha", "בהעלתך"),
-    LANG("Shla'h lekha", "Sh'lach", "שלח"),
-    LANG("Kora'h", "Korach", "קרח"),
-    LANG("Houkat", "Chukat", "חקת"),
-    LANG("Balak", "Balak", "בלק"),
-    LANG("Pin'has", "Pinchas", "פנחס"),
-    LANG("Matot", "Matot", "מטות"),
-    LANG("Massei", "Masei", "מסעי"),
-    LANG("Devarim", "Devarim", "דברים"),
-    LANG("Va'et'hanan", "Vaetchanan", "ואתחנן"),
-    LANG("Eikev", "Eikev", "עקב"),
-    LANG("Re'eh", "Re'eh", "ראה"),
-    LANG("Shoftim", "Shoftim", "שופטים"),
-    LANG("Ki Tetze", "Ki Teitzei", "כי תצא"),
-    LANG("Ki Tavo", "Ki Tavo", "כי תבוא"),
-    LANG("Nitzavim", "Nitzavim", "נצבים"),
-    LANG("Vayelekh", "Vayeilech", "וילך"),
-    LANG("Haazinou", "Ha'Azinu", "האזינו"),
-    LANG("Vezot Haberakha", "Vezot Habracha", "וזאת הברכה"),
-    LANG("Vayaqhel-Peqoudei", "Vayakhel-Pekudei", "ויקהל-פקודי"),
-    LANG("Tazria-Metzora", "Tazria-Metzora", "תזריע-מצורע"),
-    LANG("A'harei Mot-Kedoshim", "Achrei Mot-Kedoshim", "אחרי מות-קדושים"),
-    LANG("Behar-Be'houkotai", "Behar-Bechukotai", "בהר-בחוקתי"),
-    LANG("Houkat-Balak", "Chukat-Balak", "חוקת-בלק"),
-    LANG("Matot-Massei", "Matot-Masei", "מטות מסעי"),
-    LANG("Nitzavim-Vayelekh", "Nitzavim-Vayeilech", "נצבים-וילך"),
 )
 
 

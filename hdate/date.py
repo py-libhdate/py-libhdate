@@ -157,9 +157,9 @@ class HDate(TranslatorMixin):
     @property
     def parasha(self) -> str:
         """Return the upcoming parasha in the selected language."""
-        parasha_index = self.get_reading()
-        parasha = cast(str, getattr(htables.PARASHAOT[parasha_index], self._language))
-        return parasha
+        parasha = self.get_reading()
+        parasha.set_language(self._language)
+        return str(parasha)
 
     @property
     def holiday_description(self) -> Optional[str]:
@@ -446,7 +446,7 @@ class HDate(TranslatorMixin):
 
         return holidays_list[0]
 
-    def get_reading(self) -> int:
+    def get_reading(self) -> htables.Parasha:
         """Return number of hebrew parasha."""
         _year_type = (self.year_size() % 10) - 3
         year_type = (
@@ -474,18 +474,17 @@ class HDate(TranslatorMixin):
                 or days <= 21
                 and not self.diaspora
             ):
-                return 54
+                return htables.Parasha.VEZOT_HABRACHA
 
         # Special case for Simchat Torah in diaspora.
         if weeks == 4 and days == 22 and self.diaspora:
-            return 54
+            return htables.Parasha.VEZOT_HABRACHA
 
-        # Return the indexes for the readings of the given year
-        def unpack_readings(readings: tuple[Union[int, range], ...]) -> list[int]:
-            return list(chain(*([x] if isinstance(x, int) else x for x in readings)))
-
-        reading_for_year = htables.READINGS[year_type]
-        readings = unpack_readings(reading_for_year)
+        readings = next(
+            seq
+            for types, seq in htables.PARASHA_SEQUENCES.items()
+            if year_type in types
+        )
         # Maybe recompute the year type based on the upcoming shabbat.
         # This avoids an edge case where today is before Rosh Hashana but
         # Shabbat is in a new year afterwards.
@@ -494,7 +493,7 @@ class HDate(TranslatorMixin):
             and self.hdate.year < self.upcoming_shabbat.hdate.year
         ):
             return self.upcoming_shabbat.get_reading()
-        return readings[weeks]
+        return cast(htables.Parasha, readings[weeks])
 
 
 def hebrew_number(num: int, language: str = "hebrew", short: bool = False) -> str:
