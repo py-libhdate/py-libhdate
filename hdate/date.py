@@ -67,17 +67,12 @@ class HDate(TranslatorMixin):
         day_prefix = self.DAY_PREFIXES.get(self._language, "")
         in_prefix = self.IN_PREFIXES.get(self._language, "")
 
-        # Get day name
-        day_index = self.dow - 1  # Assuming dow is 1-based (Sunday=1)
-        day_language = getattr(htables.DAYS[day_index], self._language)
-        day_name = day_language.long  # Use 'long' or 'short' as needed
-
         # Get day and year number representation
         day_number = hebrew_number(self.hdate.day, language=self._language)
         year_number = hebrew_number(self.hdate.year, language=self._language)
 
         result = (
-            f"{day_prefix}{day_name} {day_number} "
+            f"{day_prefix}{self.dow} {day_number} "
             f"{in_prefix}{self.hdate.month} {year_number}"
         )
         # Handle Omer day
@@ -237,10 +232,13 @@ class HDate(TranslatorMixin):
         return self.year_size() in [355, 385]
 
     @property
-    def dow(self) -> int:
-        """Return Hebrew day of week Sunday = 1, Saturday = 7."""
+    def dow(self) -> htables.Days:
+        """Return day of week enum."""
         # datetime weekday maps Monday->0, Sunday->6; this remaps to Sunday->1.
-        return self.gdate.weekday() + 2 if self.gdate.weekday() != 6 else 1
+        _dow = self.gdate.weekday() + 2 if self.gdate.weekday() != 6 else 1
+        dow = htables.Days(_dow)
+        dow.set_language(self._language)
+        return dow
 
     def year_size(self) -> int:
         """Return the size of the given Hebrew year."""
@@ -470,7 +468,7 @@ class HDate(TranslatorMixin):
             if (
                 days <= 22
                 and self.diaspora
-                and self.dow != 7
+                and self.dow != htables.Days.SATURDAY
                 or days <= 21
                 and not self.diaspora
             ):

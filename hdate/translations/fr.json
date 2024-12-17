@@ -181,5 +181,14 @@
         "chukat_balak": "Houkat-Balak",
         "matot_masei": "Matot-Massei",
         "nitzavim_vayeilech": "Nitzavim-Vayelekh"
+    },
+    "Days": {
+        "sunday": "Dimanche",
+        "monday": "Lundi",
+        "tuesday": "Mardi",
+        "wednesday": "Mercredi",
+        "thursday": "Jeudi",
+        "friday": "Vendredi",
+        "saturday": "Samedi"
     }
 }

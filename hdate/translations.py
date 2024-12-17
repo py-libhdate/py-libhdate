@@ -191,6 +191,15 @@ TRANSLATIONS = {
             "matot_masei": "Matot-Masei",
             "nitzavim_vayeilech": "Nitzavim-Vayeilech",
         },
+        "Days": {
+            "sunday": "Sunday",
+            "monday": "Monday",
+            "tuesday": "Tuesday",
+            "wednesday": "Wednesday",
+            "thursday": "Thursday",
+            "friday": "Friday",
+            "saturday": "Saturday",
+        },
     },
     "fr": {
         "Months": {
@@ -376,6 +385,15 @@ TRANSLATIONS = {
             "matot_masei": "Matot-Massei",
             "nitzavim_vayeilech": "Nitzavim-Vayelekh",
         },
+        "Days": {
+            "sunday": "Dimanche",
+            "monday": "Lundi",
+            "tuesday": "Mardi",
+            "wednesday": "Mercredi",
+            "thursday": "Jeudi",
+            "friday": "Vendredi",
+            "saturday": "Samedi",
+        },
     },
     "he": {
         "Months": {
@@ -560,6 +578,15 @@ TRANSLATIONS = {
             "chukat_balak": "חוקת-בלק",
             "matot_masei": "מטות מסעי",
             "nitzavim_vayeilech": "נצבים-וילך",
+        },
+        "Days": {
+            "sunday": "ראשון",
+            "monday": "שני",
+            "tuesday": "שלישי",
+            "wednesday": "רביעי",
+            "thursday": "חמישי",
+            "friday": "שישי",
+            "saturday": "שבת",
         },
     },
 }
