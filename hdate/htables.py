@@ -328,9 +328,6 @@ class Months(TranslatorMixin, IntEnum):
     ADAR_I = 13
     ADAR_II = 14
 
-    def __str__(self) -> str:
-        return self.get_translation(self.name)
-
 
 def year_is_after(year: int) -> Callable[[HDateT], bool]:
     """
@@ -438,9 +435,6 @@ class Holiday(TranslatorMixin):
     date: Union[tuple[Union[int, list[int]], Union[Months, list[Months]]], tuple[()]]
     israel_diaspora: str
     date_functions_list: list[Callable[[HDateT], bool]]
-
-    def __str__(self) -> str:
-        return self.get_translation(self.name)
 
 
 HOLIDAYS = (
@@ -686,9 +680,6 @@ class Masechta(TranslatorMixin):
 
     name: str
     pages: int
-
-    def __str__(self) -> str:
-        return self.get_translation(self.name)
 
 
 DAF_YOMI_MESECHTOS = (

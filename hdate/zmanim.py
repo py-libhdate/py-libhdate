@@ -45,9 +45,6 @@ class Zman(TranslatorMixin):
         self.utc_zman = basetime + dt.timedelta(minutes=self.minutes)
         self.local_zman = self.utc_zman.astimezone(self.timezone)
 
-    def __str__(self) -> str:
-        return self.get_translation(self.name)
-
 
 class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     """Return Jewish day times.
