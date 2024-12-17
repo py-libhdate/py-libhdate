@@ -1,7 +1,6 @@
 """Constant lookup tables for hdate modules."""
 
 import datetime
-from collections import namedtuple
 from dataclasses import dataclass
 from enum import Enum, IntEnum, auto
 from typing import Callable, TypeVar, Union
@@ -358,18 +357,17 @@ DIGITS = (
     (" ", "ק", "ר", "ש", "ת"),
 )
 
-LANG = namedtuple("LANG", "french, english, hebrew")
-DESC = namedtuple("DESC", "long, short")
 
-DAYS = (
-    LANG(DESC("Dimanche", "Dim"), DESC("Sunday", "Sun"), DESC("ראשון", "א")),
-    LANG(DESC("Lundi", "Lun"), DESC("Monday", "Mon"), DESC("שני", "ב")),
-    LANG(DESC("Mardi", "Mar"), DESC("Tuesday", "Tue"), DESC("שלישי", "ג")),
-    LANG(DESC("Mercredi", "Mer"), DESC("Wednesday", "Wed"), DESC("רביעי", "ד")),
-    LANG(DESC("Jeudi", "Jeu"), DESC("Thursday", "Thu"), DESC("חמישי", "ה")),
-    LANG(DESC("Vendredi", "Ven"), DESC("Friday", "Fri"), DESC("שישי", "ו")),
-    LANG(DESC("Samedi", "Sam"), DESC("Saturday", "Sat"), DESC("שבת", "ז")),
-)
+class Days(TranslatorMixin, IntEnum):
+    """Enum class for the days of the week."""
+
+    SUNDAY = 1
+    MONDAY = 2
+    TUESDAY = 3
+    WEDNESDAY = 4
+    THURSDAY = 5
+    FRIDAY = 6
+    SATURDAY = 7
 
 
 class Months(TranslatorMixin, IntEnum):

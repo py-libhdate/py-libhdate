@@ -181,5 +181,14 @@
         "chukat_balak": "חוקת-בלק",
         "matot_masei": "מטות מסעי",
         "nitzavim_vayeilech": "נצבים-וילך"
+    },
+    "Days": {
+        "sunday": "ראשון",
+        "monday": "שני",
+        "tuesday": "שלישי",
+        "wednesday": "רביעי",
+        "thursday": "חמישי",
+        "friday": "שישי",
+        "saturday": "שבת"
     }
 }
