@@ -31,6 +31,13 @@ class TranslatorMixin:
             super().__init__(*args, **kwargs)
         self.load_translations()
 
+    def __str__(self) -> str:
+        if name := getattr(self, "name"):
+            return self.get_translation(name)
+        raise NameError(
+            f"{self.__class__.__name__} is missing both name and description attributes"
+        )
+
     def available_languages(self) -> list[str]:
         """Return a list of available languages."""
         return list(TRANSLATIONS.keys())
