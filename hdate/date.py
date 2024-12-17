@@ -481,7 +481,7 @@ class HDate(TranslatorMixin):
             return 54
 
         # Return the indexes for the readings of the given year
-        def unpack_readings(readings: list[Union[int, list[int]]]) -> list[int]:
+        def unpack_readings(readings: tuple[Union[int, range], ...]) -> list[int]:
             return list(chain(*([x] if isinstance(x, int) else x for x in readings)))
 
         reading_for_year = htables.READINGS[year_type]
