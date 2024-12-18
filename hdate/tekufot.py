@@ -290,7 +290,6 @@ class Tekufot:  # pylint: disable=too-many-instance-attributes
         or 'diaspora_sephardi'.
         The language can be 'english', 'french', or 'hebrew'.
         """
-        print(date)
 
         if isinstance(date, str):
             # If a string is given, parse it into a date/datetime if needed.
@@ -299,8 +298,6 @@ class Tekufot:  # pylint: disable=too-many-instance-attributes
 
         elif isinstance(date, datetime.datetime):
             date = date.date()
-
-        print(date)
 
         if date is None:
             date = self.date

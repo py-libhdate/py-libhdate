@@ -8,6 +8,65 @@ from hdate import Tekufot
 from hdate import converters as conv
 from hdate.location import Location
 
+# 1) Define the test matrix: 3 dates and 3 (tradition, language) combos
+
+TRAD_LANG_COMBOS = [
+    ("israel", "english"),
+    ("diaspora_ashkenazi", "french"),
+    ("diaspora_sephardi", "hebrew"),
+]
+
+# 2) Create a dictionary mapping each unique combination of (date, tradition, language)
+#    to the exact phrase you expect.
+#    Replace the placeholder strings ("Phrase_1", etc.) with the real phrases you have.
+EXPECTED_PHRASES = {
+    (
+        "2024-12-13",
+        "israel",
+        "english",
+    ): "Mashiv ha-ruach u-morid ha-geshem - Barech aleinu",
+    (
+        "2024-12-13",
+        "diaspora_ashkenazi",
+        "french",
+    ): "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
+    (
+        "2024-12-13",
+        "diaspora_sephardi",
+        "hebrew",
+    ): "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
+    (
+        "2025-04-25",
+        "israel",
+        "english",
+    ): "Morid ha-tal - Barkheinu",
+    (
+        "2025-04-25",
+        "diaspora_ashkenazi",
+        "french",
+    ): "(Silence) - barkhénou",
+    (
+        "2025-04-25",
+        "diaspora_sephardi",
+        "hebrew",
+    ): "מוֹרִיד הַטַּל - בָּרְכֵנוּ",
+    (
+        "2026-10-10",
+        "israel",
+        "english",
+    ): "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
+    (
+        "2026-10-10",
+        "diaspora_ashkenazi",
+        "french",
+    ): "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
+    (
+        "2026-10-10",
+        "diaspora_sephardi",
+        "hebrew",
+    ): "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
+}
+
 
 @pytest.fixture
 def default_tekufot() -> Tekufot:
@@ -22,7 +81,7 @@ def default_tekufot() -> Tekufot:
     return Tekufot(date=datetime.date.today(), diaspora=False, location=loc)
 
 
-@pytest.fixture(params=["2024-12-13", "2025-04-07", "2026-10-10"])
+@pytest.fixture(params=["2024-12-13", "2025-04-25", "2026-10-10"])
 def param_tekufot(request) -> Tekufot:
     """Parameterized Tekufot object with various dates."""
     loc = Location(
@@ -113,3 +172,30 @@ class TestTekufot:
             assert isinstance(period[0], str)
             assert isinstance(period[1], datetime.date)
             assert isinstance(period[2], datetime.date)
+
+    @pytest.mark.parametrize("tradition,language", TRAD_LANG_COMBOS)
+    def test_prayer_phrase_parametrized(
+        self, param_tekufot: Tekufot, tradition: str, language: str
+    ):
+        """
+        Tests 'get_prayer_for_date' across 3 dates and 3 (tradition, language) combos.
+        This generates 9 test runs total. Each run checks the returned prayer phrase
+        against a known expected value stored in EXPECTED_PHRASES.
+        """
+        # Retrieve the actual prayer phrase from the Tekufot object.
+        phrase = param_tekufot.get_prayer_for_date(
+            date=param_tekufot.date,
+            tradition=tradition,
+            language=language,
+        )
+
+        # Build a key to look up the expected phrase
+        key = (str(param_tekufot.date), tradition, language)
+        assert key in EXPECTED_PHRASES, f"No expected phrase found for {key}"
+
+        expected_phrase = EXPECTED_PHRASES[key]
+
+        # Validate the actual phrase matches the expected phrase
+        assert (
+            phrase == expected_phrase
+        ), f"For {key}, expected '{expected_phrase}', got '{phrase}'."
