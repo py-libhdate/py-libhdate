@@ -13,6 +13,7 @@ from typing import Optional, Union
 from hdate import converters as conv
 from hdate.hebrew_date import HebrewDate
 from hdate.location import Location
+from hdate.zmanim import Zmanim
 
 LANG = namedtuple("LANG", ["french", "english", "hebrew"])
 TRADITION = namedtuple(
@@ -149,11 +150,6 @@ class Tekufot:  # pylint: disable=too-many-instance-attributes
         # Prayer periods
         self.set_prayer_periods()
 
-    @staticmethod
-    def is_leap(year: int) -> bool:
-        """Determine if a given Gregorian year is a leap year."""
-        return year % 4 == 0 and (year % 100 != 0 or year % 400 == 0)
-
     def get_tekufa(self) -> None:
         """
         Calculates the approximate dates and times of the Tekufot.
@@ -202,12 +198,11 @@ class Tekufot:  # pylint: disable=too-many-instance-attributes
         In the diaspora, it is 60 days (add 59 days) after Tekufat Tishrei.
         In Israel, it is fixed at the 7th of Cheshvan.
         """
-        from hdate import Zmanim
 
         # Ensure we have Tekufa Tishrei
-        if not hasattr(self, "tekufa_tishrei") or self.tekufa_tishrei is None:
-            self.cheilat_geshamim = None
-            return
+        # if not hasattr(self, "tekufa_tishrei") or self.tekufa_tishrei is None:
+        #    self.cheilat_geshamim = None
+        #    return
 
         if self.diaspora:
             # Cheilat Geshamim starts 60 days after Tekufat Tishrei.
@@ -231,16 +226,10 @@ class Tekufot:  # pylint: disable=too-many-instance-attributes
 
             if cheilat_geshamim_dt < time_end_of_day:
                 # Normalize to date at midnight
-                self.cheilat_geshamim = datetime.date(
-                    cheilat_geshamim_dt.year,
-                    cheilat_geshamim_dt.month,
-                    cheilat_geshamim_dt.day,
-                )
+                self.cheilat_geshamim = cheilat_geshamim_dt.date()
             else:
-                self.cheilat_geshamim = datetime.date(
-                    cheilat_geshamim_dt.year,
-                    cheilat_geshamim_dt.month,
-                    cheilat_geshamim_dt.day + 1,
+                self.cheilat_geshamim = cheilat_geshamim_dt.date() + datetime.timedelta(
+                    days=1
                 )
         else:
             # In Israel: 7th of Cheshvan

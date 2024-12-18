@@ -113,10 +113,3 @@ class TestTekufot:
             assert isinstance(period[0], str)
             assert isinstance(period[1], datetime.date)
             assert isinstance(period[2], datetime.date)
-
-    def test_is_leap(self):
-        """Test is_leap method with known leap and common years."""
-        assert Tekufot.is_leap(2020) is True
-        assert Tekufot.is_leap(2100) is False
-        assert Tekufot.is_leap(2000) is True
-        assert Tekufot.is_leap(2021) is False
