@@ -278,7 +278,7 @@ class Tekufot:  # pylint: disable=too-many-instance-attributes
 
     def get_prayer_for_date(
         self,
-        date: Union[datetime.date, str, datetime.datetime] = datetime.datetime.now(),
+        date: Optional[datetime.date] = None,
         tradition: str = "israel",
         language: str = "english",
     ) -> str:
@@ -290,12 +290,17 @@ class Tekufot:  # pylint: disable=too-many-instance-attributes
         or 'diaspora_sephardi'.
         The language can be 'english', 'french', or 'hebrew'.
         """
+        print(date)
+
         if isinstance(date, str):
             # If a string is given, parse it into a date/datetime if needed.
             # For now, assume YYYY-MM-DD format.
             date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
+
         elif isinstance(date, datetime.datetime):
             date = date.date()
+
+        print(date)
 
         if date is None:
             date = self.date
