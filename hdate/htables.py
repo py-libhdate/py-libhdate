@@ -761,3 +761,95 @@ DAF_YOMI_MESECHTOS = (
 )
 
 DAF_YOMI_TOTAL_PAGES = sum(mesechta.pages for mesechta in DAF_YOMI_MESECHTOS)
+
+TRADITION = namedtuple(
+    "TRADITION", ["israel", "diaspora_ashkenazi", "diaspora_sephardi"]
+)
+
+PRAYER_DESCRIPTIONS = {
+    "prev_pessah_to_shemini": TRADITION(
+        LANG(
+            "Moride ha-tal - barkhénou",
+            "Morid ha-tal - Barkheinu",
+            "מוֹרִיד הַטַּל - בָּרְכֵנוּ",
+        ),
+        LANG(
+            "(Silence) - barkhénou",
+            "(Silence) - Barkheinu",
+            "(שתיקה) - בָּרְכֵנוּ",
+        ),
+        LANG(
+            "Moride ha-tal - barkhénou",
+            "Morid ha-tal - Barkheinu",
+            "מוֹרִיד הַטַּל - בָּרְכֵנוּ",
+        ),
+    ),
+    "shemini_to_cheshvan": TRADITION(
+        LANG(
+            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
+            "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
+        ),
+        LANG(
+            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
+            "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
+        ),
+        LANG(
+            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
+            "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
+        ),
+    ),
+    "cheshvan_to_geshamim": TRADITION(
+        LANG(
+            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
+            "Mashiv ha-ruach u-morid ha-geshem - Barech aleinu",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
+        ),
+        LANG(
+            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
+            "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
+        ),
+        LANG(
+            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
+            "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
+        ),
+    ),
+    "geshamim_to_pessah": TRADITION(
+        LANG(
+            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
+            "Mashiv ha-ruach u-morid ha-geshem - Barech aleinu",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
+        ),
+        LANG(
+            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
+            "Mashiv ha-ruach u-morid ha-geshem - Barech aleinu",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
+        ),
+        LANG(
+            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
+            "Mashiv ha-ruach u-morid ha-geshem - Barech aleinu",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
+        ),
+    ),
+    "pessah_to_shemini_next": TRADITION(
+        LANG(
+            "Moride ha-tal - barkhénou",
+            "Morid ha-tal - Barkheinu",
+            "מוֹרִיד הַטַּל - בָּרְכֵנוּ",
+        ),
+        LANG(
+            "(Silence) - barkhénou",
+            "(Silence) - Barkheinu",
+            "(שתיקה) - בָּרְכֵנוּ",
+        ),
+        LANG(
+            "Moride ha-tal - barkhénou",
+            "Morid ha-tal - Barkheinu",
+            "מוֹרִיד הַטַּל - בָּרְכֵנוּ",
+        ),
+    ),
+}

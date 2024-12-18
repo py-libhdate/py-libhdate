@@ -12,104 +12,15 @@ from typing import Optional, Union
 
 from hdate import converters as conv
 from hdate.hebrew_date import HebrewDate
+from hdate.htables import PRAYER_DESCRIPTIONS
 from hdate.location import Location
+from hdate.translator import TranslatorMixin
 from hdate.zmanim import Zmanim
 
 LANG = namedtuple("LANG", ["french", "english", "hebrew"])
-TRADITION = namedtuple(
-    "TRADITION", ["israel", "diaspora_ashkenazi", "diaspora_sephardi"]
-)
-
-PRAYER_DESCRIPTIONS = {
-    "prev_pessah_to_shemini": TRADITION(
-        LANG(
-            "Moride ha-tal - barkhénou",
-            "Morid ha-tal - Barkheinu",
-            "מוֹרִיד הַטַּל - בָּרְכֵנוּ",
-        ),
-        LANG(
-            "(Silence) - barkhénou",
-            "(Silence) - Barkheinu",
-            "(שתיקה) - בָּרְכֵנוּ",
-        ),
-        LANG(
-            "Moride ha-tal - barkhénou",
-            "Morid ha-tal - Barkheinu",
-            "מוֹרִיד הַטַּל - בָּרְכֵנוּ",
-        ),
-    ),
-    "shemini_to_cheshvan": TRADITION(
-        LANG(
-            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
-            "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
-            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
-        ),
-        LANG(
-            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
-            "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
-            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
-        ),
-        LANG(
-            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
-            "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
-            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
-        ),
-    ),
-    "cheshvan_to_geshamim": TRADITION(
-        LANG(
-            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
-            "Mashiv ha-ruach u-morid ha-geshem - Barech aleinu",
-            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
-        ),
-        LANG(
-            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
-            "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
-            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
-        ),
-        LANG(
-            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
-            "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
-            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
-        ),
-    ),
-    "geshamim_to_pessah": TRADITION(
-        LANG(
-            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
-            "Mashiv ha-ruach u-morid ha-geshem - Barech aleinu",
-            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
-        ),
-        LANG(
-            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
-            "Mashiv ha-ruach u-morid ha-geshem - Barech aleinu",
-            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
-        ),
-        LANG(
-            "Machiv ha-roua'h oumoride ha-guéchem - barkhénou",
-            "Mashiv ha-ruach u-morid ha-geshem - Barech aleinu",
-            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
-        ),
-    ),
-    "pessah_to_shemini_next": TRADITION(
-        LANG(
-            "Moride ha-tal - barkhénou",
-            "Morid ha-tal - Barkheinu",
-            "מוֹרִיד הַטַּל - בָּרְכֵנוּ",
-        ),
-        LANG(
-            "(Silence) - barkhénou",
-            "(Silence) - Barkheinu",
-            "(שתיקה) - בָּרְכֵנוּ",
-        ),
-        LANG(
-            "Moride ha-tal - barkhénou",
-            "Morid ha-tal - Barkheinu",
-            "מוֹרִיד הַטַּל - בָּרְכֵנוּ",
-        ),
-    ),
-}
 
 
-class Tekufot:  # pylint: disable=too-many-instance-attributes
+class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     """
     A class that calculates and manages Jewish seasonal times (Tekufot),
     periods for prayer insertions, and associated halachic dates such as
