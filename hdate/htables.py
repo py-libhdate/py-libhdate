@@ -10,7 +10,9 @@ from hdate.translator import TranslatorMixin
 
 HDateT = TypeVar("HDateT", bound="HDate")  # type: ignore # noqa: F821
 
+
 READING = namedtuple("READING", "year_type, readings")
+
 
 _READINGS = (
     READING(
@@ -223,7 +225,9 @@ _READINGS = (
     ),
 )
 
+
 READINGS = dict((year_type, r.readings) for r in _READINGS for year_type in r.year_type)
+
 
 DIGITS = (
     (" ", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"),
@@ -231,8 +235,11 @@ DIGITS = (
     (" ", "ק", "ר", "ש", "ת"),
 )
 
+
 LANG = namedtuple("LANG", "french, english, hebrew")
+
 DESC = namedtuple("DESC", "long, short")
+
 
 DAYS = (
     LANG(DESC("Dimanche", "Dim"), DESC("Sunday", "Sun"), DESC("ראשון", "א")),
@@ -243,6 +250,7 @@ DAYS = (
     LANG(DESC("Vendredi", "Ven"), DESC("Friday", "Fri"), DESC("שישי", "ו")),
     LANG(DESC("Samedi", "Sam"), DESC("Saturday", "Sat"), DESC("שבת", "ז")),
 )
+
 
 PARASHAOT = (
     LANG("none", "none", "none"),
@@ -314,41 +322,63 @@ class Months(TranslatorMixin, IntEnum):
     """Enum class for the Hebrew months."""
 
     TISHREI = 1
+
     MARCHESHVAN = 2
+
     KISLEV = 3
+
     TEVET = 4
+
     SHVAT = 5
+
     ADAR = 6
+
     NISAN = 7
+
     IYYAR = 8
+
     SIVAN = 9
+
     TAMMUZ = 10
+
     AV = 11
+
     ELUL = 12
+
     ADAR_I = 13
+
     ADAR_II = 14
 
     def __str__(self) -> str:
+
         return self.get_translation(self.name)
 
 
 def year_is_after(year: int) -> Callable[[HDateT], bool]:
     """
+
     Return a lambda function.
 
+
     Lambda checks that a given HDate object's hebrew year is after the
+
     requested year.
     """
+
     return lambda x: x.hdate.year > year
 
 
 def year_is_before(year: int) -> Callable[[HDateT], bool]:
     """
+
     Return a lambda function.
 
+
     Lambda checks that a given HDate object's hebrew year is before the
+
     requested year.
     """
+
     return lambda x: x.hdate.year < year
 
 
@@ -356,11 +386,15 @@ def move_if_not_on_dow(
     original: int, replacement: int, dow_not_orig: int, dow_replacement: int
 ) -> Callable[[HDateT], bool]:
     """
+
     Return a lambda function.
 
+
     Lambda checks that either the original day does not fall on a given
+
     weekday, or that the replacement day does fall on the expected weekday.
     """
+
     return lambda x: (
         (x.hdate.day == original and x.gdate.weekday() != dow_not_orig)
         or (x.hdate.day == replacement and x.gdate.weekday() == dow_replacement)
@@ -369,11 +403,15 @@ def move_if_not_on_dow(
 
 def correct_adar() -> Callable[[HDateT], bool]:
     """
+
     Return a lambda function.
 
+
     Lambda checks that the value of the month returned is correct depending on whether
+
     it's a leap year.
     """
+
     return lambda x: (
         (x.hdate.month not in [Months.ADAR, Months.ADAR_I, Months.ADAR_II])
         or (x.hdate.month == Months.ADAR and not x.is_leap_year)
@@ -383,15 +421,19 @@ def correct_adar() -> Callable[[HDateT], bool]:
 
 def not_rosh_chodesh() -> Callable[[HDateT], bool]:
     """The 1st of Tishrei is not Rosh Chodesh."""
+
     return lambda x: not (x.hdate.month == Months.TISHREI and x.hdate.day == 1)
 
 
 def legal_month_length() -> Callable[[HDateT], bool]:
     """
+
     Return a lambda function.
+
 
     Lambda checks that the length for the provided month is legal
     """
+
     return lambda x: (
         x.hdate.day == 29  # 29 is always legal
         or x.hdate.day == 30
@@ -417,15 +459,25 @@ class HolidayTypes(Enum):
     """Container class for holiday type integer mappings."""
 
     NONE = 0
+
     YOM_TOV = 1
+
     EREV_YOM_TOV = 2
+
     HOL_HAMOED = 3
+
     MELACHA_PERMITTED_HOLIDAY = 4
+
     FAST_DAY = 5
+
     MODERN_HOLIDAY = 6
+
     MINOR_HOLIDAY = 7
+
     MEMORIAL_DAY = 8
+
     ISRAEL_NATIONAL_HOLIDAY = 9
+
     ROSH_CHODESH = 10
 
 
@@ -434,12 +486,17 @@ class Holiday(TranslatorMixin):
     """Container class for holiday information."""
 
     type: HolidayTypes
+
     name: str
+
     date: Union[tuple[Union[int, list[int]], Union[Months, list[Months]]], tuple[()]]
+
     israel_diaspora: str
+
     date_functions_list: list[Callable[[HDateT], bool]]
 
     def __str__(self) -> str:
+
         return self.get_translation(self.name)
 
 
@@ -659,7 +716,9 @@ def get_all_holidays(language: str) -> list[str]:
     """Helper method to get all the holiday descriptions in the specified language."""
 
     def holiday_name(holiday: Holiday, language: str) -> str:
+
         holiday.set_language(language)
+
         return str(holiday.name)
 
     doubles = {
@@ -667,6 +726,7 @@ def get_all_holidays(language: str) -> list[str]:
         "hebrew": "ראש חודש, חנוכה",
         "english": "Rosh Chodesh, Chanukah",
     }
+
     holidays_list = [holiday_name(h, language) for h in HOLIDAYS] + [
         doubles.get(language, doubles["english"])
     ]
@@ -675,6 +735,7 @@ def get_all_holidays(language: str) -> list[str]:
 
 
 ZMAN = namedtuple("ZMAN", "zman, description")
+
 ZMANIM = (
     ZMAN("first_light", LANG("Alot HaShahar", "Alot HaShachar", "עלות השחר")),
     ZMAN(
@@ -703,9 +764,13 @@ ZMANIM = (
     ZMAN("midnight", LANG("Hatsot laïla", "Midnight", "חצות הלילה")),
 )
 
+
 # The first few cycles were only 2702 blatt. After that it became 2711. Even with
+
 # that, the math doesn't play nicely with the dates before the 11th cycle :(
+
 # From cycle 11 onwards, it was simple and sequential
+
 DAF_YOMI_CYCLE_11_START = datetime.date(1997, 9, 29)
 
 
@@ -714,9 +779,11 @@ class Masechta(TranslatorMixin):
     """Masechta object."""
 
     name: str
+
     pages: int
 
     def __str__(self) -> str:
+
         return self.get_translation(self.name)
 
 
@@ -760,13 +827,16 @@ DAF_YOMI_MESECHTOS = (
     Masechta("niddah", 72),
 )
 
+
 DAF_YOMI_TOTAL_PAGES = sum(mesechta.pages for mesechta in DAF_YOMI_MESECHTOS)
+
 
 TRADITION = namedtuple(
     "TRADITION", ["israel", "diaspora_ashkenazi", "diaspora_sephardi"]
 )
 
-PRAYER_DESCRIPTIONS = {
+
+Prayer_description = {
     "prev_pessah_to_shemini": TRADITION(
         LANG(
             "Moride ha-tal - barkhénou",

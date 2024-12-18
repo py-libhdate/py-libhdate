@@ -12,7 +12,7 @@ from typing import Optional, Union
 
 from hdate import converters as conv
 from hdate.hebrew_date import HebrewDate
-from hdate.htables import PRAYER_DESCRIPTIONS
+from hdate.htables import TRADITION, Prayer_description
 from hdate.location import Location
 from hdate.translator import TranslatorMixin
 from hdate.zmanim import Zmanim
@@ -216,7 +216,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         for period_name, start_date, end_date in self.prayer_periods:
             if start_date and end_date:
                 if start_date <= date < end_date:
-                    tradition_data = PRAYER_DESCRIPTIONS.get(period_name)
+                    tradition_data = Prayer_description.get(period_name)
                     if tradition_data:
                         lang_data = getattr(tradition_data, tradition, None)
                         if lang_data:
