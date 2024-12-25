@@ -5,6 +5,7 @@ import random
 import pytest
 
 import hdate.date as dt
+import hdate.gematria
 
 
 class TestOmer:
@@ -62,18 +63,20 @@ class TestHebrewNumbers:
         self, number: int, expected_string: str, expected_short: str
     ) -> None:
         """Test the calculating the hebrew string."""
-        assert dt.hebrew_number(number, short=True) == expected_short
-        assert dt.hebrew_number(number) == expected_string
+        assert hdate.gematria.hebrew_number(number, short=True) == expected_short
+        assert hdate.gematria.hebrew_number(number) == expected_string
 
     def test_illegal_value(self) -> None:
         """Test unsupported numbers."""
         with pytest.raises(ValueError):
-            dt.hebrew_number(random.randint(10000, 20000))
+            hdate.gematria.hebrew_number(random.randint(10000, 20000))
         with pytest.raises(ValueError):
-            dt.hebrew_number(random.randint(-100, -1))
+            hdate.gematria.hebrew_number(random.randint(-100, -1))
 
     def test_hebrew_number_hebrew_false(self) -> None:
         """Test returning a non-hebrew number."""
         number = random.randint(0, 100000)
-        assert dt.hebrew_number(number, language="english") == str(number)
-        assert dt.hebrew_number(number, language="english", short=True) == str(number)
+        assert hdate.gematria.hebrew_number(number, language="english") == str(number)
+        assert hdate.gematria.hebrew_number(
+            number, language="english", short=True
+        ) == str(number)

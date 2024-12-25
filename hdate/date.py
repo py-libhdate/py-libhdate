@@ -14,6 +14,7 @@ from typing import Any, Optional, Union, cast
 
 from hdate import converters as conv
 from hdate import htables
+from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate
 from hdate.htables import Holiday, HolidayTypes, Masechta, Months
 from hdate.translator import TranslatorMixin
@@ -492,39 +493,6 @@ class HDate(TranslatorMixin):
         ):
             return self.upcoming_shabbat.get_reading()
         return cast(htables.Parasha, readings[weeks])
-
-
-def hebrew_number(num: int, language: str = "hebrew", short: bool = False) -> str:
-    """Return "Gimatria" number."""
-    if language != "hebrew":
-        return str(num)
-    if not 0 <= num < 10000:
-        raise ValueError(f"num must be between 0 to 9999, got:{num}")
-    hstring = ""
-    if num >= 1000:
-        hstring += htables.DIGITS[0][num // 1000]
-        hstring += "' "
-        num = num % 1000
-    while num >= 400:
-        hstring += htables.DIGITS[2][4]
-        num = num - 400
-    if num >= 100:
-        hstring += htables.DIGITS[2][num // 100]
-        num = num % 100
-    if num >= 10:
-        if num in [15, 16]:
-            num = num - 9
-        hstring += htables.DIGITS[1][num // 10]
-        num = num % 10
-    if num > 0:
-        hstring += htables.DIGITS[0][num]
-    # possibly add the ' and " to hebrew numbers
-    if not short:
-        if len(hstring) < 2:
-            hstring += "'"
-        else:
-            hstring = hstring[:-1] + '"' + hstring[-1]
-    return hstring
 
 
 def get_omer_string(omer: int, language: str = "hebrew") -> str:
