@@ -61,7 +61,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     # pylint: disable=too-many-arguments, too-many-positional-arguments
     def __init__(
         self,
-        date: Union[dt.date, str, dt.datetime] = dt.datetime.now(),
+        date: dt.date = dt.date.today(),
         location: Location = Location(),
         language: str = "hebrew",
         candle_lighting_offset: int = 18,
@@ -84,28 +84,6 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         self.havdalah_offset = havdalah_offset
         self.set_language(language)
 
-        # If a non-timezone aware date is received, use timezone from location
-        # to make it timezone aware and change to UTC for calculations.
-
-        # If timezone aware is received as date, we expect it to match the
-        # timezone specified by location, so it can be overridden and changed
-        # to UTC for calculations as above.
-        if isinstance(date, dt.datetime):
-            _LOGGER.debug("Date input is of type datetime: %r", date)
-            self.date = date.date()
-            self.time = date.replace(tzinfo=None)
-        elif isinstance(date, dt.date):
-            _LOGGER.debug("Date input is of type date: %r", date)
-            self.date = date
-            self.time = dt.datetime.now()
-        else:
-            raise TypeError
-
-        _LOGGER.debug("Resetting timezone to UTC for calculations")
-        self.time = self.time.replace(
-            tzinfo=cast(dt.tzinfo, location.timezone)
-        ).astimezone(dt.timezone.utc)
-
         if _USE_ASTRAL and (abs(location.latitude) <= MAX_LATITUDE_ASTRAL):
             self.astral_observer = astral.Observer(
                 latitude=self.location.latitude, longitude=self.location.longitude
@@ -119,17 +97,6 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
                 f"{zman} - {zman.local_zman.time()}"
                 for zman in self.get_utc_sun_time_full()
             ]
-        )
-
-    def __repr__(self) -> str:
-        """Return a representation of Zmanim for programmatic use."""
-        # As time zone information is not really reusable due to DST, when
-        # creating a __repr__ of zmanim, we show a timezone naive datetime.
-        _timezone = cast(dt.tzinfo, self.location.timezone)
-        return (
-            "Zmanim(date="
-            f"{self.time.astimezone(_timezone).replace(tzinfo=None)!r},"
-            f" location={self.location!r}, language={self._language!r})"
         )
 
     @property
@@ -192,7 +159,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         return None
 
     @property
-    def issur_melacha_in_effect(self) -> bool:
+    def issur_melacha_in_effect(self, time: dt.datetime = dt.datetime.now()) -> bool:
         """At the given time, return whether issur melacha is in effect."""
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
         tomorrow = HDate(
@@ -206,20 +173,20 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         if (
             (today.is_shabbat or today.is_yom_tov)
             and self.havdalah is not None
-            and (self.time < self.havdalah)
+            and (time < self.havdalah)
         ):
             return True
         if (
             (tomorrow.is_shabbat or tomorrow.is_yom_tov)
             and self.candle_lighting is not None
-            and (self.time >= self.candle_lighting)
+            and (time >= self.candle_lighting)
         ):
             return True
 
         return False
 
     @property
-    def erev_shabbat_chag(self) -> bool:
+    def erev_shabbat_chag(self, time: dt.datetime = dt.datetime.now()) -> bool:
         """At the given time, return whether erev shabbat or chag"""
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
         tomorrow = HDate(
@@ -232,14 +199,14 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         if (
             (tomorrow.is_shabbat or tomorrow.is_yom_tov)
             and (not today.is_shabbat and not today.is_yom_tov)
-            and (self.time < self.candle_lighting)
+            and (time < self.candle_lighting)
         ):
             return True
 
         return False
 
     @property
-    def motzei_shabbat_chag(self) -> bool:
+    def motzei_shabbat_chag(self, time: dt.datetime = dt.datetime.now()) -> bool:
         """At the given time, return whether motzei shabbat or chag"""
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
         tomorrow = HDate(
@@ -252,7 +219,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             tomorrow.is_shabbat or tomorrow.is_yom_tov
         ):
             return False
-        if (today.is_shabbat or today.is_yom_tov) and (self.time > self.havdalah):
+        if (today.is_shabbat or today.is_yom_tov) and (time > self.havdalah):
             return True
 
         return False
