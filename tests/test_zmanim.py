@@ -231,7 +231,9 @@ class TestZmanim:
             diaspora=True,
         )
         # Use a constant offset for Havdalah for unit test stability.
-        zmanim = Zmanim(date=now.date(), location=location_tz_str, havdalah_offset=offset)
+        zmanim = Zmanim(
+            date=now.date(), location=location_tz_str, havdalah_offset=offset
+        )
         actual = zmanim.havdalah
         if actual is not None:
             actual = actual.replace(tzinfo=None)
@@ -268,7 +270,9 @@ class TestZmanim:
             diaspora=True,
         )
         # Use a constant offset for Havdalah for unit test stability.
-        zmanim = Zmanim(date=now.date(), location=location_tz_str, havdalah_offset=offset)
+        zmanim = Zmanim(
+            date=now.date(), location=location_tz_str, havdalah_offset=offset
+        )
         assert zmanim.motzei_shabbat_chag(now) == motzei_shabbat_chag
 
     # Times are assumed for NYC.
@@ -304,7 +308,9 @@ class TestZmanim:
             diaspora=True,
         )
         # Use a constant offset for Havdalah for unit test stability.
-        zmanim = Zmanim(date=now.date(), location=location_tz_str, havdalah_offset=offset)
+        zmanim = Zmanim(
+            date=now.date(), location=location_tz_str, havdalah_offset=offset
+        )
         assert zmanim.erev_shabbat_chag(now) == erev_shabbat_chag
 
     def test_candle_lighting_erev_shabbat_is_yom_tov(self) -> None:
