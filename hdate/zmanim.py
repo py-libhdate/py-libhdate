@@ -9,7 +9,7 @@ import datetime as dt
 import logging
 import math
 from dataclasses import dataclass
-from typing import Optional, Union, cast
+from typing import Optional, cast
 
 from hdate.date import HDate
 from hdate.location import Location
@@ -79,6 +79,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         calculations.
         """
         super().__init__()
+        self.date = date
         self.location = location
         self.candle_lighting_offset = candle_lighting_offset
         self.havdalah_offset = havdalah_offset
