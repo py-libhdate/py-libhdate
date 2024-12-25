@@ -56,7 +56,7 @@ class TestZmanim:
     def test_bad_date(self) -> None:
         """Check that a bad value argument to zmanim raises an error"""
         with pytest.raises(TypeError):
-            Zmanim(date="bad value")
+            Zmanim(date="bad value")  # type: ignore 
 
     @pytest.mark.parametrize("execution_number", list(range(5)))
     def test_same_doy_is_equal(
