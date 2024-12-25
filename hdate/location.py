@@ -20,11 +20,3 @@ class Location:
     def __post_init__(self) -> None:
         if isinstance(self.timezone, str):
             self.timezone = ZoneInfo(self.timezone)
-
-    def __repr__(self) -> str:
-        """Return a representation of Location for programmatic use."""
-        return (
-            f"Location(name={self.name!r}, latitude={self.latitude}, "
-            f"longitude={self.longitude}, timezone={self.timezone!r}, "
-            f"altitude={self.altitude}, diaspora={self.diaspora})"
-        )
