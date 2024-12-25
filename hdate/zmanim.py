@@ -68,7 +68,7 @@ class Zmanim(TranslatorMixin):
     def __post_init__(self) -> None:
         self.set_language(self.language)
 
-        if _USE_ASTRAL and (abs(location.latitude) <= MAX_LATITUDE_ASTRAL):
+        if _USE_ASTRAL and (abs(self.location.latitude) <= MAX_LATITUDE_ASTRAL):
             self.astral_observer = astral.Observer(
                 latitude=self.location.latitude, longitude=self.location.longitude
             )
