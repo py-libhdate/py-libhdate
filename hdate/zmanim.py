@@ -159,7 +159,6 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             return self._havdalah_datetime
         return None
 
-    @property
     def issur_melacha_in_effect(self, time: dt.datetime = dt.datetime.now()) -> bool:
         """At the given time, return whether issur melacha is in effect."""
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
@@ -186,7 +185,6 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         return False
 
-    @property
     def erev_shabbat_chag(self, time: dt.datetime = dt.datetime.now()) -> bool:
         """At the given time, return whether erev shabbat or chag"""
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
@@ -206,7 +204,6 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         return False
 
-    @property
     def motzei_shabbat_chag(self, time: dt.datetime = dt.datetime.now()) -> bool:
         """At the given time, return whether motzei shabbat or chag"""
         today = HDate(gdate=self.date, diaspora=self.location.diaspora)
