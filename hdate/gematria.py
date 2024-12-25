@@ -1,6 +1,10 @@
 """Gematria for hebrew numbers."""
 
-from hdate import htables
+DIGITS = (
+    (" ", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"),
+    ("ט", "י", "כ", "ל", "מ", "נ", "ס", "ע", "פ", "צ"),
+    (" ", "ק", "ר", "ש", "ת"),
+)
 
 
 def hebrew_number(num: int, language: str = "hebrew", short: bool = False) -> str:
@@ -11,22 +15,22 @@ def hebrew_number(num: int, language: str = "hebrew", short: bool = False) -> st
         raise ValueError(f"num must be between 0 to 9999, got:{num}")
     hstring = ""
     if num >= 1000:
-        hstring += htables.DIGITS[0][num // 1000]
+        hstring += DIGITS[0][num // 1000]
         hstring += "' "
         num = num % 1000
     while num >= 400:
-        hstring += htables.DIGITS[2][4]
+        hstring += DIGITS[2][4]
         num = num - 400
     if num >= 100:
-        hstring += htables.DIGITS[2][num // 100]
+        hstring += DIGITS[2][num // 100]
         num = num % 100
     if num >= 10:
         if num in [15, 16]:
             num = num - 9
-        hstring += htables.DIGITS[1][num // 10]
+        hstring += DIGITS[1][num // 10]
         num = num % 10
     if num > 0:
-        hstring += htables.DIGITS[0][num]
+        hstring += DIGITS[0][num]
     # possibly add the ' and " to hebrew numbers
     if not short:
         if len(hstring) < 2:
