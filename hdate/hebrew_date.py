@@ -11,9 +11,9 @@ from hdate.translator import TranslatorMixin
 class HebrewDate(TranslatorMixin):
     """Define a Hebrew date object."""
 
-    year: int
-    month: Union[Months, int]
-    day: int
+    year: int = 0
+    month: Union[Months, int] = Months.TISHREI
+    day: int = 1
 
     def __post_init__(self) -> None:
         if not 0 < self.day < 31:
@@ -21,3 +21,17 @@ class HebrewDate(TranslatorMixin):
         self.month = (
             self.month if isinstance(self.month, Months) else Months(self.month)
         )
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, HebrewDate):
+            return NotImplemented
+        if self.year == 0 or other.year == 0:
+            return (self.month, self.day) == (other.month, other.day)
+        return (self.year, self.month, self.day) == (other.year, other.month, other.day)
+
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, HebrewDate):
+            return NotImplemented
+        if self.year == 0 or other.year == 0:
+            return (self.month, self.day) < (other.month, other.day)
+        return (self.year, self.month, self.day) < (other.year, other.month, other.day)
