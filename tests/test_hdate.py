@@ -89,14 +89,6 @@ class TestHDate:
         for year, info in list(HEBREW_YEARS_INFO.items()):
             assert HebrewDate.year_size(year) == info[1]
 
-    @pytest.mark.parametrize("execution_number", list(range(10)))
-    def test_hdate_get_size_of_hebrew_years(
-        self, execution_number: int, rand_hdate: HDate
-    ) -> None:
-        """Check that the year_size property returns the correct value."""
-        print(f"Run number: {execution_number}")
-        assert rand_hdate.year_size() == HebrewDate.year_size(rand_hdate.hdate.year)
-
     def test_rosh_hashana_day_of_week(self) -> None:
         """Check that Rosh Hashana's DOW matches the given dates"""
         for year, info in list(HEBREW_YEARS_INFO.items()):
@@ -179,13 +171,13 @@ class TestSpecialDays:
 
     def test_get_holidays_for_year_non_leap_year(self) -> None:
         """Test that get_holidays_for_year() returns consistent months."""
-        base_date = HDate(heb_date=HebrewDate(5783, 1, 1))
+        base_date = HDate(heb_date=HebrewDate(5783, Months.TISHREI, 1))
         for _, date in base_date.get_holidays_for_year():
             assert date.month not in (Months.ADAR_I, Months.ADAR_II)
 
     def test_get_holidays_for_year_leap_year(self) -> None:
         """Test that get_holidays_for_year() returns consistent months."""
-        base_date = HDate(heb_date=HebrewDate(5784, 1, 1))
+        base_date = HDate(heb_date=HebrewDate(5784, Months.TISHREI, 1))
         for _, date in base_date.get_holidays_for_year():
             assert date.month != Months.ADAR
 
