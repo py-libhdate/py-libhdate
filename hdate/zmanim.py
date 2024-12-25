@@ -8,7 +8,7 @@ of the Jewish calendrical times for a given location
 import datetime as dt
 import logging
 import math
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Optional, cast
 
 from hdate.date import HDate
@@ -59,8 +59,8 @@ class Zmanim(TranslatorMixin):
     property.
     """
 
-    date: dt.date = dt.date.today()
-    location: Location = Location()
+    date: dt.date = field(default_factory=dt.date.today)
+    location: Location = field(default_factory=Location)
     language: str = "hebrew"
     candle_lighting_offset: int = 18
     havdalah_offset: int = 0
