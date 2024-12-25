@@ -351,12 +351,6 @@ PARASHA_SEQUENCES: dict[tuple[int, ...], tuple[Enum, ...]] = {
     ),
 }
 
-DIGITS = (
-    (" ", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"),
-    ("ט", "י", "כ", "ל", "מ", "נ", "ס", "ע", "פ", "צ"),
-    (" ", "ק", "ר", "ש", "ת"),
-)
-
 
 class Days(TranslatorMixin, IntEnum):
     """Enum class for the days of the week."""
