@@ -31,7 +31,6 @@ class HDate(TranslatorMixin):
     """
 
     # Prefixes and strings for different languages
-    DAY_PREFIXES = {"hebrew": "יום ", "english": "", "french": ""}
     IN_PREFIXES = {"hebrew": "ב", "english": "", "french": ""}
     OMER_SUFFIX = {
         "hebrew": "בעומר",
@@ -65,7 +64,6 @@ class HDate(TranslatorMixin):
     def __str__(self) -> str:
         """Return a full Unicode representation of HDate."""
         # Get prefixes and strings based on language
-        day_prefix = self.DAY_PREFIXES.get(self._language, "")
         in_prefix = self.IN_PREFIXES.get(self._language, "")
 
         # Get day and year number representation
@@ -73,8 +71,7 @@ class HDate(TranslatorMixin):
         year_number = hebrew_number(self.hdate.year, language=self._language)
 
         result = (
-            f"{day_prefix}{self.dow} {day_number} "
-            f"{in_prefix}{self.hdate.month} {year_number}"
+            f"{self.dow} {day_number} {in_prefix}{self.hdate.month} {year_number}"
         )
         # Handle Omer day
         if 0 < self.omer_day < 50:
