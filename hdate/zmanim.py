@@ -46,7 +46,8 @@ class Zman(TranslatorMixin):
         self.local_zman = self.utc_zman.astimezone(self.timezone)
 
 
-class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
+@dataclass
+class Zmanim(TranslatorMixin):
     """Return Jewish day times.
 
     The Zmanim class returns times for the specified day ONLY. If you wish to
@@ -58,32 +59,14 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     property.
     """
 
-    # pylint: disable=too-many-arguments, too-many-positional-arguments
-    def __init__(
-        self,
-        date: dt.date = dt.date.today(),
-        location: Location = Location(),
-        language: str = "hebrew",
-        candle_lighting_offset: int = 18,
-        havdalah_offset: int = 0,
-    ) -> None:
-        """
-        Initialize the Zmanim object.
+    date: dt.date = dt.date.today()
+    location: Location = Location()
+    language: str = "hebrew"
+    candle_lighting_offset: int = 18
+    havdalah_offset: int = 0
 
-        As the timezone is expected to be part of the location object, any
-        tzinfo passed along is discarded. Essentially making the datetime
-        object non-timezone aware.
-
-        The time zone information is appended to the date received based on the
-        location object. After which it is transformed to UTC for all internal
-        calculations.
-        """
-        super().__init__()
-        self.date = date
-        self.location = location
-        self.candle_lighting_offset = candle_lighting_offset
-        self.havdalah_offset = havdalah_offset
-        self.set_language(language)
+    def __post_init__(self) -> None:
+        self.set_language(self.language)
 
         if _USE_ASTRAL and (abs(location.latitude) <= MAX_LATITUDE_ASTRAL):
             self.astral_observer = astral.Observer(
