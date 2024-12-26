@@ -56,7 +56,7 @@ class TestZmanim:
     def test_bad_date(self) -> None:
         """Check that a bad value argument to zmanim raises an error"""
         with pytest.raises(TypeError):
-            Zmanim(date="bad value")
+            Zmanim(date="bad value")  # type: ignore
 
     @pytest.mark.parametrize("execution_number", list(range(5)))
     def test_same_doy_is_equal(
@@ -186,7 +186,7 @@ class TestZmanim:
         )
         # Use a constant offset for Havdalah for unit test stability.
         zmanim = Zmanim(
-            date=now,
+            date=now.date(),
             location=location_tz_str,
             candle_lighting_offset=offset,
             havdalah_offset=42,
@@ -195,7 +195,7 @@ class TestZmanim:
         if actual is not None:
             actual = actual.replace(tzinfo=None)
         compare_dates(actual, candle_lighting)
-        assert zmanim.issur_melacha_in_effect == melacha_assur
+        assert zmanim.issur_melacha_in_effect(now) == melacha_assur
 
     # Times are assumed for NYC.
     HAVDALAH_TEST = [
@@ -231,12 +231,14 @@ class TestZmanim:
             diaspora=True,
         )
         # Use a constant offset for Havdalah for unit test stability.
-        zmanim = Zmanim(date=now, location=location_tz_str, havdalah_offset=offset)
+        zmanim = Zmanim(
+            date=now.date(), location=location_tz_str, havdalah_offset=offset
+        )
         actual = zmanim.havdalah
         if actual is not None:
             actual = actual.replace(tzinfo=None)
         compare_dates(actual, havdalah)
-        assert zmanim.issur_melacha_in_effect == melacha_assur
+        assert zmanim.issur_melacha_in_effect(now) == melacha_assur
 
     # Times are assumed for NYC.
     MOTZEI_SHABBAT_CHAG_TEST = [
@@ -268,8 +270,10 @@ class TestZmanim:
             diaspora=True,
         )
         # Use a constant offset for Havdalah for unit test stability.
-        zmanim = Zmanim(date=now, location=location_tz_str, havdalah_offset=offset)
-        assert zmanim.motzei_shabbat_chag == motzei_shabbat_chag
+        zmanim = Zmanim(
+            date=now.date(), location=location_tz_str, havdalah_offset=offset
+        )
+        assert zmanim.motzei_shabbat_chag(now) == motzei_shabbat_chag
 
     # Times are assumed for NYC.
     EREV_SHABBAT_CHAG_TEST = [
@@ -304,8 +308,10 @@ class TestZmanim:
             diaspora=True,
         )
         # Use a constant offset for Havdalah for unit test stability.
-        zmanim = Zmanim(date=now, location=location_tz_str, havdalah_offset=offset)
-        assert zmanim.erev_shabbat_chag == erev_shabbat_chag
+        zmanim = Zmanim(
+            date=now.date(), location=location_tz_str, havdalah_offset=offset
+        )
+        assert zmanim.erev_shabbat_chag(now) == erev_shabbat_chag
 
     def test_candle_lighting_erev_shabbat_is_yom_tov(self) -> None:
         """Test for candle lighting when erev shabbat is yom tov"""

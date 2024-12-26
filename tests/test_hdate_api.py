@@ -142,71 +142,71 @@ class TestZmanimAPI:
         """Test for issur melacha on a weekday."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
         zman = Zmanim(date=date(2018, 11, 12), location=coord)
-        assert not zman.issur_melacha_in_effect
+        assert not zman.issur_melacha_in_effect(datetime(2018, 11, 12, 1, 2))
 
     def test_issur_melacha_shabbat_morning(self) -> None:
         """Test for issur melacha on shabbat morning."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=datetime(2018, 11, 10, 9), location=coord)
-        assert zman.issur_melacha_in_effect
+        zman = Zmanim(date=date(2018, 11, 10), location=coord)
+        assert zman.issur_melacha_in_effect(datetime(2018, 11, 10, 9))
 
     def test_issur_melacha_friday_morning(self) -> None:
         """Test for issur melacha on friday morning."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=datetime(2018, 11, 9, 9, 45), location=coord)
-        assert not zman.issur_melacha_in_effect
+        zman = Zmanim(date=date(2018, 11, 9), location=coord)
+        assert not zman.issur_melacha_in_effect(datetime(2018, 11, 9, 9, 45))
 
     def test_issur_melacha_friday_evening(self) -> None:
         """Test for issur melacha on friday evening."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=datetime(2018, 11, 9, 16, 45), location=coord)
-        assert zman.issur_melacha_in_effect
+        zman = Zmanim(date=date(2018, 11, 9), location=coord)
+        assert zman.issur_melacha_in_effect(datetime(2018, 11, 9, 16, 45))
 
     def test_issur_melacha_motsaei_shabbat(self) -> None:
         """Test for issur melacha on Motsaei shabbat."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=datetime(2018, 11, 10, 17, 45), location=coord)
-        assert not zman.issur_melacha_in_effect
+        zman = Zmanim(date=date(2018, 11, 10), location=coord)
+        assert not zman.issur_melacha_in_effect(datetime(2018, 11, 10, 17, 45))
 
     def test_issur_melacha_shavuot_morning(self) -> None:
         """Test for issur melacha on shavuot morning."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=datetime(2019, 6, 9, 9), location=coord)
-        assert zman.issur_melacha_in_effect
+        zman = Zmanim(date=date(2019, 6, 9), location=coord)
+        assert zman.issur_melacha_in_effect(datetime(2019, 6, 9, 9))
 
     def test_issur_melacha_pesach_vi_morning(self) -> None:
         """Test for issur melacha on erev shvii shel pesach morning."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=datetime(2019, 4, 25, 9, 45), location=coord)
-        assert not zman.issur_melacha_in_effect
+        zman = Zmanim(date=date(2019, 4, 25), location=coord)
+        assert not zman.issur_melacha_in_effect(datetime(2019, 4, 25, 9, 45))
 
     def test_issur_melacha_shavuot_evening(self) -> None:
         """Test for issur melacha on shavuot evening."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=datetime(2019, 6, 8, 21, 45), location=coord)
-        assert zman.issur_melacha_in_effect
+        zman = Zmanim(date=date(2019, 6, 8), location=coord)
+        assert zman.issur_melacha_in_effect(datetime(2019, 6, 8, 21, 45))
 
     def test_issur_melacha_motsaei_shavuot(self) -> None:
         """Test for issur melacha on motsaei shavuot."""
         coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=datetime(2019, 6, 9, 20, 30), location=coord)
-        assert not zman.issur_melacha_in_effect
+        zman = Zmanim(date=date(2019, 6, 9), location=coord)
+        assert not zman.issur_melacha_in_effect(datetime(2019, 6, 9, 20, 30))
 
     def test_issur_melacha_pesach_ii_morning(self) -> None:
         """Test for issur melacha on the second day of pesach in the diaspora."""
         coord = Location(
             "New York", 40.7128, -74.0060, "America/New_York", diaspora=True
         )
-        zman = Zmanim(date=datetime(2019, 4, 21, 9), location=coord)
-        assert zman.issur_melacha_in_effect
+        zman = Zmanim(date=date(2019, 4, 21), location=coord)
+        assert zman.issur_melacha_in_effect(datetime(2019, 4, 21, 9))
 
     def test_issur_melacha_pesach_ii_evening(self) -> None:
         """Test for issur melacha on the eve of second day of pesach in the diaspora."""
         coord = Location(
             "New York", 40.7128, -74.0060, "America/New_York", diaspora=True
         )
-        zman = Zmanim(date=datetime(2019, 4, 20, 21, 45), location=coord)
-        assert zman.issur_melacha_in_effect
+        zman = Zmanim(date=date(2019, 4, 20), location=coord)
+        assert zman.issur_melacha_in_effect(datetime(2019, 4, 20, 21, 45))
 
     def test_issur_melacha_motsaei_pesach_ii(self) -> None:
         """Test for issur melacha on the end of second day of pesach in the diaspora."""
@@ -217,8 +217,8 @@ class TestZmanimAPI:
             timezone="America/New_York",
             diaspora=True,
         )
-        zman = Zmanim(date=datetime(2019, 4, 21, 20, 30), location=coord)
-        assert not zman.issur_melacha_in_effect
+        zman = Zmanim(date=date(2019, 4, 21), location=coord)
+        assert not zman.issur_melacha_in_effect(datetime(2019, 4, 21, 20, 30))
 
     def test_zmanim_localized_datetime(self) -> None:
         """Test for issur melacha if datetime is localized."""
@@ -230,7 +230,7 @@ class TestZmanimAPI:
             diaspora=True,
         )
         _timezone = cast(tzinfo, coord.timezone)
-        zman = Zmanim(
-            date=datetime(2019, 4, 21, 20, 30, tzinfo=_timezone), location=coord
+        zman = Zmanim(date=date(2019, 4, 21), location=coord)
+        assert not zman.issur_melacha_in_effect(
+            datetime(2019, 4, 21, 20, 30, tzinfo=_timezone)
         )
-        assert not zman.issur_melacha_in_effect
