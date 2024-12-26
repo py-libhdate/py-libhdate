@@ -47,7 +47,7 @@ class Zman(TranslatorMixin):
 
 
 @dataclass
-class Zmanim(TranslatorMixin):
+class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     """Return Jewish day times.
 
     The Zmanim class returns times for the specified day ONLY. If you wish to
@@ -97,7 +97,9 @@ class Zmanim(TranslatorMixin):
         """Return the time for candle lighting, or None if not applicable."""
         # If today is a Yom Tov or Shabbat, and tomorrow is a Yom Tov or
         # Shabbat return the havdalah time as the candle lighting time.
-        if (self.today.is_yom_tov or self.today.is_shabbat) and self.tomorrow.is_yom_tov:
+        if (
+            self.today.is_yom_tov or self.today.is_shabbat
+        ) and self.tomorrow.is_yom_tov:
             return self._havdalah_datetime
 
         # Otherwise, if today is Friday or erev Yom Tov, return candle
@@ -141,7 +143,7 @@ class Zmanim(TranslatorMixin):
         if time.tzinfo is None or time.tzinfo.utcoffset(time) is None:
             time = time.replace(tzinfo=self.location.timezone)
         return time
-    
+
     def issur_melacha_in_effect(self, time: dt.datetime = dt.datetime.now()) -> bool:
         """At the given time, return whether issur melacha is in effect."""
         _time = self._timezone_aware(time)
