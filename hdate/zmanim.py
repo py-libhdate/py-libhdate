@@ -66,6 +66,8 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     havdalah_offset: int = 0
 
     def __post_init__(self) -> None:
+        if not isinstance(date, dt.date):
+            raise TypeError("date has to be of type datetime.date")
         self.set_language(self.language)
         self.today = HDate(gdate=self.date, diaspora=self.location.diaspora)
         self.tomorrow = HDate(
@@ -141,7 +143,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     def _timezone_aware(self, time: dt.datetime) -> dt.datetime:
         """Check if time is tz-naive and make it timezone-aware"""
         if time.tzinfo is None or time.tzinfo.utcoffset(time) is None:
-            time = time.replace(tzinfo=self.location.timezone)
+            time = time.replace(tzinfo=cast(dt.tzinfo, self.location.timezone))
         return time
 
     def issur_melacha_in_effect(self, time: dt.datetime = dt.datetime.now()) -> bool:
