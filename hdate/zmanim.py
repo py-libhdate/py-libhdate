@@ -66,7 +66,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     havdalah_offset: int = 0
 
     def __post_init__(self) -> None:
-        if not isinstance(date, dt.date):
+        if not isinstance(dt.date, date):
             raise TypeError("date has to be of type datetime.date")
         self.set_language(self.language)
         self.today = HDate(gdate=self.date, diaspora=self.location.diaspora)
