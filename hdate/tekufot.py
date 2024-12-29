@@ -44,6 +44,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     periods for prayer insertions, and associated halachic dates such as
     the start of Cheilat Geshamim (requesting rain)."""
 
+    # pylint: disable=R0913, R0917
     def __init__(
         self,
         date: Union[datetime.date, str, datetime.datetime] = datetime.datetime.now(),
@@ -207,9 +208,9 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         if self.prev_pesach <= self.date < self.shemini_atzeret:
             if self.tradition in ["israel", "diaspora_sephardi"]:
                 return Gevurot.MORID  # Morid = 0
-            else:
-                # diaspora_ashkenazi
-                return Gevurot.NEITHER  # neither = 2
+
+            # diaspora_ashkenazi
+            return Gevurot.NEITHER  # neither = 2
 
         # Shemini Atzeret to Pesach
         if self.shemini_atzeret <= self.date < self.pesach:
@@ -219,9 +220,9 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         if self.pesach <= self.date < self.next_shemini_atzeret:
             if self.tradition in ["israel", "diaspora_sephardi"]:
                 return Gevurot.MORID  # Morid = 0
-            else:
-                # diaspora_ashkenazi
-                return Gevurot.NEITHER  # neither = 2
+
+            # diaspora_ashkenazi
+            return Gevurot.NEITHER  # neither = 2
 
         # Par défaut (si rien ne correspond, ex. date hors de la plage) :
         return Gevurot.NEITHER
