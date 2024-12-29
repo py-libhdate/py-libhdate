@@ -97,7 +97,7 @@ def param_tekufot(request) -> Tekufot:
 class TestTekufot:
     """Tests for the Tekufot class."""
 
-    def test_default_initialization(self, default_tekufot: Tekufot)-> None:
+    def test_default_initialization(self, default_tekufot: Tekufot) -> None:
         """Test that default initialization works and sets attributes."""
         assert default_tekufot.date is not None
         assert isinstance(default_tekufot.gregorian_year, int)
@@ -108,7 +108,7 @@ class TestTekufot:
         assert default_tekufot.jdn is not None
         assert default_tekufot.hebrew_date is not None
 
-    def test_tekufa_calculation(self, default_tekufot: Tekufot)-> None:
+    def test_tekufa_calculation(self, default_tekufot: Tekufot) -> None:
         """Test that the tekufa times are calculated."""
         # Check that tekufa attributes exist
         assert hasattr(default_tekufot, "tekufa_nissan")
@@ -119,7 +119,7 @@ class TestTekufot:
         assert isinstance(default_tekufot.tekufa_nissan, datetime.datetime)
         assert isinstance(default_tekufot.tekufa_tishrei, datetime.datetime)
 
-    def test_cheilat_geshamim_diaspora(self, param_tekufot: Tekufot)-> None:
+    def test_cheilat_geshamim_diaspora(self, param_tekufot: Tekufot) -> None:
         """
         Test that Cheilat Geshamim date is calculated for diaspora.
         Ensure that the date shifts correctly depending on end-of-day times.
@@ -129,7 +129,7 @@ class TestTekufot:
             assert param_tekufot.get_cheilat_geshamim is not None
             assert isinstance(param_tekufot.get_cheilat_geshamim(), datetime.date)
 
-    def test_cheilat_geshamim_israel(self, default_tekufot: Tekufot)-> None:
+    def test_cheilat_geshamim_israel(self, default_tekufot: Tekufot) -> None:
         """Test that Cheilat Geshamim date in Israel is always 7 Cheshvan."""
         # default_tekufot is set to diaspora=False (Israel)
         assert default_tekufot.get_cheilat_geshamim is not None
@@ -148,7 +148,7 @@ class TestTekufot:
     )
     def test_get_prayer_for_date(
         self, param_tekufot: Tekufot, tradition: str, language: str
-    )-> None:
+    ) -> None:
         """Test that get_prayer_for_date returns a correct phrase
         for various traditions and languages."""
         phrase = param_tekufot.get_prayer_for_date(
@@ -165,7 +165,7 @@ class TestTekufot:
     @pytest.mark.parametrize("tradition,language", TRAD_LANG_COMBOS)
     def test_prayer_phrase_parametrized(
         self, param_tekufot: Tekufot, tradition: str, language: str
-    )-> None:
+    ) -> None:
         """
         Tests 'get_prayer_for_date' across 3 dates and 3 (tradition, language) combos.
         This generates 9 test runs total. Each run checks the returned prayer phrase
