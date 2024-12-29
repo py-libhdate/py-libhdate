@@ -153,7 +153,7 @@ class TestTekufot:
             for (t, l) in TRAD_LANG_COMBOS
         ],
     )
-    def test_tekufot_prayer_for_date(self, date_str, tradition, language):
+    def test_tekufot_prayer_for_date(self, date_str, tradition, language) -> None:
         """
         Tests that the method get_prayer_for_date returns the expected phrase
         for each combination of (date, tradition, language).
