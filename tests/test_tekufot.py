@@ -156,7 +156,7 @@ class TestTekufot:
         ],
     )
     def test_tekufot_prayer_for_date(
-        self: "TestTekufot", date_str, tradition, language
+        self: "TestTekufot", date_str: str, tradition: str, language: str
     ) -> None:
         """
         Tests that the method get_prayer_for_date returns the expected phrase
