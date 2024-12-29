@@ -103,7 +103,7 @@ def param_tekufot(request) -> Tekufot:
 class TestTekufot:
     """Tests for the Tekufot class."""
 
-    def test_default_initialization(self, _tekufot: Tekufot) -> None:
+    def test_default_initialization(self: "TestTekufot", _tekufot: Tekufot) -> None:
         """Test that default initialization works and sets attributes."""
         assert _tekufot.date is not None
         assert isinstance(_tekufot.gregorian_year, int)
@@ -114,7 +114,7 @@ class TestTekufot:
         assert _tekufot.jdn is not None
         assert _tekufot.hebrew_date is not None
 
-    def test_tekufa_calculation(self, _tekufot: Tekufot) -> None:
+    def test_tekufa_calculation(self: "TestTekufot", _tekufot: Tekufot) -> None:
         """Test that the tekufa times are calculated."""
         # Check that tekufa attributes exist
         assert hasattr(_tekufot, "tekufa_nissan")
@@ -126,7 +126,9 @@ class TestTekufot:
         assert isinstance(_tekufot.tekufa_tishrei, datetime.datetime)
 
     # pylint: disable=redefined-outer-name
-    def test_cheilat_geshamim_diaspora(self, param_tekufot: Tekufot) -> None:
+    def test_cheilat_geshamim_diaspora(
+        self: "TestTekufot", param_tekufot: Tekufot
+    ) -> None:
         """
         Test that Cheilat Geshamim date is calculated for diaspora.
         Ensure that the date shifts correctly depending on end-of-day times.
@@ -136,7 +138,7 @@ class TestTekufot:
             assert param_tekufot.get_cheilat_geshamim is not None
             assert isinstance(param_tekufot.get_cheilat_geshamim(), datetime.date)
 
-    def test_cheilat_geshamim_israel(self, _tekufot: Tekufot) -> None:
+    def test_cheilat_geshamim_israel(self: "TestTekufot", _tekufot: Tekufot) -> None:
         """Test that Cheilat Geshamim date in Israel is always 7 Cheshvan."""
         # default_tekufot is set to diaspora=False (Israel)
         assert _tekufot.get_cheilat_geshamim is not None
@@ -153,7 +155,9 @@ class TestTekufot:
             for (t, l) in TRAD_LANG_COMBOS
         ],
     )
-    def test_tekufot_prayer_for_date(self, date_str, tradition, language) -> None:
+    def test_tekufot_prayer_for_date(
+        self: "TestTekufot", date_str, tradition, language
+    ) -> None:
         """
         Tests that the method get_prayer_for_date returns the expected phrase
         for each combination of (date, tradition, language).
