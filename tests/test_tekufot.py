@@ -78,7 +78,13 @@ def default_tekufot() -> Tekufot:
         timezone="Asia/Jerusalem",
         diaspora=False,
     )
-    return Tekufot(date=datetime.date.today(), diaspora=False, location=loc)
+    return Tekufot(
+        date=datetime.date.today(),
+        diaspora=False,
+        location=loc,
+        language="english",
+        tradition="israel",
+    )
 
 
 @pytest.fixture(params=["2024-12-13", "2025-04-25", "2026-10-10"])
@@ -139,52 +145,40 @@ class TestTekufot:
         assert hdate.month == 2 and hdate.day == 7  # 7 Cheshvan
 
     @pytest.mark.parametrize(
-        "tradition,language",
+        "date_str,tradition,language",
         [
-            ("israel", "english"),
-            ("diaspora_ashkenazi", "french"),
-            ("diaspora_sephardi", "hebrew"),
+            (d, t, l)
+            for d in ["2024-12-13", "2025-04-25", "2026-10-10"]
+            for (t, l) in TRAD_LANG_COMBOS
         ],
     )
-    def test_get_prayer_for_date(
-        self, param_tekufot: Tekufot, tradition: str, language: str
-    ) -> None:
-        """Test that get_prayer_for_date returns a correct phrase
-        for various traditions and languages."""
-        phrase = param_tekufot.get_prayer_for_date(
-            date=param_tekufot.date,
-            tradition=tradition,
-            language=language,
-        )
-        # The phrase should be a non-empty string if a period is determined
-        assert isinstance(phrase, str)
-        # Depending on the date and tradition/language, phrase may vary
-        # Just ensure we got something meaningful or a default "No prayer phrase found".
-        assert phrase != ""
+    def test_tekufot_prayer_for_date(self, date_str, tradition, language):
+        """
+        Tests that the method get_prayer_for_date returns the expected phrase
+        for each combination of (date, tradition, language).
+        """
 
-    @pytest.mark.parametrize("tradition,language", TRAD_LANG_COMBOS)
-    def test_prayer_phrase_parametrized(
-        self, param_tekufot: Tekufot, tradition: str, language: str
-    ) -> None:
-        """
-        Tests 'get_prayer_for_date' across 3 dates and 3 (tradition, language) combos.
-        This generates 9 test runs total. Each run checks the returned prayer phrase
-        against a known expected value stored in EXPECTED_PHRASES.
-        """
-        # Retrieve the actual prayer phrase from the Tekufot object.
-        phrase = param_tekufot.get_prayer_for_date(
-            date=param_tekufot.date,
+        loc = Location(
+            name="TestLocation",
+            latitude=40.0,
+            longitude=-74.0,
+            timezone="America/New_York",
+            diaspora=(tradition != "israel"),  # diaspora=True Outside Israel
+        )
+
+        tekufot = Tekufot(
+            date=date_str,
+            diaspora=(tradition != "israel"),
+            location=loc,
             tradition=tradition,
             language=language,
         )
 
-        # Build a key to look up the expected phrase
-        key = (str(param_tekufot.date), tradition, language)
-        assert key in EXPECTED_PHRASES, f"No expected phrase found for {key}"
+        actual_phrase = tekufot.get_prayer_for_date()
 
-        expected_phrase = EXPECTED_PHRASES[key]
-
-        # Validate the actual phrase matches the expected phrase
-        assert (
-            phrase == expected_phrase
-        ), f"For {key}, expected '{expected_phrase}', got '{phrase}'."
+        expected_phrase = EXPECTED_PHRASES[(date_str, tradition, language)]
+        assert actual_phrase == expected_phrase, (
+            f"\nDate: {date_str}, Tradition: {tradition}, Langue: {language}\n"
+            f"Expected : {expected_phrase}\n"
+            f"Result : {actual_phrase}"
+        )
