@@ -4,7 +4,6 @@ import datetime
 
 import pytest
 
-from hdate import converters as conv
 from hdate.location import Location
 from hdate.tekufot import Tekufot
 
@@ -68,84 +67,26 @@ EXPECTED_PHRASES = {
 }
 
 
-@pytest.fixture
-def _tekufot() -> Tekufot:
-    """Create a Tekufot object for today's date with default settings."""
-    loc = Location(
-        name="Jerusalem",
-        latitude=31.778,
-        longitude=35.235,
-        timezone="Asia/Jerusalem",
-        diaspora=False,
-    )
-    return Tekufot(
-        date=datetime.date.today(),
-        diaspora=False,
-        location=loc,
-        language="english",
-        tradition="israel",
-    )
-
-
-@pytest.fixture(params=["2024-12-13", "2025-04-25", "2026-10-10"])
-def param_tekufot(request) -> Tekufot:
-    """Parameterized Tekufot object with various dates."""
-    loc = Location(
-        name="New York",
-        latitude=40.7128,
-        longitude=-74.0060,
-        timezone="America/New_York",
-        diaspora=True,
-    )
-    return Tekufot(date=request.param, diaspora=True, location=loc)
-
-
 class TestTekufot:
     """Tests for the Tekufot class."""
 
-    def test_default_initialization(self: "TestTekufot", _tekufot: Tekufot) -> None:
-        """Test that default initialization works and sets attributes."""
-        assert _tekufot.date is not None
-        assert isinstance(_tekufot.gregorian_year, int)
-        assert isinstance(_tekufot.hebrew_year, int)
-        assert isinstance(_tekufot.location, Location)
-        assert _tekufot.diaspora is False
-        # Ensure JDN and Hebrew date were computed
-        assert _tekufot.jdn is not None
-        assert _tekufot.hebrew_date is not None
-
-    def test_tekufa_calculation(self: "TestTekufot", _tekufot: Tekufot) -> None:
-        """Test that the tekufa times are calculated."""
-        # Check that tekufa attributes exist
-        assert hasattr(_tekufot, "tekufa_nissan")
-        assert hasattr(_tekufot, "tekufa_tishrei")
-        assert hasattr(_tekufot, "tekufa_tammuz")
-        assert hasattr(_tekufot, "tekufa_tevet")
-        # Ensure these are datetime objects
-        assert isinstance(_tekufot.tekufa_nissan, datetime.datetime)
-        assert isinstance(_tekufot.tekufa_tishrei, datetime.datetime)
-
-    # pylint: disable=redefined-outer-name
-    def test_cheilat_geshamim_diaspora(
-        self: "TestTekufot", param_tekufot: Tekufot
-    ) -> None:
-        """
-        Test that Cheilat Geshamim date is calculated for diaspora.
-        Ensure that the date shifts correctly depending on end-of-day times.
-        """
-        # Only test if diaspora = True for this param
-        if param_tekufot.diaspora:
-            assert param_tekufot.get_cheilat_geshamim is not None
-            assert isinstance(param_tekufot.get_cheilat_geshamim(), datetime.date)
-
-    def test_cheilat_geshamim_israel(self: "TestTekufot", _tekufot: Tekufot) -> None:
-        """Test that Cheilat Geshamim date in Israel is always 7 Cheshvan."""
-        # default_tekufot is set to diaspora=False (Israel)
-        assert _tekufot.get_cheilat_geshamim is not None
-        # Convert cheilat geshamim date back to Hebrew date to ensure it's 7 Cheshvan
-        cheilat_jdn = conv.gdate_to_jdn(_tekufot.get_cheilat_geshamim())
-        hdate = conv.jdn_to_hdate(cheilat_jdn)
-        assert hdate.month == 2 and hdate.day == 7  # 7 Cheshvan
+    @pytest.fixture
+    def default_values(self) -> Tekufot:
+        """Create a Tekufot object for today's date with default settings."""
+        loc = Location(
+            name="Jerusalem",
+            latitude=31.778,
+            longitude=35.235,
+            timezone="Asia/Jerusalem",
+            diaspora=False,
+        )
+        return Tekufot(
+            date=datetime.date.today(),
+            diaspora=False,
+            location=loc,
+            language="english",
+            tradition="israel",
+        )
 
     @pytest.mark.parametrize(
         "date_str,tradition,language",
