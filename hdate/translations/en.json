@@ -190,5 +190,14 @@
         "thursday": "Thursday",
         "friday": "Friday",
         "saturday": "Saturday"
-    }
+    },
+    "Gevurot": {
+        "morid": "Morid ha-tal",
+        "mashiv": "Mashiv ha-ruach u-morid ha-geshem",
+        "neither": "(Silence)"
+    },
+    "Geshamim": {
+        "barkheinu": "Barkheinu",
+        "barech_aleinu": "Barech aleinu"
+    }        
 }
