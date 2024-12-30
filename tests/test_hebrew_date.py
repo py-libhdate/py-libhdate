@@ -56,3 +56,10 @@ def test_hebrew_date_comparisons_with_no_year(d1: HebrewDate, d2: HebrewDate) ->
     assert (d1 > d2) == ((d1.month, d1.day) > (d2.month, d2.day))
     assert (d1 <= d2) == ((d1.month, d1.day) <= (d2.month, d2.day))
     assert (d1 >= d2) == ((d1.month, d1.day) >= (d2.month, d2.day))
+
+
+@given(d1=valid_hebrew_date(), d2=valid_hebrew_date())
+def test_hebrew_date_addition(d1: HebrewDate, d2: HebrewDate) -> None:
+    """Test HebrewDate addition and subtraction."""
+    diff = d1 - d2
+    assert d2 + diff == d1
