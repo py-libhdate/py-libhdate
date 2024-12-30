@@ -60,19 +60,19 @@ class HebrewDate(TranslatorMixin):
         if not isinstance(other, dt.timedelta):
             return NotImplemented
         days = other.days  # Number of days to add
-        day, month, year = self.day, self.month, self.year
+        new = HebrewDate(self.day, self.month, self.year)
         while days > 0:
-            days_left_in_month = self.get_month_days(Months(month), year) - day
+            days_left_in_month = new.get_month_days(Months(new.month)) - new.day
             if days_left_in_month > days:
-                day += days
+                new.day += days
                 break
             days -= days_left_in_month
-            day = 1
-            month = self.get_next_month(Months(month), year)
-            if month == Months.TISHREI:
-                year += 1
+            new.day = 1
+            new.month = self.get_next_month(Months(new.month), new.year)
+            if new.month == Months.TISHREI:
+                new.year += 1
 
-        return HebrewDate(year, month, day)
+        return new
 
     def __sub__(self, other: object) -> dt.timedelta:
         if not isinstance(other, HebrewDate):
@@ -230,7 +230,7 @@ class HebrewDate(TranslatorMixin):
             hebrew_year
         )
 
-    def get_month_days(self, month: Months, year: int) -> int:
+    def get_month_days(self, month: Months) -> int:
         """Return the number of days in a month."""
         if month in (
             Months.TISHREI,
@@ -251,18 +251,19 @@ class HebrewDate(TranslatorMixin):
         ):
             return 29
         if month == Months.KISLEV:
-            return 29 if HebrewDate.year_size(year) in (353, 383) else 30
+            return 29 if HebrewDate.year_size(self.year) in (353, 383) else 30
         if month == Months.MARCHESHVAN:
-            return 30 if HebrewDate.year_size(year) in (355, 385) else 29
+            return 30 if HebrewDate.year_size(self.year) in (355, 385) else 29
         return 0
+
+    def is_leap_year(self) -> bool:
+        """Return: True if the year is a leap year."""
+        return self.year % 19 in (0, 3, 6, 8, 11, 14, 17)
 
     def get_next_month(self, month: Months, year: int) -> Months:
         """Return the next month."""
 
-        def is_leap(year: int) -> bool:
-            return year % 19 in (0, 3, 6, 8, 11, 14, 17)
-
-        if is_leap(year):
+        if HebrewDate(year).is_leap_year():
             if month == Months.SHVAT:
                 return Months.ADAR_I
             if month == Months.ADAR_I:
