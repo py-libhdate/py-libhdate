@@ -232,16 +232,6 @@ class HDate(TranslatorMixin):
         """Return the size of the given Hebrew year."""
         return HebrewDate.year_size(self.hdate.year)
 
-    def rosh_hashana_dow(self) -> int:
-        """Return the Hebrew day of week for Rosh Hashana."""
-        jdn = HebrewDate(self.hdate.year, Months.TISHREI, 1).to_jdn()
-        return (jdn + 1) % 7 + 1
-
-    def pesach_dow(self) -> int:
-        """Return the first day of week for Pesach."""
-        jdn = HebrewDate(self.hdate.year, Months.NISAN, 15).to_jdn()
-        return (jdn + 1) % 7 + 1
-
     @property
     def omer_day(self) -> int:
         """Return the day of the Omer."""
@@ -437,9 +427,9 @@ class HDate(TranslatorMixin):
         _year_type = (self.year_size() % 10) - 3
         year_type = (
             self.diaspora * 1000
-            + self.rosh_hashana_dow() * 100
+            + HebrewDate(self.hdate.year, Months.TISHREI, 1).dow() * 100
             + _year_type * 10
-            + self.pesach_dow()
+            + HebrewDate(self.hdate.year, Months.NISAN, 15).dow()
         )
 
         _LOGGER.debug("Year type: %d", year_type)
@@ -448,7 +438,7 @@ class HDate(TranslatorMixin):
         rosh_hashana = HebrewDate(self.hdate.year, Months.TISHREI, 1)
         days = (self.hdate - rosh_hashana).days
         # Number of weeks since rosh hashana
-        weeks = (days + self.rosh_hashana_dow() - 1) // 7
+        weeks = (days + rosh_hashana.dow() - 1) // 7
         _LOGGER.debug("Since Rosh Hashana - Days: %d, Weeks %d", days, weeks)
 
         # If it's currently Simchat Torah, return VeZot Haberacha.

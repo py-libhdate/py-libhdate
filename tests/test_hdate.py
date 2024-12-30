@@ -97,13 +97,11 @@ class TestHDate:
         print(f"Run number: {execution_number}")
         assert rand_hdate.year_size() == HebrewDate.year_size(rand_hdate.hdate.year)
 
-    def test_rosh_hashana_day_of_week(self, rand_hdate: HDate) -> None:
+    def test_rosh_hashana_day_of_week(self) -> None:
         """Check that Rosh Hashana's DOW matches the given dates"""
         for year, info in list(HEBREW_YEARS_INFO.items()):
-            rand_hdate.hdate = HebrewDate(
-                year, rand_hdate.hdate.month, rand_hdate.hdate.day
-            )
-            assert rand_hdate.rosh_hashana_dow() == info[0]
+            rosh_hashana = HebrewDate(year)
+            assert rosh_hashana.dow() == info[0]
 
     def test_pesach_day_of_week(self, rand_hdate: HDate) -> None:
         """ "Check tha Pesach DOW matches the given dates."""

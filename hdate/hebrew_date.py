@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import Union
 
 import hdate.converters as conv
-from hdate.htables import Months
+from hdate.htables import Days, Months
 from hdate.translator import TranslatorMixin
 
 
@@ -271,3 +271,7 @@ class HebrewDate(TranslatorMixin):
                 return Months.NISAN
         next_month = month + 1 if month < Months.ELUL else Months.TISHREI
         return Months(next_month)
+
+    def dow(self) -> Days:
+        """Return: day of the week."""
+        return Days((self.to_jdn() + 1) % 7 + 1)
