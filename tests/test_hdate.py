@@ -7,7 +7,6 @@ from typing import Union
 
 import pytest
 
-import hdate.converters as conv
 from hdate import HDate, HebrewDate
 from hdate.htables import Months
 
@@ -88,7 +87,7 @@ class TestHDate:
     def test_conv_get_size_of_hebrew_year(self) -> None:
         """Check that the size of year returned is correct."""
         for year, info in list(HEBREW_YEARS_INFO.items()):
-            assert conv.get_size_of_hebrew_year(year) == info[1]
+            assert HebrewDate.year_size(year) == info[1]
 
     @pytest.mark.parametrize("execution_number", list(range(10)))
     def test_hdate_get_size_of_hebrew_years(
@@ -96,9 +95,7 @@ class TestHDate:
     ) -> None:
         """Check that the year_size property returns the correct value."""
         print(f"Run number: {execution_number}")
-        assert rand_hdate.year_size() == conv.get_size_of_hebrew_year(
-            rand_hdate.hdate.year
-        )
+        assert rand_hdate.year_size() == HebrewDate.year_size(rand_hdate.hdate.year)
 
     def test_rosh_hashana_day_of_week(self, rand_hdate: HDate) -> None:
         """Check that Rosh Hashana's DOW matches the given dates"""
@@ -450,7 +447,7 @@ class TestSpecialDays:
     def test_get_holiday_hanuka_3rd_tevet(self) -> None:
         """Test Chanuka falling on 3rd of Tevet."""
         year = random.randint(5000, 6000)
-        year_size = conv.get_size_of_hebrew_year(year)
+        year_size = HebrewDate.year_size(year)
         myhdate = HDate(heb_date=HebrewDate(year, 4, 3))
         print(year_size)
         if year_size in [353, 383]:
@@ -469,7 +466,7 @@ class TestSpecialDays:
     def test_get_holiday_adar(self, possible_days: list[int], holiday: str) -> None:
         """Test holidays for Adar I/Adar II."""
         year = random.randint(5000, 6000)
-        year_size = conv.get_size_of_hebrew_year(year)
+        year_size = HebrewDate.year_size(year)
         month = 6 if year_size < 360 else 14
         myhdate = HDate()
 

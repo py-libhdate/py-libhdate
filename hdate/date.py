@@ -52,7 +52,7 @@ class HDate(TranslatorMixin):
 
         if heb_date is None:
             self.gdate = gdate
-            self._hdate = conv.jdn_to_hdate(self._jdn)
+            self._hdate = HebrewDate.from_jdn(self._jdn)
         else:
             self.hdate = heb_date
             self._gdate = conv.jdn_to_gdate(self._jdn)
@@ -107,7 +107,7 @@ class HDate(TranslatorMixin):
         """Return the hebrew date."""
         if self._last_updated == "hdate":
             return self._hdate
-        return conv.jdn_to_hdate(self._jdn)
+        return HebrewDate.from_jdn(self._jdn)
 
     @hdate.setter
     def hdate(self, date: HebrewDate) -> None:
@@ -118,7 +118,7 @@ class HDate(TranslatorMixin):
 
         self._last_updated = "hdate"
         self._hdate = date
-        self._jdn = conv.hdate_to_jdn(date)
+        self._jdn = date.to_jdn()
 
     @property
     def gdate(self) -> datetime.date:
@@ -234,23 +234,23 @@ class HDate(TranslatorMixin):
 
     def year_size(self) -> int:
         """Return the size of the given Hebrew year."""
-        return conv.get_size_of_hebrew_year(self.hdate.year)
+        return HebrewDate.year_size(self.hdate.year)
 
     def rosh_hashana_dow(self) -> int:
         """Return the Hebrew day of week for Rosh Hashana."""
-        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, Months.TISHREI, 1))
+        jdn = HebrewDate(self.hdate.year, Months.TISHREI, 1).to_jdn()
         return (jdn + 1) % 7 + 1
 
     def pesach_dow(self) -> int:
         """Return the first day of week for Pesach."""
-        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, Months.NISAN, 15))
+        jdn = HebrewDate(self.hdate.year, Months.NISAN, 15).to_jdn()
         return (jdn + 1) % 7 + 1
 
     @property
     def omer_day(self) -> int:
         """Return the day of the Omer."""
         first_omer_day = HebrewDate(self.hdate.year, Months.NISAN, 16)
-        omer_day = self._jdn - conv.hdate_to_jdn(first_omer_day) + 1
+        omer_day = self._jdn - first_omer_day.to_jdn() + 1
         if not 0 < omer_day < 50:
             return 0
         return omer_day
@@ -450,7 +450,7 @@ class HDate(TranslatorMixin):
 
         # Number of days since rosh hashana
         rosh_hashana = HebrewDate(self.hdate.year, Months.TISHREI, 1)
-        days = self._jdn - conv.hdate_to_jdn(rosh_hashana)
+        days = (self.hdate - rosh_hashana).days
         # Number of weeks since rosh hashana
         weeks = (days + self.rosh_hashana_dow() - 1) // 7
         _LOGGER.debug("Since Rosh Hashana - Days: %d, Weeks %d", days, weeks)
