@@ -12,7 +12,6 @@ import logging
 from itertools import chain, product
 from typing import Any, Optional, Union, cast
 
-from hdate import converters as conv
 from hdate import htables
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate
@@ -47,15 +46,14 @@ class HDate(TranslatorMixin):
         """Initialize the HDate object."""
         super().__init__()
         # Initialize private variables
-        self._jdn = 0
         self._last_updated = ""
 
         if heb_date is None:
             self.gdate = gdate
-            self._hdate = HebrewDate.from_jdn(self._jdn)
+            self._hdate = HebrewDate.from_gdate(gdate)
         else:
             self.hdate = heb_date
-            self._gdate = conv.jdn_to_gdate(self._jdn)
+            self._gdate = heb_date.to_gdate()
 
         self.diaspora = diaspora
         self.set_language(language)
@@ -107,7 +105,7 @@ class HDate(TranslatorMixin):
         """Return the hebrew date."""
         if self._last_updated == "hdate":
             return self._hdate
-        return HebrewDate.from_jdn(self._jdn)
+        return HebrewDate.from_gdate(self._gdate)
 
     @hdate.setter
     def hdate(self, date: HebrewDate) -> None:
@@ -118,21 +116,19 @@ class HDate(TranslatorMixin):
 
         self._last_updated = "hdate"
         self._hdate = date
-        self._jdn = date.to_jdn()
 
     @property
     def gdate(self) -> datetime.date:
         """Return the Gregorian date for the given Hebrew date object."""
         if self._last_updated == "gdate":
             return self._gdate
-        return conv.jdn_to_gdate(self._jdn)
+        return self._hdate.to_gdate()
 
     @gdate.setter
     def gdate(self, date: datetime.date) -> None:
         """Set the Gregorian date for the given Hebrew date object."""
         self._last_updated = "gdate"
         self._gdate = date
-        self._jdn = conv.gdate_to_jdn(date)
 
     @property
     def hebrew_date(self) -> str:
@@ -250,7 +246,7 @@ class HDate(TranslatorMixin):
     def omer_day(self) -> int:
         """Return the day of the Omer."""
         first_omer_day = HebrewDate(self.hdate.year, Months.NISAN, 16)
-        omer_day = self._jdn - first_omer_day.to_jdn() + 1
+        omer_day = (self.hdate - first_omer_day).days + 1
         if not 0 < omer_day < 50:
             return 0
         return omer_day

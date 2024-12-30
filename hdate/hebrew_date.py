@@ -112,11 +112,6 @@ class HebrewDate(TranslatorMixin):
         return day + 1715118
 
     @staticmethod
-    def from_gdate(date: dt.date) -> HebrewDate:
-        """Return Hebrew date from Gregorian date."""
-        return HebrewDate.from_jdn(conv.gdate_to_jdn(date))
-
-    @staticmethod
     def from_jdn(jdn: int) -> HebrewDate:
         """Convert from the Julian day to the Hebrew day."""
         # calculate Gregorian date
@@ -168,6 +163,15 @@ class HebrewDate(TranslatorMixin):
             month = month + 1
 
         return HebrewDate(year, Months(month), day)
+
+    @staticmethod
+    def from_gdate(date: dt.date) -> HebrewDate:
+        """Return Hebrew date from Gregorian date."""
+        return HebrewDate.from_jdn(conv.gdate_to_jdn(date))
+
+    def to_gdate(self) -> dt.date:
+        """Return Gregorian date from Hebrew date."""
+        return conv.jdn_to_gdate(self.to_jdn())
 
     @staticmethod
     def _days_from_3744(hebrew_year: int) -> int:
