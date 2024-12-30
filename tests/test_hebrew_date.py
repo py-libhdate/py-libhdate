@@ -28,11 +28,31 @@ def valid_hebrew_date(draw: strategies.DrawFn) -> HebrewDate:
     return HebrewDate(year, month, day)
 
 
+@strategies.composite
+def no_year_hebrew_date(draw: strategies.DrawFn) -> HebrewDate:
+    """Generate a Hebrew date with no year."""
+    month = draw(strategies.sampled_from(list(Months)))
+    day = draw(strategies.integers(min_value=1, max_value=30))
+    return HebrewDate(0, month, day)
+
+
 @given(d1=valid_hebrew_date(), d2=valid_hebrew_date())
 def test_hebrew_date_comparisons(d1: HebrewDate, d2: HebrewDate) -> None:
     """Test that the HebrewDate class implements all comparison operators correctly."""
     assert (d1 == d2) == ((d1.year, d1.month, d1.day) == (d2.year, d2.month, d2.day))
+    assert (d1 != d2) == ((d1.year, d1.month, d1.day) != (d2.year, d2.month, d2.day))
     assert (d1 < d2) == ((d1.year, d1.month, d1.day) < (d2.year, d2.month, d2.day))
     assert (d1 > d2) == ((d1.year, d1.month, d1.day) > (d2.year, d2.month, d2.day))
     assert (d1 <= d2) == ((d1.year, d1.month, d1.day) <= (d2.year, d2.month, d2.day))
     assert (d1 >= d2) == ((d1.year, d1.month, d1.day) >= (d2.year, d2.month, d2.day))
+
+
+@given(d1=valid_hebrew_date(), d2=no_year_hebrew_date())
+def test_hebrew_date_comparisons_with_no_year(d1: HebrewDate, d2: HebrewDate) -> None:
+    """Test HebrewDatecomparison operators when there is no year."""
+    assert (d1 == d2) == ((d1.month, d1.day) == (d2.month, d2.day))
+    assert (d1 != d2) == ((d1.month, d1.day) != (d2.month, d2.day))
+    assert (d1 < d2) == ((d1.month, d1.day) < (d2.month, d2.day))
+    assert (d1 > d2) == ((d1.month, d1.day) > (d2.month, d2.day))
+    assert (d1 <= d2) == ((d1.month, d1.day) <= (d2.month, d2.day))
+    assert (d1 >= d2) == ((d1.month, d1.day) >= (d2.month, d2.day))
