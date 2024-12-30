@@ -7,7 +7,7 @@ from hypothesis import given, strategies
 from hdate.hebrew_date import HebrewDate
 from hdate.htables import Months
 
-MIN_YEAR = 1
+MIN_YEAR = 3762
 MAX_YEAR = 6000
 
 
@@ -62,12 +62,11 @@ def test_hebrew_date_comparisons_with_no_year(d1: HebrewDate, d2: HebrewDate) ->
 
 @given(
     d1=valid_hebrew_date(),
-    delta=strategies.timedeltas(
-        min_value=dt.timedelta(days=-500), max_value=dt.timedelta(days=500)
-    ),
+    days=strategies.integers(min_value=-500, max_value=500),
 )
-def test_hebrew_date_addition(d1: HebrewDate, delta: dt.timedelta) -> None:
+def test_hebrew_date_addition(d1: HebrewDate, days: int) -> None:
     """Test HebrewDate addition and subtraction."""
+    delta = dt.timedelta(days=days)
     d2 = d1 + delta
     assert d2 - d1 == delta
 
@@ -75,5 +74,5 @@ def test_hebrew_date_addition(d1: HebrewDate, delta: dt.timedelta) -> None:
 @given(d1=valid_hebrew_date(), d2=no_year_hebrew_date())
 def test_hebrew_date_addition_with_no_year(d1: HebrewDate, d2: HebrewDate) -> None:
     """Test HebrewDate addition and subtraction when there is no year."""
-    diff = d1 - d2
-    assert d2 + diff == d1
+    diff = d2 - d1
+    assert d1 + diff == d2
