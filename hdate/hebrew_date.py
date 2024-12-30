@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import datetime as dt
-from copy import deepcopy
 from dataclasses import dataclass
 from typing import Union
 
@@ -60,30 +59,20 @@ class HebrewDate(TranslatorMixin):
     def __add__(self, other: object) -> HebrewDate:
         if not isinstance(other, dt.timedelta):
             return NotImplemented
-        days = other.days  # Number of days to add
-        new = HebrewDate(self.year, self.month, self.day)
-        while days != 0:
-            days_left_in_month = new.get_month_days(Months(new.month)) - new.day
-            if abs(days) > days_left_in_month:
-                days -= days_left_in_month
-                new.day = 1
-                new.month = self.get_next_month(Months(new.month), new.year)
-                if new.month == Months.TISHREI:
-                    new.year += 1
-            else:
-                new.day += days
-                break
-
-        return new
+        new_gdate = self.to_gdate() + other
+        return HebrewDate.from_gdate(new_gdate)
 
     def __sub__(self, other: object) -> dt.timedelta:
         if not isinstance(other, HebrewDate):
             return NotImplemented
-        local_self = deepcopy(self)
-        local_other = deepcopy(other)
         if self.year == 0 or other.year == 0:
-            local_self.year = local_other.year = max(self.year, other.year)
-        days = self.to_jdn() - other.to_jdn()
+            adjusted_year = max(self.year, other.year)
+            local_self = HebrewDate(adjusted_year, self.month, self.day)
+            local_other = HebrewDate(adjusted_year, other.month, other.day)
+        else:
+            local_self = self
+            local_other = other
+        days = local_self.to_jdn() - local_other.to_jdn()
         return dt.timedelta(days=days)
 
     def to_jdn(self) -> int:
