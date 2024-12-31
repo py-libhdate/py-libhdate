@@ -1,6 +1,6 @@
 """Test Tekufot objects."""
 
-import datetime
+import datetime as dt
 
 import pytest
 
@@ -81,7 +81,7 @@ class TestTekufot:
             diaspora=False,
         )
         return Tekufot(
-            date=datetime.date.today(),
+            date=dt.date.today(),
             diaspora=False,
             location=loc,
             language="english",
@@ -113,7 +113,7 @@ class TestTekufot:
         )
 
         tekufot = Tekufot(
-            date=date_str,
+            date=dt.datetime.strptime(date_str, "%Y-%m-%d").date(),
             diaspora=(tradition != "israel"),
             location=loc,
             tradition=tradition,
