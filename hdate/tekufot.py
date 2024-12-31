@@ -51,12 +51,6 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     ):
         """Initialize the Tekufot object."""
         super().__init__()
-        if isinstance(date, str):
-            # If a string is given, parse it into a date/datetime if needed.
-            # For now, assume YYYY-MM-DD format.
-            date = dt.datetime.strptime(date, "%Y-%m-%d").date()
-        elif isinstance(date, dt.datetime):
-            date = date.date()
 
         self.date = date
         self.gregorian_year = date.year
