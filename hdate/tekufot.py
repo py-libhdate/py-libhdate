@@ -40,7 +40,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     periods for prayer insertions, and associated halachic dates such as
     the start of Cheilat Geshamim (requesting rain)."""
 
-    # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-positional-arguments
     def __init__(
         self,
         date: dt.date = dt.datetime.now(),
