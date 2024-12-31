@@ -9,9 +9,8 @@ The class attempts to compute:
     - Appropriate prayer phrases depending on the current date, tradition, and language.
 """
 
-import datetime
+import datetime as dt
 from enum import IntEnum
-from typing import Union
 
 from hdate import converters as conv
 from hdate.hebrew_date import HebrewDate
@@ -41,10 +40,10 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     periods for prayer insertions, and associated halachic dates such as
     the start of Cheilat Geshamim (requesting rain)."""
 
-    # pylint: disable=R0913, R0917
+    # pylint: disable=too-many-arguments
     def __init__(
         self,
-        date: Union[datetime.date, str, datetime.datetime] = datetime.datetime.now(),
+        date: dt.date = dt.datetime.now(),
         diaspora: bool = False,
         location: Location = Location(),
         tradition: str = "israel",
@@ -55,8 +54,8 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         if isinstance(date, str):
             # If a string is given, parse it into a date/datetime if needed.
             # For now, assume YYYY-MM-DD format.
-            date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
-        elif isinstance(date, datetime.datetime):
+            date = dt.datetime.strptime(date, "%Y-%m-%d").date()
+        elif isinstance(date, dt.datetime):
             date = date.date()
 
         self.date = date
@@ -64,12 +63,14 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         self.hebrew_year = self.gregorian_year + 3760
         self.diaspora = diaspora
         self.location = location
-        self.tradition = tradition
+        self.tradition = tradition or (
+            "israel" if not diaspora else "diaspora_sephardi"
+        )
         self.language = language
 
         # Convert current date to JDN and Hebrew Date
-        self.jdn = conv.gdate_to_jdn(date)
-        self.hebrew_date = conv.jdn_to_hdate(self.jdn)
+        jdn = conv.gdate_to_jdn(date)
+        self.hebrew_date = conv.jdn_to_hdate(jdn)
         self.hebrew_year_p = self.hebrew_date.year
         self.gregorian_year_p = self.hebrew_year_p - 3760
 
@@ -94,21 +95,21 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         # we take April 7 as a reference, otherwise April 8
 
         if self.gregorian_year_p < 2100:
-            date_equinox_april = datetime.date(self.gregorian_year_p, 4, 7)
+            date_equinox_april = dt.date(self.gregorian_year_p, 4, 7)
         else:
-            date_equinox_april = datetime.date(self.gregorian_year_p, 4, 8)
+            date_equinox_april = dt.date(self.gregorian_year_p, 4, 8)
 
         # Hours shift depends on leap year cycles
         hours_delta_nissan = (self.gregorian_year_p % 4) * 6
 
         # Tekufa Nissan: start at date_equinox_april at 12:00
-        tekufa_nissan = datetime.datetime.combine(
-            date_equinox_april, datetime.time(12, 0)
-        ) + datetime.timedelta(hours=hours_delta_nissan)
+        tekufa_nissan = dt.datetime.combine(
+            date_equinox_april, dt.time(12, 0)
+        ) + dt.timedelta(hours=hours_delta_nissan)
         self.tekufa_nissan = tekufa_nissan
 
         # Tekufa intervals are about 91 days and 7.5 hours apart
-        tekufa_delta = datetime.timedelta(
+        tekufa_delta = dt.timedelta(
             days=interval_days,
             hours=int(interval_hours),
             minutes=int((interval_hours - int(interval_hours)) * 60),
@@ -119,7 +120,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         self.tekufa_tishrei = self.tekufa_tevet - tekufa_delta
         self.tekufa_tammuz = self.tekufa_nissan + tekufa_delta
 
-    def get_cheilat_geshamim(self) -> datetime.date:
+    def get_cheilat_geshamim(self) -> dt.date:
         """
         Calculates the start date for the prayers for rain (Cheilat Geshamim).
         In the diaspora, it is 60 days (add 59 days) after Tekufat Tishrei.
@@ -133,7 +134,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         if self.diaspora:
             # Cheilat Geshamim starts 60 days after Tekufat Tishrei.
-            _cheilat_geshamim = self.tekufa_tishrei + datetime.timedelta(days=59)
+            _cheilat_geshamim = self.tekufa_tishrei + dt.timedelta(days=59)
 
             time_end_of_day = Zmanim(
                 _cheilat_geshamim.date(), location=self.location
@@ -141,7 +142,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
             tz = time_end_of_day.tzinfo
 
-            cheilat_geshamim_dt = datetime.datetime(
+            cheilat_geshamim_dt = dt.datetime(
                 _cheilat_geshamim.year,
                 _cheilat_geshamim.month,
                 _cheilat_geshamim.day,
@@ -154,9 +155,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
                 # Normalize to date at midnight
                 cheilat_geshamim = cheilat_geshamim_dt.date()
             else:
-                cheilat_geshamim = cheilat_geshamim_dt.date() + datetime.timedelta(
-                    days=1
-                )
+                cheilat_geshamim = cheilat_geshamim_dt.date() + dt.timedelta(days=1)
         else:
             # In Israel: 7th of Cheshvan
             hdate_7_cheshvan = HebrewDate(self.hebrew_year_p, 2, 7)
