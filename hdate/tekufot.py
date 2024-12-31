@@ -43,8 +43,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     # pylint: disable=too-many-arguments, R0917
     def __init__(
         self,
-        date: dt.date = dt.datetime.now(),
-        diaspora: bool = False,
+        date: dt.date = dt.datetime.today(),
         location: Location = Location(),
         tradition: str = "israel",
         language: str = "english",
@@ -55,10 +54,9 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         self.date = date
         self.gregorian_year = date.year
         self.hebrew_year = self.gregorian_year + 3760
-        self.diaspora = diaspora
         self.location = location
         self.tradition = tradition or (
-            "israel" if not diaspora else "diaspora_sephardi"
+            "israel" if not location.diaspora else "diaspora_sephardi"
         )
         self.language = language
 
@@ -126,7 +124,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         #    self.cheilat_geshamim = None
         #    return
 
-        if self.diaspora:
+        if self.location.diaspora:
             # Cheilat Geshamim starts 60 days after Tekufat Tishrei.
             _cheilat_geshamim = self.tekufa_tishrei + dt.timedelta(days=59)
 

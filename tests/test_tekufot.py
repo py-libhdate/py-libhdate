@@ -78,11 +78,9 @@ class TestTekufot:
             latitude=31.778,
             longitude=35.235,
             timezone="Asia/Jerusalem",
-            diaspora=False,
         )
         return Tekufot(
             date=dt.date.today(),
-            diaspora=False,
             location=loc,
             language="english",
             tradition="israel",
@@ -114,7 +112,6 @@ class TestTekufot:
 
         tekufot = Tekufot(
             date=dt.datetime.strptime(date_str, "%Y-%m-%d").date(),
-            diaspora=(tradition != "israel"),
             location=loc,
             tradition=tradition,
             language=language,
