@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import Union
 
 import hdate.converters as conv
-from hdate.htables import Days, Months
+from hdate.htables import CHANGING_MONTHS, LONG_MONTHS, SHORT_MONTHS, Days, Months
 from hdate.translator import TranslatorMixin
 
 
@@ -239,31 +239,17 @@ class HebrewDate(TranslatorMixin):
 
     def days_in_month(self, month: Months) -> int:
         """Return the number of days in a month."""
-        if month in (
-            Months.TISHREI,
-            Months.SHVAT,
-            Months.ADAR_I,
-            Months.NISAN,
-            Months.SIVAN,
-            Months.AV,
-        ):
+        if month in LONG_MONTHS:
             return 30
-        if month in (
-            Months.TEVET,
-            Months.ADAR,
-            Months.ADAR_II,
-            Months.IYYAR,
-            Months.TAMMUZ,
-            Months.ELUL,
-        ):
+        if month in SHORT_MONTHS:
             return 29
-        if self.year == 0 and month in (Months.MARCHESHVAN, Months.KISLEV):
+        if self.year == 0 and month in CHANGING_MONTHS:
             # Special case for relative dates, return the maximum number of days
             return 30
         if month == Months.KISLEV:
-            return 29 if HebrewDate.year_size(self.year) in (353, 383) else 30
+            return 29 if self.short_kislev() else 30
         if month == Months.MARCHESHVAN:
-            return 30 if HebrewDate.year_size(self.year) in (355, 385) else 29
+            return 30 if self.long_cheshvan() else 29
         return 0
 
     def is_leap_year(self) -> bool:
@@ -286,3 +272,11 @@ class HebrewDate(TranslatorMixin):
     def dow(self) -> Days:
         """Return: day of the week."""
         return Days((self.to_jdn() + 1) % 7 + 1)
+
+    def short_kislev(self) -> bool:
+        """Return whether this year has a short Kislev or not."""
+        return self.year_size(self.year) in (353, 383)
+
+    def long_cheshvan(self) -> bool:
+        """Return whether this year has a long Cheshvan or not."""
+        return self.year_size(self.year) in (355, 385)

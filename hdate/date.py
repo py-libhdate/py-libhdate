@@ -205,19 +205,11 @@ class HDate(TranslatorMixin):
         holidays_list = [
             holiday
             for holiday, holiday_hdate in _holidays_list
-            if holiday_hdate.hdate == self.hdate
+            if holiday_hdate == self.hdate
         ]
 
         # If anything is left return it, otherwise return the "NULL" holiday
         return holidays_list
-
-    def short_kislev(self) -> bool:
-        """Return whether this year has a short Kislev or not."""
-        return self.year_size() in [353, 383]
-
-    def long_cheshvan(self) -> bool:
-        """Return whether this year has a long Cheshvan or not."""
-        return self.year_size() in [355, 385]
 
     @property
     def dow(self) -> htables.Days:
@@ -332,7 +324,7 @@ class HDate(TranslatorMixin):
 
     def get_holidays_for_year(
         self, types: Optional[list[HolidayTypes]] = None
-    ) -> list[tuple[Holiday, HDate]]:
+    ) -> list[tuple[Holiday, HebrewDate]]:
         """Get all the actual holiday days for a given HDate's year.
 
         If specified, use the list of types to limit the holidays returned.
@@ -374,13 +366,7 @@ class HDate(TranslatorMixin):
         _holidays_list_1 = [
             (
                 holiday,
-                HDate(
-                    heb_date=HebrewDate(
-                        self.hdate.year, date_instance[1], date_instance[0]
-                    ),
-                    diaspora=self.diaspora,
-                    language=self._language,
-                ),
+                HebrewDate(year=0, month=date_instance[1], day=date_instance[0]),
             )
             for holiday in _holidays_list
             for date_instance in holiday_dates_cross_product(holiday)
@@ -395,7 +381,7 @@ class HDate(TranslatorMixin):
         return holidays_list
 
     @property
-    def upcoming_yom_tov(self) -> "HDate":
+    def upcoming_yom_tov(self) -> HDate:
         """Find the next upcoming yom tov (i.e. no-melacha holiday).
 
         If it is currently the day of yom tov (irrespective of zmanim), returns
@@ -415,12 +401,14 @@ class HDate(TranslatorMixin):
         holidays_list = [
             holiday_hdate
             for _, holiday_hdate in chain(this_year, next_year)
-            if holiday_hdate >= self
+            if holiday_hdate >= self.hdate
         ]
 
-        holidays_list.sort(key=lambda h: h.gdate)
+        holidays_list.sort(key=lambda h: h.to_gdate())
 
-        return holidays_list[0]
+        return HDate(
+            heb_date=holidays_list[0], diaspora=self.diaspora, language=self._language
+        )
 
     def get_reading(self) -> htables.Parasha:
         """Return number of hebrew parasha."""
