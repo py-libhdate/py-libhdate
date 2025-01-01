@@ -175,11 +175,6 @@ class HDate(TranslatorMixin):
         return self.holiday_type == HolidayTypes.YOM_TOV
 
     @property
-    def is_leap_year(self) -> bool:
-        """Return True if this date's year is a leap year."""
-        return self.hdate.is_leap_year()
-
-    @property
     def holiday_type(self) -> Union[HolidayTypes, list[HolidayTypes]]:
         """Return the holiday type if exists."""
         entries = self._holiday_entries()
