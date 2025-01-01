@@ -1,6 +1,6 @@
 """Constant lookup tables for hdate modules."""
 
-import datetime
+import datetime as dt
 from dataclasses import dataclass
 from enum import Enum, IntEnum, auto
 from typing import Callable, TypeVar, Union
@@ -722,7 +722,7 @@ def get_all_holidays(language: str) -> list[str]:
 # The first few cycles were only 2702 blatt. After that it became 2711. Even with
 # that, the math doesn't play nicely with the dates before the 11th cycle :(
 # From cycle 11 onwards, it was simple and sequential
-DAF_YOMI_CYCLE_11_START = datetime.date(1997, 9, 29)
+DAF_YOMI_CYCLE_11_START = dt.date(1997, 9, 29)
 
 
 @dataclass

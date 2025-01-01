@@ -7,7 +7,7 @@ of the Jewish calendrical date and times for a given location
 
 from __future__ import annotations
 
-import datetime
+import datetime as dt
 import logging
 from itertools import chain, product
 from typing import Any, Generator, Optional, Union, cast
@@ -38,7 +38,7 @@ class HDate(TranslatorMixin):
 
     def __init__(
         self,
-        gdate: datetime.date = datetime.date.today(),
+        gdate: dt.date = dt.date.today(),
         diaspora: bool = False,
         language: str = "hebrew",
         heb_date: Optional[HebrewDate] = None,
@@ -118,14 +118,14 @@ class HDate(TranslatorMixin):
         self._hdate = date
 
     @property
-    def gdate(self) -> datetime.date:
+    def gdate(self) -> dt.date:
         """Return the Gregorian date for the given Hebrew date object."""
         if self._last_updated == "gdate":
             return self._gdate
         return self._hdate.to_gdate()
 
     @gdate.setter
-    def gdate(self, date: datetime.date) -> None:
+    def gdate(self, date: dt.date) -> None:
         """Set the Gregorian date for the given Hebrew date object."""
         self._last_updated = "gdate"
         self._gdate = date
@@ -252,12 +252,12 @@ class HDate(TranslatorMixin):
     @property
     def next_day(self) -> "HDate":
         """Return the HDate for the next day."""
-        return HDate(self.gdate + datetime.timedelta(1), self.diaspora, self._language)
+        return HDate(self.gdate + dt.timedelta(1), self.diaspora, self._language)
 
     @property
     def previous_day(self) -> "HDate":
         """Return the HDate for the previous day."""
-        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora, self._language)
+        return HDate(self.gdate + dt.timedelta(-1), self.diaspora, self._language)
 
     @property
     def upcoming_shabbat(self) -> "HDate":
@@ -268,7 +268,7 @@ class HDate(TranslatorMixin):
         if self.is_shabbat:
             return self
         # If it's Sunday, fast forward to the next Shabbat.
-        saturday = self.gdate + datetime.timedelta((12 - self.gdate.weekday()) % 7)
+        saturday = self.gdate + dt.timedelta((12 - self.gdate.weekday()) % 7)
         return HDate(saturday, diaspora=self.diaspora, language=self._language)
 
     @property
