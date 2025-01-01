@@ -31,11 +31,23 @@ class HebrewDate(TranslatorMixin):
     day: int = 1
 
     def __post_init__(self) -> None:
-        if not 0 < self.day < 31:
-            raise ValueError(f"day ({self.day}) legal values are 1-30")
         self.month = (
             self.month if isinstance(self.month, Months) else Months(self.month)
         )
+        if self.year != 0:
+            leap_year = self.is_leap_year()
+            if (leap_year and self.month == Months.ADAR) or (
+                not leap_year and self.month in (Months.ADAR_I, Months.ADAR_II)
+            ):
+                raise ValueError(
+                    f"{self.month} is not a valid month for year {self.year} "
+                    f"({'leap' if leap_year else 'non-leap'})"
+                )
+        if not 0 < self.day <= (max_days := self.days_in_month(self.month)):
+            raise ValueError(
+                f"Day {self.day} is illegal: "
+                f"legal values are 1-{max_days} for {self.month}"
+            )
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, HebrewDate):
@@ -225,7 +237,7 @@ class HebrewDate(TranslatorMixin):
             hebrew_year
         )
 
-    def get_month_days(self, month: Months) -> int:
+    def days_in_month(self, month: Months) -> int:
         """Return the number of days in a month."""
         if month in (
             Months.TISHREI,
@@ -245,6 +257,9 @@ class HebrewDate(TranslatorMixin):
             Months.ELUL,
         ):
             return 29
+        if self.year == 0 and month in (Months.MARCHESHVAN, Months.KISLEV):
+            # Special case for relative dates, return the maximum number of days
+            return 30
         if month == Months.KISLEV:
             return 29 if HebrewDate.year_size(self.year) in (353, 383) else 30
         if month == Months.MARCHESHVAN:
