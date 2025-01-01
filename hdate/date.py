@@ -10,7 +10,7 @@ from __future__ import annotations
 import datetime
 import logging
 from itertools import chain, product
-from typing import Any, Optional, Union, cast
+from typing import Any, Generator, Optional, Union, cast
 
 from hdate import htables
 from hdate.gematria import hebrew_number
@@ -363,19 +363,30 @@ class HDate(TranslatorMixin):
 
         # Compute out every actual Hebrew date on which a holiday falls for
         # this year by exploding out the possible days for each holiday.
-        _holidays_list_1 = [
-            (
-                holiday,
-                HebrewDate(year=0, month=date_instance[1], day=date_instance[0]),
-            )
-            for holiday in _holidays_list
-            for date_instance in holiday_dates_cross_product(holiday)
-            if len(holiday.date) >= 2
-        ]
+        def valid_holiday_dates(
+            holidays_list: list[Holiday],
+        ) -> Generator[tuple[Holiday, HebrewDate]]:
+            for holiday in holidays_list:
+                for date_instance in holiday_dates_cross_product(holiday):
+                    if len(holiday.date) >= 2:
+                        try:
+                            yield (
+                                holiday,
+                                HebrewDate(
+                                    year=self.hdate.year,
+                                    month=date_instance[1],
+                                    day=date_instance[0],
+                                ),
+                            )
+                        except ValueError:
+                            continue
+
+        valid_holidays = list(valid_holiday_dates(_holidays_list))
+
         # Filter any special cases defined by True/False functions
         holidays_list = [
             (holiday, date)
-            for (holiday, date) in _holidays_list_1
+            for (holiday, date) in valid_holidays
             if all(func(date) for func in holiday.date_functions_list)
         ]
         return holidays_list

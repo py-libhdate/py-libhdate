@@ -167,7 +167,7 @@ class TestSpecialDays:
 
         expected_holiday_map = defaultdict(list)
         for entry, date in cur_date.get_holidays_for_year():
-            expected_holiday_map[date.gdate].append(entry.name)
+            expected_holiday_map[date.to_gdate()].append(entry.name)
 
         while cur_date.hdate.year == year:
             actual_holiday = cur_date.holiday_name
@@ -183,13 +183,13 @@ class TestSpecialDays:
         """Test that get_holidays_for_year() returns consistent months."""
         base_date = HDate(heb_date=HebrewDate(5783, 1, 1))
         for _, date in base_date.get_holidays_for_year():
-            assert date.hdate.month not in [Months.ADAR_I, Months.ADAR_II]
+            assert date.month not in (Months.ADAR_I, Months.ADAR_II)
 
     def test_get_holidays_for_year_leap_year(self) -> None:
         """Test that get_holidays_for_year() returns consistent months."""
         base_date = HDate(heb_date=HebrewDate(5784, 1, 1))
         for _, date in base_date.get_holidays_for_year():
-            assert date.hdate.month != Months.ADAR
+            assert date.month != Months.ADAR
 
     NON_MOVING_HOLIDAYS = [
         ((1, 1), "rosh_hashana_i"),
@@ -345,7 +345,7 @@ class TestSpecialDays:
         """Test holidays that have a fixed hebrew date."""
         rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, date[1], date[0])
         if isinstance(holiday, list):
-            assert rand_hdate.holiday_name in holiday
+            assert set(rand_hdate.holiday_name) == set(holiday)
         else:
             assert rand_hdate.holiday_name == holiday
         assert rand_hdate.is_holiday
@@ -464,12 +464,14 @@ class TestSpecialDays:
     def test_get_holiday_adar(self, possible_days: list[int], holiday: str) -> None:
         """Test holidays for Adar I/Adar II."""
         year = random.randint(5000, 6000)
-        year_size = HebrewDate.year_size(year)
-        month = 6 if year_size < 360 else 14
-        myhdate = HDate()
+        date = HebrewDate(year)
+        date.month = Months.ADAR_II if date.is_leap_year() else Months.ADAR
+
+        print(f"Testing {holiday} for {date!r}")
 
         for day in possible_days:
-            myhdate.hdate = HebrewDate(year, month, day)
+            date.day = day
+            myhdate = HDate(heb_date=date)
             if day == 13 and myhdate.dow == 7 and holiday == "taanit_esther":
                 assert myhdate.holiday_name == ""
                 assert myhdate.is_holiday is False
