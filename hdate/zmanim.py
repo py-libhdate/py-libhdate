@@ -47,7 +47,7 @@ class Zman(TranslatorMixin):
 
 
 @dataclass
-class Zmanim(TranslatorMixin):
+class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     """Return Jewish day times.
 
     The Zmanim class returns times for the specified day ONLY. If you wish to
