@@ -17,6 +17,7 @@ htmlcov/
 .tox
 .cache
 .pytest_cache/
+.hypothesis/
 
 # Profiling data
 prof/

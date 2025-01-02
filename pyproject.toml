@@ -52,6 +52,7 @@ dev = [
     "flake8>=7.1.1",
     "mypy>=1.13.0",
     "pytest-profiling>=1.8.1",
+    "hypothesis>=6.123.2",
 ]
 test = [
     "pytest>=8.3.3",

@@ -1,11 +1,9 @@
 """Test Zmanim objects."""
 
-import datetime
+import datetime as dt
 import random
 import sys
 from calendar import isleap
-from datetime import datetime as dt
-from datetime import timedelta as td
 from typing import Optional
 from zoneinfo import ZoneInfo
 
@@ -27,26 +25,26 @@ PUNTA_ARENAS_LNG = -70.9167
 
 
 def compare_dates(
-    date1: Optional[datetime.datetime],
-    date2: Optional[datetime.datetime],
+    date1: Optional[dt.datetime],
+    date2: Optional[dt.datetime],
     allow_grace: bool = False,
 ) -> None:
     """Compare 2 dates to be more or less equal."""
     if not (date1 or date2):
         assert date1 == date2
     else:
-        grace = td(minutes=5 if (not _ASTRAL or allow_grace) else 0)
+        grace = dt.timedelta(minutes=5 if (not _ASTRAL or allow_grace) else 0)
         assert date1 is not None
         assert date2 is not None
         assert date1 - grace <= date2 <= date1 + grace
 
 
-def compare_times(
-    time1: datetime.time, time2: datetime.time, allow_grace: bool = False
-) -> None:
+def compare_times(time1: dt.time, time2: dt.time, allow_grace: bool = False) -> None:
     """Compare times to be equal."""
     compare_dates(
-        dt.combine(dt.today(), time1), dt.combine(dt.today(), time2), allow_grace
+        dt.datetime.combine(dt.date.today(), time1),
+        dt.datetime.combine(dt.date.today(), time2),
+        allow_grace,
     )
 
 
@@ -60,21 +58,21 @@ class TestZmanim:
 
     @pytest.mark.parametrize("execution_number", list(range(5)))
     def test_same_doy_is_equal(
-        self, execution_number: int, random_date: datetime.date
+        self, execution_number: int, random_date: dt.date
     ) -> None:
         """Test two doy to be equal."""
         print(f"Run number {execution_number}")
         other_year = random.randint(500, 3000)
-        shift_day = datetime.timedelta(days=0)
+        shift_day = dt.timedelta(days=0)
         this_date = random_date
 
-        if isleap(this_date.year) != isleap(other_year) and this_date > datetime.date(
+        if isleap(this_date.year) != isleap(other_year) and this_date > dt.date(
             this_date.year, 2, 28
         ):
             if isleap(other_year):
-                shift_day = datetime.timedelta(days=-1)
+                shift_day = dt.timedelta(days=-1)
             else:
-                shift_day = datetime.timedelta(days=1)
+                shift_day = dt.timedelta(days=1)
 
         if (
             isleap(this_date.year)
@@ -84,7 +82,7 @@ class TestZmanim:
         ):
             # Special case we can't simply replace the year as there's
             # no leap day in the other year
-            other_date = datetime.date(other_year, 3, 1)
+            other_date = dt.date(other_year, 3, 1)
         else:
             other_date = this_date.replace(year=other_year) + shift_day
 
@@ -99,7 +97,7 @@ class TestZmanim:
 
     def test_extreme_zmanim(self) -> None:
         """Test that Zmanim north to 50 degrees latitude is correct."""
-        day = datetime.date(2024, 6, 18)
+        day = dt.date(2024, 6, 18)
         compare_times(
             Zmanim(
                 date=day,
@@ -113,7 +111,7 @@ class TestZmanim:
             )
             .zmanim["sunset"]
             .time(),
-            datetime.time(21, 22),
+            dt.time(21, 22),
             allow_grace=True,
         )
         compare_times(
@@ -129,13 +127,13 @@ class TestZmanim:
             )
             .zmanim["sunset"]
             .time(),
-            datetime.time(17, 31),
+            dt.time(17, 31),
             allow_grace=True,
         )
 
     def test_using_tzinfo(self) -> None:
         """Test tzinfo to be correct."""
-        day = datetime.date(2018, 9, 8)
+        day = dt.date(2018, 9, 8)
         timezone_str = "America/New_York"
         timezone = ZoneInfo(timezone_str)
         location_tz_str = Location(
@@ -145,25 +143,25 @@ class TestZmanim:
 
         compare_times(
             Zmanim(date=day, location=location_tz_str).zmanim["first_stars"].time(),
-            datetime.time(19, 47),
+            dt.time(19, 47),
         )
 
         compare_times(
             Zmanim(date=day, location=location).zmanim["first_stars"].time(),
-            datetime.time(19, 47),
+            dt.time(19, 47),
         )
 
     # Times are assumed for NYC.
     CANDLES_TEST = [
-        (dt(2018, 9, 7, 13, 1), 18, dt(2018, 9, 7, 19, 0), False),
-        (dt(2018, 9, 7, 19, 4), 18, dt(2018, 9, 7, 19, 0), True),
-        (dt(2018, 9, 8, 13, 1), 18, None, True),
-        (dt(2018, 9, 19, 22, 1), 18, None, False),
-        (dt(2018, 9, 9, 16, 1), 20, dt(2018, 9, 9, 18, 55), False),
-        (dt(2018, 9, 9, 19, 30), 18, dt(2018, 9, 9, 18, 57), True),
+        (dt.datetime(2018, 9, 7, 13, 1), 18, dt.datetime(2018, 9, 7, 19, 0), False),
+        (dt.datetime(2018, 9, 7, 19, 4), 18, dt.datetime(2018, 9, 7, 19, 0), True),
+        (dt.datetime(2018, 9, 8, 13, 1), 18, None, True),
+        (dt.datetime(2018, 9, 19, 22, 1), 18, None, False),
+        (dt.datetime(2018, 9, 9, 16, 1), 20, dt.datetime(2018, 9, 9, 18, 55), False),
+        (dt.datetime(2018, 9, 9, 19, 30), 18, dt.datetime(2018, 9, 9, 18, 57), True),
         # Candle lighting matches the time that would be havdalah.
-        (dt(2018, 9, 10, 8, 1), 18, dt(2018, 9, 10, 19, 55), True),
-        (dt(2018, 9, 10, 20, 20), 18, dt(2018, 9, 10, 19, 55), True),
+        (dt.datetime(2018, 9, 10, 8, 1), 18, dt.datetime(2018, 9, 10, 19, 55), True),
+        (dt.datetime(2018, 9, 10, 20, 20), 18, dt.datetime(2018, 9, 10, 19, 55), True),
     ]
 
     @pytest.mark.parametrize(
@@ -171,9 +169,9 @@ class TestZmanim:
     )
     def test_candle_lighting(
         self,
-        now: datetime.datetime,
+        now: dt.datetime,
         offset: int,
-        candle_lighting: Optional[datetime.datetime],
+        candle_lighting: Optional[dt.datetime],
         melacha_assur: bool,
     ) -> None:
         """Test candle lighting values."""
@@ -199,17 +197,17 @@ class TestZmanim:
 
     # Times are assumed for NYC.
     HAVDALAH_TEST = [
-        (dt(2018, 9, 7, 13, 1), 42, None, False),
-        (dt(2018, 9, 7, 20, 1), 42, None, True),
-        (dt(2018, 9, 8, 13, 1), 42, dt(2018, 9, 8, 19, 59), True),
-        (dt(2018, 9, 8, 13, 1), 0, dt(2018, 9, 8, 19, 58), True),
-        (dt(2018, 9, 19, 22, 1), 18, dt(2018, 9, 19, 19, 16), False),
-        (dt(2018, 9, 9, 16, 1), 0, None, False),
-        (dt(2018, 9, 9, 19, 30), 0, None, True),
-        (dt(2018, 9, 11, 16, 1), 0, dt(2018, 9, 11, 19, 53), True),
+        (dt.datetime(2018, 9, 7, 13, 1), 42, None, False),
+        (dt.datetime(2018, 9, 7, 20, 1), 42, None, True),
+        (dt.datetime(2018, 9, 8, 13, 1), 42, dt.datetime(2018, 9, 8, 19, 59), True),
+        (dt.datetime(2018, 9, 8, 13, 1), 0, dt.datetime(2018, 9, 8, 19, 58), True),
+        (dt.datetime(2018, 9, 19, 22, 1), 18, dt.datetime(2018, 9, 19, 19, 16), False),
+        (dt.datetime(2018, 9, 9, 16, 1), 0, None, False),
+        (dt.datetime(2018, 9, 9, 19, 30), 0, None, True),
+        (dt.datetime(2018, 9, 11, 16, 1), 0, dt.datetime(2018, 9, 11, 19, 53), True),
         # No havdalah in the middle of Yom Tov.
-        (dt(2018, 9, 10, 8, 1), 0, None, True),
-        (dt(2018, 9, 10, 20, 20), 0, None, True),
+        (dt.datetime(2018, 9, 10, 8, 1), 0, None, True),
+        (dt.datetime(2018, 9, 10, 20, 20), 0, None, True),
     ]
 
     @pytest.mark.parametrize(
@@ -217,9 +215,9 @@ class TestZmanim:
     )
     def test_havdalah(
         self,
-        now: datetime.datetime,
+        now: dt.datetime,
         offset: int,
-        havdalah: Optional[datetime.datetime],
+        havdalah: Optional[dt.datetime],
         melacha_assur: bool,
     ) -> None:
         """Test havdalah times."""
@@ -242,24 +240,24 @@ class TestZmanim:
 
     # Times are assumed for NYC.
     MOTZEI_SHABBAT_CHAG_TEST = [
-        (dt(2018, 9, 7, 13, 1), 42, False),
-        (dt(2018, 9, 7, 20, 1), 42, False),
-        (dt(2018, 9, 8, 13, 1), 42, False),
-        (dt(2018, 9, 8, 22, 1), 0, True),
-        (dt(2018, 9, 9, 16, 1), 0, False),
-        (dt(2018, 9, 9, 19, 30), 0, False),
-        (dt(2018, 9, 10, 16, 1), 0, False),
-        (dt(2018, 9, 10, 19, 30), 0, False),
-        (dt(2018, 9, 11, 16, 1), 0, False),
-        (dt(2018, 9, 11, 20, 1), 0, True),
-        (dt(2018, 9, 19, 22, 1), 18, True),
+        (dt.datetime(2018, 9, 7, 13, 1), 42, False),
+        (dt.datetime(2018, 9, 7, 20, 1), 42, False),
+        (dt.datetime(2018, 9, 8, 13, 1), 42, False),
+        (dt.datetime(2018, 9, 8, 22, 1), 0, True),
+        (dt.datetime(2018, 9, 9, 16, 1), 0, False),
+        (dt.datetime(2018, 9, 9, 19, 30), 0, False),
+        (dt.datetime(2018, 9, 10, 16, 1), 0, False),
+        (dt.datetime(2018, 9, 10, 19, 30), 0, False),
+        (dt.datetime(2018, 9, 11, 16, 1), 0, False),
+        (dt.datetime(2018, 9, 11, 20, 1), 0, True),
+        (dt.datetime(2018, 9, 19, 22, 1), 18, True),
     ]
 
     @pytest.mark.parametrize(
         ["now", "offset", "motzei_shabbat_chag"], MOTZEI_SHABBAT_CHAG_TEST
     )
     def test_motzei_shabbat_chag(
-        self, now: datetime.datetime, offset: int, motzei_shabbat_chag: bool
+        self, now: dt.datetime, offset: int, motzei_shabbat_chag: bool
     ) -> None:
         """Test motzei shabbat chag boolean is correct."""
         location_tz_str = Location(
@@ -277,27 +275,27 @@ class TestZmanim:
 
     # Times are assumed for NYC.
     EREV_SHABBAT_CHAG_TEST = [
-        (dt(2018, 9, 7, 13, 1), 42, True),  # fri
-        (dt(2018, 9, 7, 20, 1), 42, False),
-        (dt(2018, 9, 8, 13, 1), 42, False),  # sat
-        (dt(2018, 9, 8, 20, 1), 0, False),
-        (dt(2018, 9, 9, 16, 1), 0, True),  # erev rosh hashana
-        (dt(2018, 9, 9, 19, 30), 0, False),
-        (dt(2018, 9, 10, 16, 1), 0, False),  # rosh hashana I
-        (dt(2018, 9, 10, 19, 30), 0, False),
-        (dt(2018, 9, 11, 16, 1), 0, False),  # rosh hashana II
-        (dt(2018, 9, 11, 20, 1), 0, False),
-        (dt(2018, 9, 18, 13, 1), 18, True),  # erev yom kipur
-        (dt(2018, 9, 18, 22, 1), 18, False),
-        (dt(2018, 9, 19, 13, 1), 18, False),
-        (dt(2018, 9, 19, 22, 1), 18, False),
+        (dt.datetime(2018, 9, 7, 13, 1), 42, True),  # fri
+        (dt.datetime(2018, 9, 7, 20, 1), 42, False),
+        (dt.datetime(2018, 9, 8, 13, 1), 42, False),  # sat
+        (dt.datetime(2018, 9, 8, 20, 1), 0, False),
+        (dt.datetime(2018, 9, 9, 16, 1), 0, True),  # erev rosh hashana
+        (dt.datetime(2018, 9, 9, 19, 30), 0, False),
+        (dt.datetime(2018, 9, 10, 16, 1), 0, False),  # rosh hashana I
+        (dt.datetime(2018, 9, 10, 19, 30), 0, False),
+        (dt.datetime(2018, 9, 11, 16, 1), 0, False),  # rosh hashana II
+        (dt.datetime(2018, 9, 11, 20, 1), 0, False),
+        (dt.datetime(2018, 9, 18, 13, 1), 18, True),  # erev yom kipur
+        (dt.datetime(2018, 9, 18, 22, 1), 18, False),
+        (dt.datetime(2018, 9, 19, 13, 1), 18, False),
+        (dt.datetime(2018, 9, 19, 22, 1), 18, False),
     ]
 
     @pytest.mark.parametrize(
         ["now", "offset", "erev_shabbat_chag"], EREV_SHABBAT_CHAG_TEST
     )
     def test_erev_shabbat_hag(
-        self, now: datetime.datetime, offset: int, erev_shabbat_chag: bool
+        self, now: dt.datetime, offset: int, erev_shabbat_chag: bool
     ) -> None:
         """Test erev shabbat chag boolean is correct."""
         location_tz_str = Location(
@@ -315,8 +313,8 @@ class TestZmanim:
 
     def test_candle_lighting_erev_shabbat_is_yom_tov(self) -> None:
         """Test for candle lighting when erev shabbat is yom tov"""
-        day = datetime.date(2024, 10, 18)
-        actual_candle_lighting = datetime.datetime(
+        day = dt.date(2024, 10, 18)
+        actual_candle_lighting = dt.datetime(
             2024, 10, 18, 17, 52, 00, tzinfo=ZoneInfo("America/New_York")
         )
         coord = Location(
