@@ -1,13 +1,13 @@
 """Constant lookup tables for hdate modules."""
 
-import datetime
+import datetime as dt
 from dataclasses import dataclass
 from enum import Enum, IntEnum, auto
 from typing import Callable, TypeVar, Union
 
 from hdate.translator import TranslatorMixin
 
-HDateT = TypeVar("HDateT", bound="HDate")  # type: ignore # noqa: F821
+HebrewDateT = TypeVar("HebrewDateT", bound="HebrewDate")  # type: ignore # noqa: F821
 
 
 def erange(start: Enum, end: Enum) -> list[Enum]:
@@ -383,29 +383,48 @@ class Months(TranslatorMixin, IntEnum):
     ADAR_II = 14
 
 
-def year_is_after(year: int) -> Callable[[HDateT], bool]:
+LONG_MONTHS = (
+    Months.TISHREI,
+    Months.SHVAT,
+    Months.ADAR_I,
+    Months.NISAN,
+    Months.SIVAN,
+    Months.AV,
+)
+SHORT_MONTHS = (
+    Months.TEVET,
+    Months.ADAR,
+    Months.ADAR_II,
+    Months.IYYAR,
+    Months.TAMMUZ,
+    Months.ELUL,
+)
+CHANGING_MONTHS = (Months.MARCHESHVAN, Months.KISLEV)
+
+
+def year_is_after(year: int) -> Callable[[HebrewDateT], bool]:
     """
     Return a lambda function.
 
     Lambda checks that a given HDate object's hebrew year is after the
     requested year.
     """
-    return lambda x: x.hdate.year > year
+    return lambda x: x.year > year
 
 
-def year_is_before(year: int) -> Callable[[HDateT], bool]:
+def year_is_before(year: int) -> Callable[[HebrewDateT], bool]:
     """
     Return a lambda function.
 
     Lambda checks that a given HDate object's hebrew year is before the
     requested year.
     """
-    return lambda x: x.hdate.year < year
+    return lambda x: x.year < year
 
 
 def move_if_not_on_dow(
-    original: int, replacement: int, dow_not_orig: int, dow_replacement: int
-) -> Callable[[HDateT], bool]:
+    original: int, replacement: int, dow_not_orig: Days, dow_replacement: Days
+) -> Callable[[HebrewDateT], bool]:
     """
     Return a lambda function.
 
@@ -413,12 +432,12 @@ def move_if_not_on_dow(
     weekday, or that the replacement day does fall on the expected weekday.
     """
     return lambda x: (
-        (x.hdate.day == original and x.gdate.weekday() != dow_not_orig)
-        or (x.hdate.day == replacement and x.gdate.weekday() == dow_replacement)
+        (x.day == original and x.dow() != dow_not_orig)
+        or (x.day == replacement and x.dow() == dow_replacement)
     )
 
 
-def correct_adar() -> Callable[[HDateT], bool]:
+def correct_adar() -> Callable[[HebrewDateT], Union[bool, Callable[[], bool]]]:
     """
     Return a lambda function.
 
@@ -426,42 +445,15 @@ def correct_adar() -> Callable[[HDateT], bool]:
     it's a leap year.
     """
     return lambda x: (
-        (x.hdate.month not in [Months.ADAR, Months.ADAR_I, Months.ADAR_II])
-        or (x.hdate.month == Months.ADAR and not x.is_leap_year)
-        or (x.hdate.month in [Months.ADAR_I, Months.ADAR_II] and x.is_leap_year)
+        (x.month not in [Months.ADAR, Months.ADAR_I, Months.ADAR_II])
+        or (x.month == Months.ADAR and not x.is_leap_year())
+        or (x.month in (Months.ADAR_I, Months.ADAR_II) and x.is_leap_year())
     )
 
 
-def not_rosh_chodesh() -> Callable[[HDateT], bool]:
+def not_rosh_chodesh() -> Callable[[HebrewDateT], bool]:
     """The 1st of Tishrei is not Rosh Chodesh."""
-    return lambda x: not (x.hdate.month == Months.TISHREI and x.hdate.day == 1)
-
-
-def legal_month_length() -> Callable[[HDateT], bool]:
-    """
-    Return a lambda function.
-
-    Lambda checks that the length for the provided month is legal
-    """
-    return lambda x: (
-        x.hdate.day == 29  # 29 is always legal
-        or x.hdate.day == 30
-        and x.hdate.month
-        in [
-            Months.TISHREI,
-            Months.SHVAT,
-            Months.ADAR_I,
-            Months.NISAN,
-            Months.SIVAN,
-            Months.AV,
-        ]
-        or x.hdate.day == 30
-        and x.long_cheshvan()
-        and x.hdate.month == Months.MARCHESHVAN
-        or x.hdate.day == 30
-        and not x.short_kislev()
-        and x.hdate.month == Months.KISLEV
-    )
+    return lambda x: not (x.month == Months.TISHREI and x.day == 1)
 
 
 class HolidayTypes(Enum):
@@ -486,9 +478,11 @@ class Holiday(TranslatorMixin):
 
     type: HolidayTypes
     name: str
-    date: Union[tuple[Union[int, list[int]], Union[Months, list[Months]]], tuple[()]]
+    date: Union[
+        tuple[Union[int, tuple[int, ...]], Union[Months, tuple[Months, ...]]], tuple[()]
+    ]
     israel_diaspora: str
-    date_functions_list: list[Callable[[HDateT], bool]]
+    date_functions_list: list[Callable[[HebrewDateT], Union[bool, Callable[[], bool]]]]
 
 
 HOLIDAYS = (
@@ -499,9 +493,9 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.FAST_DAY,
         "tzom_gedaliah",
-        ([3, 4], Months.TISHREI),
+        ((3, 4), Months.TISHREI),
         "",
-        [move_if_not_on_dow(3, 4, 5, 6)],
+        [move_if_not_on_dow(3, 4, Days.SATURDAY, Days.SUNDAY)],
     ),
     Holiday(HolidayTypes.EREV_YOM_TOV, "erev_yom_kippur", (9, Months.TISHREI), "", []),
     Holiday(HolidayTypes.YOM_TOV, "yom_kippur", (10, Months.TISHREI), "", []),
@@ -513,7 +507,7 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.HOL_HAMOED,
         "hol_hamoed_sukkot",
-        ([17, 18, 19, 20], Months.TISHREI),
+        ((17, 18, 19, 20), Months.TISHREI),
         "",
         [],
     ),
@@ -524,41 +518,37 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "chanukah",
-        (list(range(25, 31)), Months.KISLEV),
+        ((25, 26, 27, 28, 29, 30), Months.KISLEV),
         "",
         [],
     ),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "chanukah",
-        ([1, 2, 3], Months.TEVET),
+        ((1, 2, 3), Months.TEVET),
         "",
-        [
-            lambda x: (
-                (x.short_kislev() and x.hdate.day == 3) or (x.hdate.day in [1, 2])
-            )
-        ],
+        [lambda x: ((x.short_kislev() and x.day == 3) or (x.day in [1, 2]))],
     ),
     Holiday(HolidayTypes.FAST_DAY, "asara_btevet", (10, Months.TEVET), "", []),
     Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bshvat", (15, Months.SHVAT), "", []),
     Holiday(
         HolidayTypes.FAST_DAY,
         "taanit_esther",
-        ([11, 13], [Months.ADAR, Months.ADAR_II]),
+        ((11, 13), (Months.ADAR, Months.ADAR_II)),
         "",
-        [move_if_not_on_dow(13, 11, 5, 3), correct_adar()],
+        [move_if_not_on_dow(13, 11, Days.SATURDAY, Days.THURSDAY), correct_adar()],
     ),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "purim",
-        (14, [Months.ADAR, Months.ADAR_II]),
+        (14, (Months.ADAR, Months.ADAR_II)),
         "",
         [correct_adar()],
     ),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "shushan_purim",
-        (15, [Months.ADAR, Months.ADAR_II]),
+        (15, (Months.ADAR, Months.ADAR_II)),
         "",
         [correct_adar()],
     ),
@@ -570,7 +560,7 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.HOL_HAMOED,
         "hol_hamoed_pesach",
-        ([17, 18, 19], Months.NISAN),
+        ((17, 18, 19), Months.NISAN),
         "",
         [],
     ),
@@ -579,25 +569,25 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.MODERN_HOLIDAY,
         "yom_haatzmaut",
-        ([3, 4, 5], Months.IYYAR),
+        ((3, 4, 5), Months.IYYAR),
         "",
         [
             year_is_after(5708),
             year_is_before(5764),
-            move_if_not_on_dow(5, 4, 4, 3)  # type: ignore
-            or move_if_not_on_dow(5, 3, 5, 3),
+            move_if_not_on_dow(5, 4, Days.FRIDAY, Days.THURSDAY)  # type: ignore
+            or move_if_not_on_dow(5, 3, Days.SATURDAY, Days.THURSDAY),
         ],
     ),
     Holiday(
         HolidayTypes.MODERN_HOLIDAY,
         "yom_haatzmaut",
-        ([3, 4, 5, 6], Months.IYYAR),
+        ((3, 4, 5, 6), Months.IYYAR),
         "",
         [
             year_is_after(5763),
-            move_if_not_on_dow(5, 4, 4, 3)  # type: ignore
-            or move_if_not_on_dow(5, 3, 5, 3)
-            or move_if_not_on_dow(5, 6, 0, 1),
+            move_if_not_on_dow(5, 4, Days.FRIDAY, Days.THURSDAY)  # type: ignore
+            or move_if_not_on_dow(5, 3, Days.SATURDAY, Days.THURSDAY)
+            or move_if_not_on_dow(5, 6, Days.MONDAY, Days.TUESDAY),
         ],
     ),
     Holiday(HolidayTypes.MINOR_HOLIDAY, "lag_bomer", (18, Months.IYYAR), "", []),
@@ -606,51 +596,51 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.FAST_DAY,
         "tzom_tammuz",
-        ([17, 18], Months.TAMMUZ),
+        ((17, 18), Months.TAMMUZ),
         "",
-        [move_if_not_on_dow(17, 18, 5, 6)],
+        [move_if_not_on_dow(17, 18, Days.SATURDAY, Days.SUNDAY)],
     ),
     Holiday(
         HolidayTypes.FAST_DAY,
         "tisha_bav",
-        ([9, 10], Months.AV),
+        ((9, 10), Months.AV),
         "",
-        [move_if_not_on_dow(9, 10, 5, 6)],
+        [move_if_not_on_dow(9, 10, Days.SATURDAY, Days.SUNDAY)],
     ),
     Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bav", (15, Months.AV), "", []),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "yom_hashoah",
-        ([26, 27, 28], Months.NISAN),
+        ((26, 27, 28), Months.NISAN),
         "",
         [
-            move_if_not_on_dow(27, 28, 6, 0)  # type: ignore
-            or move_if_not_on_dow(27, 26, 4, 3),
+            move_if_not_on_dow(27, 28, Days.SUNDAY, Days.MONDAY)  # type: ignore
+            or move_if_not_on_dow(27, 26, Days.FRIDAY, Days.THURSDAY),
             year_is_after(5718),
         ],
     ),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "yom_hazikaron",
-        ([2, 3, 4], Months.IYYAR),
+        ((2, 3, 4), Months.IYYAR),
         "",
         [
             year_is_after(5708),
             year_is_before(5764),
-            move_if_not_on_dow(4, 3, 3, 2)  # type: ignore
-            or move_if_not_on_dow(4, 2, 4, 2),
+            move_if_not_on_dow(4, 3, Days.THURSDAY, Days.WEDNESDAY)  # type: ignore
+            or move_if_not_on_dow(4, 2, Days.FRIDAY, Days.WEDNESDAY),
         ],
     ),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "yom_hazikaron",
-        ([2, 3, 4, 5], Months.IYYAR),
+        ((2, 3, 4, 5), Months.IYYAR),
         "",
         [
             year_is_after(5763),
-            move_if_not_on_dow(4, 3, 3, 2)  # type: ignore
-            or move_if_not_on_dow(4, 2, 4, 2)
-            or move_if_not_on_dow(4, 5, 6, 0),
+            move_if_not_on_dow(4, 3, Days.THURSDAY, Days.WEDNESDAY)  # type: ignore
+            or move_if_not_on_dow(4, 2, Days.FRIDAY, Days.WEDNESDAY)
+            or move_if_not_on_dow(4, 5, Days.SUNDAY, Days.MONDAY),
         ],
     ),
     Holiday(
@@ -675,16 +665,16 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "memorial_day_unknown",
-        (7, [Months.ADAR, Months.ADAR_II]),
+        (7, (Months.ADAR, Months.ADAR_II)),
         "ISRAEL",
         [correct_adar()],
     ),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "rabin_memorial_day",
-        ([11, 12], Months.MARCHESHVAN),
+        ((11, 12), Months.MARCHESHVAN),
         "ISRAEL",
-        [move_if_not_on_dow(12, 11, 4, 3), year_is_after(5757)],
+        [move_if_not_on_dow(12, 11, Days.FRIDAY, Days.THURSDAY), year_is_after(5757)],
     ),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
@@ -696,9 +686,16 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.ROSH_CHODESH,
         "rosh_chodesh",
-        ([1, 30], list(Months)),
+        (1, tuple(Months)),
         "",
-        [correct_adar(), legal_month_length(), not_rosh_chodesh()],
+        [correct_adar(), not_rosh_chodesh()],
+    ),
+    Holiday(
+        HolidayTypes.ROSH_CHODESH,
+        "rosh_chodesh",
+        (30, LONG_MONTHS + CHANGING_MONTHS),
+        "",
+        [correct_adar()],
     ),
 )
 
@@ -725,7 +722,7 @@ def get_all_holidays(language: str) -> list[str]:
 # The first few cycles were only 2702 blatt. After that it became 2711. Even with
 # that, the math doesn't play nicely with the dates before the 11th cycle :(
 # From cycle 11 onwards, it was simple and sequential
-DAF_YOMI_CYCLE_11_START = datetime.date(1997, 9, 29)
+DAF_YOMI_CYCLE_11_START = dt.date(1997, 9, 29)
 
 
 @dataclass

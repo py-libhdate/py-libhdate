@@ -31,14 +31,14 @@ class TestConverters:
             for month in months:
                 for day in range(1, days_in_month + 1):
                     date = HebrewDate(year, month, day)
-                    assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
+                    assert HebrewDate.from_jdn(date.to_jdn()) == date
 
     @pytest.mark.parametrize("year", YEARS_PSHUTA)
     def test_hdate_to_hdate_pshuta_adar(self, year: int) -> None:
         """Transform Hebrew date to Hebrew date (in Adar)."""
         for day in range(1, 29 + 1):
             date = HebrewDate(year, Months.ADAR, day)
-            assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
+            assert HebrewDate.from_jdn(date.to_jdn()) == date
 
     @pytest.mark.parametrize("year", YEARS_PSHUTA)
     def test_hdate_to_hdate_pshuta_heshvan(self, year: int) -> None:
@@ -46,7 +46,7 @@ class TestConverters:
         days_in_month = 29 if not year == 5756 else 30
         for day in range(1, days_in_month + 1):
             date = HebrewDate(year, Months.MARCHESHVAN, day)
-            assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
+            assert HebrewDate.from_jdn(date.to_jdn()) == date
 
     @pytest.mark.parametrize("year", YEARS_PSHUTA)
     def test_hdate_to_hdate_pshuta_kislev(self, year: int) -> None:
@@ -54,7 +54,7 @@ class TestConverters:
         days_in_month = 30 if not year == 5753 else 29
         for day in range(1, days_in_month + 1):
             date = HebrewDate(year, Months.KISLEV, day)
-            assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
+            assert HebrewDate.from_jdn(date.to_jdn()) == date
 
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
     def test_hdate_to_hdate_meuberet_simple(self, year: int) -> None:
@@ -63,17 +63,17 @@ class TestConverters:
             for month in months:
                 for day in range(1, days_in_month + 1):
                     date = HebrewDate(year, month, day)
-                    assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
+                    assert HebrewDate.from_jdn(date.to_jdn()) == date
 
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
     def test_hdate_to_hdate_meuberet_adar(self, year: int) -> None:
         """Transform Hebrew date to hebrew date (two Adars - test Adar)."""
         for day in range(1, 30 + 1):
             date = HebrewDate(year, Months.ADAR_I, day)
-            assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
+            assert HebrewDate.from_jdn(date.to_jdn()) == date
         for day in range(1, 29 + 1):
             date = HebrewDate(year, Months.ADAR_II, day)
-            assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
+            assert HebrewDate.from_jdn(date.to_jdn()) == date
 
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
     def test_hdate_to_hdate_meuberet_heshvan(self, year: int) -> None:
@@ -81,7 +81,7 @@ class TestConverters:
         days_in_month = 29 if not year == 5760 else 30
         for day in range(1, days_in_month + 1):
             date = HebrewDate(year, Months.MARCHESHVAN, day)
-            assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
+            assert HebrewDate.from_jdn(date.to_jdn()) == date
 
     @pytest.mark.parametrize("year", YEARS_MEUBERET)
     def test_hdate_to_hdate_meuberet_kislev(self, year: int) -> None:
@@ -89,4 +89,4 @@ class TestConverters:
         days_in_month = 30 if not year == 5749 else 29
         for day in range(1, days_in_month + 1):
             date = HebrewDate(year, Months.KISLEV, day)
-            assert conv.jdn_to_hdate(conv.hdate_to_jdn(date)) == date
+            assert HebrewDate.from_jdn(date.to_jdn()) == date

@@ -7,12 +7,11 @@ of the Jewish calendrical date and times for a given location
 
 from __future__ import annotations
 
-import datetime
+import datetime as dt
 import logging
 from itertools import chain, product
-from typing import Any, Optional, Union, cast
+from typing import Any, Generator, Optional, Union, cast
 
-from hdate import converters as conv
 from hdate import htables
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate
@@ -39,7 +38,7 @@ class HDate(TranslatorMixin):
 
     def __init__(
         self,
-        gdate: datetime.date = datetime.date.today(),
+        gdate: dt.date = dt.date.today(),
         diaspora: bool = False,
         language: str = "hebrew",
         heb_date: Optional[HebrewDate] = None,
@@ -47,15 +46,14 @@ class HDate(TranslatorMixin):
         """Initialize the HDate object."""
         super().__init__()
         # Initialize private variables
-        self._jdn = 0
         self._last_updated = ""
 
         if heb_date is None:
             self.gdate = gdate
-            self._hdate = conv.jdn_to_hdate(self._jdn)
+            self._hdate = HebrewDate.from_gdate(gdate)
         else:
             self.hdate = heb_date
-            self._gdate = conv.jdn_to_gdate(self._jdn)
+            self._gdate = heb_date.to_gdate()
 
         self.diaspora = diaspora
         self.set_language(language)
@@ -107,7 +105,7 @@ class HDate(TranslatorMixin):
         """Return the hebrew date."""
         if self._last_updated == "hdate":
             return self._hdate
-        return conv.jdn_to_hdate(self._jdn)
+        return HebrewDate.from_gdate(self._gdate)
 
     @hdate.setter
     def hdate(self, date: HebrewDate) -> None:
@@ -118,21 +116,19 @@ class HDate(TranslatorMixin):
 
         self._last_updated = "hdate"
         self._hdate = date
-        self._jdn = conv.hdate_to_jdn(date)
 
     @property
-    def gdate(self) -> datetime.date:
+    def gdate(self) -> dt.date:
         """Return the Gregorian date for the given Hebrew date object."""
         if self._last_updated == "gdate":
             return self._gdate
-        return conv.jdn_to_gdate(self._jdn)
+        return self._hdate.to_gdate()
 
     @gdate.setter
-    def gdate(self, date: datetime.date) -> None:
+    def gdate(self, date: dt.date) -> None:
         """Set the Gregorian date for the given Hebrew date object."""
         self._last_updated = "gdate"
         self._gdate = date
-        self._jdn = conv.gdate_to_jdn(date)
 
     @property
     def hebrew_date(self) -> str:
@@ -179,11 +175,6 @@ class HDate(TranslatorMixin):
         return self.holiday_type == HolidayTypes.YOM_TOV
 
     @property
-    def is_leap_year(self) -> bool:
-        """Return True if this date's year is a leap year."""
-        return self.hdate.year % 19 in [0, 3, 6, 8, 11, 14, 17]
-
-    @property
     def holiday_type(self) -> Union[HolidayTypes, list[HolidayTypes]]:
         """Return the holiday type if exists."""
         entries = self._holiday_entries()
@@ -209,19 +200,11 @@ class HDate(TranslatorMixin):
         holidays_list = [
             holiday
             for holiday, holiday_hdate in _holidays_list
-            if holiday_hdate.hdate == self.hdate
+            if holiday_hdate == self.hdate
         ]
 
         # If anything is left return it, otherwise return the "NULL" holiday
         return holidays_list
-
-    def short_kislev(self) -> bool:
-        """Return whether this year has a short Kislev or not."""
-        return self.year_size() in [353, 383]
-
-    def long_cheshvan(self) -> bool:
-        """Return whether this year has a long Cheshvan or not."""
-        return self.year_size() in [355, 385]
 
     @property
     def dow(self) -> htables.Days:
@@ -234,23 +217,13 @@ class HDate(TranslatorMixin):
 
     def year_size(self) -> int:
         """Return the size of the given Hebrew year."""
-        return conv.get_size_of_hebrew_year(self.hdate.year)
-
-    def rosh_hashana_dow(self) -> int:
-        """Return the Hebrew day of week for Rosh Hashana."""
-        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, Months.TISHREI, 1))
-        return (jdn + 1) % 7 + 1
-
-    def pesach_dow(self) -> int:
-        """Return the first day of week for Pesach."""
-        jdn = conv.hdate_to_jdn(HebrewDate(self.hdate.year, Months.NISAN, 15))
-        return (jdn + 1) % 7 + 1
+        return HebrewDate.year_size(self.hdate.year)
 
     @property
     def omer_day(self) -> int:
         """Return the day of the Omer."""
         first_omer_day = HebrewDate(self.hdate.year, Months.NISAN, 16)
-        omer_day = self._jdn - conv.hdate_to_jdn(first_omer_day) + 1
+        omer_day = (self.hdate - first_omer_day).days + 1
         if not 0 < omer_day < 50:
             return 0
         return omer_day
@@ -279,12 +252,12 @@ class HDate(TranslatorMixin):
     @property
     def next_day(self) -> "HDate":
         """Return the HDate for the next day."""
-        return HDate(self.gdate + datetime.timedelta(1), self.diaspora, self._language)
+        return HDate(self.gdate + dt.timedelta(1), self.diaspora, self._language)
 
     @property
     def previous_day(self) -> "HDate":
         """Return the HDate for the previous day."""
-        return HDate(self.gdate + datetime.timedelta(-1), self.diaspora, self._language)
+        return HDate(self.gdate + dt.timedelta(-1), self.diaspora, self._language)
 
     @property
     def upcoming_shabbat(self) -> "HDate":
@@ -295,7 +268,7 @@ class HDate(TranslatorMixin):
         if self.is_shabbat:
             return self
         # If it's Sunday, fast forward to the next Shabbat.
-        saturday = self.gdate + datetime.timedelta((12 - self.gdate.weekday()) % 7)
+        saturday = self.gdate + dt.timedelta((12 - self.gdate.weekday()) % 7)
         return HDate(saturday, diaspora=self.diaspora, language=self._language)
 
     @property
@@ -346,7 +319,7 @@ class HDate(TranslatorMixin):
 
     def get_holidays_for_year(
         self, types: Optional[list[HolidayTypes]] = None
-    ) -> list[tuple[Holiday, HDate]]:
+    ) -> list[tuple[Holiday, HebrewDate]]:
         """Get all the actual holiday days for a given HDate's year.
 
         If specified, use the list of types to limit the holidays returned.
@@ -385,31 +358,36 @@ class HDate(TranslatorMixin):
 
         # Compute out every actual Hebrew date on which a holiday falls for
         # this year by exploding out the possible days for each holiday.
-        _holidays_list_1 = [
-            (
-                holiday,
-                HDate(
-                    heb_date=HebrewDate(
-                        self.hdate.year, date_instance[1], date_instance[0]
-                    ),
-                    diaspora=self.diaspora,
-                    language=self._language,
-                ),
-            )
-            for holiday in _holidays_list
-            for date_instance in holiday_dates_cross_product(holiday)
-            if len(holiday.date) >= 2
-        ]
+        def valid_holiday_dates(
+            holidays_list: list[Holiday],
+        ) -> Generator[tuple[Holiday, HebrewDate]]:
+            for holiday in holidays_list:
+                for date_instance in holiday_dates_cross_product(holiday):
+                    if len(holiday.date) >= 2:
+                        try:
+                            yield (
+                                holiday,
+                                HebrewDate(
+                                    year=self.hdate.year,
+                                    month=date_instance[1],
+                                    day=date_instance[0],
+                                ),
+                            )
+                        except ValueError:
+                            continue
+
+        valid_holidays = list(valid_holiday_dates(_holidays_list))
+
         # Filter any special cases defined by True/False functions
         holidays_list = [
             (holiday, date)
-            for (holiday, date) in _holidays_list_1
+            for (holiday, date) in valid_holidays
             if all(func(date) for func in holiday.date_functions_list)
         ]
         return holidays_list
 
     @property
-    def upcoming_yom_tov(self) -> "HDate":
+    def upcoming_yom_tov(self) -> HDate:
         """Find the next upcoming yom tov (i.e. no-melacha holiday).
 
         If it is currently the day of yom tov (irrespective of zmanim), returns
@@ -429,30 +407,32 @@ class HDate(TranslatorMixin):
         holidays_list = [
             holiday_hdate
             for _, holiday_hdate in chain(this_year, next_year)
-            if holiday_hdate >= self
+            if holiday_hdate >= self.hdate
         ]
 
-        holidays_list.sort(key=lambda h: h.gdate)
+        holidays_list.sort(key=lambda h: h.to_gdate())
 
-        return holidays_list[0]
+        return HDate(
+            heb_date=holidays_list[0], diaspora=self.diaspora, language=self._language
+        )
 
     def get_reading(self) -> htables.Parasha:
         """Return number of hebrew parasha."""
         _year_type = (self.year_size() % 10) - 3
         year_type = (
             self.diaspora * 1000
-            + self.rosh_hashana_dow() * 100
+            + HebrewDate(self.hdate.year, Months.TISHREI, 1).dow() * 100
             + _year_type * 10
-            + self.pesach_dow()
+            + HebrewDate(self.hdate.year, Months.NISAN, 15).dow()
         )
 
         _LOGGER.debug("Year type: %d", year_type)
 
         # Number of days since rosh hashana
         rosh_hashana = HebrewDate(self.hdate.year, Months.TISHREI, 1)
-        days = self._jdn - conv.hdate_to_jdn(rosh_hashana)
+        days = (self.hdate - rosh_hashana).days
         # Number of weeks since rosh hashana
-        weeks = (days + self.rosh_hashana_dow() - 1) // 7
+        weeks = (days + rosh_hashana.dow() - 1) // 7
         _LOGGER.debug("Since Rosh Hashana - Days: %d, Weeks %d", days, weeks)
 
         # If it's currently Simchat Torah, return VeZot Haberacha.
