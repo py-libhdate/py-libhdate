@@ -497,7 +497,7 @@ class TestSpecialDays:
             or rand_hdate.hdate.month == Months.SIVAN
             and rand_hdate.hdate.day > 5
         ):
-            assert rand_hdate.omer_day == 0
+            assert rand_hdate.omer.total_days == 0
 
         nissan = list(range(16, 30))
         iyyar = list(range(1, 29))
@@ -505,13 +505,13 @@ class TestSpecialDays:
 
         for day in nissan:
             rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 7, day)
-            assert rand_hdate.omer_day == day - 15
+            assert rand_hdate.omer.total_days == day - 15
         for day in iyyar:
             rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 8, day)
-            assert rand_hdate.omer_day == day + 15
+            assert rand_hdate.omer.total_days == day + 15
         for day in sivan:
             rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 9, day)
-            assert rand_hdate.omer_day == day + 44
+            assert rand_hdate.omer.total_days == day + 44
 
     def test_daf_yomi(self) -> None:
         """Test value of Daf Yomi."""

@@ -211,6 +211,7 @@ TRANSLATIONS = {
             "veten_tal": "VeTen Tal uMatar Livracha",
             "veten_beracha": "VeTen Beracha",
         },
+        "Omer": {"in_omer": "in the Omer"},
     },
     "fr": {
         "Months": {
@@ -416,6 +417,7 @@ TRANSLATIONS = {
             "veten_tal": "VeTen Tal uMatar Livracha",
             "veten_beracha": "VeTen Beracha",
         },
+        "Omer": {"in_omer": "jour du Omer"},
     },
     "he": {
         "Months": {
@@ -620,6 +622,28 @@ TRANSLATIONS = {
             "barech_aleinu": "בָּרֵךְ עָלֵינוּ",
             "veten_tal": "וְתֵן טַל וּמָטָר לִבְרָכָה",
             "veten_beracha": "וְתֵן בְּרָכָה",
+        },
+        "Omer": {
+            "in_omer": "לעומר",
+            "in_omer_ashkenaz": "בעומר",
+            "today": "היום",
+            "10": "עשרה",
+            "20": "עשרים",
+            "30": "שלושים",
+            "40": "ארבעים",
+            "1": "אחד",
+            "2": "שנים",
+            "3": "שלושה",
+            "4": "ארבעה",
+            "5": "חמשה",
+            "6": "ששה",
+            "7": "שבעה",
+            "8": "שמונה",
+            "9": "תשעה",
+            "day": "יום",
+            "days": "ימים",
+            "weeks": "שבועות",
+            "which_are": "שהם",
         },
     },
 }
