@@ -71,8 +71,27 @@ class HebrewDate(TranslatorMixin):
     def __add__(self, other: object) -> HebrewDate:
         if not isinstance(other, dt.timedelta):
             return NotImplemented
-        new_gdate = self.to_gdate() + other
-        return HebrewDate.from_gdate(new_gdate)
+        if self.year > 3760:  # Use gdate to calculate addition
+            new_gdate = self.to_gdate() + other
+            return HebrewDate.from_gdate(new_gdate)
+        days = other.days
+        new = HebrewDate(self.year, self.month, self.day)
+        while days > 0:
+            if (days_left := self.days_in_month(Months(new.month)) - new.day) > days:
+                new.day += days
+                break
+            days -= days_left
+            if new.month == Months.SHVAT and new.is_leap_year():
+                new.month = Months.ADAR_I
+            elif new.month == Months.ADAR_II:
+                new.month = Months.NISAN
+            elif new.month == Months.ELUL:
+                new.year += 1
+                new.month = Months.TISHREI
+            else:
+                new.month += 1
+            new.day = 1
+        return new
 
     def __sub__(self, other: object) -> dt.timedelta:
         if not isinstance(other, HebrewDate):

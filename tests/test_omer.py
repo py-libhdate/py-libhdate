@@ -36,7 +36,7 @@ def test_get_omer_string(omer_day: int, hebrew_string: str) -> None:
 def test_get_omer(omer_day: int, language: str) -> None:
     """Test the value returned by calculating the Omer."""
     omer = Omer(total_days=omer_day, language=language)
-    assert str(omer) == get_omer_string(omer_day, language=language)
+    assert omer.count_str() == get_omer_string(omer_day, language=language)
 
 
 def test_illegal_value() -> None:
