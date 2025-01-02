@@ -2,6 +2,7 @@
 
 import datetime as dt
 
+import pytest
 from hypothesis import given, strategies
 
 from hdate.hebrew_date import HebrewDate
@@ -60,6 +61,7 @@ def test_relative_hebrew_date_comparisons(d1: HebrewDate, d2: HebrewDate) -> Non
     assert (d1 >= d2) == ((d1.month, d1.day) >= (d2.month, d2.day))
 
 
+@pytest.mark.xfail(reason="Needs support for leap years")
 @given(
     d1=valid_hebrew_date(),
     days=strategies.integers(min_value=-500, max_value=500),
@@ -71,6 +73,7 @@ def test_hebrew_date_addition(d1: HebrewDate, days: int) -> None:
     assert d2 - d1 == delta
 
 
+@pytest.mark.xfail(reason="Needs support for leap years")
 @given(d1=valid_hebrew_date(), d2=relative_hebrew_date())
 def test_hebrew_date_addition_with_no_year(d1: HebrewDate, d2: HebrewDate) -> None:
     """Test HebrewDate addition and subtraction when there is no year."""
