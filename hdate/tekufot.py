@@ -35,6 +35,8 @@ class Geshamim(TranslatorMixin, Enum):
 
     BARKHEINU = 0
     BARECH_ALEINU = 1
+    VETEN_TAL = 2
+    VETEN_BERACHA = 3
 
 
 class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
@@ -157,7 +159,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     def get_gevurot(self) -> Union[Gevurot, None]:
         """
         From Pesach to Shemini Atzeret:
-          Israel & Sephardi: Morid (0)
+          Sephardi: Morid (0)
           Ashkenazi: neither (2)
         From Shemini Atzeret to Next Pesach:
           All: Mashiv (1)
@@ -168,8 +170,8 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             < self.hebrew_date
             < HebrewDate(self.hebrew_year_p, Months.TISHREI, 22)
         ):
-            if self.tradition in ["israel", "diaspora_sephardi"]:
-                return Gevurot.MORID_HATAL  # Morid = 0
+            if self.tradition in ["sephardi"]:
+                return Gevurot.MORID_HATAL
 
             # diaspora_ashkenazi
             return Gevurot.NEITHER  # neither = 2
@@ -180,61 +182,61 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             < self.hebrew_date
             < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
         ):
-            return Gevurot.MASHIV_HARUACH  # mashiv = 1
+            return Gevurot.MASHIV_HARUACH
 
         # Pesach to Next Shemini Atzeret
-        if (
+        elif (
             HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
             < self.hebrew_date
             < HebrewDate(self.hebrew_year_p + 1, Months.TISHREI, 22)
         ):
-            if self.tradition in ["israel", "diaspora_sephardi"]:
+            if self.tradition in ["sephardi"]:
                 return Gevurot.MORID_HATAL  # Morid = 0
 
-            # diaspora_ashkenazi
+            # ashkenazi
             return Gevurot.NEITHER  # neither = 2
 
-        # Par défaut (si rien ne correspond, ex. date hors de la plage) :
+        # Default
         return None
 
     def get_geshamim(self) -> Union[Geshamim, None]:
         """
         Periods:
-        From Pesach I (Musaf) to Cheilat geshamim: All = barkheinu (0)
-        Cheilat geshamim to Pesach I (Shacharit): All = barech_aleinu (1)
-        At Pesach I (Shacharit): All = barkheinu (0)
+        From Pesach I (Musaf) to Cheilat geshamim
+        Cheilat geshamim to Pesach I (Shacharit)
         """
 
-        # From Prev Pesach to Cheilat geshamim: All barkheinu (0)
+        # From Prev Pesach to Cheilat geshamim:
         if (
             HebrewDate(self.hebrew_year_p - 1, Months.NISAN, 15)
             < self.hebrew_date
             < self.get_cheilat_geshamim_hdate()
         ):
-            return Geshamim.BARKHEINU  # barkheinu = 0
+            if self.tradition in ["sephardi"]:
+                return Geshamim.BARKHEINU
+            return Geshamim.VETEN_BERACHA
 
-        # From Cheilat geshamim to Pesach: All = barech_aleinu (1)
-        if (
+        # From Cheilat geshamim to Pesach:
+        elif (
             self.get_cheilat_geshamim_hdate()
             < self.hebrew_date
             < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
-        ):
-            return Geshamim.BARECH_ALEINU  # barech_aleinu = 1
+        ) or (self.hebrew_date == self.get_cheilat_geshamim_hdate()):
+            if self.tradition in ["sephardi"]:
+                return Geshamim.BARECH_ALEINU
+            return Geshamim.VETEN_TAL
+        else:
 
-        # At Pesach (Shacharit): All barkheinu (0)
-        if self.hebrew_date == HebrewDate(self.hebrew_year_p, Months.NISAN, 15):
-            return None
-
+            if self.tradition in ["sephardi"]:
+                return Geshamim.BARKHEINU
+            return Geshamim.VETEN_BERACHA
         # Par défaut
-        return Geshamim.BARKHEINU
+        return None
 
     def get_prayer_for_date(self) -> str:
         """
         Returns the appropriate prayer phrases for the given date, tradition,
-        and language. The tradition can be
-        'israel',
-        'diaspora_ashkenazi',
-        or 'diaspora_sephardi'.
+        and language. The tradition can be 'ashkenazi', "sephardi'.
         The language can be 'english', 'french', or 'hebrew'.
         """
         self.set_language(self.language)

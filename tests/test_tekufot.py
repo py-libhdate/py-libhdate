@@ -7,61 +7,43 @@ import pytest
 from hdate.location import Location
 from hdate.tekufot import Tekufot
 
-# 1) Define the test matrix: 3 dates and 3 (tradition, language) combos
-
-TRAD_LANG_COMBOS = [
-    ("israel", "english"),
-    ("diaspora_ashkenazi", "french"),
-    ("diaspora_sephardi", "hebrew"),
-]
-
-# 2) Create a dictionary mapping each unique combination of (date, tradition, language)
+# 1) Create a dictionary mapping each unique combination of (date, tradition, language)
 #    to the exact phrase you expect.
 #    Replace the placeholder strings ("Phrase_1", etc.) with the real phrases you have.
 EXPECTED_PHRASES = {
     (
         "2024-12-13",
-        "israel",
+        "ashkenazi",
         "english",
-    ): "Mashiv ha-ruach u-morid ha-geshem - Barech aleinu",
+    ): "Mashiv ha-ruach u-morid ha-geshem - VeTen Tal uMatar Livracha",
     (
         "2024-12-13",
-        "diaspora_ashkenazi",
-        "french",
-    ): "Machiv ha-roua'h oumoride ha-guéchem - Barech aleinu",
-    (
-        "2024-12-13",
-        "diaspora_sephardi",
+        "sephardi",
         "hebrew",
     ): "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
     (
         "2025-04-25",
-        "israel",
+        "sephardi",
         "english",
     ): "Morid ha-tal - Barkheinu",
     (
         "2025-04-25",
-        "diaspora_ashkenazi",
-        "french",
-    ): "(Silence) - Barkhénou",
+        "ashkenazi",
+        "english",
+    ): "(Silence) - VeTen Beracha",
     (
         "2025-04-25",
-        "diaspora_sephardi",
+        "ashkenazi",
         "hebrew",
-    ): "מוֹרִיד הַטַּל - בָּרְכֵנוּ",
+    ): "(שתיקה) - וְתֵן בְּרָכָה",
     (
         "2026-10-10",
-        "israel",
+        "ashkenazi",
         "english",
-    ): "Mashiv ha-ruach u-morid ha-geshem - Barkheinu",
+    ): "Mashiv ha-ruach u-morid ha-geshem - VeTen Beracha",
     (
         "2026-10-10",
-        "diaspora_ashkenazi",
-        "french",
-    ): "Machiv ha-roua'h oumoride ha-guéchem - Barkhénou",
-    (
-        "2026-10-10",
-        "diaspora_sephardi",
+        "sephardi",
         "hebrew",
     ): "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
 }
@@ -78,20 +60,25 @@ class TestTekufot:
             latitude=31.778,
             longitude=35.235,
             timezone="Asia/Jerusalem",
+            diaspora=False,
         )
         return Tekufot(
             date=dt.date.today(),
             location=loc,
             language="english",
-            tradition="israel",
+            tradition="sephardi",
         )
 
     @pytest.mark.parametrize(
         "date_str,tradition,language",
         [
-            (d, t, l)
-            for d in ["2024-12-13", "2025-04-25", "2026-10-10"]
-            for (t, l) in TRAD_LANG_COMBOS
+            ("2024-12-13", "ashkenazi", "english"),
+            ("2024-12-13", "sephardi", "hebrew"),
+            ("2025-04-25", "sephardi", "english"),
+            ("2025-04-25", "ashkenazi", "english"),
+            ("2025-04-25", "ashkenazi", "hebrew"),
+            ("2026-10-10", "ashkenazi", "english"),
+            ("2026-10-10", "sephardi", "hebrew"),
         ],
     )
     def test_tekufot_prayer_for_date(
@@ -107,7 +94,7 @@ class TestTekufot:
             latitude=40.0,
             longitude=-74.0,
             timezone="America/New_York",
-            diaspora=(tradition != "israel"),  # diaspora=True Outside Israel
+            diaspora=True,
         )
 
         tekufot = Tekufot(

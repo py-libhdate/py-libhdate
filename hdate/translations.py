@@ -205,7 +205,12 @@ TRANSLATIONS = {
             "mashiv_haruach": "Mashiv ha-ruach u-morid ha-geshem",
             "neither": "(Silence)",
         },
-        "Geshamim": {"barkheinu": "Barkheinu", "barech_aleinu": "Barech aleinu"},
+        "Geshamim": {
+            "barkheinu": "Barkheinu",
+            "barech_aleinu": "Barech aleinu",
+            "veten_tal": "VeTen Tal uMatar Livracha",
+            "veten_beracha": "VeTen Beracha",
+        },
     },
     "fr": {
         "Months": {
@@ -405,7 +410,12 @@ TRANSLATIONS = {
             "mashiv_haruach": "Machiv ha-roua'h oumoride ha-guéchem",
             "neither": "(Silence)",
         },
-        "Geshamim": {"barkheinu": "Barkhénou", "barech_aleinu": "Barech aleinu"},
+        "Geshamim": {
+            "barkheinu": "Barkhénou",
+            "barech_aleinu": "Barech aleinu",
+            "veten_tal": "VeTen Tal uMatar Livracha",
+            "veten_beracha": "VeTen Beracha",
+        },
     },
     "he": {
         "Months": {
@@ -605,6 +615,11 @@ TRANSLATIONS = {
             "mashiv_haruach": "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם",
             "neither": "(שתיקה)",
         },
-        "Geshamim": {"barkheinu": "בָּרְכֵנוּ", "barech_aleinu": "בָּרֵךְ עָלֵינוּ"},
+        "Geshamim": {
+            "barkheinu": "בָּרְכֵנוּ",
+            "barech_aleinu": "בָּרֵךְ עָלֵינוּ",
+            "veten_tal": "וְתֵן טַל וּמָטָר לִבְרָכָה",
+            "veten_beracha": "וְתֵן בְּרָכָה",
+        },
     },
 }
