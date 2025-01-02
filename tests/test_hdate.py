@@ -98,7 +98,7 @@ class TestHDate:
     def test_pesach_day_of_week(self, rand_hdate: HDate) -> None:
         """ "Check tha Pesach DOW matches the given dates."""
         for year, info in list(HEBREW_YEARS_INFO.items()):
-            rand_hdate.hdate = HebrewDate(year, 7, 15)
+            rand_hdate.hdate = HebrewDate(year, Months.NISAN, 15)
             assert rand_hdate.dow == info[2]
             assert rand_hdate.holidays[0].name == "pesach"
 
