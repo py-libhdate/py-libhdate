@@ -192,8 +192,8 @@
         "saturday": "Saturday"
     },
     "Gevurot": {
-        "morid": "Morid ha-tal",
-        "mashiv": "Mashiv ha-ruach u-morid ha-geshem",
+        "morid_hatal": "Morid ha-tal",
+        "mashiv_haruach": "Mashiv ha-ruach u-morid ha-geshem",
         "neither": "(Silence)"
     },
     "Geshamim": {

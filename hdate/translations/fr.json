@@ -192,8 +192,8 @@
         "saturday": "Samedi"
     },
     "Gevurot": {
-        "morid": "Moride ha-tal",
-        "mashiv": "Machiv ha-roua'h oumoride ha-guéchem",
+        "morid_hatal": "Moride ha-tal",
+        "mashiv_haruach": "Machiv ha-roua'h oumoride ha-guéchem",
         "neither": "(Silence)"
     },
     "Geshamim": {

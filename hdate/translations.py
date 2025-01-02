@@ -201,8 +201,8 @@ TRANSLATIONS = {
             "saturday": "Saturday",
         },
         "Gevurot": {
-            "morid": "Morid ha-tal",
-            "mashiv": "Mashiv ha-ruach u-morid ha-geshem",
+            "morid_hatal": "Morid ha-tal",
+            "mashiv_haruach": "Mashiv ha-ruach u-morid ha-geshem",
             "neither": "(Silence)",
         },
         "Geshamim": {"barkheinu": "Barkheinu", "barech_aleinu": "Barech aleinu"},
@@ -401,8 +401,8 @@ TRANSLATIONS = {
             "saturday": "Samedi",
         },
         "Gevurot": {
-            "morid": "Moride ha-tal",
-            "mashiv": "Machiv ha-roua'h oumoride ha-guéchem",
+            "morid_hatal": "Moride ha-tal",
+            "mashiv_haruach": "Machiv ha-roua'h oumoride ha-guéchem",
             "neither": "(Silence)",
         },
         "Geshamim": {"barkheinu": "Barkhénou", "barech_aleinu": "Barech aleinu"},
@@ -601,8 +601,8 @@ TRANSLATIONS = {
             "saturday": "יום שבת",
         },
         "Gevurot": {
-            "morid": "מוֹרִיד הַטַּל",
-            "mashiv": "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם",
+            "morid_hatal": "מוֹרִיד הַטַּל",
+            "mashiv_haruach": "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם",
             "neither": "(שתיקה)",
         },
         "Geshamim": {"barkheinu": "בָּרְכֵנוּ", "barech_aleinu": "בָּרֵךְ עָלֵינוּ"},
