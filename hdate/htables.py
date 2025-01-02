@@ -459,7 +459,6 @@ def not_rosh_chodesh() -> Callable[[HebrewDateT], bool]:
 class HolidayTypes(Enum):
     """Container class for holiday type integer mappings."""
 
-    NONE = 0
     YOM_TOV = 1
     EREV_YOM_TOV = 2
     HOL_HAMOED = 3
@@ -486,7 +485,6 @@ class Holiday(TranslatorMixin):
 
 
 HOLIDAYS = (
-    Holiday(HolidayTypes.NONE, "", (), "", []),
     Holiday(HolidayTypes.EREV_YOM_TOV, "erev_rosh_hashana", (29, Months.ELUL), "", []),
     Holiday(HolidayTypes.YOM_TOV, "rosh_hashana_i", (1, Months.TISHREI), "", []),
     Holiday(HolidayTypes.YOM_TOV, "rosh_hashana_ii", (2, Months.TISHREI), "", []),

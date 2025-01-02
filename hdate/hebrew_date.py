@@ -271,7 +271,9 @@ class HebrewDate(TranslatorMixin):
 
     def dow(self) -> Days:
         """Return: day of the week."""
-        return Days((self.to_jdn() + 1) % 7 + 1)
+        weekday = Days((self.to_jdn() + 1) % 7 + 1)
+        weekday.set_language(self._language)
+        return weekday
 
     def short_kislev(self) -> bool:
         """Return whether this year has a short Kislev or not."""

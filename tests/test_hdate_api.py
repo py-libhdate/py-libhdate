@@ -67,14 +67,9 @@ class TestHDateAPI:
     def test_get_holiday_description(self) -> None:
         """Check that the holiday description is correct."""
         test_date = dt.datetime(2018, 12, 3)
-        assert HDate(test_date).holiday_description == "חנוכה"
-        assert HDate(test_date, language="english").holiday_description == "Chanukah"
-
-    def test_get_holiday_description_multi_language(self) -> None:
-        """Check that the holiday description is correct in french."""
-        test_date = dt.datetime(2018, 12, 3)
-        assert HDate(test_date).holiday_description == "חנוכה"
-        assert HDate(test_date, language="french").holiday_description == "Hanoukka"
+        assert str(HDate(test_date).holidays[0]) == "חנוכה"
+        assert str(HDate(test_date, language="english").holidays[0]) == "Chanukah"
+        assert str(HDate(test_date, language="french").holidays[0]) == "Hanoukka"
 
 
 class TestZmanimAPI:
