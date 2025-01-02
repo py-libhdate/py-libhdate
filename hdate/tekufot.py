@@ -14,7 +14,6 @@ from datetime import tzinfo
 from enum import Enum
 from typing import Dict, Union
 
-from hdate import converters as conv
 from hdate.hebrew_date import HebrewDate
 from hdate.htables import Months
 from hdate.location import Location
@@ -215,7 +214,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             return Geshamim.VETEN_BERACHA
 
         # From Cheilat geshamim to Pesach:
-        elif (
+        if (
             self.get_cheilat_geshamim_hdate()
             < self.hebrew_date
             < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
@@ -223,13 +222,10 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             if self.tradition in ["sephardi"]:
                 return Geshamim.BARECH_ALEINU
             return Geshamim.VETEN_TAL
-        else:
 
-            if self.tradition in ["sephardi"]:
-                return Geshamim.BARKHEINU
-            return Geshamim.VETEN_BERACHA
-        # Par défaut
-        return None
+        if self.tradition in ["sephardi"]:
+            return Geshamim.BARKHEINU
+        return Geshamim.VETEN_BERACHA
 
     def get_prayer_for_date(self) -> str:
         """
