@@ -38,6 +38,7 @@ class Geshamim(TranslatorMixin, Enum):
     VETEN_BERACHA = 3
 
 
+# pylint: disable=too-many-instance-attributes
 class Tekufot(TranslatorMixin):
     """
     A class that calculates and manages Jewish seasonal times (Tekufot),
