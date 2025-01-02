@@ -10,16 +10,15 @@ from __future__ import annotations
 import datetime as dt
 import logging
 from itertools import chain, product
-from typing import Any, Generator, Optional, Union, cast
+from typing import Generator, Optional, cast
 
 from hdate import htables
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate
-from hdate.htables import Days, Holiday, HolidayTypes, Masechta, Months, Parasha
+from hdate.htables import Days, Holiday, HolidayTypes, Months, Parasha
 from hdate.translator import TranslatorMixin
 
 _LOGGER = logging.getLogger(__name__)
-# pylint: disable=too-many-public-methods
 
 
 class HDate(TranslatorMixin):
@@ -72,8 +71,8 @@ class HDate(TranslatorMixin):
             result = f"{result} {omer_day_number} {omer_suffix}"
 
         # Append holiday description if any
-        if self.holiday_description:
-            result = f"{result} {self.holiday_description}"
+        if self.holidays:
+            result = f"{result} {', '.join(str(holiday) for holiday in self.holidays)}"
         return result
 
     def __repr__(self) -> str:
@@ -145,17 +144,6 @@ class HDate(TranslatorMixin):
         return str(parasha)
 
     @property
-    def holiday_description(self) -> Optional[str]:
-        """
-        Return the holiday description in the selected language.
-        If none exists, will return None.
-        """
-        entries = self._holiday_entries()
-        for entry in entries:
-            entry.set_language(self._language)
-        return ", ".join(str(entry) for entry in entries) if entries else None
-
-    @property
     def is_shabbat(self) -> bool:
         """Return True if this date is Shabbat, specifically Saturday.
 
@@ -167,34 +155,15 @@ class HDate(TranslatorMixin):
     @property
     def is_holiday(self) -> bool:
         """Return True if this date is a holiday (any kind)."""
-        return self.holiday_type != HolidayTypes.NONE
+        return len(self.holidays) > 0
 
     @property
     def is_yom_tov(self) -> bool:
         """Return True if this date is a Yom Tov."""
-        return self.holiday_type == HolidayTypes.YOM_TOV
+        return any(holiday.type == HolidayTypes.YOM_TOV for holiday in self.holidays)
 
     @property
-    def holiday_type(self) -> Union[HolidayTypes, list[HolidayTypes]]:
-        """Return the holiday type if exists."""
-        entries = self._holiday_entries()
-        if len(entries) > 1:
-            return [entry.type for entry in entries]
-        if len(entries) == 1:
-            return cast(HolidayTypes, entries[0].type)
-        return HolidayTypes.NONE
-
-    @property
-    def holiday_name(self) -> Union[str, list[str]]:
-        """Return the holiday name which is good for programmatic use."""
-        entries = self._holiday_entries()
-        if len(entries) > 1:
-            return [entry.name for entry in entries]
-        if len(entries) == 1:
-            return cast(str, entries[0].name)
-        return ""
-
-    def _holiday_entries(self) -> list[Union[Holiday, Any]]:
+    def holidays(self) -> list[Holiday]:
         """Return the abstract holiday information from holidays table."""
         _holidays_list = self.get_holidays_for_year()
         holidays_list = [
@@ -203,7 +172,9 @@ class HDate(TranslatorMixin):
             if holiday_hdate == self.hdate
         ]
 
-        # If anything is left return it, otherwise return the "NULL" holiday
+        for holiday in holidays_list:
+            holiday.set_language(self._language)
+
         return holidays_list
 
     @property
@@ -224,8 +195,9 @@ class HDate(TranslatorMixin):
             return 0
         return omer_day
 
-    def daf_yomi_repr(self) -> tuple[Masechta, int]:
-        """Return a tuple of mesechta and daf."""
+    @property
+    def daf_yomi(self) -> str:
+        """Return a string representation of the daf yomi."""
         days_since_start_cycle_11 = (self.gdate - htables.DAF_YOMI_CYCLE_11_START).days
         page_number = days_since_start_cycle_11 % (htables.DAF_YOMI_TOTAL_PAGES)
         for mesechta in htables.DAF_YOMI_MESECHTOS:
@@ -234,12 +206,6 @@ class HDate(TranslatorMixin):
             else:
                 break
         daf_number = page_number + 2
-        return mesechta, daf_number
-
-    @property
-    def daf_yomi(self) -> str:
-        """Return a string representation of the daf yomi."""
-        mesechta, daf_number = self.daf_yomi_repr()
         mesechta.set_language(self._language)
         daf = hebrew_number(daf_number, language=self._language, short=True)
         return f"{mesechta} {daf}"
