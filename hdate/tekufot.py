@@ -12,7 +12,7 @@ The class attempts to compute:
 import datetime as dt
 from datetime import tzinfo
 from enum import Enum
-from typing import Union
+from typing import Dict, Union
 
 from hdate import converters as conv
 from hdate.hebrew_date import HebrewDate
@@ -72,7 +72,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         # Cheilat Geshamim calculation
         self.get_cheilat_geshamim()
 
-    def get_tekufot(self) -> dict:
+    def get_tekufot(self) -> Dict[str, dt.datetime]:
         """
         Calculates the approximate dates and times of the Tekufot.
         This is a simplified approximation. Traditional calculations may differ.
@@ -240,7 +240,10 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         self.set_language(self.language)
         geshamim = self.get_geshamim()
         gevurot = self.get_gevurot()
-        geshamim.set_language(self.language)
-        gevurot.set_language(self.language)
+        if geshamim is not None:
+            geshamim.set_language(self.language)
+
+        if gevurot is not None:
+            gevurot.set_language(self.language)
 
         return f"{gevurot} - {geshamim}"
