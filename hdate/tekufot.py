@@ -182,7 +182,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             return Gevurot.MASHIV_HARUACH
 
         # Pesach to Next Shemini Atzeret
-        elif (
+        if (
             HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
             < self.hebrew_date
             < HebrewDate(self.hebrew_year_p + 1, Months.TISHREI, 22)
