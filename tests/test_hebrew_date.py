@@ -35,7 +35,8 @@ def valid_hebrew_date(draw: strategies.DrawFn) -> HebrewDate:
 def relative_hebrew_date(draw: strategies.DrawFn) -> HebrewDate:
     """Generate a Hebrew date with no year."""
     month = draw(strategies.sampled_from(list(Months)))
-    day = draw(strategies.integers(min_value=1, max_value=30))
+    max_day = HebrewDate().days_in_month(month)
+    day = draw(strategies.integers(min_value=1, max_value=max_day))
     return HebrewDate(0, month, day)
 
 
