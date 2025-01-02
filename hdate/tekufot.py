@@ -38,7 +38,7 @@ class Geshamim(TranslatorMixin, Enum):
     VETEN_BERACHA = 3
 
 
-class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
+class Tekufot(TranslatorMixin):
     """
     A class that calculates and manages Jewish seasonal times (Tekufot),
     periods for prayer insertions, and associated halachic dates such as
@@ -48,7 +48,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         self,
         date: dt.date = dt.datetime.today(),
         location: Location = Location(),
-        tradition: str = "israel",
+        tradition: str = "sephardi",
         language: str = "english",
     ):
         """Initialize the Tekufot object."""
@@ -56,9 +56,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         self.date = date
         self.location = location
-        self.tradition = tradition or (
-            "israel" if not location.diaspora else "diaspora_sephardi"
-        )
+        self.tradition = tradition
         self.language = language
 
         # Convert current date Hebrew Date
