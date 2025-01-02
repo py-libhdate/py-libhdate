@@ -35,7 +35,9 @@ class TestTekufot:
             ("2025-04-07", ["Nissan", "Tammuz", "Tishrei", "Tevet"]),
         ],
     )
-    def test_get_tekufot_dict(self, date, expected_tekufot_keys, default_values):
+    def test_get_tekufot_dict(
+        self, date, expected_tekufot_keys, default_values
+    ) -> None:
         """Test that Tekufot calculations return the correct keys."""
         tekufot = Tekufot(
             date=dt.datetime.strptime(date, "%Y-%m-%d").date(),
@@ -67,7 +69,7 @@ class TestTekufot:
             ),
         ],
     )
-    def test_get_tekufot(self, date, expected_tekufot, default_values):
+    def test_get_tekufot(self, date, expected_tekufot, default_values) -> None:
         """Test that Tekufot calculations return the correct datetime values."""
         tekufot = Tekufot(
             date=dt.datetime.strptime(date, "%Y-%m-%d").date(),
@@ -87,7 +89,7 @@ class TestTekufot:
             ("2024-10-05", False, "2024-11-08"),  # Israel start for rain prayers
         ],
     )
-    def test_get_cheilat_geshamim(self, date, diaspora, expected_start):
+    def test_get_cheilat_geshamim(self, date, diaspora, expected_start) -> None:
         """Test Cheilat Geshamim start dates based on location."""
         loc = Location(
             name="TestLocation",
