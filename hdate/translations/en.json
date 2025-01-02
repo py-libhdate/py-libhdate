@@ -12,8 +12,8 @@
         "tammuz": "Tammuz",
         "av": "Av",
         "elul": "Elul",
-        "adari": "Adar I",
-        "adarii": "Adar II"
+        "adar_i": "Adar I",
+        "adar_ii": "Adar II"
     },
     "Masechta": {
         "berachos": "Berachos",
