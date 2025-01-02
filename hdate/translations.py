@@ -21,8 +21,8 @@ TRANSLATIONS = {
             "tammuz": "Tammuz",
             "av": "Av",
             "elul": "Elul",
-            "adari": "Adar I",
-            "adarii": "Adar II",
+            "adar_i": "Adar I",
+            "adar_ii": "Adar II",
         },
         "Masechta": {
             "berachos": "Berachos",
@@ -226,8 +226,8 @@ TRANSLATIONS = {
             "tammuz": "Tamouz",
             "av": "Av",
             "elul": "Eloul",
-            "adari": "Adar I",
-            "adarii": "Adar II",
+            "adar_i": "Adar I",
+            "adar_ii": "Adar II",
         },
         "Masechta": {
             "berachos": "Berakhot",
@@ -431,8 +431,8 @@ TRANSLATIONS = {
             "tammuz": "תמוז",
             "av": "אב",
             "elul": "אלול",
-            "adari": "אדר א",
-            "adarii": "אדר ב",
+            "adar_i": "אדר א",
+            "adar_ii": "אדר ב",
         },
         "Masechta": {
             "berachos": "ברכות",
