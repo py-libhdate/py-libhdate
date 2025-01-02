@@ -10,10 +10,13 @@ The class attempts to compute:
 """
 
 import datetime as dt
+from datetime import tzinfo
 from enum import Enum
+from typing import Union
 
 from hdate import converters as conv
 from hdate.hebrew_date import HebrewDate
+from hdate.htables import Months
 from hdate.location import Location
 from hdate.translator import TranslatorMixin
 from hdate.zmanim import Zmanim
@@ -64,12 +67,12 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         self.gregorian_year_p = self.hebrew_year_p - 3760
 
         # Tekufot calculations
-        self.set_tekufot()
+        self.get_tekufot()
 
         # Cheilat Geshamim calculation
         self.get_cheilat_geshamim()
 
-    def set_tekufot(self) -> None:
+    def get_tekufot(self) -> dict:
         """
         Calculates the approximate dates and times of the Tekufot.
         This is a simplified approximation. Traditional calculations may differ.
@@ -89,8 +92,11 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         hours_delta_nissan = (self.gregorian_year_p % 4) * 6
 
         # Tekufa Nissan: start at date_equinox_april at 12:00
-        tekufa_nissan = dt.datetime.combine(
-            date_equinox_april, dt.time(12, 0)
+        tz = self.location.timezone
+        if not isinstance(tz, tzinfo):
+            raise TypeError("Timezone must be of type tzinfo.")
+        tekufa_nissan = dt.datetime.combine(date_equinox_april, dt.time(12, 0)).replace(
+            tzinfo=tz
         ) + dt.timedelta(hours=hours_delta_nissan)
         self.tekufa_nissan = tekufa_nissan
 
@@ -102,9 +108,17 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         )
 
         # From Nissan to Tevet (minus interval)
-        self.tekufa_tevet = self.tekufa_nissan - tekufa_interval
-        self.tekufa_tishrei = self.tekufa_tevet - tekufa_interval
-        self.tekufa_tammuz = self.tekufa_nissan + tekufa_interval
+        tekufa_tevet = self.tekufa_nissan - tekufa_interval
+        tekufa_tishrei = tekufa_tevet - tekufa_interval
+        tekufa_tammuz = self.tekufa_nissan + tekufa_interval
+
+        # Return as dictionary
+        return {
+            "Nissan": tekufa_nissan,
+            "Tammuz": tekufa_tammuz,
+            "Tishrei": tekufa_tishrei,
+            "Tevet": tekufa_tevet,
+        }
 
     def get_cheilat_geshamim(self) -> dt.date:
         """
@@ -115,23 +129,10 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         if self.location.diaspora:
             # Cheilat Geshamim starts 60 days after Tekufat Tishrei.
-            _cheilat_geshamim = self.tekufa_tishrei + dt.timedelta(days=59)
-
+            cheilat_geshamim_dt = self.get_tekufot()["Tishrei"] + dt.timedelta(days=59)
             time_end_of_day = Zmanim(
-                _cheilat_geshamim.date(), location=self.location
+                cheilat_geshamim_dt.date(), location=self.location
             ).zmanim["first_stars"]
-
-            tz = time_end_of_day.tzinfo
-
-            cheilat_geshamim_dt = dt.datetime(
-                _cheilat_geshamim.year,
-                _cheilat_geshamim.month,
-                _cheilat_geshamim.day,
-                _cheilat_geshamim.hour,
-                _cheilat_geshamim.minute,
-                tzinfo=tz,
-            )
-
             if cheilat_geshamim_dt < time_end_of_day:
                 # Normalize to date at midnight
                 cheilat_geshamim = cheilat_geshamim_dt.date()
@@ -139,7 +140,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
                 cheilat_geshamim = cheilat_geshamim_dt.date() + dt.timedelta(days=1)
         else:
             # In Israel: 7th of Cheshvan
-            hdate_7_cheshvan = HebrewDate(self.hebrew_year_p, 2, 7)
+            hdate_7_cheshvan = HebrewDate(self.hebrew_year_p, Months.MARCHESHVAN, 7)
             jdn_7_cheshvan = conv.hdate_to_jdn(hdate_7_cheshvan)
             cheilat_geshamim = conv.jdn_to_gdate(jdn_7_cheshvan)
 
@@ -153,7 +154,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         return conv.jdn_to_hdate(jdn_geshamin)
 
-    def get_gevurot(self) -> Gevurot:
+    def get_gevurot(self) -> Union[Gevurot, None]:
         """
         From Pesach to Shemini Atzeret:
           Israel & Sephardi: Morid (0)
@@ -163,9 +164,9 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         """
         # Prev Pesach to Shemini Atzeret
         if (
-            HebrewDate(self.hebrew_year_p - 1, 7, 15)
+            HebrewDate(self.hebrew_year_p - 1, Months.NISAN, 15)
             < self.hebrew_date
-            < HebrewDate(self.hebrew_year_p, 1, 22)
+            < HebrewDate(self.hebrew_year_p, Months.TISHREI, 22)
         ):
             if self.tradition in ["israel", "diaspora_sephardi"]:
                 return Gevurot.MORID_HATAL  # Morid = 0
@@ -175,17 +176,17 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         # Shemini Atzeret to Pesach
         if (
-            HebrewDate(self.hebrew_year_p, 1, 22)
+            HebrewDate(self.hebrew_year_p, Months.TISHREI, 22)
             < self.hebrew_date
-            < HebrewDate(self.hebrew_year_p, 7, 15)
+            < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
         ):
             return Gevurot.MASHIV_HARUACH  # mashiv = 1
 
         # Pesach to Next Shemini Atzeret
         if (
-            HebrewDate(self.hebrew_year_p, 7, 15)
+            HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
             < self.hebrew_date
-            < HebrewDate(self.hebrew_year_p + 1, 1, 22)
+            < HebrewDate(self.hebrew_year_p + 1, Months.TISHREI, 22)
         ):
             if self.tradition in ["israel", "diaspora_sephardi"]:
                 return Gevurot.MORID_HATAL  # Morid = 0
@@ -194,9 +195,9 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             return Gevurot.NEITHER  # neither = 2
 
         # Par défaut (si rien ne correspond, ex. date hors de la plage) :
-        return Gevurot.NEITHER
+        return None
 
-    def get_geshamim(self) -> Geshamim:
+    def get_geshamim(self) -> Union[Geshamim, None]:
         """
         Periods:
         From Pesach I (Musaf) to Cheilat geshamim: All = barkheinu (0)
@@ -206,7 +207,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         # From Prev Pesach to Cheilat geshamim: All barkheinu (0)
         if (
-            HebrewDate(self.hebrew_year_p - 1, 7, 15)
+            HebrewDate(self.hebrew_year_p - 1, Months.NISAN, 15)
             < self.hebrew_date
             < self.get_cheilat_geshamim_hdate()
         ):
@@ -216,13 +217,13 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         if (
             self.get_cheilat_geshamim_hdate()
             < self.hebrew_date
-            < HebrewDate(self.hebrew_year_p, 7, 15)
+            < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
         ):
             return Geshamim.BARECH_ALEINU  # barech_aleinu = 1
 
         # At Pesach (Shacharit): All barkheinu (0)
-        if self.hebrew_date == HebrewDate(self.hebrew_year_p, 7, 15):
-            return Geshamim.BARKHEINU
+        if self.hebrew_date == HebrewDate(self.hebrew_year_p, Months.NISAN, 15):
+            return None
 
         # Par défaut
         return Geshamim.BARKHEINU
