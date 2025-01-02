@@ -62,9 +62,8 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         )
         self.language = language
 
-        # Convert current date to JDN and Hebrew Date
-        jdn = conv.gdate_to_jdn(date)
-        self.hebrew_date = conv.jdn_to_hdate(jdn)
+        # Convert current date Hebrew Date
+        self.hebrew_date = HebrewDate.from_gdate(date)
         self.hebrew_year_p = self.hebrew_date.year
         self.gregorian_year_p = self.hebrew_year_p - 3760
 
@@ -143,8 +142,7 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         else:
             # In Israel: 7th of Cheshvan
             hdate_7_cheshvan = HebrewDate(self.hebrew_year_p, Months.MARCHESHVAN, 7)
-            jdn_7_cheshvan = conv.hdate_to_jdn(hdate_7_cheshvan)
-            cheilat_geshamim = conv.jdn_to_gdate(jdn_7_cheshvan)
+            cheilat_geshamim = HebrewDate.to_gdate(hdate_7_cheshvan)
 
         return cheilat_geshamim
 
@@ -152,9 +150,9 @@ class Tekufot(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         """
         Convert Cheilat Geshamim in Hebrew date.
         """
-        jdn_geshamin = conv.gdate_to_jdn(self.get_cheilat_geshamim())
+        cheilat_geshamim_hdate = HebrewDate.from_gdate(self.get_cheilat_geshamim())
 
-        return conv.jdn_to_hdate(jdn_geshamin)
+        return cheilat_geshamim_hdate
 
     def get_gevurot(self) -> Union[Gevurot, None]:
         """
