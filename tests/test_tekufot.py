@@ -82,9 +82,14 @@ class TestTekufot:
         )
         result = tekufot.get_tekufot()
 
+        tzinfo = (
+            default_values.location.timezone
+            if isinstance(default_values.location.timezone, dt.tzinfo)
+            else dt.timezone.utc
+        )
         for key, expected_dt in expected_tekufot.items():
             assert result[key] == expected_dt.replace(
-                tzinfo=tekufot.location.timezone
+                tzinfo=tzinfo
             ), f"Mismatch for {key}: expected {expected_dt}, got {result[key]}"
 
     @pytest.mark.parametrize(
