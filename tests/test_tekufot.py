@@ -36,7 +36,7 @@ class TestTekufot:
         ],
     )
     def test_get_tekufot_dict(
-        self, date, expected_tekufot_keys, default_values
+        self, date: str, expected_tekufot_keys: list[str], default_values: Tekufot
     ) -> None:
         """Test that Tekufot calculations return the correct keys."""
         tekufot = Tekufot(
@@ -69,7 +69,12 @@ class TestTekufot:
             ),
         ],
     )
-    def test_get_tekufot(self, date, expected_tekufot, default_values) -> None:
+    def test_get_tekufot(
+        self,
+        date: str,
+        expected_tekufot: dict[str, dt.datetime],
+        default_values: Tekufot,
+    ) -> None:
         """Test that Tekufot calculations return the correct datetime values."""
         tekufot = Tekufot(
             date=dt.datetime.strptime(date, "%Y-%m-%d").date(),
@@ -79,7 +84,7 @@ class TestTekufot:
 
         for key, expected_dt in expected_tekufot.items():
             assert result[key] == expected_dt.replace(
-                tzinfo=default_values.location.timezone
+                tzinfo=tekufot.location.timezone
             ), f"Mismatch for {key}: expected {expected_dt}, got {result[key]}"
 
     @pytest.mark.parametrize(
@@ -89,7 +94,9 @@ class TestTekufot:
             ("2024-10-05", False, "2024-11-08"),  # Israel start for rain prayers
         ],
     )
-    def test_get_cheilat_geshamim(self, date, diaspora, expected_start) -> None:
+    def test_get_cheilat_geshamim(
+        self, date: str, diaspora: bool, expected_start: str
+    ) -> None:
         """Test Cheilat Geshamim start dates based on location."""
         loc = Location(
             name="TestLocation",

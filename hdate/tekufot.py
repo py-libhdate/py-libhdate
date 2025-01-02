@@ -113,10 +113,10 @@ class Tekufot(TranslatorMixin):
 
         # Return as dictionary
         return {
-            "Nissan": tekufa_nissan,
-            "Tammuz": tekufa_tammuz,
             "Tishrei": tekufa_tishrei,
             "Tevet": tekufa_tevet,
+            "Nissan": tekufa_nissan,
+            "Tammuz": tekufa_tammuz,
         }
 
     def get_cheilat_geshamim(self) -> dt.date:
