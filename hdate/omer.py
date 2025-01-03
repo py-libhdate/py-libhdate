@@ -69,14 +69,20 @@ class Omer(TranslatorMixin):
             return ""
         today = self.get_translation("today")
         _is = self.get_translation("is")
-        total_days = hebrew_number(self.total_days)
+        total_days = hebrew_number(self.total_days, language=self.language)
         which_are = days = weeks = _and = ""
         if self.total_days > 1:
             which_are = self.get_translation("which_are")
             if self.day > 0:
-                days = f"{hebrew_number(self.day)} {self.get_translation('days')}"
+                days = (
+                    f"{hebrew_number(self.day, language=self.language)} "
+                    f"{self.get_translation('days')}"
+                )
                 _and = self.get_translation("and")
             if self.week > 0:
-                weeks = f"{hebrew_number(self.week)} {self.get_translation('weeks')}"
+                weeks = (
+                    f"{hebrew_number(self.week, language=self.language)}"
+                    f"{self.get_translation('weeks')}"
+                )
         suffix = self.get_translation("in_omer")
         return f"{today} {_is} {total_days} {which_are} {days} {_and} {weeks} {suffix}"

@@ -203,6 +203,12 @@
         "veten_beracha": "VeTen Beracha"
     },
     "Omer": {
+        "today": "Today",
+        "which_are": "which is",
+        "is": "is",
+        "days": "days",
+        "and": "and",
+        "weeks": "weeks",
         "in_omer": "in the Omer"
     }        
 }
