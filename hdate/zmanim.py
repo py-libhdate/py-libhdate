@@ -318,7 +318,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         def make_zman(key: str, time: float) -> Zman:
             timezone = cast(dt.tzinfo, self.location.timezone)
             zman = Zman(key, time, self.date, timezone)
-            zman.set_language(self._language)
+            zman.set_language(self.language)
             return zman
 
         zmanim = (
