@@ -21,8 +21,8 @@ TRANSLATIONS = {
             "tammuz": "Tammuz",
             "av": "Av",
             "elul": "Elul",
-            "adari": "Adar I",
-            "adarii": "Adar II",
+            "adar_i": "Adar I",
+            "adar_ii": "Adar II",
         },
         "Masechta": {
             "berachos": "Berachos",
@@ -200,6 +200,17 @@ TRANSLATIONS = {
             "friday": "Friday",
             "saturday": "Saturday",
         },
+        "Gevurot": {
+            "morid_hatal": "Morid ha-tal",
+            "mashiv_haruach": "Mashiv ha-ruach u-morid ha-geshem",
+            "neither": "(Silence)",
+        },
+        "Geshamim": {
+            "barkheinu": "Barkheinu",
+            "barech_aleinu": "Barech aleinu",
+            "veten_tal": "VeTen Tal uMatar Livracha",
+            "veten_beracha": "VeTen Beracha",
+        },
     },
     "fr": {
         "Months": {
@@ -215,8 +226,8 @@ TRANSLATIONS = {
             "tammuz": "Tamouz",
             "av": "Av",
             "elul": "Eloul",
-            "adari": "Adar I",
-            "adarii": "Adar II",
+            "adar_i": "Adar I",
+            "adar_ii": "Adar II",
         },
         "Masechta": {
             "berachos": "Berakhot",
@@ -394,6 +405,17 @@ TRANSLATIONS = {
             "friday": "Vendredi",
             "saturday": "Samedi",
         },
+        "Gevurot": {
+            "morid_hatal": "Moride ha-tal",
+            "mashiv_haruach": "Machiv ha-roua'h oumoride ha-guéchem",
+            "neither": "(Silence)",
+        },
+        "Geshamim": {
+            "barkheinu": "Barkhénou",
+            "barech_aleinu": "Barech aleinu",
+            "veten_tal": "VeTen Tal uMatar Livracha",
+            "veten_beracha": "VeTen Beracha",
+        },
     },
     "he": {
         "Months": {
@@ -409,8 +431,8 @@ TRANSLATIONS = {
             "tammuz": "תמוז",
             "av": "אב",
             "elul": "אלול",
-            "adari": "אדר א",
-            "adarii": "אדר ב",
+            "adar_i": "אדר א",
+            "adar_ii": "אדר ב",
         },
         "Masechta": {
             "berachos": "ברכות",
@@ -587,6 +609,17 @@ TRANSLATIONS = {
             "thursday": "יום חמישי",
             "friday": "יום שישי",
             "saturday": "יום שבת",
+        },
+        "Gevurot": {
+            "morid_hatal": "מוֹרִיד הַטַּל",
+            "mashiv_haruach": "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם",
+            "neither": "(שתיקה)",
+        },
+        "Geshamim": {
+            "barkheinu": "בָּרְכֵנוּ",
+            "barech_aleinu": "בָּרֵךְ עָלֵינוּ",
+            "veten_tal": "וְתֵן טַל וּמָטָר לִבְרָכָה",
+            "veten_beracha": "וְתֵן בְּרָכָה",
         },
     },
 }

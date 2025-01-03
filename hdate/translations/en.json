@@ -12,8 +12,8 @@
         "tammuz": "Tammuz",
         "av": "Av",
         "elul": "Elul",
-        "adari": "Adar I",
-        "adarii": "Adar II"
+        "adar_i": "Adar I",
+        "adar_ii": "Adar II"
     },
     "Masechta": {
         "berachos": "Berachos",
@@ -190,5 +190,16 @@
         "thursday": "Thursday",
         "friday": "Friday",
         "saturday": "Saturday"
-    }
+    },
+    "Gevurot": {
+        "morid_hatal": "Morid ha-tal",
+        "mashiv_haruach": "Mashiv ha-ruach u-morid ha-geshem",
+        "neither": "(Silence)"
+    },
+    "Geshamim": {
+        "barkheinu": "Barkheinu",
+        "barech_aleinu": "Barech aleinu",
+        "veten_tal": "VeTen Tal uMatar Livracha",
+        "veten_beracha": "VeTen Beracha"
+    }        
 }

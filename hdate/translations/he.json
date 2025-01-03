@@ -12,8 +12,8 @@
         "tammuz": "תמוז",
         "av": "אב",
         "elul": "אלול",
-        "adari": "אדר א",
-        "adarii": "אדר ב"
+        "adar_i": "אדר א",
+        "adar_ii": "אדר ב"
     },
     "Masechta": {
         "berachos": "ברכות",
@@ -190,5 +190,16 @@
         "thursday": "יום חמישי",
         "friday": "יום שישי",
         "saturday": "יום שבת"
-    }
+    },
+    "Gevurot": {
+        "morid_hatal": "מוֹרִיד הַטַּל",
+        "mashiv_haruach": "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם",
+        "neither": "(שתיקה)"
+    },
+    "Geshamim": {
+        "barkheinu": "בָּרְכֵנוּ",
+        "barech_aleinu": "בָּרֵךְ עָלֵינוּ",
+        "veten_tal": "וְתֵן טַל וּמָטָר לִבְרָכָה",
+        "veten_beracha": "וְתֵן בְּרָכָה"
+    }        
 }
