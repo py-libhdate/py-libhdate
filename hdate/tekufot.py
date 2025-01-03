@@ -12,7 +12,7 @@ The class attempts to compute:
 import datetime as dt
 from datetime import tzinfo
 from enum import Enum
-from typing import Dict, Union
+from typing import Union
 
 from hdate.hebrew_date import HebrewDate
 from hdate.htables import Months
@@ -71,7 +71,7 @@ class Tekufot(TranslatorMixin):
         # Cheilat Geshamim calculation
         self.get_cheilat_geshamim()
 
-    def get_tekufot(self) -> Dict[str, dt.datetime]:
+    def get_tekufot(self) -> dict[str, dt.datetime]:
         """
         Calculates the approximate dates and times of the Tekufot.
         This is a simplified approximation. Traditional calculations may differ.
