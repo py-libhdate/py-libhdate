@@ -46,10 +46,10 @@ class Omer(TranslatorMixin):
             else:
                 first_omer_day.year = self.date.year
                 self.total_days = (self.date - first_omer_day).days + 1
-                self.day, self.week = divmod(self.total_days, 7)
+                self.week, self.day = divmod(self.total_days, 7)
         elif self.total_days > 0:
             self.date = first_omer_day + timedelta(days=self.total_days + 1)
-            self.day, self.week = divmod(self.total_days, 7)
+            self.week, self.day = divmod(self.total_days, 7)
         else:
             self.total_days = self.week * 7 + self.day
             self.date = first_omer_day + timedelta(days=self.total_days + 1)
@@ -70,9 +70,13 @@ class Omer(TranslatorMixin):
         today = self.get_translation("today")
         _is = self.get_translation("is")
         total_days = hebrew_number(self.total_days)
-        which_are = self.get_translation("which_are")
-        days = hebrew_number(self.day)
-        _and = self.get_translation("and")
-        weeks = hebrew_number(self.week)
+        which_are = days = weeks = _and = ""
+        if self.total_days > 1:
+            which_are = self.get_translation("which_are")
+            if self.day > 0:
+                days = f"{hebrew_number(self.day)} {self.get_translation('days')}"
+                _and = self.get_translation("and")
+            if self.week > 0:
+                weeks = f"{hebrew_number(self.week)} {self.get_translation('weeks')}"
         suffix = self.get_translation("in_omer")
         return f"{today} {_is} {total_days} {which_are} {days} {_and} {weeks} {suffix}"

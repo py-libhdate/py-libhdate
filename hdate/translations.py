@@ -626,6 +626,8 @@ TRANSLATIONS = {
         "Omer": {
             "in_omer": "לעומר",
             "in_omer_ashkenaz": "בעומר",
+            "is": "",
+            "and": "ו",
             "today": "היום",
             "10": "עשרה",
             "20": "עשרים",
