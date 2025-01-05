@@ -204,11 +204,13 @@
     },
     "Omer": {
         "today": "Today",
-        "which_are": "which is",
+        "which_are": "which are",
         "is": "is",
+        "day": "day",
         "days": "days",
         "and": "and",
+        "week": "week",
         "weeks": "weeks",
-        "in_omer": "in the Omer"
+        "in_omer": "of the Omer"
     }        
 }

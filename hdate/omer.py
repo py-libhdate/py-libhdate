@@ -5,6 +5,8 @@ from datetime import timedelta
 from enum import Enum, auto
 from typing import Union
 
+from num2words import lang_HE, num2words
+
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate
 from hdate.htables import Months
@@ -36,6 +38,8 @@ class Omer(TranslatorMixin):
         super().__post_init__()
         if self.date is None and self.total_days == self.day == self.week == 0:
             return
+        if self.total_days not in range(0, 50):
+            raise ValueError("Invalid Omer day (if not counting, set to 0)")
         first_omer_day = HebrewDate(month=Months.NISAN, day=16)
         last_omer_day = HebrewDate(month=Months.SIVAN, day=5)
         if self.date:
@@ -67,22 +71,49 @@ class Omer(TranslatorMixin):
         """Return the text to be said when counting the omer."""
         if self.total_days == 0:
             return ""
-        today = self.get_translation("today")
-        _is = self.get_translation("is")
-        total_days = hebrew_number(self.total_days, language=self.language)
-        which_are = days = weeks = _and = ""
-        if self.total_days > 1:
+
+        def num2words_omer(number: int, _type: str = "total") -> str:
+            """Wrapper for num2words."""
+            if _type == "total":
+                to = "ordinal"
+                type_name = "day"
+                if self.language == "hebrew" and number in range(2, 11):
+                    type_name = "days"
+            else:
+                to = "cardinal"
+                type_name = _type if number == 1 else f"{_type}s"
+
+            if self.language == "hebrew":
+                conv = lang_HE.Num2Word_HE()
+                construct = number == 2
+                if number > 20 and number % 10 != 0:
+                    count_ones = conv.to_cardinal(number % 10, gender="m")
+                    count_tens = conv.to_cardinal((number // 10) * 10, gender="m")
+                    count = f"{count_ones} ו{count_tens}"
+                else:
+                    count = conv.to_cardinal(number, gender="m", construct=construct)
+                _obj = self.get_translation(type_name)
+                return f"{count} {_obj}" if number > 1 else f"{_obj} {count}"
+            _obj = self.get_translation(type_name)
+            count = num2words(number, lang=self.language[:2], to=to)
+            if self.language == "english" and _type == "total":
+                count = f"the {count}"
+            if self.language == "french" and number == 1 and type_name == "week":
+                count = f"{count}e"
+            return f"{count} {_obj}"
+
+        prefix = f"{self.get_translation('today')} {self.get_translation('is')}".strip()
+        total_days = num2words_omer(self.total_days, _type="total")
+        middle = ""
+        if self.week > 0:
             which_are = self.get_translation("which_are")
+            weeks = num2words_omer(self.week, _type="week")
+            middle = f" {which_are} {weeks}"
+            middle = f",{middle}" if self.language != "hebrew" else middle
             if self.day > 0:
-                days = (
-                    f"{hebrew_number(self.day, language=self.language)} "
-                    f"{self.get_translation('days')}"
-                )
                 _and = self.get_translation("and")
-            if self.week > 0:
-                weeks = (
-                    f"{hebrew_number(self.week, language=self.language)}"
-                    f"{self.get_translation('weeks')}"
-                )
+                _and = f"{_and} " if self.language != "hebrew" else _and
+                days = num2words_omer(self.day, _type="day")
+                middle = f"{middle} {_and}{days}"
         suffix = self.get_translation("in_omer")
-        return f"{today} {_is} {total_days} {which_are} {days} {_and} {weeks} {suffix}"
+        return f"{prefix} {total_days}{middle} {suffix}"

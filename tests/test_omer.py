@@ -44,7 +44,7 @@ def test_illegal_value() -> None:
     with pytest.raises(ValueError):
         Omer(total_days=random.randint(50, 100))
     with pytest.raises(ValueError):
-        Omer(total_days=random.randint(-100, 0))
+        Omer(total_days=random.randint(-100, -1))
 
 
 def get_omer_string(omer: int, language: str = "hebrew") -> str:
@@ -72,8 +72,8 @@ def _get_omer_string_hebrew(omer: int) -> str:
         "שנים",
         "שלושה",
         "ארבעה",
-        "חמשה",
-        "ששה",
+        "חמישה",
+        "שישה",
         "שבעה",
         "שמונה",
         "תשעה",

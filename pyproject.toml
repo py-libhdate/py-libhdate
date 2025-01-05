@@ -16,7 +16,8 @@ classifiers = [
 ]
 requires-python = ">=3.9"
 dependencies = [
-    "astral<3.0,>=2.2"
+    "astral<3.0,>=2.2",
+    "num2words>=0.5.14"
 ]
 
 [project.urls]
