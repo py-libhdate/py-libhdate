@@ -4,6 +4,7 @@ import datetime as dt
 
 import pytest
 from hypothesis import given, strategies
+from syrupy.assertion import SnapshotAssertion
 
 from hdate.hebrew_date import HebrewDate, Months
 
@@ -79,3 +80,23 @@ def test_hebrew_date_addition_with_no_year(d1: HebrewDate, d2: HebrewDate) -> No
     """Test HebrewDate addition and subtraction when there is no year."""
     diff = d2 - d1
     assert d1 + diff == d2
+
+
+def test_to_jdn_snapshot(snapshot: SnapshotAssertion) -> None:
+    """Test the to_jdn method."""
+    assert HebrewDate(5785, Months.TEVET, 5).to_jdn() == snapshot
+
+
+def test_from_jdn_snapshot(snapshot: SnapshotAssertion) -> None:
+    """Test the from_jdn method."""
+    assert HebrewDate.from_jdn(2451545) == snapshot
+
+
+def test_to_gdate_snapshot(snapshot: SnapshotAssertion) -> None:
+    """Test the to_gdate method."""
+    assert HebrewDate(5785, Months.TEVET, 5).to_gdate() == snapshot
+
+
+def test_from_gdate_snapshot(snapshot: SnapshotAssertion) -> None:
+    """Test the from_gdate method."""
+    assert HebrewDate.from_gdate(dt.date(2025, 1, 5)) == snapshot
