@@ -1,0 +1,442 @@
+# serializer version: 1
+# name: test_get_omer[english-10]
+  'Today is the tenth day, which are one week and three days of the Omer'
+# ---
+# name: test_get_omer[english-11]
+  'Today is the eleventh day, which are one week and four days of the Omer'
+# ---
+# name: test_get_omer[english-12]
+  'Today is the twelfth day, which are one week and five days of the Omer'
+# ---
+# name: test_get_omer[english-13]
+  'Today is the thirteenth day, which are one week and six days of the Omer'
+# ---
+# name: test_get_omer[english-14]
+  'Today is the fourteenth day, which are two weeks of the Omer'
+# ---
+# name: test_get_omer[english-15]
+  'Today is the fifteenth day, which are two weeks and one day of the Omer'
+# ---
+# name: test_get_omer[english-16]
+  'Today is the sixteenth day, which are two weeks and two days of the Omer'
+# ---
+# name: test_get_omer[english-17]
+  'Today is the seventeenth day, which are two weeks and three days of the Omer'
+# ---
+# name: test_get_omer[english-18]
+  'Today is the eighteenth day, which are two weeks and four days of the Omer'
+# ---
+# name: test_get_omer[english-19]
+  'Today is the nineteenth day, which are two weeks and five days of the Omer'
+# ---
+# name: test_get_omer[english-1]
+  'Today is the first day of the Omer'
+# ---
+# name: test_get_omer[english-20]
+  'Today is the twentieth day, which are two weeks and six days of the Omer'
+# ---
+# name: test_get_omer[english-21]
+  'Today is the twenty-first day, which are three weeks of the Omer'
+# ---
+# name: test_get_omer[english-22]
+  'Today is the twenty-second day, which are three weeks and one day of the Omer'
+# ---
+# name: test_get_omer[english-23]
+  'Today is the twenty-third day, which are three weeks and two days of the Omer'
+# ---
+# name: test_get_omer[english-24]
+  'Today is the twenty-fourth day, which are three weeks and three days of the Omer'
+# ---
+# name: test_get_omer[english-25]
+  'Today is the twenty-fifth day, which are three weeks and four days of the Omer'
+# ---
+# name: test_get_omer[english-26]
+  'Today is the twenty-sixth day, which are three weeks and five days of the Omer'
+# ---
+# name: test_get_omer[english-27]
+  'Today is the twenty-seventh day, which are three weeks and six days of the Omer'
+# ---
+# name: test_get_omer[english-28]
+  'Today is the twenty-eighth day, which are four weeks of the Omer'
+# ---
+# name: test_get_omer[english-29]
+  'Today is the twenty-ninth day, which are four weeks and one day of the Omer'
+# ---
+# name: test_get_omer[english-2]
+  'Today is the second day of the Omer'
+# ---
+# name: test_get_omer[english-30]
+  'Today is the thirtieth day, which are four weeks and two days of the Omer'
+# ---
+# name: test_get_omer[english-31]
+  'Today is the thirty-first day, which are four weeks and three days of the Omer'
+# ---
+# name: test_get_omer[english-32]
+  'Today is the thirty-second day, which are four weeks and four days of the Omer'
+# ---
+# name: test_get_omer[english-33]
+  'Today is the thirty-third day, which are four weeks and five days of the Omer'
+# ---
+# name: test_get_omer[english-34]
+  'Today is the thirty-fourth day, which are four weeks and six days of the Omer'
+# ---
+# name: test_get_omer[english-35]
+  'Today is the thirty-fifth day, which are five weeks of the Omer'
+# ---
+# name: test_get_omer[english-36]
+  'Today is the thirty-sixth day, which are five weeks and one day of the Omer'
+# ---
+# name: test_get_omer[english-37]
+  'Today is the thirty-seventh day, which are five weeks and two days of the Omer'
+# ---
+# name: test_get_omer[english-38]
+  'Today is the thirty-eighth day, which are five weeks and three days of the Omer'
+# ---
+# name: test_get_omer[english-39]
+  'Today is the thirty-ninth day, which are five weeks and four days of the Omer'
+# ---
+# name: test_get_omer[english-3]
+  'Today is the third day of the Omer'
+# ---
+# name: test_get_omer[english-40]
+  'Today is the fortieth day, which are five weeks and five days of the Omer'
+# ---
+# name: test_get_omer[english-41]
+  'Today is the forty-first day, which are five weeks and six days of the Omer'
+# ---
+# name: test_get_omer[english-42]
+  'Today is the forty-second day, which are six weeks of the Omer'
+# ---
+# name: test_get_omer[english-43]
+  'Today is the forty-third day, which are six weeks and one day of the Omer'
+# ---
+# name: test_get_omer[english-44]
+  'Today is the forty-fourth day, which are six weeks and two days of the Omer'
+# ---
+# name: test_get_omer[english-45]
+  'Today is the forty-fifth day, which are six weeks and three days of the Omer'
+# ---
+# name: test_get_omer[english-46]
+  'Today is the forty-sixth day, which are six weeks and four days of the Omer'
+# ---
+# name: test_get_omer[english-47]
+  'Today is the forty-seventh day, which are six weeks and five days of the Omer'
+# ---
+# name: test_get_omer[english-48]
+  'Today is the forty-eighth day, which are six weeks and six days of the Omer'
+# ---
+# name: test_get_omer[english-49]
+  'Today is the forty-ninth day, which are seven weeks of the Omer'
+# ---
+# name: test_get_omer[english-4]
+  'Today is the fourth day of the Omer'
+# ---
+# name: test_get_omer[english-5]
+  'Today is the fifth day of the Omer'
+# ---
+# name: test_get_omer[english-6]
+  'Today is the sixth day of the Omer'
+# ---
+# name: test_get_omer[english-7]
+  'Today is the seventh day, which are one week of the Omer'
+# ---
+# name: test_get_omer[english-8]
+  'Today is the eighth day, which are one week and one day of the Omer'
+# ---
+# name: test_get_omer[english-9]
+  'Today is the ninth day, which are one week and two days of the Omer'
+# ---
+# name: test_get_omer[french-10]
+  "Aujourd'hui c'est le dixième jour, ce qui fait une semaine et trois jours de l'Omer"
+# ---
+# name: test_get_omer[french-11]
+  "Aujourd'hui c'est le onzième jour, ce qui fait une semaine et quatre jours de l'Omer"
+# ---
+# name: test_get_omer[french-12]
+  "Aujourd'hui c'est le douzième jour, ce qui fait une semaine et cinq jours de l'Omer"
+# ---
+# name: test_get_omer[french-13]
+  "Aujourd'hui c'est le treizième jour, ce qui fait une semaine et six jours de l'Omer"
+# ---
+# name: test_get_omer[french-14]
+  "Aujourd'hui c'est le quatorzième jour, ce qui fait deux semaines de l'Omer"
+# ---
+# name: test_get_omer[french-15]
+  "Aujourd'hui c'est le quinzième jour, ce qui fait deux semaines et un jour de l'Omer"
+# ---
+# name: test_get_omer[french-16]
+  "Aujourd'hui c'est le seizième jour, ce qui fait deux semaines et deux jours de l'Omer"
+# ---
+# name: test_get_omer[french-17]
+  "Aujourd'hui c'est le dix-septième jour, ce qui fait deux semaines et trois jours de l'Omer"
+# ---
+# name: test_get_omer[french-18]
+  "Aujourd'hui c'est le dix-huitième jour, ce qui fait deux semaines et quatre jours de l'Omer"
+# ---
+# name: test_get_omer[french-19]
+  "Aujourd'hui c'est le dix-neuvième jour, ce qui fait deux semaines et cinq jours de l'Omer"
+# ---
+# name: test_get_omer[french-1]
+  "Aujourd'hui c'est le premier jour de l'Omer"
+# ---
+# name: test_get_omer[french-20]
+  "Aujourd'hui c'est le vingtième jour, ce qui fait deux semaines et six jours de l'Omer"
+# ---
+# name: test_get_omer[french-21]
+  "Aujourd'hui c'est le vingt et unième jour, ce qui fait trois semaines de l'Omer"
+# ---
+# name: test_get_omer[french-22]
+  "Aujourd'hui c'est le vingt-deuxième jour, ce qui fait trois semaines et un jour de l'Omer"
+# ---
+# name: test_get_omer[french-23]
+  "Aujourd'hui c'est le vingt-troisième jour, ce qui fait trois semaines et deux jours de l'Omer"
+# ---
+# name: test_get_omer[french-24]
+  "Aujourd'hui c'est le vingt-quatrième jour, ce qui fait trois semaines et trois jours de l'Omer"
+# ---
+# name: test_get_omer[french-25]
+  "Aujourd'hui c'est le vingt-cinquième jour, ce qui fait trois semaines et quatre jours de l'Omer"
+# ---
+# name: test_get_omer[french-26]
+  "Aujourd'hui c'est le vingt-sixième jour, ce qui fait trois semaines et cinq jours de l'Omer"
+# ---
+# name: test_get_omer[french-27]
+  "Aujourd'hui c'est le vingt-septième jour, ce qui fait trois semaines et six jours de l'Omer"
+# ---
+# name: test_get_omer[french-28]
+  "Aujourd'hui c'est le vingt-huitième jour, ce qui fait quatre semaines de l'Omer"
+# ---
+# name: test_get_omer[french-29]
+  "Aujourd'hui c'est le vingt-neuvième jour, ce qui fait quatre semaines et un jour de l'Omer"
+# ---
+# name: test_get_omer[french-2]
+  "Aujourd'hui c'est le deuxième jour de l'Omer"
+# ---
+# name: test_get_omer[french-30]
+  "Aujourd'hui c'est le trentième jour, ce qui fait quatre semaines et deux jours de l'Omer"
+# ---
+# name: test_get_omer[french-31]
+  "Aujourd'hui c'est le trente et unième jour, ce qui fait quatre semaines et trois jours de l'Omer"
+# ---
+# name: test_get_omer[french-32]
+  "Aujourd'hui c'est le trente-deuxième jour, ce qui fait quatre semaines et quatre jours de l'Omer"
+# ---
+# name: test_get_omer[french-33]
+  "Aujourd'hui c'est le trente-troisième jour, ce qui fait quatre semaines et cinq jours de l'Omer"
+# ---
+# name: test_get_omer[french-34]
+  "Aujourd'hui c'est le trente-quatrième jour, ce qui fait quatre semaines et six jours de l'Omer"
+# ---
+# name: test_get_omer[french-35]
+  "Aujourd'hui c'est le trente-cinquième jour, ce qui fait cinq semaines de l'Omer"
+# ---
+# name: test_get_omer[french-36]
+  "Aujourd'hui c'est le trente-sixième jour, ce qui fait cinq semaines et un jour de l'Omer"
+# ---
+# name: test_get_omer[french-37]
+  "Aujourd'hui c'est le trente-septième jour, ce qui fait cinq semaines et deux jours de l'Omer"
+# ---
+# name: test_get_omer[french-38]
+  "Aujourd'hui c'est le trente-huitième jour, ce qui fait cinq semaines et trois jours de l'Omer"
+# ---
+# name: test_get_omer[french-39]
+  "Aujourd'hui c'est le trente-neuvième jour, ce qui fait cinq semaines et quatre jours de l'Omer"
+# ---
+# name: test_get_omer[french-3]
+  "Aujourd'hui c'est le troisième jour de l'Omer"
+# ---
+# name: test_get_omer[french-40]
+  "Aujourd'hui c'est le quarantième jour, ce qui fait cinq semaines et cinq jours de l'Omer"
+# ---
+# name: test_get_omer[french-41]
+  "Aujourd'hui c'est le quarante et unième jour, ce qui fait cinq semaines et six jours de l'Omer"
+# ---
+# name: test_get_omer[french-42]
+  "Aujourd'hui c'est le quarante-deuxième jour, ce qui fait six semaines de l'Omer"
+# ---
+# name: test_get_omer[french-43]
+  "Aujourd'hui c'est le quarante-troisième jour, ce qui fait six semaines et un jour de l'Omer"
+# ---
+# name: test_get_omer[french-44]
+  "Aujourd'hui c'est le quarante-quatrième jour, ce qui fait six semaines et deux jours de l'Omer"
+# ---
+# name: test_get_omer[french-45]
+  "Aujourd'hui c'est le quarante-cinquième jour, ce qui fait six semaines et trois jours de l'Omer"
+# ---
+# name: test_get_omer[french-46]
+  "Aujourd'hui c'est le quarante-sixième jour, ce qui fait six semaines et quatre jours de l'Omer"
+# ---
+# name: test_get_omer[french-47]
+  "Aujourd'hui c'est le quarante-septième jour, ce qui fait six semaines et cinq jours de l'Omer"
+# ---
+# name: test_get_omer[french-48]
+  "Aujourd'hui c'est le quarante-huitième jour, ce qui fait six semaines et six jours de l'Omer"
+# ---
+# name: test_get_omer[french-49]
+  "Aujourd'hui c'est le quarante-neuvième jour, ce qui fait sept semaines de l'Omer"
+# ---
+# name: test_get_omer[french-4]
+  "Aujourd'hui c'est le quatrième jour de l'Omer"
+# ---
+# name: test_get_omer[french-5]
+  "Aujourd'hui c'est le cinquième jour de l'Omer"
+# ---
+# name: test_get_omer[french-6]
+  "Aujourd'hui c'est le sixième jour de l'Omer"
+# ---
+# name: test_get_omer[french-7]
+  "Aujourd'hui c'est le septième jour, ce qui fait une semaine de l'Omer"
+# ---
+# name: test_get_omer[french-8]
+  "Aujourd'hui c'est le huitième jour, ce qui fait une semaine et un jour de l'Omer"
+# ---
+# name: test_get_omer[french-9]
+  "Aujourd'hui c'est le neuvième jour, ce qui fait une semaine et deux jours de l'Omer"
+# ---
+# name: test_get_omer[hebrew-10]
+  'היום עשרה ימים שהם שבוע אחד ושלושה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-11]
+  'היום אחד עשר יום שהם שבוע אחד וארבעה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-12]
+  'היום שנים עשר יום שהם שבוע אחד וחמישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-13]
+  'היום שלושה עשר יום שהם שבוע אחד ושישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-14]
+  'היום ארבעה עשר יום שהם שני שבועות לעומר'
+# ---
+# name: test_get_omer[hebrew-15]
+  'היום חמישה עשר יום שהם שני שבועות ויום אחד לעומר'
+# ---
+# name: test_get_omer[hebrew-16]
+  'היום שישה עשר יום שהם שני שבועות ושני ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-17]
+  'היום שבעה עשר יום שהם שני שבועות ושלושה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-18]
+  'היום שמונה עשר יום שהם שני שבועות וארבעה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-19]
+  'היום תשעה עשר יום שהם שני שבועות וחמישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-1]
+  'היום יום אחד לעומר'
+# ---
+# name: test_get_omer[hebrew-20]
+  'היום עשרים יום שהם שני שבועות ושישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-21]
+  'היום אחד ועשרים יום שהם שלושה שבועות לעומר'
+# ---
+# name: test_get_omer[hebrew-22]
+  'היום שניים ועשרים יום שהם שלושה שבועות ויום אחד לעומר'
+# ---
+# name: test_get_omer[hebrew-23]
+  'היום שלושה ועשרים יום שהם שלושה שבועות ושני ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-24]
+  'היום ארבעה ועשרים יום שהם שלושה שבועות ושלושה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-25]
+  'היום חמישה ועשרים יום שהם שלושה שבועות וארבעה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-26]
+  'היום שישה ועשרים יום שהם שלושה שבועות וחמישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-27]
+  'היום שבעה ועשרים יום שהם שלושה שבועות ושישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-28]
+  'היום שמונה ועשרים יום שהם ארבעה שבועות לעומר'
+# ---
+# name: test_get_omer[hebrew-29]
+  'היום תשעה ועשרים יום שהם ארבעה שבועות ויום אחד לעומר'
+# ---
+# name: test_get_omer[hebrew-2]
+  'היום שני ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-30]
+  'היום שלושים יום שהם ארבעה שבועות ושני ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-31]
+  'היום אחד ושלושים יום שהם ארבעה שבועות ושלושה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-32]
+  'היום שניים ושלושים יום שהם ארבעה שבועות וארבעה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-33]
+  'היום שלושה ושלושים יום שהם ארבעה שבועות וחמישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-34]
+  'היום ארבעה ושלושים יום שהם ארבעה שבועות ושישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-35]
+  'היום חמישה ושלושים יום שהם חמישה שבועות לעומר'
+# ---
+# name: test_get_omer[hebrew-36]
+  'היום שישה ושלושים יום שהם חמישה שבועות ויום אחד לעומר'
+# ---
+# name: test_get_omer[hebrew-37]
+  'היום שבעה ושלושים יום שהם חמישה שבועות ושני ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-38]
+  'היום שמונה ושלושים יום שהם חמישה שבועות ושלושה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-39]
+  'היום תשעה ושלושים יום שהם חמישה שבועות וארבעה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-3]
+  'היום שלושה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-40]
+  'היום ארבעים יום שהם חמישה שבועות וחמישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-41]
+  'היום אחד וארבעים יום שהם חמישה שבועות ושישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-42]
+  'היום שניים וארבעים יום שהם שישה שבועות לעומר'
+# ---
+# name: test_get_omer[hebrew-43]
+  'היום שלושה וארבעים יום שהם שישה שבועות ויום אחד לעומר'
+# ---
+# name: test_get_omer[hebrew-44]
+  'היום ארבעה וארבעים יום שהם שישה שבועות ושני ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-45]
+  'היום חמישה וארבעים יום שהם שישה שבועות ושלושה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-46]
+  'היום שישה וארבעים יום שהם שישה שבועות וארבעה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-47]
+  'היום שבעה וארבעים יום שהם שישה שבועות וחמישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-48]
+  'היום שמונה וארבעים יום שהם שישה שבועות ושישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-49]
+  'היום תשעה וארבעים יום שהם שבעה שבועות לעומר'
+# ---
+# name: test_get_omer[hebrew-4]
+  'היום ארבעה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-5]
+  'היום חמישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-6]
+  'היום שישה ימים לעומר'
+# ---
+# name: test_get_omer[hebrew-7]
+  'היום שבעה ימים שהם שבוע אחד לעומר'
+# ---
+# name: test_get_omer[hebrew-8]
+  'היום שמונה ימים שהם שבוע אחד ויום אחד לעומר'
+# ---
+# name: test_get_omer[hebrew-9]
+  'היום תשעה ימים שהם שבוע אחד ושני ימים לעומר'
+# ---
