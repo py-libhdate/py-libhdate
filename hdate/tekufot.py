@@ -14,8 +14,7 @@ from datetime import tzinfo
 from enum import Enum
 from typing import Union
 
-from hdate.hebrew_date import HebrewDate
-from hdate.htables import Months
+from hdate.hebrew_date import HebrewDate, Months
 from hdate.location import Location
 from hdate.translator import TranslatorMixin
 from hdate.zmanim import Zmanim

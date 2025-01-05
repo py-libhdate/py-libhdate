@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import datetime as dt
 from dataclasses import dataclass
+from enum import IntEnum
 from typing import Union
 
 import hdate.converters as conv
-from hdate.htables import CHANGING_MONTHS, LONG_MONTHS, SHORT_MONTHS, Days, Months
 from hdate.translator import TranslatorMixin
 
 
@@ -20,6 +20,56 @@ PARTS_IN_HOUR = 1080
 PARTS_IN_DAY = 24 * PARTS_IN_HOUR
 PARTS_IN_WEEK = 7 * PARTS_IN_DAY
 PARTS_IN_MONTH = PARTS_IN_DAY + get_chalakim(12, 793)  # Fix for regular month
+
+
+class Days(TranslatorMixin, IntEnum):
+    """Enum class for the days of the week."""
+
+    SUNDAY = 1
+    MONDAY = 2
+    TUESDAY = 3
+    WEDNESDAY = 4
+    THURSDAY = 5
+    FRIDAY = 6
+    SATURDAY = 7
+
+
+class Months(TranslatorMixin, IntEnum):
+    """Enum class for the Hebrew months."""
+
+    TISHREI = 1
+    MARCHESHVAN = 2
+    KISLEV = 3
+    TEVET = 4
+    SHVAT = 5
+    ADAR = 6
+    NISAN = 7
+    IYYAR = 8
+    SIVAN = 9
+    TAMMUZ = 10
+    AV = 11
+    ELUL = 12
+    ADAR_I = 13
+    ADAR_II = 14
+
+
+LONG_MONTHS = (
+    Months.TISHREI,
+    Months.SHVAT,
+    Months.ADAR_I,
+    Months.NISAN,
+    Months.SIVAN,
+    Months.AV,
+)
+SHORT_MONTHS = (
+    Months.TEVET,
+    Months.ADAR,
+    Months.ADAR_II,
+    Months.IYYAR,
+    Months.TAMMUZ,
+    Months.ELUL,
+)
+CHANGING_MONTHS = (Months.MARCHESHVAN, Months.KISLEV)
 
 
 @dataclass

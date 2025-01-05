@@ -8,8 +8,7 @@ from typing import Union
 from num2words import lang_HE, num2words
 
 from hdate.gematria import hebrew_number
-from hdate.hebrew_date import HebrewDate
-from hdate.htables import Months
+from hdate.hebrew_date import HebrewDate, Months
 from hdate.translator import TranslatorMixin
 
 

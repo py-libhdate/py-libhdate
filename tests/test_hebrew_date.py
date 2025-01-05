@@ -5,8 +5,7 @@ import datetime as dt
 import pytest
 from hypothesis import given, strategies
 
-from hdate.hebrew_date import HebrewDate
-from hdate.htables import Months
+from hdate.hebrew_date import HebrewDate, Months
 
 MIN_YEAR = 3762
 MAX_YEAR = 6000

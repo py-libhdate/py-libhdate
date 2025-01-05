@@ -8,7 +8,7 @@ from typing import Union
 import pytest
 
 from hdate import HDate, HebrewDate
-from hdate.htables import Months
+from hdate.hebrew_date import Months
 
 HEBREW_YEARS_INFO = {
     # year, dow rosh hashana, length, dow pesach

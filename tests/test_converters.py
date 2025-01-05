@@ -5,8 +5,7 @@ import datetime as dt
 import pytest
 
 from hdate import converters as conv
-from hdate.hebrew_date import HebrewDate
-from hdate.htables import Months
+from hdate.hebrew_date import HebrewDate, Months
 
 
 class TestConverters:
