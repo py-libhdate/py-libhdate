@@ -115,5 +115,13 @@ class Omer(TranslatorMixin):
                 _and = f"{_and} " if self.language != "hebrew" else _and
                 days = num2words_omer(self.day, _type="day")
                 middle = f"{middle} {_and}{days}"
-        suffix = self.get_translation("in_omer")
+        suffix = (
+            self.get_translation("in_omer")
+            if self.nusach != Nusach.ASHKENAZ
+            else self.get_translation("in_omer_ashkenaz")
+        )
+        if self.nusach == Nusach.ITALIAN:
+            return f"{prefix} {suffix} {total_days}{middle}"
+        if self.nusach == Nusach.ADOT_MIZRAH:
+            return f"{prefix} {total_days} {suffix}{middle}"
         return f"{prefix} {total_days}{middle} {suffix}"
