@@ -81,7 +81,7 @@ to provide the full hebrew date:
 
     >>> h = hdate.HDate(datetime.date(2016, 4, 26), language="hebrew")
     >>> print(h)
-    יום שלישי י"ח בניסן ה' תשע"ו ג' בעומר חול המועד פסח
+    יום שלישי י"ח בניסן ה' תשע"ו ג' לעומר חול המועד פסח
 
 and in english:
 

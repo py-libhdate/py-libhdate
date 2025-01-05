@@ -201,5 +201,17 @@
         "barech_aleinu": "בָּרֵךְ עָלֵינוּ",
         "veten_tal": "וְתֵן טַל וּמָטָר לִבְרָכָה",
         "veten_beracha": "וְתֵן בְּרָכָה"
+    },
+    "Omer": {
+        "in_omer": "לעומר",
+        "in_omer_ashkenaz": "בעומר",
+        "is": "",
+        "and": "ו",
+        "today": "היום",
+        "day": "יום",
+        "days": "ימים",
+        "week": "שבוע",
+        "weeks": "שבועות",
+        "which_are": "שהם"
     }        
 }

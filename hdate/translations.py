@@ -211,6 +211,18 @@ TRANSLATIONS = {
             "veten_tal": "VeTen Tal uMatar Livracha",
             "veten_beracha": "VeTen Beracha",
         },
+        "Omer": {
+            "today": "Today",
+            "which_are": "which are",
+            "is": "is",
+            "day": "day",
+            "days": "days",
+            "and": "and",
+            "week": "week",
+            "weeks": "weeks",
+            "in_omer_ashkenaz": "of the Omer",
+            "in_omer": "of the Omer",
+        },
     },
     "fr": {
         "Months": {
@@ -416,6 +428,18 @@ TRANSLATIONS = {
             "veten_tal": "VeTen Tal uMatar Livracha",
             "veten_beracha": "VeTen Beracha",
         },
+        "Omer": {
+            "today": "Aujourd'hui",
+            "is": "c'est le",
+            "which_are": "ce qui fait",
+            "day": "jour",
+            "days": "jours",
+            "and": "et",
+            "week": "semaine",
+            "weeks": "semaines",
+            "in_omer_ashkenaz": "de l'Omer",
+            "in_omer": "de l'Omer",
+        },
     },
     "he": {
         "Months": {
@@ -620,6 +644,18 @@ TRANSLATIONS = {
             "barech_aleinu": "בָּרֵךְ עָלֵינוּ",
             "veten_tal": "וְתֵן טַל וּמָטָר לִבְרָכָה",
             "veten_beracha": "וְתֵן בְּרָכָה",
+        },
+        "Omer": {
+            "in_omer": "לעומר",
+            "in_omer_ashkenaz": "בעומר",
+            "is": "",
+            "and": "ו",
+            "today": "היום",
+            "day": "יום",
+            "days": "ימים",
+            "week": "שבוע",
+            "weeks": "שבועות",
+            "which_are": "שהם",
         },
     },
 }

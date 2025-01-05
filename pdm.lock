@@ -5,7 +5,7 @@
 groups = ["default", "dev", "test"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:1f5b1ffa4fcaea060ebe81a1abf24e03ee1a64da75d0d4ba43b17b4404db1c7e"
+content_hash = "sha256:35202924964faccffe16213901f4a09e19ef7610079ed2fb435d00d3ea1b85ae"
 
 [[metadata.targets]]
 requires_python = ">=3.9"
@@ -420,6 +420,15 @@ files = [
 ]
 
 [[package]]
+name = "docopt"
+version = "0.6.2"
+summary = "Pythonic argument parser, that will make you smile"
+groups = ["default"]
+files = [
+    {file = "docopt-0.6.2.tar.gz", hash = "sha256:49b3a825280bd66b3aa83585ef59c4a8c82f2c8a522dbe754a8bc8d08c85c491"},
+]
+
+[[package]]
 name = "docutils"
 version = "0.20.1"
 requires_python = ">=3.7"
@@ -713,6 +722,19 @@ groups = ["dev"]
 files = [
     {file = "nodeenv-1.9.1-py2.py3-none-any.whl", hash = "sha256:ba11c9782d29c27c70ffbdda2d7415098754709be8a7056d79a737cd901155c9"},
     {file = "nodeenv-1.9.1.tar.gz", hash = "sha256:6ec12890a2dab7946721edbfbcd91f3319c6ccc9aec47be7c7e6b7011ee6645f"},
+]
+
+[[package]]
+name = "num2words"
+version = "0.5.14"
+summary = "Modules to convert numbers to words. Easily extensible."
+groups = ["default"]
+dependencies = [
+    "docopt>=0.6.2",
+]
+files = [
+    {file = "num2words-0.5.14-py3-none-any.whl", hash = "sha256:1c8e5b00142fc2966fd8d685001e36c4a9911e070d1b120e1beb721fa1edb33d"},
+    {file = "num2words-0.5.14.tar.gz", hash = "sha256:b066ec18e56b6616a3b38086b5747daafbaa8868b226a36127e0451c0cf379c6"},
 ]
 
 [[package]]
@@ -1126,6 +1148,20 @@ groups = ["dev"]
 files = [
     {file = "sphinxcontrib_serializinghtml-2.0.0-py3-none-any.whl", hash = "sha256:6e2cb0eef194e10c27ec0023bfeb25badbbb5868244cf5bc5bdc04e4464bf331"},
     {file = "sphinxcontrib_serializinghtml-2.0.0.tar.gz", hash = "sha256:e9d912827f872c029017a53f0ef2180b327c3f7fd23c87229f7a8e8b70031d4d"},
+]
+
+[[package]]
+name = "syrupy"
+version = "4.8.0"
+requires_python = ">=3.8.1"
+summary = "Pytest Snapshot Test Utility"
+groups = ["dev"]
+dependencies = [
+    "pytest<9.0.0,>=7.0.0",
+]
+files = [
+    {file = "syrupy-4.8.0-py3-none-any.whl", hash = "sha256:544f4ec6306f4b1c460fdab48fd60b2c7fe54a6c0a8243aeea15f9ad9c638c3f"},
+    {file = "syrupy-4.8.0.tar.gz", hash = "sha256:648f0e9303aaa8387c8365d7314784c09a6bab0a407455c6a01d6a4f5c6a8ede"},
 ]
 
 [[package]]

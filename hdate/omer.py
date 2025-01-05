@@ -1,0 +1,127 @@
+"""Omer module."""
+
+from dataclasses import dataclass
+from datetime import timedelta
+from enum import Enum, auto
+from typing import Union
+
+from num2words import lang_HE, num2words
+
+from hdate.gematria import hebrew_number
+from hdate.hebrew_date import HebrewDate
+from hdate.htables import Months
+from hdate.translator import TranslatorMixin
+
+
+class Nusach(Enum):
+    """Nusach enum."""
+
+    ASHKENAZ = auto()
+    SFARAD = auto()
+    ADOT_MIZRAH = auto()
+    ITALIAN = auto()
+
+
+@dataclass
+class Omer(TranslatorMixin):
+    """Hold information about the Omer count."""
+
+    date: Union[HebrewDate, None] = None
+    total_days: int = 0
+    day: int = 0
+    week: int = 0
+
+    nusach: Nusach = Nusach.SFARAD
+    language: str = "hebrew"
+
+    def __post_init__(self) -> None:
+        super().__post_init__()
+        if self.date is None and self.total_days == self.day == self.week == 0:
+            return
+        if self.total_days not in range(0, 50):
+            raise ValueError("Invalid Omer day (if not counting, set to 0)")
+        first_omer_day = HebrewDate(month=Months.NISAN, day=16)
+        last_omer_day = HebrewDate(month=Months.SIVAN, day=5)
+        if self.date:
+            if not first_omer_day <= self.date <= last_omer_day:
+                self.total_days = 0
+                self.day = 0
+                self.week = 0
+            else:
+                first_omer_day.year = self.date.year
+                self.total_days = (self.date - first_omer_day).days + 1
+                self.week, self.day = divmod(self.total_days, 7)
+        elif self.total_days > 0:
+            self.date = first_omer_day + timedelta(days=self.total_days + 1)
+            self.week, self.day = divmod(self.total_days, 7)
+        else:
+            self.total_days = self.week * 7 + self.day
+            self.date = first_omer_day + timedelta(days=self.total_days + 1)
+
+    def __str__(self) -> str:
+        if self.total_days == 0:
+            return ""
+        if self.nusach == Nusach.ASHKENAZ:
+            suffix = self.get_translation(f"in_omer_{self.nusach}")
+        else:
+            suffix = self.get_translation("in_omer")
+        return f"{hebrew_number(self.total_days)} {suffix}"
+
+    def count_str(self) -> str:
+        """Return the text to be said when counting the omer."""
+        if self.total_days == 0:
+            return ""
+
+        def num2words_omer(number: int, _type: str = "total") -> str:
+            """Wrapper for num2words."""
+            if _type == "total":
+                to = "ordinal"
+                type_name = "day"
+                if self.language == "hebrew" and number in range(2, 11):
+                    type_name = "days"
+            else:
+                to = "cardinal"
+                type_name = _type if number == 1 else f"{_type}s"
+
+            if self.language == "hebrew":
+                conv = lang_HE.Num2Word_HE()
+                construct = number == 2
+                if number > 20 and number % 10 != 0:
+                    count_ones = conv.to_cardinal(number % 10, gender="m")
+                    count_tens = conv.to_cardinal((number // 10) * 10, gender="m")
+                    count = f"{count_ones} ו{count_tens}"
+                else:
+                    count = conv.to_cardinal(number, gender="m", construct=construct)
+                _obj = self.get_translation(type_name)
+                return f"{count} {_obj}" if number > 1 else f"{_obj} {count}"
+            _obj = self.get_translation(type_name)
+            count = num2words(number, lang=self.language[:2], to=to)
+            if self.language == "english" and _type == "total":
+                count = f"the {count}"
+            if self.language == "french" and number == 1 and type_name == "week":
+                count = f"{count}e"
+            return f"{count} {_obj}"
+
+        prefix = f"{self.get_translation('today')} {self.get_translation('is')}".strip()
+        total_days = num2words_omer(self.total_days, _type="total")
+        middle = ""
+        if self.week > 0:
+            which_are = self.get_translation("which_are")
+            weeks = num2words_omer(self.week, _type="week")
+            middle = f" {which_are} {weeks}"
+            middle = f",{middle}" if self.language != "hebrew" else middle
+            if self.day > 0:
+                _and = self.get_translation("and")
+                _and = f"{_and} " if self.language != "hebrew" else _and
+                days = num2words_omer(self.day, _type="day")
+                middle = f"{middle} {_and}{days}"
+        suffix = (
+            self.get_translation("in_omer")
+            if self.nusach != Nusach.ASHKENAZ
+            else self.get_translation("in_omer_ashkenaz")
+        )
+        if self.nusach == Nusach.ITALIAN:
+            return f"{prefix} {suffix} {total_days}{middle}"
+        if self.nusach == Nusach.ADOT_MIZRAH:
+            return f"{prefix} {total_days} {suffix}{middle}"
+        return f"{prefix} {total_days}{middle} {suffix}"

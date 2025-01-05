@@ -201,5 +201,17 @@
         "barech_aleinu": "Barech aleinu",
         "veten_tal": "VeTen Tal uMatar Livracha",
         "veten_beracha": "VeTen Beracha"
+    },
+    "Omer": {
+        "today": "Today",
+        "which_are": "which are",
+        "is": "is",
+        "day": "day",
+        "days": "days",
+        "and": "and",
+        "week": "week",
+        "weeks": "weeks",
+        "in_omer_ashkenaz": "of the Omer",
+        "in_omer": "of the Omer"
     }        
 }
