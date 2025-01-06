@@ -80,6 +80,11 @@ class Months(TranslatorMixin, IntEnum):
         obj.length = days
         return obj
 
+    def __add__(self, value: object) -> Months:
+        if not isinstance(value, int):
+            return NotImplemented
+        return Months(self._value_ + value)  # type: ignore # pylint: disable=E1120
+
     @classmethod
     def in_year(cls, year: int) -> list[Months]:
         """Return the months for the given year."""
@@ -152,9 +157,6 @@ class HebrewDate(TranslatorMixin):
     def __add__(self, other: object) -> HebrewDate:
         if not isinstance(other, dt.timedelta):
             return NotImplemented
-        if self.year > 3760:  # Use gdate to calculate addition
-            new_gdate = self.to_gdate() + other
-            return HebrewDate.from_gdate(new_gdate)
         days = other.days
         new = HebrewDate(self.year, self.month, self.day)
         while days > 0:
@@ -163,7 +165,7 @@ class HebrewDate(TranslatorMixin):
                     Months(new.month)  # type: ignore # pylint: disable=E1120
                 )
                 - new.day
-            ) > days:
+            ) >= days:
                 new.day += days
                 break
             days -= days_left
@@ -176,7 +178,7 @@ class HebrewDate(TranslatorMixin):
                 new.month = Months.TISHREI
             else:
                 new.month += 1
-            new.day = 1
+            new.day = 0
         return new
 
     def __sub__(self, other: object) -> dt.timedelta:
@@ -210,14 +212,12 @@ class HebrewDate(TranslatorMixin):
         # Calculate days since 1,1,3744
         day = HebrewDate._days_from_3744(self.year) + (59 * (month - 1) + 1) // 2 + day
 
-        # length of year
-        length_of_year = HebrewDate.year_size(self.year)
         # Special cases for this year
-        if length_of_year % 10 > 4 and month > 2:  # long Heshvan
+        if long_cheshvan(self.year) and month > 2:  # long Heshvan
             day += 1
-        if length_of_year % 10 < 4 and month > 3:  # short Kislev
+        if short_kislev(self.year) and month > 3:  # short Kislev
             day -= 1
-        if length_of_year > 365 and month > 6:  # leap year
+        if is_leap_year(self.year) and month > 6:  # leap year
             day += 30
 
         # adjust to julian
@@ -232,51 +232,15 @@ class HebrewDate(TranslatorMixin):
         # Guess Hebrew year is Gregorian year + 3760
         year = date.year + 3760
 
-        jdn_tishrey1 = HebrewDate(year, Months.TISHREI, 1).to_jdn()
-        jdn_tishrey1_next_year = HebrewDate(year + 1, Months.TISHREI, 1).to_jdn()
+        rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
 
         # Check if computed year was underestimated
-        if jdn_tishrey1_next_year <= jdn:
-            year = year + 1
-            jdn_tishrey1 = jdn_tishrey1_next_year
-            jdn_tishrey1_next_year = HebrewDate(year + 1, Months.TISHREI, 1).to_jdn()
+        if HebrewDate(year + 1, Months.TISHREI, 1).to_jdn() <= jdn:
+            rosh_hashana = HebrewDate(year + 1, Months.TISHREI, 1)
 
-        size_of_year = HebrewDate.year_size(year)
+        days = dt.timedelta(days=jdn - rosh_hashana.to_jdn())
 
-        # days into this year, first month 0..29
-        days = jdn - jdn_tishrey1
-
-        # last 8 months always have 236 days
-        if days >= (size_of_year - 236):  # in last 8 months
-            days = days - (size_of_year - 236)
-            month = days * 2 // 59
-            day = days - (month * 59 + 1) // 2 + 1
-
-            month = month + 4 + 1
-
-            # if leap
-            if size_of_year > 355 and month <= 6:
-                month = month + 8
-        else:  # in 4-5 first months
-            # Special cases for this year
-            if size_of_year % 10 > 4 and days == 59:  # long Heshvan (day 30)
-                month = 1
-                day = 30
-            elif size_of_year % 10 > 4 and days > 59:  # long Heshvan
-                month = (days - 1) * 2 // 59
-                day = days - (month * 59 + 1) // 2
-            elif size_of_year % 10 < 4 and days > 87:  # short kislev
-                month = (days + 1) * 2 // 59
-                day = days - (month * 59 + 1) // 2 + 2
-            else:  # regular months
-                month = days * 2 // 59
-                day = days - (month * 59 + 1) // 2 + 1
-
-            month = month + 1
-
-        return HebrewDate(
-            year, Months(month), day  # type: ignore # pylint: disable=E1120
-        )
+        return rosh_hashana + days
 
     @staticmethod
     def from_gdate(date: dt.date) -> HebrewDate:
