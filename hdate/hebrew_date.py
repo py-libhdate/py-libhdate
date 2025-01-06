@@ -5,7 +5,7 @@ from __future__ import annotations
 import datetime as dt
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import TYPE_CHECKING, Callable, Optional, Union
+from typing import TYPE_CHECKING, Callable, Optional, Union, cast
 
 import hdate.converters as conv
 from hdate.translator import TranslatorMixin
@@ -84,6 +84,16 @@ class Months(TranslatorMixin, IntEnum):
         if not isinstance(value, int):
             return NotImplemented
         return Months(self._value_ + value)  # type: ignore # pylint: disable=E1120
+
+    def next_month(self, year: int) -> Months:
+        """Return the next month."""
+        if self == Months.ELUL:
+            return Months.TISHREI
+        if self in {Months.ADAR, Months.ADAR_II}:
+            return Months.NISAN
+        if is_leap_year(year) and self == Months.SHVAT:
+            return Months.ADAR_I
+        return Months(self._value_ + 1)  # type: ignore # pylint: disable=E1120
 
     @classmethod
     def in_year(cls, year: int) -> list[Months]:
@@ -169,15 +179,7 @@ class HebrewDate(TranslatorMixin):
                 new.day += days
                 break
             days -= days_left
-            if new.month == Months.SHVAT and new.is_leap_year():
-                new.month = Months.ADAR_I
-            elif new.month == Months.ADAR_II:
-                new.month = Months.NISAN
-            elif new.month == Months.ELUL:
-                new.year += 1
-                new.month = Months.TISHREI
-            else:
-                new.month += 1
+            new.month = cast(Months, new.month).next_month(new.year)
             new.day = 0
         return new
 
