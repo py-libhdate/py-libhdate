@@ -171,15 +171,15 @@ class HebrewDate(TranslatorMixin):
         new = HebrewDate(self.year, self.month, self.day)
         while days > 0:
             if (
-                days_left := self.days_in_month(
-                    Months(new.month)  # type: ignore # pylint: disable=E1120
-                )
+                days_left := cast(Months, new.month).days(new.year)
                 - new.day
             ) >= days:
                 new.day += days
                 break
             days -= days_left
             new.month = cast(Months, new.month).next_month(new.year)
+            if new.month == Months.TISHREI:
+                new.year += 1
             new.day = 0
         return new
 
@@ -293,9 +293,7 @@ class HebrewDate(TranslatorMixin):
 
     def days_in_month(self, month: Months) -> int:
         """Return the number of days in a month."""
-        if month in CHANGING_MONTHS:
-            return month.days(self.year)
-        return month.days()
+        return month.days(self.year)
 
     def is_leap_year(self) -> bool:
         """Return: True if the year is a leap year."""
