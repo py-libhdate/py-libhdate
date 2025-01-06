@@ -121,7 +121,7 @@ class Omer(TranslatorMixin):
             else self.get_translation("in_omer_ashkenaz")
         )
         if self.nusach == Nusach.ITALIAN:
-            return f"{prefix} {suffix} {total_days}{middle}"
+            return f"{self.get_translation('today')} {suffix} {total_days}{middle}"
         if self.nusach == Nusach.ADOT_MIZRAH:
             return f"{prefix} {total_days} {suffix}{middle}"
         return f"{prefix} {total_days}{middle} {suffix}"
