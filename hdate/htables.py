@@ -5,7 +5,7 @@ from dataclasses import dataclass
 from enum import Enum, IntEnum, auto
 from typing import Callable, Union
 
-from hdate.hebrew_date import CHANGING_MONTHS, LONG_MONTHS, Days, HebrewDate, Months
+from hdate.hebrew_date import CHANGING_MONTHS, LONG_MONTHS, HebrewDate, Months, Weekday
 from hdate.translator import TranslatorMixin
 
 
@@ -372,7 +372,7 @@ def year_is_before(year: int) -> Callable[[HebrewDate], bool]:
 
 
 def move_if_not_on_dow(
-    original: int, replacement: int, dow_not_orig: Days, dow_replacement: Days
+    original: int, replacement: int, dow_not_orig: Weekday, dow_replacement: Weekday
 ) -> Callable[[HebrewDate], bool]:
     """
     Return a lambda function.
@@ -442,7 +442,7 @@ HOLIDAYS = (
         "tzom_gedaliah",
         ((3, 4), Months.TISHREI),
         "",
-        [move_if_not_on_dow(3, 4, Days.SATURDAY, Days.SUNDAY)],
+        [move_if_not_on_dow(3, 4, Weekday.SATURDAY, Weekday.SUNDAY)],
     ),
     Holiday(HolidayTypes.EREV_YOM_TOV, "erev_yom_kippur", (9, Months.TISHREI), "", []),
     Holiday(HolidayTypes.YOM_TOV, "yom_kippur", (10, Months.TISHREI), "", []),
@@ -483,7 +483,10 @@ HOLIDAYS = (
         "taanit_esther",
         ((11, 13), (Months.ADAR, Months.ADAR_II)),
         "",
-        [move_if_not_on_dow(13, 11, Days.SATURDAY, Days.THURSDAY), correct_adar()],
+        [
+            move_if_not_on_dow(13, 11, Weekday.SATURDAY, Weekday.THURSDAY),
+            correct_adar(),
+        ],
     ),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
@@ -521,8 +524,8 @@ HOLIDAYS = (
         [
             year_is_after(5708),
             year_is_before(5764),
-            move_if_not_on_dow(5, 4, Days.FRIDAY, Days.THURSDAY)  # type: ignore
-            or move_if_not_on_dow(5, 3, Days.SATURDAY, Days.THURSDAY),
+            move_if_not_on_dow(5, 4, Weekday.FRIDAY, Weekday.THURSDAY)  # type: ignore
+            or move_if_not_on_dow(5, 3, Weekday.SATURDAY, Weekday.THURSDAY),
         ],
     ),
     Holiday(
@@ -532,9 +535,9 @@ HOLIDAYS = (
         "",
         [
             year_is_after(5763),
-            move_if_not_on_dow(5, 4, Days.FRIDAY, Days.THURSDAY)  # type: ignore
-            or move_if_not_on_dow(5, 3, Days.SATURDAY, Days.THURSDAY)
-            or move_if_not_on_dow(5, 6, Days.MONDAY, Days.TUESDAY),
+            move_if_not_on_dow(5, 4, Weekday.FRIDAY, Weekday.THURSDAY)  # type: ignore
+            or move_if_not_on_dow(5, 3, Weekday.SATURDAY, Weekday.THURSDAY)
+            or move_if_not_on_dow(5, 6, Weekday.MONDAY, Weekday.TUESDAY),
         ],
     ),
     Holiday(HolidayTypes.MINOR_HOLIDAY, "lag_bomer", (18, Months.IYYAR), "", []),
@@ -545,14 +548,14 @@ HOLIDAYS = (
         "tzom_tammuz",
         ((17, 18), Months.TAMMUZ),
         "",
-        [move_if_not_on_dow(17, 18, Days.SATURDAY, Days.SUNDAY)],
+        [move_if_not_on_dow(17, 18, Weekday.SATURDAY, Weekday.SUNDAY)],
     ),
     Holiday(
         HolidayTypes.FAST_DAY,
         "tisha_bav",
         ((9, 10), Months.AV),
         "",
-        [move_if_not_on_dow(9, 10, Days.SATURDAY, Days.SUNDAY)],
+        [move_if_not_on_dow(9, 10, Weekday.SATURDAY, Weekday.SUNDAY)],
     ),
     Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bav", (15, Months.AV), "", []),
     Holiday(
@@ -561,21 +564,8 @@ HOLIDAYS = (
         ((26, 27, 28), Months.NISAN),
         "",
         [
-            move_if_not_on_dow(27, 28, Days.SUNDAY, Days.MONDAY)  # type: ignore
-            or move_if_not_on_dow(27, 26, Days.FRIDAY, Days.THURSDAY),
-            year_is_after(5718),
-        ],
-    ),
-    Holiday(
-        HolidayTypes.MEMORIAL_DAY,
-        "yom_hazikaron",
-        ((2, 3, 4), Months.IYYAR),
-        "",
-        [
-            year_is_after(5708),
-            year_is_before(5764),
-            move_if_not_on_dow(4, 3, Days.THURSDAY, Days.WEDNESDAY)  # type: ignore
-            or move_if_not_on_dow(4, 2, Days.FRIDAY, Days.WEDNESDAY),
+            move_if_not_on_dow(27, 28, Weekday.SUNDAY, Weekday.MONDAY)  # type: ignore
+            or move_if_not_on_dow(4, 2, Weekday.FRIDAY, Weekday.WEDNESDAY),
         ],
     ),
     Holiday(
@@ -585,9 +575,11 @@ HOLIDAYS = (
         "",
         [
             year_is_after(5763),
-            move_if_not_on_dow(4, 3, Days.THURSDAY, Days.WEDNESDAY)  # type: ignore
-            or move_if_not_on_dow(4, 2, Days.FRIDAY, Days.WEDNESDAY)
-            or move_if_not_on_dow(4, 5, Days.SUNDAY, Days.MONDAY),
+            move_if_not_on_dow(
+                4, 3, Weekday.THURSDAY, Weekday.WEDNESDAY
+            )  # type: ignore
+            or move_if_not_on_dow(4, 2, Weekday.FRIDAY, Weekday.WEDNESDAY)
+            or move_if_not_on_dow(4, 5, Weekday.SUNDAY, Weekday.MONDAY),
         ],
     ),
     Holiday(
@@ -621,7 +613,10 @@ HOLIDAYS = (
         "rabin_memorial_day",
         ((11, 12), Months.MARCHESHVAN),
         "ISRAEL",
-        [move_if_not_on_dow(12, 11, Days.FRIDAY, Days.THURSDAY), year_is_after(5757)],
+        [
+            move_if_not_on_dow(12, 11, Weekday.FRIDAY, Weekday.THURSDAY),
+            year_is_after(5757),
+        ],
     ),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,

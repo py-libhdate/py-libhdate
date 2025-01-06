@@ -22,7 +22,7 @@ PARTS_IN_WEEK = 7 * PARTS_IN_DAY
 PARTS_IN_MONTH = PARTS_IN_DAY + get_chalakim(12, 793)  # Fix for regular month
 
 
-class Days(TranslatorMixin, IntEnum):
+class Weekday(TranslatorMixin, IntEnum):
     """Enum class for the days of the week."""
 
     SUNDAY = 1
@@ -195,11 +195,7 @@ class HebrewDate(TranslatorMixin):
         return dt.timedelta(days=days)
 
     def to_jdn(self) -> int:
-        """
-        Compute Julian day from Hebrew day, month and year.
-
-        Return: julian day number
-        """
+        """Compute Julian day number from HebrewDate."""
         day = self.day
         month = self.month.value if isinstance(self.month, Months) else self.month
 
@@ -318,22 +314,9 @@ class HebrewDate(TranslatorMixin):
         """Return: True if the year is a leap year."""
         return is_leap_year(self.year)
 
-    def get_next_month(self, month: Months, year: int) -> Months:
-        """Return the next month."""
-
-        if HebrewDate(year).is_leap_year():
-            if month == Months.SHVAT:
-                return Months.ADAR_I
-            if month == Months.ADAR_I:
-                return Months.ADAR_II
-            if month == Months.ADAR_II:
-                return Months.NISAN
-        next_month = month + 1 if month < Months.ELUL else Months.TISHREI
-        return Months(next_month)  # type: ignore # pylint: disable=E1120
-
-    def dow(self) -> Days:
+    def dow(self) -> Weekday:
         """Return: day of the week."""
-        weekday = Days((self.to_jdn() + 1) % 7 + 1)
+        weekday = Weekday((self.to_jdn() + 1) % 7 + 1)
         weekday.set_language(self._language)
         return weekday
 

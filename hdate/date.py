@@ -14,7 +14,7 @@ from typing import Generator, Optional, cast
 
 from hdate import htables
 from hdate.gematria import hebrew_number
-from hdate.hebrew_date import Days, HebrewDate, Months
+from hdate.hebrew_date import HebrewDate, Months, Weekday
 from hdate.htables import Holiday, HolidayTypes, Parasha
 from hdate.omer import Omer
 from hdate.translator import TranslatorMixin
@@ -171,11 +171,11 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         return holidays_list
 
     @property
-    def dow(self) -> Days:
+    def dow(self) -> Weekday:
         """Return day of week enum."""
         # datetime weekday maps Monday->0, Sunday->6; this remaps to Sunday->1.
         _dow = self.gdate.weekday() + 2 if self.gdate.weekday() != 6 else 1
-        dow = Days(_dow)
+        dow = Weekday(_dow)
         dow.set_language(self._language)
         return dow
 
@@ -386,7 +386,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             if (
                 days <= 22
                 and self.diaspora
-                and self.dow != Days.SATURDAY
+                and self.dow != Weekday.SATURDAY
                 or days <= 21
                 and not self.diaspora
             ):
