@@ -198,27 +198,12 @@ class HebrewDate(TranslatorMixin):
 
     def to_jdn(self) -> int:
         """Compute Julian day number from HebrewDate."""
-        day = self.day
-        month = self.month.value if isinstance(self.month, Months) else self.month
-
-        if self.month == Months.ADAR_I:
-            month = 6
-        if self.month == Months.ADAR_II:
-            month = 6
-            day += 30
-
-        # Calculate days since 1,1,3744
-        day = HebrewDate._days_from_3744(self.year) + (59 * (month - 1) + 1) // 2 + day
-
-        # Special cases for this year
-        if long_cheshvan(self.year) and month > 2:  # long Heshvan
-            day += 1
-        if short_kislev(self.year) and month > 3:  # short Kislev
-            day -= 1
-        if is_leap_year(self.year) and month > 6:  # leap year
-            day += 30
-
-        # adjust to julian
+        month = Months.TISHREI
+        day = HebrewDate._days_from_3744(self.year)
+        while month != self.month:
+            day += self.days_in_month(month)
+            month = month.next_month(self.year)
+        day += self.day
         return day + 1715118
 
     @staticmethod
