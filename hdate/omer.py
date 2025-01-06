@@ -102,26 +102,31 @@ class Omer(TranslatorMixin):
                 count = f"{count}e"
             return f"{count} {_obj}"
 
-        prefix = f"{self.get_translation('today')} {self.get_translation('is')}".strip()
         total_days = num2words_omer(self.total_days, _type="total")
-        middle = ""
-        if self.week > 0:
-            which_are = self.get_translation("which_are")
-            weeks = num2words_omer(self.week, _type="week")
-            middle = f" {which_are} {weeks}"
-            middle = f",{middle}" if self.language != "hebrew" else middle
-            if self.day > 0:
-                _and = self.get_translation("and")
-                _and = f"{_and} " if self.language != "hebrew" else _and
-                days = num2words_omer(self.day, _type="day")
-                middle = f"{middle} {_and}{days}"
-        suffix = (
+        in_omer = (
             self.get_translation("in_omer")
             if self.nusach != Nusach.ASHKENAZ
             else self.get_translation("in_omer_ashkenaz")
         )
+        _is = self.get_translation("is")
+        prefix = (
+            f"{self.get_translation('today')} {_is}".strip()
+            if self.nusach != Nusach.ITALIAN
+            else f"{self.get_translation('today')} {in_omer} {_is}".strip()
+        )
+        detail = ""
+        if self.week > 0:
+            which_are = self.get_translation("which_are")
+            weeks = num2words_omer(self.week, _type="week")
+            detail = f" {which_are} {weeks}"
+            detail = f",{detail}" if self.language != "hebrew" else detail
+            if self.day > 0:
+                _and = self.get_translation("and")
+                _and = f"{_and} " if self.language != "hebrew" else _and
+                days = num2words_omer(self.day, _type="day")
+                detail = f"{detail} {_and}{days}"
         if self.nusach == Nusach.ITALIAN:
-            return f"{self.get_translation('today')} {suffix} {total_days}{middle}"
+            return f"{prefix} {total_days}{detail}"
         if self.nusach == Nusach.ADOT_MIZRAH:
-            return f"{prefix} {total_days} {suffix}{middle}"
-        return f"{prefix} {total_days}{middle} {suffix}"
+            return f"{prefix} {total_days} {in_omer}{detail}"
+        return f"{prefix} {total_days}{detail} {in_omer}"
