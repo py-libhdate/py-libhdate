@@ -170,10 +170,7 @@ class HebrewDate(TranslatorMixin):
         days = other.days
         new = HebrewDate(self.year, self.month, self.day)
         while days > 0:
-            if (
-                days_left := cast(Months, new.month).days(new.year)
-                - new.day
-            ) >= days:
+            if (days_left := cast(Months, new.month).days(new.year) - new.day) >= days:
                 new.day += days
                 break
             days -= days_left
