@@ -310,22 +310,13 @@ class HebrewDate(TranslatorMixin):
 
     def days_in_month(self, month: Months) -> int:
         """Return the number of days in a month."""
-        if month in LONG_MONTHS:
-            return 30
-        if month in SHORT_MONTHS:
-            return 29
-        if self.year == 0 and month in CHANGING_MONTHS:
-            # Special case for relative dates, return the maximum number of days
-            return 30
-        if month == Months.KISLEV:
-            return 29 if self.short_kislev() else 30
-        if month == Months.MARCHESHVAN:
-            return 30 if self.long_cheshvan() else 29
-        return 0
+        if month in CHANGING_MONTHS:
+            return month.days(self.year)
+        return month.days()
 
     def is_leap_year(self) -> bool:
         """Return: True if the year is a leap year."""
-        return self.year % 19 in (0, 3, 6, 8, 11, 14, 17)
+        return is_leap_year(self.year)
 
     def get_next_month(self, month: Months, year: int) -> Months:
         """Return the next month."""
