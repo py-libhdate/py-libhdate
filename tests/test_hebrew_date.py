@@ -6,10 +6,62 @@ import pytest
 from hypothesis import given, strategies
 from syrupy.assertion import SnapshotAssertion
 
-from hdate.hebrew_date import HebrewDate, Months
+from hdate.hebrew_date import (
+    CHANGING_MONTHS,
+    LONG_MONTHS,
+    SHORT_MONTHS,
+    HebrewDate,
+    Months,
+    is_leap_year,
+)
 
 MIN_YEAR = 3762
 MAX_YEAR = 6000
+
+
+@given(strategies.integers(min_value=MIN_YEAR, max_value=MAX_YEAR))
+def test_get_all_months(year: int) -> None:
+    """Test that all months are returned."""
+    if is_leap_year(year):
+        assert len(Months.in_year(year)) == 13
+        assert all(m != Months.ADAR for m in Months.in_year(year))
+        assert any(m in {Months.ADAR_I, Months.ADAR_II} for m in Months.in_year(year))
+    else:
+        assert len(Months.in_year(year)) == 12
+        assert all(
+            m not in {Months.ADAR_I, Months.ADAR_II} for m in Months.in_year(year)
+        )
+        assert any(m == Months.ADAR for m in Months.in_year(year))
+
+
+@given(strategies.integers(min_value=MIN_YEAR, max_value=MAX_YEAR))
+def test_sum_all_month_days(year: int) -> None:
+    """Test that the sum of all days in all months is correct."""
+    if is_leap_year(year):
+        assert sum(m.days(year) for m in Months.in_year(year)) in {383, 384, 385}
+    else:
+        assert sum(m.days(year) for m in Months.in_year(year)) in {353, 354, 355}
+
+
+def test_lists_of_months() -> None:
+    """Test that the lists of months are correct."""
+    assert set(LONG_MONTHS) == {
+        Months.TISHREI,
+        Months.SHVAT,
+        Months.ADAR_I,
+        Months.NISAN,
+        Months.SIVAN,
+        Months.AV,
+    }
+    assert set(SHORT_MONTHS) == {
+        Months.TEVET,
+        Months.ADAR,
+        Months.ADAR_II,
+        Months.IYYAR,
+        Months.TAMMUZ,
+        Months.ELUL,
+    }
+    assert CHANGING_MONTHS == (Months.MARCHESHVAN, Months.KISLEV)
 
 
 @strategies.composite
