@@ -566,6 +566,21 @@ HOLIDAYS = (
         [
             move_if_not_on_dow(27, 28, Weekday.SUNDAY, Weekday.MONDAY)  # type: ignore
             or move_if_not_on_dow(4, 2, Weekday.FRIDAY, Weekday.WEDNESDAY),
+            year_is_after(5718),
+        ],
+    ),
+    Holiday(
+        HolidayTypes.MEMORIAL_DAY,
+        "yom_hazikaron",
+        ((2, 3, 4), Months.IYYAR),
+        "",
+        [
+            year_is_after(5708),
+            year_is_before(5764),
+            move_if_not_on_dow(
+                4, 3, Weekday.THURSDAY, Weekday.WEDNESDAY
+            )  # type: ignore
+            or move_if_not_on_dow(4, 2, Weekday.FRIDAY, Weekday.WEDNESDAY),
         ],
     ),
     Holiday(
