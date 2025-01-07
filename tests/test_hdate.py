@@ -6,6 +6,7 @@ from collections import defaultdict
 from typing import Union
 
 import pytest
+from hypothesis import given, strategies
 
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
@@ -885,10 +886,11 @@ class TestHDateReading:
         # VeZot Habracha in Israel always falls on 22 of Tishri
         assert mydate.get_reading() == 54
 
-    @pytest.mark.parametrize("year", range(5740, 5800))
-    def test_nitzavim_always_before_rosh_hashana(self, year: int) -> None:
+    @pytest.mark.parametrize("diaspora", [True, False])
+    @given(year=strategies.integers(min_value=4000, max_value=6000))
+    def test_nitzavim_always_before_rosh_hashana(self, year: int, diaspora: bool) -> None:
         """A property: Nitzavim alway falls before rosh hashana."""
-        mydate = HDate(language="english", diaspora=False)
+        mydate = HDate(language="english", diaspora=diaspora)
         mydate.hdate = HebrewDate(year, Months.TISHREI, 1)
         tdelta = dt.timedelta((12 - mydate.gdate.weekday()) % 7 - 7)
         # Go back to the previous shabbat
@@ -896,10 +898,11 @@ class TestHDateReading:
         print("Testing date: {mydate} which is {tdelta} days before Rosh Hashana")
         assert mydate.get_reading() in [51, 61]
 
-    @pytest.mark.parametrize("year", range(5740, 5800))
-    def test_vayelech_or_haazinu_always_after_rosh_hashana(self, year: int) -> None:
+    @pytest.mark.parametrize("diaspora", [True, False])
+    @given(year=strategies.integers(min_value=4000, max_value=6000))
+    def test_vayelech_or_haazinu_always_after_rosh_hashana(self, year: int, diaspora: bool) -> None:
         """A property: Vayelech or Haazinu always falls after rosh hashana."""
-        mydate = HDate(language="english", diaspora=True)
+        mydate = HDate(language="english", diaspora=diaspora)
         mydate.hdate = HebrewDate(year, Months.TISHREI, 1)
         tdelta = dt.timedelta((12 - mydate.gdate.weekday()) % 7)
         # Go to the next shabbat (unless shabbat falls on Rosh Hashana)
