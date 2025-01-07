@@ -113,15 +113,7 @@ def test_adar_compare_mode(
 def valid_hebrew_date(draw: strategies.DrawFn) -> HebrewDate:
     """Generate a valid Hebrew date."""
     year = draw(strategies.integers(min_value=MIN_YEAR, max_value=MAX_YEAR))
-
-    months = list(Months)
-    if HebrewDate(year).is_leap_year():
-        months.remove(Months.ADAR)
-    else:
-        months.remove(Months.ADAR_I)
-        months.remove(Months.ADAR_II)
-    month = draw(strategies.sampled_from(months))
-
+    month = draw(strategies.sampled_from(Months.in_year(year)))
     days = HebrewDate(year).days_in_month(month)
     day = draw(strategies.integers(min_value=1, max_value=days))
 
