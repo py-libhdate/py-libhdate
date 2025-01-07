@@ -565,7 +565,7 @@ HOLIDAYS = (
         "",
         [
             move_if_not_on_dow(27, 28, Weekday.SUNDAY, Weekday.MONDAY)  # type: ignore
-            or move_if_not_on_dow(4, 2, Weekday.FRIDAY, Weekday.WEDNESDAY),
+            or move_if_not_on_dow(27, 26, Weekday.FRIDAY, Weekday.THURSDAY),
             year_is_after(5718),
         ],
     ),
