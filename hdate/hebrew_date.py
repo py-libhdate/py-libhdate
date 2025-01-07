@@ -58,14 +58,14 @@ class Months(TranslatorMixin, IntEnum):
     TEVET = 4, 10, 29
     SHVAT = 5, 11, 30
     ADAR = 6, 12, 29  # Adar in a non-leap year
-    NISAN = 7, 1, 30
-    IYYAR = 8, 2, 29
-    SIVAN = 9, 3, 30
-    TAMMUZ = 10, 4, 29
-    AV = 11, 5, 30
-    ELUL = 12, 6, 29
-    ADAR_I = 13, 12, 30  # Adar I in a leap year
-    ADAR_II = 14, 13, 29
+    ADAR_I = 7, 12, 30  # Adar I in a leap year
+    ADAR_II = 8, 13, 29
+    NISAN = 9, 1, 30
+    IYYAR = 10, 2, 29
+    SIVAN = 11, 3, 30
+    TAMMUZ = 12, 4, 29
+    AV = 13, 5, 30
+    ELUL = 14, 6, 29
 
     if TYPE_CHECKING:
         ordinal: int

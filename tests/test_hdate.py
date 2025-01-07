@@ -193,14 +193,14 @@ class TestSpecialDays:
         ((20, 1), "hol_hamoed_sukkot"),
         ((21, 1), "hoshana_raba"),
         ((22, 1), "shmini_atzeret"),
-        ((15, 7), "pesach"),
-        ((17, 7), "hol_hamoed_pesach"),
-        ((18, 7), "hol_hamoed_pesach"),
-        ((19, 7), "hol_hamoed_pesach"),
-        ((20, 7), "hol_hamoed_pesach"),
-        ((21, 7), "pesach_vii"),
-        ((5, 9), "erev_shavuot"),
-        ((6, 9), "shavuot"),
+        ((15, 9), "pesach"),
+        ((17, 9), "hol_hamoed_pesach"),
+        ((18, 9), "hol_hamoed_pesach"),
+        ((19, 9), "hol_hamoed_pesach"),
+        ((20, 9), "hol_hamoed_pesach"),
+        ((21, 9), "pesach_vii"),
+        ((5, 11), "erev_shavuot"),
+        ((6, 11), "shavuot"),
         ((25, 3), "chanukah"),
         ((26, 3), "chanukah"),
         ((27, 3), "chanukah"),
@@ -210,36 +210,36 @@ class TestSpecialDays:
         ((2, 4), "chanukah"),
         ((10, 4), "asara_btevet"),
         ((15, 5), "tu_bshvat"),
-        ((18, 8), "lag_bomer"),
-        ((15, 11), "tu_bav"),
+        ((18, 10), "lag_bomer"),
+        ((15, 13), "tu_bav"),
     ]
 
     DIASPORA_ISRAEL_HOLIDAYS = [
         # Date, holiday in Diaspora, holiday in Israel
         ((16, 1), "sukkot_ii", "hol_hamoed_sukkot"),
         ((23, 1), "simchat_torah", ""),
-        ((16, 7), "pesach_ii", "hol_hamoed_pesach"),
-        ((22, 7), "pesach_viii", ""),
-        ((7, 9), "shavuot_ii", ""),
+        ((16, 9), "pesach_ii", "hol_hamoed_pesach"),
+        ((22, 9), "pesach_viii", ""),
+        ((7, 11), "shavuot_ii", ""),
     ]
 
     MOVING_HOLIDAYS = [
         # Possible dates, name
         ([(3, 1), (4, 1)], "tzom_gedaliah"),
-        ([(17, 10), (18, 10)], "tzom_tammuz"),
-        ([(9, 11), (10, 11)], "tisha_bav"),
+        ([(17, 12), (18, 12)], "tzom_tammuz"),
+        ([(9, 13), (10, 13)], "tisha_bav"),
     ]
 
     NEW_HOLIDAYS = [
         # Possible dates, test year range, name
-        ([(26, 7), (27, 7), (28, 7)], (5719, 6500), "yom_hashoah"),
-        ([(3, 8), (4, 8), (5, 8)], (5709, 5763), "yom_haatzmaut"),
-        ([(3, 8), (4, 8), (5, 8), (6, 8)], (5764, 6500), "yom_haatzmaut"),
-        ([(2, 8), (3, 8), (4, 8)], (5709, 5763), "yom_hazikaron"),
-        ([(2, 8), (3, 8), (4, 8), (5, 8)], (5764, 6500), "yom_hazikaron"),
-        ([(28, 8)], (5728, 6500), "yom_yerushalayim"),
+        ([(26, 9), (27, 9), (28, 9)], (5719, 6500), "yom_hashoah"),
+        ([(3, 10), (4, 10), (5, 10)], (5709, 5763), "yom_haatzmaut"),
+        ([(3, 10), (4, 10), (5, 10), (6, 10)], (5764, 6500), "yom_haatzmaut"),
+        ([(2, 10), (3, 10), (4, 10)], (5709, 5763), "yom_hazikaron"),
+        ([(2, 10), (3, 10), (4, 10), (5, 10)], (5764, 6500), "yom_hazikaron"),
+        ([(28, 10)], (5728, 6500), "yom_yerushalayim"),
         ([(11, 2), (12, 2)], (5758, 6500), "rabin_memorial_day"),
-        ([(29, 10)], (5765, 6500), "zeev_zhabotinsky_day"),
+        ([(29, 12)], (5765, 6500), "zeev_zhabotinsky_day"),
         ([(30, 5)], (5734, 6500), ["family_day", "rosh_chodesh"]),
     ]
 
@@ -504,13 +504,13 @@ class TestSpecialDays:
         sivan = list(range(1, 5))
 
         for day in nissan:
-            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 7, day)
+            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.NISAN, day)
             assert rand_hdate.omer.total_days == day - 15
         for day in iyyar:
-            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 8, day)
+            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.IYYAR, day)
             assert rand_hdate.omer.total_days == day + 15
         for day in sivan:
-            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 9, day)
+            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.SIVAN, day)
             assert rand_hdate.omer.total_days == day + 44
 
     def test_daf_yomi(self) -> None:
