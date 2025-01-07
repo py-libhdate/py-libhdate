@@ -888,7 +888,9 @@ class TestHDateReading:
 
     @pytest.mark.parametrize("diaspora", [True, False])
     @given(year=strategies.integers(min_value=4000, max_value=6000))
-    def test_nitzavim_always_before_rosh_hashana(self, year: int, diaspora: bool) -> None:
+    def test_nitzavim_always_before_rosh_hashana(
+        self, year: int, diaspora: bool
+    ) -> None:
         """A property: Nitzavim alway falls before rosh hashana."""
         mydate = HDate(language="english", diaspora=diaspora)
         mydate.hdate = HebrewDate(year, Months.TISHREI, 1)
@@ -900,7 +902,9 @@ class TestHDateReading:
 
     @pytest.mark.parametrize("diaspora", [True, False])
     @given(year=strategies.integers(min_value=4000, max_value=6000))
-    def test_vayelech_or_haazinu_always_after_rosh_hashana(self, year: int, diaspora: bool) -> None:
+    def test_vayelech_or_haazinu_always_after_rosh_hashana(
+        self, year: int, diaspora: bool
+    ) -> None:
         """A property: Vayelech or Haazinu always falls after rosh hashana."""
         mydate = HDate(language="english", diaspora=diaspora)
         mydate.hdate = HebrewDate(year, Months.TISHREI, 1)
