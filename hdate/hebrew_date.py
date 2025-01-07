@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import datetime as dt
 from dataclasses import dataclass
-from enum import IntEnum
+from enum import IntEnum, IntFlag
 from typing import TYPE_CHECKING, Callable, Optional, Union, cast
 
 import hdate.converters as conv
@@ -32,6 +32,31 @@ class Weekday(TranslatorMixin, IntEnum):
     THURSDAY = 5
     FRIDAY = 6
     SATURDAY = 7
+
+
+class ComparisonMode(IntFlag):
+    """Enum class for the comparison modes."""
+
+    STRICT: tuple[int, set[int]] = 0, set()
+    ADAR_IS_ADAR_I = 1, {6, 7}
+    ADAR_IS_ADAR_II = 2, {6, 8}
+    ADAR_IS_ANY = 3, {6 - 8}
+
+    if TYPE_CHECKING:
+        equal_month_values: set[int]
+
+    def __new__(cls, value: int, equal_month_values: set[int]) -> ComparisonMode:
+        obj = int.__new__(cls, value)
+        obj._value_ = value
+        obj.equal_month_values = equal_month_values
+        return obj
+
+    def __or__(self, other: object) -> ComparisonMode:
+        if not isinstance(other, ComparisonMode):
+            return NotImplemented
+        value = super().__or__(other)
+        value.equal_month_values = self.equal_month_values | other.equal_month_values
+        return value
 
 
 def short_kislev(year: int) -> bool:
@@ -68,7 +93,7 @@ class Months(TranslatorMixin, IntEnum):
     ELUL = 14, 6, 29
 
     if TYPE_CHECKING:
-        ordinal: int
+        biblical_order: int
         length: Union[int, Callable[[int], int]]
 
     def __new__(
@@ -76,8 +101,9 @@ class Months(TranslatorMixin, IntEnum):
     ) -> Months:
         obj = int.__new__(cls, value)
         obj._value_ = value
-        obj.ordinal = ordinal
+        obj.biblical_order = ordinal
         obj.length = days
+        obj.comparison_mode = ComparisonMode.STRICT
         return obj
 
     def __add__(self, value: object) -> Months:
@@ -109,6 +135,51 @@ class Months(TranslatorMixin, IntEnum):
                 raise ValueError("Year is required to calculate days for this month")
             return self.length(year)
         return self.length
+
+    def set_comparison_mode(self, mode: ComparisonMode) -> None:
+        """Set the comparison mode."""
+        self.comparison_mode = mode
+
+    def compare(self, other: Union[Months, int], order_type: str = "calendar") -> int:
+        """
+        Compare this month to another month.
+
+        The comparison can be either "calendar" or "biblical". When using the biblical
+        order, we consider NISAN as the first month. By default, we use the calendar
+        order starting at TISHREI.
+        """
+        value = self.value if order_type == "calendar" else self.biblical_order
+
+        if not isinstance(other, Months):
+            return value - other
+
+        other_value = other.value if order_type == "calendar" else other.biblical_order
+        mode = self.comparison_mode | other.comparison_mode
+
+        if (
+            self.value in mode.equal_month_values
+            and other.value in mode.equal_month_values
+        ):
+            return 0
+        return value - other_value
+
+    def __eq__(self, value: object) -> bool:
+        if not isinstance(value, (Months, int)):
+            return NotImplemented
+        return self.compare(value) == 0
+
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, (Months, int)):
+            return NotImplemented
+        return self.compare(other) < 0
+
+    def __le__(self, other: object) -> bool:
+        if not isinstance(other, (Months, int)):
+            return NotImplemented
+        return self.compare(other) <= 0
+
+    def __hash__(self) -> int:
+        return IntEnum.__hash__(self)
 
 
 LONG_MONTHS = tuple(month for month in Months if month.length == 30)

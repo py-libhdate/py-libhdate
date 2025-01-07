@@ -95,24 +95,24 @@ class TestHDate:
             rosh_hashana = HebrewDate(year)
             assert rosh_hashana.dow() == info[0]
 
-    def test_pesach_day_of_week(self, rand_hdate: HDate) -> None:
-        """ "Check tha Pesach DOW matches the given dates."""
+    def test_pesach_day_of_week(self) -> None:
+        """ "Check that Pesach DOW matches the given dates."""
         for year, info in list(HEBREW_YEARS_INFO.items()):
-            rand_hdate.hdate = HebrewDate(year, Months.NISAN, 15)
-            assert rand_hdate.dow == info[2]
-            assert rand_hdate.holidays[0].name == "pesach"
+            my_hdate = HDate(heb_date=HebrewDate(year, Months.NISAN, 15))
+            assert my_hdate.dow == info[2]
+            assert my_hdate.holidays[0].name == "pesach"
 
     UPCOMING_SHABBATOT = [
-        ((2018, 11, 30), (2018, 12, 1), (5779, 3, 22)),
-        ((2018, 12, 1), (2018, 12, 1), (5779, 3, 23)),
-        ((2018, 12, 2), (2018, 12, 8), (5779, 3, 24)),
-        ((2018, 12, 3), (2018, 12, 8), (5779, 3, 25)),
-        ((2018, 12, 4), (2018, 12, 8), (5779, 3, 26)),
-        ((2018, 12, 5), (2018, 12, 8), (5779, 3, 27)),
-        ((2018, 12, 6), (2018, 12, 8), (5779, 3, 28)),
-        ((2018, 12, 7), (2018, 12, 8), (5779, 3, 29)),
-        ((2018, 12, 8), (2018, 12, 8), (5779, 3, 30)),
-        ((2018, 12, 9), (2018, 12, 15), (5779, 4, 1)),
+        ((2018, 11, 30), (2018, 12, 1), (5779, Months.KISLEV, 22)),
+        ((2018, 12, 1), (2018, 12, 1), (5779, Months.KISLEV, 23)),
+        ((2018, 12, 2), (2018, 12, 8), (5779, Months.KISLEV, 24)),
+        ((2018, 12, 3), (2018, 12, 8), (5779, Months.KISLEV, 25)),
+        ((2018, 12, 4), (2018, 12, 8), (5779, Months.KISLEV, 26)),
+        ((2018, 12, 5), (2018, 12, 8), (5779, Months.KISLEV, 27)),
+        ((2018, 12, 6), (2018, 12, 8), (5779, Months.KISLEV, 28)),
+        ((2018, 12, 7), (2018, 12, 8), (5779, Months.KISLEV, 29)),
+        ((2018, 12, 8), (2018, 12, 8), (5779, Months.KISLEV, 30)),
+        ((2018, 12, 9), (2018, 12, 15), (5779, Months.TEVET, 1)),
     ]
 
     @pytest.mark.parametrize(
