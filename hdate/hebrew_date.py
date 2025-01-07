@@ -202,15 +202,12 @@ class HebrewDate(TranslatorMixin):
             else Months(self.month)  # type: ignore # pylint: disable=E1120
         )
         if self.year != 0:
-            leap_year = self.is_leap_year()
-            if (leap_year and self.month == Months.ADAR) or (
-                not leap_year and self.month in (Months.ADAR_I, Months.ADAR_II)
-            ):
+            if self.month not in Months.in_year(self.year):
                 raise ValueError(
                     f"{self.month} is not a valid month for year {self.year} "
-                    f"({'leap' if leap_year else 'non-leap'})"
+                    f"({'leap' if is_leap_year(self.year) else 'non-leap'})"
                 )
-        if not 0 < self.day <= (max_days := self.days_in_month(self.month)):
+        if not 0 < self.day <= (max_days := self.month.days(self.year)):
             raise ValueError(
                 f"Day {self.day} is illegal: "
                 f"legal values are 1-{max_days} for {self.month}"
