@@ -38,7 +38,7 @@ max-line-length = "88"
 # Show summary output for all types of failures
 # Run doctest that are part of docstrings
 # Run doctest in RST files
-addopts = "-ra --doctest-modules --doctest-glob=*.rst"
+addopts = "-ra --doctest-modules --doctest-glob=*.rst -n auto"
 
 [dependency-groups]
 dev = [
@@ -53,12 +53,13 @@ dev = [
     "flake8>=7.1.1",
     "mypy>=1.13.0",
     "pytest-profiling>=1.8.1",
-    "hypothesis>=6.123.2",
-    "syrupy>=4.8.0",
 ]
 test = [
     "pytest>=8.3.3",
     "pytest-coverage>=0.0",
+    "pytest-xdist>=3.6.1",
+    "hypothesis>=6.123.7",
+    "syrupy>=4.8.0",
 ]
 
 [tool.bumpversion]
