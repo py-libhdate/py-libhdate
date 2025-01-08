@@ -1,8 +1,7 @@
 """Test hebrew_number"""
 
-import random
-
 import pytest
+from hypothesis import given, strategies
 
 from hdate import gematria
 
@@ -27,16 +26,19 @@ def test_hebrew_number(number: int, expected_string: str, expected_short: str) -
     assert gematria.hebrew_number(number) == expected_string
 
 
-def test_illegal_value() -> None:
+@given(
+    number=strategies.one_of(
+        strategies.integers(max_value=-1), strategies.integers(min_value=10001)
+    )
+)
+def test_illegal_value(number: int) -> None:
     """Test unsupported numbers."""
     with pytest.raises(ValueError):
-        gematria.hebrew_number(random.randint(10000, 20000))
-    with pytest.raises(ValueError):
-        gematria.hebrew_number(random.randint(-100, -1))
+        gematria.hebrew_number(number)
 
 
-def test_hebrew_number_hebrew_false() -> None:
+@given(number=strategies.integers(min_value=0, max_value=10000))
+def test_hebrew_number_hebrew_false(number: int) -> None:
     """Test returning a non-hebrew number."""
-    number = random.randint(0, 100000)
     assert gematria.hebrew_number(number, language="english") == str(number)
     assert gematria.hebrew_number(number, language="english", short=True) == str(number)
