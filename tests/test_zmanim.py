@@ -1,13 +1,12 @@
 """Test Zmanim objects."""
 
 import datetime as dt
-import random
 import sys
-from calendar import isleap
 from typing import Optional
 from zoneinfo import ZoneInfo
 
 import pytest
+from hypothesis import given, strategies
 
 from hdate import Zmanim
 from hdate.location import Location
@@ -56,36 +55,19 @@ class TestZmanim:
         with pytest.raises(TypeError):
             Zmanim(date="bad value")  # type: ignore
 
-    @pytest.mark.parametrize("execution_number", list(range(5)))
-    def test_same_doy_is_equal(
-        self, execution_number: int, random_date: dt.date
-    ) -> None:
+    @given(
+        strategies.shared(strategies.dates(), key="base_date").flatmap(
+            lambda d: strategies.tuples(
+                strategies.just(d),
+                strategies.dates().filter(
+                    lambda x: x.year != d.year and x.month == d.month and x.day == d.day
+                ),
+            )
+        )
+    )
+    def test_same_doy_is_equal(self, dates: tuple[dt.date, dt.date]) -> None:
         """Test two doy to be equal."""
-        print(f"Run number {execution_number}")
-        other_year = random.randint(500, 3000)
-        shift_day = dt.timedelta(days=0)
-        this_date = random_date
-
-        if isleap(this_date.year) != isleap(other_year) and this_date > dt.date(
-            this_date.year, 2, 28
-        ):
-            if isleap(other_year):
-                shift_day = dt.timedelta(days=-1)
-            else:
-                shift_day = dt.timedelta(days=1)
-
-        if (
-            isleap(this_date.year)
-            and not isleap(other_year)
-            and this_date.month == 2
-            and this_date.day == 29
-        ):
-            # Special case we can't simply replace the year as there's
-            # no leap day in the other year
-            other_date = dt.date(other_year, 3, 1)
-        else:
-            other_date = this_date.replace(year=other_year) + shift_day
-
+        this_date, other_date = dates
         this_zmanim = Zmanim(this_date).get_utc_sun_time_full()
         other_zmanim = Zmanim(other_date).get_utc_sun_time_full()
         grace = 0 if not _ASTRAL else 14
