@@ -76,10 +76,10 @@ class TestHDate:
         with pytest.raises(ValueError):
             HDate().hdate = HebrewDate(5779, 10, 35)
 
-    @pytest.mark.parametrize("execution_number", list(range(10)))
-    def test_random_hdate(self, execution_number: int, rand_hdate: HDate) -> None:
+    @given(date=strategies.dates())
+    def test_random_hdate(self, date: dt.date) -> None:
         """Run multiple cases with random hdates."""
-        print(f"Run number {execution_number}")
+        rand_hdate = HDate(date)
         _hdate = HDate()
         _hdate.hdate = rand_hdate.hdate
         assert _hdate.hdate == rand_hdate.hdate
@@ -440,13 +440,12 @@ class TestSpecialDays:
             else:
                 assert len(date_under_test.holidays) == 0
 
-    def test_get_holiday_hanuka_3rd_tevet(self) -> None:
+    @given(year=strategies.integers(min_value=5000, max_value=6000))
+    def test_get_holiday_hanuka_3rd_tevet(self, year: int) -> None:
         """Test Chanuka falling on 3rd of Tevet."""
-        year = random.randint(5000, 6000)
         year_size = HebrewDate.year_size(year)
         myhdate = HDate(heb_date=HebrewDate(year, 4, 3))
-        print(year_size)
-        if year_size in [353, 383]:
+        if year_size in (353, 383):
             assert myhdate.holidays[0].name == "chanukah"
         else:
             assert len(myhdate.holidays) == 0
@@ -479,9 +478,9 @@ class TestSpecialDays:
             else:
                 assert myhdate.holidays[0].name == holiday
 
-    def test_get_tishrei_rosh_chodesh(self) -> None:
+    @given(year=strategies.integers(min_value=5000, max_value=6000))
+    def test_get_tishrei_rosh_chodesh(self, year: int) -> None:
         """30th of Tishrei should be Rosh Chodesh"""
-        year = random.randint(5000, 6000)
         myhdate = HDate(heb_date=HebrewDate(year, Months.TISHREI, 30))
         assert myhdate.holidays[0].name == "rosh_chodesh"
         myhdate = HDate(heb_date=HebrewDate(year, Months.TISHREI, 1))
