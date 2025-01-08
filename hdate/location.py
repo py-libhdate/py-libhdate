@@ -6,7 +6,7 @@ from typing import Union
 from zoneinfo import ZoneInfo
 
 
-@dataclass
+@dataclass(frozen=True)
 class Location:
     """Define a geolocation for Zmanim calculations."""
 
@@ -19,4 +19,4 @@ class Location:
 
     def __post_init__(self) -> None:
         if isinstance(self.timezone, str):
-            self.timezone = ZoneInfo(self.timezone)
+            object.__setattr__(self, "timezone", ZoneInfo(self.timezone))
