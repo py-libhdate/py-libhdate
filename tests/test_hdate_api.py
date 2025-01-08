@@ -7,6 +7,7 @@ import datetime as dt
 import sys
 from typing import cast
 
+import pytest
 from _pytest.capture import CaptureFixture
 
 from hdate import HDate, Location, Zmanim
@@ -75,10 +76,12 @@ class TestHDateAPI:
 class TestZmanimAPI:
     """Test the API provided in the README."""
 
-    def test_readme_example_hebrew(self, capsys: CaptureFixture[str]) -> None:
+    @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
+    def test_readme_example_hebrew(
+        self, capsys: CaptureFixture[str], location: Location
+    ) -> None:
         """Test for hebrew."""
-        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=dt.date(2016, 4, 18), location=coord)
+        zman = Zmanim(date=dt.date(2016, 4, 18), location=location)
         print(zman)
         captured = capsys.readouterr()
         if not _ASTRAL:
@@ -104,10 +107,12 @@ class TestZmanimAPI:
             "חצות הלילה - 00:40:00\n"
         )
 
-    def test_readme_example_english(self, capsys: CaptureFixture[str]) -> None:
+    @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
+    def test_readme_example_english(
+        self, capsys: CaptureFixture[str], location: Location
+    ) -> None:
         """Test for english."""
-        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=dt.date(2016, 4, 18), location=coord, language="english")
+        zman = Zmanim(date=dt.date(2016, 4, 18), location=location, language="english")
         print(zman)
         captured = capsys.readouterr()
         if not _ASTRAL:
@@ -133,99 +138,83 @@ class TestZmanimAPI:
             "Midnight - 00:40:00\n"
         )
 
-    def test_issur_melacha_weekday(self) -> None:
+    @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
+    def test_issur_melacha_weekday(self, location: Location) -> None:
         """Test for issur melacha on a weekday."""
-        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=dt.date(2018, 11, 12), location=coord)
+        zman = Zmanim(date=dt.date(2018, 11, 12), location=location)
         assert not zman.issur_melacha_in_effect(dt.datetime(2018, 11, 12, 1, 2))
 
-    def test_issur_melacha_shabbat_morning(self) -> None:
+    @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
+    def test_issur_melacha_shabbat_morning(self, location: Location) -> None:
         """Test for issur melacha on shabbat morning."""
-        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=dt.date(2018, 11, 10), location=coord)
+        zman = Zmanim(date=dt.date(2018, 11, 10), location=location)
         assert zman.issur_melacha_in_effect(dt.datetime(2018, 11, 10, 9))
 
-    def test_issur_melacha_friday_morning(self) -> None:
+    @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
+    def test_issur_melacha_friday_morning(self, location: Location) -> None:
         """Test for issur melacha on friday morning."""
-        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=dt.date(2018, 11, 9), location=coord)
+        zman = Zmanim(date=dt.date(2018, 11, 9), location=location)
         assert not zman.issur_melacha_in_effect(dt.datetime(2018, 11, 9, 9, 45))
 
-    def test_issur_melacha_friday_evening(self) -> None:
+    @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
+    def test_issur_melacha_friday_evening(self, location: Location) -> None:
         """Test for issur melacha on friday evening."""
-        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=dt.date(2018, 11, 9), location=coord)
+        zman = Zmanim(date=dt.date(2018, 11, 9), location=location)
         assert zman.issur_melacha_in_effect(dt.datetime(2018, 11, 9, 16, 45))
 
-    def test_issur_melacha_motsaei_shabbat(self) -> None:
+    @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
+    def test_issur_melacha_motsaei_shabbat(self, location: Location) -> None:
         """Test for issur melacha on Motsaei shabbat."""
-        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=dt.date(2018, 11, 10), location=coord)
+        zman = Zmanim(date=dt.date(2018, 11, 10), location=location)
         assert not zman.issur_melacha_in_effect(dt.datetime(2018, 11, 10, 17, 45))
 
-    def test_issur_melacha_shavuot_morning(self) -> None:
+    @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
+    def test_issur_melacha_shavuot_morning(self, location: Location) -> None:
         """Test for issur melacha on shavuot morning."""
-        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=dt.date(2019, 6, 9), location=coord)
+        zman = Zmanim(date=dt.date(2019, 6, 9), location=location)
         assert zman.issur_melacha_in_effect(dt.datetime(2019, 6, 9, 9))
 
-    def test_issur_melacha_pesach_vi_morning(self) -> None:
+    @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
+    def test_issur_melacha_pesach_vi_morning(self, location: Location) -> None:
         """Test for issur melacha on erev shvii shel pesach morning."""
-        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=dt.date(2019, 4, 25), location=coord)
+        zman = Zmanim(date=dt.date(2019, 4, 25), location=location)
         assert not zman.issur_melacha_in_effect(dt.datetime(2019, 4, 25, 9, 45))
 
-    def test_issur_melacha_shavuot_evening(self) -> None:
+    @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
+    def test_issur_melacha_shavuot_evening(self, location: Location) -> None:
         """Test for issur melacha on shavuot evening."""
-        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=dt.date(2019, 6, 8), location=coord)
+        zman = Zmanim(date=dt.date(2019, 6, 8), location=location)
         assert zman.issur_melacha_in_effect(dt.datetime(2019, 6, 8, 21, 45))
 
-    def test_issur_melacha_motsaei_shavuot(self) -> None:
+    @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
+    def test_issur_melacha_motsaei_shavuot(self, location: Location) -> None:
         """Test for issur melacha on motsaei shavuot."""
-        coord = Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
-        zman = Zmanim(date=dt.date(2019, 6, 9), location=coord)
+        zman = Zmanim(date=dt.date(2019, 6, 9), location=location)
         assert not zman.issur_melacha_in_effect(dt.datetime(2019, 6, 9, 20, 30))
 
-    def test_issur_melacha_pesach_ii_morning(self) -> None:
+    @pytest.mark.parametrize("location", ["New York"], indirect=True)
+    def test_issur_melacha_pesach_ii_morning(self, location: Location) -> None:
         """Test for issur melacha on the second day of pesach in the diaspora."""
-        coord = Location(
-            "New York", 40.7128, -74.0060, "America/New_York", diaspora=True
-        )
-        zman = Zmanim(date=dt.date(2019, 4, 21), location=coord)
+        zman = Zmanim(date=dt.date(2019, 4, 21), location=location)
         assert zman.issur_melacha_in_effect(dt.datetime(2019, 4, 21, 9))
 
-    def test_issur_melacha_pesach_ii_evening(self) -> None:
+    @pytest.mark.parametrize("location", ["New York"], indirect=True)
+    def test_issur_melacha_pesach_ii_evening(self, location: Location) -> None:
         """Test for issur melacha on the eve of second day of pesach in the diaspora."""
-        coord = Location(
-            "New York", 40.7128, -74.0060, "America/New_York", diaspora=True
-        )
-        zman = Zmanim(date=dt.date(2019, 4, 20), location=coord)
+        zman = Zmanim(date=dt.date(2019, 4, 20), location=location)
         assert zman.issur_melacha_in_effect(dt.datetime(2019, 4, 20, 21, 45))
 
-    def test_issur_melacha_motsaei_pesach_ii(self) -> None:
+    @pytest.mark.parametrize("location", ["New York"], indirect=True)
+    def test_issur_melacha_motsaei_pesach_ii(self, location: Location) -> None:
         """Test for issur melacha on the end of second day of pesach in the diaspora."""
-        coord = Location(
-            name="New York",
-            latitude=40.7128,
-            longitude=-74.0060,
-            timezone="America/New_York",
-            diaspora=True,
-        )
-        zman = Zmanim(date=dt.date(2019, 4, 21), location=coord)
+        zman = Zmanim(date=dt.date(2019, 4, 21), location=location)
         assert not zman.issur_melacha_in_effect(dt.datetime(2019, 4, 21, 20, 30))
 
-    def test_zmanim_localized_datetime(self) -> None:
+    @pytest.mark.parametrize("location", ["New York"], indirect=True)
+    def test_zmanim_localized_datetime(self, location: Location) -> None:
         """Test for issur melacha if datetime is localized."""
-        coord = Location(
-            name="New York",
-            latitude=40.7128,
-            longitude=-74.0060,
-            timezone="America/New_York",
-            diaspora=True,
-        )
-        _timezone = cast(dt.tzinfo, coord.timezone)
-        zman = Zmanim(date=dt.date(2019, 4, 21), location=coord)
+        _timezone = cast(dt.tzinfo, location.timezone)
+        zman = Zmanim(date=dt.date(2019, 4, 21), location=location)
         assert not zman.issur_melacha_in_effect(
             dt.datetime(2019, 4, 21, 20, 30, tzinfo=_timezone)
         )

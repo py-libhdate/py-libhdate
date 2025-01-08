@@ -16,12 +16,6 @@ _ASTRAL = "astral" in sys.modules
 NYC_LAT = 40.7128
 NYC_LNG = -74.0060
 
-LONDON_LAT = 51.5074
-LONDON_LNG = -0.1278
-
-PUNTA_ARENAS_LAT = -53.1678  # Southern example
-PUNTA_ARENAS_LNG = -70.9167
-
 
 def compare_dates(
     date1: Optional[dt.datetime],
@@ -68,39 +62,17 @@ def test_same_doy_is_equal(this_date: dt.date, year_diff: int) -> None:
         assert zman.minutes - grace <= other.minutes <= zman.minutes + grace, zman.name
 
 
-def test_extreme_zmanim() -> None:
+@pytest.mark.parametrize(
+    "location, result",
+    [("London", dt.time(21, 22)), ("Punta Arenas", dt.time(17, 31))],
+    indirect=["location"],
+)
+def test_extreme_zmanim(location: Location, result: dt.time) -> None:
     """Test that Zmanim north to 50 degrees latitude is correct."""
     day = dt.date(2024, 6, 18)
     compare_times(
-        Zmanim(
-            date=day,
-            location=Location(
-                name="London",
-                latitude=LONDON_LAT,
-                longitude=LONDON_LNG,
-                timezone="Europe/London",
-                diaspora=True,
-            ),
-        )
-        .zmanim["sunset"]
-        .time(),
-        dt.time(21, 22),
-        allow_grace=True,
-    )
-    compare_times(
-        Zmanim(
-            date=day,
-            location=Location(
-                name="Punta Arenas",
-                latitude=PUNTA_ARENAS_LAT,
-                longitude=PUNTA_ARENAS_LNG,
-                timezone="America/Punta_Arenas",
-                diaspora=True,
-            ),
-        )
-        .zmanim["sunset"]
-        .time(),
-        dt.time(17, 31),
+        Zmanim(date=day, location=location).zmanim["sunset"].time(),
+        result,
         allow_grace=True,
     )
 
@@ -141,24 +113,19 @@ CANDLES_TEST = [
 @pytest.mark.parametrize(
     ["now", "offset", "candle_lighting", "melacha_assur"], CANDLES_TEST
 )
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
 def test_candle_lighting(
     now: dt.datetime,
     offset: int,
     candle_lighting: Optional[dt.datetime],
     melacha_assur: bool,
+    location: Location,
 ) -> None:
     """Test candle lighting values."""
-    location_tz_str = Location(
-        name="New York",
-        latitude=NYC_LAT,
-        longitude=NYC_LNG,
-        timezone="America/New_York",
-        diaspora=True,
-    )
     # Use a constant offset for Havdalah for unit test stability.
     zmanim = Zmanim(
         date=now.date(),
-        location=location_tz_str,
+        location=location,
         candle_lighting_offset=offset,
         havdalah_offset=42,
     )
@@ -186,22 +153,16 @@ HAVDALAH_TEST = [
 
 
 @pytest.mark.parametrize(["now", "offset", "havdalah", "melacha_assur"], HAVDALAH_TEST)
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
 def test_havdalah(
     now: dt.datetime,
     offset: int,
     havdalah: Optional[dt.datetime],
     melacha_assur: bool,
+    location: Location,
 ) -> None:
     """Test havdalah times."""
-    location_tz_str = Location(
-        name="New York",
-        latitude=NYC_LAT,
-        longitude=NYC_LNG,
-        timezone="America/New_York",
-        diaspora=True,
-    )
-    # Use a constant offset for Havdalah for unit test stability.
-    zmanim = Zmanim(date=now.date(), location=location_tz_str, havdalah_offset=offset)
+    zmanim = Zmanim(date=now.date(), location=location, havdalah_offset=offset)
     actual = zmanim.havdalah
     if actual is not None:
         actual = actual.replace(tzinfo=None)
@@ -228,19 +189,13 @@ MOTZEI_SHABBAT_CHAG_TEST = [
 @pytest.mark.parametrize(
     ["now", "offset", "motzei_shabbat_chag"], MOTZEI_SHABBAT_CHAG_TEST
 )
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
 def test_motzei_shabbat_chag(
-    now: dt.datetime, offset: int, motzei_shabbat_chag: bool
+    now: dt.datetime, offset: int, motzei_shabbat_chag: bool, location: Location
 ) -> None:
     """Test motzei shabbat chag boolean is correct."""
-    location_tz_str = Location(
-        name="New York",
-        latitude=NYC_LAT,
-        longitude=NYC_LNG,
-        timezone="America/New_York",
-        diaspora=True,
-    )
     # Use a constant offset for Havdalah for unit test stability.
-    zmanim = Zmanim(date=now.date(), location=location_tz_str, havdalah_offset=offset)
+    zmanim = Zmanim(date=now.date(), location=location, havdalah_offset=offset)
     assert zmanim.motzei_shabbat_chag(now) == motzei_shabbat_chag
 
 
@@ -264,32 +219,26 @@ EREV_SHABBAT_CHAG_TEST = [
 
 
 @pytest.mark.parametrize(["now", "offset", "erev_shabbat_chag"], EREV_SHABBAT_CHAG_TEST)
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
 def test_erev_shabbat_hag(
-    now: dt.datetime, offset: int, erev_shabbat_chag: bool
+    now: dt.datetime, offset: int, erev_shabbat_chag: bool, location: Location
 ) -> None:
     """Test erev shabbat chag boolean is correct."""
-    location_tz_str = Location(
-        name="New York",
-        latitude=NYC_LAT,
-        longitude=NYC_LNG,
-        timezone="America/New_York",
-        diaspora=True,
-    )
     # Use a constant offset for Havdalah for unit test stability.
-    zmanim = Zmanim(date=now.date(), location=location_tz_str, havdalah_offset=offset)
+    zmanim = Zmanim(date=now.date(), location=location, havdalah_offset=offset)
     assert zmanim.erev_shabbat_chag(now) == erev_shabbat_chag
 
 
-def test_candle_lighting_erev_shabbat_is_yom_tov() -> None:
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_candle_lighting_erev_shabbat_is_yom_tov(location: Location) -> None:
     """Test for candle lighting when erev shabbat is yom tov"""
     day = dt.date(2024, 10, 18)
     actual_candle_lighting = dt.datetime(
         2024, 10, 18, 17, 52, 00, tzinfo=ZoneInfo("America/New_York")
     )
-    coord = Location("New York", 40.7128, -74.0060, "America/New_York", diaspora=True)
     zman = Zmanim(
         date=day,
-        location=coord,
+        location=location,
         candle_lighting_offset=18,
     )
     assert zman.candle_lighting == actual_candle_lighting
