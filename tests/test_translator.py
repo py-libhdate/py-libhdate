@@ -2,7 +2,7 @@
 
 import pytest
 
-from hdate.htables import Months
+from hdate.hebrew_date import Months
 
 LANGUAGES = ["english", "french", "hebrew"]
 

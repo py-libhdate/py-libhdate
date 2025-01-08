@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import datetime as dt
 from dataclasses import dataclass
-from typing import Union
+from enum import IntEnum, IntFlag
+from typing import TYPE_CHECKING, Callable, Optional, Union, cast
 
 import hdate.converters as conv
-from hdate.htables import CHANGING_MONTHS, LONG_MONTHS, SHORT_MONTHS, Days, Months
 from hdate.translator import TranslatorMixin
 
 
@@ -22,6 +22,171 @@ PARTS_IN_WEEK = 7 * PARTS_IN_DAY
 PARTS_IN_MONTH = PARTS_IN_DAY + get_chalakim(12, 793)  # Fix for regular month
 
 
+class Weekday(TranslatorMixin, IntEnum):
+    """Enum class for the days of the week."""
+
+    SUNDAY = 1
+    MONDAY = 2
+    TUESDAY = 3
+    WEDNESDAY = 4
+    THURSDAY = 5
+    FRIDAY = 6
+    SATURDAY = 7
+
+
+class ComparisonMode(IntFlag):
+    """Enum class for the comparison modes."""
+
+    STRICT: tuple[int, set[int]] = 0, set()
+    ADAR_IS_ADAR_I = 1, {6, 7}
+    ADAR_IS_ADAR_II = 2, {6, 8}
+    ADAR_IS_ANY = 3, {6 - 8}
+
+    if TYPE_CHECKING:
+        equal_month_values: set[int]
+
+    def __new__(cls, value: int, equal_month_values: set[int]) -> ComparisonMode:
+        obj = int.__new__(cls, value)
+        obj._value_ = value
+        obj.equal_month_values = equal_month_values
+        return obj
+
+    def __or__(self, other: object) -> ComparisonMode:
+        if not isinstance(other, ComparisonMode):
+            return NotImplemented
+        value = super().__or__(other)
+        value.equal_month_values = self.equal_month_values | other.equal_month_values
+        return value
+
+
+def short_kislev(year: int) -> bool:
+    """Return whether this year has a short Kislev or not."""
+    return HebrewDate.year_size(year) in (353, 383)
+
+
+def long_cheshvan(year: int) -> bool:
+    """Return whether this year has a long Cheshvan or not."""
+    return HebrewDate.year_size(year) in (355, 385)
+
+
+def is_leap_year(year: int) -> bool:
+    """Return True if the Hebrew year is a leap year (2 Adars)"""
+    return year % 19 in (0, 3, 6, 8, 11, 14, 17)
+
+
+class Months(TranslatorMixin, IntEnum):
+    """Enum class for the Hebrew months."""
+
+    TISHREI = 1, 7, 30
+    MARCHESHVAN = 2, 8, lambda year: 30 if long_cheshvan(year) or (year == 0) else 29
+    KISLEV = 3, 9, lambda year: 30 if not short_kislev(year) or (year == 0) else 29
+    TEVET = 4, 10, 29
+    SHVAT = 5, 11, 30
+    ADAR = 6, 12, 29  # Adar in a non-leap year
+    ADAR_I = 7, 12, 30  # Adar I in a leap year
+    ADAR_II = 8, 13, 29
+    NISAN = 9, 1, 30
+    IYYAR = 10, 2, 29
+    SIVAN = 11, 3, 30
+    TAMMUZ = 12, 4, 29
+    AV = 13, 5, 30
+    ELUL = 14, 6, 29
+
+    if TYPE_CHECKING:
+        biblical_order: int
+        length: Union[int, Callable[[int], int]]
+
+    def __new__(
+        cls, value: int, ordinal: int, days: Union[int, Callable[[int], int]]
+    ) -> Months:
+        obj = int.__new__(cls, value)
+        obj._value_ = value
+        obj.biblical_order = ordinal
+        obj.length = days
+        obj.comparison_mode = ComparisonMode.STRICT
+        return obj
+
+    def __add__(self, value: object) -> Months:
+        if not isinstance(value, int):
+            return NotImplemented
+        return Months(self._value_ + value)  # type: ignore # pylint: disable=E1120
+
+    def next_month(self, year: int) -> Months:
+        """Return the next month."""
+        if self == Months.ELUL:
+            return Months.TISHREI
+        if self in {Months.ADAR, Months.ADAR_II}:
+            return Months.NISAN
+        if is_leap_year(year) and self == Months.SHVAT:
+            return Months.ADAR_I
+        return Months(self._value_ + 1)  # type: ignore # pylint: disable=E1120
+
+    @classmethod
+    def in_year(cls, year: int) -> list[Months]:
+        """Return the months for the given year."""
+        if is_leap_year(year):
+            return [month for month in cls if month != Months.ADAR]
+        return [month for month in cls if month not in (Months.ADAR_I, Months.ADAR_II)]
+
+    def days(self, year: Optional[int] = None) -> int:
+        """Return the number of days in this month."""
+        if callable(self.length):
+            if year is None:
+                raise ValueError("Year is required to calculate days for this month")
+            return self.length(year)
+        return self.length
+
+    def set_comparison_mode(self, mode: ComparisonMode) -> None:
+        """Set the comparison mode."""
+        self.comparison_mode = mode
+
+    def compare(self, other: Union[Months, int], order_type: str = "calendar") -> int:
+        """
+        Compare this month to another month.
+
+        The comparison can be either "calendar" or "biblical". When using the biblical
+        order, we consider NISAN as the first month. By default, we use the calendar
+        order starting at TISHREI.
+        """
+        value = self.value if order_type == "calendar" else self.biblical_order
+
+        if not isinstance(other, Months):
+            return value - other
+
+        other_value = other.value if order_type == "calendar" else other.biblical_order
+        mode = self.comparison_mode | other.comparison_mode
+
+        if (
+            self.value in mode.equal_month_values
+            and other.value in mode.equal_month_values
+        ):
+            return 0
+        return value - other_value
+
+    def __eq__(self, value: object) -> bool:
+        if not isinstance(value, (Months, int)):
+            return NotImplemented
+        return self.compare(value) == 0
+
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, (Months, int)):
+            return NotImplemented
+        return self.compare(other) < 0
+
+    def __le__(self, other: object) -> bool:
+        if not isinstance(other, (Months, int)):
+            return NotImplemented
+        return self.compare(other) <= 0
+
+    def __hash__(self) -> int:
+        return IntEnum.__hash__(self)
+
+
+LONG_MONTHS = tuple(month for month in Months if month.length == 30)
+SHORT_MONTHS = tuple(month for month in Months if month.length == 29)
+CHANGING_MONTHS = tuple(month for month in Months if callable(month.length))
+
+
 @dataclass
 class HebrewDate(TranslatorMixin):
     """Define a Hebrew date object."""
@@ -32,18 +197,17 @@ class HebrewDate(TranslatorMixin):
 
     def __post_init__(self) -> None:
         self.month = (
-            self.month if isinstance(self.month, Months) else Months(self.month)
+            self.month
+            if isinstance(self.month, Months)
+            else Months(self.month)  # type: ignore # pylint: disable=E1120
         )
         if self.year != 0:
-            leap_year = self.is_leap_year()
-            if (leap_year and self.month == Months.ADAR) or (
-                not leap_year and self.month in (Months.ADAR_I, Months.ADAR_II)
-            ):
+            if self.month not in Months.in_year(self.year):
                 raise ValueError(
                     f"{self.month} is not a valid month for year {self.year} "
-                    f"({'leap' if leap_year else 'non-leap'})"
+                    f"({'leap' if is_leap_year(self.year) else 'non-leap'})"
                 )
-        if not 0 < self.day <= (max_days := self.days_in_month(self.month)):
+        if not 0 < self.day <= (max_days := self.month.days(self.year)):
             raise ValueError(
                 f"Day {self.day} is illegal: "
                 f"legal values are 1-{max_days} for {self.month}"
@@ -71,26 +235,17 @@ class HebrewDate(TranslatorMixin):
     def __add__(self, other: object) -> HebrewDate:
         if not isinstance(other, dt.timedelta):
             return NotImplemented
-        if self.year > 3760:  # Use gdate to calculate addition
-            new_gdate = self.to_gdate() + other
-            return HebrewDate.from_gdate(new_gdate)
         days = other.days
         new = HebrewDate(self.year, self.month, self.day)
-        while days > 0:
-            if (days_left := self.days_in_month(Months(new.month)) - new.day) > days:
+        while days != 0:
+            if (days_left := cast(Months, new.month).days(new.year) - new.day) >= days:
                 new.day += days
                 break
             days -= days_left
-            if new.month == Months.SHVAT and new.is_leap_year():
-                new.month = Months.ADAR_I
-            elif new.month == Months.ADAR_II:
-                new.month = Months.NISAN
-            elif new.month == Months.ELUL:
+            new.month = cast(Months, new.month).next_month(new.year)
+            if new.month == Months.TISHREI:
                 new.year += 1
-                new.month = Months.TISHREI
-            else:
-                new.month += 1
-            new.day = 1
+            new.day = 0
         return new
 
     def __sub__(self, other: object) -> dt.timedelta:
@@ -107,34 +262,13 @@ class HebrewDate(TranslatorMixin):
         return dt.timedelta(days=days)
 
     def to_jdn(self) -> int:
-        """
-        Compute Julian day from Hebrew day, month and year.
-
-        Return: julian day number
-        """
-        day = self.day
-        month = self.month.value if isinstance(self.month, Months) else self.month
-
-        if self.month == Months.ADAR_I:
-            month = 6
-        if self.month == Months.ADAR_II:
-            month = 6
-            day += 30
-
-        # Calculate days since 1,1,3744
-        day = HebrewDate._days_from_3744(self.year) + (59 * (month - 1) + 1) // 2 + day
-
-        # length of year
-        length_of_year = HebrewDate.year_size(self.year)
-        # Special cases for this year
-        if length_of_year % 10 > 4 and month > 2:  # long Heshvan
-            day += 1
-        if length_of_year % 10 < 4 and month > 3:  # short Kislev
-            day -= 1
-        if length_of_year > 365 and month > 6:  # leap year
-            day += 30
-
-        # adjust to julian
+        """Compute Julian day number from HebrewDate."""
+        month = Months.TISHREI
+        day = HebrewDate._days_from_3744(self.year)
+        while month != self.month:
+            day += self.days_in_month(month)
+            month = month.next_month(self.year)
+        day += self.day
         return day + 1715118
 
     @staticmethod
@@ -146,49 +280,15 @@ class HebrewDate(TranslatorMixin):
         # Guess Hebrew year is Gregorian year + 3760
         year = date.year + 3760
 
-        jdn_tishrey1 = HebrewDate(year, Months.TISHREI, 1).to_jdn()
-        jdn_tishrey1_next_year = HebrewDate(year + 1, Months.TISHREI, 1).to_jdn()
+        rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
 
         # Check if computed year was underestimated
-        if jdn_tishrey1_next_year <= jdn:
-            year = year + 1
-            jdn_tishrey1 = jdn_tishrey1_next_year
-            jdn_tishrey1_next_year = HebrewDate(year + 1, Months.TISHREI, 1).to_jdn()
+        if HebrewDate(year + 1, Months.TISHREI, 1).to_jdn() <= jdn:
+            rosh_hashana = HebrewDate(year + 1, Months.TISHREI, 1)
 
-        size_of_year = HebrewDate.year_size(year)
+        days = dt.timedelta(days=jdn - rosh_hashana.to_jdn())
 
-        # days into this year, first month 0..29
-        days = jdn - jdn_tishrey1
-
-        # last 8 months always have 236 days
-        if days >= (size_of_year - 236):  # in last 8 months
-            days = days - (size_of_year - 236)
-            month = days * 2 // 59
-            day = days - (month * 59 + 1) // 2 + 1
-
-            month = month + 4 + 1
-
-            # if leap
-            if size_of_year > 355 and month <= 6:
-                month = month + 8
-        else:  # in 4-5 first months
-            # Special cases for this year
-            if size_of_year % 10 > 4 and days == 59:  # long Heshvan (day 30)
-                month = 1
-                day = 30
-            elif size_of_year % 10 > 4 and days > 59:  # long Heshvan
-                month = (days - 1) * 2 // 59
-                day = days - (month * 59 + 1) // 2
-            elif size_of_year % 10 < 4 and days > 87:  # short kislev
-                month = (days + 1) * 2 // 59
-                day = days - (month * 59 + 1) // 2 + 2
-            else:  # regular months
-                month = days * 2 // 59
-                day = days - (month * 59 + 1) // 2 + 1
-
-            month = month + 1
-
-        return HebrewDate(year, Months(month), day)
+        return rosh_hashana + days
 
     @staticmethod
     def from_gdate(date: dt.date) -> HebrewDate:
@@ -258,46 +358,22 @@ class HebrewDate(TranslatorMixin):
 
     def days_in_month(self, month: Months) -> int:
         """Return the number of days in a month."""
-        if month in LONG_MONTHS:
-            return 30
-        if month in SHORT_MONTHS:
-            return 29
-        if self.year == 0 and month in CHANGING_MONTHS:
-            # Special case for relative dates, return the maximum number of days
-            return 30
-        if month == Months.KISLEV:
-            return 29 if self.short_kislev() else 30
-        if month == Months.MARCHESHVAN:
-            return 30 if self.long_cheshvan() else 29
-        return 0
+        return month.days(self.year)
 
     def is_leap_year(self) -> bool:
         """Return: True if the year is a leap year."""
-        return self.year % 19 in (0, 3, 6, 8, 11, 14, 17)
+        return is_leap_year(self.year)
 
-    def get_next_month(self, month: Months, year: int) -> Months:
-        """Return the next month."""
-
-        if HebrewDate(year).is_leap_year():
-            if month == Months.SHVAT:
-                return Months.ADAR_I
-            if month == Months.ADAR_I:
-                return Months.ADAR_II
-            if month == Months.ADAR_II:
-                return Months.NISAN
-        next_month = month + 1 if month < Months.ELUL else Months.TISHREI
-        return Months(next_month)
-
-    def dow(self) -> Days:
+    def dow(self) -> Weekday:
         """Return: day of the week."""
-        weekday = Days((self.to_jdn() + 1) % 7 + 1)
+        weekday = Weekday((self.to_jdn() + 1) % 7 + 1)
         weekday.set_language(self._language)
         return weekday
 
     def short_kislev(self) -> bool:
         """Return whether this year has a short Kislev or not."""
-        return self.year_size(self.year) in (353, 383)
+        return short_kislev(self.year)
 
     def long_cheshvan(self) -> bool:
         """Return whether this year has a long Cheshvan or not."""
-        return self.year_size(self.year) in (355, 385)
+        return long_cheshvan(self.year)

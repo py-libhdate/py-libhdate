@@ -6,9 +6,10 @@ from collections import defaultdict
 from typing import Union
 
 import pytest
+from hypothesis import given, strategies
 
 from hdate import HDate, HebrewDate
-from hdate.htables import Months
+from hdate.hebrew_date import Months
 
 HEBREW_YEARS_INFO = {
     # year, dow rosh hashana, length, dow pesach
@@ -75,10 +76,10 @@ class TestHDate:
         with pytest.raises(ValueError):
             HDate().hdate = HebrewDate(5779, 10, 35)
 
-    @pytest.mark.parametrize("execution_number", list(range(10)))
-    def test_random_hdate(self, execution_number: int, rand_hdate: HDate) -> None:
+    @given(date=strategies.dates())
+    def test_random_hdate(self, date: dt.date) -> None:
         """Run multiple cases with random hdates."""
-        print(f"Run number {execution_number}")
+        rand_hdate = HDate(date)
         _hdate = HDate()
         _hdate.hdate = rand_hdate.hdate
         assert _hdate.hdate == rand_hdate.hdate
@@ -95,24 +96,24 @@ class TestHDate:
             rosh_hashana = HebrewDate(year)
             assert rosh_hashana.dow() == info[0]
 
-    def test_pesach_day_of_week(self, rand_hdate: HDate) -> None:
-        """ "Check tha Pesach DOW matches the given dates."""
+    def test_pesach_day_of_week(self) -> None:
+        """ "Check that Pesach DOW matches the given dates."""
         for year, info in list(HEBREW_YEARS_INFO.items()):
-            rand_hdate.hdate = HebrewDate(year, Months.NISAN, 15)
-            assert rand_hdate.dow == info[2]
-            assert rand_hdate.holidays[0].name == "pesach"
+            my_hdate = HDate(heb_date=HebrewDate(year, Months.NISAN, 15))
+            assert my_hdate.dow == info[2]
+            assert my_hdate.holidays[0].name == "pesach"
 
     UPCOMING_SHABBATOT = [
-        ((2018, 11, 30), (2018, 12, 1), (5779, 3, 22)),
-        ((2018, 12, 1), (2018, 12, 1), (5779, 3, 23)),
-        ((2018, 12, 2), (2018, 12, 8), (5779, 3, 24)),
-        ((2018, 12, 3), (2018, 12, 8), (5779, 3, 25)),
-        ((2018, 12, 4), (2018, 12, 8), (5779, 3, 26)),
-        ((2018, 12, 5), (2018, 12, 8), (5779, 3, 27)),
-        ((2018, 12, 6), (2018, 12, 8), (5779, 3, 28)),
-        ((2018, 12, 7), (2018, 12, 8), (5779, 3, 29)),
-        ((2018, 12, 8), (2018, 12, 8), (5779, 3, 30)),
-        ((2018, 12, 9), (2018, 12, 15), (5779, 4, 1)),
+        ((2018, 11, 30), (2018, 12, 1), (5779, Months.KISLEV, 22)),
+        ((2018, 12, 1), (2018, 12, 1), (5779, Months.KISLEV, 23)),
+        ((2018, 12, 2), (2018, 12, 8), (5779, Months.KISLEV, 24)),
+        ((2018, 12, 3), (2018, 12, 8), (5779, Months.KISLEV, 25)),
+        ((2018, 12, 4), (2018, 12, 8), (5779, Months.KISLEV, 26)),
+        ((2018, 12, 5), (2018, 12, 8), (5779, Months.KISLEV, 27)),
+        ((2018, 12, 6), (2018, 12, 8), (5779, Months.KISLEV, 28)),
+        ((2018, 12, 7), (2018, 12, 8), (5779, Months.KISLEV, 29)),
+        ((2018, 12, 8), (2018, 12, 8), (5779, Months.KISLEV, 30)),
+        ((2018, 12, 9), (2018, 12, 15), (5779, Months.TEVET, 1)),
     ]
 
     @pytest.mark.parametrize(
@@ -193,14 +194,14 @@ class TestSpecialDays:
         ((20, 1), "hol_hamoed_sukkot"),
         ((21, 1), "hoshana_raba"),
         ((22, 1), "shmini_atzeret"),
-        ((15, 7), "pesach"),
-        ((17, 7), "hol_hamoed_pesach"),
-        ((18, 7), "hol_hamoed_pesach"),
-        ((19, 7), "hol_hamoed_pesach"),
-        ((20, 7), "hol_hamoed_pesach"),
-        ((21, 7), "pesach_vii"),
-        ((5, 9), "erev_shavuot"),
-        ((6, 9), "shavuot"),
+        ((15, 9), "pesach"),
+        ((17, 9), "hol_hamoed_pesach"),
+        ((18, 9), "hol_hamoed_pesach"),
+        ((19, 9), "hol_hamoed_pesach"),
+        ((20, 9), "hol_hamoed_pesach"),
+        ((21, 9), "pesach_vii"),
+        ((5, 11), "erev_shavuot"),
+        ((6, 11), "shavuot"),
         ((25, 3), "chanukah"),
         ((26, 3), "chanukah"),
         ((27, 3), "chanukah"),
@@ -210,36 +211,36 @@ class TestSpecialDays:
         ((2, 4), "chanukah"),
         ((10, 4), "asara_btevet"),
         ((15, 5), "tu_bshvat"),
-        ((18, 8), "lag_bomer"),
-        ((15, 11), "tu_bav"),
+        ((18, 10), "lag_bomer"),
+        ((15, 13), "tu_bav"),
     ]
 
     DIASPORA_ISRAEL_HOLIDAYS = [
         # Date, holiday in Diaspora, holiday in Israel
         ((16, 1), "sukkot_ii", "hol_hamoed_sukkot"),
         ((23, 1), "simchat_torah", ""),
-        ((16, 7), "pesach_ii", "hol_hamoed_pesach"),
-        ((22, 7), "pesach_viii", ""),
-        ((7, 9), "shavuot_ii", ""),
+        ((16, 9), "pesach_ii", "hol_hamoed_pesach"),
+        ((22, 9), "pesach_viii", ""),
+        ((7, 11), "shavuot_ii", ""),
     ]
 
     MOVING_HOLIDAYS = [
         # Possible dates, name
         ([(3, 1), (4, 1)], "tzom_gedaliah"),
-        ([(17, 10), (18, 10)], "tzom_tammuz"),
-        ([(9, 11), (10, 11)], "tisha_bav"),
+        ([(17, 12), (18, 12)], "tzom_tammuz"),
+        ([(9, 13), (10, 13)], "tisha_bav"),
     ]
 
     NEW_HOLIDAYS = [
         # Possible dates, test year range, name
-        ([(26, 7), (27, 7), (28, 7)], (5719, 6500), "yom_hashoah"),
-        ([(3, 8), (4, 8), (5, 8)], (5709, 5763), "yom_haatzmaut"),
-        ([(3, 8), (4, 8), (5, 8), (6, 8)], (5764, 6500), "yom_haatzmaut"),
-        ([(2, 8), (3, 8), (4, 8)], (5709, 5763), "yom_hazikaron"),
-        ([(2, 8), (3, 8), (4, 8), (5, 8)], (5764, 6500), "yom_hazikaron"),
-        ([(28, 8)], (5728, 6500), "yom_yerushalayim"),
+        ([(26, 9), (27, 9), (28, 9)], (5719, 6500), "yom_hashoah"),
+        ([(3, 10), (4, 10), (5, 10)], (5709, 5763), "yom_haatzmaut"),
+        ([(3, 10), (4, 10), (5, 10), (6, 10)], (5764, 6500), "yom_haatzmaut"),
+        ([(2, 10), (3, 10), (4, 10)], (5709, 5763), "yom_hazikaron"),
+        ([(2, 10), (3, 10), (4, 10), (5, 10)], (5764, 6500), "yom_hazikaron"),
+        ([(28, 10)], (5728, 6500), "yom_yerushalayim"),
         ([(11, 2), (12, 2)], (5758, 6500), "rabin_memorial_day"),
-        ([(29, 10)], (5765, 6500), "zeev_zhabotinsky_day"),
+        ([(29, 12)], (5765, 6500), "zeev_zhabotinsky_day"),
         ([(30, 5)], (5734, 6500), ["family_day", "rosh_chodesh"]),
     ]
 
@@ -439,13 +440,12 @@ class TestSpecialDays:
             else:
                 assert len(date_under_test.holidays) == 0
 
-    def test_get_holiday_hanuka_3rd_tevet(self) -> None:
+    @given(year=strategies.integers(min_value=5000, max_value=6000))
+    def test_get_holiday_hanuka_3rd_tevet(self, year: int) -> None:
         """Test Chanuka falling on 3rd of Tevet."""
-        year = random.randint(5000, 6000)
         year_size = HebrewDate.year_size(year)
         myhdate = HDate(heb_date=HebrewDate(year, 4, 3))
-        print(year_size)
-        if year_size in [353, 383]:
+        if year_size in (353, 383):
             assert myhdate.holidays[0].name == "chanukah"
         else:
             assert len(myhdate.holidays) == 0
@@ -478,25 +478,21 @@ class TestSpecialDays:
             else:
                 assert myhdate.holidays[0].name == holiday
 
-    def test_get_tishrei_rosh_chodesh(self) -> None:
+    @given(year=strategies.integers(min_value=5000, max_value=6000))
+    def test_get_tishrei_rosh_chodesh(self, year: int) -> None:
         """30th of Tishrei should be Rosh Chodesh"""
-        year = random.randint(5000, 6000)
         myhdate = HDate(heb_date=HebrewDate(year, Months.TISHREI, 30))
         assert myhdate.holidays[0].name == "rosh_chodesh"
         myhdate = HDate(heb_date=HebrewDate(year, Months.TISHREI, 1))
         assert myhdate.holidays[0].name == "rosh_hashana_i"
 
-    @pytest.mark.parametrize("execution_number", list(range(10)))
-    def test_get_omer_day(self, execution_number: int, rand_hdate: HDate) -> None:
+    @given(date=strategies.dates())
+    def test_get_omer_day(self, date: dt.date) -> None:
         """Test value of the Omer."""
-        print(f"Test number {execution_number}")
-        if (
-            rand_hdate.hdate.month not in [Months.NISAN, Months.IYYAR, Months.SIVAN]
-            or rand_hdate.hdate.month == Months.NISAN
-            and rand_hdate.hdate.day < 16
-            or rand_hdate.hdate.month == Months.SIVAN
-            and rand_hdate.hdate.day > 5
-        ):
+        rand_hdate = HDate(date)
+        if rand_hdate.hdate < HebrewDate(
+            0, Months.NISAN, 16
+        ) or rand_hdate.hdate > HebrewDate(0, Months.SIVAN, 5):
             assert rand_hdate.omer.total_days == 0
 
         nissan = list(range(16, 30))
@@ -504,13 +500,13 @@ class TestSpecialDays:
         sivan = list(range(1, 5))
 
         for day in nissan:
-            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 7, day)
+            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.NISAN, day)
             assert rand_hdate.omer.total_days == day - 15
         for day in iyyar:
-            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 8, day)
+            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.IYYAR, day)
             assert rand_hdate.omer.total_days == day + 15
         for day in sivan:
-            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, 9, day)
+            rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.SIVAN, day)
             assert rand_hdate.omer.total_days == day + 44
 
     def test_daf_yomi(self) -> None:
@@ -885,10 +881,13 @@ class TestHDateReading:
         # VeZot Habracha in Israel always falls on 22 of Tishri
         assert mydate.get_reading() == 54
 
-    @pytest.mark.parametrize("year", range(5740, 5800))
-    def test_nitzavim_always_before_rosh_hashana(self, year: int) -> None:
+    @pytest.mark.parametrize("diaspora", [True, False])
+    @given(year=strategies.integers(min_value=4000, max_value=6000))
+    def test_nitzavim_always_before_rosh_hashana(
+        self, year: int, diaspora: bool
+    ) -> None:
         """A property: Nitzavim alway falls before rosh hashana."""
-        mydate = HDate(language="english", diaspora=False)
+        mydate = HDate(language="english", diaspora=diaspora)
         mydate.hdate = HebrewDate(year, Months.TISHREI, 1)
         tdelta = dt.timedelta((12 - mydate.gdate.weekday()) % 7 - 7)
         # Go back to the previous shabbat
@@ -896,10 +895,13 @@ class TestHDateReading:
         print("Testing date: {mydate} which is {tdelta} days before Rosh Hashana")
         assert mydate.get_reading() in [51, 61]
 
-    @pytest.mark.parametrize("year", range(5740, 5800))
-    def test_vayelech_or_haazinu_always_after_rosh_hashana(self, year: int) -> None:
+    @pytest.mark.parametrize("diaspora", [True, False])
+    @given(year=strategies.integers(min_value=4000, max_value=6000))
+    def test_vayelech_or_haazinu_always_after_rosh_hashana(
+        self, year: int, diaspora: bool
+    ) -> None:
         """A property: Vayelech or Haazinu always falls after rosh hashana."""
-        mydate = HDate(language="english", diaspora=True)
+        mydate = HDate(language="english", diaspora=diaspora)
         mydate.hdate = HebrewDate(year, Months.TISHREI, 1)
         tdelta = dt.timedelta((12 - mydate.gdate.weekday()) % 7)
         # Go to the next shabbat (unless shabbat falls on Rosh Hashana)

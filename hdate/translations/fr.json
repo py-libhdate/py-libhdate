@@ -182,7 +182,7 @@
         "matot_masei": "Matot-Massei",
         "nitzavim_vayeilech": "Nitzavim-Vayelekh"
     },
-    "Days": {
+    "Weekday": {
         "sunday": "Dimanche",
         "monday": "Lundi",
         "tuesday": "Mardi",

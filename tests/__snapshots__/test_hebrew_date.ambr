@@ -1,0 +1,13 @@
+# serializer version: 1
+# name: test_from_gdate_snapshot
+  HebrewDate(year=5785, month=<Months.TEVET: 4>, day=5)
+# ---
+# name: test_from_jdn_snapshot
+  HebrewDate(year=5760, month=<Months.TEVET: 4>, day=23)
+# ---
+# name: test_to_gdate_snapshot
+  datetime.date(2025, 1, 5)
+# ---
+# name: test_to_jdn_snapshot
+  2460681
+# ---

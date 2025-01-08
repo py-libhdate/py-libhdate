@@ -191,7 +191,7 @@ TRANSLATIONS = {
             "matot_masei": "Matot-Masei",
             "nitzavim_vayeilech": "Nitzavim-Vayeilech",
         },
-        "Days": {
+        "Weekday": {
             "sunday": "Sunday",
             "monday": "Monday",
             "tuesday": "Tuesday",
@@ -408,7 +408,7 @@ TRANSLATIONS = {
             "matot_masei": "Matot-Massei",
             "nitzavim_vayeilech": "Nitzavim-Vayelekh",
         },
-        "Days": {
+        "Weekday": {
             "sunday": "Dimanche",
             "monday": "Lundi",
             "tuesday": "Mardi",
@@ -625,7 +625,7 @@ TRANSLATIONS = {
             "matot_masei": "מטות מסעי",
             "nitzavim_vayeilech": "נצבים-וילך",
         },
-        "Days": {
+        "Weekday": {
             "sunday": "יום ראשון",
             "monday": "יום שני",
             "tuesday": "יום שלישי",
