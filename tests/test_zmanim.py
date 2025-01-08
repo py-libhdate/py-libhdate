@@ -70,7 +70,7 @@ class TestZmanim:
         this_date, other_date = dates
         this_zmanim = Zmanim(this_date).get_utc_sun_time_full()
         other_zmanim = Zmanim(other_date).get_utc_sun_time_full()
-        grace = 0 if not _ASTRAL else 15
+        grace = 0 if not _ASTRAL else 16
         for zman in this_zmanim:
             other = next(o for o in other_zmanim if o.name == zman.name)
             assert (

@@ -3,6 +3,7 @@
 import datetime as dt
 
 import pytest
+from hypothesis import given, strategies
 
 from hdate import converters as conv
 from hdate.hebrew_date import HebrewDate, Months
@@ -11,9 +12,10 @@ from hdate.hebrew_date import HebrewDate, Months
 class TestConverters:
     """Tests for converting one date type to another."""
 
-    def test_gdate_to_gdate(self, random_date: dt.date) -> None:
+    @given(date=strategies.dates())
+    def test_gdate_to_gdate(self, date: dt.date) -> None:
         """ "Transform Gregorian date to Gregorian date."""
-        assert conv.jdn_to_gdate(conv.gdate_to_jdn(random_date)) == random_date
+        assert conv.jdn_to_gdate(conv.gdate_to_jdn(date)) == date
 
     YEARS_PSHUTA = [5753, 5762, 5756]
     YEARS_MEUBERET = [5749, 5755, 5760]
