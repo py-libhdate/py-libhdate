@@ -6,7 +6,7 @@ from collections import defaultdict
 from typing import Union
 
 import pytest
-from hypothesis import given, strategies
+from hypothesis import given, settings, strategies
 
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
@@ -897,6 +897,7 @@ class TestHDateReading:
 
     @pytest.mark.parametrize("diaspora", [True, False])
     @given(year=strategies.integers(min_value=4000, max_value=6000))
+    @settings(deadline=300)  # Calculation of reading is slow
     def test_vayelech_or_haazinu_always_after_rosh_hashana(
         self, year: int, diaspora: bool
     ) -> None:
