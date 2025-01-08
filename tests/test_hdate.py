@@ -487,17 +487,13 @@ class TestSpecialDays:
         myhdate = HDate(heb_date=HebrewDate(year, Months.TISHREI, 1))
         assert myhdate.holidays[0].name == "rosh_hashana_i"
 
-    @pytest.mark.parametrize("execution_number", list(range(10)))
-    def test_get_omer_day(self, execution_number: int, rand_hdate: HDate) -> None:
+    @given(date=strategies.dates())
+    def test_get_omer_day(self, date: dt.date) -> None:
         """Test value of the Omer."""
-        print(f"Test number {execution_number}")
-        if (
-            rand_hdate.hdate.month not in [Months.NISAN, Months.IYYAR, Months.SIVAN]
-            or rand_hdate.hdate.month == Months.NISAN
-            and rand_hdate.hdate.day < 16
-            or rand_hdate.hdate.month == Months.SIVAN
-            and rand_hdate.hdate.day > 5
-        ):
+        rand_hdate = HDate(date)
+        if rand_hdate.hdate < HebrewDate(
+            0, Months.NISAN, 16
+        ) or rand_hdate.hdate > HebrewDate(0, Months.SIVAN, 5):
             assert rand_hdate.omer.total_days == 0
 
         nissan = list(range(16, 30))
