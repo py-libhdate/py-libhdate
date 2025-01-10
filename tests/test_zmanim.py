@@ -54,18 +54,12 @@ def test_bad_date() -> None:
 
 
 @given(
-    strategies.shared(strategies.dates(), key="base_date").flatmap(
-        lambda d: strategies.tuples(
-            strategies.just(d),
-            strategies.dates().filter(
-                lambda x: x.year != d.year and x.month == d.month and x.day == d.day
-            ),
-        )
-    )
+    this_date=strategies.dates(max_value=dt.date(3000, 1, 1)),
+    year_diff=strategies.integers(min_value=0, max_value=200),
 )
-def test_same_doy_is_equal(dates: tuple[dt.date, dt.date]) -> None:
+def test_same_doy_is_equal(this_date: dt.date, year_diff: int) -> None:
     """Test two doy to be equal."""
-    this_date, other_date = dates
+    other_date = dt.date(year_diff + this_date.year, this_date.month, this_date.day)
     this_zmanim = Zmanim(this_date).get_utc_sun_time_full()
     other_zmanim = Zmanim(other_date).get_utc_sun_time_full()
     grace = 0 if not _ASTRAL else 16
