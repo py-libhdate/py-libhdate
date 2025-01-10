@@ -5,9 +5,15 @@ import pytest
 from hdate.location import Location
 
 
-@pytest.fixture
+@pytest.fixture(scope="session")
 def location(request: pytest.FixtureRequest) -> Location:
-    """Create a Location object for a given location name."""
+    """
+    Create a Location object for a given location name.
+
+    This fixture is session scoped, so the creation of ZoneInfo objects
+    is done once per session. This is to avoid issues with xdist parallel reading of
+    the timezone data causing tests to hang.
+    """
     locations = {
         "Jerusalem": Location(
             "Jerusalem", 31.778, 35.235, "Asia/Jerusalem", 754, False
@@ -23,6 +29,7 @@ def location(request: pytest.FixtureRequest) -> Location:
             "Punta Arenas", -53.1500, -70.9167, "America/Punta_Arenas", 0, True
         ),
     }
+
     if request.param not in locations:
         raise ValueError(f"Invalid location: {request.param}")
     return locations[request.param]
