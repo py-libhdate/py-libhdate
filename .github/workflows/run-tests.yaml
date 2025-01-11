@@ -57,3 +57,13 @@ jobs:
         tox --version
         pyversion="${{ matrix.python-version }}"
         tox -e py${pyversion/./}
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v5
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        slug: py-libhdate/py-libhdate
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@v1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
