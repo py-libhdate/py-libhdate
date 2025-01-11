@@ -10,7 +10,7 @@ from __future__ import annotations
 import datetime as dt
 import logging
 from itertools import chain, product
-from typing import Generator, Optional, cast
+from typing import Generator, Optional, Union, cast
 
 from hdate import htables
 from hdate.gematria import hebrew_number
@@ -31,10 +31,9 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
     def __init__(
         self,
-        gdate: dt.date = dt.date.today(),
+        date: Union[dt.date, HebrewDate] = dt.date.today(),
         diaspora: bool = False,
         language: str = "hebrew",
-        heb_date: Optional[HebrewDate] = None,
     ) -> None:
         """Initialize the HDate object."""
         self.language = language
@@ -42,12 +41,12 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         # Initialize private variables
         self._last_updated = ""
 
-        if heb_date is None:
-            self.gdate = gdate
-            self._hdate = HebrewDate.from_gdate(gdate)
+        if isinstance(date, dt.date):
+            self.gdate = date
+            self._hdate = HebrewDate.from_gdate(date)
         else:
-            self.hdate = heb_date
-            self._gdate = heb_date.to_gdate()
+            self.hdate = date
+            self._gdate = date.to_gdate()
 
         self.diaspora = diaspora
         self.omer = Omer(date=self.hdate, language=language)
@@ -70,7 +69,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     def __repr__(self) -> str:
         """Return a representation of HDate for programmatic use."""
         return (
-            f"HDate(gdate={self.gdate!r}, diaspora={self.diaspora}, "
+            f"HDate(date={self.gdate!r}, diaspora={self.diaspora}, "
             f"language={self._language!r})"
         )
 
@@ -342,9 +341,9 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             return self
         this_year = self.get_holidays_for_year([HolidayTypes.YOM_TOV])
         next_rosh_hashana = HDate(
-            heb_date=HebrewDate(self.hdate.year + 1, Months.TISHREI, 1),
-            diaspora=self.diaspora,
-            language=self._language,
+            HebrewDate(self.hdate.year + 1, Months.TISHREI, 1),
+            self.diaspora,
+            self._language,
         )
         next_year = next_rosh_hashana.get_holidays_for_year([HolidayTypes.YOM_TOV])
 
@@ -357,9 +356,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         holidays_list.sort(key=lambda h: h.to_gdate())
 
-        return HDate(
-            heb_date=holidays_list[0], diaspora=self.diaspora, language=self._language
-        )
+        return HDate(holidays_list[0], self.diaspora, self._language)
 
     def get_reading(self) -> Parasha:
         """Return number of hebrew parasha."""
