@@ -2,6 +2,18 @@
 py-libhdate
 ***********
 
+.. image:: https://img.shields.io/pypi/v/hdate
+    :alt: PyPI - Version
+.. image:: https://readthedocs.org/projects/py-libhdate/badge/?version=latest
+    :target: https://py-libhdate.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+.. image:: https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2Fpy-libhdate%2Fpy-libhdate%2Fmain%2Fpyproject.toml
+    :alt: Python Version from PEP 621 TOML
+.. image:: https://img.shields.io/pypi/l/hdate
+    :alt: PyPI - License
+.. image:: https://codecov.io/gh/py-libhdate/py-libhdate/graph/badge.svg?token=JGBmTslA1S 
+    :target: https://codecov.io/gh/py-libhdate/py-libhdate
+
 Jewish/Hebrew date and Zmanim in native python 3.x
 
 Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more details (including license)
