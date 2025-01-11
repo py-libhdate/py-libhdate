@@ -39,14 +39,12 @@ class TranslatorMixin:
             self.set_language(language)
 
     def __str__(self) -> str:
-        if name := getattr(self, "name"):
+        if name := getattr(self, "name", None):
             return self.get_translation(name)
-        if name:
-            raise NameError(
-                f"Unable to translate {self.__class__.__name__}."
-                "It is missing the name attribute"
-            )
-        return ""
+        raise NameError(
+            f"Unable to translate {self.__class__.__name__}. "
+            "It is missing the name attribute"
+        )
 
     def available_languages(self) -> list[str]:
         """Return a list of available languages."""
