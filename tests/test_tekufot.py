@@ -1,48 +1,27 @@
 """Test Tekufot objects."""
 
 import datetime as dt
+from typing import cast
 
 import pytest
 
 from hdate.location import Location
 from hdate.tekufot import Tekufot
 
-# pylint: disable=redefined-outer-name
-
-
-@pytest.fixture
-def default_values() -> Tekufot:
-    """Create a Tekufot object for today's date with default settings."""
-    loc = Location(
-        name="Jerusalem",
-        latitude=31.778,
-        longitude=35.235,
-        timezone="Asia/Jerusalem",
-        diaspora=False,
-    )
-    return Tekufot(
-        date=dt.date.today(),
-        location=loc,
-        language="english",
-        tradition="sephardi",
-    )
-
 
 @pytest.mark.parametrize(
     "date, expected_tekufot_keys",
     [
-        ("2024-04-07", ["Nissan", "Tammuz", "Tishrei", "Tevet"]),
-        ("2025-04-07", ["Nissan", "Tammuz", "Tishrei", "Tevet"]),
+        (dt.date(2024, 4, 7), ["Nissan", "Tammuz", "Tishrei", "Tevet"]),
+        (dt.date(2025, 4, 7), ["Nissan", "Tammuz", "Tishrei", "Tevet"]),
     ],
 )
+@pytest.mark.parametrize("location", ["Jerusalem"], indirect=True)
 def test_get_tekufot_dict(
-    date: str, expected_tekufot_keys: list[str], default_values: Tekufot
+    date: dt.date, expected_tekufot_keys: list[str], location: Location
 ) -> None:
     """Test that Tekufot calculations return the correct keys."""
-    tekufot = Tekufot(
-        date=dt.datetime.strptime(date, "%Y-%m-%d").date(),
-        location=default_values.location,
-    )
+    tekufot = Tekufot(date=date, location=location)
     result = tekufot.get_tekufot()
     assert set(result.keys()) == set(expected_tekufot_keys), "Tekufot keys mismatch"
 
@@ -51,7 +30,7 @@ def test_get_tekufot_dict(
     "date, expected_tekufot",
     [
         (
-            "2024-11-01",
+            dt.date(2024, 11, 1),
             {
                 "Tishrei": dt.datetime(2024, 10, 7, 3, 0),
                 "Tevet": dt.datetime(2025, 1, 6, 10, 30),
@@ -60,7 +39,7 @@ def test_get_tekufot_dict(
             },
         ),
         (
-            "2026-04-07",
+            dt.date(2026, 4, 7),
             {
                 "Tishrei": dt.datetime(2025, 10, 7, 9, 0),
                 "Tevet": dt.datetime(2026, 1, 6, 16, 30),
@@ -70,125 +49,82 @@ def test_get_tekufot_dict(
         ),
     ],
 )
+@pytest.mark.parametrize("location", ["Jerusalem"], indirect=True)
 def test_get_tekufot(
-    date: str,
-    expected_tekufot: dict[str, dt.datetime],
-    default_values: Tekufot,
+    date: dt.date, expected_tekufot: dict[str, dt.datetime], location: Location
 ) -> None:
     """Test that Tekufot calculations return the correct datetime values."""
-    tekufot = Tekufot(
-        date=dt.datetime.strptime(date, "%Y-%m-%d").date(),
-        location=default_values.location,
-    )
+    tekufot = Tekufot(date=date, location=location)
     result = tekufot.get_tekufot()
-    tzinfo = (
-        default_values.location.timezone
-        if isinstance(default_values.location.timezone, dt.tzinfo)
-        else dt.timezone.utc
-    )
     for key, expected_dt in expected_tekufot.items():
         assert result[key] == expected_dt.replace(
-            tzinfo=tzinfo
+            tzinfo=cast(dt.tzinfo, location.timezone)
         ), f"Mismatch for {key}: expected {expected_dt}, got {result[key]}"
 
 
 @pytest.mark.parametrize(
-    "date, diaspora, expected_start",
+    "date, location, expected_start",
     [
-        ("2024-10-05", True, "2024-12-05"),  # Diaspora start for rain prayers
-        ("2024-10-05", False, "2024-11-08"),  # Israel start for rain prayers
+        (dt.date(2024, 10, 5), "New York", dt.date(2024, 12, 5)),
+        (dt.date(2024, 10, 5), "Jerusalem", dt.date(2024, 11, 8)),
     ],
+    indirect=["location"],
 )
-def test_get_cheilat_geshamim(date: str, diaspora: bool, expected_start: str) -> None:
+def test_get_cheilat_geshamim(
+    date: dt.date, expected_start: dt.date, location: Location
+) -> None:
     """Test Cheilat Geshamim start dates based on location."""
-    loc = Location(
-        name="TestLocation",
-        latitude=31.778,
-        longitude=35.235,
-        timezone="Asia/Jerusalem",
-        diaspora=diaspora,
-    )
-    tekufot = Tekufot(
-        date=dt.datetime.strptime(date, "%Y-%m-%d").date(),
-        location=loc,
-    )
+    tekufot = Tekufot(date=date, location=location)
     result = tekufot.get_cheilat_geshamim()
-    assert (
-        result.strftime("%Y-%m-%d") == expected_start
-    ), "Cheilat Geshamim date mismatch"
+    assert result == expected_start, "Cheilat Geshamim date mismatch"
 
 
 @pytest.mark.parametrize(
-    "date_str,tradition,language",
+    "date, tradition, language, expected",
     [
-        ("2024-12-13", "ashkenazi", "english"),
-        ("2024-12-13", "sephardi", "hebrew"),
-        ("2025-04-25", "sephardi", "english"),
-        ("2025-04-25", "ashkenazi", "english"),
-        ("2025-04-25", "ashkenazi", "hebrew"),
-        ("2026-10-10", "ashkenazi", "english"),
-        ("2026-10-10", "sephardi", "hebrew"),
+        (
+            dt.date(2024, 12, 13),
+            "ashkenazi",
+            "english",
+            "Mashiv ha-ruach u-morid ha-geshem - VeTen Tal uMatar Livracha",
+        ),
+        (
+            dt.date(2024, 12, 13),
+            "sephardi",
+            "hebrew",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
+        ),
+        (dt.date(2025, 4, 25), "sephardi", "english", "Morid ha-tal - Barkheinu"),
+        (dt.date(2025, 4, 25), "ashkenazi", "english", "(Silence) - VeTen Beracha"),
+        (dt.date(2025, 4, 25), "ashkenazi", "hebrew", "(שתיקה) - וְתֵן בְּרָכָה"),
+        (
+            dt.date(2026, 10, 10),
+            "ashkenazi",
+            "english",
+            "Mashiv ha-ruach u-morid ha-geshem - VeTen Beracha",
+        ),
+        (
+            dt.date(2026, 10, 10),
+            "sephardi",
+            "hebrew",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
+        ),
     ],
 )
-def test_tekufot_prayer_for_date(date_str: str, tradition: str, language: str) -> None:
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_tekufot_prayer_for_date(
+    date: dt.date, tradition: str, language: str, location: Location, expected: str
+) -> None:
     """
     Tests that the method get_prayer_for_date returns the expected phrase
     for each combination of (date, tradition, language).
     """
-    expected_phrases = {
-        (
-            "2024-12-13",
-            "ashkenazi",
-            "english",
-        ): "Mashiv ha-ruach u-morid ha-geshem - VeTen Tal uMatar Livracha",
-        (
-            "2024-12-13",
-            "sephardi",
-            "hebrew",
-        ): "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
-        (
-            "2025-04-25",
-            "sephardi",
-            "english",
-        ): "Morid ha-tal - Barkheinu",
-        (
-            "2025-04-25",
-            "ashkenazi",
-            "english",
-        ): "(Silence) - VeTen Beracha",
-        (
-            "2025-04-25",
-            "ashkenazi",
-            "hebrew",
-        ): "(שתיקה) - וְתֵן בְּרָכָה",
-        (
-            "2026-10-10",
-            "ashkenazi",
-            "english",
-        ): "Mashiv ha-ruach u-morid ha-geshem - VeTen Beracha",
-        (
-            "2026-10-10",
-            "sephardi",
-            "hebrew",
-        ): "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
-    }
-    loc = Location(
-        name="TestLocation",
-        latitude=40.0,
-        longitude=-74.0,
-        timezone="America/New_York",
-        diaspora=True,
-    )
     tekufot = Tekufot(
-        date=dt.datetime.strptime(date_str, "%Y-%m-%d").date(),
-        location=loc,
-        tradition=tradition,
-        language=language,
+        date=date, location=location, tradition=tradition, language=language
     )
     actual_phrase = tekufot.get_prayer_for_date()
-    expected_phrase = expected_phrases[(date_str, tradition, language)]
-    assert actual_phrase == expected_phrase, (
-        f"\nDate: {date_str}, Tradition: {tradition}, Langue: {language}\n"
-        f"Expected : {expected_phrase}\n"
+    assert actual_phrase == expected, (
+        f"\nDate: {date}, Tradition: {tradition}, Langue: {language}\n"
+        f"Expected : {expected}\n"
         f"Result : {actual_phrase}"
     )
