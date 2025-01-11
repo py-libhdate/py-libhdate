@@ -69,9 +69,9 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         if not isinstance(self.date, dt.date):
             raise TypeError("date has to be of type datetime.date")
         self.set_language(self.language)
-        self.today = HDate(gdate=self.date, diaspora=self.location.diaspora)
+        self.today = HDate(date=self.date, diaspora=self.location.diaspora)
         self.tomorrow = HDate(
-            gdate=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
+            date=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
         )
 
         if _USE_ASTRAL and (abs(self.location.latitude) <= MAX_LATITUDE_ASTRAL):

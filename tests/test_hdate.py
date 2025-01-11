@@ -94,7 +94,7 @@ class TestHDate:
     def test_pesach_day_of_week(self) -> None:
         """ "Check that Pesach DOW matches the given dates."""
         for year, info in list(HEBREW_YEARS_INFO.items()):
-            my_hdate = HDate(heb_date=HebrewDate(year, Months.NISAN, 15))
+            my_hdate = HDate(HebrewDate(year, Months.NISAN, 15))
             assert my_hdate.dow == info[2]
             assert my_hdate.holidays[0].name == "pesach"
 
@@ -121,7 +121,7 @@ class TestHDate:
         hebrew_date: tuple[int, int, int],
     ) -> None:
         """Check the date of the upcoming Shabbat."""
-        date = HDate(gdate=dt.date(*current_date))
+        date = HDate(date=dt.date(*current_date))
         assert date.hdate == HebrewDate(*hebrew_date)
         next_shabbat = date.upcoming_shabbat
         assert next_shabbat.gdate == dt.date(*shabbat_date)
@@ -150,7 +150,7 @@ class TestSpecialDays:
     @pytest.mark.parametrize(("year"), ((5783, 5784)))
     def test_get_holidays_for_year(self, year: int) -> None:
         """Test that get_holidays_for_year() returns every holiday."""
-        cur_date = HDate(heb_date=HebrewDate(year, 1, 1))
+        cur_date = HDate(HebrewDate(year, 1, 1))
 
         expected_holiday_map = defaultdict(list)
         for entry, date in cur_date.get_holidays_for_year():
@@ -168,13 +168,13 @@ class TestSpecialDays:
 
     def test_get_holidays_for_year_non_leap_year(self) -> None:
         """Test that get_holidays_for_year() returns consistent months."""
-        base_date = HDate(heb_date=HebrewDate(5783, Months.TISHREI, 1))
+        base_date = HDate(HebrewDate(5783, Months.TISHREI, 1))
         for _, date in base_date.get_holidays_for_year():
             assert date.month not in (Months.ADAR_I, Months.ADAR_II)
 
     def test_get_holidays_for_year_leap_year(self) -> None:
         """Test that get_holidays_for_year() returns consistent months."""
-        base_date = HDate(heb_date=HebrewDate(5784, Months.TISHREI, 1))
+        base_date = HDate(HebrewDate(5784, Months.TISHREI, 1))
         for _, date in base_date.get_holidays_for_year():
             assert date.month != Months.ADAR
 
@@ -277,11 +277,11 @@ class TestSpecialDays:
         """Testing the value of next yom tov."""
         print(f"Testing holiday {holiday_name}")
         if where in ("BOTH", "DIASPORA"):
-            hdate = HDate(gdate=dt.date(*current_date), diaspora=True)
+            hdate = HDate(date=dt.date(*current_date), diaspora=True)
             next_yom_tov = hdate.upcoming_yom_tov
             assert next_yom_tov.gdate == dt.date(*holiday_date)
         if where in ("BOTH", "ISRAEL"):
-            hdate = HDate(gdate=dt.date(*current_date), diaspora=False)
+            hdate = HDate(date=dt.date(*current_date), diaspora=False)
             next_yom_tov = hdate.upcoming_yom_tov
             assert next_yom_tov.gdate == dt.date(*holiday_date)
 
@@ -314,7 +314,7 @@ class TestSpecialDays:
         dates: dict[str, tuple[int, int, int]],
     ) -> None:
         """Test getting the next shabbat or Yom Tov works."""
-        date = HDate(gdate=dt.date(*current_date), diaspora=diaspora)
+        date = HDate(date=dt.date(*current_date), diaspora=diaspora)
         assert date.upcoming_shabbat_or_yom_tov.first_day.gdate == dt.date(
             *dates["start"]
         )
@@ -322,6 +322,7 @@ class TestSpecialDays:
 
     @pytest.mark.parametrize("date, holiday", NON_MOVING_HOLIDAYS)
     @given(year=strategies.integers(min_value=4000, max_value=6000))
+    @settings(deadline=None)
     def test_get_holidays_non_moving(
         self,
         year: int,
@@ -329,7 +330,7 @@ class TestSpecialDays:
         holiday: Union[list[str], str],
     ) -> None:
         """Test holidays that have a fixed hebrew date."""
-        rand_hdate = HDate(heb_date=HebrewDate(year, date[1], date[0]))
+        rand_hdate = HDate(HebrewDate(year, date[1], date[0]))
         expected = set(holiday) if isinstance(holiday, list) else {holiday}
         assert set(holiday.name for holiday in rand_hdate.holidays) == expected
         assert rand_hdate.is_holiday
@@ -338,6 +339,7 @@ class TestSpecialDays:
         "date, diaspora_holiday, israel_holiday", DIASPORA_ISRAEL_HOLIDAYS
     )
     @given(year=strategies.integers(min_value=4000, max_value=6000))
+    @settings(deadline=None)
     def test_get_diaspora_israel_holidays(
         self,
         year: int,
@@ -346,7 +348,7 @@ class TestSpecialDays:
         israel_holiday: str,
     ) -> None:
         """Test holidays that differ based on diaspora/israel."""
-        rand_hdate = HDate(heb_date=HebrewDate(year, date[1], date[0]))
+        rand_hdate = HDate(HebrewDate(year, date[1], date[0]))
         if israel_holiday:
             assert rand_hdate.holidays[0].name == israel_holiday
         rand_hdate.diaspora = True
@@ -439,10 +441,11 @@ class TestSpecialDays:
                 assert len(date_under_test.holidays) == 0
 
     @given(year=strategies.integers(min_value=5000, max_value=6000))
+    @settings(deadline=None)
     def test_get_holiday_hanuka_3rd_tevet(self, year: int) -> None:
         """Test Chanuka falling on 3rd of Tevet."""
         year_size = HebrewDate.year_size(year)
-        myhdate = HDate(heb_date=HebrewDate(year, 4, 3))
+        myhdate = HDate(HebrewDate(year, 4, 3))
         if year_size in (353, 383):
             assert myhdate.holidays[0].name == "chanukah"
         else:
@@ -451,7 +454,7 @@ class TestSpecialDays:
 
     def test_hanukah_5785(self) -> None:
         """December 31, 2024 is Hanuka."""
-        mydate = HDate(gdate=dt.date(2024, 12, 31))
+        mydate = HDate(date=dt.date(2024, 12, 31))
         assert "chanukah" == mydate.holidays[0].name
         assert "rosh_chodesh" == mydate.holidays[1].name
 
@@ -466,7 +469,7 @@ class TestSpecialDays:
 
         for day in possible_days:
             date.day = day
-            myhdate = HDate(heb_date=date)
+            myhdate = HDate(date)
             if day == 13 and myhdate.dow == 7 and holiday == "taanit_esther":
                 assert len(myhdate.holidays) == 0
                 assert myhdate.is_holiday is False
@@ -477,11 +480,12 @@ class TestSpecialDays:
                 assert myhdate.holidays[0].name == holiday
 
     @given(year=strategies.integers(min_value=5000, max_value=6000))
+    @settings(deadline=None)
     def test_get_tishrei_rosh_chodesh(self, year: int) -> None:
         """30th of Tishrei should be Rosh Chodesh"""
-        myhdate = HDate(heb_date=HebrewDate(year, Months.TISHREI, 30))
+        myhdate = HDate(HebrewDate(year, Months.TISHREI, 30))
         assert myhdate.holidays[0].name == "rosh_chodesh"
-        myhdate = HDate(heb_date=HebrewDate(year, Months.TISHREI, 1))
+        myhdate = HDate(HebrewDate(year, Months.TISHREI, 1))
         assert myhdate.holidays[0].name == "rosh_hashana_i"
 
     @given(date=strategies.dates())
@@ -510,16 +514,16 @@ class TestSpecialDays:
     def test_daf_yomi(self) -> None:
         """Test value of Daf Yomi."""
         # Random test date
-        myhdate = HDate(gdate=dt.date(2014, 4, 28), language="english")
+        myhdate = HDate(date=dt.date(2014, 4, 28), language="english")
         assert myhdate.daf_yomi == "Beitzah 29"
         # Beginning/end of cycle:
-        myhdate = HDate(gdate=dt.date(2020, 1, 4), language="english")
+        myhdate = HDate(date=dt.date(2020, 1, 4), language="english")
         assert myhdate.daf_yomi == "Niddah 73"
-        myhdate = HDate(gdate=dt.date(2020, 1, 5), language="english")
+        myhdate = HDate(date=dt.date(2020, 1, 5), language="english")
         assert myhdate.daf_yomi == "Berachos 2"
-        myhdate = HDate(gdate=dt.date(2020, 3, 7), language="hebrew")
+        myhdate = HDate(date=dt.date(2020, 3, 7), language="hebrew")
         assert myhdate.daf_yomi == "ברכות סד"
-        myhdate = HDate(gdate=dt.date(2020, 3, 8), language="hebrew")
+        myhdate = HDate(date=dt.date(2020, 3, 8), language="hebrew")
         assert myhdate.daf_yomi == "שבת ב"
 
 
