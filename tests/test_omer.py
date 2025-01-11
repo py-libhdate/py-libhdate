@@ -8,14 +8,12 @@ from hdate.omer import Nusach, Omer
 
 
 @pytest.mark.parametrize("nusach", list(Nusach))
-@pytest.mark.parametrize("omer_day", range(1, 50))
 @pytest.mark.parametrize("language", ["hebrew", "english", "french"])
-def test_get_omer(
-    omer_day: int, language: str, nusach: Nusach, snapshot: SnapshotAssertion
-) -> None:
+def test_get_omer(language: str, nusach: Nusach, snapshot: SnapshotAssertion) -> None:
     """Test the value returned by calculating the Omer."""
-    omer = Omer(total_days=omer_day, language=language, nusach=nusach)
-    assert omer.count_str() == snapshot
+    for omer_day in range(50):
+        omer = Omer(total_days=omer_day, language=language, nusach=nusach)
+        assert omer.count_str() == snapshot
 
 
 @given(

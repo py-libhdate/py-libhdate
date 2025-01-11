@@ -3,6 +3,7 @@
 import pytest
 
 from hdate.hebrew_date import Months
+from hdate.translator import TranslatorMixin
 
 LANGUAGES = ["english", "french", "hebrew"]
 
@@ -25,3 +26,24 @@ def test_set_language(language: str) -> None:
     }
     month.set_language(language)
     assert str(month) == result[language]
+
+
+def test_non_existing_language(caplog: pytest.LogCaptureFixture) -> None:
+    """Test the load_language method."""
+    month = Months.TISHREI
+    month.set_language("non-existing-language")
+    assert (
+        "Language non-existing-language not found, falling back to english"
+        in caplog.text
+    )
+
+
+def test_str_without_name() -> None:
+    """Test the __str__ method."""
+
+    class Foo(TranslatorMixin):
+        """Test class."""
+
+    foo_class = Foo()
+    with pytest.raises(NameError):
+        str(foo_class)

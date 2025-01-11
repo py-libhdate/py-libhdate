@@ -6,7 +6,7 @@ from collections import defaultdict
 from typing import Union
 
 import pytest
-from hypothesis import given, strategies
+from hypothesis import given, settings, strategies
 
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
@@ -61,11 +61,6 @@ HEBREW_YEARS_INFO = {
 
 class TestHDate:
     """Tests for the HDate object."""
-
-    @pytest.fixture
-    def default_values(self) -> HDate:
-        """Generate an HDate object for today's date."""
-        return HDate()
 
     def test_assign_bad_hdate_value(self) -> None:
         """Confirm that bad values raise an error."""
@@ -131,10 +126,11 @@ class TestHDate:
         next_shabbat = date.upcoming_shabbat
         assert next_shabbat.gdate == dt.date(*shabbat_date)
 
-    def test_prev_and_next_day(self, rand_hdate: HDate) -> None:
+    @given(date=strategies.dates())
+    def test_prev_and_next_day(self, date: dt.date) -> None:
         """Check the previous and next day attributes."""
-        assert (rand_hdate.previous_day.gdate - rand_hdate.gdate) == dt.timedelta(-1)
-        assert (rand_hdate.next_day.gdate - rand_hdate.gdate) == dt.timedelta(1)
+        assert (HDate(date).previous_day.gdate - HDate(date).gdate) == dt.timedelta(-1)
+        assert (HDate(date).next_day.gdate - HDate(date).gdate) == dt.timedelta(1)
 
 
 class TestSpecialDays:
@@ -325,14 +321,15 @@ class TestSpecialDays:
         assert date.upcoming_shabbat_or_yom_tov.last_day.gdate == dt.date(*dates["end"])
 
     @pytest.mark.parametrize("date, holiday", NON_MOVING_HOLIDAYS)
+    @given(year=strategies.integers(min_value=4000, max_value=6000))
     def test_get_holidays_non_moving(
         self,
-        rand_hdate: HDate,
+        year: int,
         date: tuple[int, int],
         holiday: Union[list[str], str],
     ) -> None:
         """Test holidays that have a fixed hebrew date."""
-        rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, date[1], date[0])
+        rand_hdate = HDate(heb_date=HebrewDate(year, date[1], date[0]))
         expected = set(holiday) if isinstance(holiday, list) else {holiday}
         assert set(holiday.name for holiday in rand_hdate.holidays) == expected
         assert rand_hdate.is_holiday
@@ -340,15 +337,16 @@ class TestSpecialDays:
     @pytest.mark.parametrize(
         "date, diaspora_holiday, israel_holiday", DIASPORA_ISRAEL_HOLIDAYS
     )
+    @given(year=strategies.integers(min_value=4000, max_value=6000))
     def test_get_diaspora_israel_holidays(
         self,
-        rand_hdate: HDate,
+        year: int,
         date: tuple[int, int],
         diaspora_holiday: str,
         israel_holiday: str,
     ) -> None:
         """Test holidays that differ based on diaspora/israel."""
-        rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, date[1], date[0])
+        rand_hdate = HDate(heb_date=HebrewDate(year, date[1], date[0]))
         if israel_holiday:
             assert rand_hdate.holidays[0].name == israel_holiday
         rand_hdate.diaspora = True
@@ -897,6 +895,7 @@ class TestHDateReading:
 
     @pytest.mark.parametrize("diaspora", [True, False])
     @given(year=strategies.integers(min_value=4000, max_value=6000))
+    @settings(deadline=None)  # Calculation of reading is slow
     def test_vayelech_or_haazinu_always_after_rosh_hashana(
         self, year: int, diaspora: bool
     ) -> None:
