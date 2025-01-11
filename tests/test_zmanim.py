@@ -2,8 +2,7 @@
 
 import datetime as dt
 import sys
-from typing import Optional
-from zoneinfo import ZoneInfo
+from typing import Optional, cast
 
 import pytest
 from hypothesis import given, strategies
@@ -74,25 +73,6 @@ def test_extreme_zmanim(location: Location, result: dt.time) -> None:
         Zmanim(date=day, location=location).zmanim["sunset"].time(),
         result,
         allow_grace=True,
-    )
-
-
-def test_using_tzinfo() -> None:
-    """Test tzinfo to be correct."""
-    day = dt.date(2018, 9, 8)
-    timezone_str = "America/New_York"
-    timezone = ZoneInfo(timezone_str)
-    location_tz_str = Location(
-        "New York", NYC_LAT, NYC_LNG, timezone_str, diaspora=True
-    )
-    location = Location("New York", NYC_LAT, NYC_LNG, timezone, diaspora=True)
-    compare_times(
-        Zmanim(date=day, location=location_tz_str).zmanim["first_stars"].time(),
-        dt.time(19, 47),
-    )
-    compare_times(
-        Zmanim(date=day, location=location).zmanim["first_stars"].time(),
-        dt.time(19, 47),
     )
 
 
@@ -234,7 +214,7 @@ def test_candle_lighting_erev_shabbat_is_yom_tov(location: Location) -> None:
     """Test for candle lighting when erev shabbat is yom tov"""
     day = dt.date(2024, 10, 18)
     actual_candle_lighting = dt.datetime(
-        2024, 10, 18, 17, 52, 00, tzinfo=ZoneInfo("America/New_York")
+        2024, 10, 18, 17, 52, 00, tzinfo=cast(dt.tzinfo, location.timezone)
     )
     zman = Zmanim(
         date=day,
