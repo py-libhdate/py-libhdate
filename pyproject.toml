@@ -51,10 +51,8 @@ dev = [
     "black>=24.10.0",
     "tox-pdm>=0.7.2",
     "pre-commit>=4.0.1",
-    "Sphinx>=7.4.7",
     "flake8>=7.1.1",
     "mypy>=1.13.0",
-    "myst-parser>=3.0.1",
 ]
 test = [
     "pytest>=8.3.4",
@@ -63,6 +61,10 @@ test = [
     "hypothesis>=6.123.7",
     "syrupy>=4.8.0",
     "pytest-profiling>=1.8.1",
+]
+docs = [
+    "Sphinx>=7.4.7",
+    "myst-parser>=3.0.1",
 ]
 
 [tool.bumpversion]
