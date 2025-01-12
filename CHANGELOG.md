@@ -853,7 +853,7 @@
   
 - Add tests for omer day and refactor code. [Tsvi Mostovicz]
   
-- Simplify some of the code, rename jd_, _jd, jday and jdate to jdn.
+- Simplify some of the code, rename `jd_`, `_jd`, `jday` and `jdate` to `jdn`.
   [Tsvi Mostovicz]
   
 - Refactor calculation of molad for a shorter and more readable 'if'
@@ -997,7 +997,7 @@
   
 - Add Zmanim. [Royi Reshef]
   
-- Fix .gitignore to include *.pyc. [Royi Reshef]
+- Fix .gitignore to include `*.pyc`. [Royi Reshef]
   
 - Fix syntex error. [Royi Reshef]
   

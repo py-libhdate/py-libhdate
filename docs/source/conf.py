@@ -24,12 +24,13 @@ sys.path.insert(0, os.path.abspath("../../hdate"))
 # pylint: disable=invalid-name, redefined-builtin
 
 
-project = "libhdate"
+project = "hdate"
 copyright = "2020, Royi Reshef"
 author = "Royi Reshef"
+maintainer = "Tsvi Mostovicz"
 
 # The full version, including alpha/beta/rc tags
-release = "0.9.12"
+release = "0.11.1"
 
 
 # -- General configuration ---------------------------------------------------
@@ -41,7 +42,10 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
+    "myst_parser",
 ]
+
+myst_heading_anchors = 3
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

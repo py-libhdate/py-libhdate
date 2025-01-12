@@ -4,18 +4,10 @@ hdate package
 Submodules
 ----------
 
-hdate.common module
--------------------
+hdate.hebrew_date module
+------------------------
 
-.. automodule:: hdate.common
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-hdate.converters module
------------------------
-
-.. automodule:: hdate.converters
+.. automodule:: hdate.hebrew_date
    :members:
    :undoc-members:
    :show-inheritance:
@@ -36,10 +28,42 @@ hdate.htables module
    :undoc-members:
    :show-inheritance:
 
+hdate.location module
+---------------------
+
+.. automodule:: hdate.location
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 hdate.zmanim module
 -------------------
 
 .. automodule:: hdate.zmanim
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+hdate.omer module
+-----------------
+
+.. automodule:: hdate.omer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+hdate.tekufot module
+--------------------
+
+.. automodule:: hdate.tekufot
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+hdate.gematria module
+---------------------
+
+.. automodule:: hdate.gematria
    :members:
    :undoc-members:
    :show-inheritance:
