@@ -5,7 +5,7 @@
 groups = ["default", "astral", "dev", "test"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:eb5d4c67d85f6274e5a8d96f93aa8828f0d6d1d61404c60bf67b49c575b9b1c3"
+content_hash = "sha256:af7eca157ccd278c53823af16069c29227465f11aeb945174b2f86e7baa401f2"
 
 [[metadata.targets]]
 requires_python = ">=3.9"

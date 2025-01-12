@@ -2,7 +2,7 @@ Welcome to hdate's documentation!
 =================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
    modules.rst
@@ -10,6 +10,16 @@ Welcome to hdate's documentation!
    CHANGELOG.md
 
 .. include:: ../../README.rst
+
+Contributors
+============
+
+Thank you to all of you for making this possible
+
+.. contributors:: py-libhdate/py-libhdate
+   :exclude: actions-user, dependabot
+   :limit: 50
+   :contributions:
 
 Indices and tables
 ==================

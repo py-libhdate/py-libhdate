@@ -13,7 +13,11 @@ https://www.sphinx-doc.org/en/master/usage/configuration.html
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import re
 import sys
+from pathlib import Path
+
+from sphinx.application import Sphinx
 
 sys.path.insert(0, os.path.abspath("../../hdate"))
 
@@ -40,12 +44,20 @@ release = "0.11.1"
 # ones.
 extensions = [
     "sphinx.ext.autodoc",
+    "sphinx.ext.extlinks",
     "sphinx.ext.viewcode",
     "sphinx.ext.githubpages",
+    "sphinx_contributors",
     "myst_parser",
 ]
 
-myst_heading_anchors = 3
+myst_enable_extensions = ["colon_fence"]
+
+extlinks = {
+    "user": ("https://github.com/%s", "@%s"),
+    "pr": ("https://github.com/py-libhdate/py-libhdate/pull/%s", "#%s"),
+}
+
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
@@ -67,3 +79,25 @@ html_theme = "alabaster"
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
 html_static_path = ["_static"]
+
+
+def preprocess_markdown_files(app: Sphinx) -> None:
+    """Preprocess the CHANGELOG.md Markdown file."""
+    root_dir = Path(app.confdir)  # Root directory of the docs
+    changelog_path = root_dir / "../../CHANGELOG.md"
+    processed_path = root_dir / "CHANGELOG.md"
+
+    content = changelog_path.read_text("utf-8")
+
+    # Replace PRs and user mentions
+    content = re.sub(r"\(#(\d+)\)", r"{pr}`\1`", content)
+    content = re.sub(r"@(\w+)", r"{user}`\1`", content)
+
+    processed_path.write_text(content, "utf-8")
+
+    print(f"Processed {changelog_path} -> {processed_path}")
+
+
+def setup(app: Sphinx) -> None:
+    """Setup the Sphinx app."""
+    app.connect("builder-inited", preprocess_markdown_files)
