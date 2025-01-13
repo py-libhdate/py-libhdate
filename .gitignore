@@ -18,6 +18,9 @@ htmlcov/
 .cache
 .pytest_cache/
 .hypothesis/
+.coverage*
+coverage.xml
+junit.xml
 
 # Profiling data
 prof/
