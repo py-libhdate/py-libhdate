@@ -16,7 +16,6 @@ classifiers = [
 ]
 requires-python = ">=3.9"
 dependencies = [
-    "astral<3.0,>=2.2",
     "num2words>=0.5.14"
 ]
 
@@ -24,6 +23,10 @@ dependencies = [
 repository = "https://github.com/py-libhdate/py-libhdate"
 documentation = "https://py-libhdate.readthedocs.io/en/latest/"
 
+[project.optional-dependencies]
+astral = [
+    "astral<3.0,>=2.2",
+]
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
