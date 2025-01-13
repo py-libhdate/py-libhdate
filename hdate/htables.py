@@ -1,7 +1,7 @@
 """Constant lookup tables for hdate modules."""
 
 import datetime as dt
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from enum import Enum, IntEnum, auto
 from typing import Callable, Union
 
@@ -420,7 +420,7 @@ class HolidayTypes(Enum):
     ROSH_CHODESH = 10
 
 
-@dataclass
+@dataclass(frozen=True)
 class Holiday(TranslatorMixin):
     """Container class for holiday information."""
 
@@ -429,14 +429,16 @@ class Holiday(TranslatorMixin):
     date: Union[
         tuple[Union[int, tuple[int, ...]], Union[Months, tuple[Months, ...]]], tuple[()]
     ]
-    israel_diaspora: str
-    date_functions_list: list[Callable[[HebrewDate], Union[bool, Callable[[], bool]]]]
+    israel_diaspora: str = ""
+    date_functions_list: list[
+        Callable[[HebrewDate], Union[bool, Callable[[], bool]]]
+    ] = field(default_factory=list)
 
 
 HOLIDAYS = (
-    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_rosh_hashana", (29, Months.ELUL), "", []),
-    Holiday(HolidayTypes.YOM_TOV, "rosh_hashana_i", (1, Months.TISHREI), "", []),
-    Holiday(HolidayTypes.YOM_TOV, "rosh_hashana_ii", (2, Months.TISHREI), "", []),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_rosh_hashana", (29, Months.ELUL)),
+    Holiday(HolidayTypes.YOM_TOV, "rosh_hashana_i", (1, Months.TISHREI)),
+    Holiday(HolidayTypes.YOM_TOV, "rosh_hashana_ii", (2, Months.TISHREI)),
     Holiday(
         HolidayTypes.FAST_DAY,
         "tzom_gedaliah",
@@ -444,30 +446,22 @@ HOLIDAYS = (
         "",
         [move_if_not_on_dow(3, 4, Weekday.SATURDAY, Weekday.SUNDAY)],
     ),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_yom_kippur", (9, Months.TISHREI), "", []),
-    Holiday(HolidayTypes.YOM_TOV, "yom_kippur", (10, Months.TISHREI), "", []),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_sukkot", (14, Months.TISHREI), "", []),
-    Holiday(HolidayTypes.YOM_TOV, "sukkot", (15, Months.TISHREI), "", []),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_yom_kippur", (9, Months.TISHREI)),
+    Holiday(HolidayTypes.YOM_TOV, "yom_kippur", (10, Months.TISHREI)),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_sukkot", (14, Months.TISHREI)),
+    Holiday(HolidayTypes.YOM_TOV, "sukkot", (15, Months.TISHREI)),
     Holiday(
-        HolidayTypes.HOL_HAMOED, "hol_hamoed_sukkot", (16, Months.TISHREI), "ISRAEL", []
+        HolidayTypes.HOL_HAMOED, "hol_hamoed_sukkot", (16, Months.TISHREI), "ISRAEL"
     ),
     Holiday(
-        HolidayTypes.HOL_HAMOED,
-        "hol_hamoed_sukkot",
-        ((17, 18, 19, 20), Months.TISHREI),
-        "",
-        [],
+        HolidayTypes.HOL_HAMOED, "hol_hamoed_sukkot", ((17, 18, 19, 20), Months.TISHREI)
     ),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "hoshana_raba", (21, Months.TISHREI), "", []),
-    Holiday(
-        HolidayTypes.YOM_TOV, "simchat_torah", (23, Months.TISHREI), "DIASPORA", []
-    ),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "hoshana_raba", (21, Months.TISHREI)),
+    Holiday(HolidayTypes.YOM_TOV, "simchat_torah", (23, Months.TISHREI), "DIASPORA"),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "chanukah",
         ((25, 26, 27, 28, 29, 30), Months.KISLEV),
-        "",
-        [],
     ),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
@@ -476,8 +470,8 @@ HOLIDAYS = (
         "",
         [lambda x: ((x.short_kislev() and x.day == 3) or (x.day in [1, 2]))],
     ),
-    Holiday(HolidayTypes.FAST_DAY, "asara_btevet", (10, Months.TEVET), "", []),
-    Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bshvat", (15, Months.SHVAT), "", []),
+    Holiday(HolidayTypes.FAST_DAY, "asara_btevet", (10, Months.TEVET)),
+    Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bshvat", (15, Months.SHVAT)),
     Holiday(
         HolidayTypes.FAST_DAY,
         "taanit_esther",
@@ -502,20 +496,12 @@ HOLIDAYS = (
         "",
         [correct_adar()],
     ),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_pesach", (14, Months.NISAN), "", []),
-    Holiday(HolidayTypes.YOM_TOV, "pesach", (15, Months.NISAN), "", []),
-    Holiday(
-        HolidayTypes.HOL_HAMOED, "hol_hamoed_pesach", (16, Months.NISAN), "ISRAEL", []
-    ),
-    Holiday(
-        HolidayTypes.HOL_HAMOED,
-        "hol_hamoed_pesach",
-        ((17, 18, 19), Months.NISAN),
-        "",
-        [],
-    ),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "hol_hamoed_pesach", (20, Months.NISAN), "", []),
-    Holiday(HolidayTypes.YOM_TOV, "pesach_vii", (21, Months.NISAN), "", []),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_pesach", (14, Months.NISAN)),
+    Holiday(HolidayTypes.YOM_TOV, "pesach", (15, Months.NISAN)),
+    Holiday(HolidayTypes.HOL_HAMOED, "hol_hamoed_pesach", (16, Months.NISAN), "ISRAEL"),
+    Holiday(HolidayTypes.HOL_HAMOED, "hol_hamoed_pesach", ((17, 18, 19), Months.NISAN)),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "hol_hamoed_pesach", (20, Months.NISAN)),
+    Holiday(HolidayTypes.YOM_TOV, "pesach_vii", (21, Months.NISAN)),
     Holiday(
         HolidayTypes.MODERN_HOLIDAY,
         "yom_haatzmaut",
@@ -540,9 +526,9 @@ HOLIDAYS = (
             or move_if_not_on_dow(5, 6, Weekday.MONDAY, Weekday.TUESDAY),
         ],
     ),
-    Holiday(HolidayTypes.MINOR_HOLIDAY, "lag_bomer", (18, Months.IYYAR), "", []),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_shavuot", (5, Months.SIVAN), "", []),
-    Holiday(HolidayTypes.YOM_TOV, "shavuot", (6, Months.SIVAN), "", []),
+    Holiday(HolidayTypes.MINOR_HOLIDAY, "lag_bomer", (18, Months.IYYAR)),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_shavuot", (5, Months.SIVAN)),
+    Holiday(HolidayTypes.YOM_TOV, "shavuot", (6, Months.SIVAN)),
     Holiday(
         HolidayTypes.FAST_DAY,
         "tzom_tammuz",
@@ -557,7 +543,7 @@ HOLIDAYS = (
         "",
         [move_if_not_on_dow(9, 10, Weekday.SATURDAY, Weekday.SUNDAY)],
     ),
-    Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bav", (15, Months.AV), "", []),
+    Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bav", (15, Months.AV)),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "yom_hashoah",
