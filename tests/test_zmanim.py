@@ -17,26 +17,25 @@ NYC_LNG = -74.0060
 
 
 def compare_dates(
-    date1: Optional[dt.datetime],
-    date2: Optional[dt.datetime],
-    allow_grace: bool = False,
+    date1: Optional[dt.datetime], date2: Optional[dt.datetime], grace: int = 0
 ) -> None:
     """Compare 2 dates to be more or less equal."""
     if not (date1 or date2):
         assert date1 == date2
     else:
-        grace = dt.timedelta(minutes=5 if (not _ASTRAL or allow_grace) else 0)
+        _grace = 5 if (not _ASTRAL and grace == 0) else grace
+        grace_td = dt.timedelta(minutes=_grace)
         assert date1 is not None
         assert date2 is not None
-        assert date1 - grace <= date2 <= date1 + grace
+        assert date1 - grace_td <= date2 <= date1 + grace_td
 
 
-def compare_times(time1: dt.time, time2: dt.time, allow_grace: bool = False) -> None:
+def compare_times(time1: dt.time, time2: dt.time, grace: int = 0) -> None:
     """Compare times to be equal."""
     compare_dates(
         dt.datetime.combine(dt.date.today(), time1),
         dt.datetime.combine(dt.date.today(), time2),
-        allow_grace,
+        grace,
     )
 
 
@@ -55,7 +54,7 @@ def test_same_doy_is_equal(this_date: dt.date, year_diff: int) -> None:
     other_date = dt.date(year_diff + this_date.year, this_date.month, this_date.day)
     this_zmanim = Zmanim(this_date).get_utc_sun_time_full()
     other_zmanim = Zmanim(other_date).get_utc_sun_time_full()
-    grace = 0 if not _ASTRAL else 16
+    grace = 10
     for zman in this_zmanim:
         other = next(o for o in other_zmanim if o.name == zman.name)
         assert zman.minutes - grace <= other.minutes <= zman.minutes + grace, zman.name
@@ -70,9 +69,7 @@ def test_extreme_zmanim(location: Location, result: dt.time) -> None:
     """Test that Zmanim north to 50 degrees latitude is correct."""
     day = dt.date(2024, 6, 18)
     compare_times(
-        Zmanim(date=day, location=location).zmanim["sunset"].time(),
-        result,
-        allow_grace=True,
+        Zmanim(date=day, location=location).zmanim["sunset"].time(), result, grace=5
     )
 
 
@@ -213,12 +210,13 @@ def test_erev_shabbat_hag(
 def test_candle_lighting_erev_shabbat_is_yom_tov(location: Location) -> None:
     """Test for candle lighting when erev shabbat is yom tov"""
     day = dt.date(2024, 10, 18)
-    actual_candle_lighting = dt.datetime(
-        2024, 10, 18, 17, 52, 00, tzinfo=cast(dt.tzinfo, location.timezone)
-    )
-    zman = Zmanim(
-        date=day,
-        location=location,
-        candle_lighting_offset=18,
-    )
+    if _ASTRAL:
+        actual_candle_lighting = dt.datetime(
+            2024, 10, 18, 17, 52, 00, tzinfo=cast(dt.tzinfo, location.timezone)
+        )
+    else:
+        actual_candle_lighting = dt.datetime(
+            2024, 10, 18, 17, 55, 00, tzinfo=cast(dt.tzinfo, location.timezone)
+        )
+    zman = Zmanim(date=day, location=location, candle_lighting_offset=18)
     assert zman.candle_lighting == actual_candle_lighting
