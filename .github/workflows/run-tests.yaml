@@ -41,27 +41,37 @@ jobs:
       fail-fast: false
       matrix:
         python-version: [3.9, "3.10", 3.11, 3.12, 3.13]
+        with-astral: [true, false]
 
     steps:
     - uses: actions/checkout@v4
+
     - name: Set up Python ${{ matrix.python-version }}
       uses: pdm-project/setup-pdm@v4
       with:
         python-version: ${{ matrix.python-version }}
         cache: true
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade tox tox-pdm .
+
     - name: Test with tox
       run: |
         tox --version
         pyversion="${{ matrix.python-version }}"
-        tox -e py${pyversion/./}
+        if [ "${{ matrix.with-astral }}" = "true" ]; then
+          tox -e py${pyversion/./}-astral
+        else
+          tox -e py${pyversion/./}-no_astral
+        fi
+
     - name: Upload coverage reports to Codecov
       uses: codecov/codecov-action@v5
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         slug: py-libhdate/py-libhdate
+
     - name: Upload test results to Codecov
       if: ${{ !cancelled() }}
       uses: codecov/test-results-action@v1
