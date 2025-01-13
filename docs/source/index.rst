@@ -17,7 +17,7 @@ Contributors
 Thank you to all of you for making this possible
 
 .. contributors:: py-libhdate/py-libhdate
-   :exclude: actions-user, dependabot
+   :exclude: actions-user,dependabot[bot]
    :limit: 50
    :contributions:
 
