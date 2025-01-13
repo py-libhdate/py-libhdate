@@ -29,7 +29,7 @@ sys.path.insert(0, os.path.abspath("../../hdate"))
 
 
 project = "hdate"
-copyright = "2020, Royi Reshef"
+copyright = "2016, Royi Reshef; 2017-2025, Tsvi Mostovicz"
 author = "Royi Reshef"
 maintainer = "Tsvi Mostovicz"
 
