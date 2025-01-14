@@ -6,9 +6,9 @@ of the Jewish calendrical date and times for a given location
 """
 
 from hdate.date import HDate
-from hdate.hebrew_date import HebrewDate
+from hdate.hebrew_date import HebrewDate, Months
 from hdate.htables import HolidayTypes
 from hdate.location import Location
 from hdate.zmanim import Zmanim
 
-__all__ = ["HDate", "Zmanim", "HebrewDate", "Location", "HolidayTypes"]
+__all__ = ["HDate", "Zmanim", "HebrewDate", "Months", "Location", "HolidayTypes"]

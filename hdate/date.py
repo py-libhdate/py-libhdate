@@ -124,9 +124,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     @property
     def hebrew_date(self) -> str:
         """Return the hebrew date string in the selected language."""
-        day = hebrew_number(self.hdate.day, language=self._language)
-        year = hebrew_number(self.hdate.year, language=self._language)
-        return f"{day} {self.hdate.month} {year}"
+        return str(self.hdate)
 
     @property
     def parasha(self) -> str:
