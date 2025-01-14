@@ -49,7 +49,6 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             self._gdate = date.to_gdate()
 
         self.diaspora = diaspora
-        self.omer = Omer(date=self.hdate, language=language)
 
     def __str__(self) -> str:
         """Return a full Unicode representation of HDate."""
@@ -58,7 +57,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         year_number = hebrew_number(self.hdate.year, language=self._language)
         result = f"{self.dow} {day_number} {in_prefix}{self.hdate.month} {year_number}"
 
-        if self.omer.total_days > 0:
+        if self.omer:
             result = f"{result} {self.omer}"
 
         # Append holiday description if any
@@ -110,7 +109,6 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         self._last_updated = "hdate"
         self._hdate = date
-        self.omer = Omer(date=self.hdate, language=self._language)
 
     @property
     def gdate(self) -> dt.date:
@@ -129,6 +127,12 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     def hebrew_date(self) -> str:
         """Return the hebrew date string in the selected language."""
         return str(self.hdate)
+
+    @property
+    def omer(self) -> Optional[Omer]:
+        """Return the Omer object."""
+        _omer = Omer(date=self.hdate, language=self._language)
+        return _omer if _omer.total_days > 0 else None
 
     @property
     def parasha(self) -> str:
