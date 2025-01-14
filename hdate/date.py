@@ -93,9 +93,13 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     @property
     def hdate(self) -> HebrewDate:
         """Return the hebrew date."""
-        if self._last_updated == "hdate":
-            return self._hdate
-        return HebrewDate.from_gdate(self._gdate)
+        hdate = (
+            self._hdate
+            if self._last_updated == "hdate"
+            else HebrewDate.from_gdate(self._gdate)
+        )
+        hdate.set_language(self.language)
+        return hdate
 
     @hdate.setter
     def hdate(self, date: HebrewDate) -> None:
