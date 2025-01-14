@@ -1,13 +1,5 @@
-Welcome to hdate's documentation!
-=================================
-
-.. toctree::
-   :maxdepth: 1
-   :caption: Contents:
-
-   modules.rst
-   development.rst
-   CHANGELOG.md
+Welcome to hdate!
+=================
 
 .. include:: ../../README.rst
 
@@ -27,3 +19,13 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. toctree::
+   :hidden:
+   :maxdepth: 1
+   :caption: Contents:
+
+   quickstart.rst
+   api_reference.rst
+   development.rst
+   CHANGELOG.md
