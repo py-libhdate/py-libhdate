@@ -46,11 +46,13 @@ def test_bad_date() -> None:
 
 
 @given(
-    this_date=strategies.dates(max_value=dt.date(3000, 1, 1)),
+    this_date=strategies.dates(max_value=dt.date(3000, 1, 1)).filter(
+        lambda d: not (d.month == 2 and d.day == 29)
+    ),
     year_diff=strategies.integers(min_value=0, max_value=200),
 )
 def test_same_doy_is_equal(this_date: dt.date, year_diff: int) -> None:
-    """Test two doy to be equal."""
+    """Test two doy to have equal zmanim."""
     other_date = dt.date(year_diff + this_date.year, this_date.month, this_date.day)
     this_zmanim = Zmanim(this_date).zmanim
     other_zmanim = Zmanim(other_date).zmanim
