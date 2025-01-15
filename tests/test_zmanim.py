@@ -52,11 +52,11 @@ def test_bad_date() -> None:
 def test_same_doy_is_equal(this_date: dt.date, year_diff: int) -> None:
     """Test two doy to be equal."""
     other_date = dt.date(year_diff + this_date.year, this_date.month, this_date.day)
-    this_zmanim = Zmanim(this_date).get_utc_sun_time_full()
-    other_zmanim = Zmanim(other_date).get_utc_sun_time_full()
+    this_zmanim = Zmanim(this_date).zmanim()
+    other_zmanim = Zmanim(other_date).zmanim()
     grace = 10
-    for zman in this_zmanim:
-        other = next(o for o in other_zmanim if o.name == zman.name)
+    for name, zman in this_zmanim.items():
+        other = other_zmanim[name]
         assert zman.minutes - grace <= other.minutes <= zman.minutes + grace, zman.name
 
 
@@ -69,7 +69,7 @@ def test_extreme_zmanim(location: Location, result: dt.time) -> None:
     """Test that Zmanim north to 50 degrees latitude is correct."""
     day = dt.date(2024, 6, 18)
     compare_times(
-        Zmanim(date=day, location=location).zmanim["sunset"].time(), result, grace=5
+        Zmanim(date=day, location=location).sunset.local.time(), result, grace=5
     )
 
 
