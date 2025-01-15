@@ -222,3 +222,18 @@ def test_candle_lighting_erev_shabbat_is_yom_tov(location: Location) -> None:
         )
     zman = Zmanim(date=day, location=location, candle_lighting_offset=18)
     assert zman.candle_lighting == actual_candle_lighting
+
+
+@given(name=strategies.text().filter(lambda s: s not in dir(Zmanim)))
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_non_existing_attribute(name: str, location: Location) -> None:
+    """Test trying to access a Zmanim attribute that isn't in the class."""
+    with pytest.raises(AttributeError):
+        zmanim = Zmanim(date=dt.date.today(), location=location)
+        assert getattr(zmanim, name) is None
+
+
+def test_attributes_in_dir() -> None:
+    """Test that Zmanim attributes are in the dir."""
+    keys = {"alot_hashachar", "sunrise", "plag_mincha", "sunset", "three_stars"}
+    assert keys.issubset(set(dir(Zmanim())))
