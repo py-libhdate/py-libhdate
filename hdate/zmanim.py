@@ -209,7 +209,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         the sky there.
 
         Algorithm from
-        http://www.srrb.noaa.gov/highlights/sunrise/calcdetails.html
+        https://gml.noaa.gov/grad/solcalc/solareqns.PDF
         The low accuracy solar position equations are used.
         These routines are based on Jean Meeus's book Astronomical Algorithms.
         """
@@ -222,7 +222,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         eqtime = 0.0  # difference betwen sun noon and clock noon
         decl = 0.0  # sun declanation
         hour_angle = 0.0  # solar hour angle
-        sunrise_angle = math.pi * deg / 180.0  # sun angle at sunrise/set
+        sunrise_angle = math.radians(deg)  # sun angle at sunrise/set
 
         # get the day of year
         day_of_year = float(gday_of_year(self.date))
@@ -250,8 +250,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             + 0.00148 * math.sin(3.0 * gama)
         )
 
-        # we use radians, ratio is 2pi/360
-        latitude = math.pi * self.location.latitude / 180.0
+        latitude = math.radians(self.location.latitude)
 
         # the sun real time diff from noon at sunset/rise in radians
         try:
