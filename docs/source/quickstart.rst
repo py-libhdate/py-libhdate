@@ -140,9 +140,19 @@ The ``HDate`` object, accepts a date (either Gregorian or Hebrew), a boolean tha
 .. code:: python
 
     >>> from hdate import HDate
-    >>> today = HDate(today, diaspora=True, language="english")
+    >>> today = HDate(today, diaspora=False, language="english")
     >>> today.parasha
     Shemot
     >>> today.is_holiday
     False
+    >>> today.daf_yomi
+    Sanhedrin 29
+    >>> pesach = today.upcoming_yom_tov
+    >>> pesach.holidays
+    [Holiday(type=<HolidayTypes.YOM_TOV: 1>, name='pesach', date=(15, <Months.NISAN: 9>), israel_diaspora='', date_functions_list=[])]
+    >>> print(pesach.holidays[0])
+    Pesach
+    >>> pesach.next_day.omer
+Omer(date=HebrewDate(year=5785, month=<Months.NISAN: 9>, day=16), total_days=1, day=1, week=0, nusach=<Nusach.SFARAD: 2>, language='english')
+
 
