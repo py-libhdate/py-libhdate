@@ -225,12 +225,10 @@ def test_candle_lighting_erev_shabbat_is_yom_tov(location: Location) -> None:
 
 
 @given(name=strategies.text().filter(lambda s: s not in dir(Zmanim)))
-@pytest.mark.parametrize("location", ["New York"], indirect=True)
-def test_non_existing_attribute(name: str, location: Location) -> None:
+def test_non_existing_attribute(name: str) -> None:
     """Test trying to access a Zmanim attribute that isn't in the class."""
     with pytest.raises(AttributeError):
-        zmanim = Zmanim(date=dt.date.today(), location=location)
-        assert getattr(zmanim, name) is None
+        assert getattr(Zmanim, name) is None
 
 
 def test_attributes_in_dir() -> None:
