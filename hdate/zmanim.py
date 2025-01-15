@@ -35,8 +35,6 @@ class Zman(TranslatorMixin):
     minutes: float
     date: dt.date
     timezone: dt.tzinfo
-    utc: dt.datetime = dt.datetime.now()
-    local: dt.datetime = dt.datetime.now()
 
     def __post_init__(self) -> None:
         basetime = dt.datetime.combine(self.date, dt.time()).replace(
