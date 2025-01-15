@@ -228,7 +228,8 @@ def test_candle_lighting_erev_shabbat_is_yom_tov(location: Location) -> None:
 def test_non_existing_attribute(name: str) -> None:
     """Test trying to access a Zmanim attribute that isn't in the class."""
     with pytest.raises(AttributeError):
-        assert getattr(Zmanim, name) is None
+        z = Zmanim()
+        assert z.__getattr__(name) is None  # pylint: disable=unnecessary-dunder-call
 
 
 def test_attributes_in_dir() -> None:
