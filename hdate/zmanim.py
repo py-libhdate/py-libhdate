@@ -9,6 +9,7 @@ import datetime as dt
 import logging
 import math
 from dataclasses import dataclass, field
+from functools import cached_property
 from typing import Optional, cast
 
 from hdate.date import HDate
@@ -35,19 +36,17 @@ class Zman(TranslatorMixin):
     minutes: float
     date: dt.date
     timezone: dt.tzinfo
-    utc_zman: dt.datetime = dt.datetime.now()
-    local_zman: dt.datetime = dt.datetime.now()
 
     def __post_init__(self) -> None:
         basetime = dt.datetime.combine(self.date, dt.time()).replace(
             tzinfo=dt.timezone.utc
         )
-        self.utc_zman = basetime + dt.timedelta(minutes=self.minutes)
-        self.local_zman = self.utc_zman.astimezone(self.timezone)
+        self.utc = basetime + dt.timedelta(minutes=self.minutes)
+        self.local = self.utc.astimezone(self.timezone)
 
 
 @dataclass
-class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
+class Zmanim(TranslatorMixin):
     """Return Jewish day times.
 
     The Zmanim class returns times for the specified day ONLY. If you wish to
@@ -74,25 +73,21 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             date=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
         )
 
-        if _USE_ASTRAL and (abs(self.location.latitude) <= MAX_LATITUDE_ASTRAL):
-            self.astral_observer = astral.Observer(
-                latitude=self.location.latitude, longitude=self.location.longitude
-            )
-            self.astral_sun = astral.sun.sun(self.astral_observer, self.date)
-
     def __str__(self) -> str:
         """Return a string representation of Zmanim in the selected language."""
         return "\n".join(
-            [
-                f"{zman} - {zman.local_zman.time()}"
-                for zman in self.get_utc_sun_time_full()
-            ]
+            [f"{zman} - {zman.local.time()}" for _, zman in self.zmanim.items()]
         )
 
-    @property
-    def zmanim(self) -> dict[str, dt.datetime]:
-        """Return a dictionary of the zmanim the object represents."""
-        return {zman.name: zman.local_zman for zman in self.get_utc_sun_time_full()}
+    def __getattr__(self, name: str) -> Zman:
+        """Return a specific Zman."""
+        if name in (zmanim := self.zmanim):
+            return zmanim[name]
+        raise AttributeError(f"{type(self).__name__} has no attribute {name}")
+
+    def __dir__(self) -> list[str]:
+        """Return a list of available attributes."""
+        return [*super().__dir__(), *self.zmanim.keys()]
 
     @property
     def candle_lighting(self) -> Optional[dt.datetime]:
@@ -107,18 +102,16 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         # Otherwise, if today is Friday or erev Yom Tov, return candle
         # lighting.
         if self.tomorrow.is_shabbat or self.tomorrow.is_yom_tov:
-            return self.zmanim["sunset"] - dt.timedelta(
-                minutes=self.candle_lighting_offset
-            )
+            return self.sunset.local - dt.timedelta(minutes=self.candle_lighting_offset)
         return None
 
     @property
     def _havdalah_datetime(self) -> dt.datetime:
         """Compute the havdalah time based on settings."""
         if self.havdalah_offset == 0:
-            return self.zmanim["three_stars"]
+            return self.three_stars.local
         # Otherwise, use the offset.
-        return self.zmanim["sunset"] + dt.timedelta(minutes=self.havdalah_offset)
+        return self.sunset.local + dt.timedelta(minutes=self.havdalah_offset)
 
     @property
     def havdalah(self) -> Optional[dt.datetime]:
@@ -190,17 +183,11 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             return False
 
         if (self.today.is_shabbat or self.today.is_yom_tov) and (
-            self.tomorrow.is_shabbat or self.tomorrow.is_yom_tov
+            _time >= self.havdalah
         ):
-            return False
-        if (self.today.is_shabbat or self.today.is_yom_tov) and (_time > self.havdalah):
             return True
 
         return False
-
-    def gday_of_year(self) -> int:
-        """Return the number of days since January 1 of the given year."""
-        return (self.date - dt.date(self.date.year, 1, 1)).days
 
     def _get_utc_sun_time_deg(self, deg: float) -> tuple[int, int]:
         """
@@ -214,18 +201,23 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         the sky there.
 
         Algorithm from
-        http://www.srrb.noaa.gov/highlights/sunrise/calcdetails.html
+        https://gml.noaa.gov/grad/solcalc/solareqns.PDF
         The low accuracy solar position equations are used.
         These routines are based on Jean Meeus's book Astronomical Algorithms.
         """
+
+        def gday_of_year(date: dt.date) -> int:
+            """Return the number of days since January 1 of the given year."""
+            return (date - dt.date(date.year, 1, 1)).days
+
         gama = 0.0  # location of sun in yearly cycle in radians
         eqtime = 0.0  # difference betwen sun noon and clock noon
         decl = 0.0  # sun declanation
         hour_angle = 0.0  # solar hour angle
-        sunrise_angle = math.pi * deg / 180.0  # sun angle at sunrise/set
+        sunrise_angle = math.radians(deg)  # sun angle at sunrise/set
 
         # get the day of year
-        day_of_year = float(self.gday_of_year())
+        day_of_year = float(gday_of_year(self.date))
 
         # get radians of sun orbit around earth =)
         gama = 2.0 * math.pi * ((day_of_year - 1) / 365.0)
@@ -250,8 +242,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             + 0.00148 * math.sin(3.0 * gama)
         )
 
-        # we use radians, ratio is 2pi/360
-        latitude = math.pi * self.location.latitude / 180.0
+        latitude = math.radians(self.location.latitude)
 
         # the sun real time diff from noon at sunset/rise in radians
         try:
@@ -285,16 +276,21 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
     def _get_utc_time_of_transit(self, zenith: float, rising: bool) -> int:
         """Return the time in minutes from 00:00 (utc) for a given sun altitude."""
+        astral_observer = astral.Observer(
+            latitude=self.location.latitude,
+            longitude=self.location.longitude,
+        )
         return self._datetime_to_minutes_offest(
             astral.sun.time_of_transit(
-                self.astral_observer,
+                astral_observer,
                 self.date,
                 zenith,
                 astral.SunDirection.RISING if rising else astral.SunDirection.SETTING,
             )
         )
 
-    def get_utc_sun_time_full(self) -> tuple[Zman, ...]:
+    @cached_property
+    def zmanim(self) -> dict[str, Zman]:
         """Return a list of Jewish times for the given location."""
         if (not _USE_ASTRAL) or (abs(self.location.latitude) > MAX_LATITUDE_ASTRAL):
             sunrise, sunset = self._get_utc_sun_time_deg(90.833)
@@ -303,8 +299,12 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             _, first_stars = self._get_utc_sun_time_deg(96.45)
             _, three_stars = self._get_utc_sun_time_deg(98.5)
         else:
-            sunrise = self._datetime_to_minutes_offest(self.astral_sun["sunrise"])
-            sunset = self._datetime_to_minutes_offest(self.astral_sun["sunset"])
+            sunrise = self._get_utc_time_of_transit(
+                90.0 + astral.sun.SUN_APPARENT_RADIUS, True
+            )
+            sunset = self._get_utc_time_of_transit(
+                90.0 + astral.sun.SUN_APPARENT_RADIUS, False
+            )
             first_light = self._get_utc_time_of_transit(106.1, True)
             talit = self._get_utc_time_of_transit(101.0, True)
             first_stars = self._get_utc_time_of_transit(96.45, False)
@@ -321,25 +321,25 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             zman.set_language(self.language)
             return zman
 
-        zmanim = (
-            make_zman("alot_hashachar", first_light),
-            make_zman("talit_tefilins_time", talit),
-            make_zman("sunrise", sunrise),
-            make_zman("shema_eot_mga", first_light + mga_sunhour * 3.0),
-            make_zman("shema_eot_gra", sunrise + sun_hour * 3.0),
-            make_zman("tefila_eot_mga", first_light + mga_sunhour * 4.0),
-            make_zman("tefila_eot_gra", sunrise + sun_hour * 4.0),
-            make_zman("midday", midday),
-            make_zman("big_mincha", sunrise + 6.5 * sun_hour),
-            make_zman("big_mincha_min", midday + 30),
-            make_zman("small_mincha", sunrise + 9.5 * sun_hour),
-            make_zman("plag_mincha", sunset - 1.25 * sun_hour),
-            make_zman("sunset", sunset),
-            make_zman("first_stars", first_stars),
-            make_zman("three_stars", three_stars),
-            make_zman("stars_out", sunset + 18.0 * sun_hour / 60.0),
-            make_zman("night_by_rabbeinu_tam", sunset + sun_hour * 1.2),
-            make_zman("midnight", midday + 12 * 60.0),
-        )
+        _zmanim = {
+            "alot_hashachar": first_light,
+            "talit_tefilins_time": talit,
+            "sunrise": sunrise,
+            "shema_eot_mga": first_light + mga_sunhour * 3.0,
+            "shema_eot_gra": sunrise + sun_hour * 3.0,
+            "tefila_eot_mga": first_light + mga_sunhour * 4.0,
+            "tefila_eot_gra": sunrise + sun_hour * 4.0,
+            "midday": midday,
+            "big_mincha": sunrise + 6.5 * sun_hour,
+            "big_mincha_min": midday + 30,
+            "small_mincha": sunrise + 9.5 * sun_hour,
+            "plag_mincha": sunset - 1.25 * sun_hour,
+            "sunset": sunset,
+            "first_stars": first_stars,
+            "three_stars": three_stars,
+            "stars_out": sunset + 18.0 * sun_hour / 60.0,
+            "night_by_rabbeinu_tam": sunset + sun_hour * 1.2,
+            "midnight": midday + 12 * 60.0,
+        }
 
-        return zmanim
+        return {key: make_zman(key, time) for key, time in _zmanim.items()}

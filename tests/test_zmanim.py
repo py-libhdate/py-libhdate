@@ -46,17 +46,19 @@ def test_bad_date() -> None:
 
 
 @given(
-    this_date=strategies.dates(max_value=dt.date(3000, 1, 1)),
+    this_date=strategies.dates(max_value=dt.date(3000, 1, 1)).filter(
+        lambda d: not (d.month == 2 and d.day == 29)
+    ),
     year_diff=strategies.integers(min_value=0, max_value=200),
 )
 def test_same_doy_is_equal(this_date: dt.date, year_diff: int) -> None:
-    """Test two doy to be equal."""
+    """Test two doy to have equal zmanim."""
     other_date = dt.date(year_diff + this_date.year, this_date.month, this_date.day)
-    this_zmanim = Zmanim(this_date).get_utc_sun_time_full()
-    other_zmanim = Zmanim(other_date).get_utc_sun_time_full()
+    this_zmanim = Zmanim(this_date).zmanim
+    other_zmanim = Zmanim(other_date).zmanim
     grace = 10
-    for zman in this_zmanim:
-        other = next(o for o in other_zmanim if o.name == zman.name)
+    for name, zman in this_zmanim.items():
+        other = other_zmanim[name]
         assert zman.minutes - grace <= other.minutes <= zman.minutes + grace, zman.name
 
 
@@ -69,7 +71,7 @@ def test_extreme_zmanim(location: Location, result: dt.time) -> None:
     """Test that Zmanim north to 50 degrees latitude is correct."""
     day = dt.date(2024, 6, 18)
     compare_times(
-        Zmanim(date=day, location=location).zmanim["sunset"].time(), result, grace=5
+        Zmanim(date=day, location=location).sunset.local.time(), result, grace=5
     )
 
 
@@ -220,3 +222,17 @@ def test_candle_lighting_erev_shabbat_is_yom_tov(location: Location) -> None:
         )
     zman = Zmanim(date=day, location=location, candle_lighting_offset=18)
     assert zman.candle_lighting == actual_candle_lighting
+
+
+@given(name=strategies.text().filter(lambda s: s not in dir(Zmanim)))
+def test_non_existing_attribute(name: str) -> None:
+    """Test trying to access a Zmanim attribute that isn't in the class."""
+    with pytest.raises(AttributeError):
+        z = Zmanim()
+        assert z.__getattr__(name) is None  # pylint: disable=unnecessary-dunder-call
+
+
+def test_attributes_in_dir() -> None:
+    """Test that Zmanim attributes are in the dir."""
+    keys = {"alot_hashachar", "sunrise", "plag_mincha", "sunset", "three_stars"}
+    assert keys.issubset(set(dir(Zmanim())))

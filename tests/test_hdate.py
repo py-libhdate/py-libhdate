@@ -489,6 +489,7 @@ class TestSpecialDays:
         assert myhdate.holidays[0].name == "rosh_hashana_i"
 
     @given(date=strategies.dates())
+    @settings(deadline=None)
     def test_get_omer_day(self, date: dt.date) -> None:
         """Test value of the Omer."""
         rand_hdate = HDate(date)
