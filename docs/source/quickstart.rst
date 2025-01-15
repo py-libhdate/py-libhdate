@@ -12,23 +12,25 @@ Suppose we want to get today's Hebrew date.
 
 .. code:: python
 
-    from datetime import date
-    from hdate import HebrewDate
+    >>> from datetime import date
+    >>> from hdate import HebrewDate
 
-    today = date.today()
-    heb_date = HebrewDate.from_gdate(today)
-    print(heb_date)
+    >>> today = date.today()
+    >>> heb_date = HebrewDate.from_gdate(today)
+    >>> print(heb_date)
+    15 Tevet 5785
 
 Let's see how much time is left until Pesach 😧
 
 .. code:: python
 
-    from hdate import Months
+    >>> from hdate import Months
 
-    pesach = HebrewDate(0, Months.NISAN, 15)
-    time_to_pesach = pesach - heb_date  # Returns a timedelta object
+    >>> pesach = HebrewDate(0, Months.NISAN, 15)
+    >>> time_to_pesach = pesach - heb_date  # Returns a timedelta object
   
-    print(time_to_pesach.days)
+    >>> print(time_to_pesach.days)
+    88
 
 Better start cleaning 😉
 
@@ -49,14 +51,18 @@ We want to know when is *Rosh Hashana* for the upcoming year (5786).
 
 .. code:: python
 
-    rosh_hashana = HebrewDate(5786, Months.TISHREI, 1)
-    gdate = rosh_hashana.to_gdate()
+    >>> rosh_hashana = HebrewDate(5786, Months.TISHREI, 1)
+    >>> gdate = rosh_hashana.to_gdate()
+    >>> print(gdate)
+    2025-09-23
 
 We can also know what the day of the week is:
 
 .. code:: python
 
-    day_of_week = rosh_hashana.dow()
+    >>> day_of_week = rosh_hashana.dow()
+    >>> print(day_of_week)
+    Tuesday
 
 
 ------------------------------------------------
@@ -71,10 +77,10 @@ Currently supported are Hebrew, English and French.
 
     >>> day_of_week.set_language("hebrew")
     >>> print(str(day_of_week))
-    ... יום שלישי
+    יום שלישי
     >>> day_of_week.set_language("french")
     >>> print(str(day_of_week))
-    ... Mardi
+    Mardi
 
 -----------------------------------------
 Zmanim - getting the times of a given day
@@ -85,14 +91,36 @@ The location requires a name, latitude, longitude, timezone and elevation.
 
 .. code:: python
 
-    from hdate import Location
+    >>> from hdate import Location
 
-    location = Location("Home", 32.09, 34.89, "Asia/Jerusalem", 54)
+    >>> location = Location("Home", 32.09, 34.89, "Asia/Jerusalem", 54)
 
 Now we can go ahead and ask ``hdate`` for the **Halachic times** for a given date.
 
 .. code:: python
 
-    from hdate import Zmanim
+    >>> from hdate import Zmanim
 
-    zmanim = Zmanim(date.today(), location)
+    >>> zmanim = Zmanim(date.today(), location)
+    >>> zmanim.alot_hashachar.local
+    datetime.datetime(2025, 1, 15, 5, 25, tzinfo=zoneinfo.ZoneInfo(key='Asia/Jerusalem'))
+
+To get a list of the supported zmanim, you'll want to inspect the keys returned by the
+``zmanim`` property.
+
+.. code:: python
+
+    >>> zmanim.zmanim.keys()
+    dict_keys(['alot_hashachar', 'talit_tefilins_time', 'sunrise', 'shema_eot_mga', 
+    'shema_eot_gra', 'tefila_eot_mga', 'tefila_eot_gra', 'midday', 'big_mincha', 
+    'big_mincha_min', 'small_mincha', 'plag_mincha', 'sunset', 'first_stars', 
+    'three_stars', 'stars_out', 'night_by_rabbeinu_tam', 'midnight'])
+
+You can also get a nice printout by calling ``str`` on the ``Zmanim`` object.
+
+.. warning::
+
+    Although we try as much as possible to be correct with our code trying to calculate
+    the **Halachic times**, we do not take ANY responsibility whatsoever for the reliance
+    on these calculations.
+    When in doubt, please contact your local Halachic authority.
