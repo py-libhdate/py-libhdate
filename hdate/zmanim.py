@@ -182,7 +182,9 @@ class Zmanim(TranslatorMixin):
         if self.havdalah is None:  # If there's no havdala, no need to check further
             return False
 
-        if (self.today.is_shabbat or self.today.is_yom_tov) and (_time > self.havdalah):
+        if (self.today.is_shabbat or self.today.is_yom_tov) and (
+            _time >= self.havdalah
+        ):
             return True
 
         return False
