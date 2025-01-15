@@ -8,6 +8,7 @@ from enum import IntEnum, IntFlag
 from typing import TYPE_CHECKING, Callable, Optional, Union, cast
 
 import hdate.converters as conv
+from hdate.gematria import hebrew_number
 from hdate.translator import TranslatorMixin
 
 
@@ -212,6 +213,13 @@ class HebrewDate(TranslatorMixin):
                 f"Day {self.day} is illegal: "
                 f"legal values are 1-{max_days} for {self.month}"
             )
+        self.month.set_language(self._language)
+
+    def __str__(self) -> str:
+        """Return the hebrew date string in the selected language."""
+        day = hebrew_number(self.day, language=self._language)
+        year = hebrew_number(self.year, language=self._language)
+        return f"{day} {self.month} {year}"
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, HebrewDate):

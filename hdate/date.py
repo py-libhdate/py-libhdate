@@ -49,7 +49,6 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             self._gdate = date.to_gdate()
 
         self.diaspora = diaspora
-        self.omer = Omer(date=self.hdate, language=language)
 
     def __str__(self) -> str:
         """Return a full Unicode representation of HDate."""
@@ -58,7 +57,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         year_number = hebrew_number(self.hdate.year, language=self._language)
         result = f"{self.dow} {day_number} {in_prefix}{self.hdate.month} {year_number}"
 
-        if self.omer.total_days > 0:
+        if self.omer:
             result = f"{result} {self.omer}"
 
         # Append holiday description if any
@@ -93,9 +92,13 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     @property
     def hdate(self) -> HebrewDate:
         """Return the hebrew date."""
-        if self._last_updated == "hdate":
-            return self._hdate
-        return HebrewDate.from_gdate(self._gdate)
+        hdate = (
+            self._hdate
+            if self._last_updated == "hdate"
+            else HebrewDate.from_gdate(self._gdate)
+        )
+        hdate.set_language(self.language)
+        return hdate
 
     @hdate.setter
     def hdate(self, date: HebrewDate) -> None:
@@ -106,7 +109,6 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         self._last_updated = "hdate"
         self._hdate = date
-        self.omer = Omer(date=self.hdate, language=self._language)
 
     @property
     def gdate(self) -> dt.date:
@@ -124,9 +126,13 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     @property
     def hebrew_date(self) -> str:
         """Return the hebrew date string in the selected language."""
-        day = hebrew_number(self.hdate.day, language=self._language)
-        year = hebrew_number(self.hdate.year, language=self._language)
-        return f"{day} {self.hdate.month} {year}"
+        return str(self.hdate)
+
+    @property
+    def omer(self) -> Optional[Omer]:
+        """Return the Omer object."""
+        _omer = Omer(date=self.hdate, language=self._language)
+        return _omer if _omer.total_days > 0 else None
 
     @property
     def parasha(self) -> str:

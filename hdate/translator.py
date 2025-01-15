@@ -29,14 +29,16 @@ class TranslatorMixin:
             super().__init__()
         else:
             super().__init__(*args, **kwargs)
+        language = self._language
         if hasattr(self, "language"):
             language = getattr(self, "language")
-            self.set_language(language)
+        self.set_language(language)
 
     def __post_init__(self) -> None:
+        language = self._language
         if hasattr(self, "language"):
             language = getattr(self, "language")
-            self.set_language(language)
+        self.set_language(language)
 
     def __str__(self) -> str:
         if name := getattr(self, "name", None):

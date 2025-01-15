@@ -32,3 +32,6 @@ _build
 
 # Pycharm
 .idea
+
+# Generated file
+docs/source/CHANGELOG.md

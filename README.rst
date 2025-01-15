@@ -1,10 +1,29 @@
-***********
-py-libhdate
-***********
+*****
+hdate
+*****
 
-Jewish/Hebrew date and Zmanim in native python 3.x
+.. image:: https://img.shields.io/pypi/v/hdate
+    :alt: PyPI - Version
+    :target: https://pypi.org/project/hdate/
+.. image:: https://readthedocs.org/projects/py-libhdate/badge/?version=latest
+    :alt: Documentation Status
+    :target: https://py-libhdate.readthedocs.io/en/latest/?badge=latest
+.. image:: https://img.shields.io/python/required-version-toml?tomlFilePath=https%3A%2F%2Fraw.githubusercontent.com%2Fpy-libhdate%2Fpy-libhdate%2Fmain%2Fpyproject.toml
+    :alt: Python Version from PEP 621 TOML
+    :target: https://github.com/py-libhdate/py-libhdate/blob/main/pyproject.toml#L17
+.. image:: https://img.shields.io/pypi/l/hdate
+    :alt: PyPI - License
+    :target: https://github.com/py-libhdate/py-libhdate/blob/main/LICENSE
+.. image:: https://codecov.io/gh/py-libhdate/py-libhdate/graph/badge.svg?token=JGBmTslA1S 
+    :alt: Code coverage status
+    :target: https://codecov.io/gh/py-libhdate/py-libhdate
 
-Originally ported from libhdate, see http://libhdate.sourceforge.net/ for more details (including license)
+The ``hdate`` Python library's purpose is to provide information about the Hebrew date and times.
+
+Originally ported from the C version of `libhdate <http://libhdate.sourceforge.net/>`_ by
+`Royi Reshef <https://github.com/royi1000>`_, it is currently maintained by
+`Tsvi Mostovicz <https://github.com/tsvi>`_ and is the backend library for
+`Home Assistant's <https://home-assistant.io>`_ Jewish Calendar integration.
 
 ===========
 
@@ -20,7 +39,7 @@ Installation using pip:
 Examples:
 #########
 
-base code to provide times of the day in hebrew:
+Provide the times of the day in Hebrew...
 
 .. code :: python
 
@@ -48,7 +67,7 @@ base code to provide times of the day in hebrew:
     לילה לרבנו תם - 20:30:00
     חצות הלילה - 00:40:00
 
-and in english:
+... and in English.
 
 .. code :: python
 
@@ -75,7 +94,7 @@ and in english:
 
 ===========
 
-to provide the full hebrew date:
+Provide the full Hebrew date ...
 
 .. code :: python
 
@@ -83,7 +102,7 @@ to provide the full hebrew date:
     >>> print(h)
     יום שלישי י"ח בניסן ה' תשע"ו ג' לעומר חול המועד פסח
 
-and in english:
+... and in English.
 
 .. code :: python
 

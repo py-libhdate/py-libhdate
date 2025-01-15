@@ -1,16 +1,17 @@
-.. libhdate documentation master file, created by
-   sphinx-quickstart on Sat Oct 31 22:43:57 2020.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Welcome to hdate!
+=================
 
-Welcome to libhdate's documentation!
-====================================
+.. include:: ../../README.rst
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+Contributors
+============
 
+Thank you to all of you for making this possible
 
+.. contributors:: py-libhdate/py-libhdate
+   :exclude: actions-user,dependabot[bot]
+   :limit: 50
+   :contributions:
 
 Indices and tables
 ==================
@@ -18,3 +19,13 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. toctree::
+   :hidden:
+   :maxdepth: 1
+   :caption: Contents:
+
+   quickstart.rst
+   api_reference.rst
+   development.rst
+   CHANGELOG.md

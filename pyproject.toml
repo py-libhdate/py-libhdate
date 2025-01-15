@@ -51,7 +51,6 @@ dev = [
     "black>=24.10.0",
     "tox-pdm>=0.7.2",
     "pre-commit>=4.0.1",
-    "Sphinx>=7.4.7",
     "flake8>=7.1.1",
     "mypy>=1.13.0",
 ]
@@ -62,6 +61,12 @@ test = [
     "hypothesis>=6.123.7",
     "syrupy>=4.8.0",
     "pytest-profiling>=1.8.1",
+]
+docs = [
+    "Sphinx>=7.4.7",
+    "myst-parser>=3.0.1",
+    "sphinx-contributors>=0.2.7",
+    "sphinx-rtd-theme>=3.0.2",
 ]
 
 [tool.bumpversion]
@@ -81,3 +86,6 @@ allow_dirty = true
 commit = true
 message = "Release version: {current_version} → {new_version}"
 commit_args = ""
+
+[[tool.bumpversion.files]]
+filename = "docs/source/conf.py"
