@@ -2,7 +2,7 @@
 Quickstart
 ==========
 
-This document should talk you through everything you need to get started with ``hdate``.
+This document should walk you through everything you need to get started with ``hdate``.
 
 -----------------------
 Getting the Hebrew date
@@ -33,6 +33,10 @@ Let's see how much time is left until Pesach 😧
     88
 
 Better start cleaning 😉
+
+The ``HebrewDate`` object is similar to Python's built-in ``datetime.date`` object.
+It's responsibility is to represent a Hebrew date and allow date comparisons and calculations.
+To get more information about a specific date, have a look at the ``HDate`` object.
 
 .. note::
 
@@ -124,3 +128,21 @@ You can also get a nice printout by calling ``str`` on the ``Zmanim`` object.
     the **Halachic times**, we do not take ANY responsibility whatsoever for the reliance
     on these calculations.
     When in doubt, please contact your local Halachic authority.
+
+--------------------
+The ``HDate`` object
+--------------------
+
+If you want more information on a specific date like **Parshat Hashavua**, Holidays, the **Daf Yomi**, or the current **Omer** count, you'll want to initialize a ``HDate`` object.
+
+The ``HDate`` object, accepts a date (either Gregorian or Hebrew), a boolean that specifies whether the information should be calculated according to diaspora or not, and language (defaults to Hebrew).
+
+.. code:: python
+
+    >>> from hdate import HDate
+    >>> today = HDate(today, diaspora=True, language="english")
+    >>> today.parasha
+    Shemot
+    >>> today.is_holiday
+    False
+
