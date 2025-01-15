@@ -153,6 +153,6 @@ The ``HDate`` object, accepts a date (either Gregorian or Hebrew), a boolean tha
     >>> print(pesach.holidays[0])
     Pesach
     >>> pesach.next_day.omer
-Omer(date=HebrewDate(year=5785, month=<Months.NISAN: 9>, day=16), total_days=1, day=1, week=0, nusach=<Nusach.SFARAD: 2>, language='english')
+    Omer(date=HebrewDate(year=5785, month=<Months.NISAN: 9>, day=16), total_days=1, day=1, week=0, nusach=<Nusach.SFARAD: 2>, language='english')
 
 
