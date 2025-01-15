@@ -9,6 +9,7 @@ import datetime as dt
 import logging
 import math
 from dataclasses import dataclass, field
+from functools import cached_property
 from typing import Optional, cast
 
 from hdate.date import HDate
@@ -81,18 +82,18 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     def __str__(self) -> str:
         """Return a string representation of Zmanim in the selected language."""
         return "\n".join(
-            [f"{zman} - {zman.local.time()}" for _, zman in self.zmanim().items()]
+            [f"{zman} - {zman.local.time()}" for _, zman in self.zmanim.items()]
         )
 
     def __getattr__(self, name: str) -> Zman:
         """Return a specific Zman."""
-        if name in (zmanim := self.zmanim()):
+        if name in (zmanim := self.zmanim):
             return zmanim[name]
         raise AttributeError(f"{type(self).__name__} has no attribute {name}")
 
     def __dir__(self) -> list[str]:
         """Return a list of available attributes."""
-        return [*super().__dir__(), *self.zmanim().keys()]
+        return [*super().__dir__(), *self.zmanim.keys()]
 
     @property
     def candle_lighting(self) -> Optional[dt.datetime]:
@@ -293,6 +294,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             )
         )
 
+    @cached_property
     def zmanim(self) -> dict[str, Zman]:
         """Return a list of Jewish times for the given location."""
         if (not _USE_ASTRAL) or (abs(self.location.latitude) > MAX_LATITUDE_ASTRAL):

@@ -52,8 +52,8 @@ def test_bad_date() -> None:
 def test_same_doy_is_equal(this_date: dt.date, year_diff: int) -> None:
     """Test two doy to be equal."""
     other_date = dt.date(year_diff + this_date.year, this_date.month, this_date.day)
-    this_zmanim = Zmanim(this_date).zmanim()
-    other_zmanim = Zmanim(other_date).zmanim()
+    this_zmanim = Zmanim(this_date).zmanim
+    other_zmanim = Zmanim(other_date).zmanim
     grace = 10
     for name, zman in this_zmanim.items():
         other = other_zmanim[name]
