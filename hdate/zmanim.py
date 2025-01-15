@@ -46,7 +46,7 @@ class Zman(TranslatorMixin):
 
 
 @dataclass
-class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
+class Zmanim(TranslatorMixin):
     """Return Jewish day times.
 
     The Zmanim class returns times for the specified day ONLY. If you wish to
@@ -72,12 +72,6 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         self.tomorrow = HDate(
             date=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
         )
-
-        if _USE_ASTRAL and (abs(self.location.latitude) <= MAX_LATITUDE_ASTRAL):
-            self.astral_observer = astral.Observer(
-                latitude=self.location.latitude, longitude=self.location.longitude
-            )
-            self.astral_sun = astral.sun.sun(self.astral_observer, self.date)
 
     def __str__(self) -> str:
         """Return a string representation of Zmanim in the selected language."""
@@ -284,9 +278,13 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
     def _get_utc_time_of_transit(self, zenith: float, rising: bool) -> int:
         """Return the time in minutes from 00:00 (utc) for a given sun altitude."""
+        astral_observer = astral.Observer(
+            latitude=self.location.latitude,
+            longitude=self.location.longitude,
+        )
         return self._datetime_to_minutes_offest(
             astral.sun.time_of_transit(
-                self.astral_observer,
+                astral_observer,
                 self.date,
                 zenith,
                 astral.SunDirection.RISING if rising else astral.SunDirection.SETTING,
@@ -303,8 +301,12 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             _, first_stars = self._get_utc_sun_time_deg(96.45)
             _, three_stars = self._get_utc_sun_time_deg(98.5)
         else:
-            sunrise = self._datetime_to_minutes_offest(self.astral_sun["sunrise"])
-            sunset = self._datetime_to_minutes_offest(self.astral_sun["sunset"])
+            sunrise = self._get_utc_time_of_transit(
+                90.0 + astral.sun.SUN_APPARENT_RADIUS, True
+            )
+            sunset = self._get_utc_time_of_transit(
+                90.0 + astral.sun.SUN_APPARENT_RADIUS, False
+            )
             first_light = self._get_utc_time_of_transit(106.1, True)
             talit = self._get_utc_time_of_transit(101.0, True)
             first_stars = self._get_utc_time_of_transit(96.45, False)
