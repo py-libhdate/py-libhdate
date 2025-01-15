@@ -40,11 +40,6 @@ class TestHDateAPI:
         test_date = dt.datetime(2018, 11, 2)
         assert HDate(test_date).hebrew_date == 'כ"ד מרחשוון ה\' תשע"ט'
         assert HDate(test_date, language="english").hebrew_date == "24 Marcheshvan 5779"
-
-    def test_get_hebrew_date_multilanguage(self) -> None:
-        """Print the hebrew date."""
-        test_date = dt.datetime(2018, 11, 2)
-        assert HDate(test_date).hebrew_date == 'כ"ד מרחשוון ה\' תשע"ט'
         assert HDate(test_date, language="french").hebrew_date == "24 Heshvan 5779"
 
     def test_get_upcoming_parasha(self) -> None:
@@ -58,11 +53,6 @@ class TestHDateAPI:
         test_date = dt.datetime(2018, 9, 30)
         assert HDate(test_date).parasha == "וזאת הברכה"
         assert HDate(test_date, language="english").parasha == "Vezot Habracha"
-
-    def test_get_upcoming_parasha_vezot_habracha_french(self) -> None:
-        """Check that the upcoming parasha is correct for vezot habracha in french."""
-        test_date = dt.datetime(2018, 9, 30)
-        assert HDate(test_date).parasha == "וזאת הברכה"
         assert HDate(test_date, language="french").parasha == "Vezot Haberakha"
 
     def test_get_holiday_description(self) -> None:
