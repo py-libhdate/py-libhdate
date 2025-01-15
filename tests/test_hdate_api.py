@@ -8,6 +8,7 @@ import sys
 from typing import cast
 
 import pytest
+import syrupy
 from _pytest.capture import CaptureFixture
 
 from hdate import HDate, Location, Zmanim
@@ -68,65 +69,23 @@ class TestZmanimAPI:
 
     @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
     def test_readme_example_hebrew(
-        self, capsys: CaptureFixture[str], location: Location
+        self, location: Location, snapshot: syrupy.assertion.SnapshotAssertion
     ) -> None:
         """Test for hebrew."""
         zman = Zmanim(date=dt.date(2016, 4, 18), location=location)
-        print(zman)
-        captured = capsys.readouterr()
         if not _ASTRAL:
             return
-        assert (
-            captured.out == "עלות השחר - 04:52:00\n"
-            "זמן טלית ותפילין - 05:18:00\n"
-            "הנץ החמה - 06:08:00\n"
-            'סוף זמן ק"ש מג"א - 08:46:00\n'
-            'סוף זמן ק"ש גר"א - 09:23:00\n'
-            'סוף זמן תפילה מג"א - 10:04:00\n'
-            'סוף זמן תפילה גר"א - 10:28:00\n'
-            "חצות היום - 12:40:00\n"
-            "מנחה גדולה - 13:10:30\n"
-            "מנחה גדולה 30 דק - 13:10:00\n"
-            "מנחה קטנה - 16:25:30\n"
-            "פלג המנחה - 17:50:45\n"
-            "שקיעה - 19:12:00\n"
-            "מוצאי צום - 19:40:00\n"
-            "מוצאי שבת - 19:50:00\n"
-            "צאת הכוכבים (18 דק) - 19:31:30\n"
-            "לילה לרבנו תם - 20:30:00\n"
-            "חצות הלילה - 00:40:00\n"
-        )
+        assert str(zman) == snapshot
 
     @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
     def test_readme_example_english(
-        self, capsys: CaptureFixture[str], location: Location
+        self, location: Location, snapshot: syrupy.assertion.SnapshotAssertion
     ) -> None:
         """Test for english."""
         zman = Zmanim(date=dt.date(2016, 4, 18), location=location, language="english")
-        print(zman)
-        captured = capsys.readouterr()
         if not _ASTRAL:
             return
-        assert (
-            captured.out == "Alot HaShachar - 04:52:00\n"
-            "Talit & Tefilin's time - 05:18:00\n"
-            "Sunrise - 06:08:00\n"
-            'Shema EOT MG"A - 08:46:00\n'
-            'Shema EOT GR"A - 09:23:00\n'
-            'Tefila EOT MG"A - 10:04:00\n'
-            'Tefila EOT GR"A - 10:28:00\n'
-            "Midday - 12:40:00\n"
-            "Big Mincha - 13:10:30\n"
-            "Big Mincha 30 min - 13:10:00\n"
-            "Small Mincha - 16:25:30\n"
-            "Plag Mincha - 17:50:45\n"
-            "Sunset - 19:12:00\n"
-            "End of fast - 19:40:00\n"
-            "End of Shabbat - 19:50:00\n"
-            "Tset Hakochavim (18 minutes) - 19:31:30\n"
-            "Night by Rabbeinu Tam - 20:30:00\n"
-            "Midnight - 00:40:00\n"
-        )
+        assert str(zman) == snapshot
 
     @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
     def test_issur_melacha_weekday(self, location: Location) -> None:

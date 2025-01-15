@@ -281,6 +281,7 @@ class Zmanim(TranslatorMixin):
         astral_observer = astral.Observer(
             latitude=self.location.latitude,
             longitude=self.location.longitude,
+            elevation=self.location.altitude,
         )
         return self._datetime_to_minutes_offest(
             astral.sun.time_of_transit(
