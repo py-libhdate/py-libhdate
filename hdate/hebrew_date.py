@@ -269,6 +269,9 @@ class HebrewDate(TranslatorMixin):
         days = local_self.to_jdn() - local_other.to_jdn()
         return dt.timedelta(days=days)
 
+    def __hash__(self) -> int:
+        return hash((self.year, self.month, self.day))
+
     def to_jdn(self) -> int:
         """Compute Julian day number from HebrewDate."""
         month = Months.TISHREI

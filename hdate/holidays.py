@@ -1,8 +1,12 @@
 """Holidays module, contains the holiday information and related functions."""
 
+from __future__ import annotations
+
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Callable, Literal, Union
+from itertools import product
+from typing import Callable, ClassVar, Literal, Union
 
 from hdate.hebrew_date import CHANGING_MONTHS, LONG_MONTHS, HebrewDate, Months, Weekday
 from hdate.translator import TranslatorMixin
@@ -29,13 +33,62 @@ class Holiday(TranslatorMixin):
 
     type: HolidayTypes
     name: str
-    date: Union[
-        tuple[Union[int, tuple[int, ...]], Union[Months, tuple[Months, ...]]], tuple[()]
-    ]
+    date: Union[tuple[Union[int, tuple[int, ...]], Union[Months, tuple[Months, ...]]]]
     date_functions_list: list[
         Callable[[HebrewDate], Union[bool, Callable[[], bool]]]
     ] = field(default_factory=list)
     israel_diaspora: Literal["ISRAEL", "DIASPORA", ""] = ""
+
+
+@dataclass
+class HolidayManager:
+    """Container class for holiday information."""
+
+    diaspora: bool
+
+    _diaspora_holidays: ClassVar[dict[HebrewDate, list[Holiday]]]
+    _israel_holidays: ClassVar[dict[HebrewDate, list[Holiday]]]
+    _all_holidays: ClassVar[dict[HebrewDate, list[Holiday]]]
+
+    def __post_init__(self) -> None:
+        add_holidays = (
+            self._diaspora_holidays if self.diaspora else self._israel_holidays
+        )
+        for date, holidays in add_holidays.items():
+            self._all_holidays[date].extend(holidays)
+
+    @classmethod
+    def register_holidays(cls, holidays: list[Holiday]) -> None:
+        """Register a list of holidays with the holiday manager."""
+
+        cls._diaspora_holidays = defaultdict(list)
+        cls._israel_holidays = defaultdict(list)
+        cls._all_holidays = defaultdict(list)
+
+        def holiday_dates_cross_product(
+            holiday: Holiday,
+        ) -> product[tuple[int, ...]]:
+            """Given a (days, months) pair, compute the cross product.
+
+            If days and/or months are singletons, they are converted to a list.
+            """
+            return product(
+                *([x] if isinstance(x, (int, Months)) else x for x in holiday.date)
+            )
+
+        for holiday in holidays:
+            for date in holiday_dates_cross_product(holiday):
+                index = HebrewDate(0, *reversed(date))
+                if holiday.israel_diaspora == "ISRAEL":
+                    cls._israel_holidays[index].append(holiday)
+                elif holiday.israel_diaspora == "DIASPORA":
+                    cls._diaspora_holidays[index].append(holiday)
+                else:
+                    cls._all_holidays[index].append(holiday)
+
+    def lookup(self, date: HebrewDate) -> list[Holiday]:
+        """Lookup the holidays for a given date."""
+        return self._all_holidays[date]
 
 
 def not_rosh_chodesh() -> Callable[[HebrewDate], bool]:
@@ -288,6 +341,8 @@ HOLIDAYS = (
         [correct_adar()],
     ),
 )
+
+HolidayManager.register_holidays(list(HOLIDAYS))
 
 
 def get_all_holidays(language: str) -> list[str]:
