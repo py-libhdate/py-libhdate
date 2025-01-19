@@ -179,45 +179,45 @@ class TestSpecialDays:
             assert date.month != Months.ADAR
 
     NON_MOVING_HOLIDAYS = [
-        ((1, 1), "rosh_hashana_i"),
-        ((2, 1), "rosh_hashana_ii"),
-        ((9, 1), "erev_yom_kippur"),
-        ((10, 1), "yom_kippur"),
-        ((15, 1), "sukkot"),
-        ((17, 1), "hol_hamoed_sukkot"),
-        ((18, 1), "hol_hamoed_sukkot"),
-        ((19, 1), "hol_hamoed_sukkot"),
-        ((20, 1), "hol_hamoed_sukkot"),
-        ((21, 1), "hoshana_raba"),
-        ((22, 1), "shmini_atzeret"),
-        ((15, 9), "pesach"),
-        ((17, 9), "hol_hamoed_pesach"),
-        ((18, 9), "hol_hamoed_pesach"),
-        ((19, 9), "hol_hamoed_pesach"),
-        ((20, 9), "hol_hamoed_pesach"),
-        ((21, 9), "pesach_vii"),
-        ((5, 11), "erev_shavuot"),
-        ((6, 11), "shavuot"),
-        ((25, 3), "chanukah"),
-        ((26, 3), "chanukah"),
-        ((27, 3), "chanukah"),
-        ((28, 3), "chanukah"),
-        ((29, 3), "chanukah"),
-        ((1, 4), ["chanukah", "rosh_chodesh"]),
-        ((2, 4), "chanukah"),
-        ((10, 4), "asara_btevet"),
-        ((15, 5), "tu_bshvat"),
-        ((18, 10), "lag_bomer"),
-        ((15, 13), "tu_bav"),
+        ((1, 1), {"rosh_hashana_i"}),
+        ((2, 1), {"rosh_hashana_ii"}),
+        ((9, 1), {"erev_yom_kippur"}),
+        ((10, 1), {"yom_kippur"}),
+        ((15, 1), {"sukkot"}),
+        ((17, 1), {"hol_hamoed_sukkot"}),
+        ((18, 1), {"hol_hamoed_sukkot"}),
+        ((19, 1), {"hol_hamoed_sukkot"}),
+        ((20, 1), {"hol_hamoed_sukkot"}),
+        ((21, 1), {"hoshana_raba"}),
+        ((15, 9), {"pesach"}),
+        ((17, 9), {"hol_hamoed_pesach"}),
+        ((18, 9), {"hol_hamoed_pesach"}),
+        ((19, 9), {"hol_hamoed_pesach"}),
+        ((20, 9), {"hol_hamoed_pesach"}),
+        ((21, 9), {"pesach_vii"}),
+        ((5, 11), {"erev_shavuot"}),
+        ((6, 11), {"shavuot"}),
+        ((25, 3), {"chanukah"}),
+        ((26, 3), {"chanukah"}),
+        ((27, 3), {"chanukah"}),
+        ((28, 3), {"chanukah"}),
+        ((29, 3), {"chanukah"}),
+        ((1, 4), {"chanukah", "rosh_chodesh"}),
+        ((2, 4), {"chanukah"}),
+        ((10, 4), {"asara_btevet"}),
+        ((15, 5), {"tu_bshvat"}),
+        ((18, 10), {"lag_bomer"}),
+        ((15, 13), {"tu_bav"}),
     ]
 
     DIASPORA_ISRAEL_HOLIDAYS = [
         # Date, holiday in Diaspora, holiday in Israel
-        ((16, 1), "sukkot_ii", "hol_hamoed_sukkot"),
-        ((23, 1), "simchat_torah", ""),
-        ((16, 9), "pesach_ii", "hol_hamoed_pesach"),
-        ((22, 9), "pesach_viii", ""),
-        ((7, 11), "shavuot_ii", ""),
+        ((16, 1), {"sukkot_ii"}, {"hol_hamoed_sukkot"}),
+        ((22, 1), {"shmini_atzeret"}, {"shmini_atzeret", "simchat_torah"}),
+        ((23, 1), {"simchat_torah"}, {}),
+        ((16, 9), {"pesach_ii"}, {"hol_hamoed_pesach"}),
+        ((22, 9), {"pesach_viii"}, {}),
+        ((7, 11), {"shavuot_ii"}, {}),
     ]
 
     MOVING_HOLIDAYS = [
@@ -320,18 +320,17 @@ class TestSpecialDays:
         )
         assert date.upcoming_shabbat_or_yom_tov.last_day.gdate == dt.date(*dates["end"])
 
-    @pytest.mark.parametrize("date, holiday", NON_MOVING_HOLIDAYS)
+    @pytest.mark.parametrize("date, expected", NON_MOVING_HOLIDAYS)
     @given(year=strategies.integers(min_value=4000, max_value=6000))
     @settings(deadline=None)
     def test_get_holidays_non_moving(
         self,
         year: int,
         date: tuple[int, int],
-        holiday: Union[list[str], str],
+        expected: set[str],
     ) -> None:
         """Test holidays that have a fixed hebrew date."""
         rand_hdate = HDate(HebrewDate(year, date[1], date[0]))
-        expected = set(holiday) if isinstance(holiday, list) else {holiday}
         assert set(holiday.name for holiday in rand_hdate.holidays) == expected
         assert rand_hdate.is_holiday
 
@@ -344,16 +343,16 @@ class TestSpecialDays:
         self,
         year: int,
         date: tuple[int, int],
-        diaspora_holiday: str,
-        israel_holiday: str,
+        diaspora_holiday: set[str],
+        israel_holiday: set[str],
     ) -> None:
         """Test holidays that differ based on diaspora/israel."""
-        rand_hdate = HDate(HebrewDate(year, date[1], date[0]))
-        if israel_holiday:
-            assert rand_hdate.holidays[0].name == israel_holiday
+        rand_hdate = HDate(HebrewDate(year, date[1], date[0]), diaspora=False)
+        if expected := israel_holiday:
+            assert set(holiday.name for holiday in rand_hdate.holidays) == expected
         rand_hdate.diaspora = True
-        if diaspora_holiday:
-            assert rand_hdate.holidays[0].name == diaspora_holiday
+        if expected := diaspora_holiday:
+            assert set(holiday.name for holiday in rand_hdate.holidays) == expected
         assert rand_hdate.is_holiday
 
     @pytest.mark.parametrize("possible_dates, holiday", MOVING_HOLIDAYS)

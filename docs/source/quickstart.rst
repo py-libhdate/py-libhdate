@@ -15,7 +15,7 @@ Suppose we want to get today's Hebrew date.
     >>> from datetime import date
     >>> from hdate import HebrewDate
 
-    >>> today = date.today()
+    >>> today = date(2025, 1, 15)
     >>> heb_date = HebrewDate.from_gdate(today)
     >>> print(heb_date)
     15 Tevet 5785
@@ -105,7 +105,7 @@ Now we can go ahead and ask ``hdate`` for the **Halachic times** for a given dat
 
     >>> from hdate import Zmanim
 
-    >>> zmanim = Zmanim(date.today(), location)
+    >>> zmanim = Zmanim(date(2025, 1, 15), location)
     >>> zmanim.alot_hashachar.local
     datetime.datetime(2025, 1, 15, 5, 25, tzinfo=zoneinfo.ZoneInfo(key='Asia/Jerusalem'))
 
@@ -115,10 +115,7 @@ To get a list of the supported zmanim, you'll want to inspect the keys returned 
 .. code:: python
 
     >>> zmanim.zmanim.keys()
-    dict_keys(['alot_hashachar', 'talit_tefilins_time', 'sunrise', 'shema_eot_mga', 
-    'shema_eot_gra', 'tefila_eot_mga', 'tefila_eot_gra', 'midday', 'big_mincha', 
-    'big_mincha_min', 'small_mincha', 'plag_mincha', 'sunset', 'first_stars', 
-    'three_stars', 'stars_out', 'night_by_rabbeinu_tam', 'midnight'])
+    dict_keys(['alot_hashachar', 'talit_tefilins_time', 'sunrise', ...
 
 You can also get a nice printout by calling ``str`` on the ``Zmanim`` object.
 
@@ -142,14 +139,14 @@ The ``HDate`` object, accepts a date (either Gregorian or Hebrew), a boolean tha
     >>> from hdate import HDate
     >>> today = HDate(today, diaspora=False, language="english")
     >>> today.parasha
-    Shemot
+    'Shemot'
     >>> today.is_holiday
     False
     >>> today.daf_yomi
-    Sanhedrin 29
+    'Sanhedrin 29'
     >>> pesach = today.upcoming_yom_tov
     >>> pesach.holidays
-    [Holiday(type=<HolidayTypes.YOM_TOV: 1>, name='pesach', date=(15, <Months.NISAN: 9>), israel_diaspora='', date_functions_list=[])]
+    [Holiday(type=<HolidayTypes.YOM_TOV: 1>, name='pesach', date=(15, <Months.NISAN: 9>), date_functions_list=[], israel_diaspora='')]
     >>> print(pesach.holidays[0])
     Pesach
     >>> pesach.next_day.omer

@@ -15,7 +15,8 @@ from typing import Generator, Optional, Union, cast
 from hdate import htables
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Months, Weekday
-from hdate.htables import Holiday, HolidayTypes, Parasha
+from hdate.holidays import HOLIDAYS, Holiday, HolidayTypes
+from hdate.htables import Parasha
 from hdate.omer import Omer
 from hdate.translator import TranslatorMixin
 
@@ -278,7 +279,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         # Filter any non-related holidays depending on Israel/Diaspora only
         _holidays_list = [
             holiday
-            for holiday in htables.HOLIDAYS
+            for holiday in HOLIDAYS
             if (holiday.israel_diaspora == "")
             or (holiday.israel_diaspora == "ISRAEL" and not self.diaspora)
             or (holiday.israel_diaspora == "DIASPORA" and self.diaspora)
