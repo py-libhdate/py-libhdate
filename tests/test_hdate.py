@@ -520,3 +520,116 @@ class TestHDateReading:
         mydate = HDate()
         mydate.hdate = HebrewDate(5779, Months.ELUL, 29)
         assert mydate.get_reading() == 52
+
+
+UPCOMING_HOLIDAYS = [
+    ((2018, 8, 8), (2018, 9, 10), "rosh_hashana_i", "BOTH"),
+    ((2018, 9, 8), (2018, 9, 10), "rosh_hashana_i", "BOTH"),
+    ((2018, 9, 10), (2018, 9, 10), "rosh_hashana_i", "BOTH"),
+    ((2018, 9, 11), (2018, 9, 11), "rosh_hashana_ii", "BOTH"),
+    ((2018, 9, 12), (2018, 9, 19), "yom_kippur", "BOTH"),
+    ((2018, 9, 19), (2018, 9, 19), "yom_kippur", "BOTH"),
+    ((2018, 9, 20), (2018, 9, 24), "sukkot", "BOTH"),
+    ((2018, 9, 24), (2018, 9, 24), "sukkot", "BOTH"),
+    ((2018, 9, 25), (2018, 9, 25), "sukkot_ii", "DIASPORA"),
+    ((2018, 9, 25), (2018, 10, 1), "shmini_atzeret", "ISRAEL"),
+    ((2018, 9, 26), (2018, 10, 1), "shmini_atzeret", "BOTH"),
+    ((2018, 10, 2), (2018, 10, 2), "simchat_torah", "DIASPORA"),
+    ((2018, 10, 2), (2019, 4, 20), "pesach", "ISRAEL"),
+    ((2018, 10, 3), (2019, 4, 20), "pesach", "BOTH"),
+]
+
+
+@pytest.mark.parametrize(
+    "current_date, holiday_date, holiday_name, where", UPCOMING_HOLIDAYS
+)
+def test_get_next_yom_tov(
+    current_date: tuple[int, int, int],
+    holiday_date: tuple[int, int, int],
+    holiday_name: str,
+    where: str,
+) -> None:
+    """Testing the value of next yom tov."""
+    print(f"Testing holiday {holiday_name}")
+    if where in ("BOTH", "DIASPORA"):
+        hdate = HDate(date=dt.date(*current_date), diaspora=True)
+        next_yom_tov = hdate.upcoming_yom_tov
+        assert next_yom_tov.gdate == dt.date(*holiday_date)
+    if where in ("BOTH", "ISRAEL"):
+        hdate = HDate(date=dt.date(*current_date), diaspora=False)
+        next_yom_tov = hdate.upcoming_yom_tov
+        assert next_yom_tov.gdate == dt.date(*holiday_date)
+
+
+UPCOMING_SHABBAT_OR_YOM_TOV = [
+    ((2018, 9, 8), True, {"start": (2018, 9, 8), "end": (2018, 9, 8)}),
+    ((2018, 9, 9), True, {"start": (2018, 9, 10), "end": (2018, 9, 11)}),
+    ((2018, 9, 16), True, {"start": (2018, 9, 19), "end": (2018, 9, 19)}),
+    ((2018, 9, 24), True, {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
+    ((2018, 9, 25), True, {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
+    ((2018, 9, 24), False, {"start": (2018, 9, 24), "end": (2018, 9, 24)}),
+    ((2018, 9, 24), True, {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
+    ((2018, 3, 30), True, {"start": (2018, 3, 31), "end": (2018, 4, 1)}),
+    ((2018, 3, 30), False, {"start": (2018, 3, 31), "end": (2018, 3, 31)}),
+    ((2017, 9, 22), True, {"start": (2017, 9, 21), "end": (2017, 9, 23)}),
+    ((2017, 9, 22), False, {"start": (2017, 9, 21), "end": (2017, 9, 23)}),
+    ((2017, 10, 4), True, {"start": (2017, 10, 5), "end": (2017, 10, 7)}),
+    ((2017, 10, 4), False, {"start": (2017, 10, 5), "end": (2017, 10, 5)}),
+    ((2017, 10, 6), True, {"start": (2017, 10, 5), "end": (2017, 10, 7)}),
+    ((2017, 10, 6), False, {"start": (2017, 10, 7), "end": (2017, 10, 7)}),
+    ((2016, 6, 12), True, {"start": (2016, 6, 11), "end": (2016, 6, 13)}),
+]
+
+
+@pytest.mark.parametrize("current_date, diaspora, dates", UPCOMING_SHABBAT_OR_YOM_TOV)
+def test_get_next_shabbat_or_yom_tov(
+    current_date: tuple[int, int, int],
+    diaspora: bool,
+    dates: dict[str, tuple[int, int, int]],
+) -> None:
+    """Test getting the next shabbat or Yom Tov works."""
+    date = HDate(date=dt.date(*current_date), diaspora=diaspora)
+    assert date.upcoming_shabbat_or_yom_tov.first_day.gdate == dt.date(*dates["start"])
+    assert date.upcoming_shabbat_or_yom_tov.last_day.gdate == dt.date(*dates["end"])
+
+
+def test_daf_yomi() -> None:
+    """Test value of Daf Yomi."""
+    # Random test date
+    myhdate = HDate(date=dt.date(2014, 4, 28), language="english")
+    assert myhdate.daf_yomi == "Beitzah 29"
+    # Beginning/end of cycle:
+    myhdate = HDate(date=dt.date(2020, 1, 4), language="english")
+    assert myhdate.daf_yomi == "Niddah 73"
+    myhdate = HDate(date=dt.date(2020, 1, 5), language="english")
+    assert myhdate.daf_yomi == "Berachos 2"
+    myhdate = HDate(date=dt.date(2020, 3, 7), language="hebrew")
+    assert myhdate.daf_yomi == "ברכות סד"
+    myhdate = HDate(date=dt.date(2020, 3, 8), language="hebrew")
+    assert myhdate.daf_yomi == "שבת ב"
+
+
+@given(date=strategies.dates())
+@settings(deadline=None)
+def test_get_omer_day(date: dt.date) -> None:
+    """Test value of the Omer."""
+    rand_hdate = HDate(date)
+    if rand_hdate.hdate < HebrewDate(
+        0, Months.NISAN, 16
+    ) or rand_hdate.hdate > HebrewDate(0, Months.SIVAN, 5):
+        assert rand_hdate.omer is None
+    nissan = list(range(16, 30))
+    iyyar = list(range(1, 29))
+    sivan = list(range(1, 5))
+    for day in nissan:
+        rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.NISAN, day)
+        assert rand_hdate.omer is not None
+        assert rand_hdate.omer.total_days == day - 15
+    for day in iyyar:
+        rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.IYYAR, day)
+        assert rand_hdate.omer is not None
+        assert rand_hdate.omer.total_days == day + 15
+    for day in sivan:
+        rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.SIVAN, day)
+        assert rand_hdate.omer is not None
+        assert rand_hdate.omer.total_days == day + 44

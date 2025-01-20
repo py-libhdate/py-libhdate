@@ -20,6 +20,18 @@ MIN_YEAR = 3762
 MAX_YEAR = 6000
 
 
+def test_is_leap_year() -> None:
+    """Test that is_leap_year() working as expected for leap year."""
+    leap_date = HebrewDate(5784, 1, 1)
+    assert leap_date.is_leap_year()
+
+
+def test_is_not_leap_year() -> None:
+    """Test that is_leap_year() working as expected for non-leap year."""
+    leap_date = HebrewDate(5783, 1, 1)
+    assert not leap_date.is_leap_year()
+
+
 @given(strategies.integers(min_value=MIN_YEAR, max_value=MAX_YEAR))
 def test_get_all_months(year: int) -> None:
     """Test that all months are returned."""
