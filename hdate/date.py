@@ -15,7 +15,7 @@ from typing import Generator, Optional, Union, cast
 from hdate import htables
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Months, Weekday
-from hdate.holidays import HOLIDAYS, Holiday, HolidayTypes
+from hdate.holidays import HOLIDAYS, Holiday, HolidayManager, HolidayTypes
 from hdate.htables import Parasha
 from hdate.omer import Omer
 from hdate.translator import TranslatorMixin
@@ -164,12 +164,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     @property
     def holidays(self) -> list[Holiday]:
         """Return the abstract holiday information from holidays table."""
-        _holidays_list = self.get_holidays_for_year()
-        holidays_list = [
-            holiday
-            for holiday, holiday_hdate in _holidays_list
-            if holiday_hdate == self.hdate
-        ]
+        holidays_list = HolidayManager(diaspora=self.diaspora).lookup(self.hdate)
 
         for holiday in holidays_list:
             holiday.set_language(self._language)

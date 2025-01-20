@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from copy import deepcopy
 from dataclasses import dataclass, field
 from enum import Enum
 from itertools import product
@@ -51,11 +52,13 @@ class HolidayManager:
     _all_holidays: ClassVar[dict[HebrewDate, list[Holiday]]]
 
     def __post_init__(self) -> None:
-        add_holidays = (
-            self._diaspora_holidays if self.diaspora else self._israel_holidays
-        )
-        for date, holidays in add_holidays.items():
-            self._all_holidays[date].extend(holidays)
+        self._instance_holidays = deepcopy(self._all_holidays)
+        if self.diaspora:
+            for date, holidays in self._diaspora_holidays.items():
+                self._instance_holidays[date].extend(holidays)
+        else:
+            for date, holidays in self._israel_holidays.items():
+                self._instance_holidays[date].extend(holidays)
 
     @classmethod
     def register_holidays(cls, holidays: list[Holiday]) -> None:
@@ -88,9 +91,9 @@ class HolidayManager:
 
     def lookup(self, date: HebrewDate) -> list[Holiday]:
         """Lookup the holidays for a given date."""
-        if all(_date != date for _date in self._all_holidays):
+        if all(_date != date for _date in self._instance_holidays):
             return []
-        for _date, holidays in self._all_holidays.items():
+        for _date, holidays in self._instance_holidays.items():
             if _date == date:
                 return [
                     holiday

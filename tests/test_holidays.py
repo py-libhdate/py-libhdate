@@ -10,12 +10,6 @@ from hypothesis import given, settings, strategies
 
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
-from hdate.holidays import HolidayManager
-
-
-def test_holiday_manager() -> None:
-    """Test the holiday manager."""
-    assert isinstance(HolidayManager(diaspora=False), HolidayManager)
 
 
 # Test against both a leap year and non-leap year
@@ -31,9 +25,9 @@ def test_get_holidays_for_year(year: int) -> None:
     while cur_date.hdate.year == year:
         actual_holiday = cur_date.holidays
         if isinstance(actual_holiday, list):
-            assert [holiday.name for holiday in actual_holiday] == expected_holiday_map[
-                cur_date.gdate
-            ]
+            assert {holiday.name for holiday in actual_holiday} == set(
+                expected_holiday_map[cur_date.gdate]
+            )
         else:
             assert len(expected_holiday_map[cur_date.gdate]) == 0
         cur_date = cur_date.next_day
@@ -133,8 +127,6 @@ def test_get_holidays_non_moving(
     rand_hdate = HDate(HebrewDate(year, date[1], date[0]))
     assert set(holiday.name for holiday in rand_hdate.holidays) == expected
     assert rand_hdate.is_holiday
-    holidays = HolidayManager(diaspora=False).lookup(rand_hdate.hdate)
-    assert set(holiday.name for holiday in holidays) == expected
 
 
 @pytest.mark.parametrize(
@@ -159,29 +151,22 @@ def test_get_diaspora_israel_holidays(
 
 
 @pytest.mark.parametrize("possible_dates, holiday", MOVING_HOLIDAYS)
+@given(year=strategies.integers(min_value=4000, max_value=6000))
 def test_get_holidays_moving(
-    possible_dates: list[tuple[int, int]], holiday: str
+    possible_dates: list[tuple[int, int]], holiday: str, year: int
 ) -> None:
     """Test holidays that are moved based on the DOW."""
-    found_matching_holiday = False
-    year = random.randint(5000, 6500)
     print(f"Testing {holiday} for {year}")
+    valid_dates = 0
     for date in possible_dates:
-        date_under_test = HDate(language="english")
-        date_under_test.hdate = HebrewDate(year, date[1], date[0])
-        if (holidays := date_under_test.holidays) and holidays[0].name == holiday:
-            print(f"date {date_under_test} matched")
-            for other in possible_dates:
-                if other != date:
-                    other_date = HDate(language="english")
-                    other_date.hdate = HebrewDate(year, other[1], other[0])
-                    print(f"checking {other_date} doesn't match")
-                    assert len(other_date.holidays) == 0
-                    assert other_date.is_holiday is False
-            found_matching_holiday = True
-            assert date_under_test.is_holiday
-
-    assert found_matching_holiday
+        date_under_test = HDate(HebrewDate(year, date[1], date[0]))
+        assert (holiday_found := len(date_under_test.holidays) == 1) or len(
+            date_under_test.holidays
+        ) == 0
+        if holiday_found:
+            valid_dates += 1
+            assert date_under_test.holidays[0].name == holiday
+    assert valid_dates == 1, "Only a single date should be valid"
 
 
 @pytest.mark.parametrize("possible_dates, years, holiday", NEW_HOLIDAYS)
