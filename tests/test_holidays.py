@@ -133,6 +133,8 @@ def test_get_holidays_non_moving(
     rand_hdate = HDate(HebrewDate(year, date[1], date[0]))
     assert set(holiday.name for holiday in rand_hdate.holidays) == expected
     assert rand_hdate.is_holiday
+    holidays = HolidayManager(diaspora=False).lookup(rand_hdate.hdate)
+    assert set(holiday.name for holiday in holidays) == expected
 
 
 @pytest.mark.parametrize(

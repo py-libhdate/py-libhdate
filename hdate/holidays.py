@@ -88,7 +88,16 @@ class HolidayManager:
 
     def lookup(self, date: HebrewDate) -> list[Holiday]:
         """Lookup the holidays for a given date."""
-        return self._all_holidays[date]
+        if all(_date != date for _date in self._all_holidays):
+            return []
+        for _date, holidays in self._all_holidays.items():
+            if _date == date:
+                return [
+                    holiday
+                    for holiday in holidays
+                    if all(func(date) for func in holiday.date_functions_list)
+                ]
+        return []
 
 
 def not_rosh_chodesh() -> Callable[[HebrewDate], bool]:
