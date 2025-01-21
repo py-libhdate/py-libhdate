@@ -100,7 +100,7 @@ class HolidayManager:
                     for holiday in holidays
                     if all(func(date) for func in holiday.date_functions_list)
                 ]
-        return []
+        return []  # pragma: no cover
 
     def lookup_holidays_for_year(
         self, date: HebrewDate, types: Optional[list[HolidayTypes]] = None
@@ -117,6 +117,35 @@ class HolidayManager:
             _result = [(holiday, local_date) for holiday in self.lookup(local_date)]
             result.extend(_result)
         return result
+
+    @classmethod
+    def get_all_holiday_names(cls, language: str) -> set[str]:
+        """Return all the holiday names in a given language."""
+
+        result = []
+        for holiday_list in [
+            cls._diaspora_holidays,
+            cls._israel_holidays,
+            cls._all_holidays,
+        ]:
+            for holidays in holiday_list.values():
+                holiday_names = [holiday.name for holiday in holidays]
+                if (
+                    "yom_haatzmaut" in holiday_names
+                    and "yom_hazikaron" in holiday_names
+                ):
+                    continue
+                if "rosh_hashana_i" in holiday_names:
+                    holidays = [
+                        holiday
+                        for holiday in holidays
+                        if holiday.name == "rosh_hashana_i"
+                    ]
+                for holiday in holidays:
+                    holiday.set_language(language)
+                holiday_strs = sorted(set(str(holiday) for holiday in holidays))
+                result.append(", ".join(holiday_strs))
+        return set(result)
 
 
 def not_rosh_chodesh() -> Callable[[HebrewDate], bool]:
@@ -371,22 +400,3 @@ HOLIDAYS = (
 )
 
 HolidayManager.register_holidays(list(HOLIDAYS))
-
-
-def get_all_holidays(language: str) -> list[str]:
-    """Helper method to get all the holiday descriptions in the specified language."""
-
-    def holiday_name(holiday: Holiday, language: str) -> str:
-        holiday.set_language(language)
-        return str(holiday.name)
-
-    doubles = {
-        "french": "Rosh Hodesh, Hanoukka",
-        "hebrew": "ראש חודש, חנוכה",
-        "english": "Rosh Chodesh, Chanukah",
-    }
-    holidays_list = [holiday_name(h, language) for h in HOLIDAYS] + [
-        doubles.get(language, doubles["english"])
-    ]
-
-    return holidays_list

@@ -10,6 +10,7 @@ from hypothesis import given, settings, strategies
 
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
+from hdate.holidays import HOLIDAYS, Holiday, HolidayManager
 
 
 # Test against both a leap year and non-leap year
@@ -270,3 +271,23 @@ def test_get_tishrei_rosh_chodesh(year: int) -> None:
     assert myhdate.holidays[0].name == "rosh_chodesh"
     myhdate = HDate(HebrewDate(year, Months.TISHREI, 1))
     assert myhdate.holidays[0].name == "rosh_hashana_i"
+
+
+@pytest.mark.parametrize("language", ["english", "french", "hebrew"])
+def test_get_all_holidays(language: str) -> None:
+    """Helper method to get all the holiday descriptions in the specified language."""
+
+    def holiday_name(holiday: Holiday, language: str) -> str:
+        holiday.set_language(language)
+        return str(holiday)
+
+    doubles = {
+        "french": "Hanoukka, Rosh Hodesh",
+        "hebrew": "חנוכה, ראש חודש",
+        "english": "Chanukah, Rosh Chodesh",
+    }
+    holidays_list = [holiday_name(h, language) for h in HOLIDAYS] + [
+        doubles.get(language, doubles["english"])
+    ]
+
+    assert HolidayManager.get_all_holiday_names(language) == set(holidays_list)
