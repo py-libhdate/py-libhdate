@@ -9,13 +9,13 @@ from __future__ import annotations
 
 import datetime as dt
 import logging
-from itertools import chain, product
-from typing import Generator, Optional, Union, cast
+from itertools import chain
+from typing import Optional, Union, cast
 
 from hdate import htables
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Months, Weekday
-from hdate.holidays import HOLIDAYS, Holiday, HolidayManager, HolidayTypes
+from hdate.holidays import Holiday, HolidayManager, HolidayTypes
 from hdate.htables import Parasha
 from hdate.omer import Omer
 from hdate.translator import TranslatorMixin
@@ -270,67 +270,9 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         If specified, use the list of types to limit the holidays returned.
         """
-        _LOGGER.debug("Looking up holidays of types %s", types)
-        # Filter any non-related holidays depending on Israel/Diaspora only
-        _holidays_list = [
-            holiday
-            for holiday in HOLIDAYS
-            if (holiday.israel_diaspora == "")
-            or (holiday.israel_diaspora == "ISRAEL" and not self.diaspora)
-            or (holiday.israel_diaspora == "DIASPORA" and self.diaspora)
-        ]
-
-        if types:
-            # Filter non-matching holiday types.
-            _holidays_list = [
-                holiday for holiday in _holidays_list if holiday.type in types
-            ]
-
-        _LOGGER.debug(
-            "Holidays after filters have been applied: %s",
-            [holiday.name for holiday in _holidays_list],
+        return HolidayManager(diaspora=self.diaspora).lookup_holidays_for_year(
+            date=self.hdate, types=types
         )
-
-        def holiday_dates_cross_product(
-            holiday: Holiday,
-        ) -> product[tuple[int, ...]]:
-            """Given a (days, months) pair, compute the cross product.
-
-            If days and/or months are singletons, they are converted to a list.
-            """
-            return product(
-                *([x] if isinstance(x, (int, Months)) else x for x in holiday.date)
-            )
-
-        # Compute out every actual Hebrew date on which a holiday falls for
-        # this year by exploding out the possible days for each holiday.
-        def valid_holiday_dates(
-            holidays_list: list[Holiday],
-        ) -> Generator[tuple[Holiday, HebrewDate]]:
-            for holiday in holidays_list:
-                for date_instance in holiday_dates_cross_product(holiday):
-                    if len(holiday.date) >= 2:
-                        try:
-                            yield (
-                                holiday,
-                                HebrewDate(
-                                    year=self.hdate.year,
-                                    month=date_instance[1],
-                                    day=date_instance[0],
-                                ),
-                            )
-                        except ValueError:
-                            continue
-
-        valid_holidays = list(valid_holiday_dates(_holidays_list))
-
-        # Filter any special cases defined by True/False functions
-        holidays_list = [
-            (holiday, date)
-            for (holiday, date) in valid_holidays
-            if all(func(date) for func in holiday.date_functions_list)
-        ]
-        return holidays_list
 
     @property
     def upcoming_yom_tov(self) -> HDate:
@@ -341,13 +283,12 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         """
         if self.is_yom_tov:
             return self
-        this_year = self.get_holidays_for_year([HolidayTypes.YOM_TOV])
-        next_rosh_hashana = HDate(
-            HebrewDate(self.hdate.year + 1, Months.TISHREI, 1),
-            self.diaspora,
-            self._language,
+
+        mgr = HolidayManager(diaspora=self.diaspora)
+        this_year = mgr.lookup_holidays_for_year(self.hdate, [HolidayTypes.YOM_TOV])
+        next_year = mgr.lookup_holidays_for_year(
+            self.hdate.replace(year=self.hdate.year + 1), [HolidayTypes.YOM_TOV]
         )
-        next_year = next_rosh_hashana.get_holidays_for_year([HolidayTypes.YOM_TOV])
 
         # Filter anything that's past, and make them HDate objects
         holidays_list = [

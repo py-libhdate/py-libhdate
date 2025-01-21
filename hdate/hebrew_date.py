@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import datetime as dt
+from copy import copy
 from dataclasses import dataclass
 from enum import IntEnum, IntFlag
 from typing import TYPE_CHECKING, Callable, Optional, Union, cast
@@ -202,18 +203,32 @@ class HebrewDate(TranslatorMixin):
             if isinstance(self.month, Months)
             else Months(self.month)  # type: ignore # pylint: disable=E1120
         )
+        self._validate()
+        self.month.set_language(self._language)
+
+    def _validate(self) -> None:
         if self.year != 0:
             if self.month not in Months.in_year(self.year):
                 raise ValueError(
                     f"{self.month} is not a valid month for year {self.year} "
                     f"({'leap' if is_leap_year(self.year) else 'non-leap'})"
                 )
-        if not 0 < self.day <= (max_days := self.month.days(self.year)):
+        if not 0 < self.day <= (max_days := cast(Months, self.month).days(self.year)):
             raise ValueError(
                 f"Day {self.day} is illegal: "
                 f"legal values are 1-{max_days} for {self.month}"
             )
-        self.month.set_language(self._language)
+
+    def __replace__(self, **kwargs: Union[int, Months]) -> HebrewDate:
+        _copy = copy(self)
+        for key, value in kwargs.items():
+            setattr(_copy, key, value)
+        self._validate()
+        return _copy
+
+    def replace(self, **kwargs: Union[int, Months]) -> HebrewDate:
+        """Return a new HebrewDate with the specified fields replaced."""
+        return self.__replace__(**kwargs)
 
     def __str__(self) -> str:
         """Return the hebrew date string in the selected language."""

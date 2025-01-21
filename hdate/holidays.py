@@ -7,7 +7,7 @@ from copy import deepcopy
 from dataclasses import dataclass, field
 from enum import Enum
 from itertools import product
-from typing import Callable, ClassVar, Literal, Union
+from typing import Callable, ClassVar, Literal, Optional, Union
 
 from hdate.hebrew_date import CHANGING_MONTHS, LONG_MONTHS, HebrewDate, Months, Weekday
 from hdate.translator import TranslatorMixin
@@ -101,6 +101,22 @@ class HolidayManager:
                     if all(func(date) for func in holiday.date_functions_list)
                 ]
         return []
+
+    def lookup_holidays_for_year(
+        self, date: HebrewDate, types: Optional[list[HolidayTypes]] = None
+    ) -> list[tuple[Holiday, HebrewDate]]:
+        """Lookup the holidays for a given year."""
+        holiday_dates = [
+            _date
+            for _date, holidays in self._instance_holidays.items()
+            if not types or any(holiday.type in types for holiday in holidays)
+        ]
+        result = []
+        for _date in holiday_dates:
+            local_date = _date.replace(year=date.year)
+            _result = [(holiday, local_date) for holiday in self.lookup(local_date)]
+            result.extend(_result)
+        return result
 
 
 def not_rosh_chodesh() -> Callable[[HebrewDate], bool]:
@@ -200,8 +216,8 @@ HOLIDAYS = (
         "taanit_esther",
         ((11, 13), (Months.ADAR, Months.ADAR_II)),
         [
-            move_if_not_on_dow(13, 11, Weekday.SATURDAY, Weekday.THURSDAY),
             correct_adar(),
+            move_if_not_on_dow(13, 11, Weekday.SATURDAY, Weekday.THURSDAY),
         ],
     ),
     Holiday(
