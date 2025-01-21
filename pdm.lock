@@ -5,7 +5,7 @@
 groups = ["default", "astral", "dev", "docs", "test"]
 strategy = ["inherit_metadata"]
 lock_version = "4.5.0"
-content_hash = "sha256:90ca3efe5bbcc437f6d62eec0e1ba6a304b6028da81431a590c8cfcd6933d44c"
+content_hash = "sha256:af4cb689226c39b7b7a1476d3b6eca67fd79847cff974e8bc9053cd7ce76a88f"
 
 [[metadata.targets]]
 requires_python = ">=3.9"
@@ -492,7 +492,7 @@ files = [
 
 [[package]]
 name = "hypothesis"
-version = "6.123.7"
+version = "6.124.1"
 requires_python = ">=3.9"
 summary = "A library for property-based testing"
 groups = ["test"]
@@ -502,8 +502,8 @@ dependencies = [
     "sortedcontainers<3.0.0,>=2.1.0",
 ]
 files = [
-    {file = "hypothesis-6.123.7-py3-none-any.whl", hash = "sha256:292d5cd90e1665da53cfe74082187488cf48292c45ca191550d661aee6d52397"},
-    {file = "hypothesis-6.123.7.tar.gz", hash = "sha256:c88f21fba1e8f893a43c04ca422acdf13b182b8272b4d530f5bbaa753e381232"},
+    {file = "hypothesis-6.124.1-py3-none-any.whl", hash = "sha256:40c8be982d3a79b26d5ae11b6606189784f1654f3c750ffcb99fc5b352d5e2ba"},
+    {file = "hypothesis-6.124.1.tar.gz", hash = "sha256:6e21995c3cb3198ef7e60853acce1fbaa6c16de59c2fb3158845664dfe639bd9"},
 ]
 
 [[package]]

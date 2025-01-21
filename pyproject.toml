@@ -58,7 +58,7 @@ test = [
     "pytest>=8.3.4",
     "pytest-coverage>=0.0",
     "pytest-xdist>=3.6.1",
-    "hypothesis>=6.123.7",
+    "hypothesis>=6.124.1",
     "syrupy>=4.8.0",
     "pytest-profiling>=1.8.1",
 ]
