@@ -93,14 +93,14 @@ class HolidayManager:
         """Lookup the holidays for a given date."""
         if all(_date != date for _date in self._instance_holidays):
             return []
-        for _date, holidays in self._instance_holidays.items():
-            if _date == date:
-                return [
-                    holiday
-                    for holiday in holidays
-                    if all(func(date) for func in holiday.date_functions_list)
-                ]
-        return []  # pragma: no cover
+        holidays = next(
+            h for _date, h in self._instance_holidays.items() if _date == date
+        )
+        return [
+            holiday
+            for holiday in holidays
+            if all(func(date) for func in holiday.date_functions_list)
+        ]
 
     def lookup_holidays_for_year(
         self, date: HebrewDate, types: Optional[list[HolidayTypes]] = None

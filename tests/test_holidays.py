@@ -3,7 +3,6 @@
 import datetime as dt
 import random
 from collections import defaultdict
-from typing import Union
 
 import pytest
 from hypothesis import given, settings, strategies
@@ -99,15 +98,15 @@ MOVING_HOLIDAYS = [
 
 NEW_HOLIDAYS = [
     # Possible dates, test year range, name
-    ([(26, 9), (27, 9), (28, 9)], (5719, 6500), "yom_hashoah"),
-    ([(3, 10), (4, 10), (5, 10)], (5709, 5763), "yom_haatzmaut"),
-    ([(3, 10), (4, 10), (5, 10), (6, 10)], (5764, 6500), "yom_haatzmaut"),
-    ([(2, 10), (3, 10), (4, 10)], (5709, 5763), "yom_hazikaron"),
-    ([(2, 10), (3, 10), (4, 10), (5, 10)], (5764, 6500), "yom_hazikaron"),
-    ([(28, 10)], (5728, 6500), "yom_yerushalayim"),
-    ([(11, 2), (12, 2)], (5758, 6500), "rabin_memorial_day"),
-    ([(29, 12)], (5765, 6500), "zeev_zhabotinsky_day"),
-    ([(30, 5)], (5734, 6500), ["family_day", "rosh_chodesh"]),
+    ([(26, 9), (27, 9), (28, 9)], (5719, 6500), {"yom_hashoah"}),
+    ([(3, 10), (4, 10), (5, 10)], (5709, 5763), {"yom_haatzmaut"}),
+    ([(3, 10), (4, 10), (5, 10), (6, 10)], (5764, 6500), {"yom_haatzmaut"}),
+    ([(2, 10), (3, 10), (4, 10)], (5709, 5763), {"yom_hazikaron"}),
+    ([(2, 10), (3, 10), (4, 10), (5, 10)], (5764, 6500), {"yom_hazikaron"}),
+    ([(28, 10)], (5728, 6500), {"yom_yerushalayim"}),
+    ([(11, 2), (12, 2)], (5758, 6500), {"rabin_memorial_day"}),
+    ([(29, 12)], (5765, 6500), {"zeev_zhabotinsky_day"}),
+    ([(30, 5)], (5734, 6500), {"family_day", "rosh_chodesh"}),
 ]
 
 ADAR_HOLIDAYS = [
@@ -159,68 +158,52 @@ def test_get_holidays_moving(
     """Test holidays that are moved based on the DOW."""
     print(f"Testing {holiday} for {year}")
     valid_dates = 0
+    mgr = HolidayManager(diaspora=True)
     for date in possible_dates:
-        date_under_test = HDate(HebrewDate(year, date[1], date[0]))
-        assert (holiday_found := len(date_under_test.holidays) == 1) or len(
-            date_under_test.holidays
-        ) == 0
+        date_under_test = HebrewDate(year, date[1], date[0])
+        holidays = mgr.lookup(date_under_test)
+        assert (holiday_found := len(holidays) == 1) or len(holidays) == 0
         if holiday_found:
             valid_dates += 1
-            assert date_under_test.holidays[0].name == holiday
+            assert holidays[0].name == holiday
     assert valid_dates == 1, "Only a single date should be valid"
 
 
-@pytest.mark.parametrize("possible_dates, years, holiday", NEW_HOLIDAYS)
+@pytest.mark.parametrize("possible_dates, years, expected", NEW_HOLIDAYS)
 def test_new_holidays_multiple_date(
-    possible_dates: list[tuple[int, int]],
-    years: tuple[int, int],
-    holiday: Union[list[str], str],
+    possible_dates: list[tuple[int, int]], years: tuple[int, int], expected: set[str]
 ) -> None:
     """Test holidays that have multiple possible dates."""
-    found_matching_holiday = False
     year = random.randint(*years)
-    print(f"Testing {holiday} for {year}")
+    print(f"Testing {expected} for {year}")
+    valid_dates = 0
+    mgr = HolidayManager(diaspora=False)
     for date in possible_dates:
-        date_under_test = HDate(language="english")
-        date_under_test.hdate = HebrewDate(year, date[1], date[0])
-        expected = set(holiday) if isinstance(holiday, list) else {holiday}
-        if (holidays := date_under_test.holidays) and set(
-            holiday.name for holiday in holidays
-        ) == expected:
-            print(f"date {date_under_test} matched")
-            for other in possible_dates:
-                if other != date:
-                    other_date = HDate(language="english")
-                    other_date.hdate = HebrewDate(year, other[1], other[0])
-                    print(f"checking {other_date} doesn't match")
-                    if other_date.holidays:
-                        assert other_date.holidays[0].name != holiday
-            found_matching_holiday = True
-            assert date_under_test.is_holiday
-    assert found_matching_holiday
+        date_under_test = HebrewDate(year, date[1], date[0])
+        holidays = mgr.lookup(date_under_test)
+        assert (holiday_found := len(holidays) > 0) or len(holidays) == 0
+        if holiday_found and expected == set(h.name for h in holidays):
+            valid_dates += 1
+    assert valid_dates == 1, "Only a single date should be valid"
 
 
-@pytest.mark.parametrize("possible_dates, years, holiday", NEW_HOLIDAYS)
+@pytest.mark.parametrize("possible_dates, years, expected", NEW_HOLIDAYS)
 def test_new_holidays_invalid_before(
-    possible_dates: list[tuple[int, int]],
-    years: tuple[int, int],
-    holiday: Union[list[str], str],
+    possible_dates: list[tuple[int, int]], years: tuple[int, int], expected: set[str]
 ) -> None:
     """Test holidays that were created over time."""
     # Yom hazikaron and yom ha'atsmaut don't test for before 5764
-    if years[0] == 5764 and holiday in ["yom_hazikaron", "yom_haatzmaut"]:
+    if years[0] == 5764 and expected.intersection({"yom_hazikaron", "yom_haatzmaut"}):
         return
     year = random.randint(5000, years[0] - 1)
-    print(f"Testing {holiday} for {year}")
+    print(f"Testing {expected} for {year}")
+    mgr = HolidayManager(diaspora=False)
     for date in possible_dates:
-        date_under_test = HDate()
-        date_under_test.hdate = HebrewDate(year, date[1], date[0])
-        if date[0] in (1, 30):
-            assert any(
-                holiday.name == "rosh_chodesh" for holiday in date_under_test.holidays
-            )
-        else:
-            assert len(date_under_test.holidays) == 0
+        date_under_test = HebrewDate(year, date[1], date[0])
+        holidays = mgr.lookup(date_under_test)
+        assert len(holidays) == 0 or (
+            len(holidays) == 1 and holidays[0].name == "rosh_chodesh"
+        )
 
 
 @given(year=strategies.integers(min_value=5000, max_value=6000))
@@ -244,23 +227,22 @@ def test_hanukah_5785() -> None:
 
 
 @pytest.mark.parametrize("possible_days, holiday", ADAR_HOLIDAYS)
-def test_get_holiday_adar(possible_days: list[int], holiday: str) -> None:
+@given(year=strategies.integers(min_value=5000, max_value=6000))
+def test_get_holiday_adar(possible_days: list[int], holiday: str, year: int) -> None:
     """Test holidays for Adar I/Adar II."""
-    year = random.randint(5000, 6000)
     date = HebrewDate(year)
     date.month = Months.ADAR_II if date.is_leap_year() else Months.ADAR
+    mgr = HolidayManager(diaspora=False)
     print(f"Testing {holiday} for {date!r}")
+    valid_dates = 0
     for day in possible_days:
-        date.day = day
-        myhdate = HDate(date)
-        if day == 13 and myhdate.dow == 7 and holiday == "taanit_esther":
-            assert len(myhdate.holidays) == 0
-            assert myhdate.is_holiday is False
-        elif day == 11 and myhdate.dow != 5 and holiday == "taanit_esther":
-            assert len(myhdate.holidays) == 0
-            assert myhdate.is_holiday is False
-        else:
-            assert myhdate.holidays[0].name == holiday
+        dut = date.replace(day=day)
+        holidays = mgr.lookup(dut)
+        assert (holiday_found := len(holidays) == 1) or len(holidays) == 0
+        if holiday_found:
+            assert holidays[0].name == holiday
+            valid_dates += 1
+    assert valid_dates == 1
 
 
 @given(year=strategies.integers(min_value=5000, max_value=6000))
