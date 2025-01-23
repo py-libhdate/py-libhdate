@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import datetime as dt
-from copy import copy
 from dataclasses import dataclass
 from enum import IntEnum, IntFlag
 from typing import TYPE_CHECKING, Callable, Optional, Union, cast
@@ -206,29 +205,39 @@ class HebrewDate(TranslatorMixin):
         self._validate()
         self.month.set_language(self._language)
 
-    def _validate(self) -> None:
-        if self.year != 0:
-            if self.month not in Months.in_year(self.year):
-                raise ValueError(
-                    f"{self.month} is not a valid month for year {self.year} "
-                    f"({'leap' if is_leap_year(self.year) else 'non-leap'})"
-                )
-        if not 0 < self.day <= (max_days := cast(Months, self.month).days(self.year)):
+    def _validate(self, year: int = 0) -> None:
+        validate_months = True
+        if self.year == 0 and year == 0:
+            # Unable to validate Month, days of month for Cheshvan and Kislev are 30
+            validate_months = False
+
+        # Use the provided year to validate if it's not 0
+        year = self.year if year == 0 else year
+        if validate_months and self.month not in Months.in_year(year):
+            raise ValueError(
+                f"{self.month} is not a valid month for year {year} "
+                f"({'leap' if is_leap_year(year) else 'non-leap'})"
+            )
+        if not 0 < self.day <= (max_days := cast(Months, self.month).days(year)):
             raise ValueError(
                 f"Day {self.day} is illegal: "
                 f"legal values are 1-{max_days} for {self.month}"
             )
 
-    def __replace__(self, **kwargs: Union[int, Months]) -> HebrewDate:
-        _copy = copy(self)
-        for key, value in kwargs.items():
-            setattr(_copy, key, value)
-        self._validate()
-        return _copy
-
-    def replace(self, **kwargs: Union[int, Months]) -> HebrewDate:
-        """Return a new HebrewDate with the specified fields replaced."""
-        return self.__replace__(**kwargs)
+    def replace(
+        self,
+        year: Optional[int] = None,
+        month: Optional[Months] = None,
+        day: Optional[int] = None,
+    ) -> HebrewDate:
+        """Return a new HebrewDate with a different year/month/day."""
+        if year is None:
+            year = self.year
+        if month is None:
+            month = cast(Months, self.month)
+        if day is None:
+            day = self.day
+        return type(self)(year, month, day)
 
     def __str__(self) -> str:
         """Return the hebrew date string in the selected language."""

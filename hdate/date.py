@@ -9,7 +9,6 @@ from __future__ import annotations
 
 import datetime as dt
 import logging
-from itertools import chain
 from typing import Optional, Union, cast
 
 from hdate import htables
@@ -285,21 +284,9 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             return self
 
         mgr = HolidayManager(diaspora=self.diaspora)
-        this_year = mgr.lookup_holidays_for_year(self.hdate, [HolidayTypes.YOM_TOV])
-        next_year = mgr.lookup_holidays_for_year(
-            self.hdate.replace(year=self.hdate.year + 1), [HolidayTypes.YOM_TOV]
-        )
+        date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
 
-        # Filter anything that's past, and make them HDate objects
-        holidays_list = [
-            holiday_hdate
-            for _, holiday_hdate in chain(this_year, next_year)
-            if holiday_hdate >= self.hdate
-        ]
-
-        holidays_list.sort(key=lambda h: h.to_gdate())
-
-        return HDate(holidays_list[0], self.diaspora, self._language)
+        return HDate(date, self.diaspora, self._language)
 
     def get_reading(self) -> Parasha:
         """Return number of hebrew parasha."""

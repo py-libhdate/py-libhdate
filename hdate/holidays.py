@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from bisect import bisect_left
 from collections import defaultdict
 from copy import deepcopy
 from dataclasses import dataclass, field
@@ -59,6 +60,7 @@ class HolidayManager:
         else:
             for date, holidays in self._israel_holidays.items():
                 self._instance_holidays[date].extend(holidays)
+        self._instance_holidays = dict(sorted(self._instance_holidays.items()))
 
     @classmethod
     def register_holidays(cls, holidays: list[Holiday]) -> None:
@@ -117,6 +119,23 @@ class HolidayManager:
             _result = [(holiday, local_date) for holiday in self.lookup(local_date)]
             result.extend(_result)
         return result
+
+    def lookup_next_holiday(
+        self, date: HebrewDate, types: Optional[list[HolidayTypes]] = None
+    ) -> HebrewDate:
+        """Lookup the next holiday for a given date (with optional type filter)."""
+        filtered_holidays = self._instance_holidays
+        if types:
+            filtered_holidays = {
+                _date: [holiday for holiday in holidays if holiday.type in types]
+                for _date, holidays in self._instance_holidays.items()
+                if any(holiday.type in types for holiday in holidays)
+            }
+        next_date_idx = bisect_left(list(filtered_holidays.keys()), date)
+        if next_date_idx == len(filtered_holidays.keys()):
+            return HebrewDate(year=date.year + 1)
+        next_date = list(filtered_holidays.keys())[next_date_idx]
+        return next_date.replace(year=date.year)
 
     @classmethod
     def get_all_holiday_names(cls, language: str) -> set[str]:
