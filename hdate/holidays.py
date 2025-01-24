@@ -160,12 +160,6 @@ class HolidayManager:
                     and "yom_hazikaron" in holiday_names
                 ):
                     continue
-                if "rosh_hashana_i" in holiday_names:
-                    holidays = [
-                        holiday
-                        for holiday in holidays
-                        if holiday.name == "rosh_hashana_i"
-                    ]
                 for holiday in holidays:
                     holiday.set_language(language)
                 holiday_strs = sorted(set(str(holiday) for holiday in holidays))
