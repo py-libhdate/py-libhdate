@@ -104,26 +104,10 @@ class HolidayManager:
             if all(func(date) for func in holiday.date_functions_list)
         ]
 
-    def lookup_holidays_for_year(
-        self, date: HebrewDate, types: Optional[list[HolidayTypes]] = None
-    ) -> list[tuple[Holiday, HebrewDate]]:
-        """Lookup the holidays for a given year."""
-        holiday_dates = [
-            _date
-            for _date, holidays in self._instance_holidays.items()
-            if not types or any(holiday.type in types for holiday in holidays)
-        ]
-        result = []
-        for _date in holiday_dates:
-            local_date = _date.replace(year=date.year)
-            _result = [(holiday, local_date) for holiday in self.lookup(local_date)]
-            result.extend(_result)
-        return result
-
-    def lookup_next_holiday(
-        self, date: HebrewDate, types: Optional[list[HolidayTypes]] = None
-    ) -> HebrewDate:
-        """Lookup the next holiday for a given date (with optional type filter)."""
+    def get_filtered_holidays(
+        self, types: Optional[list[HolidayTypes]]
+    ) -> dict[HebrewDate, list[Holiday]]:
+        """Return a list of filtered holidays, based on type."""
         filtered_holidays = self._instance_holidays
         if types:
             filtered_holidays = {
@@ -131,6 +115,28 @@ class HolidayManager:
                 for _date, holidays in self._instance_holidays.items()
                 if any(holiday.type in types for holiday in holidays)
             }
+        return filtered_holidays
+
+    def lookup_holidays_for_year(
+        self, date: HebrewDate, types: Optional[list[HolidayTypes]] = None
+    ) -> dict[HebrewDate, list[Holiday]]:
+        """Lookup the holidays for a given year."""
+        filtered_holidays = self.get_filtered_holidays(types)
+        return {
+            (real_date := _date.replace(year=date.year)): [
+                holiday
+                for holiday in holidays
+                if all(func(real_date) for func in holiday.date_functions_list)
+            ]
+            for _date, holidays in filtered_holidays.items()
+            if _date.valid_for_year(date.year)
+        }
+
+    def lookup_next_holiday(
+        self, date: HebrewDate, types: Optional[list[HolidayTypes]] = None
+    ) -> HebrewDate:
+        """Lookup the next holiday for a given date (with optional type filter)."""
+        filtered_holidays = self.get_filtered_holidays(types)
         next_date_idx = bisect_left(list(filtered_holidays.keys()), date)
         if next_date_idx == len(filtered_holidays.keys()):
             return HebrewDate(year=date.year + 1)
@@ -165,11 +171,6 @@ class HolidayManager:
                 holiday_strs = sorted(set(str(holiday) for holiday in holidays))
                 result.append(", ".join(holiday_strs))
         return set(result)
-
-
-def not_rosh_chodesh() -> Callable[[HebrewDate], bool]:
-    """The 1st of Tishrei is not Rosh Chodesh."""
-    return lambda x: not (x.month == Months.TISHREI and x.day == 1)
 
 
 def correct_adar() -> Callable[[HebrewDate], Union[bool, Callable[[], bool]]]:
@@ -407,8 +408,8 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.ROSH_CHODESH,
         "rosh_chodesh",
-        (1, tuple(Months)),
-        [correct_adar(), not_rosh_chodesh()],
+        (1, tuple(set(Months) - {Months.TISHREI})),
+        [correct_adar()],
     ),
     Holiday(
         HolidayTypes.ROSH_CHODESH,

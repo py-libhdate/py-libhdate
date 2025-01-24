@@ -264,7 +264,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
     def get_holidays_for_year(
         self, types: Optional[list[HolidayTypes]] = None
-    ) -> list[tuple[Holiday, HebrewDate]]:
+    ) -> dict[HebrewDate, list[Holiday]]:
         """Get all the actual holiday days for a given HDate's year.
 
         If specified, use the list of types to limit the holidays returned.

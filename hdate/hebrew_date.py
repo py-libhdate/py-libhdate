@@ -205,6 +205,14 @@ class HebrewDate(TranslatorMixin):
         self._validate()
         self.month.set_language(self._language)
 
+    def valid_for_year(self, year: int) -> bool:
+        """Check if the date is valid for the given year."""
+        try:
+            self._validate(year)
+        except ValueError:
+            return False
+        return True
+
     def _validate(self, year: int = 0) -> None:
         validate_months = True
         if self.year == 0 and year == 0:

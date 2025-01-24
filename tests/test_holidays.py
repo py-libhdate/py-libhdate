@@ -18,32 +18,32 @@ def test_get_holidays_for_year(year: int) -> None:
     """Test that get_holidays_for_year() returns every holiday."""
     cur_date = HDate(HebrewDate(year, 1, 1))
 
-    expected_holiday_map = defaultdict(list)
-    for entry, date in cur_date.get_holidays_for_year():
-        expected_holiday_map[date.to_gdate()].append(entry.name)
+    expected_holiday_map = defaultdict(set)
+    for date, entries in cur_date.get_holidays_for_year().items():
+        expected_holiday_map[date.to_gdate()] = {entry.name for entry in entries}
 
     while cur_date.hdate.year == year:
-        actual_holiday = cur_date.holidays
-        if isinstance(actual_holiday, list):
-            assert {holiday.name for holiday in actual_holiday} == set(
-                expected_holiday_map[cur_date.gdate]
-            )
-        else:
+        if cur_date.holidays is None:
             assert len(expected_holiday_map[cur_date.gdate]) == 0
+        else:
+            assert {
+                holiday.name for holiday in cur_date.holidays
+            } == expected_holiday_map[cur_date.gdate]
+
         cur_date = cur_date.next_day
 
 
 def test_get_holidays_for_year_non_leap_year() -> None:
     """Test that get_holidays_for_year() returns consistent months."""
     base_date = HDate(HebrewDate(5783, Months.TISHREI, 1))
-    for _, date in base_date.get_holidays_for_year():
+    for date in base_date.get_holidays_for_year().keys():
         assert date.month not in (Months.ADAR_I, Months.ADAR_II)
 
 
 def test_get_holidays_for_year_leap_year() -> None:
     """Test that get_holidays_for_year() returns consistent months."""
     base_date = HDate(HebrewDate(5784, Months.TISHREI, 1))
-    for _, date in base_date.get_holidays_for_year():
+    for date in base_date.get_holidays_for_year().keys():
         assert date.month != Months.ADAR
 
 
