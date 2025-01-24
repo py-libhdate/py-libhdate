@@ -231,12 +231,12 @@ def test_hanukah_5785() -> None:
 def test_get_holiday_adar(possible_days: list[int], holiday: str, year: int) -> None:
     """Test holidays for Adar I/Adar II."""
     date = HebrewDate(year)
-    date.month = Months.ADAR_II if date.is_leap_year() else Months.ADAR
+    month = Months.ADAR_II if date.is_leap_year() else Months.ADAR
     mgr = HolidayManager(diaspora=False)
-    print(f"Testing {holiday} for {date!r}")
     valid_dates = 0
     for day in possible_days:
-        dut = date.replace(day=day)
+        dut = date.replace(month=month, day=day)
+        print(f"Testing {holiday} for {dut!r}")
         holidays = mgr.lookup(dut)
         assert (holiday_found := len(holidays) == 1) or len(holidays) == 0
         if holiday_found:
