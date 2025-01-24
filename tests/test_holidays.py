@@ -28,7 +28,7 @@ def test_get_holidays_for_year(year: int) -> None:
         else:
             assert {
                 holiday.name for holiday in cur_date.holidays
-            } == expected_holiday_map[cur_date.gdate]
+            } == expected_holiday_map[cur_date.gdate], f"Error on {cur_date.gdate}"
 
         cur_date = cur_date.next_day
 
