@@ -154,11 +154,8 @@ class HolidayManager:
             cls._all_holidays,
         ]:
             for holidays in holiday_list.values():
-                holiday_names = [holiday.name for holiday in holidays]
-                if (
-                    "yom_haatzmaut" in holiday_names
-                    and "yom_hazikaron" in holiday_names
-                ):
+                holiday_names = {holiday.name for holiday in holidays}
+                if {"yom_haatzmaut", "yom_hazikaron"} == holiday_names:
                     continue
                 for holiday in holidays:
                     holiday.set_language(language)
