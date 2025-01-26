@@ -14,7 +14,7 @@ from typing import Optional, Union, cast
 from hdate import htables
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Months, Weekday
-from hdate.holidays import Holiday, HolidayManager, HolidayTypes
+from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.htables import Parasha
 from hdate.omer import Omer
 from hdate.translator import TranslatorMixin
@@ -139,7 +139,7 @@ class HDate(TranslatorMixin):
     @property
     def holidays(self) -> list[Holiday]:
         """Return the abstract holiday information from holidays table."""
-        holidays_list = HolidayManager(diaspora=self.diaspora).lookup(self.hdate)
+        holidays_list = HolidayDatabase(diaspora=self.diaspora).lookup(self.hdate)
 
         for holiday in holidays_list:
             holiday.set_language(self._language)
@@ -245,7 +245,7 @@ class HDate(TranslatorMixin):
 
         If specified, use the list of types to limit the holidays returned.
         """
-        return HolidayManager(diaspora=self.diaspora).lookup_holidays_for_year(
+        return HolidayDatabase(diaspora=self.diaspora).lookup_holidays_for_year(
             date=self.hdate, types=types
         )
 
@@ -259,7 +259,7 @@ class HDate(TranslatorMixin):
         if self.is_yom_tov:
             return self
 
-        mgr = HolidayManager(diaspora=self.diaspora)
+        mgr = HolidayDatabase(diaspora=self.diaspora)
         date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
 
         return HDate(date, self.diaspora, self._language)

@@ -43,7 +43,7 @@ class Holiday(TranslatorMixin):
 
 
 @dataclass
-class HolidayManager:
+class HolidayDatabase:
     """Container class for holiday information."""
 
     diaspora: bool
@@ -104,12 +104,13 @@ class HolidayManager:
             if all(func(date) for func in holiday.date_functions_list)
         ]
 
-    def get_filtered_holidays(
-        self, types: Optional[list[HolidayTypes]]
+    def _get_filtered_holidays(
+        self, types: Optional[Union[list[HolidayTypes], HolidayTypes]]
     ) -> dict[HebrewDate, list[Holiday]]:
         """Return a list of filtered holidays, based on type."""
         filtered_holidays = self._instance_holidays
         if types:
+            types = [types] if isinstance(types, HolidayTypes) else types
             filtered_holidays = {
                 _date: [holiday for holiday in holidays if holiday.type in types]
                 for _date, holidays in self._instance_holidays.items()
@@ -118,11 +119,13 @@ class HolidayManager:
         return filtered_holidays
 
     def lookup_holidays_for_year(
-        self, date: HebrewDate, types: Optional[list[HolidayTypes]] = None
+        self,
+        date: HebrewDate,
+        types: Optional[Union[list[HolidayTypes], HolidayTypes]] = None,
     ) -> dict[HebrewDate, list[Holiday]]:
         """Lookup the holidays for a given year."""
-        filtered_holidays = self.get_filtered_holidays(types)
-        return {
+        filtered_holidays = self._get_filtered_holidays(types)
+        result = {
             (real_date := _date.replace(year=date.year)): [
                 holiday
                 for holiday in holidays
@@ -131,12 +134,19 @@ class HolidayManager:
             for _date, holidays in filtered_holidays.items()
             if _date.valid_for_year(date.year)
         }
+        return {
+            _date: _holidays
+            for _date, _holidays in result.items()
+            if len(_holidays) > 0
+        }
 
     def lookup_next_holiday(
-        self, date: HebrewDate, types: Optional[list[HolidayTypes]] = None
+        self,
+        date: HebrewDate,
+        types: Optional[Union[list[HolidayTypes], HolidayTypes]] = None,
     ) -> HebrewDate:
         """Lookup the next holiday for a given date (with optional type filter)."""
-        filtered_holidays = self.get_filtered_holidays(types)
+        filtered_holidays = self._get_filtered_holidays(types)
         next_date_idx = bisect_left(list(filtered_holidays.keys()), date)
         if next_date_idx == len(filtered_holidays.keys()):
             return HebrewDate(year=date.year + 1)
@@ -410,4 +420,4 @@ HOLIDAYS = (
     ),
 )
 
-HolidayManager.register_holidays(list(HOLIDAYS))
+HolidayDatabase.register_holidays(list(HOLIDAYS))

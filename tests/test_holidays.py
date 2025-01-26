@@ -9,7 +9,7 @@ from hypothesis import given, settings, strategies
 
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
-from hdate.holidays import HOLIDAYS, Holiday, HolidayManager
+from hdate.holidays import HOLIDAYS, Holiday, HolidayDatabase
 
 
 # Test against both a leap year and non-leap year
@@ -158,7 +158,7 @@ def test_get_holidays_moving(
     """Test holidays that are moved based on the DOW."""
     print(f"Testing {holiday} for {year}")
     valid_dates = 0
-    mgr = HolidayManager(diaspora=True)
+    mgr = HolidayDatabase(diaspora=True)
     for date in possible_dates:
         date_under_test = HebrewDate(year, date[1], date[0])
         holidays = mgr.lookup(date_under_test)
@@ -177,7 +177,7 @@ def test_new_holidays_multiple_date(
     year = random.randint(*years)
     print(f"Testing {expected} for {year}")
     valid_dates = 0
-    mgr = HolidayManager(diaspora=False)
+    mgr = HolidayDatabase(diaspora=False)
     for date in possible_dates:
         date_under_test = HebrewDate(year, date[1], date[0])
         holidays = mgr.lookup(date_under_test)
@@ -197,7 +197,7 @@ def test_new_holidays_invalid_before(
         return
     year = random.randint(5000, years[0] - 1)
     print(f"Testing {expected} for {year}")
-    mgr = HolidayManager(diaspora=False)
+    mgr = HolidayDatabase(diaspora=False)
     for date in possible_dates:
         date_under_test = HebrewDate(year, date[1], date[0])
         holidays = mgr.lookup(date_under_test)
@@ -232,7 +232,7 @@ def test_get_holiday_adar(possible_days: list[int], holiday: str, year: int) -> 
     """Test holidays for Adar I/Adar II."""
     date = HebrewDate(year)
     month = Months.ADAR_II if date.is_leap_year() else Months.ADAR
-    mgr = HolidayManager(diaspora=False)
+    mgr = HolidayDatabase(diaspora=False)
     valid_dates = 0
     for day in possible_days:
         dut = date.replace(month=month, day=day)
@@ -272,4 +272,4 @@ def test_get_all_holidays(language: str) -> None:
         doubles.get(language, doubles["english"])
     ]
 
-    assert HolidayManager.get_all_holiday_names(language) == set(holidays_list)
+    assert HolidayDatabase.get_all_holiday_names(language) == set(holidays_list)
