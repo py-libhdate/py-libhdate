@@ -65,30 +65,6 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             result = f"{result} {', '.join(str(holiday) for holiday in self.holidays)}"
         return result
 
-    def __repr__(self) -> str:
-        """Return a representation of HDate for programmatic use."""
-        return (
-            f"HDate(date={self.gdate!r}, diaspora={self.diaspora}, "
-            f"language={self._language!r})"
-        )
-
-    def __lt__(self, other: "HDate") -> bool:
-        """Implement the less-than operator."""
-        assert isinstance(other, HDate)
-        return bool(self.gdate < other.gdate)
-
-    def __le__(self, other: "HDate") -> bool:
-        """Implement the less-than or equal operator."""
-        return not other < self
-
-    def __gt__(self, other: "HDate") -> bool:
-        """Implement the greater-than operator."""
-        return other < self
-
-    def __ge__(self, other: "HDate") -> bool:
-        """Implement the greater than or equal operator."""
-        return not self < other
-
     @property
     def hdate(self) -> HebrewDate:
         """Return the hebrew date."""
@@ -228,7 +204,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         if self.is_shabbat or self.is_yom_tov:
             return self
 
-        if self.upcoming_yom_tov < self.upcoming_shabbat:
+        if self.upcoming_yom_tov.gdate < self.upcoming_shabbat.gdate:
             return self.upcoming_yom_tov
         return self.upcoming_shabbat
 
