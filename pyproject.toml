@@ -41,7 +41,7 @@ max-line-length = "88"
 # Show summary output for all types of failures
 # Run doctest that are part of docstrings
 # Run doctest in RST files
-addopts = "-ra --doctest-modules --doctest-glob=*.rst -n auto"
+addopts = "-ra --doctest-modules --doctest-glob=*.rst -n auto --dist worksteal"
 
 [dependency-groups]
 dev = [
