@@ -22,7 +22,7 @@ from hdate.translator import TranslatorMixin
 _LOGGER = logging.getLogger(__name__)
 
 
-class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
+class HDate(TranslatorMixin):
     """
     Hebrew date class.
 
