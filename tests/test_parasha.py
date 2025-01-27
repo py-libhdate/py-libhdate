@@ -77,7 +77,8 @@ READINGS_FOR_YEAR_DIASPORA = [
             [0],
             list(range(35, 39)),
             [59, 41, 60],
-            list(range(44, 51))[61],
+            list(range(44, 51)),
+            [61],
         ],
     ),
     # שנים פשוטות
@@ -102,7 +103,8 @@ READINGS_FOR_YEAR_DIASPORA = [
             [55, 24, 25, 0, 26, 56, 57, 31, 58, 34, 0],
             list(range(35, 39)),
             [59, 41, 60],
-            list(range(44, 51))[61],
+            list(range(44, 51)),
+            [61],
         ],
     ),
     # זחא
