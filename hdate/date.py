@@ -164,17 +164,17 @@ class HDate(TranslatorMixin):
         return str(daf)
 
     @property
-    def next_day(self) -> "HDate":
+    def next_day(self) -> HDate:
         """Return the HDate for the next day."""
         return HDate(self.gdate + dt.timedelta(1), self.diaspora, self._language)
 
     @property
-    def previous_day(self) -> "HDate":
+    def previous_day(self) -> HDate:
         """Return the HDate for the previous day."""
         return HDate(self.gdate + dt.timedelta(-1), self.diaspora, self._language)
 
     @property
-    def upcoming_shabbat(self) -> "HDate":
+    def upcoming_shabbat(self) -> HDate:
         """Return the HDate for either the upcoming or current Shabbat.
 
         If it is currently Shabbat, returns the HDate of the Saturday.
@@ -186,7 +186,7 @@ class HDate(TranslatorMixin):
         return HDate(saturday, diaspora=self.diaspora, language=self._language)
 
     @property
-    def upcoming_shabbat_or_yom_tov(self) -> "HDate":
+    def upcoming_shabbat_or_yom_tov(self) -> HDate:
         """Return the HDate for the upcoming or current Shabbat or Yom Tov.
 
         If it is currently Shabbat, returns the HDate of the Saturday.
@@ -202,7 +202,7 @@ class HDate(TranslatorMixin):
         return self.upcoming_shabbat
 
     @property
-    def first_day(self) -> "HDate":
+    def first_day(self) -> HDate:
         """Return the first day of Yom Tov or Shabbat.
 
         This is useful for three-day holidays, for example: it will return the
@@ -217,7 +217,7 @@ class HDate(TranslatorMixin):
         return day_iter
 
     @property
-    def last_day(self) -> "HDate":
+    def last_day(self) -> HDate:
         """Return the last day of Yom Tov or Shabbat.
 
         This is useful for three-day holidays, for example: it will return the
