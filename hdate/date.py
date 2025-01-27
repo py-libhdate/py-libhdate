@@ -9,20 +9,20 @@ from __future__ import annotations
 
 import datetime as dt
 import logging
-from itertools import chain, product
-from typing import Generator, Optional, Union, cast
+from typing import Optional, Union, cast
 
 from hdate import htables
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Months, Weekday
-from hdate.htables import Holiday, HolidayTypes, Parasha
+from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
+from hdate.htables import Parasha
 from hdate.omer import Omer
 from hdate.translator import TranslatorMixin
 
 _LOGGER = logging.getLogger(__name__)
 
 
-class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
+class HDate(TranslatorMixin):
     """
     Hebrew date class.
 
@@ -64,30 +64,6 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         if self.holidays:
             result = f"{result} {', '.join(str(holiday) for holiday in self.holidays)}"
         return result
-
-    def __repr__(self) -> str:
-        """Return a representation of HDate for programmatic use."""
-        return (
-            f"HDate(date={self.gdate!r}, diaspora={self.diaspora}, "
-            f"language={self._language!r})"
-        )
-
-    def __lt__(self, other: "HDate") -> bool:
-        """Implement the less-than operator."""
-        assert isinstance(other, HDate)
-        return bool(self.gdate < other.gdate)
-
-    def __le__(self, other: "HDate") -> bool:
-        """Implement the less-than or equal operator."""
-        return not other < self
-
-    def __gt__(self, other: "HDate") -> bool:
-        """Implement the greater-than operator."""
-        return other < self
-
-    def __ge__(self, other: "HDate") -> bool:
-        """Implement the greater than or equal operator."""
-        return not self < other
 
     @property
     def hdate(self) -> HebrewDate:
@@ -163,12 +139,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     @property
     def holidays(self) -> list[Holiday]:
         """Return the abstract holiday information from holidays table."""
-        _holidays_list = self.get_holidays_for_year()
-        holidays_list = [
-            holiday
-            for holiday, holiday_hdate in _holidays_list
-            if holiday_hdate == self.hdate
-        ]
+        holidays_list = HolidayDatabase(diaspora=self.diaspora).lookup(self.hdate)
 
         for holiday in holidays_list:
             holiday.set_language(self._language)
@@ -233,7 +204,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         if self.is_shabbat or self.is_yom_tov:
             return self
 
-        if self.upcoming_yom_tov < self.upcoming_shabbat:
+        if self.upcoming_yom_tov.gdate < self.upcoming_shabbat.gdate:
             return self.upcoming_yom_tov
         return self.upcoming_shabbat
 
@@ -267,75 +238,6 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             day_iter = day_iter.next_day
         return day_iter
 
-    def get_holidays_for_year(
-        self, types: Optional[list[HolidayTypes]] = None
-    ) -> list[tuple[Holiday, HebrewDate]]:
-        """Get all the actual holiday days for a given HDate's year.
-
-        If specified, use the list of types to limit the holidays returned.
-        """
-        _LOGGER.debug("Looking up holidays of types %s", types)
-        # Filter any non-related holidays depending on Israel/Diaspora only
-        _holidays_list = [
-            holiday
-            for holiday in htables.HOLIDAYS
-            if (holiday.israel_diaspora == "")
-            or (holiday.israel_diaspora == "ISRAEL" and not self.diaspora)
-            or (holiday.israel_diaspora == "DIASPORA" and self.diaspora)
-        ]
-
-        if types:
-            # Filter non-matching holiday types.
-            _holidays_list = [
-                holiday for holiday in _holidays_list if holiday.type in types
-            ]
-
-        _LOGGER.debug(
-            "Holidays after filters have been applied: %s",
-            [holiday.name for holiday in _holidays_list],
-        )
-
-        def holiday_dates_cross_product(
-            holiday: Holiday,
-        ) -> product[tuple[int, ...]]:
-            """Given a (days, months) pair, compute the cross product.
-
-            If days and/or months are singletons, they are converted to a list.
-            """
-            return product(
-                *([x] if isinstance(x, (int, Months)) else x for x in holiday.date)
-            )
-
-        # Compute out every actual Hebrew date on which a holiday falls for
-        # this year by exploding out the possible days for each holiday.
-        def valid_holiday_dates(
-            holidays_list: list[Holiday],
-        ) -> Generator[tuple[Holiday, HebrewDate]]:
-            for holiday in holidays_list:
-                for date_instance in holiday_dates_cross_product(holiday):
-                    if len(holiday.date) >= 2:
-                        try:
-                            yield (
-                                holiday,
-                                HebrewDate(
-                                    year=self.hdate.year,
-                                    month=date_instance[1],
-                                    day=date_instance[0],
-                                ),
-                            )
-                        except ValueError:
-                            continue
-
-        valid_holidays = list(valid_holiday_dates(_holidays_list))
-
-        # Filter any special cases defined by True/False functions
-        holidays_list = [
-            (holiday, date)
-            for (holiday, date) in valid_holidays
-            if all(func(date) for func in holiday.date_functions_list)
-        ]
-        return holidays_list
-
     @property
     def upcoming_yom_tov(self) -> HDate:
         """Find the next upcoming yom tov (i.e. no-melacha holiday).
@@ -345,24 +247,11 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         """
         if self.is_yom_tov:
             return self
-        this_year = self.get_holidays_for_year([HolidayTypes.YOM_TOV])
-        next_rosh_hashana = HDate(
-            HebrewDate(self.hdate.year + 1, Months.TISHREI, 1),
-            self.diaspora,
-            self._language,
-        )
-        next_year = next_rosh_hashana.get_holidays_for_year([HolidayTypes.YOM_TOV])
 
-        # Filter anything that's past, and make them HDate objects
-        holidays_list = [
-            holiday_hdate
-            for _, holiday_hdate in chain(this_year, next_year)
-            if holiday_hdate >= self.hdate
-        ]
+        mgr = HolidayDatabase(diaspora=self.diaspora)
+        date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
 
-        holidays_list.sort(key=lambda h: h.to_gdate())
-
-        return HDate(holidays_list[0], self.diaspora, self._language)
+        return HDate(date, self.diaspora, self._language)
 
     def get_reading(self) -> Parasha:
         """Return number of hebrew parasha."""

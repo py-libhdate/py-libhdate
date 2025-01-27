@@ -15,9 +15,22 @@ from hdate.hebrew_date import (
     Months,
     is_leap_year,
 )
+from tests.conftest import valid_hebrew_date
 
 MIN_YEAR = 3762
 MAX_YEAR = 6000
+
+
+def test_is_leap_year() -> None:
+    """Test that is_leap_year() working as expected for leap year."""
+    leap_date = HebrewDate(5784, 1, 1)
+    assert leap_date.is_leap_year()
+
+
+def test_is_not_leap_year() -> None:
+    """Test that is_leap_year() working as expected for non-leap year."""
+    leap_date = HebrewDate(5783, 1, 1)
+    assert not leap_date.is_leap_year()
 
 
 @given(strategies.integers(min_value=MIN_YEAR, max_value=MAX_YEAR))
@@ -107,17 +120,6 @@ def test_adar_compare_mode(
         assert month_1 == month_2
     else:
         assert month_1 != month_2
-
-
-@strategies.composite
-def valid_hebrew_date(draw: strategies.DrawFn) -> HebrewDate:
-    """Generate a valid Hebrew date."""
-    year = draw(strategies.integers(min_value=MIN_YEAR, max_value=MAX_YEAR))
-    month = draw(strategies.sampled_from(Months.in_year(year)))
-    days = HebrewDate(year).days_in_month(month)
-    day = draw(strategies.integers(min_value=1, max_value=days))
-
-    return HebrewDate(year, month, day)
 
 
 @strategies.composite

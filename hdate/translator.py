@@ -60,7 +60,9 @@ class TranslatorMixin:
                 "Language %s not found, falling back to english", self._language
             )
             lang = "en"
-        self._translations = TRANSLATIONS[lang].get(self.__class__.__name__, {})
+        object.__setattr__(
+            self, "_translations", TRANSLATIONS[lang].get(self.__class__.__name__, {})
+        )
 
     def get_translation(self, key: str) -> str:
         """Return the translation for the given key."""
@@ -72,7 +74,7 @@ class TranslatorMixin:
 
     def set_language(self, language: str) -> None:
         """Set the language for the translator."""
-        self._language = language
+        object.__setattr__(self, "_language", language)
         self.load_translations()
         for _, attr in vars(self).items():
             if isinstance(attr, TranslatorMixin):

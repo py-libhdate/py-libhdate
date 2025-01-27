@@ -26,6 +26,7 @@ Indices and tables
    :caption: Contents:
 
    quickstart.rst
+   user_guide.rst
    api_reference.rst
    development.rst
    CHANGELOG.md

@@ -202,18 +202,50 @@ class HebrewDate(TranslatorMixin):
             if isinstance(self.month, Months)
             else Months(self.month)  # type: ignore # pylint: disable=E1120
         )
-        if self.year != 0:
-            if self.month not in Months.in_year(self.year):
-                raise ValueError(
-                    f"{self.month} is not a valid month for year {self.year} "
-                    f"({'leap' if is_leap_year(self.year) else 'non-leap'})"
-                )
-        if not 0 < self.day <= (max_days := self.month.days(self.year)):
+        self._validate()
+        self.month.set_language(self._language)
+
+    def valid_for_year(self, year: int) -> bool:
+        """Check if the date is valid for the given year."""
+        try:
+            self._validate(year)
+        except ValueError:
+            return False
+        return True
+
+    def _validate(self, year: int = 0) -> None:
+        validate_months = True
+        if self.year == 0 and year == 0:
+            # Unable to validate Month, days of month for Cheshvan and Kislev are 30
+            validate_months = False
+
+        # Use the provided year to validate if it's not 0
+        year = self.year if year == 0 else year
+        if validate_months and self.month not in Months.in_year(year):
+            raise ValueError(
+                f"{self.month} is not a valid month for year {year} "
+                f"({'leap' if is_leap_year(year) else 'non-leap'})"
+            )
+        if not 0 < self.day <= (max_days := cast(Months, self.month).days(year)):
             raise ValueError(
                 f"Day {self.day} is illegal: "
                 f"legal values are 1-{max_days} for {self.month}"
             )
-        self.month.set_language(self._language)
+
+    def replace(
+        self,
+        year: Optional[int] = None,
+        month: Optional[Months] = None,
+        day: Optional[int] = None,
+    ) -> HebrewDate:
+        """Return a new HebrewDate with a different year/month/day."""
+        if year is None:
+            year = self.year
+        if month is None:
+            month = cast(Months, self.month)
+        if day is None:
+            day = self.day
+        return type(self)(year, month, day)
 
     def __str__(self) -> str:
         """Return the hebrew date string in the selected language."""
@@ -268,6 +300,9 @@ class HebrewDate(TranslatorMixin):
             local_other = other
         days = local_self.to_jdn() - local_other.to_jdn()
         return dt.timedelta(days=days)
+
+    def __hash__(self) -> int:
+        return hash((self.year, self.month, self.day))
 
     def to_jdn(self) -> int:
         """Compute Julian day number from HebrewDate."""
