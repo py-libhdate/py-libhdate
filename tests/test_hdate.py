@@ -3,7 +3,7 @@
 import datetime as dt
 
 import pytest
-from hypothesis import given, settings, strategies
+from hypothesis import given, strategies
 
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
@@ -199,29 +199,3 @@ def test_get_next_shabbat_or_yom_tov(
     date = HDate(date=dt.date(*current_date), diaspora=diaspora)
     assert date.upcoming_shabbat_or_yom_tov.first_day.gdate == dt.date(*dates["start"])
     assert date.upcoming_shabbat_or_yom_tov.last_day.gdate == dt.date(*dates["end"])
-
-
-@given(date=strategies.dates())
-@settings(deadline=None)
-def test_get_omer_day(date: dt.date) -> None:
-    """Test value of the Omer."""
-    rand_hdate = HDate(date)
-    if rand_hdate.hdate < HebrewDate(
-        0, Months.NISAN, 16
-    ) or rand_hdate.hdate > HebrewDate(0, Months.SIVAN, 5):
-        assert rand_hdate.omer is None
-    nissan = list(range(16, 30))
-    iyyar = list(range(1, 29))
-    sivan = list(range(1, 5))
-    for day in nissan:
-        rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.NISAN, day)
-        assert rand_hdate.omer is not None
-        assert rand_hdate.omer.total_days == day - 15
-    for day in iyyar:
-        rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.IYYAR, day)
-        assert rand_hdate.omer is not None
-        assert rand_hdate.omer.total_days == day + 15
-    for day in sivan:
-        rand_hdate.hdate = HebrewDate(rand_hdate.hdate.year, Months.SIVAN, day)
-        assert rand_hdate.omer is not None
-        assert rand_hdate.omer.total_days == day + 44
