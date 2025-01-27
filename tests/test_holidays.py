@@ -13,38 +13,30 @@ from hdate.holidays import HOLIDAYS, Holiday, HolidayDatabase
 
 
 # Test against both a leap year and non-leap year
-@pytest.mark.parametrize(("year"), ((5783, 5784)))
-def test_get_holidays_for_year(year: int) -> None:
+@pytest.mark.parametrize(("year"), (5783, 5784))
+def test_get_holidays_for_year(year: int, holiday_db: HolidayDatabase) -> None:
     """Test that get_holidays_for_year() returns every holiday."""
-    cur_date = HDate(HebrewDate(year, 1, 1))
+    cur_date = HebrewDate(year, 1, 1)
 
     expected_holiday_map = defaultdict(set)
-    for date, entries in cur_date.get_holidays_for_year().items():
+    for date, entries in holiday_db.lookup_holidays_for_year(cur_date).items():
+        if cur_date.is_leap_year():
+            assert date.month != Months.ADAR
+        else:
+            assert date.month not in (Months.ADAR_I, Months.ADAR_II)
+
         expected_holiday_map[date.to_gdate()] = {entry.name for entry in entries}
 
-    while cur_date.hdate.year == year:
-        if cur_date.holidays is None:
-            assert len(expected_holiday_map[cur_date.gdate]) == 0
+    while cur_date.year == year:
+        gdate = cur_date.to_gdate()
+        if len(holidays := holiday_db.lookup(cur_date)) == 0:
+            assert len(expected_holiday_map[gdate]) == 0
         else:
-            assert {
-                holiday.name for holiday in cur_date.holidays
-            } == expected_holiday_map[cur_date.gdate], f"Error on {cur_date.gdate}"
+            assert {holiday.name for holiday in holidays} == expected_holiday_map[
+                gdate
+            ], f"Error on {gdate}"
 
-        cur_date = cur_date.next_day
-
-
-def test_get_holidays_for_year_non_leap_year() -> None:
-    """Test that get_holidays_for_year() returns consistent months."""
-    base_date = HDate(HebrewDate(5783, Months.TISHREI, 1))
-    for date in base_date.get_holidays_for_year().keys():
-        assert date.month not in (Months.ADAR_I, Months.ADAR_II)
-
-
-def test_get_holidays_for_year_leap_year() -> None:
-    """Test that get_holidays_for_year() returns consistent months."""
-    base_date = HDate(HebrewDate(5784, Months.TISHREI, 1))
-    for date in base_date.get_holidays_for_year().keys():
-        assert date.month != Months.ADAR
+        cur_date += dt.timedelta(days=1)
 
 
 NON_MOVING_HOLIDAYS = [
@@ -121,47 +113,49 @@ ADAR_HOLIDAYS = [
 @given(year=strategies.integers(min_value=4000, max_value=6000))
 @settings(deadline=None)
 def test_get_holidays_non_moving(
-    year: int, date: tuple[int, int], expected: set[str]
+    year: int, date: tuple[int, int], expected: set[str], holiday_db: HolidayDatabase
 ) -> None:
     """Test holidays that have a fixed hebrew date."""
-    rand_hdate = HDate(HebrewDate(year, date[1], date[0]))
-    assert set(holiday.name for holiday in rand_hdate.holidays) == expected
-    assert rand_hdate.is_holiday
+    rand_hdate = HebrewDate(year, date[1], date[0])
+    assert set(holiday.name for holiday in holiday_db.lookup(rand_hdate)) == expected
 
 
 @pytest.mark.parametrize(
     "date, diaspora_holiday, israel_holiday", DIASPORA_ISRAEL_HOLIDAYS
 )
+@pytest.mark.parametrize(("holiday_db"), (True, False), indirect=True)
 @given(year=strategies.integers(min_value=4000, max_value=6000))
-@settings(deadline=None)
 def test_get_diaspora_israel_holidays(
     year: int,
     date: tuple[int, int],
     diaspora_holiday: set[str],
     israel_holiday: set[str],
+    holiday_db: HolidayDatabase,
 ) -> None:
     """Test holidays that differ based on diaspora/israel."""
-    rand_hdate = HDate(HebrewDate(year, date[1], date[0]), diaspora=False)
-    if expected := israel_holiday:
-        assert set(holiday.name for holiday in rand_hdate.holidays) == expected
-    rand_hdate.diaspora = True
-    if expected := diaspora_holiday:
-        assert set(holiday.name for holiday in rand_hdate.holidays) == expected
-    assert rand_hdate.is_holiday
+    rand_hdate = HebrewDate(year, date[1], date[0])
+    holidays = holiday_db.lookup(rand_hdate)
+    expected = diaspora_holiday if holiday_db.diaspora else israel_holiday
+    if expected:
+        assert set(holiday.name for holiday in holidays) == expected
+    else:
+        assert not holidays
 
 
 @pytest.mark.parametrize("possible_dates, holiday", MOVING_HOLIDAYS)
 @given(year=strategies.integers(min_value=4000, max_value=6000))
 def test_get_holidays_moving(
-    possible_dates: list[tuple[int, int]], holiday: str, year: int
+    possible_dates: list[tuple[int, int]],
+    holiday: str,
+    year: int,
+    holiday_db: HolidayDatabase,
 ) -> None:
     """Test holidays that are moved based on the DOW."""
     print(f"Testing {holiday} for {year}")
     valid_dates = 0
-    mgr = HolidayDatabase(diaspora=True)
     for date in possible_dates:
         date_under_test = HebrewDate(year, date[1], date[0])
-        holidays = mgr.lookup(date_under_test)
+        holidays = holiday_db.lookup(date_under_test)
         assert (holiday_found := len(holidays) == 1) or len(holidays) == 0
         if holiday_found:
             valid_dates += 1
@@ -171,16 +165,18 @@ def test_get_holidays_moving(
 
 @pytest.mark.parametrize("possible_dates, years, expected", NEW_HOLIDAYS)
 def test_new_holidays_multiple_date(
-    possible_dates: list[tuple[int, int]], years: tuple[int, int], expected: set[str]
+    possible_dates: list[tuple[int, int]],
+    years: tuple[int, int],
+    expected: set[str],
+    holiday_db: HolidayDatabase,
 ) -> None:
     """Test holidays that have multiple possible dates."""
     year = random.randint(*years)
     print(f"Testing {expected} for {year}")
     valid_dates = 0
-    mgr = HolidayDatabase(diaspora=False)
     for date in possible_dates:
         date_under_test = HebrewDate(year, date[1], date[0])
-        holidays = mgr.lookup(date_under_test)
+        holidays = holiday_db.lookup(date_under_test)
         assert (holiday_found := len(holidays) > 0) or len(holidays) == 0
         if holiday_found and expected == set(h.name for h in holidays):
             valid_dates += 1
@@ -189,7 +185,10 @@ def test_new_holidays_multiple_date(
 
 @pytest.mark.parametrize("possible_dates, years, expected", NEW_HOLIDAYS)
 def test_new_holidays_invalid_before(
-    possible_dates: list[tuple[int, int]], years: tuple[int, int], expected: set[str]
+    possible_dates: list[tuple[int, int]],
+    years: tuple[int, int],
+    expected: set[str],
+    holiday_db: HolidayDatabase,
 ) -> None:
     """Test holidays that were created over time."""
     # Yom hazikaron and yom ha'atsmaut don't test for before 5764
@@ -197,10 +196,9 @@ def test_new_holidays_invalid_before(
         return
     year = random.randint(5000, years[0] - 1)
     print(f"Testing {expected} for {year}")
-    mgr = HolidayDatabase(diaspora=False)
     for date in possible_dates:
         date_under_test = HebrewDate(year, date[1], date[0])
-        holidays = mgr.lookup(date_under_test)
+        holidays = holiday_db.lookup(date_under_test)
         assert len(holidays) == 0 or (
             len(holidays) == 1 and holidays[0].name == "rosh_chodesh"
         )
@@ -228,16 +226,17 @@ def test_hanukah_5785() -> None:
 
 @pytest.mark.parametrize("possible_days, holiday", ADAR_HOLIDAYS)
 @given(year=strategies.integers(min_value=5000, max_value=6000))
-def test_get_holiday_adar(possible_days: list[int], holiday: str, year: int) -> None:
+def test_get_holiday_adar(
+    possible_days: list[int], holiday: str, year: int, holiday_db: HolidayDatabase
+) -> None:
     """Test holidays for Adar I/Adar II."""
     date = HebrewDate(year)
     month = Months.ADAR_II if date.is_leap_year() else Months.ADAR
-    mgr = HolidayDatabase(diaspora=False)
     valid_dates = 0
     for day in possible_days:
         dut = date.replace(month=month, day=day)
         print(f"Testing {holiday} for {dut!r}")
-        holidays = mgr.lookup(dut)
+        holidays = holiday_db.lookup(dut)
         assert (holiday_found := len(holidays) == 1) or len(holidays) == 0
         if holiday_found:
             assert holidays[0].name == holiday

@@ -2,7 +2,21 @@
 
 import pytest
 
+from hdate.holidays import HolidayDatabase
 from hdate.location import Location
+
+
+@pytest.fixture(scope="session")
+def holiday_db(request: pytest.FixtureRequest) -> HolidayDatabase:
+    """Create the holiday database."""
+
+    diaspora_db = HolidayDatabase(diaspora=True)
+    israel_db = HolidayDatabase(diaspora=False)
+
+    if hasattr(request, "param") and request.param is True:
+        return diaspora_db
+
+    return israel_db
 
 
 @pytest.fixture(scope="session")

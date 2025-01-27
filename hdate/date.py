@@ -238,17 +238,6 @@ class HDate(TranslatorMixin):
             day_iter = day_iter.next_day
         return day_iter
 
-    def get_holidays_for_year(
-        self, types: Optional[list[HolidayTypes]] = None
-    ) -> dict[HebrewDate, list[Holiday]]:
-        """Get all the actual holiday days for a given HDate's year.
-
-        If specified, use the list of types to limit the holidays returned.
-        """
-        return HolidayDatabase(diaspora=self.diaspora).lookup_holidays_for_year(
-            date=self.hdate, types=types
-        )
-
     @property
     def upcoming_yom_tov(self) -> HDate:
         """Find the next upcoming yom tov (i.e. no-melacha holiday).
