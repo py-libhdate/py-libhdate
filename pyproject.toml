@@ -41,7 +41,7 @@ max-line-length = "88"
 # Show summary output for all types of failures
 # Run doctest that are part of docstrings
 # Run doctest in RST files
-addopts = "-ra --doctest-modules --doctest-glob=*.rst -n auto --dist loadscope"
+addopts = "-ra --doctest-modules --doctest-glob=*.rst -n auto --dist loadscope --timeout=300"
 
 [dependency-groups]
 dev = [
@@ -61,6 +61,7 @@ test = [
     "hypothesis>=6.124.1",
     "syrupy>=4.8.1",
     "pytest-profiling>=1.8.1",
+    "pytest-timeout>=2.3.1",
 ]
 docs = [
     "Sphinx>=7.4.7",
