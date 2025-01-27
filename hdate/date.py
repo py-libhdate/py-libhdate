@@ -11,12 +11,12 @@ import datetime as dt
 import logging
 from typing import Optional, Union, cast
 
-from hdate import htables
+from hdate.daf_yomi import DafYomiDatabase
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Months, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
-from hdate.htables import Parasha
 from hdate.omer import Omer
+from hdate.parasha import PARASHA_SEQUENCES, Parasha
 from hdate.translator import TranslatorMixin
 
 _LOGGER = logging.getLogger(__name__)
@@ -158,30 +158,23 @@ class HDate(TranslatorMixin):
     @property
     def daf_yomi(self) -> str:
         """Return a string representation of the daf yomi."""
-        days_since_start_cycle_11 = (self.gdate - htables.DAF_YOMI_CYCLE_11_START).days
-        page_number = days_since_start_cycle_11 % (htables.DAF_YOMI_TOTAL_PAGES)
-        for mesechta in htables.DAF_YOMI_MESECHTOS:
-            if page_number >= mesechta.pages:
-                page_number -= mesechta.pages
-            else:
-                break
-        daf_number = page_number + 2
-        mesechta.set_language(self._language)
-        daf = hebrew_number(daf_number, language=self._language, short=True)
-        return f"{mesechta} {daf}"
+        db = DafYomiDatabase()
+        daf = db.lookup(self.gdate)
+        daf.set_language(self._language)
+        return str(daf)
 
     @property
-    def next_day(self) -> "HDate":
+    def next_day(self) -> HDate:
         """Return the HDate for the next day."""
         return HDate(self.gdate + dt.timedelta(1), self.diaspora, self._language)
 
     @property
-    def previous_day(self) -> "HDate":
+    def previous_day(self) -> HDate:
         """Return the HDate for the previous day."""
         return HDate(self.gdate + dt.timedelta(-1), self.diaspora, self._language)
 
     @property
-    def upcoming_shabbat(self) -> "HDate":
+    def upcoming_shabbat(self) -> HDate:
         """Return the HDate for either the upcoming or current Shabbat.
 
         If it is currently Shabbat, returns the HDate of the Saturday.
@@ -193,7 +186,7 @@ class HDate(TranslatorMixin):
         return HDate(saturday, diaspora=self.diaspora, language=self._language)
 
     @property
-    def upcoming_shabbat_or_yom_tov(self) -> "HDate":
+    def upcoming_shabbat_or_yom_tov(self) -> HDate:
         """Return the HDate for the upcoming or current Shabbat or Yom Tov.
 
         If it is currently Shabbat, returns the HDate of the Saturday.
@@ -209,7 +202,7 @@ class HDate(TranslatorMixin):
         return self.upcoming_shabbat
 
     @property
-    def first_day(self) -> "HDate":
+    def first_day(self) -> HDate:
         """Return the first day of Yom Tov or Shabbat.
 
         This is useful for three-day holidays, for example: it will return the
@@ -224,7 +217,7 @@ class HDate(TranslatorMixin):
         return day_iter
 
     @property
-    def last_day(self) -> "HDate":
+    def last_day(self) -> HDate:
         """Return the last day of Yom Tov or Shabbat.
 
         This is useful for three-day holidays, for example: it will return the
@@ -289,9 +282,7 @@ class HDate(TranslatorMixin):
             return Parasha.VEZOT_HABRACHA
 
         readings = next(
-            seq
-            for types, seq in htables.PARASHA_SEQUENCES.items()
-            if year_type in types
+            seq for types, seq in PARASHA_SEQUENCES.items() if year_type in types
         )
         # Maybe recompute the year type based on the upcoming shabbat.
         # This avoids an edge case where today is before Rosh Hashana but
@@ -301,4 +292,4 @@ class HDate(TranslatorMixin):
             and self.hdate.year < self.upcoming_shabbat.hdate.year
         ):
             return self.upcoming_shabbat.get_reading()
-        return cast(htables.Parasha, readings[weeks])
+        return cast(Parasha, readings[weeks])

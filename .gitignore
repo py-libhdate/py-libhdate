@@ -9,6 +9,7 @@ __pycache__/
 .pdm-python
 .pdm-build/
 .mypy_cache/
+.python-version
 
 .coverage
 htmlcov/
