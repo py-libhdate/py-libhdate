@@ -2,22 +2,60 @@
 
 import datetime as dt
 from dataclasses import dataclass
+from typing import ClassVar
 
+from hdate.gematria import hebrew_number
 from hdate.translator import TranslatorMixin
 
 
-@dataclass
+@dataclass(frozen=True)
 class Masechta(TranslatorMixin):
     """Masechta object."""
 
     name: str
     pages: int
 
+    def __str__(self) -> str:
+        name = self.get_translation(self.name)
+        daf = hebrew_number(self.pages + 2, language=self._language, short=True)
+        return f"{name} {daf}"
 
-# The first few cycles were only 2702 blatt. After that it became 2711. Even with
-# that, the math doesn't play nicely with the dates before the 11th cycle :(
-# From cycle 11 onwards, it was simple and sequential
-DAF_YOMI_CYCLE_11_START = dt.date(1997, 9, 29)
+
+@dataclass
+class DafYomiDatabase:
+    """Database of Masechtos."""
+
+    # The first few cycles were only 2702 blatt. After that it became 2711. Even with
+    # that, the math doesn't play nicely with the dates before the 11th cycle :(
+    # From cycle 11 onwards, it was simple and sequential
+    _start_date: ClassVar[dt.date] = dt.date(1997, 9, 29)
+    _masechtot: ClassVar[list[Masechta]]
+
+    @classmethod
+    def register(cls, masechtot: list[Masechta]) -> None:
+        """Regisetr a list of masechtos."""
+        cls._masechtot = masechtot
+
+    @classmethod
+    def cycle_length(cls) -> int:
+        """Return the length of a full cycle."""
+        return sum(masechta.pages for masechta in cls._masechtot)
+
+    def lookup(self, date: dt.date) -> Masechta:
+        """Return the start date of a full cycle."""
+        days_since_start = (date - self._start_date).days
+        page_number = days_since_start % self.cycle_length()
+
+        masechta_index = 0
+        for masechta in self._masechtot:
+            if page_number < masechta.pages:
+                break
+            page_number -= masechta.pages
+            masechta_index += 1
+
+        return Masechta(self._masechtot[masechta_index].name, page_number)
+
+
 DAF_YOMI_MESECHTOS = (
     Masechta("berachos", 63),
     Masechta("shabbos", 156),
@@ -57,4 +95,5 @@ DAF_YOMI_MESECHTOS = (
     Masechta("meilah", 36),
     Masechta("niddah", 72),
 )
-DAF_YOMI_TOTAL_PAGES = sum(mesechta.pages for mesechta in DAF_YOMI_MESECHTOS)
+
+DafYomiDatabase.register(list(DAF_YOMI_MESECHTOS))
