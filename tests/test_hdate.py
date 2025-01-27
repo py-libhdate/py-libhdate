@@ -593,22 +593,6 @@ def test_get_next_shabbat_or_yom_tov(
     assert date.upcoming_shabbat_or_yom_tov.last_day.gdate == dt.date(*dates["end"])
 
 
-def test_daf_yomi() -> None:
-    """Test value of Daf Yomi."""
-    # Random test date
-    myhdate = HDate(date=dt.date(2014, 4, 28), language="english")
-    assert myhdate.daf_yomi == "Beitzah 29"
-    # Beginning/end of cycle:
-    myhdate = HDate(date=dt.date(2020, 1, 4), language="english")
-    assert myhdate.daf_yomi == "Niddah 73"
-    myhdate = HDate(date=dt.date(2020, 1, 5), language="english")
-    assert myhdate.daf_yomi == "Berachos 2"
-    myhdate = HDate(date=dt.date(2020, 3, 7), language="hebrew")
-    assert myhdate.daf_yomi == "ברכות סד"
-    myhdate = HDate(date=dt.date(2020, 3, 8), language="hebrew")
-    assert myhdate.daf_yomi == "שבת ב"
-
-
 @given(date=strategies.dates())
 @settings(deadline=None)
 def test_get_omer_day(date: dt.date) -> None:

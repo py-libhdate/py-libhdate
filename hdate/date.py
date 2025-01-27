@@ -12,6 +12,11 @@ import logging
 from typing import Optional, Union, cast
 
 from hdate import htables
+from hdate.daf_yomi import (
+    DAF_YOMI_CYCLE_11_START,
+    DAF_YOMI_MESECHTOS,
+    DAF_YOMI_TOTAL_PAGES,
+)
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Months, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
@@ -158,9 +163,9 @@ class HDate(TranslatorMixin):
     @property
     def daf_yomi(self) -> str:
         """Return a string representation of the daf yomi."""
-        days_since_start_cycle_11 = (self.gdate - htables.DAF_YOMI_CYCLE_11_START).days
-        page_number = days_since_start_cycle_11 % (htables.DAF_YOMI_TOTAL_PAGES)
-        for mesechta in htables.DAF_YOMI_MESECHTOS:
+        days_since_start_cycle_11 = (self.gdate - DAF_YOMI_CYCLE_11_START).days
+        page_number = days_since_start_cycle_11 % DAF_YOMI_TOTAL_PAGES
+        for mesechta in DAF_YOMI_MESECHTOS:
             if page_number >= mesechta.pages:
                 page_number -= mesechta.pages
             else:
