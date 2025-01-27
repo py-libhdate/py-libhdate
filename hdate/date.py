@@ -11,7 +11,6 @@ import datetime as dt
 import logging
 from typing import Optional, Union, cast
 
-from hdate import htables
 from hdate.daf_yomi import (
     DAF_YOMI_CYCLE_11_START,
     DAF_YOMI_MESECHTOS,
@@ -20,8 +19,8 @@ from hdate.daf_yomi import (
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Months, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
-from hdate.htables import Parasha
 from hdate.omer import Omer
+from hdate.parasha import PARASHA_SEQUENCES, Parasha
 from hdate.translator import TranslatorMixin
 
 _LOGGER = logging.getLogger(__name__)
@@ -294,9 +293,7 @@ class HDate(TranslatorMixin):
             return Parasha.VEZOT_HABRACHA
 
         readings = next(
-            seq
-            for types, seq in htables.PARASHA_SEQUENCES.items()
-            if year_type in types
+            seq for types, seq in PARASHA_SEQUENCES.items() if year_type in types
         )
         # Maybe recompute the year type based on the upcoming shabbat.
         # This avoids an edge case where today is before Rosh Hashana but
@@ -306,4 +303,4 @@ class HDate(TranslatorMixin):
             and self.hdate.year < self.upcoming_shabbat.hdate.year
         ):
             return self.upcoming_shabbat.get_reading()
-        return cast(htables.Parasha, readings[weeks])
+        return cast(Parasha, readings[weeks])
