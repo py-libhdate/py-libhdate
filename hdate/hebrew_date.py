@@ -286,7 +286,7 @@ class HebrewDate(TranslatorMixin):
         if not isinstance(other, dt.timedelta):
             return NotImplemented
         days = other.days
-        new = HebrewDate(self.year, self.month, self.day)
+        new = type(self)(self.year, self.month, self.day)
         while days != 0:
             days_left = (
                 cast(Months, new.month).days(new.year) - new.day
