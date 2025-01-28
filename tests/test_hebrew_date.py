@@ -3,7 +3,7 @@
 import datetime as dt
 
 import pytest
-from hypothesis import example, given, strategies
+from hypothesis import assume, example, given, strategies
 from syrupy.assertion import SnapshotAssertion
 
 from hdate.hebrew_date import (
@@ -31,6 +31,22 @@ def test_is_not_leap_year() -> None:
     """Test that is_leap_year() working as expected for non-leap year."""
     leap_date = HebrewDate(5783, 1, 1)
     assert not leap_date.is_leap_year()
+
+
+@given(
+    month=strategies.sampled_from(Months),
+    year=strategies.integers(min_value=MIN_YEAR, max_value=MAX_YEAR),
+)
+def test_next_prev_month(month: Months, year: int) -> None:
+    """Test that next_month() and prev_month() work as expected."""
+    assume(month in Months.in_year(year))
+    next_month = month.next_month(year)
+    assert next_month.prev_month(year) == month
+    assert next_month != month
+    if next_month != Months.TISHREI:
+        assert next_month > month
+    if month != Months.ELUL:
+        assert month < next_month
 
 
 @given(strategies.integers(min_value=MIN_YEAR, max_value=MAX_YEAR))
