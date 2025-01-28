@@ -76,12 +76,10 @@ def test_vezot_habracha(diaspora: bool, year: int) -> None:
 @given(year=strategies.integers(min_value=4000, max_value=6000))
 def test_nitzavim_always_before_rosh_hashana(year: int, diaspora: bool) -> None:
     """A property: Nitzavim alway falls before rosh hashana."""
-    mydate = HDate(language="english", diaspora=diaspora)
-    mydate.hdate = HebrewDate(year, Months.TISHREI, 1)
-    tdelta = dt.timedelta((12 - mydate.gdate.weekday()) % 7 - 7)
-    # Go back to the previous shabbat
-    mydate.gdate += tdelta
-    print(f"Testing date: {mydate} which is {tdelta} days before Rosh Hashana")
+    rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
+    previous_shabbat = rosh_hashana + dt.timedelta(days=-rosh_hashana.dow())
+    mydate = HDate(previous_shabbat, diaspora=diaspora)
+    print(f"Testing date: {mydate}")
     assert mydate.parasha in (Parasha.NITZAVIM, Parasha.NITZAVIM_VAYEILECH)
 
 

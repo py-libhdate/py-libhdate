@@ -122,6 +122,16 @@ class Months(TranslatorMixin, IntEnum):
             return Months.ADAR_I
         return Months(self._value_ + 1)  # type: ignore # pylint: disable=E1120
 
+    def prev_month(self, year: int) -> Months:
+        """Return the previous month."""
+        if self == Months.TISHREI:
+            return Months.ELUL
+        if self == Months.NISAN:
+            return Months.ADAR_II if is_leap_year(year) else Months.ADAR
+        if is_leap_year(year) and self == Months.ADAR_I:
+            return Months.SHVAT
+        return Months(self._value_ - 1)  # type: ignore # pylint: disable=E1120
+
     @classmethod
     def in_year(cls, year: int) -> list[Months]:
         """Return the months for the given year."""
@@ -278,14 +288,30 @@ class HebrewDate(TranslatorMixin):
         days = other.days
         new = HebrewDate(self.year, self.month, self.day)
         while days != 0:
-            if (days_left := cast(Months, new.month).days(new.year) - new.day) >= days:
-                new.day += days
-                break
-            days -= days_left
-            new.month = cast(Months, new.month).next_month(new.year)
-            if new.month == Months.TISHREI:
-                new.year += 1
-            new.day = 0
+            if days > 0:
+                days_left = cast(Months, new.month).days(new.year) - new.day
+
+                if days_left >= days:
+                    new.day += days
+                    break
+
+                days -= days_left
+                new.month = cast(Months, new.month).next_month(new.year)
+                if new.month == Months.TISHREI:
+                    new.year += 1
+                new.day = 0
+            else:
+                days_left = new.day
+
+                if days_left <= days:
+                    new.day += days
+                    break
+
+                days += days_left
+                new.month = cast(Months, new.month).prev_month(new.year)
+                if new.month == Months.ELUL:
+                    new.year -= 1
+                new.day = new.month.days(new.year)
         return new
 
     def __sub__(self, other: object) -> dt.timedelta:
