@@ -138,12 +138,12 @@ The ``HDate`` object, accepts a date (either Gregorian or Hebrew), a boolean tha
 
     >>> from hdate import HDate
     >>> today = HDate(today, diaspora=False, language="english")
-    >>> today.parasha
-    'Shemot'
+    >>> print(today.parasha)
+    Shemot
     >>> today.is_holiday
     False
-    >>> today.daf_yomi
-    'Sanhedrin 29'
+    >>> print(today.daf_yomi)
+    Sanhedrin 29
     >>> pesach = today.upcoming_yom_tov
     >>> pesach.holidays
     [Holiday(type=<HolidayTypes.YOM_TOV: 1>, name='pesach', date=(15, <Months.NISAN: 9>), date_functions_list=[], israel_diaspora='')]

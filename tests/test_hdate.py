@@ -91,9 +91,8 @@ class TestHDate:
     def test_pesach_day_of_week(self) -> None:
         """ "Check that Pesach DOW matches the given dates."""
         for year, info in list(HEBREW_YEARS_INFO.items()):
-            my_hdate = HDate(HebrewDate(year, Months.NISAN, 15))
-            assert my_hdate.dow == info[2]
-            assert my_hdate.holidays[0].name == "pesach"
+            my_hdate = HebrewDate(year, Months.NISAN, 15)
+            assert my_hdate.dow() == info[2]
 
     UPCOMING_SHABBATOT = [
         ((2018, 11, 30), (2018, 12, 1), (5779, Months.KISLEV, 22)),

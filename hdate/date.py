@@ -10,9 +10,9 @@ from __future__ import annotations
 import datetime as dt
 from typing import Optional, Union
 
-from hdate.daf_yomi import DafYomiDatabase
+from hdate.daf_yomi import DafYomiDatabase, Masechta
 from hdate.gematria import hebrew_number
-from hdate.hebrew_date import HebrewDate, Weekday
+from hdate.hebrew_date import HebrewDate
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
 from hdate.parasha import Parasha, ParashaDatabase
@@ -52,12 +52,14 @@ class HDate(TranslatorMixin):
         in_prefix = "ב" if self._language == "hebrew" else ""
         day_number = hebrew_number(self.hdate.day, language=self._language)
         year_number = hebrew_number(self.hdate.year, language=self._language)
-        result = f"{self.dow} {day_number} {in_prefix}{self.hdate.month} {year_number}"
+        result = (
+            f"{self.hdate.dow()} "
+            f"{day_number} {in_prefix}{self.hdate.month} {year_number}"
+        )
 
         if self.omer:
             result = f"{result} {self.omer}"
 
-        # Append holiday description if any
         if self.holidays:
             result = f"{result} {', '.join(str(holiday) for holiday in self.holidays)}"
         return result
@@ -97,22 +99,36 @@ class HDate(TranslatorMixin):
         self._gdate = date
 
     @property
-    def hebrew_date(self) -> str:
-        """Return the hebrew date string in the selected language."""
-        return str(self.hdate)
-
-    @property
     def omer(self) -> Optional[Omer]:
         """Return the Omer object."""
         _omer = Omer(date=self.hdate, language=self._language)
         return _omer if _omer.total_days > 0 else None
 
     @property
-    def parasha(self) -> str:
-        """Return the upcoming parasha in the selected language."""
-        parasha = self.get_reading()
+    def parasha(self) -> Parasha:
+        """Return the upcoming parasha."""
+        db = ParashaDatabase(self.diaspora)
+        parasha = db.lookup(self.hdate)
         parasha.set_language(self._language)
-        return str(parasha)
+        return parasha
+
+    @property
+    def holidays(self) -> list[Holiday]:
+        """Return the abstract holiday information from holidays table."""
+        holidays_list = HolidayDatabase(diaspora=self.diaspora).lookup(self.hdate)
+
+        for holiday in holidays_list:
+            holiday.set_language(self._language)
+
+        return holidays_list
+
+    @property
+    def daf_yomi(self) -> Masechta:
+        """Return a string representation of the daf yomi."""
+        db = DafYomiDatabase()
+        daf = db.lookup(self.gdate)
+        daf.set_language(self._language)
+        return daf
 
     @property
     def is_shabbat(self) -> bool:
@@ -132,40 +148,6 @@ class HDate(TranslatorMixin):
     def is_yom_tov(self) -> bool:
         """Return True if this date is a Yom Tov."""
         return any(holiday.type == HolidayTypes.YOM_TOV for holiday in self.holidays)
-
-    @property
-    def holidays(self) -> list[Holiday]:
-        """Return the abstract holiday information from holidays table."""
-        holidays_list = HolidayDatabase(diaspora=self.diaspora).lookup(self.hdate)
-
-        for holiday in holidays_list:
-            holiday.set_language(self._language)
-
-        return holidays_list
-
-    @property
-    def dow(self) -> Weekday:
-        """Return day of week enum."""
-        # datetime weekday maps Monday->0, Sunday->6; this remaps to Sunday->1.
-        _dow = self.gdate.weekday() + 2 if self.gdate.weekday() != 6 else 1
-        dow = Weekday(_dow)
-        dow.set_language(self._language)
-        return dow
-
-    @property
-    def daf_yomi(self) -> str:
-        """Return a string representation of the daf yomi."""
-        db = DafYomiDatabase()
-        daf = db.lookup(self.gdate)
-        daf.set_language(self._language)
-        return str(daf)
-
-    def get_reading(self) -> Parasha:
-        """Return the upcoming parasha."""
-        db = ParashaDatabase(self.diaspora)
-        parasha = db.lookup(self.hdate)
-        parasha.set_language(self._language)
-        return parasha
 
     @property
     def next_day(self) -> HDate:

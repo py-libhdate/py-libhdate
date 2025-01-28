@@ -337,11 +337,11 @@ def test_get_reading_israel(year: int, parshiyot: list[list[int]]) -> None:
     shabatot = [item for subl in parshiyot for item in subl]
     for shabbat in shabatot:
         print("Testing: ", mydate)
-        assert mydate.get_reading() == shabbat
+        assert mydate.parasha == shabbat
         mydate.gdate += dt.timedelta(days=7)
     mydate.hdate = HebrewDate(year, 1, 22)
     # VeZot Habracha in Israel always falls on 22 of Tishri
-    assert mydate.get_reading() == 54
+    assert mydate.parasha == 54
 
 
 @pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_DIASPORA)
@@ -357,11 +357,11 @@ def test_get_reading_diaspora(year: int, parshiyot: list[list[int]]) -> None:
     shabatot = [item for subl in parshiyot for item in subl]
     for shabbat in shabatot:
         print("Testing: ", mydate)
-        assert mydate.get_reading() == shabbat
+        assert mydate.parasha == shabbat
         mydate.gdate += dt.timedelta(days=7)
     mydate.hdate = HebrewDate(year, 1, 23)
     # VeZot Habracha in Israel always falls on 22 of Tishri
-    assert mydate.get_reading() == 54
+    assert mydate.parasha == 54
 
 
 @pytest.mark.parametrize("diaspora", [True, False])
@@ -374,7 +374,7 @@ def test_nitzavim_always_before_rosh_hashana(year: int, diaspora: bool) -> None:
     # Go back to the previous shabbat
     mydate.gdate += tdelta
     print("Testing date: {mydate} which is {tdelta} days before Rosh Hashana")
-    assert mydate.get_reading() in [51, 61]
+    assert mydate.parasha in [51, 61]
 
 
 @pytest.mark.parametrize("diaspora", [True, False])
@@ -390,11 +390,11 @@ def test_vayelech_or_haazinu_always_after_rosh_hashana(
     # Go to the next shabbat (unless shabbat falls on Rosh Hashana)
     mydate.gdate += tdelta
     print(f"Testing date: {mydate} which is {tdelta} days after Rosh Hashana")
-    assert mydate.get_reading() in [52, 53, 0]
+    assert mydate.parasha in [52, 53, 0]
 
 
 def test_last_week_of_the_year() -> None:
     """The last day of the year is parshat Vayelech."""
     mydate = HDate()
     mydate.hdate = HebrewDate(5779, Months.ELUL, 29)
-    assert mydate.get_reading() == 52
+    assert mydate.parasha == 52
