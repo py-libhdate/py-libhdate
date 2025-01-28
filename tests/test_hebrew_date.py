@@ -157,11 +157,14 @@ def test_relative_hebrew_date_comparisons(d1: HebrewDate, d2: HebrewDate) -> Non
     d1=valid_hebrew_date(),
     days=strategies.integers(min_value=-500, max_value=500),
 )
+@example(d1=HebrewDate(4000, Months.SHVAT, 1), days=30)
 def test_hebrew_date_addition(d1: HebrewDate, days: int) -> None:
     """Test HebrewDate addition and subtraction."""
     delta = dt.timedelta(days=days)
     d2 = d1 + delta
     assert d2 - d1 == delta
+    negative_delta = dt.timedelta(days=-days)
+    assert d2 + negative_delta == d1
 
 
 @pytest.mark.xfail(reason="Will fail if relative date does not exist in current year.")

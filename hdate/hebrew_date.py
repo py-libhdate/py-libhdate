@@ -288,25 +288,23 @@ class HebrewDate(TranslatorMixin):
         days = other.days
         new = HebrewDate(self.year, self.month, self.day)
         while days != 0:
+            days_left = (
+                cast(Months, new.month).days(new.year) - new.day
+                if days > 0
+                else new.day
+            )
+
+            if days_left >= abs(days):
+                new.day += days
+                break
+
             if days > 0:
-                days_left = cast(Months, new.month).days(new.year) - new.day
-
-                if days_left >= days:
-                    new.day += days
-                    break
-
                 days -= days_left
                 new.month = cast(Months, new.month).next_month(new.year)
                 if new.month == Months.TISHREI:
                     new.year += 1
                 new.day = 0
             else:
-                days_left = new.day
-
-                if days_left <= days:
-                    new.day += days
-                    break
-
                 days += days_left
                 new.month = cast(Months, new.month).prev_month(new.year)
                 if new.month == Months.ELUL:
