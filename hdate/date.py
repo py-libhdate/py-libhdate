@@ -172,6 +172,21 @@ class HDate(TranslatorMixin):
         return HDate(saturday, diaspora=self.diaspora, language=self._language)
 
     @property
+    def upcoming_yom_tov(self) -> HDate:
+        """Find the next upcoming yom tov (i.e. no-melacha holiday).
+
+        If it is currently the day of yom tov (irrespective of zmanim), returns
+        that yom tov.
+        """
+        if self.is_yom_tov:
+            return self
+
+        mgr = HolidayDatabase(diaspora=self.diaspora)
+        date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
+
+        return HDate(date, self.diaspora, self._language)
+
+    @property
     def upcoming_shabbat_or_yom_tov(self) -> HDate:
         """Return the HDate for the upcoming or current Shabbat or Yom Tov.
 
@@ -216,18 +231,3 @@ class HDate(TranslatorMixin):
         while day_iter.next_day.is_yom_tov or day_iter.next_day.is_shabbat:
             day_iter = day_iter.next_day
         return day_iter
-
-    @property
-    def upcoming_yom_tov(self) -> HDate:
-        """Find the next upcoming yom tov (i.e. no-melacha holiday).
-
-        If it is currently the day of yom tov (irrespective of zmanim), returns
-        that yom tov.
-        """
-        if self.is_yom_tov:
-            return self
-
-        mgr = HolidayDatabase(diaspora=self.diaspora)
-        date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
-
-        return HDate(date, self.diaspora, self._language)
