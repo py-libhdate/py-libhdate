@@ -59,7 +59,7 @@ def valid_hebrew_date(draw: strategies.DrawFn) -> HebrewDate:
     """Generate a valid Hebrew date."""
     year = draw(strategies.integers(min_value=MIN_YEAR, max_value=MAX_YEAR))
     month = draw(strategies.sampled_from(Months.in_year(year)))
-    days = HebrewDate(year).days_in_month(month)
+    days = month.days(year)
     day = draw(strategies.integers(min_value=1, max_value=days))
 
     return HebrewDate(year, month, day)
