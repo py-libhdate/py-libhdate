@@ -8,6 +8,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
+from hdate.parasha import Parasha
 
 YEAR_TYPES = [
     # שנים מעוברות
@@ -80,8 +81,8 @@ def test_nitzavim_always_before_rosh_hashana(year: int, diaspora: bool) -> None:
     tdelta = dt.timedelta((12 - mydate.gdate.weekday()) % 7 - 7)
     # Go back to the previous shabbat
     mydate.gdate += tdelta
-    print("Testing date: {mydate} which is {tdelta} days before Rosh Hashana")
-    assert mydate.parasha in [51, 61]
+    print(f"Testing date: {mydate} which is {tdelta} days before Rosh Hashana")
+    assert mydate.parasha in (Parasha.NITZAVIM, Parasha.NITZAVIM_VAYEILECH)
 
 
 @pytest.mark.parametrize("diaspora", [True, False])
@@ -91,17 +92,14 @@ def test_vayelech_or_haazinu_always_after_rosh_hashana(
     year: int, diaspora: bool
 ) -> None:
     """A property: Vayelech or Haazinu always falls after rosh hashana."""
-    mydate = HDate(language="english", diaspora=diaspora)
-    mydate.hdate = HebrewDate(year, Months.TISHREI, 1)
-    tdelta = dt.timedelta((12 - mydate.gdate.weekday()) % 7)
-    # Go to the next shabbat (unless shabbat falls on Rosh Hashana)
-    mydate.gdate += tdelta
-    print(f"Testing date: {mydate} which is {tdelta} days after Rosh Hashana")
-    assert mydate.parasha in [52, 53, 0]
+    rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
+    mydate = HDate(rosh_hashana, diaspora=diaspora).upcoming_shabbat
+    print(f"Testing date: {mydate}")
+    assert mydate.parasha in (Parasha.VAYEILECH, Parasha.HAAZINU, Parasha.NONE)
 
 
 def test_last_week_of_the_year() -> None:
     """The last day of the year is parshat Vayelech."""
     mydate = HDate()
     mydate.hdate = HebrewDate(5779, Months.ELUL, 29)
-    assert mydate.parasha == 52
+    assert mydate.parasha == Parasha.VAYEILECH
