@@ -9,14 +9,14 @@ from __future__ import annotations
 
 import datetime as dt
 import logging
-from typing import Optional, Union, cast
+from typing import Optional, Union
 
 from hdate.daf_yomi import DafYomiDatabase
 from hdate.gematria import hebrew_number
-from hdate.hebrew_date import HebrewDate, Months, Weekday
+from hdate.hebrew_date import HebrewDate, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
-from hdate.parasha import PARASHA_SEQUENCES, Parasha
+from hdate.parasha import Parasha, ParashaDatabase
 from hdate.translator import TranslatorMixin
 
 _LOGGER = logging.getLogger(__name__)
@@ -163,6 +163,13 @@ class HDate(TranslatorMixin):
         daf.set_language(self._language)
         return str(daf)
 
+    def get_reading(self) -> Parasha:
+        """Return the upcoming parasha."""
+        db = ParashaDatabase(self.diaspora)
+        parasha = db.lookup(self.hdate)
+        parasha.set_language(self._language)
+        return parasha
+
     @property
     def next_day(self) -> HDate:
         """Return the HDate for the next day."""
@@ -245,51 +252,3 @@ class HDate(TranslatorMixin):
         date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
 
         return HDate(date, self.diaspora, self._language)
-
-    def get_reading(self) -> Parasha:
-        """Return number of hebrew parasha."""
-        _year_type = (HebrewDate.year_size(self.hdate.year) % 10) - 3
-        rosh_hashana = HebrewDate(self.hdate.year, Months.TISHREI, 1)
-        pesach = HebrewDate(self.hdate.year, Months.NISAN, 15)
-        year_type = (
-            self.diaspora * 1000
-            + rosh_hashana.dow() * 100
-            + _year_type * 10
-            + pesach.dow()
-        )
-
-        _LOGGER.debug("Year type: %d", year_type)
-
-        # Number of days since rosh hashana
-        days = (self.hdate - rosh_hashana).days
-        # Number of weeks since rosh hashana
-        weeks = (days + rosh_hashana.dow() - 1) // 7
-        _LOGGER.debug("Since Rosh Hashana - Days: %d, Weeks %d", days, weeks)
-
-        # If it's currently Simchat Torah, return VeZot Haberacha.
-        if weeks == 3:
-            if (
-                days <= 22
-                and self.diaspora
-                and self.dow != Weekday.SATURDAY
-                or days <= 21
-                and not self.diaspora
-            ):
-                return Parasha.VEZOT_HABRACHA
-
-        # Special case for Simchat Torah in diaspora.
-        if weeks == 4 and days == 22 and self.diaspora:
-            return Parasha.VEZOT_HABRACHA
-
-        readings = next(
-            seq for types, seq in PARASHA_SEQUENCES.items() if year_type in types
-        )
-        # Maybe recompute the year type based on the upcoming shabbat.
-        # This avoids an edge case where today is before Rosh Hashana but
-        # Shabbat is in a new year afterwards.
-        if (
-            weeks >= len(readings)
-            and self.hdate.year < self.upcoming_shabbat.hdate.year
-        ):
-            return self.upcoming_shabbat.get_reading()
-        return cast(Parasha, readings[weeks])
