@@ -8,7 +8,6 @@ of the Jewish calendrical date and times for a given location
 from __future__ import annotations
 
 import datetime as dt
-import logging
 from typing import Optional, Union
 
 from hdate.daf_yomi import DafYomiDatabase
@@ -18,8 +17,6 @@ from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
 from hdate.parasha import Parasha, ParashaDatabase
 from hdate.translator import TranslatorMixin
-
-_LOGGER = logging.getLogger(__name__)
 
 
 class HDate(TranslatorMixin):
