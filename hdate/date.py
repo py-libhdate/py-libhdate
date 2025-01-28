@@ -12,7 +12,7 @@ from typing import Optional, Union
 
 from hdate.daf_yomi import DafYomiDatabase, Masechta
 from hdate.gematria import hebrew_number
-from hdate.hebrew_date import HebrewDate
+from hdate.hebrew_date import HebrewDate, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
 from hdate.parasha import Parasha, ParashaDatabase
@@ -137,7 +137,7 @@ class HDate(TranslatorMixin):
         Returns False on Friday because the HDate object has no notion of time.
         For more detailed nuance, use the Zmanim object.
         """
-        return self.gdate.weekday() == 5
+        return self.hdate.dow() == Weekday.SATURDAY
 
     @property
     def is_holiday(self) -> bool:
@@ -167,9 +167,9 @@ class HDate(TranslatorMixin):
         """
         if self.is_shabbat:
             return self
-        # If it's Sunday, fast forward to the next Shabbat.
-        saturday = self.gdate + dt.timedelta((12 - self.gdate.weekday()) % 7)
-        return HDate(saturday, diaspora=self.diaspora, language=self._language)
+
+        next_shabbat = self.gdate + dt.timedelta(Weekday.SATURDAY - self.hdate.dow())
+        return HDate(next_shabbat, diaspora=self.diaspora, language=self._language)
 
     @property
     def upcoming_yom_tov(self) -> HDate:

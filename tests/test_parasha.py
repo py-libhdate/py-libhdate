@@ -4,363 +4,70 @@ import datetime as dt
 
 import pytest
 from hypothesis import given, settings, strategies
+from syrupy.assertion import SnapshotAssertion
 
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
 
-READINGS_FOR_YEAR_DIASPORA = [
+YEAR_TYPES = [
     # שנים מעוברות
     # זשה
-    (
-        5763,
-        [
-            [0, 53, 0],
-            list(range(29)),
-            [0],
-            list(range(29, 35)),
-            [0],
-            list(range(35, 39)),
-            [59, 41, 60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
+    5763,
     # זחג
-    (
-        5757,
-        [
-            [0, 53, 0],
-            list(range(29)),
-            [0],
-            list(range(29, 42)),
-            [60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
+    5757,
     # השג
-    (5774, [[53, 0], list(range(30)), [0], list(range(30, 51)), [61]]),
+    5774,
     # החא
-    (5768, [[53, 0], list(range(30)), [0], list(range(30, 51))]),
+    5768,
     # גכז
-    (
-        5755,
-        [
-            [52, 53],
-            list(range(29)),
-            [0, 0],
-            list(range(29, 42)),
-            [60],
-            list(range(44, 51)),
-        ],
-    ),
+    5755,
     # בשז
-    (
-        5776,
-        [
-            [52, 53],
-            list(range(29)),
-            [0, 0],
-            list(range(29, 42)),
-            [60],
-            list(range(44, 51)),
-        ],
-    ),
+    5776,
     # בחה
-    (
-        5749,
-        [
-            [52, 53],
-            list(range(29)),
-            [0],
-            list(range(29, 35)),
-            [0],
-            list(range(35, 39)),
-            [59, 41, 60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
+    5749,
     # שנים פשוטות
     # השא
-    (
-        5754,
-        [
-            [53, 0],
-            list(range(26)),
-            [0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 54)),
-        ],
-    ),
+    5754,
     # בשה
-    (
-        5756,
-        [
-            [52, 53],
-            list(range(22)),
-            [55, 24, 25, 0, 26, 56, 57, 31, 58, 34, 0],
-            list(range(35, 39)),
-            [59, 41, 60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
+    5756,
     # זחא
-    (
-        5761,
-        [
-            [0, 53, 0],
-            list(range(22)),
-            [55, 24, 25, 0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 52)),
-        ],
-    ),
+    5761,
     # גכה
-    (
-        5769,
-        [
-            [52, 53],
-            list(range(22)),
-            [55, 24, 25, 0, 26, 56, 57, 31, 58, 34, 0],
-            list(range(35, 39)),
-            [59, 41, 60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
+    5769,
     # זשג
-    (
-        5770,
-        [
-            [0, 53, 0],
-            list(range(22)),
-            [55, 24, 25, 0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
+    5770,
     # הכז
-    (
-        5775,
-        [
-            [53, 0],
-            list(range(22)),
-            [55, 24, 25, 0, 0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 51)),
-        ],
-    ),
+    5775,
     # בחג
-    (
-        5777,
-        [
-            [52, 53],
-            list(range(22)),
-            [55, 24, 25, 0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
-    (
-        5778,
-        [
-            [53, 0],
-            list(range(22)),
-            [55, 24, 25, 0, 0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 52)),
-        ],
-    ),
-]
-
-READINGS_FOR_YEAR_ISRAEL = [
-    # שנים מעוברות
-    # זשה
-    (
-        5763,
-        [
-            [0, 53, 0, 54],
-            list(range(1, 29)),
-            [0],
-            list(range(29, 42)),
-            [60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
-    # זחג
-    (
-        5757,
-        [
-            [0, 53, 0, 54],
-            list(range(1, 29)),
-            [0],
-            list(range(29, 42)),
-            [60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
-    # השג
-    (5774, [[53, 0], list(range(30)), [0], list(range(30, 51)), [61]]),
-    # החא
-    (5768, [[53, 0], list(range(30)), [0], list(range(30, 51))]),
-    # גכז
-    (5755, [[52, 53], list(range(29)), [0], list(range(29, 51))]),
-    # בשז
-    (5776, [[52, 53], list(range(29)), [0], list(range(29, 51))]),
-    # בחה
-    (
-        5749,
-        [
-            [52, 53],
-            list(range(29)),
-            [0],
-            list(range(29, 42)),
-            [60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
-    # שנים פשוטות
-    # השא
-    (
-        5754,
-        [
-            [53, 0],
-            list(range(26)),
-            [0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 54)),
-        ],
-    ),
-    # בשה
-    (
-        5756,
-        [
-            [52, 53],
-            list(range(22)),
-            [55, 24, 25, 0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
-    # זחא
-    (
-        5761,
-        [
-            [0, 53, 0, 54],
-            list(range(1, 22)),
-            [55, 24, 25, 0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 52)),
-        ],
-    ),
-    # גכה
-    (
-        5769,
-        [
-            [52, 53],
-            list(range(22)),
-            [55, 24, 25, 0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
-    # זשג
-    (
-        5770,
-        [
-            [0, 53, 0, 54],
-            list(range(1, 22)),
-            [55, 24, 25, 0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
-    # הכז
-    (
-        5775,
-        [
-            [53, 0],
-            list(range(22)),
-            [55, 24, 25, 0, 26, 56, 57],
-            list(range(31, 42)),
-            [60],
-            list(range(44, 52)),
-        ],
-    ),
-    # בחג
-    (
-        5777,
-        [
-            [52, 53],
-            list(range(22)),
-            [55, 24, 25, 0, 26, 56, 57, 31, 58],
-            list(range(34, 42)),
-            [60],
-            list(range(44, 51)),
-            [61],
-        ],
-    ),
+    5777,
+    5778,
 ]
 
 
-@pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_ISRAEL)
-def test_get_reading_israel(year: int, parshiyot: list[list[int]]) -> None:
+@pytest.mark.parametrize("year", YEAR_TYPES)
+@pytest.mark.parametrize("diaspora", [True, False])
+def test_get_reading_israel(
+    diaspora: bool, year: int, snapshot: SnapshotAssertion
+) -> None:
     """Test parshat hashavua in Israel."""
-    mydate = HDate(language="english", diaspora=False)
-    mydate.hdate = HebrewDate(year, 1, 1)
+    rosh_hashana = HebrewDate(year, 1, 1)
+    mydate = HDate(rosh_hashana, diaspora=diaspora).upcoming_shabbat
 
-    # Get next Saturday
-    tdelta = dt.timedelta((12 - mydate.gdate.weekday()) % 7)
-    mydate.gdate += tdelta
-
-    shabatot = [item for subl in parshiyot for item in subl]
-    for shabbat in shabatot:
+    while mydate.hdate.year == year:
         print("Testing: ", mydate)
-        assert mydate.parasha == shabbat
-        mydate.gdate += dt.timedelta(days=7)
-    mydate.hdate = HebrewDate(year, 1, 22)
-    # VeZot Habracha in Israel always falls on 22 of Tishri
-    assert mydate.parasha == 54
+        assert mydate.parasha == snapshot
+        mydate.gdate += dt.timedelta(7)
 
 
-@pytest.mark.parametrize("year, parshiyot", READINGS_FOR_YEAR_DIASPORA)
-def test_get_reading_diaspora(year: int, parshiyot: list[list[int]]) -> None:
-    """Test parshat hashavua in the diaspora."""
-    mydate = HDate(language="english", diaspora=True)
-    mydate.hdate = HebrewDate(year, 1, 1)
-
-    # Get next Saturday
-    tdelta = dt.timedelta((12 - mydate.gdate.weekday()) % 7)
-    mydate.gdate += tdelta
-
-    shabatot = [item for subl in parshiyot for item in subl]
-    for shabbat in shabatot:
-        print("Testing: ", mydate)
-        assert mydate.parasha == shabbat
-        mydate.gdate += dt.timedelta(days=7)
-    mydate.hdate = HebrewDate(year, 1, 23)
-    # VeZot Habracha in Israel always falls on 22 of Tishri
+@pytest.mark.parametrize("year", YEAR_TYPES)
+@pytest.mark.parametrize("diaspora", [True, False])
+def test_vezot_habracha(diaspora: bool, year: int) -> None:
+    """Test Vezot Habracha showing correctly."""
+    if diaspora:
+        simchat_tora = HebrewDate(year, 1, 23)
+    else:
+        simchat_tora = HebrewDate(year, 1, 22)
+    mydate = HDate(simchat_tora, diaspora=diaspora)
     assert mydate.parasha == 54
 
 

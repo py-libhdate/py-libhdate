@@ -1,0 +1,4735 @@
+# serializer version: 1
+# name: test_get_reading_israel[False-5749]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[False-5749].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5749].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5749].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5749].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5749].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5749].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5749].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5749].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5749].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5749].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5749].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5749].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5749].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5749].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5749].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5749].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5749].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[False-5749].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[False-5749].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5749].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5749].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5749].29
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[False-5749].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5749].30
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[False-5749].31
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5749].32
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[False-5749].33
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[False-5749].34
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5749].35
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[False-5749].36
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[False-5749].37
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5749].38
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5749].39
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5749].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5749].40
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5749].41
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5749].42
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5749].43
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5749].44
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5749].45
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[False-5749].46
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5749].47
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5749].48
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5749].49
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5749].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5749].50
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5749].51
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5749].52
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5749].53
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[False-5749].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5749].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5749].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5749].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5754]
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5754].1
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5754].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5754].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5754].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5754].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5754].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5754].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5754].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5754].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5754].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5754].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5754].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5754].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5754].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5754].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5754].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5754].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[False-5754].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[False-5754].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5754].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5754].28
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5754].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5754].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5754].30
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[False-5754].31
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[False-5754].32
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5754].33
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[False-5754].34
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5754].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5754].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5754].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5754].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5754].39
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5754].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5754].40
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5754].41
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5754].42
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[False-5754].43
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5754].44
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5754].45
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5754].46
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5754].47
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5754].48
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5754].49
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5754].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5754].50
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[False-5754].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5754].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5754].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5754].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5755]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[False-5755].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5755].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5755].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5755].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5755].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5755].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5755].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5755].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5755].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5755].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5755].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5755].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5755].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5755].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5755].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5755].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5755].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[False-5755].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[False-5755].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5755].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5755].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5755].29
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[False-5755].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5755].30
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[False-5755].31
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5755].32
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[False-5755].33
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[False-5755].34
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5755].35
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[False-5755].36
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[False-5755].37
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5755].38
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5755].39
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5755].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5755].40
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5755].41
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5755].42
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5755].43
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5755].44
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5755].45
+  <Parasha.MATOT: 42>
+# ---
+# name: test_get_reading_israel[False-5755].46
+  <Parasha.MASEI: 43>
+# ---
+# name: test_get_reading_israel[False-5755].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5755].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5755].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5755].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5755].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5755].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5755].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5755].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5755].54
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[False-5755].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5755].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5755].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5755].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5756]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[False-5756].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5756].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5756].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5756].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5756].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5756].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5756].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5756].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5756].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5756].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5756].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5756].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5756].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5756].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5756].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5756].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5756].24
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[False-5756].25
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5756].26
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5756].27
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5756].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5756].29
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[False-5756].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5756].30
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[False-5756].31
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5756].32
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[False-5756].33
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5756].34
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5756].35
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5756].36
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5756].37
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5756].38
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5756].39
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5756].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5756].40
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5756].41
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[False-5756].42
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5756].43
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5756].44
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5756].45
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5756].46
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5756].47
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5756].48
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5756].49
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[False-5756].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5756].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5756].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5756].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5756].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5757]
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5757].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5757].10
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5757].11
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5757].12
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5757].13
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5757].14
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5757].15
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5757].16
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5757].17
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5757].18
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5757].19
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5757].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5757].20
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5757].21
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5757].22
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5757].23
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5757].24
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5757].25
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[False-5757].26
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[False-5757].27
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5757].28
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5757].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5757].3
+  <Parasha.VEZOT_HABRACHA: 54>
+# ---
+# name: test_get_reading_israel[False-5757].30
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[False-5757].31
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[False-5757].32
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5757].33
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[False-5757].34
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[False-5757].35
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5757].36
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[False-5757].37
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[False-5757].38
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5757].39
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5757].4
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5757].40
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5757].41
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5757].42
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5757].43
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5757].44
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5757].45
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5757].46
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[False-5757].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5757].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5757].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5757].5
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5757].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5757].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5757].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5757].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5757].54
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[False-5757].6
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5757].7
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5757].8
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5757].9
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5761]
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5761].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5761].10
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5761].11
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5761].12
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5761].13
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5761].14
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5761].15
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5761].16
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5761].17
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5761].18
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5761].19
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5761].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5761].20
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5761].21
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5761].22
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5761].23
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5761].24
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5761].25
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[False-5761].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5761].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5761].28
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5761].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5761].3
+  <Parasha.VEZOT_HABRACHA: 54>
+# ---
+# name: test_get_reading_israel[False-5761].30
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[False-5761].31
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[False-5761].32
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5761].33
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[False-5761].34
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5761].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5761].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5761].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5761].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5761].39
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5761].4
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5761].40
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5761].41
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5761].42
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[False-5761].43
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5761].44
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5761].45
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5761].46
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5761].47
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5761].48
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5761].49
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5761].5
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5761].50
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[False-5761].6
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5761].7
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5761].8
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5761].9
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5763]
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5763].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5763].10
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5763].11
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5763].12
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5763].13
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5763].14
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5763].15
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5763].16
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5763].17
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5763].18
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5763].19
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5763].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5763].20
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5763].21
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5763].22
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5763].23
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5763].24
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5763].25
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[False-5763].26
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[False-5763].27
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5763].28
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5763].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5763].3
+  <Parasha.VEZOT_HABRACHA: 54>
+# ---
+# name: test_get_reading_israel[False-5763].30
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[False-5763].31
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[False-5763].32
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5763].33
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[False-5763].34
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[False-5763].35
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5763].36
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[False-5763].37
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[False-5763].38
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5763].39
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5763].4
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5763].40
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5763].41
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5763].42
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5763].43
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5763].44
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5763].45
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5763].46
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[False-5763].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5763].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5763].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5763].5
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5763].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5763].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5763].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5763].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5763].54
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[False-5763].6
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5763].7
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5763].8
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5763].9
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5768]
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5768].1
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5768].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5768].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5768].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5768].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5768].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5768].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5768].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5768].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5768].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5768].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5768].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5768].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5768].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5768].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5768].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5768].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[False-5768].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[False-5768].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5768].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5768].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5768].29
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[False-5768].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5768].30
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[False-5768].31
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[False-5768].32
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5768].33
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[False-5768].34
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5768].35
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[False-5768].36
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[False-5768].37
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5768].38
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5768].39
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5768].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5768].40
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5768].41
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5768].42
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5768].43
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5768].44
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5768].45
+  <Parasha.MATOT: 42>
+# ---
+# name: test_get_reading_israel[False-5768].46
+  <Parasha.MASEI: 43>
+# ---
+# name: test_get_reading_israel[False-5768].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5768].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5768].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5768].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5768].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5768].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5768].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5768].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5768].54
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[False-5768].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5768].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5768].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5768].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5769]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[False-5769].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5769].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5769].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5769].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5769].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5769].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5769].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5769].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5769].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5769].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5769].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5769].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5769].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5769].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5769].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5769].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5769].24
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[False-5769].25
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5769].26
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5769].27
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5769].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5769].29
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[False-5769].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5769].30
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[False-5769].31
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5769].32
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[False-5769].33
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5769].34
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5769].35
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5769].36
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5769].37
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5769].38
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5769].39
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5769].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5769].40
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5769].41
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[False-5769].42
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5769].43
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5769].44
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5769].45
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5769].46
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5769].47
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5769].48
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5769].49
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[False-5769].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5769].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5769].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5769].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5769].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5770]
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5770].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5770].10
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5770].11
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5770].12
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5770].13
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5770].14
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5770].15
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5770].16
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5770].17
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5770].18
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5770].19
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5770].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5770].20
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5770].21
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5770].22
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5770].23
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5770].24
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5770].25
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[False-5770].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5770].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5770].28
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5770].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5770].3
+  <Parasha.VEZOT_HABRACHA: 54>
+# ---
+# name: test_get_reading_israel[False-5770].30
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[False-5770].31
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[False-5770].32
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5770].33
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[False-5770].34
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5770].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5770].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5770].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5770].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5770].39
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5770].4
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5770].40
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5770].41
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5770].42
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[False-5770].43
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5770].44
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5770].45
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5770].46
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5770].47
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5770].48
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5770].49
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5770].5
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5770].50
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[False-5770].6
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5770].7
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5770].8
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5770].9
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5774]
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5774].1
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5774].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5774].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5774].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5774].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5774].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5774].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5774].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5774].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5774].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5774].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5774].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5774].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5774].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5774].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5774].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5774].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[False-5774].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[False-5774].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5774].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5774].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5774].29
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[False-5774].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5774].30
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[False-5774].31
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[False-5774].32
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5774].33
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[False-5774].34
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5774].35
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[False-5774].36
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[False-5774].37
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5774].38
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5774].39
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5774].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5774].40
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5774].41
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5774].42
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5774].43
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5774].44
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5774].45
+  <Parasha.MATOT: 42>
+# ---
+# name: test_get_reading_israel[False-5774].46
+  <Parasha.MASEI: 43>
+# ---
+# name: test_get_reading_israel[False-5774].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5774].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5774].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5774].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5774].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5774].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5774].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5774].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5774].54
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[False-5774].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5774].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5774].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5774].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5775]
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5775].1
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5775].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5775].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5775].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5775].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5775].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5775].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5775].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5775].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5775].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5775].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5775].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5775].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5775].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5775].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5775].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5775].24
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[False-5775].25
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5775].26
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5775].27
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5775].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5775].29
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[False-5775].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5775].30
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[False-5775].31
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5775].32
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[False-5775].33
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[False-5775].34
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5775].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5775].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5775].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5775].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5775].39
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5775].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5775].40
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5775].41
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5775].42
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[False-5775].43
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5775].44
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5775].45
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5775].46
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5775].47
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5775].48
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5775].49
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5775].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5775].50
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[False-5775].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5775].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5775].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5775].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5776]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[False-5776].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5776].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5776].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5776].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5776].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5776].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5776].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5776].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5776].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5776].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5776].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5776].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5776].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5776].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5776].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5776].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5776].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[False-5776].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[False-5776].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5776].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5776].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5776].29
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[False-5776].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5776].30
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[False-5776].31
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5776].32
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[False-5776].33
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[False-5776].34
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5776].35
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[False-5776].36
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[False-5776].37
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5776].38
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5776].39
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5776].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5776].40
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5776].41
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5776].42
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5776].43
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5776].44
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5776].45
+  <Parasha.MATOT: 42>
+# ---
+# name: test_get_reading_israel[False-5776].46
+  <Parasha.MASEI: 43>
+# ---
+# name: test_get_reading_israel[False-5776].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5776].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5776].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5776].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5776].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5776].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5776].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5776].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5776].54
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[False-5776].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5776].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5776].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5776].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5777]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[False-5777].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5777].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5777].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5777].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5777].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5777].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5777].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5777].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5777].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5777].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5777].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5777].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5777].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5777].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5777].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5777].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5777].24
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[False-5777].25
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5777].26
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5777].27
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5777].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5777].29
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[False-5777].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5777].30
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[False-5777].31
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5777].32
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[False-5777].33
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5777].34
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5777].35
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5777].36
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5777].37
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5777].38
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5777].39
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5777].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5777].40
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5777].41
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[False-5777].42
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5777].43
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5777].44
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5777].45
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5777].46
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5777].47
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5777].48
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5777].49
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[False-5777].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5777].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5777].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5777].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5777].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[False-5778]
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[False-5778].1
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5778].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[False-5778].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[False-5778].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[False-5778].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[False-5778].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[False-5778].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[False-5778].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[False-5778].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[False-5778].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[False-5778].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[False-5778].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5778].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[False-5778].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[False-5778].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[False-5778].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[False-5778].24
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[False-5778].25
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[False-5778].26
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[False-5778].27
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[False-5778].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[False-5778].29
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[False-5778].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[False-5778].30
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[False-5778].31
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[False-5778].32
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[False-5778].33
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[False-5778].34
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[False-5778].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[False-5778].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[False-5778].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[False-5778].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[False-5778].39
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[False-5778].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[False-5778].40
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[False-5778].41
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[False-5778].42
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[False-5778].43
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[False-5778].44
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[False-5778].45
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[False-5778].46
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[False-5778].47
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[False-5778].48
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[False-5778].49
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[False-5778].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[False-5778].50
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[False-5778].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[False-5778].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[False-5778].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[False-5778].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5749]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[True-5749].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5749].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5749].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5749].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5749].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5749].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5749].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5749].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5749].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5749].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5749].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5749].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5749].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5749].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5749].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5749].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5749].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[True-5749].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[True-5749].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5749].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5749].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5749].29
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[True-5749].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5749].30
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[True-5749].31
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5749].32
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[True-5749].33
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[True-5749].34
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5749].35
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[True-5749].36
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[True-5749].37
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5749].38
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5749].39
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5749].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5749].40
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5749].41
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5749].42
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5749].43
+  <Parasha.CHUKAT_BALAK: 59>
+# ---
+# name: test_get_reading_israel[True-5749].44
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5749].45
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5749].46
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5749].47
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5749].48
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5749].49
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5749].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5749].50
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5749].51
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5749].52
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5749].53
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[True-5749].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5749].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5749].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5749].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5754]
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5754].1
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5754].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5754].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5754].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5754].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5754].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5754].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5754].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5754].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5754].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5754].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5754].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5754].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5754].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5754].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5754].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5754].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[True-5754].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[True-5754].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5754].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5754].28
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5754].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5754].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5754].30
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[True-5754].31
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[True-5754].32
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5754].33
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[True-5754].34
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5754].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5754].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5754].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5754].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5754].39
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[True-5754].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5754].40
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[True-5754].41
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5754].42
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5754].43
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5754].44
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5754].45
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5754].46
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5754].47
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5754].48
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5754].49
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5754].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5754].50
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[True-5754].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5754].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5754].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5754].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5755]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[True-5755].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5755].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5755].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5755].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5755].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5755].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5755].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5755].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5755].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5755].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5755].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5755].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5755].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5755].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5755].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5755].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5755].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[True-5755].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[True-5755].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5755].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5755].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5755].29
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[True-5755].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5755].30
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[True-5755].31
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5755].32
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5755].33
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[True-5755].34
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[True-5755].35
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5755].36
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[True-5755].37
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[True-5755].38
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5755].39
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5755].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5755].40
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5755].41
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5755].42
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5755].43
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[True-5755].44
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[True-5755].45
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5755].46
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5755].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5755].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5755].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5755].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5755].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5755].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5755].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5755].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5755].54
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[True-5755].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5755].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5755].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5755].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5756]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[True-5756].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5756].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5756].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5756].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5756].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5756].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5756].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5756].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5756].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5756].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5756].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5756].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5756].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5756].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5756].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5756].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5756].24
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[True-5756].25
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5756].26
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5756].27
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5756].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5756].29
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[True-5756].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5756].30
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[True-5756].31
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5756].32
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[True-5756].33
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5756].34
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5756].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5756].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5756].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5756].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5756].39
+  <Parasha.CHUKAT_BALAK: 59>
+# ---
+# name: test_get_reading_israel[True-5756].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5756].40
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5756].41
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5756].42
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5756].43
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5756].44
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5756].45
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5756].46
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5756].47
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5756].48
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5756].49
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[True-5756].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5756].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5756].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5756].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5756].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5757]
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5757].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5757].10
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5757].11
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5757].12
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5757].13
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5757].14
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5757].15
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5757].16
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5757].17
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5757].18
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5757].19
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5757].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5757].20
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5757].21
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5757].22
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5757].23
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5757].24
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5757].25
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[True-5757].26
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[True-5757].27
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5757].28
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5757].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5757].3
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5757].30
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[True-5757].31
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[True-5757].32
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5757].33
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[True-5757].34
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[True-5757].35
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5757].36
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[True-5757].37
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[True-5757].38
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5757].39
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5757].4
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5757].40
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5757].41
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5757].42
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5757].43
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[True-5757].44
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[True-5757].45
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5757].46
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5757].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5757].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5757].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5757].5
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5757].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5757].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5757].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5757].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5757].54
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[True-5757].6
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5757].7
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5757].8
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5757].9
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5761]
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5761].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5761].10
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5761].11
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5761].12
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5761].13
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5761].14
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5761].15
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5761].16
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5761].17
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5761].18
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5761].19
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5761].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5761].20
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5761].21
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5761].22
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5761].23
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5761].24
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5761].25
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[True-5761].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5761].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5761].28
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5761].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5761].3
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5761].30
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[True-5761].31
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[True-5761].32
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5761].33
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[True-5761].34
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5761].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5761].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5761].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5761].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5761].39
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[True-5761].4
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5761].40
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[True-5761].41
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5761].42
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5761].43
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5761].44
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5761].45
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5761].46
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5761].47
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5761].48
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5761].49
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5761].5
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5761].50
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[True-5761].6
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5761].7
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5761].8
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5761].9
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5763]
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5763].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5763].10
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5763].11
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5763].12
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5763].13
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5763].14
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5763].15
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5763].16
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5763].17
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5763].18
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5763].19
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5763].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5763].20
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5763].21
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5763].22
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5763].23
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5763].24
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5763].25
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[True-5763].26
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[True-5763].27
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5763].28
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5763].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5763].3
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5763].30
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[True-5763].31
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[True-5763].32
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5763].33
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[True-5763].34
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[True-5763].35
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5763].36
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[True-5763].37
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[True-5763].38
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5763].39
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5763].4
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5763].40
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5763].41
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5763].42
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5763].43
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5763].44
+  <Parasha.CHUKAT_BALAK: 59>
+# ---
+# name: test_get_reading_israel[True-5763].45
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5763].46
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5763].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5763].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5763].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5763].5
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5763].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5763].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5763].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5763].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5763].54
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[True-5763].6
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5763].7
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5763].8
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5763].9
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5768]
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5768].1
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5768].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5768].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5768].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5768].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5768].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5768].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5768].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5768].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5768].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5768].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5768].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5768].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5768].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5768].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5768].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5768].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[True-5768].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[True-5768].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5768].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5768].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5768].29
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[True-5768].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5768].30
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[True-5768].31
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[True-5768].32
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5768].33
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[True-5768].34
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5768].35
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[True-5768].36
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[True-5768].37
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5768].38
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5768].39
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5768].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5768].40
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5768].41
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5768].42
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[True-5768].43
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[True-5768].44
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5768].45
+  <Parasha.MATOT: 42>
+# ---
+# name: test_get_reading_israel[True-5768].46
+  <Parasha.MASEI: 43>
+# ---
+# name: test_get_reading_israel[True-5768].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5768].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5768].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5768].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5768].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5768].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5768].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5768].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5768].54
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[True-5768].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5768].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5768].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5768].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5769]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[True-5769].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5769].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5769].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5769].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5769].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5769].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5769].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5769].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5769].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5769].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5769].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5769].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5769].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5769].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5769].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5769].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5769].24
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[True-5769].25
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5769].26
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5769].27
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5769].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5769].29
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[True-5769].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5769].30
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[True-5769].31
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5769].32
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[True-5769].33
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5769].34
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5769].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5769].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5769].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5769].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5769].39
+  <Parasha.CHUKAT_BALAK: 59>
+# ---
+# name: test_get_reading_israel[True-5769].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5769].40
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5769].41
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5769].42
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5769].43
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5769].44
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5769].45
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5769].46
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5769].47
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5769].48
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5769].49
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[True-5769].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5769].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5769].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5769].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5769].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5770]
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5770].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5770].10
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5770].11
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5770].12
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5770].13
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5770].14
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5770].15
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5770].16
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5770].17
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5770].18
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5770].19
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5770].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5770].20
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5770].21
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5770].22
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5770].23
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5770].24
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5770].25
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[True-5770].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5770].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5770].28
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5770].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5770].3
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5770].30
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[True-5770].31
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[True-5770].32
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5770].33
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[True-5770].34
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5770].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5770].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5770].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5770].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5770].39
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[True-5770].4
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5770].40
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[True-5770].41
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5770].42
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5770].43
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5770].44
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5770].45
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5770].46
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5770].47
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5770].48
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5770].49
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5770].5
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5770].50
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[True-5770].6
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5770].7
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5770].8
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5770].9
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5774]
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5774].1
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5774].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5774].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5774].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5774].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5774].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5774].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5774].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5774].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5774].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5774].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5774].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5774].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5774].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5774].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5774].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5774].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[True-5774].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[True-5774].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5774].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5774].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5774].29
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[True-5774].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5774].30
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[True-5774].31
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[True-5774].32
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5774].33
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[True-5774].34
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5774].35
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[True-5774].36
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[True-5774].37
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5774].38
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5774].39
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5774].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5774].40
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5774].41
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5774].42
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[True-5774].43
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[True-5774].44
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5774].45
+  <Parasha.MATOT: 42>
+# ---
+# name: test_get_reading_israel[True-5774].46
+  <Parasha.MASEI: 43>
+# ---
+# name: test_get_reading_israel[True-5774].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5774].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5774].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5774].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5774].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5774].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5774].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5774].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5774].54
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[True-5774].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5774].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5774].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5774].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5775]
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5775].1
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5775].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5775].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5775].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5775].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5775].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5775].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5775].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5775].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5775].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5775].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5775].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5775].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5775].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5775].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5775].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5775].24
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[True-5775].25
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5775].26
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5775].27
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5775].28
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5775].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5775].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5775].30
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[True-5775].31
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[True-5775].32
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5775].33
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[True-5775].34
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5775].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5775].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5775].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5775].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5775].39
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[True-5775].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5775].40
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[True-5775].41
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5775].42
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5775].43
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5775].44
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5775].45
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5775].46
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5775].47
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5775].48
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5775].49
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5775].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5775].50
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[True-5775].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5775].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5775].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5775].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5776]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[True-5776].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5776].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5776].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5776].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5776].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5776].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5776].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5776].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5776].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5776].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5776].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5776].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5776].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5776].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5776].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5776].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5776].24
+  <Parasha.VAYAKHEL: 22>
+# ---
+# name: test_get_reading_israel[True-5776].25
+  <Parasha.PEKUDEI: 23>
+# ---
+# name: test_get_reading_israel[True-5776].26
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5776].27
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5776].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5776].29
+  <Parasha.TAZRIA: 27>
+# ---
+# name: test_get_reading_israel[True-5776].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5776].30
+  <Parasha.METZORA: 28>
+# ---
+# name: test_get_reading_israel[True-5776].31
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5776].32
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5776].33
+  <Parasha.ACHREI_MOT: 29>
+# ---
+# name: test_get_reading_israel[True-5776].34
+  <Parasha.KEDOSHIM: 30>
+# ---
+# name: test_get_reading_israel[True-5776].35
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5776].36
+  <Parasha.BEHAR: 32>
+# ---
+# name: test_get_reading_israel[True-5776].37
+  <Parasha.BECHUKOTAI: 33>
+# ---
+# name: test_get_reading_israel[True-5776].38
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5776].39
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5776].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5776].40
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5776].41
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5776].42
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5776].43
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[True-5776].44
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[True-5776].45
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5776].46
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5776].47
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5776].48
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5776].49
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5776].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5776].50
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5776].51
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5776].52
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5776].53
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5776].54
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[True-5776].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5776].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5776].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5776].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5777]
+  <Parasha.VAYEILECH: 52>
+# ---
+# name: test_get_reading_israel[True-5777].1
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5777].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5777].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5777].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5777].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5777].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5777].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5777].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5777].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5777].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5777].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5777].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5777].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5777].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5777].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5777].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5777].24
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[True-5777].25
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5777].26
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5777].27
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5777].28
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5777].29
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[True-5777].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5777].30
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[True-5777].31
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5777].32
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[True-5777].33
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5777].34
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5777].35
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5777].36
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5777].37
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5777].38
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[True-5777].39
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[True-5777].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5777].40
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5777].41
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5777].42
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5777].43
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5777].44
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5777].45
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5777].46
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5777].47
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5777].48
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5777].49
+  <Parasha.NITZAVIM_VAYEILECH: 61>
+# ---
+# name: test_get_reading_israel[True-5777].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5777].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5777].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5777].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5777].9
+  <Parasha.VAYETZEI: 7>
+# ---
+# name: test_get_reading_israel[True-5778]
+  <Parasha.HAAZINU: 53>
+# ---
+# name: test_get_reading_israel[True-5778].1
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5778].10
+  <Parasha.VAYISHLACH: 8>
+# ---
+# name: test_get_reading_israel[True-5778].11
+  <Parasha.VAYESHEV: 9>
+# ---
+# name: test_get_reading_israel[True-5778].12
+  <Parasha.MIKETZ: 10>
+# ---
+# name: test_get_reading_israel[True-5778].13
+  <Parasha.VAYIGASH: 11>
+# ---
+# name: test_get_reading_israel[True-5778].14
+  <Parasha.VAYECHI: 12>
+# ---
+# name: test_get_reading_israel[True-5778].15
+  <Parasha.SHEMOT: 13>
+# ---
+# name: test_get_reading_israel[True-5778].16
+  <Parasha.VAERA: 14>
+# ---
+# name: test_get_reading_israel[True-5778].17
+  <Parasha.BO: 15>
+# ---
+# name: test_get_reading_israel[True-5778].18
+  <Parasha.BESHALACH: 16>
+# ---
+# name: test_get_reading_israel[True-5778].19
+  <Parasha.YITRO: 17>
+# ---
+# name: test_get_reading_israel[True-5778].2
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5778].20
+  <Parasha.MISHPATIM: 18>
+# ---
+# name: test_get_reading_israel[True-5778].21
+  <Parasha.TERUMAH: 19>
+# ---
+# name: test_get_reading_israel[True-5778].22
+  <Parasha.TETZAVEH: 20>
+# ---
+# name: test_get_reading_israel[True-5778].23
+  <Parasha.KI_TISA: 21>
+# ---
+# name: test_get_reading_israel[True-5778].24
+  <Parasha.VAYAKHEL_PEKUDEI: 55>
+# ---
+# name: test_get_reading_israel[True-5778].25
+  <Parasha.VAYIKRA: 24>
+# ---
+# name: test_get_reading_israel[True-5778].26
+  <Parasha.TZAV: 25>
+# ---
+# name: test_get_reading_israel[True-5778].27
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5778].28
+  <Parasha.NONE: 0>
+# ---
+# name: test_get_reading_israel[True-5778].29
+  <Parasha.SHMINI: 26>
+# ---
+# name: test_get_reading_israel[True-5778].3
+  <Parasha.BERESHIT: 1>
+# ---
+# name: test_get_reading_israel[True-5778].30
+  <Parasha.TAZRIA_METZORA: 56>
+# ---
+# name: test_get_reading_israel[True-5778].31
+  <Parasha.ACHREI_MOT_KEDOSHIM: 57>
+# ---
+# name: test_get_reading_israel[True-5778].32
+  <Parasha.EMOR: 31>
+# ---
+# name: test_get_reading_israel[True-5778].33
+  <Parasha.BEHAR_BECHUKOTAI: 58>
+# ---
+# name: test_get_reading_israel[True-5778].34
+  <Parasha.BAMIDBAR: 34>
+# ---
+# name: test_get_reading_israel[True-5778].35
+  <Parasha.NASSO: 35>
+# ---
+# name: test_get_reading_israel[True-5778].36
+  <Parasha.BEHAALOTCHA: 36>
+# ---
+# name: test_get_reading_israel[True-5778].37
+  <Parasha.SHLACH: 37>
+# ---
+# name: test_get_reading_israel[True-5778].38
+  <Parasha.KORACH: 38>
+# ---
+# name: test_get_reading_israel[True-5778].39
+  <Parasha.CHUKAT: 39>
+# ---
+# name: test_get_reading_israel[True-5778].4
+  <Parasha.NOACH: 2>
+# ---
+# name: test_get_reading_israel[True-5778].40
+  <Parasha.BALAK: 40>
+# ---
+# name: test_get_reading_israel[True-5778].41
+  <Parasha.PINCHAS: 41>
+# ---
+# name: test_get_reading_israel[True-5778].42
+  <Parasha.MATOT_MASEI: 60>
+# ---
+# name: test_get_reading_israel[True-5778].43
+  <Parasha.DEVARIM: 44>
+# ---
+# name: test_get_reading_israel[True-5778].44
+  <Parasha.VAETCHANAN: 45>
+# ---
+# name: test_get_reading_israel[True-5778].45
+  <Parasha.EIKEV: 46>
+# ---
+# name: test_get_reading_israel[True-5778].46
+  <Parasha.REEH: 47>
+# ---
+# name: test_get_reading_israel[True-5778].47
+  <Parasha.SHOFTIM: 48>
+# ---
+# name: test_get_reading_israel[True-5778].48
+  <Parasha.KI_TEITZEI: 49>
+# ---
+# name: test_get_reading_israel[True-5778].49
+  <Parasha.KI_TAVO: 50>
+# ---
+# name: test_get_reading_israel[True-5778].5
+  <Parasha.LECH_LECHA: 3>
+# ---
+# name: test_get_reading_israel[True-5778].50
+  <Parasha.NITZAVIM: 51>
+# ---
+# name: test_get_reading_israel[True-5778].6
+  <Parasha.VAYERA: 4>
+# ---
+# name: test_get_reading_israel[True-5778].7
+  <Parasha.CHAYEI_SARA: 5>
+# ---
+# name: test_get_reading_israel[True-5778].8
+  <Parasha.TOLDOT: 6>
+# ---
+# name: test_get_reading_israel[True-5778].9
+  <Parasha.VAYETZEI: 7>
+# ---
