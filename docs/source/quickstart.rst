@@ -146,7 +146,7 @@ The ``HDate`` object, accepts a date (either Gregorian or Hebrew), a boolean tha
     Sanhedrin 29
     >>> pesach = today.upcoming_yom_tov
     >>> pesach.holidays
-    [Holiday(type=<HolidayTypes.YOM_TOV: 1>, name='pesach', date=(15, <Months.NISAN: 9>), date_functions_list=[], israel_diaspora='')]
+    [Holiday(type=<HolidayTypes.YOM_TOV: 1>, name='pesach', date=(<Months.NISAN: 9>, 15), date_functions_list=[], israel_diaspora='')]
     >>> print(pesach.holidays[0])
     Pesach
     >>> pesach.next_day.omer
