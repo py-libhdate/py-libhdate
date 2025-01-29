@@ -5,7 +5,7 @@ from __future__ import annotations
 import datetime as dt
 from dataclasses import dataclass
 from enum import IntEnum, IntFlag
-from typing import TYPE_CHECKING, Callable, Optional, Union, cast
+from typing import TYPE_CHECKING, Callable, Optional, Union
 
 import hdate.converters as conv
 from hdate.gematria import hebrew_number
@@ -198,20 +198,21 @@ SHORT_MONTHS = tuple(month for month in Months if month.length == 29)
 CHANGING_MONTHS = tuple(month for month in Months if callable(month.length))
 
 
-@dataclass
+@dataclass(frozen=True)
 class HebrewDate(TranslatorMixin):
     """Define a Hebrew date object."""
 
     year: int = 0
-    month: Union[Months, int] = Months.TISHREI
+    month: Months = Months.TISHREI
     day: int = 1
 
     def __post_init__(self) -> None:
-        self.month = (
-            self.month
-            if isinstance(self.month, Months)
-            else Months(self.month)  # type: ignore # pylint: disable=E1120
-        )
+        if isinstance(self.month, int):
+            object.__setattr__(
+                self,
+                "month",
+                Months(self.month),  # type: ignore # pylint: disable=E1120
+            )
         self._validate()
         self.month.set_language(self._language)
 
@@ -236,7 +237,7 @@ class HebrewDate(TranslatorMixin):
                 f"{self.month} is not a valid month for year {year} "
                 f"({'leap' if is_leap_year(year) else 'non-leap'})"
             )
-        if not 0 < self.day <= (max_days := cast(Months, self.month).days(year)):
+        if not 0 < self.day <= (max_days := self.month.days(year)):
             raise ValueError(
                 f"Day {self.day} is illegal: "
                 f"legal values are 1-{max_days} for {self.month}"
@@ -252,7 +253,7 @@ class HebrewDate(TranslatorMixin):
         if year is None:
             year = self.year
         if month is None:
-            month = cast(Months, self.month)
+            month = self.month
         if day is None:
             day = self.day
         return type(self)(year, month, day)
@@ -286,31 +287,27 @@ class HebrewDate(TranslatorMixin):
         if not isinstance(other, dt.timedelta):
             return NotImplemented
         days = other.days
-        new = type(self)(self.year, self.month, self.day)
+        _year, _month, _day = self.year, self.month, self.day
         while days != 0:
-            days_left = (
-                cast(Months, new.month).days(new.year) - new.day
-                if days > 0
-                else new.day
-            )
+            days_left = _month.days(_year) - _day if days > 0 else _day
 
             if days_left >= abs(days):
-                new.day += days
+                _day += days
                 break
 
             if days > 0:
                 days -= days_left
-                new.month = cast(Months, new.month).next_month(new.year)
-                if new.month == Months.TISHREI:
-                    new.year += 1
-                new.day = 0
+                _month = _month.next_month(_year)
+                if _month == Months.TISHREI:
+                    _year += 1
+                _day = 0
             else:
                 days += days_left
-                new.month = cast(Months, new.month).prev_month(new.year)
-                if new.month == Months.ELUL:
-                    new.year -= 1
-                new.day = new.month.days(new.year)
-        return new
+                _month = _month.prev_month(_year)
+                if _month == Months.ELUL:
+                    _year -= 1
+                _day = _month.days(_year)
+        return type(self)(_year, _month, _day)
 
     def __sub__(self, other: object) -> dt.timedelta:
         if not isinstance(other, HebrewDate):

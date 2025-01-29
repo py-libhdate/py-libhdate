@@ -47,7 +47,7 @@ class Omer(TranslatorMixin):
                 self.day = 0
                 self.week = 0
             else:
-                first_omer_day.year = self.date.year
+                first_omer_day = first_omer_day.replace(year=self.date.year)
                 self.total_days = (self.date - first_omer_day).days + 1
                 self.week, self.day = divmod(self.total_days, 7)
         elif self.total_days > 0:
