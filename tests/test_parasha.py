@@ -51,7 +51,7 @@ def test_get_reading_israel(
     diaspora: bool, year: int, snapshot: SnapshotAssertion
 ) -> None:
     """Test parshat hashavua in Israel."""
-    rosh_hashana = HebrewDate(year, 1, 1)
+    rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
     mydate = HDate(rosh_hashana, diaspora=diaspora).upcoming_shabbat
 
     while mydate.hdate.year == year:
@@ -65,9 +65,9 @@ def test_get_reading_israel(
 def test_vezot_habracha(diaspora: bool, year: int) -> None:
     """Test Vezot Habracha showing correctly."""
     if diaspora:
-        simchat_tora = HebrewDate(year, 1, 23)
+        simchat_tora = HebrewDate(year, Months.TISHREI, 23)
     else:
-        simchat_tora = HebrewDate(year, 1, 22)
+        simchat_tora = HebrewDate(year, Months.TISHREI, 22)
     mydate = HDate(simchat_tora, diaspora=diaspora)
     assert mydate.parasha == 54
 

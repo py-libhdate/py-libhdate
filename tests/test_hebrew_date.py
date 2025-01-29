@@ -23,13 +23,13 @@ MAX_YEAR = 6000
 
 def test_is_leap_year() -> None:
     """Test that is_leap_year() working as expected for leap year."""
-    leap_date = HebrewDate(5784, 1, 1)
+    leap_date = HebrewDate(5784, Months.TISHREI, 1)
     assert leap_date.is_leap_year()
 
 
 def test_is_not_leap_year() -> None:
     """Test that is_leap_year() working as expected for non-leap year."""
-    leap_date = HebrewDate(5783, 1, 1)
+    leap_date = HebrewDate(5783, Months.TISHREI, 1)
     assert not leap_date.is_leap_year()
 
 

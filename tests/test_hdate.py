@@ -66,7 +66,7 @@ class TestHDate:
         with pytest.raises(ValueError):
             HebrewDate(5779, 15, 3)
         with pytest.raises(ValueError):
-            HDate().hdate = HebrewDate(5779, 10, 35)
+            HDate().hdate = HebrewDate(5779, Months.NISAN, 35)
 
     @given(date=strategies.dates())
     def test_random_hdate(self, date: dt.date) -> None:
@@ -114,7 +114,7 @@ class TestHDate:
         self,
         current_date: tuple[int, int, int],
         shabbat_date: tuple[int, int, int],
-        hebrew_date: tuple[int, int, int],
+        hebrew_date: tuple[int, Months, int],
     ) -> None:
         """Check the date of the upcoming Shabbat."""
         date = HDate(date=dt.date(*current_date))
