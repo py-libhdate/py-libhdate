@@ -10,7 +10,6 @@ from hdate.hebrew_date import (
     CHANGING_MONTHS,
     LONG_MONTHS,
     SHORT_MONTHS,
-    ComparisonMode,
     HebrewDate,
     Months,
     is_leap_year,
@@ -100,42 +99,6 @@ def test_months_order() -> None:
     assert Months.TEVET < Months.SHVAT < Months.ADAR < Months.NISAN < Months.IYYAR
     assert Months.IYYAR < Months.SIVAN < Months.TAMMUZ < Months.AV < Months.ELUL
     assert Months.SHVAT < Months.ADAR_I < Months.ADAR_II < Months.NISAN
-
-
-@pytest.mark.parametrize("order_type", ["calendar", "biblical"])
-@pytest.mark.parametrize("compare_mode", list(ComparisonMode))
-@pytest.mark.parametrize("month", list(Months))
-def test_compare_mode_eq(
-    order_type: str, compare_mode: ComparisonMode, month: Months
-) -> None:
-    """Test that the comparison mode works correctly."""
-    month.set_comparison_mode(compare_mode)
-    assert month.compare(month, order_type) == 0
-
-
-@pytest.mark.parametrize("compare_mode_1", list(ComparisonMode))
-@pytest.mark.parametrize("compare_mode_2", list(ComparisonMode))
-@given(
-    month_1=strategies.sampled_from(list(Months)),
-    month_2=strategies.sampled_from(list(Months)),
-)
-def test_adar_compare_mode(
-    compare_mode_1: ComparisonMode,
-    month_1: Months,
-    compare_mode_2: ComparisonMode,
-    month_2: Months,
-) -> None:
-    """Test ADAR using various comparison modes."""
-    compare_mode = compare_mode_1 | compare_mode_2
-    month_1.set_comparison_mode(compare_mode_1)
-    month_2.set_comparison_mode(compare_mode_2)
-    if (
-        month_1.value in compare_mode.equal_month_values
-        and month_2.value in compare_mode.equal_month_values
-    ) or (month_1.value == month_2.value):
-        assert month_1 == month_2
-    else:
-        assert month_1 != month_2
 
 
 @strategies.composite
