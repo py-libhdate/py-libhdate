@@ -5,7 +5,7 @@ from __future__ import annotations
 import datetime as dt
 from dataclasses import dataclass
 from enum import IntEnum
-from typing import TYPE_CHECKING, Callable, Optional, Union
+from typing import TYPE_CHECKING, Callable, Literal, Optional, Union
 
 import hdate.converters as conv
 from hdate.gematria import hebrew_number
@@ -245,6 +245,26 @@ class HebrewDate(TranslatorMixin):
     def __add__(self, other: object) -> HebrewDate:
         if not isinstance(other, dt.timedelta):
             return NotImplemented
+
+        def _adjust_date(
+            year: int,
+            month: Months,
+            day: int,
+            direction: Literal["forward", "backward"],
+        ) -> tuple[int, Months, int]:
+            """Adjust the date based on the direction."""
+            if direction == "forward":
+                month = month.next_month(_year)
+                if month == Months.TISHREI:
+                    year += 1
+                day = 0
+            else:
+                month = month.prev_month(_year)
+                if month == Months.ELUL:
+                    year -= 1
+                day = month.days(_year)
+            return year, month, day
+
         days = other.days
         _year, _month, _day = self.year, self.month, self.day
         while days != 0:
@@ -252,20 +272,16 @@ class HebrewDate(TranslatorMixin):
 
             if days_left >= abs(days):
                 _day += days
+                if _day == 0:
+                    _year, _month, _day = _adjust_date(_year, _month, _day, "backward")
                 break
 
             if days > 0:
                 days -= days_left
-                _month = _month.next_month(_year)
-                if _month == Months.TISHREI:
-                    _year += 1
-                _day = 0
+                _year, _month, _day = _adjust_date(_year, _month, _day, "forward")
             else:
                 days += days_left
-                _month = _month.prev_month(_year)
-                if _month == Months.ELUL:
-                    _year -= 1
-                _day = _month.days(_year)
+                _year, _month, _day = _adjust_date(_year, _month, _day, "backward")
         return type(self)(_year, _month, _day)
 
     def __sub__(self, other: object) -> dt.timedelta:
