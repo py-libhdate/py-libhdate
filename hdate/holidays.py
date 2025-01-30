@@ -8,7 +8,7 @@ from copy import deepcopy
 from dataclasses import dataclass, field
 from enum import Enum
 from itertools import product
-from typing import Callable, ClassVar, Literal, Optional, Union
+from typing import Callable, ClassVar, Iterable, Literal, Optional, Union
 
 from hdate.hebrew_date import CHANGING_MONTHS, LONG_MONTHS, HebrewDate, Months, Weekday
 from hdate.translator import TranslatorMixin
@@ -71,18 +71,21 @@ class HolidayDatabase:
         cls._all_holidays = defaultdict(list)
 
         def holiday_dates_cross_product(
-            holiday: Holiday,
-        ) -> product[tuple[int, ...]]:
+            dates: Union[
+                tuple[Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]]
+            ],
+        ) -> Iterable[tuple[Months, int]]:
             """Given a (days, months) pair, compute the cross product.
 
             If days and/or months are singletons, they are converted to a list.
             """
-            return product(
-                *([x] if isinstance(x, (int, Months)) else x for x in holiday.date)
-            )
+            months = (dates[0],) if isinstance(dates[0], Months) else dates[0]
+            days = (dates[1],) if isinstance(dates[1], int) else dates[1]
+
+            return product(months, days)
 
         for holiday in holidays:
-            for date in holiday_dates_cross_product(holiday):
+            for date in holiday_dates_cross_product(holiday.date):
                 index = HebrewDate(0, *date)
                 if holiday.israel_diaspora == "ISRAEL":
                     cls._israel_holidays[index].append(holiday)
