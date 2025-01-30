@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import datetime as dt
 from dataclasses import dataclass
-from enum import IntEnum, IntFlag
-from typing import TYPE_CHECKING, Callable, Optional, Union, cast
+from enum import IntEnum
+from typing import TYPE_CHECKING, Callable, Literal, Optional, Union
 
 import hdate.converters as conv
 from hdate.gematria import hebrew_number
@@ -33,31 +33,6 @@ class Weekday(TranslatorMixin, IntEnum):
     THURSDAY = 5
     FRIDAY = 6
     SATURDAY = 7
-
-
-class ComparisonMode(IntFlag):
-    """Enum class for the comparison modes."""
-
-    STRICT: tuple[int, set[int]] = 0, set()
-    ADAR_IS_ADAR_I = 1, {6, 7}
-    ADAR_IS_ADAR_II = 2, {6, 8}
-    ADAR_IS_ANY = 3, {6 - 8}
-
-    if TYPE_CHECKING:
-        equal_month_values: set[int]
-
-    def __new__(cls, value: int, equal_month_values: set[int]) -> ComparisonMode:
-        obj = int.__new__(cls, value)
-        obj._value_ = value
-        obj.equal_month_values = equal_month_values
-        return obj
-
-    def __or__(self, other: object) -> ComparisonMode:
-        if not isinstance(other, ComparisonMode):
-            return NotImplemented
-        value = super().__or__(other)
-        value.equal_month_values = self.equal_month_values | other.equal_month_values
-        return value
 
 
 def short_kislev(year: int) -> bool:
@@ -104,13 +79,7 @@ class Months(TranslatorMixin, IntEnum):
         obj._value_ = value
         obj.biblical_order = ordinal
         obj.length = days
-        obj.comparison_mode = ComparisonMode.STRICT
         return obj
-
-    def __add__(self, value: object) -> Months:
-        if not isinstance(value, int):
-            return NotImplemented
-        return Months(self._value_ + value)  # type: ignore # pylint: disable=E1120
 
     def next_month(self, year: int) -> Months:
         """Return the next month."""
@@ -121,6 +90,16 @@ class Months(TranslatorMixin, IntEnum):
         if is_leap_year(year) and self == Months.SHVAT:
             return Months.ADAR_I
         return Months(self._value_ + 1)  # type: ignore # pylint: disable=E1120
+
+    def prev_month(self, year: int) -> Months:
+        """Return the previous month."""
+        if self == Months.TISHREI:
+            return Months.ELUL
+        if self == Months.NISAN:
+            return Months.ADAR_II if is_leap_year(year) else Months.ADAR
+        if is_leap_year(year) and self == Months.ADAR_I:
+            return Months.SHVAT
+        return Months(self._value_ - 1)  # type: ignore # pylint: disable=E1120
 
     @classmethod
     def in_year(cls, year: int) -> list[Months]:
@@ -137,10 +116,6 @@ class Months(TranslatorMixin, IntEnum):
             return self.length(year)
         return self.length
 
-    def set_comparison_mode(self, mode: ComparisonMode) -> None:
-        """Set the comparison mode."""
-        self.comparison_mode = mode
-
     def compare(self, other: Union[Months, int], order_type: str = "calendar") -> int:
         """
         Compare this month to another month.
@@ -155,13 +130,7 @@ class Months(TranslatorMixin, IntEnum):
             return value - other
 
         other_value = other.value if order_type == "calendar" else other.biblical_order
-        mode = self.comparison_mode | other.comparison_mode
 
-        if (
-            self.value in mode.equal_month_values
-            and other.value in mode.equal_month_values
-        ):
-            return 0
         return value - other_value
 
     def __eq__(self, value: object) -> bool:
@@ -188,20 +157,21 @@ SHORT_MONTHS = tuple(month for month in Months if month.length == 29)
 CHANGING_MONTHS = tuple(month for month in Months if callable(month.length))
 
 
-@dataclass
+@dataclass(frozen=True)
 class HebrewDate(TranslatorMixin):
     """Define a Hebrew date object."""
 
     year: int = 0
-    month: Union[Months, int] = Months.TISHREI
+    month: Months = Months.TISHREI
     day: int = 1
 
     def __post_init__(self) -> None:
-        self.month = (
-            self.month
-            if isinstance(self.month, Months)
-            else Months(self.month)  # type: ignore # pylint: disable=E1120
-        )
+        if isinstance(self.month, int):
+            object.__setattr__(
+                self,
+                "month",
+                Months(self.month),  # type: ignore # pylint: disable=E1120
+            )
         self._validate()
         self.month.set_language(self._language)
 
@@ -214,10 +184,9 @@ class HebrewDate(TranslatorMixin):
         return True
 
     def _validate(self, year: int = 0) -> None:
-        validate_months = True
-        if self.year == 0 and year == 0:
-            # Unable to validate Month, days of month for Cheshvan and Kislev are 30
-            validate_months = False
+        """Validation method. Accepts a specific year to validate against."""
+        # Unable to validate Month, days of month for Cheshvan and Kislev are 30
+        validate_months = not (self.year == 0 and year == 0)
 
         # Use the provided year to validate if it's not 0
         year = self.year if year == 0 else year
@@ -226,7 +195,8 @@ class HebrewDate(TranslatorMixin):
                 f"{self.month} is not a valid month for year {year} "
                 f"({'leap' if is_leap_year(year) else 'non-leap'})"
             )
-        if not 0 < self.day <= (max_days := cast(Months, self.month).days(year)):
+        max_days = self.month.days(year)
+        if not 0 < self.day <= max_days:
             raise ValueError(
                 f"Day {self.day} is illegal: "
                 f"legal values are 1-{max_days} for {self.month}"
@@ -242,7 +212,7 @@ class HebrewDate(TranslatorMixin):
         if year is None:
             year = self.year
         if month is None:
-            month = cast(Months, self.month)
+            month = self.month
         if day is None:
             day = self.day
         return type(self)(year, month, day)
@@ -275,18 +245,44 @@ class HebrewDate(TranslatorMixin):
     def __add__(self, other: object) -> HebrewDate:
         if not isinstance(other, dt.timedelta):
             return NotImplemented
+
+        def _adjust_date(
+            year: int,
+            month: Months,
+            day: int,
+            direction: Literal["forward", "backward"],
+        ) -> tuple[int, Months, int]:
+            """Adjust the date based on the direction."""
+            if direction == "forward":
+                month = month.next_month(_year)
+                if month == Months.TISHREI:
+                    year += 1
+                day = 0
+            else:
+                month = month.prev_month(_year)
+                if month == Months.ELUL:
+                    year -= 1
+                day = month.days(_year)
+            return year, month, day
+
         days = other.days
-        new = HebrewDate(self.year, self.month, self.day)
+        _year, _month, _day = self.year, self.month, self.day
         while days != 0:
-            if (days_left := cast(Months, new.month).days(new.year) - new.day) >= days:
-                new.day += days
+            days_left = _month.days(_year) - _day if days > 0 else _day
+
+            if days_left >= abs(days):
+                _day += days
+                if _day == 0:
+                    _year, _month, _day = _adjust_date(_year, _month, _day, "backward")
                 break
-            days -= days_left
-            new.month = cast(Months, new.month).next_month(new.year)
-            if new.month == Months.TISHREI:
-                new.year += 1
-            new.day = 0
-        return new
+
+            if days > 0:
+                days -= days_left
+                _year, _month, _day = _adjust_date(_year, _month, _day, "forward")
+            else:
+                days += days_left
+                _year, _month, _day = _adjust_date(_year, _month, _day, "backward")
+        return type(self)(_year, _month, _day)
 
     def __sub__(self, other: object) -> dt.timedelta:
         if not isinstance(other, HebrewDate):

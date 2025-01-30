@@ -41,18 +41,18 @@ max-line-length = "88"
 # Show summary output for all types of failures
 # Run doctest that are part of docstrings
 # Run doctest in RST files
-addopts = "-ra --doctest-modules --doctest-glob=*.rst -n auto --dist loadscope --timeout=300"
+addopts = "-ra --doctest-modules --doctest-glob=*.rst -n auto --timeout=300"
 
 [dependency-groups]
 dev = [
-    "tox>=4.23.2",
-    "pylint>=3.3.3",
-    "isort>=5.13.2",
-    "black>=24.10.0",
+    "tox>=4.24.1",
+    "pylint>=3.3.4",
+    "isort>=6.0.0",
+    "black>=25.1.0",
     "tox-pdm>=0.7.2",
     "pre-commit>=4.1.0",
     "flake8>=7.1.1",
-    "mypy>=1.13.0",
+    "mypy>=1.14.1",
 ]
 test = [
     "pytest>=8.3.4",

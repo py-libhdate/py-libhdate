@@ -16,7 +16,7 @@ from hdate.holidays import HOLIDAYS, Holiday, HolidayDatabase
 @pytest.mark.parametrize(("year"), (5783, 5784))
 def test_get_holidays_for_year(year: int, holiday_db: HolidayDatabase) -> None:
     """Test that get_holidays_for_year() returns every holiday."""
-    cur_date = HebrewDate(year, 1, 1)
+    cur_date = HebrewDate(year, Months.TISHREI, 1)
 
     expected_holiday_map = defaultdict(set)
     for date, entries in holiday_db.lookup_holidays_for_year(cur_date).items():
@@ -40,65 +40,89 @@ def test_get_holidays_for_year(year: int, holiday_db: HolidayDatabase) -> None:
 
 
 NON_MOVING_HOLIDAYS = [
-    ((1, 1), {"rosh_hashana_i"}),
-    ((2, 1), {"rosh_hashana_ii"}),
-    ((9, 1), {"erev_yom_kippur"}),
-    ((10, 1), {"yom_kippur"}),
-    ((15, 1), {"sukkot"}),
-    ((17, 1), {"hol_hamoed_sukkot"}),
-    ((18, 1), {"hol_hamoed_sukkot"}),
-    ((19, 1), {"hol_hamoed_sukkot"}),
-    ((20, 1), {"hol_hamoed_sukkot"}),
-    ((21, 1), {"hoshana_raba"}),
-    ((15, 9), {"pesach"}),
-    ((17, 9), {"hol_hamoed_pesach"}),
-    ((18, 9), {"hol_hamoed_pesach"}),
-    ((19, 9), {"hol_hamoed_pesach"}),
-    ((20, 9), {"hol_hamoed_pesach"}),
-    ((21, 9), {"pesach_vii"}),
-    ((5, 11), {"erev_shavuot"}),
-    ((6, 11), {"shavuot"}),
-    ((25, 3), {"chanukah"}),
-    ((26, 3), {"chanukah"}),
-    ((27, 3), {"chanukah"}),
-    ((28, 3), {"chanukah"}),
-    ((29, 3), {"chanukah"}),
-    ((1, 4), {"chanukah", "rosh_chodesh"}),
-    ((2, 4), {"chanukah"}),
-    ((10, 4), {"asara_btevet"}),
-    ((15, 5), {"tu_bshvat"}),
-    ((18, 10), {"lag_bomer"}),
-    ((15, 13), {"tu_bav"}),
+    ((Months.TISHREI, 1), {"rosh_hashana_i"}),
+    ((Months.TISHREI, 2), {"rosh_hashana_ii"}),
+    ((Months.TISHREI, 9), {"erev_yom_kippur"}),
+    ((Months.TISHREI, 10), {"yom_kippur"}),
+    ((Months.TISHREI, 15), {"sukkot"}),
+    ((Months.TISHREI, 17), {"hol_hamoed_sukkot"}),
+    ((Months.TISHREI, 18), {"hol_hamoed_sukkot"}),
+    ((Months.TISHREI, 19), {"hol_hamoed_sukkot"}),
+    ((Months.TISHREI, 20), {"hol_hamoed_sukkot"}),
+    ((Months.TISHREI, 21), {"hoshana_raba"}),
+    ((Months.NISAN, 15), {"pesach"}),
+    ((Months.NISAN, 17), {"hol_hamoed_pesach"}),
+    ((Months.NISAN, 18), {"hol_hamoed_pesach"}),
+    ((Months.NISAN, 19), {"hol_hamoed_pesach"}),
+    ((Months.NISAN, 20), {"hol_hamoed_pesach"}),
+    ((Months.NISAN, 21), {"pesach_vii"}),
+    ((Months.SIVAN, 5), {"erev_shavuot"}),
+    ((Months.SIVAN, 6), {"shavuot"}),
+    ((Months.KISLEV, 25), {"chanukah"}),
+    ((Months.KISLEV, 26), {"chanukah"}),
+    ((Months.KISLEV, 27), {"chanukah"}),
+    ((Months.KISLEV, 28), {"chanukah"}),
+    ((Months.KISLEV, 29), {"chanukah"}),
+    ((Months.TEVET, 1), {"chanukah", "rosh_chodesh"}),
+    ((Months.TEVET, 2), {"chanukah"}),
+    ((Months.TEVET, 10), {"asara_btevet"}),
+    ((Months.SHVAT, 15), {"tu_bshvat"}),
+    ((Months.IYYAR, 18), {"lag_bomer"}),
+    ((Months.AV, 15), {"tu_bav"}),
 ]
 
 DIASPORA_ISRAEL_HOLIDAYS = [
     # Date, holiday in Diaspora, holiday in Israel
-    ((16, 1), {"sukkot_ii"}, {"hol_hamoed_sukkot"}),
-    ((22, 1), {"shmini_atzeret"}, {"shmini_atzeret", "simchat_torah"}),
-    ((23, 1), {"simchat_torah"}, {}),
-    ((16, 9), {"pesach_ii"}, {"hol_hamoed_pesach"}),
-    ((22, 9), {"pesach_viii"}, {}),
-    ((7, 11), {"shavuot_ii"}, {}),
+    ((Months.TISHREI, 16), {"sukkot_ii"}, {"hol_hamoed_sukkot"}),
+    ((Months.TISHREI, 22), {"shmini_atzeret"}, {"shmini_atzeret", "simchat_torah"}),
+    ((Months.TISHREI, 23), {"simchat_torah"}, {}),
+    ((Months.NISAN, 16), {"pesach_ii"}, {"hol_hamoed_pesach"}),
+    ((Months.NISAN, 22), {"pesach_viii"}, {}),
+    ((Months.SIVAN, 7), {"shavuot_ii"}, {}),
 ]
 
 MOVING_HOLIDAYS = [
     # Possible dates, name
-    ([(3, 1), (4, 1)], "tzom_gedaliah"),
-    ([(17, 12), (18, 12)], "tzom_tammuz"),
-    ([(9, 13), (10, 13)], "tisha_bav"),
+    ([(Months.TISHREI, 3), (Months.TISHREI, 4)], "tzom_gedaliah"),
+    ([(Months.TAMMUZ, 17), (Months.TAMMUZ, 18)], "tzom_tammuz"),
+    ([(Months.AV, 9), (Months.AV, 10)], "tisha_bav"),
 ]
 
 NEW_HOLIDAYS = [
     # Possible dates, test year range, name
-    ([(26, 9), (27, 9), (28, 9)], (5719, 6500), {"yom_hashoah"}),
-    ([(3, 10), (4, 10), (5, 10)], (5709, 5763), {"yom_haatzmaut"}),
-    ([(3, 10), (4, 10), (5, 10), (6, 10)], (5764, 6500), {"yom_haatzmaut"}),
-    ([(2, 10), (3, 10), (4, 10)], (5709, 5763), {"yom_hazikaron"}),
-    ([(2, 10), (3, 10), (4, 10), (5, 10)], (5764, 6500), {"yom_hazikaron"}),
-    ([(28, 10)], (5728, 6500), {"yom_yerushalayim"}),
-    ([(11, 2), (12, 2)], (5758, 6500), {"rabin_memorial_day"}),
-    ([(29, 12)], (5765, 6500), {"zeev_zhabotinsky_day"}),
-    ([(30, 5)], (5734, 6500), {"family_day", "rosh_chodesh"}),
+    (
+        [(Months.NISAN, 26), (Months.NISAN, 27), (Months.NISAN, 28)],
+        (5719, 6500),
+        {"yom_hashoah"},
+    ),
+    (
+        [(Months.IYYAR, 3), (Months.IYYAR, 4), (Months.IYYAR, 5)],
+        (5709, 5763),
+        {"yom_haatzmaut"},
+    ),
+    (
+        [(Months.IYYAR, 3), (Months.IYYAR, 4), (Months.IYYAR, 5), (Months.IYYAR, 6)],
+        (5764, 6500),
+        {"yom_haatzmaut"},
+    ),
+    (
+        [(Months.IYYAR, 2), (Months.IYYAR, 3), (Months.IYYAR, 4)],
+        (5709, 5763),
+        {"yom_hazikaron"},
+    ),
+    (
+        [(Months.IYYAR, 2), (Months.IYYAR, 3), (Months.IYYAR, 4), (Months.IYYAR, 5)],
+        (5764, 6500),
+        {"yom_hazikaron"},
+    ),
+    ([(Months.IYYAR, 28)], (5728, 6500), {"yom_yerushalayim"}),
+    (
+        [(Months.MARCHESHVAN, 11), (Months.MARCHESHVAN, 12)],
+        (5758, 6500),
+        {"rabin_memorial_day"},
+    ),
+    ([(Months.TAMMUZ, 29)], (5765, 6500), {"zeev_zhabotinsky_day"}),
+    ([(Months.SHVAT, 30)], (5734, 6500), {"family_day", "rosh_chodesh"}),
 ]
 
 ADAR_HOLIDAYS = [
@@ -113,10 +137,10 @@ ADAR_HOLIDAYS = [
 @given(year=strategies.integers(min_value=4000, max_value=6000))
 @settings(deadline=None)
 def test_get_holidays_non_moving(
-    year: int, date: tuple[int, int], expected: set[str], holiday_db: HolidayDatabase
+    year: int, date: tuple[Months, int], expected: set[str], holiday_db: HolidayDatabase
 ) -> None:
     """Test holidays that have a fixed hebrew date."""
-    rand_hdate = HebrewDate(year, date[1], date[0])
+    rand_hdate = HebrewDate(year, *date)
     assert set(holiday.name for holiday in holiday_db.lookup(rand_hdate)) == expected
 
 
@@ -127,13 +151,13 @@ def test_get_holidays_non_moving(
 @given(year=strategies.integers(min_value=4000, max_value=6000))
 def test_get_diaspora_israel_holidays(
     year: int,
-    date: tuple[int, int],
+    date: tuple[Months, int],
     diaspora_holiday: set[str],
     israel_holiday: set[str],
     holiday_db: HolidayDatabase,
 ) -> None:
     """Test holidays that differ based on diaspora/israel."""
-    rand_hdate = HebrewDate(year, date[1], date[0])
+    rand_hdate = HebrewDate(year, *date)
     holidays = holiday_db.lookup(rand_hdate)
     expected = diaspora_holiday if holiday_db.diaspora else israel_holiday
     if expected:
@@ -145,7 +169,7 @@ def test_get_diaspora_israel_holidays(
 @pytest.mark.parametrize("possible_dates, holiday", MOVING_HOLIDAYS)
 @given(year=strategies.integers(min_value=4000, max_value=6000))
 def test_get_holidays_moving(
-    possible_dates: list[tuple[int, int]],
+    possible_dates: list[tuple[Months, int]],
     holiday: str,
     year: int,
     holiday_db: HolidayDatabase,
@@ -154,7 +178,7 @@ def test_get_holidays_moving(
     print(f"Testing {holiday} for {year}")
     valid_dates = 0
     for date in possible_dates:
-        date_under_test = HebrewDate(year, date[1], date[0])
+        date_under_test = HebrewDate(year, *date)
         holidays = holiday_db.lookup(date_under_test)
         assert (holiday_found := len(holidays) == 1) or len(holidays) == 0
         if holiday_found:
@@ -165,7 +189,7 @@ def test_get_holidays_moving(
 
 @pytest.mark.parametrize("possible_dates, years, expected", NEW_HOLIDAYS)
 def test_new_holidays_multiple_date(
-    possible_dates: list[tuple[int, int]],
+    possible_dates: list[tuple[Months, int]],
     years: tuple[int, int],
     expected: set[str],
     holiday_db: HolidayDatabase,
@@ -175,7 +199,7 @@ def test_new_holidays_multiple_date(
     print(f"Testing {expected} for {year}")
     valid_dates = 0
     for date in possible_dates:
-        date_under_test = HebrewDate(year, date[1], date[0])
+        date_under_test = HebrewDate(year, *date)
         holidays = holiday_db.lookup(date_under_test)
         assert (holiday_found := len(holidays) > 0) or len(holidays) == 0
         if holiday_found and expected == set(h.name for h in holidays):
@@ -185,7 +209,7 @@ def test_new_holidays_multiple_date(
 
 @pytest.mark.parametrize("possible_dates, years, expected", NEW_HOLIDAYS)
 def test_new_holidays_invalid_before(
-    possible_dates: list[tuple[int, int]],
+    possible_dates: list[tuple[Months, int]],
     years: tuple[int, int],
     expected: set[str],
     holiday_db: HolidayDatabase,
@@ -197,7 +221,7 @@ def test_new_holidays_invalid_before(
     year = random.randint(5000, years[0] - 1)
     print(f"Testing {expected} for {year}")
     for date in possible_dates:
-        date_under_test = HebrewDate(year, date[1], date[0])
+        date_under_test = HebrewDate(year, *date)
         holidays = holiday_db.lookup(date_under_test)
         assert len(holidays) == 0 or (
             len(holidays) == 1 and holidays[0].name == "rosh_chodesh"
@@ -209,7 +233,7 @@ def test_new_holidays_invalid_before(
 def test_get_holiday_hanuka_3rd_tevet(year: int) -> None:
     """Test Chanuka falling on 3rd of Tevet."""
     year_size = HebrewDate.year_size(year)
-    myhdate = HDate(HebrewDate(year, 4, 3))
+    myhdate = HDate(HebrewDate(year, Months.TEVET, 3))
     if year_size in (353, 383):
         assert myhdate.holidays[0].name == "chanukah"
     else:

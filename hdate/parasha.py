@@ -1,7 +1,11 @@
 """Constant lookup tables for hdate modules."""
 
+import datetime as dt
+from dataclasses import dataclass
 from enum import Enum, IntEnum, auto
+from typing import ClassVar, cast
 
+from hdate.hebrew_date import HebrewDate, Months, Weekday
 from hdate.translator import TranslatorMixin
 
 
@@ -84,6 +88,70 @@ class Parasha(TranslatorMixin, IntEnum):
     CHUKAT_BALAK = auto()
     MATOT_MASEI = auto()
     NITZAVIM_VAYEILECH = auto()
+
+
+@dataclass
+class ParashaDatabase:
+    """Container class for parasha information."""
+
+    diaspora: bool
+
+    _all_parashas: ClassVar[dict[tuple[int, ...], tuple[Enum, ...]]]
+
+    @classmethod
+    def register(cls, parashas: dict[tuple[int, ...], tuple[Enum, ...]]) -> None:
+        """Register the different parasha sequences."""
+        cls._all_parashas = parashas
+
+    def lookup(self, date: HebrewDate) -> Parasha:
+        """Lookup the parasha for a given date."""
+        _year_type = (date.year_size(date.year) % 10) - 3
+        rosh_hashana = HebrewDate(date.year, Months.TISHREI, 1)
+        pesach = HebrewDate(date.year, Months.NISAN, 15)
+        year_type = (
+            self.diaspora * 1000
+            + rosh_hashana.dow() * 100
+            + _year_type * 10
+            + pesach.dow()
+        )
+
+        # Number of days since rosh hashana
+        days = (date - rosh_hashana).days
+        # Number of weeks since rosh hashana
+        weeks = (days + rosh_hashana.dow() - 1) // 7
+
+        # If it's currently Simchat Torah, return VeZot Haberacha.
+        if weeks == 3:
+            if (
+                days <= 22
+                and self.diaspora
+                and date.dow() != Weekday.SATURDAY
+                or days <= 21
+                and not self.diaspora
+            ):
+                return Parasha.VEZOT_HABRACHA
+
+        # Special case for Simchat Torah in diaspora.
+        if weeks == 4 and days == 22 and self.diaspora:
+            return Parasha.VEZOT_HABRACHA
+
+        readings = next(
+            seq for types, seq in self._all_parashas.items() if year_type in types
+        )
+        # Maybe recompute the year type based on the upcoming shabbat.
+        # This avoids an edge case where today is before Rosh Hashana but
+        # Shabbat is in a new year afterwards.
+        if (
+            weeks >= len(readings)
+            and date.year
+            < (
+                next_shabbat := (
+                    date + dt.timedelta(days=Weekday.SATURDAY - date.dow())
+                )
+            ).year
+        ):
+            return self.lookup(next_shabbat)
+        return cast(Parasha, readings[weeks])
 
 
 PARASHA_SEQUENCES: dict[tuple[int, ...], tuple[Enum, ...]] = {
@@ -345,3 +413,5 @@ PARASHA_SEQUENCES: dict[tuple[int, ...], tuple[Enum, ...]] = {
         *erange(Parasha.DEVARIM, Parasha.NITZAVIM),
     ),
 }
+
+ParashaDatabase.register(PARASHA_SEQUENCES)

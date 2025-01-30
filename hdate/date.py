@@ -8,18 +8,15 @@ of the Jewish calendrical date and times for a given location
 from __future__ import annotations
 
 import datetime as dt
-import logging
-from typing import Optional, Union, cast
+from typing import Optional, Union
 
-from hdate.daf_yomi import DafYomiDatabase
+from hdate.daf_yomi import DafYomiDatabase, Masechta
 from hdate.gematria import hebrew_number
-from hdate.hebrew_date import HebrewDate, Months, Weekday
+from hdate.hebrew_date import HebrewDate, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
-from hdate.parasha import PARASHA_SEQUENCES, Parasha
+from hdate.parasha import Parasha, ParashaDatabase
 from hdate.translator import TranslatorMixin
-
-_LOGGER = logging.getLogger(__name__)
 
 
 class HDate(TranslatorMixin):
@@ -55,12 +52,14 @@ class HDate(TranslatorMixin):
         in_prefix = "ב" if self._language == "hebrew" else ""
         day_number = hebrew_number(self.hdate.day, language=self._language)
         year_number = hebrew_number(self.hdate.year, language=self._language)
-        result = f"{self.dow} {day_number} {in_prefix}{self.hdate.month} {year_number}"
+        result = (
+            f"{self.hdate.dow()} "
+            f"{day_number} {in_prefix}{self.hdate.month} {year_number}"
+        )
 
         if self.omer:
             result = f"{result} {self.omer}"
 
-        # Append holiday description if any
         if self.holidays:
             result = f"{result} {', '.join(str(holiday) for holiday in self.holidays)}"
         return result
@@ -100,41 +99,18 @@ class HDate(TranslatorMixin):
         self._gdate = date
 
     @property
-    def hebrew_date(self) -> str:
-        """Return the hebrew date string in the selected language."""
-        return str(self.hdate)
-
-    @property
     def omer(self) -> Optional[Omer]:
         """Return the Omer object."""
         _omer = Omer(date=self.hdate, language=self._language)
         return _omer if _omer.total_days > 0 else None
 
     @property
-    def parasha(self) -> str:
-        """Return the upcoming parasha in the selected language."""
-        parasha = self.get_reading()
+    def parasha(self) -> Parasha:
+        """Return the upcoming parasha."""
+        db = ParashaDatabase(self.diaspora)
+        parasha = db.lookup(self.hdate)
         parasha.set_language(self._language)
-        return str(parasha)
-
-    @property
-    def is_shabbat(self) -> bool:
-        """Return True if this date is Shabbat, specifically Saturday.
-
-        Returns False on Friday because the HDate object has no notion of time.
-        For more detailed nuance, use the Zmanim object.
-        """
-        return self.gdate.weekday() == 5
-
-    @property
-    def is_holiday(self) -> bool:
-        """Return True if this date is a holiday (any kind)."""
-        return len(self.holidays) > 0
-
-    @property
-    def is_yom_tov(self) -> bool:
-        """Return True if this date is a Yom Tov."""
-        return any(holiday.type == HolidayTypes.YOM_TOV for holiday in self.holidays)
+        return parasha
 
     @property
     def holidays(self) -> list[Holiday]:
@@ -147,21 +123,31 @@ class HDate(TranslatorMixin):
         return holidays_list
 
     @property
-    def dow(self) -> Weekday:
-        """Return day of week enum."""
-        # datetime weekday maps Monday->0, Sunday->6; this remaps to Sunday->1.
-        _dow = self.gdate.weekday() + 2 if self.gdate.weekday() != 6 else 1
-        dow = Weekday(_dow)
-        dow.set_language(self._language)
-        return dow
-
-    @property
-    def daf_yomi(self) -> str:
+    def daf_yomi(self) -> Masechta:
         """Return a string representation of the daf yomi."""
         db = DafYomiDatabase()
         daf = db.lookup(self.gdate)
         daf.set_language(self._language)
-        return str(daf)
+        return daf
+
+    @property
+    def is_shabbat(self) -> bool:
+        """Return True if this date is Shabbat, specifically Saturday.
+
+        Returns False on Friday because the HDate object has no notion of time.
+        For more detailed nuance, use the Zmanim object.
+        """
+        return self.hdate.dow() == Weekday.SATURDAY
+
+    @property
+    def is_holiday(self) -> bool:
+        """Return True if this date is a holiday (any kind)."""
+        return len(self.holidays) > 0
+
+    @property
+    def is_yom_tov(self) -> bool:
+        """Return True if this date is a Yom Tov."""
+        return any(holiday.type == HolidayTypes.YOM_TOV for holiday in self.holidays)
 
     @property
     def next_day(self) -> HDate:
@@ -181,9 +167,24 @@ class HDate(TranslatorMixin):
         """
         if self.is_shabbat:
             return self
-        # If it's Sunday, fast forward to the next Shabbat.
-        saturday = self.gdate + dt.timedelta((12 - self.gdate.weekday()) % 7)
-        return HDate(saturday, diaspora=self.diaspora, language=self._language)
+
+        next_shabbat = self.gdate + dt.timedelta(Weekday.SATURDAY - self.hdate.dow())
+        return HDate(next_shabbat, diaspora=self.diaspora, language=self._language)
+
+    @property
+    def upcoming_yom_tov(self) -> HDate:
+        """Find the next upcoming yom tov (i.e. no-melacha holiday).
+
+        If it is currently the day of yom tov (irrespective of zmanim), returns
+        that yom tov.
+        """
+        if self.is_yom_tov:
+            return self
+
+        mgr = HolidayDatabase(diaspora=self.diaspora)
+        date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
+
+        return HDate(date, self.diaspora, self._language)
 
     @property
     def upcoming_shabbat_or_yom_tov(self) -> HDate:
@@ -230,66 +231,3 @@ class HDate(TranslatorMixin):
         while day_iter.next_day.is_yom_tov or day_iter.next_day.is_shabbat:
             day_iter = day_iter.next_day
         return day_iter
-
-    @property
-    def upcoming_yom_tov(self) -> HDate:
-        """Find the next upcoming yom tov (i.e. no-melacha holiday).
-
-        If it is currently the day of yom tov (irrespective of zmanim), returns
-        that yom tov.
-        """
-        if self.is_yom_tov:
-            return self
-
-        mgr = HolidayDatabase(diaspora=self.diaspora)
-        date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
-
-        return HDate(date, self.diaspora, self._language)
-
-    def get_reading(self) -> Parasha:
-        """Return number of hebrew parasha."""
-        _year_type = (HebrewDate.year_size(self.hdate.year) % 10) - 3
-        rosh_hashana = HebrewDate(self.hdate.year, Months.TISHREI, 1)
-        pesach = HebrewDate(self.hdate.year, Months.NISAN, 15)
-        year_type = (
-            self.diaspora * 1000
-            + rosh_hashana.dow() * 100
-            + _year_type * 10
-            + pesach.dow()
-        )
-
-        _LOGGER.debug("Year type: %d", year_type)
-
-        # Number of days since rosh hashana
-        days = (self.hdate - rosh_hashana).days
-        # Number of weeks since rosh hashana
-        weeks = (days + rosh_hashana.dow() - 1) // 7
-        _LOGGER.debug("Since Rosh Hashana - Days: %d, Weeks %d", days, weeks)
-
-        # If it's currently Simchat Torah, return VeZot Haberacha.
-        if weeks == 3:
-            if (
-                days <= 22
-                and self.diaspora
-                and self.dow != Weekday.SATURDAY
-                or days <= 21
-                and not self.diaspora
-            ):
-                return Parasha.VEZOT_HABRACHA
-
-        # Special case for Simchat Torah in diaspora.
-        if weeks == 4 and days == 22 and self.diaspora:
-            return Parasha.VEZOT_HABRACHA
-
-        readings = next(
-            seq for types, seq in PARASHA_SEQUENCES.items() if year_type in types
-        )
-        # Maybe recompute the year type based on the upcoming shabbat.
-        # This avoids an edge case where today is before Rosh Hashana but
-        # Shabbat is in a new year afterwards.
-        if (
-            weeks >= len(readings)
-            and self.hdate.year < self.upcoming_shabbat.hdate.year
-        ):
-            return self.upcoming_shabbat.get_reading()
-        return cast(Parasha, readings[weeks])

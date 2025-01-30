@@ -64,9 +64,9 @@ class TestHDate:
         with pytest.raises(TypeError):
             HDate().hdate = "not a HebrewDate"  # type: ignore
         with pytest.raises(ValueError):
-            HebrewDate(5779, 15, 3)
+            HebrewDate(5779, 15, 3)  # type: ignore
         with pytest.raises(ValueError):
-            HDate().hdate = HebrewDate(5779, 10, 35)
+            HDate().hdate = HebrewDate(5779, Months.NISAN, 35)
 
     @given(date=strategies.dates())
     def test_random_hdate(self, date: dt.date) -> None:
@@ -91,9 +91,8 @@ class TestHDate:
     def test_pesach_day_of_week(self) -> None:
         """ "Check that Pesach DOW matches the given dates."""
         for year, info in list(HEBREW_YEARS_INFO.items()):
-            my_hdate = HDate(HebrewDate(year, Months.NISAN, 15))
-            assert my_hdate.dow == info[2]
-            assert my_hdate.holidays[0].name == "pesach"
+            my_hdate = HebrewDate(year, Months.NISAN, 15)
+            assert my_hdate.dow() == info[2]
 
     UPCOMING_SHABBATOT = [
         ((2018, 11, 30), (2018, 12, 1), (5779, Months.KISLEV, 22)),
@@ -115,7 +114,7 @@ class TestHDate:
         self,
         current_date: tuple[int, int, int],
         shabbat_date: tuple[int, int, int],
-        hebrew_date: tuple[int, int, int],
+        hebrew_date: tuple[int, Months, int],
     ) -> None:
         """Check the date of the upcoming Shabbat."""
         date = HDate(date=dt.date(*current_date))

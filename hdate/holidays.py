@@ -8,7 +8,7 @@ from copy import deepcopy
 from dataclasses import dataclass, field
 from enum import Enum
 from itertools import product
-from typing import Callable, ClassVar, Literal, Optional, Union
+from typing import Callable, ClassVar, Iterable, Literal, Optional, Union
 
 from hdate.hebrew_date import CHANGING_MONTHS, LONG_MONTHS, HebrewDate, Months, Weekday
 from hdate.translator import TranslatorMixin
@@ -35,7 +35,7 @@ class Holiday(TranslatorMixin):
 
     type: HolidayTypes
     name: str
-    date: Union[tuple[Union[int, tuple[int, ...]], Union[Months, tuple[Months, ...]]]]
+    date: Union[tuple[Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]]]
     date_functions_list: list[
         Callable[[HebrewDate], Union[bool, Callable[[], bool]]]
     ] = field(default_factory=list)
@@ -71,19 +71,22 @@ class HolidayDatabase:
         cls._all_holidays = defaultdict(list)
 
         def holiday_dates_cross_product(
-            holiday: Holiday,
-        ) -> product[tuple[int, ...]]:
+            dates: Union[
+                tuple[Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]]
+            ],
+        ) -> Iterable[tuple[Months, int]]:
             """Given a (days, months) pair, compute the cross product.
 
             If days and/or months are singletons, they are converted to a list.
             """
-            return product(
-                *([x] if isinstance(x, (int, Months)) else x for x in holiday.date)
-            )
+            months = (dates[0],) if isinstance(dates[0], Months) else dates[0]
+            days = (dates[1],) if isinstance(dates[1], int) else dates[1]
+
+            return product(months, days)
 
         for holiday in holidays:
-            for date in holiday_dates_cross_product(holiday):
-                index = HebrewDate(0, *reversed(date))
+            for date in holiday_dates_cross_product(holiday.date):
+                index = HebrewDate(0, *date)
                 if holiday.israel_diaspora == "ISRAEL":
                     cls._israel_holidays[index].append(holiday)
                 elif holiday.israel_diaspora == "DIASPORA":
@@ -224,47 +227,47 @@ def year_is_after(year: int) -> Callable[[HebrewDate], bool]:
 
 
 HOLIDAYS = (
-    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_rosh_hashana", (29, Months.ELUL)),
-    Holiday(HolidayTypes.YOM_TOV, "rosh_hashana_i", (1, Months.TISHREI)),
-    Holiday(HolidayTypes.YOM_TOV, "rosh_hashana_ii", (2, Months.TISHREI)),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_rosh_hashana", (Months.ELUL, 29)),
+    Holiday(HolidayTypes.YOM_TOV, "rosh_hashana_i", (Months.TISHREI, 1)),
+    Holiday(HolidayTypes.YOM_TOV, "rosh_hashana_ii", (Months.TISHREI, 2)),
     Holiday(
         HolidayTypes.FAST_DAY,
         "tzom_gedaliah",
-        ((3, 4), Months.TISHREI),
+        (Months.TISHREI, (3, 4)),
         [move_if_not_on_dow(3, 4, Weekday.SATURDAY, Weekday.SUNDAY)],
     ),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_yom_kippur", (9, Months.TISHREI)),
-    Holiday(HolidayTypes.YOM_TOV, "yom_kippur", (10, Months.TISHREI)),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_sukkot", (14, Months.TISHREI)),
-    Holiday(HolidayTypes.YOM_TOV, "sukkot", (15, Months.TISHREI)),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_yom_kippur", (Months.TISHREI, 9)),
+    Holiday(HolidayTypes.YOM_TOV, "yom_kippur", (Months.TISHREI, 10)),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_sukkot", (Months.TISHREI, 14)),
+    Holiday(HolidayTypes.YOM_TOV, "sukkot", (Months.TISHREI, 15)),
     Holiday(
-        HolidayTypes.HOL_HAMOED, "hol_hamoed_sukkot", (16, Months.TISHREI), [], "ISRAEL"
+        HolidayTypes.HOL_HAMOED, "hol_hamoed_sukkot", (Months.TISHREI, 16), [], "ISRAEL"
     ),
     Holiday(
-        HolidayTypes.HOL_HAMOED, "hol_hamoed_sukkot", ((17, 18, 19, 20), Months.TISHREI)
+        HolidayTypes.HOL_HAMOED, "hol_hamoed_sukkot", (Months.TISHREI, (17, 18, 19, 20))
     ),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "hoshana_raba", (21, Months.TISHREI)),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "hoshana_raba", (Months.TISHREI, 21)),
     Holiday(
-        HolidayTypes.YOM_TOV, "simchat_torah", (23, Months.TISHREI), [], "DIASPORA"
+        HolidayTypes.YOM_TOV, "simchat_torah", (Months.TISHREI, 23), [], "DIASPORA"
     ),
-    Holiday(HolidayTypes.YOM_TOV, "simchat_torah", (22, Months.TISHREI), [], "ISRAEL"),
+    Holiday(HolidayTypes.YOM_TOV, "simchat_torah", (Months.TISHREI, 22), [], "ISRAEL"),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "chanukah",
-        ((25, 26, 27, 28, 29, 30), Months.KISLEV),
+        (Months.KISLEV, (25, 26, 27, 28, 29, 30)),
     ),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "chanukah",
-        ((1, 2, 3), Months.TEVET),
+        (Months.TEVET, (1, 2, 3)),
         [lambda x: ((x.short_kislev() and x.day == 3) or (x.day in [1, 2]))],
     ),
-    Holiday(HolidayTypes.FAST_DAY, "asara_btevet", (10, Months.TEVET)),
-    Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bshvat", (15, Months.SHVAT)),
+    Holiday(HolidayTypes.FAST_DAY, "asara_btevet", (Months.TEVET, 10)),
+    Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bshvat", (Months.SHVAT, 15)),
     Holiday(
         HolidayTypes.FAST_DAY,
         "taanit_esther",
-        ((11, 13), (Months.ADAR, Months.ADAR_II)),
+        ((Months.ADAR, Months.ADAR_II), (11, 13)),
         [
             correct_adar(),
             move_if_not_on_dow(13, 11, Weekday.SATURDAY, Weekday.THURSDAY),
@@ -273,27 +276,27 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "purim",
-        (14, (Months.ADAR, Months.ADAR_II)),
+        ((Months.ADAR, Months.ADAR_II), 14),
         [correct_adar()],
     ),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "shushan_purim",
-        (15, (Months.ADAR, Months.ADAR_II)),
+        ((Months.ADAR, Months.ADAR_II), 15),
         [correct_adar()],
     ),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_pesach", (14, Months.NISAN)),
-    Holiday(HolidayTypes.YOM_TOV, "pesach", (15, Months.NISAN)),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_pesach", (Months.NISAN, 14)),
+    Holiday(HolidayTypes.YOM_TOV, "pesach", (Months.NISAN, 15)),
     Holiday(
-        HolidayTypes.HOL_HAMOED, "hol_hamoed_pesach", (16, Months.NISAN), [], "ISRAEL"
+        HolidayTypes.HOL_HAMOED, "hol_hamoed_pesach", (Months.NISAN, 16), [], "ISRAEL"
     ),
-    Holiday(HolidayTypes.HOL_HAMOED, "hol_hamoed_pesach", ((17, 18, 19), Months.NISAN)),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "hol_hamoed_pesach", (20, Months.NISAN)),
-    Holiday(HolidayTypes.YOM_TOV, "pesach_vii", (21, Months.NISAN)),
+    Holiday(HolidayTypes.HOL_HAMOED, "hol_hamoed_pesach", (Months.NISAN, (17, 18, 19))),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "hol_hamoed_pesach", (Months.NISAN, 20)),
+    Holiday(HolidayTypes.YOM_TOV, "pesach_vii", (Months.NISAN, 21)),
     Holiday(
         HolidayTypes.MODERN_HOLIDAY,
         "yom_haatzmaut",
-        ((3, 4, 5), Months.IYYAR),
+        (Months.IYYAR, (3, 4, 5)),
         [
             year_is_after(5708),
             year_is_before(5764),
@@ -304,7 +307,7 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.MODERN_HOLIDAY,
         "yom_haatzmaut",
-        ((3, 4, 5, 6), Months.IYYAR),
+        (Months.IYYAR, (3, 4, 5, 6)),
         [
             year_is_after(5763),
             move_if_not_on_dow(5, 4, Weekday.FRIDAY, Weekday.THURSDAY)  # type: ignore
@@ -312,26 +315,26 @@ HOLIDAYS = (
             or move_if_not_on_dow(5, 6, Weekday.MONDAY, Weekday.TUESDAY),
         ],
     ),
-    Holiday(HolidayTypes.MINOR_HOLIDAY, "lag_bomer", (18, Months.IYYAR)),
-    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_shavuot", (5, Months.SIVAN)),
-    Holiday(HolidayTypes.YOM_TOV, "shavuot", (6, Months.SIVAN)),
+    Holiday(HolidayTypes.MINOR_HOLIDAY, "lag_bomer", (Months.IYYAR, 18)),
+    Holiday(HolidayTypes.EREV_YOM_TOV, "erev_shavuot", (Months.SIVAN, 5)),
+    Holiday(HolidayTypes.YOM_TOV, "shavuot", (Months.SIVAN, 6)),
     Holiday(
         HolidayTypes.FAST_DAY,
         "tzom_tammuz",
-        ((17, 18), Months.TAMMUZ),
+        (Months.TAMMUZ, (17, 18)),
         [move_if_not_on_dow(17, 18, Weekday.SATURDAY, Weekday.SUNDAY)],
     ),
     Holiday(
         HolidayTypes.FAST_DAY,
         "tisha_bav",
-        ((9, 10), Months.AV),
+        (Months.AV, (9, 10)),
         [move_if_not_on_dow(9, 10, Weekday.SATURDAY, Weekday.SUNDAY)],
     ),
-    Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bav", (15, Months.AV)),
+    Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bav", (Months.AV, 15)),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "yom_hashoah",
-        ((26, 27, 28), Months.NISAN),
+        (Months.NISAN, (26, 27, 28)),
         [
             move_if_not_on_dow(27, 28, Weekday.SUNDAY, Weekday.MONDAY)  # type: ignore
             or move_if_not_on_dow(27, 26, Weekday.FRIDAY, Weekday.THURSDAY),
@@ -341,7 +344,7 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "yom_hazikaron",
-        ((2, 3, 4), Months.IYYAR),
+        (Months.IYYAR, (2, 3, 4)),
         [
             year_is_after(5708),
             year_is_before(5764),
@@ -354,7 +357,7 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "yom_hazikaron",
-        ((2, 3, 4, 5), Months.IYYAR),
+        (Months.IYYAR, (2, 3, 4, 5)),
         [
             year_is_after(5763),
             move_if_not_on_dow(
@@ -367,32 +370,32 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.MODERN_HOLIDAY,
         "yom_yerushalayim",
-        (28, Months.IYYAR),
+        (Months.IYYAR, 28),
         [year_is_after(5727)],
     ),
-    Holiday(HolidayTypes.YOM_TOV, "shmini_atzeret", (22, Months.TISHREI)),
-    Holiday(HolidayTypes.YOM_TOV, "pesach_viii", (22, Months.NISAN), [], "DIASPORA"),
-    Holiday(HolidayTypes.YOM_TOV, "shavuot_ii", (7, Months.SIVAN), [], "DIASPORA"),
-    Holiday(HolidayTypes.YOM_TOV, "sukkot_ii", (16, Months.TISHREI), [], "DIASPORA"),
-    Holiday(HolidayTypes.YOM_TOV, "pesach_ii", (16, Months.NISAN), [], "DIASPORA"),
+    Holiday(HolidayTypes.YOM_TOV, "shmini_atzeret", (Months.TISHREI, 22)),
+    Holiday(HolidayTypes.YOM_TOV, "pesach_viii", (Months.NISAN, 22), [], "DIASPORA"),
+    Holiday(HolidayTypes.YOM_TOV, "shavuot_ii", (Months.SIVAN, 7), [], "DIASPORA"),
+    Holiday(HolidayTypes.YOM_TOV, "sukkot_ii", (Months.TISHREI, 16), [], "DIASPORA"),
+    Holiday(HolidayTypes.YOM_TOV, "pesach_ii", (Months.NISAN, 16), [], "DIASPORA"),
     Holiday(
         HolidayTypes.ISRAEL_NATIONAL_HOLIDAY,
         "family_day",
-        (30, Months.SHVAT),
+        (Months.SHVAT, 30),
         [year_is_after(5734)],
         "ISRAEL",
     ),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "memorial_day_unknown",
-        (7, (Months.ADAR, Months.ADAR_II)),
+        ((Months.ADAR, Months.ADAR_II), 7),
         [correct_adar()],
         "ISRAEL",
     ),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "rabin_memorial_day",
-        ((11, 12), Months.MARCHESHVAN),
+        (Months.MARCHESHVAN, (11, 12)),
         [
             move_if_not_on_dow(12, 11, Weekday.FRIDAY, Weekday.THURSDAY),
             year_is_after(5757),
@@ -402,20 +405,20 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "zeev_zhabotinsky_day",
-        (29, Months.TAMMUZ),
+        (Months.TAMMUZ, 29),
         [year_is_after(5764)],
         "ISRAEL",
     ),
     Holiday(
         HolidayTypes.ROSH_CHODESH,
         "rosh_chodesh",
-        (1, tuple(set(Months) - {Months.TISHREI})),
+        (tuple(set(Months) - {Months.TISHREI}), 1),
         [correct_adar()],
     ),
     Holiday(
         HolidayTypes.ROSH_CHODESH,
         "rosh_chodesh",
-        (30, LONG_MONTHS + CHANGING_MONTHS),
+        (LONG_MONTHS + CHANGING_MONTHS, 30),
         [correct_adar()],
     ),
 )
