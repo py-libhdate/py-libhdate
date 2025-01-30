@@ -184,10 +184,9 @@ class HebrewDate(TranslatorMixin):
         return True
 
     def _validate(self, year: int = 0) -> None:
-        validate_months = True
-        if self.year == 0 and year == 0:
-            # Unable to validate Month, days of month for Cheshvan and Kislev are 30
-            validate_months = False
+        """Validation method. Accepts a specific year to validate against."""
+        # Unable to validate Month, days of month for Cheshvan and Kislev are 30
+        validate_months = not (self.year == 0 and year == 0)
 
         # Use the provided year to validate if it's not 0
         year = self.year if year == 0 else year
@@ -196,7 +195,8 @@ class HebrewDate(TranslatorMixin):
                 f"{self.month} is not a valid month for year {year} "
                 f"({'leap' if is_leap_year(year) else 'non-leap'})"
             )
-        if not 0 < self.day <= (max_days := self.month.days(year)):
+        max_days = self.month.days(year)
+        if not 0 < self.day <= max_days:
             raise ValueError(
                 f"Day {self.day} is illegal: "
                 f"legal values are 1-{max_days} for {self.month}"
