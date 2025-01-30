@@ -64,7 +64,7 @@ class TestHDate:
         with pytest.raises(TypeError):
             HDate().hdate = "not a HebrewDate"  # type: ignore
         with pytest.raises(ValueError):
-            HebrewDate(5779, 15, 3)
+            HebrewDate(5779, 15, 3)  # type: ignore
         with pytest.raises(ValueError):
             HDate().hdate = HebrewDate(5779, Months.NISAN, 35)
 
