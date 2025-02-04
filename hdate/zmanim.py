@@ -109,7 +109,7 @@ class Zmanim(TranslatorMixin):
     def _havdalah_datetime(self) -> dt.datetime:
         """Compute the havdalah time based on settings."""
         if self.havdalah_offset == 0:
-            return self.three_stars.local
+            return self.tset_hakohavim_shabbat.local
         # Otherwise, use the offset.
         return self.sunset.local + dt.timedelta(minutes=self.havdalah_offset)
 

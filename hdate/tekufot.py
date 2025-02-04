@@ -130,7 +130,7 @@ class Tekufot(TranslatorMixin):
             cheilat_geshamim_dt = self.get_tekufot()["Tishrei"] + dt.timedelta(days=59)
             time_end_of_day = Zmanim(
                 cheilat_geshamim_dt.date(), location=self.location
-            ).first_stars.local
+            ).sunset.local
             if cheilat_geshamim_dt < time_end_of_day:
                 # Normalize to date at midnight
                 cheilat_geshamim = cheilat_geshamim_dt.date()
