@@ -331,7 +331,7 @@ class Zmanim(TranslatorMixin):
             "sof_zman_tfilla_gra": sunrise + sun_hour * 4.0,
             "chatsot": midday,
             "mincha_gedola": sunrise + 6.5 * sun_hour,
-            "mincha_gedola_min": midday + 30,
+            "mincha_gedola_30min": midday + 30,
             "mincha_ketana": sunrise + 9.5 * sun_hour,
             "plag_mincha": sunset - 1.25 * sun_hour,
             "sunset": sunset,
