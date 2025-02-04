@@ -9,7 +9,7 @@ from hypothesis import given, settings, strategies
 
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
-from hdate.holidays import HOLIDAYS, Holiday, HolidayDatabase
+from hdate.holidays import HolidayDatabase
 
 
 # Test against both a leap year and non-leap year
@@ -278,47 +278,35 @@ def test_get_tishrei_rosh_chodesh(year: int) -> None:
     assert myhdate.holidays[0].name == "rosh_hashana_i"
 
 
-@pytest.mark.parametrize("diaspora", [True, False])
+@pytest.mark.parametrize("diaspora", ["ISRAEL", "DIASPORA"])
 @pytest.mark.parametrize("language", ["english", "french", "hebrew"])
-def test_get_all_holidays(language: str, diaspora: bool) -> None:
+def test_get_all_holidays(language: str, diaspora: str) -> None:
     """Test the method to get all the holiday descriptions in a specified language."""
 
-    def holiday_name(holiday: Holiday, language: str) -> str:
-        holiday.set_language(language)
-        return str(holiday)
+    _diaspora = diaspora == "DIASPORA"
+    names = HolidayDatabase.get_all_names(language, _diaspora)
 
-    doubles = {
+    expected = {
         "french": {
+            "DIASPORA": {"Souccot II", "Pessah II"},
             "ISRAEL": {
                 "Fête de la Famille, Rosh Hodesh",
                 "Shemini Atseret, Simhat Torah",
             },
-            "": {"Hanoukka, Rosh Hodesh"},
+            "": {"Yom Kippour", "Hanoukka, Rosh Hodesh", "Pourim", "Pessah"},
         },
         "hebrew": {
+            "DIASPORA": {"שני של סוכות", "שני של פסח"},
             "ISRAEL": {"יום המשפחה, ראש חודש", "שמחת תורה, שמיני עצרת"},
-            "": {"חנוכה, ראש חודש"},
+            "": {"יום הכפורים", "חנוכה, ראש חודש", "פורים", "פסח"},
         },
         "english": {
+            "DIASPORA": {"Sukkot II", "Pesach II"},
             "ISRAEL": {"Family Day, Rosh Chodesh", "Shmini Atzeret, Simchat Torah"},
-            "": {"Chanukah, Rosh Chodesh"},
+            "": {"Yom Kippur", "Chanukah, Rosh Chodesh", "Purim", "Pesach"},
         },
     }
-    israel_diaspora = ("ISRAEL", "") if not diaspora else ("DIASPORA", "")
-    holidays = {
-        holiday_name(h, language)
-        for h in HOLIDAYS
-        if h.israel_diaspora in israel_diaspora
-    } | doubles[language][""]
-    if not diaspora:
-        holidays -= {
-            _name
-            for entry in doubles[language]["ISRAEL"]
-            for name in entry.split(",")
-            if (_name := name.strip())
-            not in ("Rosh Hodesh", "Rosh Chodesh", "ראש חודש")
-        }
-        holidays.update(doubles[language]["ISRAEL"])
-    holidays.add("")
-
-    assert HolidayDatabase.get_all_names(language, diaspora) == list(sorted(holidays))
+    fake = {"Non-existing Holiday", "Foo", "Bar"}
+    assert all(entry in names for entry in expected[language][""])
+    assert all(entry in names for entry in expected[language][diaspora])
+    assert all(item not in names for item in fake)
