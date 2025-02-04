@@ -278,8 +278,9 @@ def test_get_tishrei_rosh_chodesh(year: int) -> None:
     assert myhdate.holidays[0].name == "rosh_hashana_i"
 
 
+@pytest.mark.parametrize("diaspora", [True, False])
 @pytest.mark.parametrize("language", ["english", "french", "hebrew"])
-def test_get_all_holidays(language: str) -> None:
+def test_get_all_holidays(language: str, diaspora: bool) -> None:
     """Helper method to get all the holiday descriptions in the specified language."""
 
     def holiday_name(holiday: Holiday, language: str) -> str:
@@ -287,12 +288,39 @@ def test_get_all_holidays(language: str) -> None:
         return str(holiday)
 
     doubles = {
-        "french": "Hanoukka, Rosh Hodesh",
-        "hebrew": "חנוכה, ראש חודש",
-        "english": "Chanukah, Rosh Chodesh",
+        "french": {
+            "ISRAEL": {
+                "Fête de la Famille, Rosh Hodesh",
+                "Shemini Atseret, Simhat Torah",
+            },
+            "": {"Hanoukka, Rosh Hodesh"},
+        },
+        "hebrew": {
+            "ISRAEL": {"יום המשפחה, ראש חודש", "שמחת תורה, שמיני עצרת"},
+            "": {"חנוכה, ראש חודש"},
+        },
+        "english": {
+            "ISRAEL": {"Family Day, Rosh Chodesh", "Shmini Atzeret, Simchat Torah"},
+            "": {"Chanukah, Rosh Chodesh"},
+        },
     }
-    holidays_list = [holiday_name(h, language) for h in HOLIDAYS] + [
-        doubles.get(language, doubles["english"])
-    ]
+    israel_diaspora = ("ISRAEL", "") if not diaspora else ("DIASPORA", "")
+    holidays_list = {
+        holiday_name(h, language)
+        for h in HOLIDAYS
+        if h.israel_diaspora in israel_diaspora
+    } | doubles[language][""]
+    if not diaspora:
+        holidays_list -= {
+            _name
+            for entry in doubles[language]["ISRAEL"]
+            for name in entry.split(",")
+            if (_name := name.strip())
+            not in ("Rosh Hodesh", "Rosh Chodesh", "ראש חודש")
+        }
+        holidays_list.update(doubles[language]["ISRAEL"])
+    holidays_list.add("")
 
-    assert HolidayDatabase.get_all_holiday_names(language) == set(holidays_list)
+    assert HolidayDatabase.get_all_holiday_names(language, diaspora) == list(
+        sorted(holidays_list)
+    )

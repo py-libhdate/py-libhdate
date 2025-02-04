@@ -157,24 +157,24 @@ class HolidayDatabase:
         return next_date.replace(year=date.year)
 
     @classmethod
-    def get_all_holiday_names(cls, language: str) -> set[str]:
+    def get_all_holiday_names(cls, language: str, diaspora: bool) -> list[str]:
         """Return all the holiday names in a given language."""
 
-        result = []
-        for holiday_list in [
-            cls._diaspora_holidays,
-            cls._israel_holidays,
-            cls._all_holidays,
-        ]:
-            for holidays in holiday_list.values():
-                holiday_names = {holiday.name for holiday in holidays}
-                if {"yom_haatzmaut", "yom_hazikaron"} == holiday_names:
-                    continue
-                for holiday in holidays:
-                    holiday.set_language(language)
-                holiday_strs = sorted(set(str(holiday) for holiday in holidays))
-                result.append(", ".join(holiday_strs))
-        return set(result)
+        local = cls._diaspora_holidays if diaspora else cls._israel_holidays
+        holiday_list = {
+            date: local[date] + cls._all_holidays[date]
+            for date in local.keys() | cls._all_holidays.keys()
+        }
+        result = {""}  # Empty string for case of no holiday
+        for holidays in holiday_list.values():
+            holiday_names = {holiday.name for holiday in holidays}
+            if {"yom_haatzmaut", "yom_hazikaron"} == holiday_names:
+                continue
+            for holiday in holidays:
+                holiday.set_language(language)
+            holiday_strs = sorted(set(str(holiday) for holiday in holidays))
+            result.add(", ".join(holiday_strs))
+        return list(sorted(result))
 
 
 def move_if_not_on_dow(
