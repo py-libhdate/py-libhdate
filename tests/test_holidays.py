@@ -281,7 +281,7 @@ def test_get_tishrei_rosh_chodesh(year: int) -> None:
 @pytest.mark.parametrize("diaspora", [True, False])
 @pytest.mark.parametrize("language", ["english", "french", "hebrew"])
 def test_get_all_holidays(language: str, diaspora: bool) -> None:
-    """Helper method to get all the holiday descriptions in the specified language."""
+    """Test the method to get all the holiday descriptions in a specified language."""
 
     def holiday_name(holiday: Holiday, language: str) -> str:
         holiday.set_language(language)
@@ -305,22 +305,20 @@ def test_get_all_holidays(language: str, diaspora: bool) -> None:
         },
     }
     israel_diaspora = ("ISRAEL", "") if not diaspora else ("DIASPORA", "")
-    holidays_list = {
+    holidays = {
         holiday_name(h, language)
         for h in HOLIDAYS
         if h.israel_diaspora in israel_diaspora
     } | doubles[language][""]
     if not diaspora:
-        holidays_list -= {
+        holidays -= {
             _name
             for entry in doubles[language]["ISRAEL"]
             for name in entry.split(",")
             if (_name := name.strip())
             not in ("Rosh Hodesh", "Rosh Chodesh", "ראש חודש")
         }
-        holidays_list.update(doubles[language]["ISRAEL"])
-    holidays_list.add("")
+        holidays.update(doubles[language]["ISRAEL"])
+    holidays.add("")
 
-    assert HolidayDatabase.get_all_holiday_names(language, diaspora) == list(
-        sorted(holidays_list)
-    )
+    assert HolidayDatabase.get_all_names(language, diaspora) == list(sorted(holidays))

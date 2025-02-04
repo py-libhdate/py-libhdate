@@ -157,7 +157,7 @@ class HolidayDatabase:
         return next_date.replace(year=date.year)
 
     @classmethod
-    def get_all_holiday_names(cls, language: str, diaspora: bool) -> list[str]:
+    def get_all_names(cls, language: str, diaspora: bool) -> list[str]:
         """Return all the holiday names in a given language."""
 
         local = cls._diaspora_holidays if diaspora else cls._israel_holidays
