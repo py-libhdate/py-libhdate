@@ -382,7 +382,7 @@ HOLIDAYS = (
         HolidayTypes.ISRAEL_NATIONAL_HOLIDAY,
         "family_day",
         (Months.SHVAT, 30),
-        [year_is_after(5734)],
+        [year_is_after(5733)],
         "ISRAEL",
     ),
     Holiday(
