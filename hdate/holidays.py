@@ -177,20 +177,6 @@ class HolidayDatabase:
         return set(result)
 
 
-def correct_adar() -> Callable[[HebrewDate], Union[bool, Callable[[], bool]]]:
-    """
-    Return a lambda function.
-
-    Lambda checks that the value of the month returned is correct depending on whether
-    it's a leap year.
-    """
-    return lambda x: (
-        (x.month not in [Months.ADAR, Months.ADAR_I, Months.ADAR_II])
-        or (x.month == Months.ADAR and not x.is_leap_year())
-        or (x.month in (Months.ADAR_I, Months.ADAR_II) and x.is_leap_year())
-    )
-
-
 def move_if_not_on_dow(
     original: int, replacement: int, dow_not_orig: Weekday, dow_replacement: Weekday
 ) -> Callable[[HebrewDate], bool]:
@@ -268,22 +254,17 @@ HOLIDAYS = (
         HolidayTypes.FAST_DAY,
         "taanit_esther",
         ((Months.ADAR, Months.ADAR_II), (11, 13)),
-        [
-            correct_adar(),
-            move_if_not_on_dow(13, 11, Weekday.SATURDAY, Weekday.THURSDAY),
-        ],
+        [move_if_not_on_dow(13, 11, Weekday.SATURDAY, Weekday.THURSDAY)],
     ),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "purim",
         ((Months.ADAR, Months.ADAR_II), 14),
-        [correct_adar()],
     ),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
         "shushan_purim",
         ((Months.ADAR, Months.ADAR_II), 15),
-        [correct_adar()],
     ),
     Holiday(HolidayTypes.EREV_YOM_TOV, "erev_pesach", (Months.NISAN, 14)),
     Holiday(HolidayTypes.YOM_TOV, "pesach", (Months.NISAN, 15)),
@@ -389,7 +370,7 @@ HOLIDAYS = (
         HolidayTypes.MEMORIAL_DAY,
         "memorial_day_unknown",
         ((Months.ADAR, Months.ADAR_II), 7),
-        [correct_adar()],
+        [],
         "ISRAEL",
     ),
     Holiday(
@@ -413,13 +394,9 @@ HOLIDAYS = (
         HolidayTypes.ROSH_CHODESH,
         "rosh_chodesh",
         (tuple(set(Months) - {Months.TISHREI}), 1),
-        [correct_adar()],
     ),
     Holiday(
-        HolidayTypes.ROSH_CHODESH,
-        "rosh_chodesh",
-        (LONG_MONTHS + CHANGING_MONTHS, 30),
-        [correct_adar()],
+        HolidayTypes.ROSH_CHODESH, "rosh_chodesh", (LONG_MONTHS + CHANGING_MONTHS, 30)
     ),
 )
 
