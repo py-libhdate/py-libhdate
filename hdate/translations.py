@@ -64,7 +64,6 @@ TRANSLATIONS = {
             "niddah": "Niddah",
         },
         "Holiday": {
-            "none": "",
             "erev_rosh_hashana": "Erev Rosh Hashana",
             "rosh_hashana_i": "Rosh Hashana I",
             "rosh_hashana_ii": "Rosh Hashana II",
@@ -281,7 +280,6 @@ TRANSLATIONS = {
             "niddah": "Nida",
         },
         "Holiday": {
-            "none": "",
             "erev_rosh_hashana": "Veille de Rosh Hashana",
             "rosh_hashana_i": "Rosh Hashana I",
             "rosh_hashana_ii": "Rosh Hashana II",
@@ -498,7 +496,6 @@ TRANSLATIONS = {
             "niddah": "נדה",
         },
         "Holiday": {
-            "none": "",
             "erev_rosh_hashana": "ערב ראש השנה",
             "rosh_hashana_i": "א' ראש השנה",
             "rosh_hashana_ii": "ב' ראש השנה",
