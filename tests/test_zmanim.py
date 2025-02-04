@@ -234,5 +234,5 @@ def test_non_existing_attribute(name: str) -> None:
 
 def test_attributes_in_dir() -> None:
     """Test that Zmanim attributes are in the dir."""
-    keys = {"alot_hashachar", "sunrise", "plag_mincha", "sunset", "three_stars"}
+    keys = {"alot_hashachar", "sunrise", "plag_mincha", "sunset", "tset_hakohavim"}
     assert keys.issubset(set(dir(Zmanim())))
