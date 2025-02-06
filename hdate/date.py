@@ -41,9 +41,11 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         if isinstance(self.date, dt.date):
             self.gdate = self.date
             self._hdate = HebrewDate.from_gdate(self.date)
-        else:
+        elif isinstance(self.date, HebrewDate):
             self.hdate = self.date
             self._gdate = self.date.to_gdate()
+        else:
+            raise TypeError("date has to be of type datetime.date or HebrewDate")
 
         super().__post_init__()
 
