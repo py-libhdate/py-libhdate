@@ -1,4 +1,7 @@
 # serializer version: 1
+# name: TestHDateAPI.test_gevurot_geshamim
+  'מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ'
+# ---
 # name: TestZmanimAPI.test_readme_example_english[Petah Tikva]
   '''
   Alot HaShachar - 04:52:00

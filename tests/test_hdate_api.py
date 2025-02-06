@@ -8,8 +8,8 @@ import sys
 from typing import cast
 
 import pytest
-import syrupy
 from _pytest.capture import CaptureFixture
+from syrupy.assertion import SnapshotAssertion
 
 from hdate import HDate, Location, Zmanim
 
@@ -63,13 +63,19 @@ class TestHDateAPI:
         assert str(HDate(test_date, language="english").holidays[0]) == "Chanukah"
         assert str(HDate(test_date, language="french").holidays[0]) == "Hanoukka"
 
+    def test_gevurot_geshamim(self, snapshot: SnapshotAssertion) -> None:
+        """Test the Gevurot Geshamim property."""
+
+        test_date = dt.date(2025, 2, 6)
+        assert HDate(test_date).gevurot_geshamim == snapshot
+
 
 class TestZmanimAPI:
     """Test the API provided in the README."""
 
     @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
     def test_readme_example_hebrew(
-        self, location: Location, snapshot: syrupy.assertion.SnapshotAssertion
+        self, location: Location, snapshot: SnapshotAssertion
     ) -> None:
         """Test for hebrew."""
         zman = Zmanim(date=dt.date(2016, 4, 18), location=location)
@@ -79,7 +85,7 @@ class TestZmanimAPI:
 
     @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
     def test_readme_example_english(
-        self, location: Location, snapshot: syrupy.assertion.SnapshotAssertion
+        self, location: Location, snapshot: SnapshotAssertion
     ) -> None:
         """Test for english."""
         zman = Zmanim(date=dt.date(2016, 4, 18), location=location, language="english")
