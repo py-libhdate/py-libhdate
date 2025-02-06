@@ -10,14 +10,13 @@ The class attempts to compute:
 """
 
 import datetime as dt
+from calendar import isleap
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Literal, cast
+from typing import Literal
 
 from hdate.hebrew_date import HebrewDate, Months
-from hdate.location import Location
 from hdate.translator import TranslatorMixin
-from hdate.zmanim import Zmanim
 
 
 class Gevurot(TranslatorMixin, Enum):
@@ -48,7 +47,7 @@ class Tekufot(TranslatorMixin):
     the start of Cheilat Geshamim (requesting rain)."""
 
     date: dt.date = field(default_factory=dt.date.today)
-    location: Location = field(default_factory=Location)
+    diaspora: bool = False
     tradition: str = "sephardi"
     language: str = "english"
 
@@ -79,9 +78,8 @@ class Tekufot(TranslatorMixin):
         hours_delta_nissan = (self.gregorian_year_p % 4) * 6
 
         # Tekufa Nissan: start at date_equinox_april at 12:00
-        tz = cast(dt.tzinfo, self.location.timezone)
-        tekufa_nissan = dt.datetime.combine(date_equinox_april, dt.time(12, 0)).replace(
-            tzinfo=tz
+        tekufa_nissan = dt.datetime.combine(
+            date_equinox_april, dt.time(12, 0)
         ) + dt.timedelta(hours=hours_delta_nissan)
 
         # Tekufa intervals are about 91 days and 7.5 hours apart
@@ -97,28 +95,25 @@ class Tekufot(TranslatorMixin):
         return values[name]
 
     @property
-    def tchilat_geshamim(self) -> dt.date:
+    def tchilat_geshamim(self) -> HebrewDate:
         """
         Calculates the start date for the prayers for rain (Cheilat Geshamim).
         In the diaspora, it is 60 days (add 59 days) after Tekufat Tishrei.
         In Israel, it is fixed at the 7th of Cheshvan.
         """
 
-        if self.location.diaspora:
+        if self.diaspora:
             # Cheilat Geshamim starts 60 days after Tekufat Tishrei.
             cheilat_geshamim_dt = self.get_tekufa("Tishrei") + dt.timedelta(days=59)
-            time_end_of_day = Zmanim(
-                cheilat_geshamim_dt.date(), location=self.location
-            ).sunset.local
-            if cheilat_geshamim_dt < time_end_of_day:
-                # Normalize to date at midnight
-                cheilat_geshamim = cheilat_geshamim_dt.date()
-            else:
-                cheilat_geshamim = cheilat_geshamim_dt.date() + dt.timedelta(days=1)
+            if isleap(cheilat_geshamim_dt.year + 1):
+                # If next year is a leap year, add an extra day since the day that will
+                # be added to the upcoming month of February has already been
+                # accumulated.
+                cheilat_geshamim_dt += dt.timedelta(days=1)
+            cheilat_geshamim = HebrewDate.from_gdate(cheilat_geshamim_dt.date())
         else:
             # In Israel: 7th of Cheshvan
-            hdate_7_cheshvan = HebrewDate(self.hebrew_year_p, Months.MARCHESHVAN, 7)
-            cheilat_geshamim = HebrewDate.to_gdate(hdate_7_cheshvan)
+            cheilat_geshamim = HebrewDate(self.hebrew_year_p, Months.MARCHESHVAN, 7)
 
         return cheilat_geshamim
 
@@ -135,7 +130,7 @@ class Tekufot(TranslatorMixin):
         if shmini_atseret <= self.hebrew_date < pesach:
             return Gevurot.MASHIV_HARUACH
 
-        if self.location.diaspora and self.tradition == "ashkenazi":
+        if self.diaspora and self.tradition == "ashkenazi":
             return Gevurot.NEITHER
 
         # Default according to most traditions
@@ -147,10 +142,9 @@ class Tekufot(TranslatorMixin):
         From Pesach I (Musaf) to Cheilat geshamim
         Cheilat geshamim to Pesach I (Shacharit)
         """
-        tchilat_geshamim = HebrewDate.from_gdate(self.tchilat_geshamim)
         pesach = HebrewDate(0, Months.NISAN, 15)
 
-        if tchilat_geshamim <= self.hebrew_date < pesach:
+        if self.tchilat_geshamim <= self.hebrew_date < pesach:
             if self.tradition in ["sephardi"]:
                 return Geshamim.BARECH_ALEINU
             return Geshamim.VETEN_TAL
