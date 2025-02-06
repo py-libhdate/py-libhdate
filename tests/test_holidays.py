@@ -8,7 +8,7 @@ from collections import defaultdict
 import pytest
 from hypothesis import given, settings, strategies
 
-from hdate import HDate, HebrewDate
+from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months
 from hdate.holidays import HolidayDatabase
 from hdate.translator import Language
@@ -235,7 +235,7 @@ def test_new_holidays_invalid_before(
 def test_get_holiday_hanuka_3rd_tevet(year: int) -> None:
     """Test Chanuka falling on 3rd of Tevet."""
     year_size = HebrewDate.year_size(year)
-    myhdate = HDate(HebrewDate(year, Months.TEVET, 3))
+    myhdate = HDateInfo(HebrewDate(year, Months.TEVET, 3))
     if year_size in (353, 383):
         assert myhdate.holidays[0].name == "chanukah"
     else:
@@ -245,7 +245,7 @@ def test_get_holiday_hanuka_3rd_tevet(year: int) -> None:
 
 def test_hanukah_5785() -> None:
     """December 31, 2024 is Hanuka."""
-    mydate = HDate(date=dt.date(2024, 12, 31))
+    mydate = HDateInfo(date=dt.date(2024, 12, 31))
     assert "chanukah" == mydate.holidays[0].name
     assert "rosh_chodesh" == mydate.holidays[1].name
 
@@ -274,9 +274,9 @@ def test_get_holiday_adar(
 @settings(deadline=None)
 def test_get_tishrei_rosh_chodesh(year: int) -> None:
     """30th of Tishrei should be Rosh Chodesh"""
-    myhdate = HDate(HebrewDate(year, Months.TISHREI, 30))
+    myhdate = HDateInfo(HebrewDate(year, Months.TISHREI, 30))
     assert myhdate.holidays[0].name == "rosh_chodesh"
-    myhdate = HDate(HebrewDate(year, Months.TISHREI, 1))
+    myhdate = HDateInfo(HebrewDate(year, Months.TISHREI, 1))
     assert myhdate.holidays[0].name == "rosh_hashana_i"
 
 

@@ -20,7 +20,7 @@ from hdate.tekufot import Nusachim, Tekufot
 from hdate.translator import Language, TranslatorMixin
 
 
-class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
+class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     """
     Hebrew date class.
 
@@ -34,7 +34,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         language: Language = "hebrew",
         nusach: Nusachim = "sephardi",
     ) -> None:
-        """Initialize the HDate object."""
+        """Initialize the HDateInfo object."""
         self.language = language
         super().__init__()
         # Initialize private variables
@@ -51,7 +51,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         self.nusach = nusach
 
     def __str__(self) -> str:
-        """Return a full Unicode representation of HDate."""
+        """Return a full Unicode representation of HDateInfo."""
         in_prefix = "ב" if self._language == "hebrew" else ""
         day_number = hebrew_number(self.hdate.day, language=self._language)
         year_number = hebrew_number(self.hdate.year, language=self._language)
@@ -159,29 +159,29 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         return any(holiday.type == HolidayTypes.YOM_TOV for holiday in self.holidays)
 
     @property
-    def next_day(self) -> HDate:
-        """Return the HDate for the next day."""
-        return HDate(self.gdate + dt.timedelta(1), self.diaspora, self._language)
+    def next_day(self) -> HDateInfo:
+        """Return the HDateInfo for the next day."""
+        return HDateInfo(self.gdate + dt.timedelta(1), self.diaspora, self._language)
 
     @property
-    def previous_day(self) -> HDate:
-        """Return the HDate for the previous day."""
-        return HDate(self.gdate + dt.timedelta(-1), self.diaspora, self._language)
+    def previous_day(self) -> HDateInfo:
+        """Return the HDateInfo for the previous day."""
+        return HDateInfo(self.gdate + dt.timedelta(-1), self.diaspora, self._language)
 
     @property
-    def upcoming_shabbat(self) -> HDate:
-        """Return the HDate for either the upcoming or current Shabbat.
+    def upcoming_shabbat(self) -> HDateInfo:
+        """Return the HDateInfo for either the upcoming or current Shabbat.
 
-        If it is currently Shabbat, returns the HDate of the Saturday.
+        If it is currently Shabbat, returns the HDateInfo of the Saturday.
         """
         if self.is_shabbat:
             return self
 
         next_shabbat = self.gdate + dt.timedelta(Weekday.SATURDAY - self.hdate.dow())
-        return HDate(next_shabbat, diaspora=self.diaspora, language=self._language)
+        return HDateInfo(next_shabbat, diaspora=self.diaspora, language=self._language)
 
     @property
-    def upcoming_yom_tov(self) -> HDate:
+    def upcoming_yom_tov(self) -> HDateInfo:
         """Find the next upcoming yom tov (i.e. no-melacha holiday).
 
         If it is currently the day of yom tov (irrespective of zmanim), returns
@@ -193,14 +193,14 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         mgr = HolidayDatabase(diaspora=self.diaspora)
         date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
 
-        return HDate(date, self.diaspora, self._language)
+        return HDateInfo(date, self.diaspora, self._language)
 
     @property
-    def upcoming_shabbat_or_yom_tov(self) -> HDate:
-        """Return the HDate for the upcoming or current Shabbat or Yom Tov.
+    def upcoming_shabbat_or_yom_tov(self) -> HDateInfo:
+        """Return the HDateInfo for the upcoming or current Shabbat or Yom Tov.
 
-        If it is currently Shabbat, returns the HDate of the Saturday.
-        If it is currently Yom Tov, returns the HDate of the first day
+        If it is currently Shabbat, returns the HDateInfo of the Saturday.
+        If it is currently Yom Tov, returns the HDateInfo of the first day
         (rather than "leil" Yom Tov). To access Leil Yom Tov, use
         upcoming_shabbat_or_yom_tov.previous_day.
         """
@@ -212,13 +212,13 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         return self.upcoming_shabbat
 
     @property
-    def first_day(self) -> HDate:
+    def first_day(self) -> HDateInfo:
         """Return the first day of Yom Tov or Shabbat.
 
         This is useful for three-day holidays, for example: it will return the
         first in a string of Yom Tov + Shabbat.
-        If this HDate is Shabbat followed by no Yom Tov, returns the Saturday.
-        If this HDate is neither Yom Tov, nor Shabbat, this just returns
+        If this HDateInfo is Shabbat followed by no Yom Tov, returns the Saturday.
+        If this HDateInfo is neither Yom Tov, nor Shabbat, this just returns
         itself.
         """
         day_iter = self
@@ -227,7 +227,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         return day_iter
 
     @property
-    def last_day(self) -> HDate:
+    def last_day(self) -> HDateInfo:
         """Return the last day of Yom Tov or Shabbat.
 
         This is useful for three-day holidays, for example: it will return the

@@ -6,7 +6,7 @@ import pytest
 from hypothesis import given, strategies
 from syrupy.assertion import SnapshotAssertion
 
-from hdate import HDate, HebrewDate
+from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months
 from hdate.omer import Nusach, Omer
 from hdate.translator import Language
@@ -42,7 +42,7 @@ def test_illegal_value(days: int) -> None:
 )
 def test_valid_omer_day(date: HebrewDate) -> None:
     """Test valid value of the Omer."""
-    omer = HDate(date).omer
+    omer = HDateInfo(date).omer
     assert omer is not None
     assert omer.total_days == (date - HebrewDate(0, Months.NISAN, 15)).days
 
@@ -55,5 +55,5 @@ def test_valid_omer_day(date: HebrewDate) -> None:
 )
 def test_invalid_omer_day(date: HebrewDate) -> None:
     """Test invalid value of the Omer."""
-    omer = HDate(date).omer
+    omer = HDateInfo(date).omer
     assert omer is None

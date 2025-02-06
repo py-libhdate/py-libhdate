@@ -1,11 +1,11 @@
-"""Test HDate objects."""
+"""Test HDateInfo objects."""
 
 import datetime as dt
 
 import pytest
 from hypothesis import given, strategies
 
-from hdate import HDate, HebrewDate
+from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months
 
 HEBREW_YEARS_INFO = {
@@ -57,22 +57,22 @@ HEBREW_YEARS_INFO = {
 
 
 class TestHDate:
-    """Tests for the HDate object."""
+    """Tests for the HDateInfo object."""
 
     def test_assign_bad_hdate_value(self) -> None:
         """Confirm that bad values raise an error."""
         with pytest.raises(TypeError):
-            HDate().hdate = "not a HebrewDate"  # type: ignore
+            HDateInfo().hdate = "not a HebrewDate"  # type: ignore
         with pytest.raises(ValueError):
             HebrewDate(5779, 15, 3)  # type: ignore
         with pytest.raises(ValueError):
-            HDate().hdate = HebrewDate(5779, Months.NISAN, 35)
+            HDateInfo().hdate = HebrewDate(5779, Months.NISAN, 35)
 
     @given(date=strategies.dates())
     def test_random_hdate(self, date: dt.date) -> None:
         """Run multiple cases with random hdates."""
-        rand_hdate = HDate(date)
-        _hdate = HDate()
+        rand_hdate = HDateInfo(date)
+        _hdate = HDateInfo()
         _hdate.hdate = rand_hdate.hdate
         assert _hdate.hdate == rand_hdate.hdate
         assert _hdate.gdate == rand_hdate.gdate
@@ -117,7 +117,7 @@ class TestHDate:
         hebrew_date: tuple[int, Months, int],
     ) -> None:
         """Check the date of the upcoming Shabbat."""
-        date = HDate(date=dt.date(*current_date))
+        date = HDateInfo(date=dt.date(*current_date))
         assert date.hdate == HebrewDate(*hebrew_date)
         next_shabbat = date.upcoming_shabbat
         assert next_shabbat.gdate == dt.date(*shabbat_date)
@@ -125,8 +125,12 @@ class TestHDate:
     @given(date=strategies.dates())
     def test_prev_and_next_day(self, date: dt.date) -> None:
         """Check the previous and next day attributes."""
-        assert (HDate(date).previous_day.gdate - HDate(date).gdate) == dt.timedelta(-1)
-        assert (HDate(date).next_day.gdate - HDate(date).gdate) == dt.timedelta(1)
+        assert (
+            HDateInfo(date).previous_day.gdate - HDateInfo(date).gdate
+        ) == dt.timedelta(-1)
+        assert (HDateInfo(date).next_day.gdate - HDateInfo(date).gdate) == dt.timedelta(
+            1
+        )
 
 
 UPCOMING_HOLIDAYS = [
@@ -159,11 +163,11 @@ def test_get_next_yom_tov(
     """Testing the value of next yom tov."""
     print(f"Testing holiday {holiday_name}")
     if where in ("BOTH", "DIASPORA"):
-        hdate = HDate(date=dt.date(*current_date), diaspora=True)
+        hdate = HDateInfo(date=dt.date(*current_date), diaspora=True)
         next_yom_tov = hdate.upcoming_yom_tov
         assert next_yom_tov.gdate == dt.date(*holiday_date)
     if where in ("BOTH", "ISRAEL"):
-        hdate = HDate(date=dt.date(*current_date), diaspora=False)
+        hdate = HDateInfo(date=dt.date(*current_date), diaspora=False)
         next_yom_tov = hdate.upcoming_yom_tov
         assert next_yom_tov.gdate == dt.date(*holiday_date)
 
@@ -195,6 +199,6 @@ def test_get_next_shabbat_or_yom_tov(
     dates: dict[str, tuple[int, int, int]],
 ) -> None:
     """Test getting the next shabbat or Yom Tov works."""
-    date = HDate(date=dt.date(*current_date), diaspora=diaspora)
+    date = HDateInfo(date=dt.date(*current_date), diaspora=diaspora)
     assert date.upcoming_shabbat_or_yom_tov.first_day.gdate == dt.date(*dates["start"])
     assert date.upcoming_shabbat_or_yom_tov.last_day.gdate == dt.date(*dates["end"])

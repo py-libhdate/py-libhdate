@@ -98,7 +98,7 @@ Provide the full Hebrew date ...
 
 .. code :: python
 
-    >>> h = hdate.HDate(datetime.date(2016, 4, 26), language="hebrew")
+    >>> h = hdate.HDateInfo(datetime.date(2016, 4, 26), language="hebrew")
     >>> print(h)
     יום שלישי י"ח בניסן ה' תשע"ו ג' לעומר חול המועד פסח
 
@@ -106,6 +106,6 @@ Provide the full Hebrew date ...
 
 .. code :: python
 
-    >>> h = hdate.HDate(datetime.date(2016, 4, 18), language="english")
+    >>> h = hdate.HDateInfo(datetime.date(2016, 4, 18), language="english")
     >>> print(h)
     Monday 10 Nisan 5776
