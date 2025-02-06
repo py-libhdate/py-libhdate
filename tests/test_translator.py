@@ -39,12 +39,17 @@ def test_non_existing_language(caplog: pytest.LogCaptureFixture) -> None:
 
 
 def test_str_without_name() -> None:
-    """Test the __str__ method."""
+    """Test the __str__ method and the __init__method."""
 
     class Foo(TranslatorMixin):
         """Test class."""
 
+        def __init__(self) -> None:
+            self.language = "hebrew"
+            super().__init__()
+
     foo_class = Foo()
+    assert getattr(foo_class, "_language") == "hebrew"
     with pytest.raises(NameError):
         str(foo_class)
 
