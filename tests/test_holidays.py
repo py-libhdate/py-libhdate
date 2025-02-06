@@ -2,6 +2,7 @@
 
 import datetime as dt
 import random
+import typing
 from collections import defaultdict
 
 import pytest
@@ -280,7 +281,7 @@ def test_get_tishrei_rosh_chodesh(year: int) -> None:
 
 
 @pytest.mark.parametrize("diaspora", ["ISRAEL", "DIASPORA"])
-@pytest.mark.parametrize("language", ["english", "french", "hebrew"])
+@pytest.mark.parametrize("language", typing.get_args(Language))
 def test_get_all_holidays(language: Language, diaspora: str) -> None:
     """Test the method to get all the holiday descriptions in a specified language."""
 

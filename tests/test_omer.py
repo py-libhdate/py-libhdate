@@ -1,5 +1,7 @@
 """Tests relating to Sefirat HaOmer."""
 
+import typing
+
 import pytest
 from hypothesis import given, strategies
 from syrupy.assertion import SnapshotAssertion
@@ -12,7 +14,7 @@ from tests.conftest import valid_hebrew_date
 
 
 @pytest.mark.parametrize("nusach", list(Nusach))
-@pytest.mark.parametrize("language", ["hebrew", "english", "french"])
+@pytest.mark.parametrize("language", typing.get_args(Language))
 def test_get_omer(
     language: Language, nusach: Nusach, snapshot: SnapshotAssertion
 ) -> None:
