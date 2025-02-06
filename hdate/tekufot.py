@@ -69,14 +69,15 @@ class Tekufot(TranslatorMixin):
             raise ValueError(f"Invalid Tekufot name: {name}")
 
         # Start with Tekufa Nissan:
-        # Historically approximated at the spring equinox. For simplicity, assume:
-        # If the Hebrew year corresponds to a Gregorian year before 2100
-        # we take April 7 as a reference, otherwise April 8
+        # Historically approximated at the spring equinox.
+        # Every 100 years, moves by a single day, unless it's a year divisible by 400
+        # For years between 1900 and 2100, it's April 7th
 
-        if self.gregorian_year_p < 2100:
-            date_equinox_april = dt.date(self.gregorian_year_p, 4, 7)
-        else:
-            date_equinox_april = dt.date(self.gregorian_year_p, 4, 8)
+        _gregorian_year_p = self.gregorian_year_p // 100
+        _gregorian_year_p -= _gregorian_year_p // 4
+        equinox_day = _gregorian_year_p - 8
+
+        date_equinox_april = dt.date(self.gregorian_year_p, 4, equinox_day)
 
         # Hours shift depends on leap year cycles
         hours_delta_nissan = (self.gregorian_year_p % 4) * 6

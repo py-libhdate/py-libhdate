@@ -42,6 +42,7 @@ def test_get_tekufot(date: dt.date, expected: dict[TekufotNames, dt.datetime]) -
 @pytest.mark.parametrize(
     "date, diaspora, expected",
     [
+        (dt.date(1924, 10, 5), True, dt.date(1924, 12, 5)),
         (dt.date(2024, 10, 5), True, dt.date(2024, 12, 5)),
         (dt.date(2024, 10, 5), False, dt.date(2024, 11, 8)),
         (dt.date(2023, 10, 5), True, dt.date(2023, 12, 6)),
