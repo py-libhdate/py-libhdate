@@ -67,6 +67,8 @@ class TestHDate:
             HebrewDate(5779, 15, 3)  # type: ignore
         with pytest.raises(ValueError):
             HDateInfo().hdate = HebrewDate(5779, Months.NISAN, 35)
+        with pytest.raises(TypeError):
+            HDateInfo("foo")  # type: ignore
 
     @given(date=strategies.dates())
     def test_random_hdate(self, date: dt.date) -> None:
