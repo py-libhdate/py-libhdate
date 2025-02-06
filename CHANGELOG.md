@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.1 - 2025-02-06
+
+### 💥 Breaking
+
+* Rename HDate object to HDateInfo to better reflect its relationship to HebrewDate (#195) @tsvi
+* Add diaspora argument to get_all_holiday_names (#191) @tsvi
+* Rename Zmanim keys and standardize nomenclature (#190) @tsvi
+
+### 🚀 Features
+
+* Rename HDate object to HDateInfo to better reflect its relationship to HebrewDate (#195) @tsvi
+* Type language as literal for actual values (#194) @tsvi
+* Cleanup Tekufot and add it to the HDate object (#192) @tsvi
+
 ## 1.0.0 - 2025-02-02
 
 * Final reorganization of Parasha API (#180) @tsvi
