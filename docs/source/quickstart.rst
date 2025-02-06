@@ -36,7 +36,7 @@ Better start cleaning 😉
 
 The ``HebrewDate`` object is similar to Python's built-in ``datetime.date`` object.
 It's responsibility is to represent a Hebrew date and allow date comparisons and calculations.
-To get more information about a specific date, have a look at the ``HDate`` object.
+To get more information about a specific date, have a look at the ``HDateInfo`` object.
 
 .. note::
 
@@ -127,17 +127,17 @@ You can also get a nice printout by calling ``str`` on the ``Zmanim`` object.
     When in doubt, please contact your local Halachic authority.
 
 --------------------
-The ``HDate`` object
+The ``HDateInfo`` object
 --------------------
 
-If you want more information on a specific date like **Parshat Hashavua**, Holidays, the **Daf Yomi**, or the current **Omer** count, you'll want to initialize a ``HDate`` object.
+If you want more information on a specific date like **Parshat Hashavua**, Holidays, the **Daf Yomi**, or the current **Omer** count, you'll want to initialize a ``HDateInfo`` object.
 
-The ``HDate`` object, accepts a date (either Gregorian or Hebrew), a boolean that specifies whether the information should be calculated according to diaspora or not, and language (defaults to Hebrew).
+The ``HDateInfo`` object, accepts a date (either Gregorian or Hebrew), a boolean that specifies whether the information should be calculated according to diaspora or not, and language (defaults to Hebrew).
 
 .. code:: python
 
-    >>> from hdate import HDate
-    >>> today = HDate(today, diaspora=False, language="english")
+    >>> from hdate import HDateInfo
+    >>> today = HDateInfo(today, diaspora=False, language="english")
     >>> print(today.parasha)
     Shemot
     >>> today.is_holiday

@@ -1,13 +1,14 @@
 """
-Jewish calendrical date and times for a given location.
+Hebrew date meta-data.
 
-HDate calculates and generates a representation either in English, French or Hebrew
-of the Jewish calendrical date and times for a given location
+HDateInfo allows querying various meta-data about Hebrew date, including
+Holidays, Daf Yomi, Omer, and more.
 """
 
 from __future__ import annotations
 
 import datetime as dt
+from dataclasses import dataclass, field
 from typing import Optional, Union
 
 from hdate.daf_yomi import DafYomiDatabase, Masechta
@@ -20,41 +21,38 @@ from hdate.tekufot import Nusachim, Tekufot
 from hdate.translator import Language, TranslatorMixin
 
 
-class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
+@dataclass
+class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     """
-    Hebrew date class.
+    Hebrew date information class.
 
-    Supports converting from Gregorian and Julian to Hebrew date.
+    Provides access to various properties of a given date.
     """
 
-    def __init__(
-        self,
-        date: Union[dt.date, HebrewDate] = dt.date.today(),
-        diaspora: bool = False,
-        language: Language = "hebrew",
-        nusach: Nusachim = "sephardi",
-    ) -> None:
-        """Initialize the HDate object."""
-        self.language = language
-        super().__init__()
+    date: Union[dt.date, HebrewDate] = field(default_factory=dt.date.today)
+    diaspora: bool = False
+    language: Language = "hebrew"
+    nusach: Nusachim = "sephardi"
+
+    def __post_init__(self) -> None:
         # Initialize private variables
         self._last_updated = ""
 
-        if isinstance(date, dt.date):
-            self.gdate = date
-            self._hdate = HebrewDate.from_gdate(date)
+        if isinstance(self.date, dt.date):
+            self.gdate = self.date
+            self._hdate = HebrewDate.from_gdate(self.date)
+        elif isinstance(self.date, HebrewDate):
+            self.hdate = self.date
+            self._gdate = self.date.to_gdate()
         else:
-            self.hdate = date
-            self._gdate = date.to_gdate()
+            raise TypeError("date has to be of type datetime.date or HebrewDate")
 
-        self.diaspora = diaspora
-        self.nusach = nusach
+        super().__post_init__()
 
     def __str__(self) -> str:
-        """Return a full Unicode representation of HDate."""
-        in_prefix = "ב" if self._language == "hebrew" else ""
-        day_number = hebrew_number(self.hdate.day, language=self._language)
-        year_number = hebrew_number(self.hdate.year, language=self._language)
+        in_prefix = "ב" if self.language == "hebrew" else ""
+        day_number = hebrew_number(self.hdate.day, language=self.language)
+        year_number = hebrew_number(self.hdate.year, language=self.language)
         result = (
             f"{self.hdate.dow()} "
             f"{day_number} {in_prefix}{self.hdate.month} {year_number}"
@@ -80,7 +78,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
     @hdate.setter
     def hdate(self, date: HebrewDate) -> None:
-        """Set the dates of the HDate object based on a given Hebrew date."""
+        """Set the dates of the HDateInfo object based on a given Hebrew date."""
 
         if not isinstance(date, HebrewDate):
             raise TypeError(f"date: {date} is not of type HebrewDate")
@@ -90,21 +88,21 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
     @property
     def gdate(self) -> dt.date:
-        """Return the Gregorian date for the given Hebrew date object."""
+        """Return the Gregorian date for the given Hebrew date."""
         if self._last_updated == "gdate":
             return self._gdate
         return self._hdate.to_gdate()
 
     @gdate.setter
     def gdate(self, date: dt.date) -> None:
-        """Set the Gregorian date for the given Hebrew date object."""
+        """Set the Gregorian date for the given Hebrew date."""
         self._last_updated = "gdate"
         self._gdate = date
 
     @property
     def omer(self) -> Optional[Omer]:
         """Return the Omer object."""
-        _omer = Omer(date=self.hdate, language=self._language)
+        _omer = Omer(date=self.hdate, language=self.language)
         return _omer if _omer.total_days > 0 else None
 
     @property
@@ -112,7 +110,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         """Return the upcoming parasha."""
         db = ParashaDatabase(self.diaspora)
         parasha = db.lookup(self.hdate)
-        parasha.set_language(self._language)
+        parasha.set_language(self.language)
         return parasha
 
     @property
@@ -121,27 +119,27 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         holidays_list = HolidayDatabase(diaspora=self.diaspora).lookup(self.hdate)
 
         for holiday in holidays_list:
-            holiday.set_language(self._language)
+            holiday.set_language(self.language)
 
         return holidays_list
 
     @property
     def daf_yomi(self) -> Masechta:
-        """Return a string representation of the daf yomi."""
+        """Return the daf yomi for the given date."""
         db = DafYomiDatabase()
         daf = db.lookup(self.gdate)
-        daf.set_language(self._language)
+        daf.set_language(self.language)
         return daf
 
     @property
     def gevurot_geshamim(self) -> str:
-        """Return a string representation of the gvurot and gshamim."""
-        tekufot = Tekufot(self.gdate, self.diaspora, self.nusach, self._language)
+        """Return the rain prayer (Tal uMatar, veTen Beracha, ...)."""
+        tekufot = Tekufot(self.gdate, self.diaspora, self.nusach, self.language)
         return tekufot.get_prayer_for_date()
 
     @property
     def is_shabbat(self) -> bool:
-        """Return True if this date is Shabbat, specifically Saturday.
+        """Return True if this date is Shabbat.
 
         Returns False on Friday because the HDate object has no notion of time.
         For more detailed nuance, use the Zmanim object.
@@ -159,51 +157,38 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         return any(holiday.type == HolidayTypes.YOM_TOV for holiday in self.holidays)
 
     @property
-    def next_day(self) -> HDate:
-        """Return the HDate for the next day."""
-        return HDate(self.gdate + dt.timedelta(1), self.diaspora, self._language)
+    def next_day(self) -> HDateInfo:
+        """Return the HDateInfo for the next day."""
+        return HDateInfo(self.gdate + dt.timedelta(1), self.diaspora, self.language)
 
     @property
-    def previous_day(self) -> HDate:
-        """Return the HDate for the previous day."""
-        return HDate(self.gdate + dt.timedelta(-1), self.diaspora, self._language)
+    def previous_day(self) -> HDateInfo:
+        """Return the HDateInfo for the previous day."""
+        return HDateInfo(self.gdate + dt.timedelta(-1), self.diaspora, self.language)
 
     @property
-    def upcoming_shabbat(self) -> HDate:
-        """Return the HDate for either the upcoming or current Shabbat.
-
-        If it is currently Shabbat, returns the HDate of the Saturday.
-        """
+    def upcoming_shabbat(self) -> HDateInfo:
+        """Return the HDateInfo for either the upcoming or current Shabbat."""
         if self.is_shabbat:
             return self
 
         next_shabbat = self.gdate + dt.timedelta(Weekday.SATURDAY - self.hdate.dow())
-        return HDate(next_shabbat, diaspora=self.diaspora, language=self._language)
+        return HDateInfo(next_shabbat, diaspora=self.diaspora, language=self.language)
 
     @property
-    def upcoming_yom_tov(self) -> HDate:
-        """Find the next upcoming yom tov (i.e. no-melacha holiday).
-
-        If it is currently the day of yom tov (irrespective of zmanim), returns
-        that yom tov.
-        """
+    def upcoming_yom_tov(self) -> HDateInfo:
+        """Return the HDateInfo for the upcoming or current Yom Tov."""
         if self.is_yom_tov:
             return self
 
         mgr = HolidayDatabase(diaspora=self.diaspora)
         date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
 
-        return HDate(date, self.diaspora, self._language)
+        return HDateInfo(date, self.diaspora, self.language)
 
     @property
-    def upcoming_shabbat_or_yom_tov(self) -> HDate:
-        """Return the HDate for the upcoming or current Shabbat or Yom Tov.
-
-        If it is currently Shabbat, returns the HDate of the Saturday.
-        If it is currently Yom Tov, returns the HDate of the first day
-        (rather than "leil" Yom Tov). To access Leil Yom Tov, use
-        upcoming_shabbat_or_yom_tov.previous_day.
-        """
+    def upcoming_shabbat_or_yom_tov(self) -> HDateInfo:
+        """Return the HDateInfo for the upcoming or current Shabbat or Yom Tov."""
         if self.is_shabbat or self.is_yom_tov:
             return self
 
@@ -212,13 +197,13 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         return self.upcoming_shabbat
 
     @property
-    def first_day(self) -> HDate:
+    def first_day(self) -> HDateInfo:
         """Return the first day of Yom Tov or Shabbat.
 
         This is useful for three-day holidays, for example: it will return the
         first in a string of Yom Tov + Shabbat.
-        If this HDate is Shabbat followed by no Yom Tov, returns the Saturday.
-        If this HDate is neither Yom Tov, nor Shabbat, this just returns
+        If this HDateInfo is Shabbat followed by no Yom Tov, returns the Saturday.
+        If this HDateInfo is neither Yom Tov, nor Shabbat, this just returns
         itself.
         """
         day_iter = self
@@ -227,7 +212,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         return day_iter
 
     @property
-    def last_day(self) -> HDate:
+    def last_day(self) -> HDateInfo:
         """Return the last day of Yom Tov or Shabbat.
 
         This is useful for three-day holidays, for example: it will return the

@@ -6,7 +6,7 @@ import pytest
 from hypothesis import given, settings, strategies
 from syrupy.assertion import SnapshotAssertion
 
-from hdate import HDate, HebrewDate
+from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months
 from hdate.parasha import Parasha
 
@@ -52,7 +52,7 @@ def test_get_reading_israel(
 ) -> None:
     """Test parshat hashavua in Israel."""
     rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
-    mydate = HDate(rosh_hashana, diaspora=diaspora).upcoming_shabbat
+    mydate = HDateInfo(rosh_hashana, diaspora=diaspora).upcoming_shabbat
 
     while mydate.hdate.year == year:
         print("Testing: ", mydate)
@@ -68,7 +68,7 @@ def test_vezot_habracha(diaspora: bool, year: int) -> None:
         simchat_tora = HebrewDate(year, Months.TISHREI, 23)
     else:
         simchat_tora = HebrewDate(year, Months.TISHREI, 22)
-    mydate = HDate(simchat_tora, diaspora=diaspora)
+    mydate = HDateInfo(simchat_tora, diaspora=diaspora)
     assert mydate.parasha == 54
 
 
@@ -78,7 +78,7 @@ def test_nitzavim_always_before_rosh_hashana(year: int, diaspora: bool) -> None:
     """A property: Nitzavim alway falls before rosh hashana."""
     rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
     previous_shabbat = rosh_hashana + dt.timedelta(days=-rosh_hashana.dow())
-    mydate = HDate(previous_shabbat, diaspora=diaspora)
+    mydate = HDateInfo(previous_shabbat, diaspora=diaspora)
     print(f"Testing date: {mydate}")
     assert mydate.parasha in (Parasha.NITZAVIM, Parasha.NITZAVIM_VAYEILECH)
 
@@ -91,13 +91,13 @@ def test_vayelech_or_haazinu_always_after_rosh_hashana(
 ) -> None:
     """A property: Vayelech or Haazinu always falls after rosh hashana."""
     rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
-    mydate = HDate(rosh_hashana, diaspora=diaspora).upcoming_shabbat
+    mydate = HDateInfo(rosh_hashana, diaspora=diaspora).upcoming_shabbat
     print(f"Testing date: {mydate}")
     assert mydate.parasha in (Parasha.VAYEILECH, Parasha.HAAZINU, Parasha.NONE)
 
 
 def test_last_week_of_the_year() -> None:
     """The last day of the year is parshat Vayelech."""
-    mydate = HDate()
+    mydate = HDateInfo()
     mydate.hdate = HebrewDate(5779, Months.ELUL, 29)
     assert mydate.parasha == Parasha.VAYEILECH

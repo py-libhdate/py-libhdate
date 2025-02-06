@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Optional, cast
 
-from hdate.date import HDate
+from hdate.date_info import HDateInfo
 from hdate.location import Location
 from hdate.translator import Language, TranslatorMixin
 
@@ -68,25 +68,22 @@ class Zmanim(TranslatorMixin):
         if not isinstance(self.date, dt.date):
             raise TypeError("date has to be of type datetime.date")
         self.set_language(self.language)
-        self.today = HDate(date=self.date, diaspora=self.location.diaspora)
-        self.tomorrow = HDate(
+        self.today = HDateInfo(date=self.date, diaspora=self.location.diaspora)
+        self.tomorrow = HDateInfo(
             date=self.date + dt.timedelta(days=1), diaspora=self.location.diaspora
         )
 
     def __str__(self) -> str:
-        """Return a string representation of Zmanim in the selected language."""
         return "\n".join(
             [f"{zman} - {zman.local.time()}" for _, zman in self.zmanim.items()]
         )
 
     def __getattr__(self, name: str) -> Zman:
-        """Return a specific Zman."""
         if name in (zmanim := self.zmanim):
             return zmanim[name]
         raise AttributeError(f"{type(self).__name__} has no attribute {name}")
 
     def __dir__(self) -> list[str]:
-        """Return a list of available attributes."""
         return [*super().__dir__(), *self.zmanim.keys()]
 
     @property
