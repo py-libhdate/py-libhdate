@@ -99,3 +99,10 @@ def test_tekufot_prayer_for_date(
     assert (
         actual_phrase == expected
     ), f"{date=}, {tradition=}, {language=}\n{actual_phrase=} {expected=}\n"
+
+
+def test_invalid_tekufa() -> None:
+    """Test that an exception is raised when an invalid Tekufa is requested."""
+    with pytest.raises(ValueError) as excinfo:
+        Tekufot().get_tekufa("foo")  # type: ignore
+    assert "Invalid Tekufot name: foo" in str(excinfo.value)

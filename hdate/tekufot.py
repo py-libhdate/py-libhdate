@@ -10,6 +10,7 @@ The class attempts to compute:
 """
 
 import datetime as dt
+import typing
 from calendar import isleap
 from dataclasses import dataclass, field
 from enum import Enum
@@ -60,10 +61,12 @@ class Tekufot(TranslatorMixin):
         self.gregorian_year_p = self.hebrew_year_p - 3760
 
     def get_tekufa(self, name: TekufotNames) -> dt.datetime:
-        """
-        Calculates the approximate dates and times of the Tekufot.
+        """Calculate the approximate dates and times of the Tekufot.
+
         This is a simplified approximation. Traditional calculations may differ.
         """
+        if name not in typing.get_args(TekufotNames):
+            raise ValueError(f"Invalid Tekufot name: {name}")
 
         # Start with Tekufa Nissan:
         # Historically approximated at the spring equinox. For simplicity, assume:
