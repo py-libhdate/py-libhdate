@@ -12,7 +12,7 @@ The class attempts to compute:
 import datetime as dt
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Literal, Union, cast
+from typing import Literal, cast
 
 from hdate.hebrew_date import HebrewDate, Months
 from hdate.location import Location
@@ -126,7 +126,7 @@ class Tekufot(TranslatorMixin):
 
         return cheilat_geshamim
 
-    def get_gevurot(self) -> Union[Gevurot, None]:
+    def get_gevurot(self) -> Gevurot:
         """
         From Pesach to Shemini Atzeret:
           Sephardi: Morid (0)
@@ -134,18 +134,6 @@ class Tekufot(TranslatorMixin):
         From Shemini Atzeret to Next Pesach:
           All: Mashiv (1)
         """
-        # Prev Pesach to Shemini Atzeret
-        if (
-            HebrewDate(self.hebrew_year_p - 1, Months.NISAN, 15)
-            < self.hebrew_date
-            < HebrewDate(self.hebrew_year_p, Months.TISHREI, 22)
-        ):
-            if self.tradition in ["sephardi"]:
-                return Gevurot.MORID_HATAL
-
-            # diaspora_ashkenazi
-            return Gevurot.NEITHER  # neither = 2
-
         # Shemini Atzeret to Pesach
         if (
             HebrewDate(self.hebrew_year_p, Months.TISHREI, 22)
@@ -160,16 +148,14 @@ class Tekufot(TranslatorMixin):
             < self.hebrew_date
             < HebrewDate(self.hebrew_year_p + 1, Months.TISHREI, 22)
         ):
-            if self.tradition in ["sephardi"]:
-                return Gevurot.MORID_HATAL  # Morid = 0
+            if self.location.diaspora and self.tradition != "sephardi":
+                # ashkenazi
+                return Gevurot.NEITHER  # neither = 2
 
-            # ashkenazi
-            return Gevurot.NEITHER  # neither = 2
+        # Default according to most traditions
+        return Gevurot.MORID_HATAL
 
-        # Default
-        return None
-
-    def get_geshamim(self) -> Union[Geshamim, None]:
+    def get_geshamim(self) -> Geshamim:
         """
         Periods:
         From Pesach I (Musaf) to Cheilat geshamim
@@ -189,9 +175,9 @@ class Tekufot(TranslatorMixin):
         # From Cheilat geshamim to Pesach:
         if (
             HebrewDate.from_gdate(self.tchilat_geshamim)
-            < self.hebrew_date
+            <= self.hebrew_date
             < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
-        ) or (self.hebrew_date == HebrewDate.from_gdate(self.tchilat_geshamim)):
+        ):
             if self.tradition in ["sephardi"]:
                 return Geshamim.BARECH_ALEINU
             return Geshamim.VETEN_TAL
@@ -206,13 +192,9 @@ class Tekufot(TranslatorMixin):
         and language. The tradition can be 'ashkenazi', "sephardi'.
         The language can be 'english', 'french', or 'hebrew'.
         """
-        self.set_language(self.language)
         geshamim = self.get_geshamim()
         gevurot = self.get_gevurot()
-        if geshamim is not None:
-            geshamim.set_language(self.language)
-
-        if gevurot is not None:
-            gevurot.set_language(self.language)
+        geshamim.set_language(self.language)
+        gevurot.set_language(self.language)
 
         return f"{gevurot} - {geshamim}"

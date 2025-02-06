@@ -106,7 +106,5 @@ def test_tekufot_prayer_for_date(
     )
     actual_phrase = tekufot.get_prayer_for_date()
     assert actual_phrase == expected, (
-        f"\nDate: {date}, Tradition: {tradition}, Langue: {language}\n"
-        f"Expected : {expected}\n"
-        f"Result : {actual_phrase}"
+        f"{date!r}, {tradition!r}, {language!r}\n" f"{actual_phrase!r} {expected!r}\n"
     )
