@@ -36,6 +36,7 @@ class Geshamim(TranslatorMixin, Enum):
     VETEN_BERACHA = 3
 
 
+Nusachim = Literal["sephardi", "ashkenazi"]
 TekufotNames = Literal["Tishrei", "Tevet", "Nissan", "Tammuz"]
 
 
@@ -48,7 +49,7 @@ class Tekufot(TranslatorMixin):
 
     date: dt.date = field(default_factory=dt.date.today)
     diaspora: bool = False
-    tradition: str = "sephardi"
+    tradition: Nusachim = "sephardi"
     language: str = "english"
 
     def __post_init__(self) -> None:

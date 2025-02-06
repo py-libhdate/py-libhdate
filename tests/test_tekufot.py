@@ -4,7 +4,7 @@ import datetime as dt
 
 import pytest
 
-from hdate.tekufot import Tekufot, TekufotNames
+from hdate.tekufot import Nusachim, Tekufot, TekufotNames
 
 
 @pytest.mark.parametrize(
@@ -86,7 +86,7 @@ def test_get_cheilat_geshamim(date: dt.date, expected: dt.date, diaspora: bool) 
     ],
 )
 def test_tekufot_prayer_for_date(
-    date: dt.date, tradition: str, language: str, expected: str
+    date: dt.date, tradition: Nusachim, language: str, expected: str
 ) -> None:
     """
     Tests that the method get_prayer_for_date returns the expected phrase
