@@ -137,7 +137,7 @@ class Tekufot(TranslatorMixin):
         # Shemini Atzeret to Pesach
         if (
             HebrewDate(self.hebrew_year_p, Months.TISHREI, 22)
-            < self.hebrew_date
+            <= self.hebrew_date
             < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
         ):
             return Gevurot.MASHIV_HARUACH
@@ -145,7 +145,7 @@ class Tekufot(TranslatorMixin):
         # Pesach to Next Shemini Atzeret
         if (
             HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
-            < self.hebrew_date
+            <= self.hebrew_date
             < HebrewDate(self.hebrew_year_p + 1, Months.TISHREI, 22)
         ):
             if self.location.diaspora and self.tradition != "sephardi":
