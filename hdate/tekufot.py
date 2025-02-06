@@ -10,9 +10,8 @@ The class attempts to compute:
 """
 
 import datetime as dt
-from datetime import tzinfo
 from enum import Enum
-from typing import Union
+from typing import Union, cast
 
 from hdate.hebrew_date import HebrewDate, Months
 from hdate.location import Location
@@ -83,9 +82,7 @@ class Tekufot(TranslatorMixin):
         hours_delta_nissan = (self.gregorian_year_p % 4) * 6
 
         # Tekufa Nissan: start at date_equinox_april at 12:00
-        tz = self.location.timezone
-        if not isinstance(tz, tzinfo):
-            raise TypeError("Timezone must be of type tzinfo.")
+        tz = cast(dt.tzinfo, self.location.timezone)
         tekufa_nissan = dt.datetime.combine(date_equinox_april, dt.time(12, 0)).replace(
             tzinfo=tz
         ) + dt.timedelta(hours=hours_delta_nissan)
