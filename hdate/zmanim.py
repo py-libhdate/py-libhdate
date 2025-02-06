@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Optional, cast
 
-from hdate.date import HDateInfo
+from hdate.date_info import HDateInfo
 from hdate.location import Location
 from hdate.translator import Language, TranslatorMixin
 
