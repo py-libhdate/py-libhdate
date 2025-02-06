@@ -1,33 +1,14 @@
 """Test Tekufot objects."""
 
 import datetime as dt
-from typing import cast
 
 import pytest
 
-from hdate.location import Location
-from hdate.tekufot import Tekufot
+from hdate.tekufot import Nusachim, Tekufot, TekufotNames
 
 
 @pytest.mark.parametrize(
-    "date, expected_tekufot_keys",
-    [
-        (dt.date(2024, 4, 7), ["Nissan", "Tammuz", "Tishrei", "Tevet"]),
-        (dt.date(2025, 4, 7), ["Nissan", "Tammuz", "Tishrei", "Tevet"]),
-    ],
-)
-@pytest.mark.parametrize("location", ["Jerusalem"], indirect=True)
-def test_get_tekufot_dict(
-    date: dt.date, expected_tekufot_keys: list[str], location: Location
-) -> None:
-    """Test that Tekufot calculations return the correct keys."""
-    tekufot = Tekufot(date=date, location=location)
-    result = tekufot.get_tekufot()
-    assert set(result.keys()) == set(expected_tekufot_keys), "Tekufot keys mismatch"
-
-
-@pytest.mark.parametrize(
-    "date, expected_tekufot",
+    "date, expected",
     [
         (
             dt.date(2024, 11, 1),
@@ -49,34 +30,30 @@ def test_get_tekufot_dict(
         ),
     ],
 )
-@pytest.mark.parametrize("location", ["Jerusalem"], indirect=True)
-def test_get_tekufot(
-    date: dt.date, expected_tekufot: dict[str, dt.datetime], location: Location
-) -> None:
+def test_get_tekufot(date: dt.date, expected: dict[TekufotNames, dt.datetime]) -> None:
     """Test that Tekufot calculations return the correct datetime values."""
-    tekufot = Tekufot(date=date, location=location)
-    result = tekufot.get_tekufot()
-    for key, expected_dt in expected_tekufot.items():
-        assert result[key] == expected_dt.replace(
-            tzinfo=cast(dt.tzinfo, location.timezone)
-        ), f"Mismatch for {key}: expected {expected_dt}, got {result[key]}"
+    tekufot = Tekufot(date=date, diaspora=False)
+    for key, expected_dt in expected.items():
+        assert (
+            actual := tekufot.get_tekufa(key)
+        ) == expected_dt, f"Mismatch for {key}: {expected_dt=}, {actual=}"
 
 
 @pytest.mark.parametrize(
-    "date, location, expected_start",
+    "date, diaspora, expected",
     [
-        (dt.date(2024, 10, 5), "New York", dt.date(2024, 12, 5)),
-        (dt.date(2024, 10, 5), "Jerusalem", dt.date(2024, 11, 8)),
+        (dt.date(1924, 10, 5), True, dt.date(1924, 12, 5)),
+        (dt.date(2024, 10, 5), True, dt.date(2024, 12, 5)),
+        (dt.date(2024, 10, 5), False, dt.date(2024, 11, 8)),
+        (dt.date(2023, 10, 5), True, dt.date(2023, 12, 6)),
+        (dt.date(2123, 10, 5), True, dt.date(2123, 12, 7)),
     ],
-    indirect=["location"],
 )
-def test_get_cheilat_geshamim(
-    date: dt.date, expected_start: dt.date, location: Location
-) -> None:
+def test_get_cheilat_geshamim(date: dt.date, expected: dt.date, diaspora: bool) -> None:
     """Test Cheilat Geshamim start dates based on location."""
-    tekufot = Tekufot(date=date, location=location)
-    result = tekufot.get_cheilat_geshamim()
-    assert result == expected_start, "Cheilat Geshamim date mismatch"
+    tekufot = Tekufot(date=date, diaspora=diaspora)
+    result = tekufot.tchilat_geshamim.to_gdate()
+    assert result == expected, "Cheilat Geshamim date mismatch"
 
 
 @pytest.mark.parametrize(
@@ -111,20 +88,22 @@ def test_get_cheilat_geshamim(
         ),
     ],
 )
-@pytest.mark.parametrize("location", ["New York"], indirect=True)
 def test_tekufot_prayer_for_date(
-    date: dt.date, tradition: str, language: str, location: Location, expected: str
+    date: dt.date, tradition: Nusachim, language: str, expected: str
 ) -> None:
     """
     Tests that the method get_prayer_for_date returns the expected phrase
     for each combination of (date, tradition, language).
     """
-    tekufot = Tekufot(
-        date=date, location=location, tradition=tradition, language=language
-    )
+    tekufot = Tekufot(date=date, diaspora=True, tradition=tradition, language=language)
     actual_phrase = tekufot.get_prayer_for_date()
-    assert actual_phrase == expected, (
-        f"\nDate: {date}, Tradition: {tradition}, Langue: {language}\n"
-        f"Expected : {expected}\n"
-        f"Result : {actual_phrase}"
-    )
+    assert (
+        actual_phrase == expected
+    ), f"{date=}, {tradition=}, {language=}\n{actual_phrase=} {expected=}\n"
+
+
+def test_invalid_tekufa() -> None:
+    """Test that an exception is raised when an invalid Tekufa is requested."""
+    with pytest.raises(ValueError) as excinfo:
+        Tekufot().get_tekufa("foo")  # type: ignore
+    assert "Invalid Tekufot name: foo" in str(excinfo.value)

@@ -16,10 +16,11 @@ from hdate.hebrew_date import HebrewDate, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
 from hdate.parasha import Parasha, ParashaDatabase
+from hdate.tekufot import Nusachim, Tekufot
 from hdate.translator import TranslatorMixin
 
 
-class HDate(TranslatorMixin):
+class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     """
     Hebrew date class.
 
@@ -31,6 +32,7 @@ class HDate(TranslatorMixin):
         date: Union[dt.date, HebrewDate] = dt.date.today(),
         diaspora: bool = False,
         language: str = "hebrew",
+        nusach: Nusachim = "sephardi",
     ) -> None:
         """Initialize the HDate object."""
         self.language = language
@@ -46,6 +48,7 @@ class HDate(TranslatorMixin):
             self._gdate = date.to_gdate()
 
         self.diaspora = diaspora
+        self.nusach = nusach
 
     def __str__(self) -> str:
         """Return a full Unicode representation of HDate."""
@@ -129,6 +132,12 @@ class HDate(TranslatorMixin):
         daf = db.lookup(self.gdate)
         daf.set_language(self._language)
         return daf
+
+    @property
+    def gevurot_geshamim(self) -> str:
+        """Return a string representation of the gvurot and gshamim."""
+        tekufot = Tekufot(self.gdate, self.diaspora, self.nusach, self._language)
+        return tekufot.get_prayer_for_date()
 
     @property
     def is_shabbat(self) -> bool:

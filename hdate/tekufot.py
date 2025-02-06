@@ -10,14 +10,14 @@ The class attempts to compute:
 """
 
 import datetime as dt
-from datetime import tzinfo
+import typing
+from calendar import isleap
+from dataclasses import dataclass, field
 from enum import Enum
-from typing import Union
+from typing import Literal
 
 from hdate.hebrew_date import HebrewDate, Months
-from hdate.location import Location
 from hdate.translator import TranslatorMixin
-from hdate.zmanim import Zmanim
 
 
 class Gevurot(TranslatorMixin, Enum):
@@ -37,121 +37,92 @@ class Geshamim(TranslatorMixin, Enum):
     VETEN_BERACHA = 3
 
 
-# pylint: disable=too-many-instance-attributes
+Nusachim = Literal["sephardi", "ashkenazi"]
+TekufotNames = Literal["Tishrei", "Tevet", "Nissan", "Tammuz"]
+
+
+@dataclass
 class Tekufot(TranslatorMixin):
     """
     A class that calculates and manages Jewish seasonal times (Tekufot),
     periods for prayer insertions, and associated halachic dates such as
     the start of Cheilat Geshamim (requesting rain)."""
 
-    def __init__(
-        self,
-        date: dt.date = dt.datetime.today(),
-        location: Location = Location(),
-        tradition: str = "sephardi",
-        language: str = "english",
-    ):
-        """Initialize the Tekufot object."""
-        super().__init__()
+    date: dt.date = field(default_factory=dt.date.today)
+    diaspora: bool = False
+    tradition: Nusachim = "sephardi"
+    language: str = "english"
 
-        self.date = date
-        self.location = location
-        self.tradition = tradition
-        self.language = language
-
+    def __post_init__(self) -> None:
+        super().__post_init__()
         # Convert current date Hebrew Date
-        self.hebrew_date = HebrewDate.from_gdate(date)
+        self.hebrew_date = HebrewDate.from_gdate(self.date)
         self.hebrew_year_p = self.hebrew_date.year
         self.gregorian_year_p = self.hebrew_year_p - 3760
 
-        # Tekufot calculations
-        self.get_tekufot()
+    def get_tekufa(self, name: TekufotNames) -> dt.datetime:
+        """Calculate the approximate dates and times of the Tekufot.
 
-        # Cheilat Geshamim calculation
-        self.get_cheilat_geshamim()
-
-    def get_tekufot(self) -> dict[str, dt.datetime]:
-        """
-        Calculates the approximate dates and times of the Tekufot.
         This is a simplified approximation. Traditional calculations may differ.
         """
+        if name not in typing.get_args(TekufotNames):
+            raise ValueError(f"Invalid Tekufot name: {name}")
 
         # Start with Tekufa Nissan:
-        # Historically approximated at the spring equinox. For simplicity, assume:
-        # If the Hebrew year corresponds to a Gregorian year before 2100
-        # we take April 7 as a reference, otherwise April 8
+        # Historically approximated at the spring equinox.
+        # Every 100 years, moves by a single day, unless it's a year divisible by 400
+        # For years between 1900 and 2100, it's April 7th
 
-        if self.gregorian_year_p < 2100:
-            date_equinox_april = dt.date(self.gregorian_year_p, 4, 7)
-        else:
-            date_equinox_april = dt.date(self.gregorian_year_p, 4, 8)
+        _gregorian_year_p = self.gregorian_year_p // 100
+        _gregorian_year_p -= _gregorian_year_p // 4
+        equinox_day = _gregorian_year_p - 8
+
+        date_equinox_april = dt.date(self.gregorian_year_p, 4, equinox_day)
 
         # Hours shift depends on leap year cycles
         hours_delta_nissan = (self.gregorian_year_p % 4) * 6
 
         # Tekufa Nissan: start at date_equinox_april at 12:00
-        tz = self.location.timezone
-        if not isinstance(tz, tzinfo):
-            raise TypeError("Timezone must be of type tzinfo.")
-        tekufa_nissan = dt.datetime.combine(date_equinox_april, dt.time(12, 0)).replace(
-            tzinfo=tz
+        tekufa_nissan = dt.datetime.combine(
+            date_equinox_april, dt.time(12, 0)
         ) + dt.timedelta(hours=hours_delta_nissan)
-        self.tekufa_nissan = tekufa_nissan
 
         # Tekufa intervals are about 91 days and 7.5 hours apart
-        tekufa_interval = dt.timedelta(
-            days=91,
-            hours=7,
-            minutes=30,
-        )
+        tekufa_interval = dt.timedelta(days=91, hours=7, minutes=30)
 
         # From Nissan to Tevet (minus interval)
-        tekufa_tevet = self.tekufa_nissan - tekufa_interval
-        tekufa_tishrei = tekufa_tevet - tekufa_interval
-        tekufa_tammuz = self.tekufa_nissan + tekufa_interval
-
-        # Return as dictionary
-        return {
-            "Tishrei": tekufa_tishrei,
-            "Tevet": tekufa_tevet,
+        values = {
             "Nissan": tekufa_nissan,
-            "Tammuz": tekufa_tammuz,
+            "Tevet": (tekufa_tevet := tekufa_nissan - tekufa_interval),
+            "Tishrei": tekufa_tevet - tekufa_interval,
+            "Tammuz": tekufa_nissan + tekufa_interval,
         }
+        return values[name]
 
-    def get_cheilat_geshamim(self) -> dt.date:
+    @property
+    def tchilat_geshamim(self) -> HebrewDate:
         """
         Calculates the start date for the prayers for rain (Cheilat Geshamim).
         In the diaspora, it is 60 days (add 59 days) after Tekufat Tishrei.
         In Israel, it is fixed at the 7th of Cheshvan.
         """
 
-        if self.location.diaspora:
+        if self.diaspora:
             # Cheilat Geshamim starts 60 days after Tekufat Tishrei.
-            cheilat_geshamim_dt = self.get_tekufot()["Tishrei"] + dt.timedelta(days=59)
-            time_end_of_day = Zmanim(
-                cheilat_geshamim_dt.date(), location=self.location
-            ).sunset.local
-            if cheilat_geshamim_dt < time_end_of_day:
-                # Normalize to date at midnight
-                cheilat_geshamim = cheilat_geshamim_dt.date()
-            else:
-                cheilat_geshamim = cheilat_geshamim_dt.date() + dt.timedelta(days=1)
+            cheilat_geshamim_dt = self.get_tekufa("Tishrei") + dt.timedelta(days=59)
+            if isleap(cheilat_geshamim_dt.year + 1):
+                # If next year is a leap year, add an extra day since the day that will
+                # be added to the upcoming month of February has already been
+                # accumulated.
+                cheilat_geshamim_dt += dt.timedelta(days=1)
+            cheilat_geshamim = HebrewDate.from_gdate(cheilat_geshamim_dt.date())
         else:
             # In Israel: 7th of Cheshvan
-            hdate_7_cheshvan = HebrewDate(self.hebrew_year_p, Months.MARCHESHVAN, 7)
-            cheilat_geshamim = HebrewDate.to_gdate(hdate_7_cheshvan)
+            cheilat_geshamim = HebrewDate(self.hebrew_year_p, Months.MARCHESHVAN, 7)
 
         return cheilat_geshamim
 
-    def get_cheilat_geshamim_hdate(self) -> HebrewDate:
-        """
-        Convert Cheilat Geshamim in Hebrew date.
-        """
-        cheilat_geshamim_hdate = HebrewDate.from_gdate(self.get_cheilat_geshamim())
-
-        return cheilat_geshamim_hdate
-
-    def get_gevurot(self) -> Union[Gevurot, None]:
+    def get_gevurot(self) -> Gevurot:
         """
         From Pesach to Shemini Atzeret:
           Sephardi: Morid (0)
@@ -159,64 +130,26 @@ class Tekufot(TranslatorMixin):
         From Shemini Atzeret to Next Pesach:
           All: Mashiv (1)
         """
-        # Prev Pesach to Shemini Atzeret
-        if (
-            HebrewDate(self.hebrew_year_p - 1, Months.NISAN, 15)
-            < self.hebrew_date
-            < HebrewDate(self.hebrew_year_p, Months.TISHREI, 22)
-        ):
-            if self.tradition in ["sephardi"]:
-                return Gevurot.MORID_HATAL
-
-            # diaspora_ashkenazi
-            return Gevurot.NEITHER  # neither = 2
-
-        # Shemini Atzeret to Pesach
-        if (
-            HebrewDate(self.hebrew_year_p, Months.TISHREI, 22)
-            < self.hebrew_date
-            < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
-        ):
+        shmini_atseret = HebrewDate(0, Months.TISHREI, 22)
+        pesach = HebrewDate(0, Months.NISAN, 15)
+        if shmini_atseret <= self.hebrew_date < pesach:
             return Gevurot.MASHIV_HARUACH
 
-        # Pesach to Next Shemini Atzeret
-        if (
-            HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
-            < self.hebrew_date
-            < HebrewDate(self.hebrew_year_p + 1, Months.TISHREI, 22)
-        ):
-            if self.tradition in ["sephardi"]:
-                return Gevurot.MORID_HATAL  # Morid = 0
+        if self.diaspora and self.tradition == "ashkenazi":
+            return Gevurot.NEITHER
 
-            # ashkenazi
-            return Gevurot.NEITHER  # neither = 2
+        # Default according to most traditions
+        return Gevurot.MORID_HATAL
 
-        # Default
-        return None
-
-    def get_geshamim(self) -> Union[Geshamim, None]:
+    def get_geshamim(self) -> Geshamim:
         """
         Periods:
         From Pesach I (Musaf) to Cheilat geshamim
         Cheilat geshamim to Pesach I (Shacharit)
         """
+        pesach = HebrewDate(0, Months.NISAN, 15)
 
-        # From Prev Pesach to Cheilat geshamim:
-        if (
-            HebrewDate(self.hebrew_year_p - 1, Months.NISAN, 15)
-            < self.hebrew_date
-            < self.get_cheilat_geshamim_hdate()
-        ):
-            if self.tradition in ["sephardi"]:
-                return Geshamim.BARKHEINU
-            return Geshamim.VETEN_BERACHA
-
-        # From Cheilat geshamim to Pesach:
-        if (
-            self.get_cheilat_geshamim_hdate()
-            < self.hebrew_date
-            < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
-        ) or (self.hebrew_date == self.get_cheilat_geshamim_hdate()):
+        if self.tchilat_geshamim <= self.hebrew_date < pesach:
             if self.tradition in ["sephardi"]:
                 return Geshamim.BARECH_ALEINU
             return Geshamim.VETEN_TAL
@@ -231,13 +164,9 @@ class Tekufot(TranslatorMixin):
         and language. The tradition can be 'ashkenazi', "sephardi'.
         The language can be 'english', 'french', or 'hebrew'.
         """
-        self.set_language(self.language)
         geshamim = self.get_geshamim()
         gevurot = self.get_gevurot()
-        if geshamim is not None:
-            geshamim.set_language(self.language)
-
-        if gevurot is not None:
-            gevurot.set_language(self.language)
+        geshamim.set_language(self.language)
+        gevurot.set_language(self.language)
 
         return f"{gevurot} - {geshamim}"
