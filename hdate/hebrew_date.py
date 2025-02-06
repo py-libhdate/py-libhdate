@@ -218,7 +218,6 @@ class HebrewDate(TranslatorMixin):
         return type(self)(year, month, day)
 
     def __str__(self) -> str:
-        """Return the hebrew date string in the selected language."""
         day = hebrew_number(self.day, language=self._language)
         year = hebrew_number(self.year, language=self._language)
         return f"{day} {self.month} {year}"

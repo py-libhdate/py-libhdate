@@ -74,19 +74,16 @@ class Zmanim(TranslatorMixin):
         )
 
     def __str__(self) -> str:
-        """Return a string representation of Zmanim in the selected language."""
         return "\n".join(
             [f"{zman} - {zman.local.time()}" for _, zman in self.zmanim.items()]
         )
 
     def __getattr__(self, name: str) -> Zman:
-        """Return a specific Zman."""
         if name in (zmanim := self.zmanim):
             return zmanim[name]
         raise AttributeError(f"{type(self).__name__} has no attribute {name}")
 
     def __dir__(self) -> list[str]:
-        """Return a list of available attributes."""
         return [*super().__dir__(), *self.zmanim.keys()]
 
     @property

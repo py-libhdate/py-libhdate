@@ -48,7 +48,6 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         super().__post_init__()
 
     def __str__(self) -> str:
-        """Return a full Unicode representation of HDateInfo."""
         in_prefix = "ב" if self.language == "hebrew" else ""
         day_number = hebrew_number(self.hdate.day, language=self.language)
         year_number = hebrew_number(self.hdate.year, language=self.language)
