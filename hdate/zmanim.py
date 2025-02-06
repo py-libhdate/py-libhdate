@@ -14,7 +14,7 @@ from typing import Optional, cast
 
 from hdate.date import HDate
 from hdate.location import Location
-from hdate.translator import TranslatorMixin
+from hdate.translator import Language, TranslatorMixin
 
 try:
     import astral
@@ -60,7 +60,7 @@ class Zmanim(TranslatorMixin):
 
     date: dt.date = field(default_factory=dt.date.today)
     location: Location = field(default_factory=Location)
-    language: str = "hebrew"
+    language: Language = "hebrew"
     candle_lighting_offset: int = 18
     havdalah_offset: int = 0
 

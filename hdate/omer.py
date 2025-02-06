@@ -9,7 +9,7 @@ from num2words import lang_HE, num2words
 
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Months
-from hdate.translator import TranslatorMixin
+from hdate.translator import Language, TranslatorMixin
 
 
 class Nusach(Enum):
@@ -31,7 +31,7 @@ class Omer(TranslatorMixin):
     week: int = 0
 
     nusach: Nusach = Nusach.SFARAD
-    language: str = "hebrew"
+    language: Language = "hebrew"
 
     def __post_init__(self) -> None:
         super().__post_init__()

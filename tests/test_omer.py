@@ -1,5 +1,7 @@
 """Tests relating to Sefirat HaOmer."""
 
+import typing
+
 import pytest
 from hypothesis import given, strategies
 from syrupy.assertion import SnapshotAssertion
@@ -7,12 +9,15 @@ from syrupy.assertion import SnapshotAssertion
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
 from hdate.omer import Nusach, Omer
+from hdate.translator import Language
 from tests.conftest import valid_hebrew_date
 
 
 @pytest.mark.parametrize("nusach", list(Nusach))
-@pytest.mark.parametrize("language", ["hebrew", "english", "french"])
-def test_get_omer(language: str, nusach: Nusach, snapshot: SnapshotAssertion) -> None:
+@pytest.mark.parametrize("language", typing.get_args(Language))
+def test_get_omer(
+    language: Language, nusach: Nusach, snapshot: SnapshotAssertion
+) -> None:
     """Test the value returned by calculating the Omer."""
     for omer_day in range(50):
         omer = Omer(total_days=omer_day, language=language, nusach=nusach)

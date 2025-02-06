@@ -2,6 +2,7 @@
 
 import datetime as dt
 import random
+import typing
 from collections import defaultdict
 
 import pytest
@@ -10,6 +11,7 @@ from hypothesis import given, settings, strategies
 from hdate import HDate, HebrewDate
 from hdate.hebrew_date import Months
 from hdate.holidays import HolidayDatabase
+from hdate.translator import Language
 
 
 # Test against both a leap year and non-leap year
@@ -279,8 +281,8 @@ def test_get_tishrei_rosh_chodesh(year: int) -> None:
 
 
 @pytest.mark.parametrize("diaspora", ["ISRAEL", "DIASPORA"])
-@pytest.mark.parametrize("language", ["english", "french", "hebrew"])
-def test_get_all_holidays(language: str, diaspora: str) -> None:
+@pytest.mark.parametrize("language", typing.get_args(Language))
+def test_get_all_holidays(language: Language, diaspora: str) -> None:
     """Test the method to get all the holiday descriptions in a specified language."""
 
     _diaspora = diaspora == "DIASPORA"

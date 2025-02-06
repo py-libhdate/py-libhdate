@@ -11,7 +11,7 @@ from itertools import product
 from typing import Callable, ClassVar, Iterable, Literal, Optional, Union
 
 from hdate.hebrew_date import CHANGING_MONTHS, LONG_MONTHS, HebrewDate, Months, Weekday
-from hdate.translator import TranslatorMixin
+from hdate.translator import Language, TranslatorMixin
 
 
 class HolidayTypes(Enum):
@@ -157,7 +157,7 @@ class HolidayDatabase:
         return next_date.replace(year=date.year)
 
     @classmethod
-    def get_all_names(cls, language: str, diaspora: bool) -> list[str]:
+    def get_all_names(cls, language: Language, diaspora: bool) -> list[str]:
         """Return all the holiday names in a given language."""
 
         local = cls._diaspora_holidays if diaspora else cls._israel_holidays
