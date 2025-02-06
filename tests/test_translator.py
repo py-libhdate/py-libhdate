@@ -3,20 +3,20 @@
 import pytest
 
 from hdate.hebrew_date import Months
-from hdate.translator import TranslatorMixin
+from hdate.translator import Language, TranslatorMixin
 
 LANGUAGES = ["english", "french", "hebrew"]
 
 
 @pytest.mark.parametrize("language", LANGUAGES)
-def test_available_languages(language: str) -> None:
+def test_available_languages(language: Language) -> None:
     """Test the available_languages method."""
     month = Months.TISHREI
     assert language[:2] in month.available_languages()
 
 
 @pytest.mark.parametrize("language", LANGUAGES)
-def test_set_language(language: str) -> None:
+def test_set_language(language: Language) -> None:
     """Test the load_language method."""
     month = Months.TISHREI
     result = {
@@ -31,7 +31,7 @@ def test_set_language(language: str) -> None:
 def test_non_existing_language(caplog: pytest.LogCaptureFixture) -> None:
     """Test the load_language method."""
     month = Months.TISHREI
-    month.set_language("non-existing-language")
+    month.set_language("non-existing-language")  # type: ignore
     assert (
         "Language non-existing-language not found, falling back to english"
         in caplog.text

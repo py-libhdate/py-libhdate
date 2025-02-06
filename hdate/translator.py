@@ -7,11 +7,13 @@ based on the language specified.
 import logging
 import sys
 from enum import Enum
-from typing import Any
+from typing import Any, Literal
 
 from hdate.translations import TRANSLATIONS
 
 _LOGGER = logging.getLogger(__name__)
+
+Language = Literal["english", "french", "hebrew"]
 
 
 class TranslatorMixin:
@@ -21,7 +23,7 @@ class TranslatorMixin:
     specified and the class name.
     """
 
-    _language: str = "english"
+    _language: Language = "english"
     _translations: dict[str, str] = {}
 
     def __init__(self, *args: Any, **kwargs: dict[str, Any]) -> None:
@@ -72,7 +74,7 @@ class TranslatorMixin:
             value = key
         return value
 
-    def set_language(self, language: str) -> None:
+    def set_language(self, language: Language) -> None:
         """Set the language for the translator."""
         object.__setattr__(self, "_language", language)
         self.load_translations()

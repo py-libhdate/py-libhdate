@@ -17,7 +17,7 @@ from enum import Enum
 from typing import Literal
 
 from hdate.hebrew_date import HebrewDate, Months
-from hdate.translator import TranslatorMixin
+from hdate.translator import Language, TranslatorMixin
 
 
 class Gevurot(TranslatorMixin, Enum):
@@ -51,7 +51,7 @@ class Tekufot(TranslatorMixin):
     date: dt.date = field(default_factory=dt.date.today)
     diaspora: bool = False
     tradition: Nusachim = "sephardi"
-    language: str = "english"
+    language: Language = "english"
 
     def __post_init__(self) -> None:
         super().__post_init__()

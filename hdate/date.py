@@ -17,7 +17,7 @@ from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
 from hdate.parasha import Parasha, ParashaDatabase
 from hdate.tekufot import Nusachim, Tekufot
-from hdate.translator import TranslatorMixin
+from hdate.translator import Language, TranslatorMixin
 
 
 class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
@@ -31,7 +31,7 @@ class HDate(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         self,
         date: Union[dt.date, HebrewDate] = dt.date.today(),
         diaspora: bool = False,
-        language: str = "hebrew",
+        language: Language = "hebrew",
         nusach: Nusachim = "sephardi",
     ) -> None:
         """Initialize the HDate object."""
