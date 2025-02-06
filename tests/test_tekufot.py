@@ -45,6 +45,7 @@ def test_get_tekufot(date: dt.date, expected: dict[TekufotNames, dt.datetime]) -
         (dt.date(2024, 10, 5), True, dt.date(2024, 12, 5)),
         (dt.date(2024, 10, 5), False, dt.date(2024, 11, 8)),
         (dt.date(2023, 10, 5), True, dt.date(2023, 12, 6)),
+        (dt.date(2123, 10, 5), True, dt.date(2123, 12, 7)),
     ],
 )
 def test_get_cheilat_geshamim(date: dt.date, expected: dt.date, diaspora: bool) -> None:
