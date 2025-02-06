@@ -1,8 +1,8 @@
 """
-Jewish calendrical date and times for a given location.
+Hebrew date meta-data.
 
-HDate calculates and generates a representation either in English, French or Hebrew
-of the Jewish calendrical date and times for a given location
+HDateInfo allows querying various meta-data about Hebrew date, including
+Holidays, Daf Yomi, Omer, and more.
 """
 
 from __future__ import annotations
@@ -24,9 +24,9 @@ from hdate.translator import Language, TranslatorMixin
 @dataclass
 class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     """
-    Hebrew date class.
+    Hebrew date information class.
 
-    Supports converting from Gregorian and Julian to Hebrew date.
+    Provides access to various properties of a given date.
     """
 
     date: Union[dt.date, HebrewDate] = field(default_factory=dt.date.today)
@@ -76,7 +76,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
 
     @hdate.setter
     def hdate(self, date: HebrewDate) -> None:
-        """Set the dates of the HDate object based on a given Hebrew date."""
+        """Set the dates of the HDateInfo object based on a given Hebrew date."""
 
         if not isinstance(date, HebrewDate):
             raise TypeError(f"date: {date} is not of type HebrewDate")
@@ -86,14 +86,14 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
 
     @property
     def gdate(self) -> dt.date:
-        """Return the Gregorian date for the given Hebrew date object."""
+        """Return the Gregorian date for the given Hebrew date."""
         if self._last_updated == "gdate":
             return self._gdate
         return self._hdate.to_gdate()
 
     @gdate.setter
     def gdate(self, date: dt.date) -> None:
-        """Set the Gregorian date for the given Hebrew date object."""
+        """Set the Gregorian date for the given Hebrew date."""
         self._last_updated = "gdate"
         self._gdate = date
 
@@ -123,7 +123,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
 
     @property
     def daf_yomi(self) -> Masechta:
-        """Return a string representation of the daf yomi."""
+        """Return the daf yomi for the given date."""
         db = DafYomiDatabase()
         daf = db.lookup(self.gdate)
         daf.set_language(self.language)
@@ -131,13 +131,13 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
 
     @property
     def gevurot_geshamim(self) -> str:
-        """Return a string representation of the gvurot and gshamim."""
+        """Return the rain prayer (Tal uMatar, veTen Beracha, ...)."""
         tekufot = Tekufot(self.gdate, self.diaspora, self.nusach, self.language)
         return tekufot.get_prayer_for_date()
 
     @property
     def is_shabbat(self) -> bool:
-        """Return True if this date is Shabbat, specifically Saturday.
+        """Return True if this date is Shabbat.
 
         Returns False on Friday because the HDate object has no notion of time.
         For more detailed nuance, use the Zmanim object.
@@ -166,10 +166,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
 
     @property
     def upcoming_shabbat(self) -> HDateInfo:
-        """Return the HDateInfo for either the upcoming or current Shabbat.
-
-        If it is currently Shabbat, returns the HDateInfo of the Saturday.
-        """
+        """Return the HDateInfo for either the upcoming or current Shabbat."""
         if self.is_shabbat:
             return self
 
@@ -178,11 +175,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
 
     @property
     def upcoming_yom_tov(self) -> HDateInfo:
-        """Find the next upcoming yom tov (i.e. no-melacha holiday).
-
-        If it is currently the day of yom tov (irrespective of zmanim), returns
-        that yom tov.
-        """
+        """Return the HDateInfo for the upcoming or current Yom Tov."""
         if self.is_yom_tov:
             return self
 
@@ -193,13 +186,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
 
     @property
     def upcoming_shabbat_or_yom_tov(self) -> HDateInfo:
-        """Return the HDateInfo for the upcoming or current Shabbat or Yom Tov.
-
-        If it is currently Shabbat, returns the HDateInfo of the Saturday.
-        If it is currently Yom Tov, returns the HDateInfo of the first day
-        (rather than "leil" Yom Tov). To access Leil Yom Tov, use
-        upcoming_shabbat_or_yom_tov.previous_day.
-        """
+        """Return the HDateInfo for the upcoming or current Shabbat or Yom Tov."""
         if self.is_shabbat or self.is_yom_tov:
             return self
 
