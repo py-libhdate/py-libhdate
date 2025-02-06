@@ -134,22 +134,14 @@ class Tekufot(TranslatorMixin):
         From Shemini Atzeret to Next Pesach:
           All: Mashiv (1)
         """
-        # Shemini Atzeret to Pesach
-        if (
-            HebrewDate(self.hebrew_year_p, Months.TISHREI, 22)
-            <= self.hebrew_date
-            < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
-        ):
+        shmini_atseret = HebrewDate(0, Months.TISHREI, 22)
+        pesach = HebrewDate(0, Months.NISAN, 15)
+        if shmini_atseret <= self.hebrew_date < pesach:
             return Gevurot.MASHIV_HARUACH
 
         # Pesach to Next Shemini Atzeret
-        if (
-            HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
-            <= self.hebrew_date
-            < HebrewDate(self.hebrew_year_p + 1, Months.TISHREI, 22)
-        ):
-            if self.location.diaspora and self.tradition != "sephardi":
-                # ashkenazi
+        if pesach <= self.hebrew_date < shmini_atseret:
+            if self.location.diaspora and self.tradition == "ashkenazi":
                 return Gevurot.NEITHER  # neither = 2
 
         # Default according to most traditions
