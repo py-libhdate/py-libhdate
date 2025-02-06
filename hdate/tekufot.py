@@ -37,7 +37,6 @@ class Geshamim(TranslatorMixin, Enum):
     VETEN_BERACHA = 3
 
 
-# pylint: disable=too-many-instance-attributes
 class Tekufot(TranslatorMixin):
     """
     A class that calculates and manages Jewish seasonal times (Tekufot),
@@ -46,7 +45,7 @@ class Tekufot(TranslatorMixin):
 
     def __init__(
         self,
-        date: dt.date = dt.datetime.today(),
+        date: dt.date = dt.date.today(),
         location: Location = Location(),
         tradition: str = "sephardi",
         language: str = "english",
@@ -63,12 +62,6 @@ class Tekufot(TranslatorMixin):
         self.hebrew_date = HebrewDate.from_gdate(date)
         self.hebrew_year_p = self.hebrew_date.year
         self.gregorian_year_p = self.hebrew_year_p - 3760
-
-        # Tekufot calculations
-        self.get_tekufot()
-
-        # Cheilat Geshamim calculation
-        self.get_cheilat_geshamim()
 
     def get_tekufot(self) -> dict[str, dt.datetime]:
         """
@@ -96,7 +89,6 @@ class Tekufot(TranslatorMixin):
         tekufa_nissan = dt.datetime.combine(date_equinox_april, dt.time(12, 0)).replace(
             tzinfo=tz
         ) + dt.timedelta(hours=hours_delta_nissan)
-        self.tekufa_nissan = tekufa_nissan
 
         # Tekufa intervals are about 91 days and 7.5 hours apart
         tekufa_interval = dt.timedelta(
@@ -106,9 +98,9 @@ class Tekufot(TranslatorMixin):
         )
 
         # From Nissan to Tevet (minus interval)
-        tekufa_tevet = self.tekufa_nissan - tekufa_interval
+        tekufa_tevet = tekufa_nissan - tekufa_interval
         tekufa_tishrei = tekufa_tevet - tekufa_interval
-        tekufa_tammuz = self.tekufa_nissan + tekufa_interval
+        tekufa_tammuz = tekufa_nissan + tekufa_interval
 
         # Return as dictionary
         return {
@@ -118,7 +110,8 @@ class Tekufot(TranslatorMixin):
             "Tammuz": tekufa_tammuz,
         }
 
-    def get_cheilat_geshamim(self) -> dt.date:
+    @property
+    def tchilat_geshamim(self) -> dt.date:
         """
         Calculates the start date for the prayers for rain (Cheilat Geshamim).
         In the diaspora, it is 60 days (add 59 days) after Tekufat Tishrei.
@@ -142,14 +135,6 @@ class Tekufot(TranslatorMixin):
             cheilat_geshamim = HebrewDate.to_gdate(hdate_7_cheshvan)
 
         return cheilat_geshamim
-
-    def get_cheilat_geshamim_hdate(self) -> HebrewDate:
-        """
-        Convert Cheilat Geshamim in Hebrew date.
-        """
-        cheilat_geshamim_hdate = HebrewDate.from_gdate(self.get_cheilat_geshamim())
-
-        return cheilat_geshamim_hdate
 
     def get_gevurot(self) -> Union[Gevurot, None]:
         """
@@ -205,7 +190,7 @@ class Tekufot(TranslatorMixin):
         if (
             HebrewDate(self.hebrew_year_p - 1, Months.NISAN, 15)
             < self.hebrew_date
-            < self.get_cheilat_geshamim_hdate()
+            < HebrewDate.from_gdate(self.tchilat_geshamim)
         ):
             if self.tradition in ["sephardi"]:
                 return Geshamim.BARKHEINU
@@ -213,10 +198,10 @@ class Tekufot(TranslatorMixin):
 
         # From Cheilat geshamim to Pesach:
         if (
-            self.get_cheilat_geshamim_hdate()
+            HebrewDate.from_gdate(self.tchilat_geshamim)
             < self.hebrew_date
             < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
-        ) or (self.hebrew_date == self.get_cheilat_geshamim_hdate()):
+        ) or (self.hebrew_date == HebrewDate.from_gdate(self.tchilat_geshamim)):
             if self.tradition in ["sephardi"]:
                 return Geshamim.BARECH_ALEINU
             return Geshamim.VETEN_TAL

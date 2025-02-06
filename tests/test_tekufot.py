@@ -75,7 +75,7 @@ def test_get_cheilat_geshamim(
 ) -> None:
     """Test Cheilat Geshamim start dates based on location."""
     tekufot = Tekufot(date=date, location=location)
-    result = tekufot.get_cheilat_geshamim()
+    result = tekufot.tchilat_geshamim
     assert result == expected_start, "Cheilat Geshamim date mismatch"
 
 
