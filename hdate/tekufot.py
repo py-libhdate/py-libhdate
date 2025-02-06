@@ -11,7 +11,7 @@ The class attempts to compute:
 
 import datetime as dt
 from enum import Enum
-from typing import Union, cast
+from typing import Literal, Union, cast
 
 from hdate.hebrew_date import HebrewDate, Months
 from hdate.location import Location
@@ -34,6 +34,9 @@ class Geshamim(TranslatorMixin, Enum):
     BARECH_ALEINU = 1
     VETEN_TAL = 2
     VETEN_BERACHA = 3
+
+
+TekufotNames = Literal["Tishrei", "Tevet", "Nissan", "Tammuz"]
 
 
 class Tekufot(TranslatorMixin):
@@ -62,7 +65,7 @@ class Tekufot(TranslatorMixin):
         self.hebrew_year_p = self.hebrew_date.year
         self.gregorian_year_p = self.hebrew_year_p - 3760
 
-    def get_tekufot(self) -> dict[str, dt.datetime]:
+    def get_tekufa(self, name: TekufotNames) -> dt.datetime:
         """
         Calculates the approximate dates and times of the Tekufot.
         This is a simplified approximation. Traditional calculations may differ.
@@ -95,17 +98,13 @@ class Tekufot(TranslatorMixin):
         )
 
         # From Nissan to Tevet (minus interval)
-        tekufa_tevet = tekufa_nissan - tekufa_interval
-        tekufa_tishrei = tekufa_tevet - tekufa_interval
-        tekufa_tammuz = tekufa_nissan + tekufa_interval
-
-        # Return as dictionary
-        return {
-            "Tishrei": tekufa_tishrei,
-            "Tevet": tekufa_tevet,
+        values = {
             "Nissan": tekufa_nissan,
-            "Tammuz": tekufa_tammuz,
+            "Tevet": (tekufa_tevet := tekufa_nissan - tekufa_interval),
+            "Tishrei": tekufa_tevet - tekufa_interval,
+            "Tammuz": tekufa_nissan + tekufa_interval,
         }
+        return values[name]
 
     @property
     def tchilat_geshamim(self) -> dt.date:
@@ -117,7 +116,7 @@ class Tekufot(TranslatorMixin):
 
         if self.location.diaspora:
             # Cheilat Geshamim starts 60 days after Tekufat Tishrei.
-            cheilat_geshamim_dt = self.get_tekufot()["Tishrei"] + dt.timedelta(days=59)
+            cheilat_geshamim_dt = self.get_tekufa("Tishrei") + dt.timedelta(days=59)
             time_end_of_day = Zmanim(
                 cheilat_geshamim_dt.date(), location=self.location
             ).sunset.local

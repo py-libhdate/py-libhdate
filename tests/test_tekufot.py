@@ -6,24 +6,7 @@ from typing import cast
 import pytest
 
 from hdate.location import Location
-from hdate.tekufot import Tekufot
-
-
-@pytest.mark.parametrize(
-    "date, expected_tekufot_keys",
-    [
-        (dt.date(2024, 4, 7), ["Nissan", "Tammuz", "Tishrei", "Tevet"]),
-        (dt.date(2025, 4, 7), ["Nissan", "Tammuz", "Tishrei", "Tevet"]),
-    ],
-)
-@pytest.mark.parametrize("location", ["Jerusalem"], indirect=True)
-def test_get_tekufot_dict(
-    date: dt.date, expected_tekufot_keys: list[str], location: Location
-) -> None:
-    """Test that Tekufot calculations return the correct keys."""
-    tekufot = Tekufot(date=date, location=location)
-    result = tekufot.get_tekufot()
-    assert set(result.keys()) == set(expected_tekufot_keys), "Tekufot keys mismatch"
+from hdate.tekufot import Tekufot, TekufotNames
 
 
 @pytest.mark.parametrize(
@@ -51,15 +34,14 @@ def test_get_tekufot_dict(
 )
 @pytest.mark.parametrize("location", ["Jerusalem"], indirect=True)
 def test_get_tekufot(
-    date: dt.date, expected_tekufot: dict[str, dt.datetime], location: Location
+    date: dt.date, expected_tekufot: dict[TekufotNames, dt.datetime], location: Location
 ) -> None:
     """Test that Tekufot calculations return the correct datetime values."""
     tekufot = Tekufot(date=date, location=location)
-    result = tekufot.get_tekufot()
     for key, expected_dt in expected_tekufot.items():
-        assert result[key] == expected_dt.replace(
+        assert (actual := tekufot.get_tekufa(key)) == expected_dt.replace(
             tzinfo=cast(dt.tzinfo, location.timezone)
-        ), f"Mismatch for {key}: expected {expected_dt}, got {result[key]}"
+        ), f"Mismatch for {key}: expected {expected_dt}, got {actual}"
 
 
 @pytest.mark.parametrize(
