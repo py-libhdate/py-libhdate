@@ -85,11 +85,7 @@ class Tekufot(TranslatorMixin):
         ) + dt.timedelta(hours=hours_delta_nissan)
 
         # Tekufa intervals are about 91 days and 7.5 hours apart
-        tekufa_interval = dt.timedelta(
-            days=91,
-            hours=7,
-            minutes=30,
-        )
+        tekufa_interval = dt.timedelta(days=91, hours=7, minutes=30)
 
         # From Nissan to Tevet (minus interval)
         values = {
@@ -139,10 +135,8 @@ class Tekufot(TranslatorMixin):
         if shmini_atseret <= self.hebrew_date < pesach:
             return Gevurot.MASHIV_HARUACH
 
-        # Pesach to Next Shemini Atzeret
-        if pesach <= self.hebrew_date < shmini_atseret:
-            if self.location.diaspora and self.tradition == "ashkenazi":
-                return Gevurot.NEITHER  # neither = 2
+        if self.location.diaspora and self.tradition == "ashkenazi":
+            return Gevurot.NEITHER
 
         # Default according to most traditions
         return Gevurot.MORID_HATAL
@@ -153,23 +147,10 @@ class Tekufot(TranslatorMixin):
         From Pesach I (Musaf) to Cheilat geshamim
         Cheilat geshamim to Pesach I (Shacharit)
         """
+        tchilat_geshamim = HebrewDate.from_gdate(self.tchilat_geshamim)
+        pesach = HebrewDate(0, Months.NISAN, 15)
 
-        # From Prev Pesach to Cheilat geshamim:
-        if (
-            HebrewDate(self.hebrew_year_p - 1, Months.NISAN, 15)
-            < self.hebrew_date
-            < HebrewDate.from_gdate(self.tchilat_geshamim)
-        ):
-            if self.tradition in ["sephardi"]:
-                return Geshamim.BARKHEINU
-            return Geshamim.VETEN_BERACHA
-
-        # From Cheilat geshamim to Pesach:
-        if (
-            HebrewDate.from_gdate(self.tchilat_geshamim)
-            <= self.hebrew_date
-            < HebrewDate(self.hebrew_year_p, Months.NISAN, 15)
-        ):
+        if tchilat_geshamim <= self.hebrew_date < pesach:
             if self.tradition in ["sephardi"]:
                 return Geshamim.BARECH_ALEINU
             return Geshamim.VETEN_TAL
