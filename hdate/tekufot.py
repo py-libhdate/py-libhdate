@@ -10,6 +10,7 @@ The class attempts to compute:
 """
 
 import datetime as dt
+from dataclasses import dataclass, field
 from enum import Enum
 from typing import Literal, Union, cast
 
@@ -39,29 +40,22 @@ class Geshamim(TranslatorMixin, Enum):
 TekufotNames = Literal["Tishrei", "Tevet", "Nissan", "Tammuz"]
 
 
+@dataclass
 class Tekufot(TranslatorMixin):
     """
     A class that calculates and manages Jewish seasonal times (Tekufot),
     periods for prayer insertions, and associated halachic dates such as
     the start of Cheilat Geshamim (requesting rain)."""
 
-    def __init__(
-        self,
-        date: dt.date = dt.date.today(),
-        location: Location = Location(),
-        tradition: str = "sephardi",
-        language: str = "english",
-    ):
-        """Initialize the Tekufot object."""
-        super().__init__()
+    date: dt.date = field(default_factory=dt.date.today)
+    location: Location = field(default_factory=Location)
+    tradition: str = "sephardi"
+    language: str = "english"
 
-        self.date = date
-        self.location = location
-        self.tradition = tradition
-        self.language = language
-
+    def __post_init__(self) -> None:
+        super().__post_init__()
         # Convert current date Hebrew Date
-        self.hebrew_date = HebrewDate.from_gdate(date)
+        self.hebrew_date = HebrewDate.from_gdate(self.date)
         self.hebrew_year_p = self.hebrew_date.year
         self.gregorian_year_p = self.hebrew_year_p - 3760
 
