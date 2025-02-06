@@ -8,6 +8,7 @@ of the Jewish calendrical date and times for a given location
 from __future__ import annotations
 
 import datetime as dt
+from dataclasses import dataclass, field
 from typing import Optional, Union
 
 from hdate.daf_yomi import DafYomiDatabase, Masechta
@@ -20,6 +21,7 @@ from hdate.tekufot import Nusachim, Tekufot
 from hdate.translator import Language, TranslatorMixin
 
 
+@dataclass
 class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     """
     Hebrew date class.
@@ -27,28 +29,23 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
     Supports converting from Gregorian and Julian to Hebrew date.
     """
 
-    def __init__(
-        self,
-        date: Union[dt.date, HebrewDate] = dt.date.today(),
-        diaspora: bool = False,
-        language: Language = "hebrew",
-        nusach: Nusachim = "sephardi",
-    ) -> None:
-        """Initialize the HDateInfo object."""
-        self.language = language
-        super().__init__()
+    date: Union[dt.date, HebrewDate] = field(default_factory=dt.date.today)
+    diaspora: bool = False
+    language: Language = "hebrew"
+    nusach: Nusachim = "sephardi"
+
+    def __post_init__(self) -> None:
         # Initialize private variables
         self._last_updated = ""
 
-        if isinstance(date, dt.date):
-            self.gdate = date
-            self._hdate = HebrewDate.from_gdate(date)
+        if isinstance(self.date, dt.date):
+            self.gdate = self.date
+            self._hdate = HebrewDate.from_gdate(self.date)
         else:
-            self.hdate = date
-            self._gdate = date.to_gdate()
+            self.hdate = self.date
+            self._gdate = self.date.to_gdate()
 
-        self.diaspora = diaspora
-        self.nusach = nusach
+        super().__post_init__()
 
     def __str__(self) -> str:
         """Return a full Unicode representation of HDateInfo."""
