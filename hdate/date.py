@@ -16,6 +16,7 @@ from hdate.hebrew_date import HebrewDate, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
 from hdate.parasha import Parasha, ParashaDatabase
+from hdate.tekufot import Tekufot
 from hdate.translator import TranslatorMixin
 
 
@@ -129,6 +130,12 @@ class HDate(TranslatorMixin):
         daf = db.lookup(self.gdate)
         daf.set_language(self._language)
         return daf
+
+    @property
+    def gvurot_gshamim(self) -> str:
+        """Return a string representation of the gvurot and gshamim."""
+        tekufot = Tekufot(self.gdate, self.diaspora, "ashkenazi", self._language)
+        return tekufot.get_prayer_for_date()
 
     @property
     def is_shabbat(self) -> bool:
