@@ -150,10 +150,15 @@ class HolidayDatabase:
     ) -> HebrewDate:
         """Lookup the next holiday for a given date (with optional type filter)."""
         filtered_holidays = self._get_filtered_holidays(types)
-        next_date_idx = bisect_left(list(filtered_holidays.keys()), date)
-        if next_date_idx == len(filtered_holidays.keys()):
+        valid_dates = [
+            _date
+            for _date in list(filtered_holidays.keys())
+            if _date.valid_for_year(date.year)
+        ]
+        next_date_idx = bisect_left(valid_dates, date)
+        if next_date_idx == len(valid_dates):
             return HebrewDate(year=date.year + 1)
-        next_date = list(filtered_holidays.keys())[next_date_idx]
+        next_date = valid_dates[next_date_idx]
         return next_date.replace(year=date.year)
 
     @classmethod
