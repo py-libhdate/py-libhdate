@@ -12,6 +12,7 @@ from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months
 from hdate.holidays import HolidayDatabase
 from hdate.translator import Language
+from tests.conftest import valid_hebrew_date
 
 
 # Test against both a leap year and non-leap year
@@ -312,3 +313,19 @@ def test_get_all_holidays(language: Language, diaspora: str) -> None:
     assert all(entry in names for entry in expected[language][""])
     assert all(entry in names for entry in expected[language][diaspora])
     assert all(item not in names for item in fake)
+
+
+@given(date=valid_hebrew_date())
+@pytest.mark.parametrize(("holiday_db"), (False, True), indirect=True)
+@pytest.mark.parametrize(("language"), typing.get_args(Language))
+def test_all_in_get_names(
+    date: HebrewDate, holiday_db: HolidayDatabase, language: Language
+) -> None:
+    """Test that all holidays are actually returned by get_all_names()"""
+    next_date = holiday_db.lookup_next_holiday(date)
+    holidays = holiday_db.lookup(next_date)
+    for holiday in holidays:
+        holiday.set_language(language)
+    assert ", ".join(str(holiday) for holiday in holidays) in holiday_db.get_all_names(
+        language, holiday_db.diaspora
+    )
