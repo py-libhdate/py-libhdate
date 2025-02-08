@@ -287,7 +287,7 @@ def test_get_all_holidays(language: Language, diaspora: str) -> None:
     """Test the method to get all the holiday descriptions in a specified language."""
 
     _diaspora = diaspora == "DIASPORA"
-    names = HolidayDatabase.get_all_names(language, _diaspora)
+    names = HolidayDatabase(_diaspora).get_all_names(language)
 
     expected = {
         "french": {
@@ -327,5 +327,5 @@ def test_all_in_get_names(
     for holiday in holidays:
         holiday.set_language(language)
     assert ", ".join(str(holiday) for holiday in holidays) in holiday_db.get_all_names(
-        language, holiday_db.diaspora
+        language
     )
