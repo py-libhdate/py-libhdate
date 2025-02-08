@@ -161,17 +161,10 @@ class HolidayDatabase:
         next_date = valid_dates[next_date_idx]
         return next_date.replace(year=date.year)
 
-    @classmethod
-    def get_all_names(cls, language: Language, diaspora: bool) -> list[str]:
+    def get_all_names(self, language: Language) -> list[str]:
         """Return all the holiday names in a given language."""
-
-        local = cls._diaspora_holidays if diaspora else cls._israel_holidays
-        holiday_list = {
-            date: cls._all_holidays[date] + local[date]
-            for date in local.keys() | cls._all_holidays.keys()
-        }
         result = {""}  # Empty string for case of no holiday
-        for holidays in holiday_list.values():
+        for holidays in self._instance_holidays.values():
             holiday_names = {holiday.name for holiday in holidays}
             if {"yom_haatzmaut", "yom_hazikaron"} == holiday_names:
                 continue
