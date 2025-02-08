@@ -111,7 +111,7 @@ class HolidayDatabase:
         self, types: Optional[Union[list[HolidayTypes], HolidayTypes]]
     ) -> dict[HebrewDate, list[Holiday]]:
         """Return a list of filtered holidays, based on type."""
-        filtered_holidays = self._instance_holidays
+        filtered_holidays = deepcopy(self._instance_holidays)
         if types:
             types = [types] if isinstance(types, HolidayTypes) else types
             filtered_holidays = {
