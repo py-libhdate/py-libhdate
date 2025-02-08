@@ -167,7 +167,7 @@ class HolidayDatabase:
 
         local = cls._diaspora_holidays if diaspora else cls._israel_holidays
         holiday_list = {
-            date: local[date] + cls._all_holidays[date]
+            date: cls._all_holidays[date] + local[date]
             for date in local.keys() | cls._all_holidays.keys()
         }
         result = {""}  # Empty string for case of no holiday
@@ -177,7 +177,7 @@ class HolidayDatabase:
                 continue
             for holiday in holidays:
                 holiday.set_language(language)
-            holiday_strs = sorted(set(str(holiday) for holiday in holidays))
+            holiday_strs = set(str(holiday) for holiday in holidays)
             result.add(", ".join(holiday_strs))
         return list(sorted(result))
 
