@@ -116,7 +116,7 @@ class HolidayDatabase:
             types = [types] if isinstance(types, HolidayTypes) else types
             filtered_holidays = {
                 _date: [holiday for holiday in holidays if holiday.type in types]
-                for _date, holidays in self._instance_holidays.items()
+                for _date, holidays in filtered_holidays.items()
                 if any(holiday.type in types for holiday in holidays)
             }
         return filtered_holidays
