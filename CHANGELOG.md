@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2 - 2025-02-10
+
+### 🐛 Bug Fixes
+
+* Fix entries of multiple holidays returning inconsistent ordering in HolidayDatabase.get_all_names() (#196) @tsvi
+
 ## 1.0.1 - 2025-02-06
 
 ### 💥 Breaking
