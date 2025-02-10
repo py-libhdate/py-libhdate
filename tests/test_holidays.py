@@ -12,6 +12,7 @@ from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months
 from hdate.holidays import HolidayDatabase
 from hdate.translator import Language
+from tests.conftest import valid_hebrew_date
 
 
 # Test against both a leap year and non-leap year
@@ -286,25 +287,25 @@ def test_get_all_holidays(language: Language, diaspora: str) -> None:
     """Test the method to get all the holiday descriptions in a specified language."""
 
     _diaspora = diaspora == "DIASPORA"
-    names = HolidayDatabase.get_all_names(language, _diaspora)
+    names = HolidayDatabase(_diaspora).get_all_names(language)
 
     expected = {
         "french": {
             "DIASPORA": {"Souccot II", "Pessah II"},
             "ISRAEL": {
-                "Fête de la Famille, Rosh Hodesh",
+                "Rosh Hodesh, Fête de la Famille",
                 "Shemini Atseret, Simhat Torah",
             },
             "": {"Yom Kippour", "Hanoukka, Rosh Hodesh", "Pourim", "Pessah"},
         },
         "hebrew": {
             "DIASPORA": {"שני של סוכות", "שני של פסח"},
-            "ISRAEL": {"יום המשפחה, ראש חודש", "שמחת תורה, שמיני עצרת"},
+            "ISRAEL": {"ראש חודש, יום המשפחה", "שמיני עצרת, שמחת תורה"},
             "": {"יום הכפורים", "חנוכה, ראש חודש", "פורים", "פסח"},
         },
         "english": {
             "DIASPORA": {"Sukkot II", "Pesach II"},
-            "ISRAEL": {"Family Day, Rosh Chodesh", "Shmini Atzeret, Simchat Torah"},
+            "ISRAEL": {"Rosh Chodesh, Family Day", "Shmini Atzeret, Simchat Torah"},
             "": {"Yom Kippur", "Chanukah, Rosh Chodesh", "Purim", "Pesach"},
         },
     }
@@ -312,3 +313,18 @@ def test_get_all_holidays(language: Language, diaspora: str) -> None:
     assert all(entry in names for entry in expected[language][""])
     assert all(entry in names for entry in expected[language][diaspora])
     assert all(item not in names for item in fake)
+
+
+@pytest.mark.parametrize(("diaspora"), (False, True))
+@pytest.mark.parametrize(("language"), typing.get_args(Language))
+@given(date=valid_hebrew_date())
+def test_all_in_get_names(date: HebrewDate, diaspora: bool, language: Language) -> None:
+    """Test that all holidays are actually returned by get_all_names()"""
+    holiday_db = HolidayDatabase(diaspora=diaspora)
+    next_date = holiday_db.lookup_next_holiday(date)
+    holidays = holiday_db.lookup(next_date)
+    for holiday in holidays:
+        holiday.set_language(language)
+    expected = ", ".join(str(holiday) for holiday in holidays)
+    all_names = holiday_db.get_all_names(language)
+    assert expected in all_names

@@ -111,12 +111,12 @@ class HolidayDatabase:
         self, types: Optional[Union[list[HolidayTypes], HolidayTypes]]
     ) -> dict[HebrewDate, list[Holiday]]:
         """Return a list of filtered holidays, based on type."""
-        filtered_holidays = self._instance_holidays
+        filtered_holidays = deepcopy(self._instance_holidays)
         if types:
             types = [types] if isinstance(types, HolidayTypes) else types
             filtered_holidays = {
                 _date: [holiday for holiday in holidays if holiday.type in types]
-                for _date, holidays in self._instance_holidays.items()
+                for _date, holidays in filtered_holidays.items()
                 if any(holiday.type in types for holiday in holidays)
             }
         return filtered_holidays
@@ -150,29 +150,27 @@ class HolidayDatabase:
     ) -> HebrewDate:
         """Lookup the next holiday for a given date (with optional type filter)."""
         filtered_holidays = self._get_filtered_holidays(types)
-        next_date_idx = bisect_left(list(filtered_holidays.keys()), date)
-        if next_date_idx == len(filtered_holidays.keys()):
+        valid_dates = [
+            _date
+            for _date in list(filtered_holidays.keys())
+            if _date.valid_for_year(date.year)
+        ]
+        next_date_idx = bisect_left(valid_dates, date)
+        if next_date_idx == len(valid_dates):
             return HebrewDate(year=date.year + 1)
-        next_date = list(filtered_holidays.keys())[next_date_idx]
+        next_date = valid_dates[next_date_idx]
         return next_date.replace(year=date.year)
 
-    @classmethod
-    def get_all_names(cls, language: Language, diaspora: bool) -> list[str]:
+    def get_all_names(self, language: Language) -> list[str]:
         """Return all the holiday names in a given language."""
-
-        local = cls._diaspora_holidays if diaspora else cls._israel_holidays
-        holiday_list = {
-            date: local[date] + cls._all_holidays[date]
-            for date in local.keys() | cls._all_holidays.keys()
-        }
         result = {""}  # Empty string for case of no holiday
-        for holidays in holiday_list.values():
+        for holidays in self._instance_holidays.values():
             holiday_names = {holiday.name for holiday in holidays}
             if {"yom_haatzmaut", "yom_hazikaron"} == holiday_names:
                 continue
             for holiday in holidays:
                 holiday.set_language(language)
-            holiday_strs = sorted(set(str(holiday) for holiday in holidays))
+            holiday_strs = list(dict.fromkeys(str(holiday) for holiday in holidays))
             result.add(", ".join(holiday_strs))
         return list(sorted(result))
 
