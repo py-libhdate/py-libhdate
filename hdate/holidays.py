@@ -170,7 +170,7 @@ class HolidayDatabase:
                 continue
             for holiday in holidays:
                 holiday.set_language(language)
-            holiday_strs = set(str(holiday) for holiday in holidays)
+            holiday_strs = list(dict.fromkeys(str(holiday) for holiday in holidays))
             result.add(", ".join(holiday_strs))
         return list(sorted(result))
 
