@@ -1,6 +1,7 @@
 """Tests for the HebrewDate class."""
 
 import datetime as dt
+from typing import Optional
 
 import pytest
 from hypothesis import assume, example, given, strategies
@@ -99,6 +100,19 @@ def test_months_order() -> None:
     assert Months.TEVET < Months.SHVAT < Months.ADAR < Months.NISAN < Months.IYYAR
     assert Months.IYYAR < Months.SIVAN < Months.TAMMUZ < Months.AV < Months.ELUL
     assert Months.SHVAT < Months.ADAR_I < Months.ADAR_II < Months.NISAN
+
+
+@pytest.mark.parametrize(
+    "month, expected",
+    [(Months.IYYAR, 29), (Months.TISHREI, 30), (Months.MARCHESHVAN, None)],
+)
+def test_get_months_days_no_year(month: Months, expected: Optional[int]) -> None:
+    """Call the days method on the months without the year value."""
+    if isinstance(expected, int):
+        assert month.days() == expected
+    else:
+        with pytest.raises(ValueError):
+            assert month.days() == expected
 
 
 @strategies.composite
