@@ -99,7 +99,7 @@ class Zmanim(TranslatorMixin):
         # Otherwise, if today is Friday or erev Yom Tov, return candle
         # lighting.
         if self.tomorrow.is_shabbat or self.tomorrow.is_yom_tov:
-            return self.sunset.local - dt.timedelta(minutes=self.candle_lighting_offset)
+            return self.shkia.local - dt.timedelta(minutes=self.candle_lighting_offset)
         return None
 
     @property
@@ -108,7 +108,7 @@ class Zmanim(TranslatorMixin):
         if self.havdalah_offset == 0:
             return self.tset_hakohavim_shabbat.local
         # Otherwise, use the offset.
-        return self.sunset.local + dt.timedelta(minutes=self.havdalah_offset)
+        return self.shkia.local + dt.timedelta(minutes=self.havdalah_offset)
 
     @property
     def havdalah(self) -> Optional[dt.datetime]:
@@ -321,22 +321,22 @@ class Zmanim(TranslatorMixin):
         _zmanim = {
             "alot_hashachar": first_light,
             "talit_and_tefillin": talit,
-            "sunrise": sunrise,
+            "netz_hachama": sunrise,
             "sof_zman_shema_mga": first_light + mga_sunhour * 3.0,
             "sof_zman_shema_gra": sunrise + sun_hour * 3.0,
             "sof_zman_tfilla_mga": first_light + mga_sunhour * 4.0,
             "sof_zman_tfilla_gra": sunrise + sun_hour * 4.0,
-            "chatsot": midday,
+            "chatzot_hayom": midday,
             "mincha_gedola": sunrise + 6.5 * sun_hour,
             "mincha_gedola_30min": midday + 30,
             "mincha_ketana": sunrise + 9.5 * sun_hour,
-            "plag_mincha": sunset - 1.25 * sun_hour,
-            "sunset": sunset,
+            "plag_hamincha": sunset - 1.25 * sun_hour,
+            "shkia": sunset,
             "tset_hakohavim_tsom": first_stars,
             "tset_hakohavim_shabbat": three_stars,
             "tset_hakohavim": sunset + 18.0 * sun_hour / 60.0,
             "tset_hakohavim_rabeinu_tam": sunset + sun_hour * 1.2,
-            "chatsot_layla": midday + 12 * 60.0,
+            "chatzot_halayla": midday + 12 * 60.0,
         }
 
         return {key: make_zman(key, time) for key, time in _zmanim.items()}

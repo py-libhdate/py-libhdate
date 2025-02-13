@@ -115,7 +115,7 @@ To get a list of the supported zmanim, you'll want to inspect the keys returned 
 .. code:: python
 
     >>> zmanim.zmanim.keys()
-    dict_keys(['alot_hashachar', 'talit_and_tefillin', 'sunrise', ...
+    dict_keys(['alot_hashachar', 'talit_and_tefillin', 'netz_hachama', ...
 
 You can also get a nice printout by calling ``str`` on the ``Zmanim`` object.
 

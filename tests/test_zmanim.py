@@ -71,7 +71,7 @@ def test_extreme_zmanim(location: Location, result: dt.time) -> None:
     """Test that Zmanim north to 50 degrees latitude is correct."""
     day = dt.date(2024, 6, 18)
     compare_times(
-        Zmanim(date=day, location=location).sunset.local.time(), result, grace=5
+        Zmanim(date=day, location=location).shkia.local.time(), result, grace=5
     )
 
 
@@ -234,5 +234,11 @@ def test_non_existing_attribute(name: str) -> None:
 
 def test_attributes_in_dir() -> None:
     """Test that Zmanim attributes are in the dir."""
-    keys = {"alot_hashachar", "sunrise", "plag_mincha", "sunset", "tset_hakohavim"}
+    keys = {
+        "alot_hashachar",
+        "netz_hachama",
+        "plag_hamincha",
+        "shkia",
+        "tset_hakohavim",
+    }
     assert keys.issubset(set(dir(Zmanim())))
