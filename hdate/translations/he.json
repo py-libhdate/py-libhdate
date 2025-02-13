@@ -100,22 +100,22 @@
     "Zman": {
         "alot_hashachar": "עלות השחר",
         "talit_and_tefillin": "זמן טלית ותפילין",
-        "sunrise": "הנץ החמה",
+        "netz_hachama": "הנץ החמה",
         "sof_zman_shema_mga": "סוף זמן ק\"ש מג\"א",
         "sof_zman_shema_gra": "סוף זמן ק\"ש גר\"א",
         "sof_zman_tfilla_mga": "סוף זמן תפילה מג\"א",
         "sof_zman_tfilla_gra": "סוף זמן תפילה גר\"א",
-        "chatsot": "חצות היום",
+        "chatzot_hayom": "חצות היום",
         "mincha_gedola": "מנחה גדולה",
         "mincha_gedola_30min": "מנחה גדולה 30 דק",
         "mincha_ketana": "מנחה קטנה",
-        "plag_mincha": "פלג המנחה",
-        "sunset": "שקיעה",
+        "plag_hamincha": "פלג המנחה",
+        "shkia": "שקיעה",
         "tset_hakohavim_tsom": "מוצאי צום",
         "tset_hakohavim_shabbat": "מוצאי שבת",
         "tset_hakohavim": "צאת הכוכבים (18 דק)",
         "tset_hakohavim_rabeinu_tam": "לילה לרבנו תם",
-        "chatsot_layla": "חצות הלילה"
+        "chatzot_halayla": "חצות הלילה"
     },
     "Parasha": {
         "none": "none",

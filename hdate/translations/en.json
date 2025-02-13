@@ -100,22 +100,22 @@
     "Zman": {
         "alot_hashachar": "Alot HaShachar",
         "talit_and_tefillin": "Talit & Tefilin's time",
-        "sunrise": "Sunrise",
+        "netz_hachama": "Sunrise",
         "sof_zman_shema_mga": "Shema EOT MG\"A",
         "sof_zman_shema_gra": "Shema EOT GR\"A",
         "sof_zman_tfilla_mga": "Tefila EOT MG\"A",
         "sof_zman_tfilla_gra": "Tefila EOT GR\"A",
-        "chatsot": "Midday",
+        "chatzot_hayom": "Midday",
         "mincha_gedola": "Big Mincha",
         "mincha_gedola_30min": "Big Mincha 30 min",
         "mincha_ketana": "Small Mincha",
-        "plag_mincha": "Plag Mincha",
-        "sunset": "Sunset",
+        "plag_hamincha": "Plag Mincha",
+        "shkia": "Sunset",
         "tset_hakohavim_tsom": "End of fast",
         "tset_hakohavim_shabbat": "End of Shabbat",
         "tset_hakohavim": "Tset Hakochavim (18 minutes)",
         "tset_hakohavim_rabeinu_tam": "Night by Rabbeinu Tam",
-        "chatsot_layla": "Midnight"
+        "chatzot_halayla": "Midnight"
     },
     "Parasha": {
         "none": "none",
