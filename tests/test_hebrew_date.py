@@ -115,6 +115,15 @@ def test_get_months_days_no_year(month: Months, expected: Optional[int]) -> None
             assert month.days() == expected
 
 
+@given(strategies.integers(min_value=1, max_value=14))
+def test_date_assign_int_months(value: int) -> None:
+    """Test that assignment of an integet to Monts works as expected."""
+    date = HebrewDate(month=value)  # type: ignore
+    month = Months(value)  # type: ignore  # pylint: disable=E1120
+    assert date == HebrewDate(month=month)
+    assert isinstance(date.month, Months)
+
+
 @strategies.composite
 def relative_hebrew_date(draw: strategies.DrawFn) -> HebrewDate:
     """Generate a Hebrew date with no year."""
