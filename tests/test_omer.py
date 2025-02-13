@@ -1,5 +1,6 @@
 """Tests relating to Sefirat HaOmer."""
 
+import datetime as dt
 import typing
 
 import pytest
@@ -21,6 +22,10 @@ def test_get_omer(
     """Test the value returned by calculating the Omer."""
     for omer_day in range(50):
         omer = Omer(total_days=omer_day, language=language, nusach=nusach)
+        if omer_day != 0:
+            assert isinstance(omer.date, HebrewDate)
+            assert omer.date >= HebrewDate(0, Months.NISAN, 16)
+            assert omer.date <= HebrewDate(0, Months.SIVAN, 5)
         assert omer.count_str() == snapshot
 
 
@@ -57,3 +62,46 @@ def test_invalid_omer_day(date: HebrewDate) -> None:
     """Test invalid value of the Omer."""
     omer = HDateInfo(date).omer
     assert omer is None
+
+
+@given(
+    weeks=strategies.integers(min_value=0, max_value=6),
+    day=strategies.integers(min_value=1, max_value=7),
+)
+def test_omer_by_week_and_day(weeks: int, day: int) -> None:
+    """Test Omer by week and day."""
+    omer = Omer(week=weeks, day=day)
+    assert isinstance(omer.date, HebrewDate)
+    assert omer.date >= HebrewDate(0, Months.NISAN, 16)
+    assert omer.date <= HebrewDate(0, Months.SIVAN, 5)
+    assert omer.total_days == weeks * 7 + day
+    assert omer.date == HebrewDate(0, Months.NISAN, 16) + dt.timedelta(
+        days=omer.total_days - 1
+    )
+
+
+@given(
+    weeks=strategies.one_of(
+        strategies.integers(max_value=-1), strategies.integers(min_value=7)
+    ),
+    day=strategies.one_of(
+        strategies.integers(max_value=-1), strategies.integers(min_value=8)
+    ),
+)
+def test_omer_bad_week_and_day(weeks: int, day: int) -> None:
+    """Test omer with bad week and day values."""
+    with pytest.raises(ValueError):
+        _ = Omer(week=weeks, day=day)
+
+
+def test_omer_no_date() -> None:
+    """Test Omer with no date (week = 0 and day = 0)."""
+    omer = Omer(week=0, day=0)
+    assert omer.date is None
+
+
+def test_omer_str(snapshot: SnapshotAssertion) -> None:
+    """Test the string representation of the Omer."""
+    assert str(Omer(total_days=0)) == snapshot
+    assert str(Omer(total_days=25)) == snapshot
+    assert str(Omer(total_days=25, nusach=Nusach.ASHKENAZ)) == snapshot

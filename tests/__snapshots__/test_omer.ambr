@@ -1799,3 +1799,12 @@
 # name: test_get_omer[hebrew-Nusach.SFARAD].9
   'היום תשעה ימים שהם שבוע אחד ושני ימים לעומר'
 # ---
+# name: test_omer_str
+  ''
+# ---
+# name: test_omer_str.1
+  'כ"ה לעומר'
+# ---
+# name: test_omer_str.2
+  'כ"ה בעומר'
+# ---
