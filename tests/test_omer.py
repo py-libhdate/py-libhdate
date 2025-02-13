@@ -1,5 +1,6 @@
 """Tests relating to Sefirat HaOmer."""
 
+import datetime as dt
 import typing
 
 import pytest
@@ -57,3 +58,23 @@ def test_invalid_omer_day(date: HebrewDate) -> None:
     """Test invalid value of the Omer."""
     omer = HDateInfo(date).omer
     assert omer is None
+
+
+@given(
+    weeks=strategies.integers(min_value=0, max_value=6),
+    day=strategies.integers(min_value=1, max_value=7),
+)
+def test_omer_by_week_and_day(weeks: int, day: int) -> None:
+    """Test Omer by week and day."""
+    omer = Omer(week=weeks, day=day)
+    assert omer.total_days == weeks * 7 + day
+    assert omer.date == HebrewDate(0, Months.NISAN, 16) + dt.timedelta(
+        days=omer.total_days - 1
+    )
+
+
+def test_omer_str(snapshot: SnapshotAssertion) -> None:
+    """Test the string representation of the Omer."""
+    assert str(Omer(total_days=0)) == snapshot
+    assert str(Omer(total_days=25)) == snapshot
+    assert str(Omer(total_days=25, nusach=Nusach.ASHKENAZ)) == snapshot

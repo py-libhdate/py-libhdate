@@ -51,17 +51,17 @@ class Omer(TranslatorMixin):
                 self.total_days = (self.date - first_omer_day).days + 1
                 self.week, self.day = divmod(self.total_days, 7)
         elif self.total_days > 0:
-            self.date = first_omer_day + timedelta(days=self.total_days + 1)
+            self.date = first_omer_day + timedelta(days=self.total_days - 1)
             self.week, self.day = divmod(self.total_days, 7)
         else:
             self.total_days = self.week * 7 + self.day
-            self.date = first_omer_day + timedelta(days=self.total_days + 1)
+            self.date = first_omer_day + timedelta(days=self.total_days - 1)
 
     def __str__(self) -> str:
         if self.total_days == 0:
             return ""
         if self.nusach == Nusach.ASHKENAZ:
-            suffix = self.get_translation(f"in_omer_{self.nusach}")
+            suffix = self.get_translation(f"in_omer_{self.nusach.name}")
         else:
             suffix = self.get_translation("in_omer")
         return f"{hebrew_number(self.total_days)} {suffix}"
