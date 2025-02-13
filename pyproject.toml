@@ -31,6 +31,12 @@ astral = [
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
 
+[tool.coverage.report]
+exclude_also = [
+    "return NotImplemented",  # Don't force checking of not implemented return values
+    "if TYPE_CHECKING:",      # Don't complain on type checking blocks
+]
+
 [tool.isort]
 profile = "black"
 
