@@ -1,6 +1,8 @@
 """Tests dealing with parshat hashavua."""
 
 import datetime as dt
+from enum import Enum
+from typing import Optional
 
 import pytest
 from hypothesis import given, settings, strategies
@@ -8,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months
-from hdate.parasha import Parasha
+from hdate.parasha import Parasha, erange
 
 YEAR_TYPES = [
     # שנים מעוברות
@@ -101,3 +103,24 @@ def test_last_week_of_the_year() -> None:
     mydate = HDateInfo()
     mydate.hdate = HebrewDate(5779, Months.ELUL, 29)
     assert mydate.parasha == Parasha.VAYEILECH
+
+
+@pytest.mark.parametrize(
+    "_from, _to, _expected",
+    [
+        (
+            Parasha.BERESHIT,
+            Parasha.LECH_LECHA,
+            [Parasha.BERESHIT, Parasha.NOACH, Parasha.LECH_LECHA],
+        ),
+        (Months.ELUL, Months.MARCHESHVAN, []),  # Elul is after Marcheshvan
+        (Parasha.BAMIDBAR, Months.ADAR, None),
+    ],
+)
+def test_erange(_from: Enum, _to: Enum, _expected: Optional[list[Enum]]) -> None:
+    """Test the erange function."""
+    if not isinstance(_from, type(_to)):
+        with pytest.raises(TypeError):
+            erange(_from, _to)
+        return
+    assert erange(_from, _to) == _expected
