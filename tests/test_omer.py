@@ -22,6 +22,10 @@ def test_get_omer(
     """Test the value returned by calculating the Omer."""
     for omer_day in range(50):
         omer = Omer(total_days=omer_day, language=language, nusach=nusach)
+        if omer_day != 0:
+            assert isinstance(omer.date, HebrewDate)
+            assert omer.date >= HebrewDate(0, Months.NISAN, 16)
+            assert omer.date <= HebrewDate(0, Months.SIVAN, 5)
         assert omer.count_str() == snapshot
 
 
@@ -67,6 +71,9 @@ def test_invalid_omer_day(date: HebrewDate) -> None:
 def test_omer_by_week_and_day(weeks: int, day: int) -> None:
     """Test Omer by week and day."""
     omer = Omer(week=weeks, day=day)
+    assert isinstance(omer.date, HebrewDate)
+    assert omer.date >= HebrewDate(0, Months.NISAN, 16)
+    assert omer.date <= HebrewDate(0, Months.SIVAN, 5)
     assert omer.total_days == weeks * 7 + day
     assert omer.date == HebrewDate(0, Months.NISAN, 16) + dt.timedelta(
         days=omer.total_days - 1
