@@ -98,7 +98,7 @@ class HolidayDatabase:
         """Lookup the holidays for a given date."""
         if all(_date != date for _date in self._instance_holidays):
             return []
-        holidays = self._instance_holidays[date]
+        holidays = self._instance_holidays[date.replace(year=0)]
         return [
             holiday
             for holiday in holidays
