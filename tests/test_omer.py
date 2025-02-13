@@ -80,6 +80,26 @@ def test_omer_by_week_and_day(weeks: int, day: int) -> None:
     )
 
 
+@given(
+    weeks=strategies.one_of(
+        strategies.integers(max_value=-1), strategies.integers(min_value=7)
+    ),
+    day=strategies.one_of(
+        strategies.integers(max_value=-1), strategies.integers(min_value=8)
+    ),
+)
+def test_omer_bad_week_and_day(weeks: int, day: int) -> None:
+    """Test omer with bad week and day values."""
+    with pytest.raises(ValueError):
+        _ = Omer(week=weeks, day=day)
+
+
+def test_omer_no_date() -> None:
+    """Test Omer with no date (week = 0 and day = 0)."""
+    omer = Omer(week=0, day=0)
+    assert omer.date is None
+
+
 def test_omer_str(snapshot: SnapshotAssertion) -> None:
     """Test the string representation of the Omer."""
     assert str(Omer(total_days=0)) == snapshot
