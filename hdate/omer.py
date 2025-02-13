@@ -37,12 +37,10 @@ class Omer(TranslatorMixin):
         super().__post_init__()
         if self.date is None and self.total_days == self.day == self.week == 0:
             return
-        if self.total_days not in range(0, 50):
+        if self.total_days not in range(50):
             raise ValueError("Invalid Omer day (if not counting, set to 0)")
-        if self.week not in range(0, 7):
-            raise ValueError("Invalid Omer week (if not counting, set to 0)")
-        if self.day not in range(0, 8):
-            raise ValueError("Invalid Omer day of week (if not counting, set to 0)")
+        if self.week not in range(7) or self.day not in range(8):
+            raise ValueError(f"Invalid Omer day ({self.day}) or week ({self.week})")
         first_omer_day = HebrewDate(month=Months.NISAN, day=16)
         last_omer_day = HebrewDate(month=Months.SIVAN, day=5)
         if self.date:
