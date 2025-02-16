@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.3 - 2025-02-16
+
+* Finish updating Zmanim nomenclature (#198) @tsvi
+
+### 🐛 Bug Fixes
+
+* Improve coverage (#199) @tsvi
+
 ## 1.0.2 - 2025-02-10
 
 ### 🐛 Bug Fixes
