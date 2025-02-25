@@ -37,6 +37,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
     def __post_init__(self) -> None:
         # Initialize private variables
         self._last_updated = ""
+        self._holidays = HolidayDatabase(self.diaspora)
 
         if isinstance(self.date, dt.date):
             self.gdate = self.date
@@ -116,7 +117,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
     @property
     def holidays(self) -> list[Holiday]:
         """Return the abstract holiday information from holidays table."""
-        holidays_list = HolidayDatabase(diaspora=self.diaspora).lookup(self.hdate)
+        holidays_list = self._holidays.lookup(self.hdate)
 
         for holiday in holidays_list:
             holiday.set_language(self.language)
@@ -186,8 +187,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         if self.is_yom_tov:
             return self
 
-        mgr = HolidayDatabase(diaspora=self.diaspora)
-        date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
+        date = self._holidays.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
 
         return HDateInfo(date, self.diaspora, self.language)
 
