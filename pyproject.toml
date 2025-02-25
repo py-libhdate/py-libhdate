@@ -42,6 +42,9 @@ profile = "black"
 
 [tool.pylint.format]
 max-line-length = "88"
+ignore = [
+    "C0301",  # line too long - handled by black
+]
 
 [tool.pytest.ini_options]
 # Show summary output for all types of failures
@@ -52,12 +55,13 @@ addopts = "-ra --doctest-modules --doctest-glob=*.rst -n auto --timeout=300"
 [dependency-groups]
 dev = [
     "tox>=4.24.1",
+    "tox-pdm>=0.7.2",
+    "flake8>=7.1.1",
+    "flake8-bugbear>=24.12.12",
     "pylint>=3.3.4",
     "isort>=6.0.0",
     "black>=25.1.0",
-    "tox-pdm>=0.7.2",
     "pre-commit>=4.1.0",
-    "flake8>=7.1.1",
     "mypy>=1.14.1",
 ]
 test = [
