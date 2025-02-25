@@ -209,12 +209,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
     @property
     def upcoming_erev_shabbat_or_erev_yom_tov(self) -> HDateInfo:
         """Return the HDateInfo for upcoming or current Erev Shabbat or Erev Yom Tov."""
-        if self in (self.upcoming_erev_shabbat, self.upcoming_erev_yom_tov):
-            return self
-
-        if self.upcoming_erev_yom_tov.gdate < self.upcoming_erev_shabbat.gdate:
-            return self.upcoming_erev_yom_tov
-        return self.upcoming_erev_shabbat
+        return self.upcoming_shabbat_or_yom_tov.previous_day
 
     @property
     def first_day(self) -> HDateInfo:
