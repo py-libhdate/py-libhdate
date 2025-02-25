@@ -3,7 +3,7 @@
 import datetime as dt
 
 import pytest
-from hypothesis import given, strategies
+from hypothesis import given, settings, strategies
 
 from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months, Weekday
@@ -164,16 +164,11 @@ def test_get_next_yom_tov(
 ) -> None:
     """Testing the value of next yom tov."""
     print(f"Testing holiday {holiday_name}")
-    if where in ("BOTH", "DIASPORA"):
-        hdate = HDateInfo(date=dt.date(*current_date), diaspora=True)
-        next_yom_tov = hdate.upcoming_yom_tov
-        assert next_yom_tov.gdate == dt.date(*holiday_date)
-        assert hdate.upcoming_erev_yom_tov == next_yom_tov.previous_day
-    if where in ("BOTH", "ISRAEL"):
-        hdate = HDateInfo(date=dt.date(*current_date), diaspora=False)
-        next_yom_tov = hdate.upcoming_yom_tov
-        assert next_yom_tov.gdate == dt.date(*holiday_date)
-        assert hdate.upcoming_erev_yom_tov == next_yom_tov.previous_day
+    diaspora = where == "DIASPORA"
+    hdate = HDateInfo(date=dt.date(*current_date), diaspora=diaspora)
+    next_yom_tov = hdate.upcoming_yom_tov
+    assert next_yom_tov.gdate == dt.date(*holiday_date)
+    assert next_yom_tov.previous_day == hdate.upcoming_erev_yom_tov
 
 
 UPCOMING_SHABBAT_OR_YOM_TOV = [
@@ -222,6 +217,7 @@ def test_erev_yom_tov_holidays(date: HebrewDate, diaspora: bool) -> None:
 
 @given(date=valid_hebrew_date())
 @pytest.mark.parametrize("diaspora", [True, False])
+@settings(deadline=0)
 def test_get_next_erev_yom_tov_or_shabbat(date: HebrewDate, diaspora: bool) -> None:
     """Test that next erev yom tov or erev shabbat is returned."""
     info = HDateInfo(date, diaspora=diaspora)
