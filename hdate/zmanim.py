@@ -136,7 +136,7 @@ class Zmanim(TranslatorMixin):
             time = time.replace(tzinfo=cast(dt.tzinfo, self.location.timezone))
         return time
 
-    def issur_melacha_in_effect(self, time: dt.datetime = dt.datetime.now()) -> bool:
+    def issur_melacha_in_effect(self, time: dt.datetime) -> bool:
         """At the given time, return whether issur melacha is in effect."""
         _time = self._timezone_aware(time)
         if (self.today.is_shabbat or self.today.is_yom_tov) and (
@@ -158,7 +158,7 @@ class Zmanim(TranslatorMixin):
 
         return False
 
-    def erev_shabbat_chag(self, time: dt.datetime = dt.datetime.now()) -> bool:
+    def erev_shabbat_chag(self, time: dt.datetime) -> bool:
         """At the given time, return whether erev shabbat or chag"""
         _time = self._timezone_aware(time)
         if self.candle_lighting is None:  # No need to check further
@@ -173,7 +173,7 @@ class Zmanim(TranslatorMixin):
 
         return False
 
-    def motzei_shabbat_chag(self, time: dt.datetime = dt.datetime.now()) -> bool:
+    def motzei_shabbat_chag(self, time: dt.datetime) -> bool:
         """At the given time, return whether motzei shabbat or chag"""
         _time = self._timezone_aware(time)
         if self.havdalah is None:  # If there's no havdala, no need to check further
