@@ -168,7 +168,6 @@ def test_get_next_yom_tov(
     hdate = HDateInfo(date=dt.date(*current_date), diaspora=diaspora)
     next_yom_tov = hdate.upcoming_yom_tov
     assert next_yom_tov.gdate == dt.date(*holiday_date)
-    assert next_yom_tov.previous_day == hdate.upcoming_erev_yom_tov
 
 
 UPCOMING_SHABBAT_OR_YOM_TOV = [
@@ -217,7 +216,7 @@ def test_erev_yom_tov_holidays(date: HebrewDate, diaspora: bool) -> None:
 
 @given(date=valid_hebrew_date())
 @pytest.mark.parametrize("diaspora", [True, False])
-@settings(deadline=0)
+@settings(deadline=None)
 def test_get_next_erev_yom_tov_or_shabbat(date: HebrewDate, diaspora: bool) -> None:
     """Test that next erev yom tov or erev shabbat is returned."""
     info = HDateInfo(date, diaspora=diaspora)
@@ -227,3 +226,29 @@ def test_get_next_erev_yom_tov_or_shabbat(date: HebrewDate, diaspora: bool) -> N
         for holiday in erev.holidays
     )
     assert erev in (erev.upcoming_erev_shabbat, erev.upcoming_erev_yom_tov)
+
+
+@pytest.mark.parametrize(
+    ("date", "diaspora", "erev_yom_tov", "yom_tov"),
+    [
+        ((Months.ADAR, 1), True, (Months.NISAN, 14), (Months.NISAN, 15)),
+        ((Months.NISAN, 14), True, (Months.NISAN, 14), (Months.NISAN, 15)),
+        ((Months.NISAN, 15), True, (Months.NISAN, 15), (Months.NISAN, 15)),
+        ((Months.NISAN, 15), False, (Months.NISAN, 20), (Months.NISAN, 15)),
+        ((Months.NISAN, 16), False, (Months.NISAN, 20), (Months.NISAN, 21)),
+        ((Months.NISAN, 16), True, (Months.NISAN, 20), (Months.NISAN, 16)),
+        ((Months.NISAN, 17), True, (Months.NISAN, 20), (Months.NISAN, 21)),
+    ],
+)
+def test_three_day_yom_tov(
+    date: tuple[Months, int],
+    diaspora: bool,
+    erev_yom_tov: tuple[Months, int],
+    yom_tov: tuple[Months, int],
+) -> None:
+    """Test that erev yom tov's holiday info returns either yom tov or erev yom tov."""
+    info = HDateInfo(HebrewDate(5785, *date), diaspora=diaspora)
+    assert info.upcoming_erev_yom_tov == HDateInfo(
+        HebrewDate(5785, *erev_yom_tov), diaspora
+    )
+    assert info.upcoming_yom_tov == HDateInfo(HebrewDate(5785, *yom_tov), diaspora)

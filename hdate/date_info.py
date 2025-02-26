@@ -42,6 +42,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         if isinstance(self.date, dt.date):
             self.gdate = self.date
             self._hdate = HebrewDate.from_gdate(self.date)
+            self.date = self._hdate  # Replace self.date so comparison always works
         elif isinstance(self.date, HebrewDate):
             self.hdate = self.date
             self._gdate = self.date.to_gdate()
@@ -194,6 +195,10 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
     @property
     def upcoming_erev_yom_tov(self) -> HDateInfo:
         """Return the HDateInfo for the upcoming or current Erev Yom Tov."""
+        if self.next_day.is_yom_tov:
+            return self
+        if self.is_yom_tov:  # Tomorrow is not yom tov, get next erev yom tov
+            return self.next_day.upcoming_erev_yom_tov
         return self.upcoming_yom_tov.previous_day
 
     @property
