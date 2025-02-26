@@ -37,10 +37,12 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
     def __post_init__(self) -> None:
         # Initialize private variables
         self._last_updated = ""
+        self._holidays = HolidayDatabase(self.diaspora)
 
         if isinstance(self.date, dt.date):
             self.gdate = self.date
             self._hdate = HebrewDate.from_gdate(self.date)
+            self.date = self._hdate  # Replace self.date so comparison always works
         elif isinstance(self.date, HebrewDate):
             self.hdate = self.date
             self._gdate = self.date.to_gdate()
@@ -116,7 +118,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
     @property
     def holidays(self) -> list[Holiday]:
         """Return the abstract holiday information from holidays table."""
-        holidays_list = HolidayDatabase(diaspora=self.diaspora).lookup(self.hdate)
+        holidays_list = self._holidays.lookup(self.hdate)
 
         for holiday in holidays_list:
             holiday.set_language(self.language)
@@ -176,15 +178,28 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         return HDateInfo(next_shabbat, diaspora=self.diaspora, language=self.language)
 
     @property
+    def upcoming_erev_shabbat(self) -> HDateInfo:
+        """Return the HDateInfo for the upcoming or current Erev Shabbat (Friday)."""
+        return self.upcoming_shabbat.previous_day
+
+    @property
     def upcoming_yom_tov(self) -> HDateInfo:
         """Return the HDateInfo for the upcoming or current Yom Tov."""
         if self.is_yom_tov:
             return self
 
-        mgr = HolidayDatabase(diaspora=self.diaspora)
-        date = mgr.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
+        date = self._holidays.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
 
         return HDateInfo(date, self.diaspora, self.language)
+
+    @property
+    def upcoming_erev_yom_tov(self) -> HDateInfo:
+        """Return the HDateInfo for the upcoming or current Erev Yom Tov."""
+        if self.next_day.is_yom_tov:
+            return self
+        if self.is_yom_tov:  # Tomorrow is not yom tov, get next erev yom tov
+            return self.next_day.upcoming_erev_yom_tov
+        return self.upcoming_yom_tov.previous_day
 
     @property
     def upcoming_shabbat_or_yom_tov(self) -> HDateInfo:
@@ -195,6 +210,11 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         if self.upcoming_yom_tov.gdate < self.upcoming_shabbat.gdate:
             return self.upcoming_yom_tov
         return self.upcoming_shabbat
+
+    @property
+    def upcoming_erev_shabbat_or_erev_yom_tov(self) -> HDateInfo:
+        """Return the HDateInfo for upcoming or current Erev Shabbat or Erev Yom Tov."""
+        return self.upcoming_shabbat_or_yom_tov.previous_day
 
     @property
     def first_day(self) -> HDateInfo:

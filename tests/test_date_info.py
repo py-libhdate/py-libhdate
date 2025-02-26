@@ -3,10 +3,12 @@
 import datetime as dt
 
 import pytest
-from hypothesis import given, strategies
+from hypothesis import given, settings, strategies
 
 from hdate import HDateInfo, HebrewDate
-from hdate.hebrew_date import Months
+from hdate.hebrew_date import Months, Weekday
+from hdate.holidays import HolidayTypes
+from tests.conftest import valid_hebrew_date
 
 HEBREW_YEARS_INFO = {
     # year, dow rosh hashana, length, dow pesach
@@ -123,16 +125,14 @@ class TestHDate:
         assert date.hdate == HebrewDate(*hebrew_date)
         next_shabbat = date.upcoming_shabbat
         assert next_shabbat.gdate == dt.date(*shabbat_date)
+        assert date.upcoming_erev_shabbat.gdate == next_shabbat.gdate - dt.timedelta(1)
 
     @given(date=strategies.dates())
     def test_prev_and_next_day(self, date: dt.date) -> None:
         """Check the previous and next day attributes."""
-        assert (
-            HDateInfo(date).previous_day.gdate - HDateInfo(date).gdate
-        ) == dt.timedelta(-1)
-        assert (HDateInfo(date).next_day.gdate - HDateInfo(date).gdate) == dt.timedelta(
-            1
-        )
+        info = HDateInfo(date)
+        assert (info.previous_day.gdate - info.gdate) == dt.timedelta(-1)
+        assert (info.next_day.gdate - info.gdate) == dt.timedelta(1)
 
 
 UPCOMING_HOLIDAYS = [
@@ -164,14 +164,10 @@ def test_get_next_yom_tov(
 ) -> None:
     """Testing the value of next yom tov."""
     print(f"Testing holiday {holiday_name}")
-    if where in ("BOTH", "DIASPORA"):
-        hdate = HDateInfo(date=dt.date(*current_date), diaspora=True)
-        next_yom_tov = hdate.upcoming_yom_tov
-        assert next_yom_tov.gdate == dt.date(*holiday_date)
-    if where in ("BOTH", "ISRAEL"):
-        hdate = HDateInfo(date=dt.date(*current_date), diaspora=False)
-        next_yom_tov = hdate.upcoming_yom_tov
-        assert next_yom_tov.gdate == dt.date(*holiday_date)
+    diaspora = where == "DIASPORA"
+    hdate = HDateInfo(date=dt.date(*current_date), diaspora=diaspora)
+    next_yom_tov = hdate.upcoming_yom_tov
+    assert next_yom_tov.gdate == dt.date(*holiday_date)
 
 
 UPCOMING_SHABBAT_OR_YOM_TOV = [
@@ -204,3 +200,55 @@ def test_get_next_shabbat_or_yom_tov(
     date = HDateInfo(date=dt.date(*current_date), diaspora=diaspora)
     assert date.upcoming_shabbat_or_yom_tov.first_day.gdate == dt.date(*dates["start"])
     assert date.upcoming_shabbat_or_yom_tov.last_day.gdate == dt.date(*dates["end"])
+
+
+@given(date=valid_hebrew_date())
+@pytest.mark.parametrize("diaspora", [True, False])
+def test_erev_yom_tov_holidays(date: HebrewDate, diaspora: bool) -> None:
+    """Test that erev yom tov's holiday info returns either yom tov or erev yom tov."""
+    info = HDateInfo(date, diaspora=diaspora)
+    erev_yom_tov = info.upcoming_erev_yom_tov
+    assert any(
+        holiday.type in (HolidayTypes.YOM_TOV, HolidayTypes.EREV_YOM_TOV)
+        for holiday in erev_yom_tov.holidays
+    )
+
+
+@given(date=valid_hebrew_date())
+@pytest.mark.parametrize("diaspora", [True, False])
+@settings(deadline=None)
+def test_get_next_erev_yom_tov_or_shabbat(date: HebrewDate, diaspora: bool) -> None:
+    """Test that next erev yom tov or erev shabbat is returned."""
+    info = HDateInfo(date, diaspora=diaspora)
+    erev = info.upcoming_erev_shabbat_or_erev_yom_tov
+    assert (erev.hdate.dow() == Weekday.FRIDAY) or any(
+        holiday.type in (HolidayTypes.YOM_TOV, HolidayTypes.EREV_YOM_TOV)
+        for holiday in erev.holidays
+    )
+    assert erev in (erev.upcoming_erev_shabbat, erev.upcoming_erev_yom_tov)
+
+
+@pytest.mark.parametrize(
+    ("date", "diaspora", "erev_yom_tov", "yom_tov"),
+    [
+        ((Months.ADAR, 1), True, (Months.NISAN, 14), (Months.NISAN, 15)),
+        ((Months.NISAN, 14), True, (Months.NISAN, 14), (Months.NISAN, 15)),
+        ((Months.NISAN, 15), True, (Months.NISAN, 15), (Months.NISAN, 15)),
+        ((Months.NISAN, 15), False, (Months.NISAN, 20), (Months.NISAN, 15)),
+        ((Months.NISAN, 16), False, (Months.NISAN, 20), (Months.NISAN, 21)),
+        ((Months.NISAN, 16), True, (Months.NISAN, 20), (Months.NISAN, 16)),
+        ((Months.NISAN, 17), True, (Months.NISAN, 20), (Months.NISAN, 21)),
+    ],
+)
+def test_three_day_yom_tov(
+    date: tuple[Months, int],
+    diaspora: bool,
+    erev_yom_tov: tuple[Months, int],
+    yom_tov: tuple[Months, int],
+) -> None:
+    """Test that erev yom tov's holiday info returns either yom tov or erev yom tov."""
+    info = HDateInfo(HebrewDate(5785, *date), diaspora=diaspora)
+    assert info.upcoming_erev_yom_tov == HDateInfo(
+        HebrewDate(5785, *erev_yom_tov), diaspora
+    )
+    assert info.upcoming_yom_tov == HDateInfo(HebrewDate(5785, *yom_tov), diaspora)

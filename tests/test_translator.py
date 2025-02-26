@@ -49,7 +49,7 @@ def test_str_without_name() -> None:
             super().__init__()
 
     foo_class = Foo()
-    assert getattr(foo_class, "_language") == "hebrew"
+    assert foo_class._language == "hebrew"  # pylint: disable=protected-access
     with pytest.raises(NameError):
         str(foo_class)
 
