@@ -1,11 +1,13 @@
 """Test HDateInfo objects."""
 
 import datetime as dt
+import typing
 
 import pytest
 from hypothesis import given, settings, strategies
 
 from hdate import HDateInfo, HebrewDate
+from hdate.date_info import IsraelDiasporaT
 from hdate.hebrew_date import Months, Weekday
 from hdate.holidays import HolidayTypes
 from tests.conftest import valid_hebrew_date
@@ -136,20 +138,20 @@ class TestHDate:
 
 
 UPCOMING_HOLIDAYS = [
-    ((2018, 8, 8), (2018, 9, 10), "rosh_hashana_i", "BOTH"),
-    ((2018, 9, 8), (2018, 9, 10), "rosh_hashana_i", "BOTH"),
-    ((2018, 9, 10), (2018, 9, 10), "rosh_hashana_i", "BOTH"),
-    ((2018, 9, 11), (2018, 9, 11), "rosh_hashana_ii", "BOTH"),
-    ((2018, 9, 12), (2018, 9, 19), "yom_kippur", "BOTH"),
-    ((2018, 9, 19), (2018, 9, 19), "yom_kippur", "BOTH"),
-    ((2018, 9, 20), (2018, 9, 24), "sukkot", "BOTH"),
-    ((2018, 9, 24), (2018, 9, 24), "sukkot", "BOTH"),
-    ((2018, 9, 25), (2018, 9, 25), "sukkot_ii", "DIASPORA"),
-    ((2018, 9, 25), (2018, 10, 1), "shmini_atzeret", "ISRAEL"),
-    ((2018, 9, 26), (2018, 10, 1), "shmini_atzeret", "BOTH"),
-    ((2018, 10, 2), (2018, 10, 2), "simchat_torah", "DIASPORA"),
-    ((2018, 10, 2), (2019, 4, 20), "pesach", "ISRAEL"),
-    ((2018, 10, 3), (2019, 4, 20), "pesach", "BOTH"),
+    ((2018, 8, 8), (2018, 9, 10), "rosh_hashana_i", "israel"),
+    ((2018, 9, 8), (2018, 9, 10), "rosh_hashana_i", "israel"),
+    ((2018, 9, 10), (2018, 9, 10), "rosh_hashana_i", "israel"),
+    ((2018, 9, 11), (2018, 9, 11), "rosh_hashana_ii", "israel"),
+    ((2018, 9, 12), (2018, 9, 19), "yom_kippur", "israel"),
+    ((2018, 9, 19), (2018, 9, 19), "yom_kippur", "israel"),
+    ((2018, 9, 20), (2018, 9, 24), "sukkot", "israel"),
+    ((2018, 9, 24), (2018, 9, 24), "sukkot", "israel"),
+    ((2018, 9, 25), (2018, 9, 25), "sukkot_ii", "diaspora"),
+    ((2018, 9, 25), (2018, 10, 1), "shmini_atzeret", "israel"),
+    ((2018, 9, 26), (2018, 10, 1), "shmini_atzeret", "israel"),
+    ((2018, 10, 2), (2018, 10, 2), "simchat_torah", "diaspora"),
+    ((2018, 10, 2), (2019, 4, 20), "pesach", "israel"),
+    ((2018, 10, 3), (2019, 4, 20), "pesach", "israel"),
 ]
 
 
@@ -160,53 +162,52 @@ def test_get_next_yom_tov(
     current_date: tuple[int, int, int],
     holiday_date: tuple[int, int, int],
     holiday_name: str,
-    where: str,
+    where: IsraelDiasporaT,
 ) -> None:
     """Testing the value of next yom tov."""
     print(f"Testing holiday {holiday_name}")
-    diaspora = where == "DIASPORA"
-    hdate = HDateInfo(date=dt.date(*current_date), diaspora=diaspora)
+    hdate = HDateInfo(date=dt.date(*current_date), location=where)
     next_yom_tov = hdate.upcoming_yom_tov
     assert next_yom_tov.gdate == dt.date(*holiday_date)
 
 
 UPCOMING_SHABBAT_OR_YOM_TOV = [
-    ((2018, 9, 8), True, {"start": (2018, 9, 8), "end": (2018, 9, 8)}),
-    ((2018, 9, 9), True, {"start": (2018, 9, 10), "end": (2018, 9, 11)}),
-    ((2018, 9, 16), True, {"start": (2018, 9, 19), "end": (2018, 9, 19)}),
-    ((2018, 9, 24), True, {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
-    ((2018, 9, 25), True, {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
-    ((2018, 9, 24), False, {"start": (2018, 9, 24), "end": (2018, 9, 24)}),
-    ((2018, 9, 24), True, {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
-    ((2018, 3, 30), True, {"start": (2018, 3, 31), "end": (2018, 4, 1)}),
-    ((2018, 3, 30), False, {"start": (2018, 3, 31), "end": (2018, 3, 31)}),
-    ((2017, 9, 22), True, {"start": (2017, 9, 21), "end": (2017, 9, 23)}),
-    ((2017, 9, 22), False, {"start": (2017, 9, 21), "end": (2017, 9, 23)}),
-    ((2017, 10, 4), True, {"start": (2017, 10, 5), "end": (2017, 10, 7)}),
-    ((2017, 10, 4), False, {"start": (2017, 10, 5), "end": (2017, 10, 5)}),
-    ((2017, 10, 6), True, {"start": (2017, 10, 5), "end": (2017, 10, 7)}),
-    ((2017, 10, 6), False, {"start": (2017, 10, 7), "end": (2017, 10, 7)}),
-    ((2016, 6, 12), True, {"start": (2016, 6, 11), "end": (2016, 6, 13)}),
+    ((2018, 9, 8), "diaspora", {"start": (2018, 9, 8), "end": (2018, 9, 8)}),
+    ((2018, 9, 9), "diaspora", {"start": (2018, 9, 10), "end": (2018, 9, 11)}),
+    ((2018, 9, 16), "diaspora", {"start": (2018, 9, 19), "end": (2018, 9, 19)}),
+    ((2018, 9, 24), "diaspora", {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
+    ((2018, 9, 25), "diaspora", {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
+    ((2018, 9, 24), "israel", {"start": (2018, 9, 24), "end": (2018, 9, 24)}),
+    ((2018, 9, 24), "diaspora", {"start": (2018, 9, 24), "end": (2018, 9, 25)}),
+    ((2018, 3, 30), "diaspora", {"start": (2018, 3, 31), "end": (2018, 4, 1)}),
+    ((2018, 3, 30), "israel", {"start": (2018, 3, 31), "end": (2018, 3, 31)}),
+    ((2017, 9, 22), "diaspora", {"start": (2017, 9, 21), "end": (2017, 9, 23)}),
+    ((2017, 9, 22), "israel", {"start": (2017, 9, 21), "end": (2017, 9, 23)}),
+    ((2017, 10, 4), "diaspora", {"start": (2017, 10, 5), "end": (2017, 10, 7)}),
+    ((2017, 10, 4), "israel", {"start": (2017, 10, 5), "end": (2017, 10, 5)}),
+    ((2017, 10, 6), "diaspora", {"start": (2017, 10, 5), "end": (2017, 10, 7)}),
+    ((2017, 10, 6), "israel", {"start": (2017, 10, 7), "end": (2017, 10, 7)}),
+    ((2016, 6, 12), "diaspora", {"start": (2016, 6, 11), "end": (2016, 6, 13)}),
 ]
 
 
-@pytest.mark.parametrize("current_date, diaspora, dates", UPCOMING_SHABBAT_OR_YOM_TOV)
+@pytest.mark.parametrize("current_date, location, dates", UPCOMING_SHABBAT_OR_YOM_TOV)
 def test_get_next_shabbat_or_yom_tov(
     current_date: tuple[int, int, int],
-    diaspora: bool,
+    location: IsraelDiasporaT,
     dates: dict[str, tuple[int, int, int]],
 ) -> None:
     """Test getting the next shabbat or Yom Tov works."""
-    date = HDateInfo(date=dt.date(*current_date), diaspora=diaspora)
+    date = HDateInfo(dt.date(*current_date), location)
     assert date.upcoming_shabbat_or_yom_tov.first_day.gdate == dt.date(*dates["start"])
     assert date.upcoming_shabbat_or_yom_tov.last_day.gdate == dt.date(*dates["end"])
 
 
 @given(date=valid_hebrew_date())
-@pytest.mark.parametrize("diaspora", [True, False])
-def test_erev_yom_tov_holidays(date: HebrewDate, diaspora: bool) -> None:
+@pytest.mark.parametrize("location", typing.get_args(IsraelDiasporaT))
+def test_erev_yom_tov_holidays(date: HebrewDate, location: IsraelDiasporaT) -> None:
     """Test that erev yom tov's holiday info returns either yom tov or erev yom tov."""
-    info = HDateInfo(date, diaspora=diaspora)
+    info = HDateInfo(date, location)
     erev_yom_tov = info.upcoming_erev_yom_tov
     assert any(
         holiday.type in (HolidayTypes.YOM_TOV, HolidayTypes.EREV_YOM_TOV)
@@ -215,11 +216,13 @@ def test_erev_yom_tov_holidays(date: HebrewDate, diaspora: bool) -> None:
 
 
 @given(date=valid_hebrew_date())
-@pytest.mark.parametrize("diaspora", [True, False])
+@pytest.mark.parametrize("location", typing.get_args(IsraelDiasporaT))
 @settings(deadline=None)
-def test_get_next_erev_yom_tov_or_shabbat(date: HebrewDate, diaspora: bool) -> None:
+def test_get_next_erev_yom_tov_or_shabbat(
+    date: HebrewDate, location: IsraelDiasporaT
+) -> None:
     """Test that next erev yom tov or erev shabbat is returned."""
-    info = HDateInfo(date, diaspora=diaspora)
+    info = HDateInfo(date, location)
     erev = info.upcoming_erev_shabbat_or_erev_yom_tov
     assert (erev.hdate.dow() == Weekday.FRIDAY) or any(
         holiday.type in (HolidayTypes.YOM_TOV, HolidayTypes.EREV_YOM_TOV)
@@ -229,26 +232,26 @@ def test_get_next_erev_yom_tov_or_shabbat(date: HebrewDate, diaspora: bool) -> N
 
 
 @pytest.mark.parametrize(
-    ("date", "diaspora", "erev_yom_tov", "yom_tov"),
+    ("date", "location", "erev_yom_tov", "yom_tov"),
     [
-        ((Months.ADAR, 1), True, (Months.NISAN, 14), (Months.NISAN, 15)),
-        ((Months.NISAN, 14), True, (Months.NISAN, 14), (Months.NISAN, 15)),
-        ((Months.NISAN, 15), True, (Months.NISAN, 15), (Months.NISAN, 15)),
-        ((Months.NISAN, 15), False, (Months.NISAN, 20), (Months.NISAN, 15)),
-        ((Months.NISAN, 16), False, (Months.NISAN, 20), (Months.NISAN, 21)),
-        ((Months.NISAN, 16), True, (Months.NISAN, 20), (Months.NISAN, 16)),
-        ((Months.NISAN, 17), True, (Months.NISAN, 20), (Months.NISAN, 21)),
+        ((Months.ADAR, 1), "diaspora", (Months.NISAN, 14), (Months.NISAN, 15)),
+        ((Months.NISAN, 14), "diaspora", (Months.NISAN, 14), (Months.NISAN, 15)),
+        ((Months.NISAN, 15), "diaspora", (Months.NISAN, 15), (Months.NISAN, 15)),
+        ((Months.NISAN, 15), "israel", (Months.NISAN, 20), (Months.NISAN, 15)),
+        ((Months.NISAN, 16), "israel", (Months.NISAN, 20), (Months.NISAN, 21)),
+        ((Months.NISAN, 16), "diaspora", (Months.NISAN, 20), (Months.NISAN, 16)),
+        ((Months.NISAN, 17), "diaspora", (Months.NISAN, 20), (Months.NISAN, 21)),
     ],
 )
 def test_three_day_yom_tov(
     date: tuple[Months, int],
-    diaspora: bool,
+    location: IsraelDiasporaT,
     erev_yom_tov: tuple[Months, int],
     yom_tov: tuple[Months, int],
 ) -> None:
     """Test that erev yom tov's holiday info returns either yom tov or erev yom tov."""
-    info = HDateInfo(HebrewDate(5785, *date), diaspora=diaspora)
+    info = HDateInfo(HebrewDate(5785, *date), location)
     assert info.upcoming_erev_yom_tov == HDateInfo(
-        HebrewDate(5785, *erev_yom_tov), diaspora
+        HebrewDate(5785, *erev_yom_tov), location
     )
-    assert info.upcoming_yom_tov == HDateInfo(HebrewDate(5785, *yom_tov), diaspora)
+    assert info.upcoming_yom_tov == HDateInfo(HebrewDate(5785, *yom_tov), location)
