@@ -2,11 +2,13 @@
 
 from __future__ import annotations
 
+import datetime as dt
 from bisect import bisect_left
 from collections import defaultdict
 from copy import deepcopy
 from dataclasses import dataclass, field
 from enum import Enum
+from functools import lru_cache
 from itertools import product
 from typing import Callable, ClassVar, Iterable, Literal, Optional, Union
 
@@ -27,6 +29,9 @@ class HolidayTypes(Enum):
     MEMORIAL_DAY = 8
     ISRAEL_NATIONAL_HOLIDAY = 9
     ROSH_CHODESH = 10
+
+
+FilterType = Union[list[HolidayTypes], HolidayTypes]
 
 
 @dataclass(frozen=True)
@@ -94,19 +99,8 @@ class HolidayDatabase:
                 else:
                     cls._all_holidays[index].append(holiday)
 
-    def lookup(self, date: HebrewDate) -> list[Holiday]:
-        """Lookup the holidays for a given date."""
-        if all(_date != date for _date in self._instance_holidays):
-            return []
-        holidays = self._instance_holidays[date.replace(year=0)]
-        return [
-            holiday
-            for holiday in holidays
-            if all(func(date) for func in holiday.date_functions_list)
-        ]
-
     def _get_filtered_holidays(
-        self, types: Optional[Union[list[HolidayTypes], HolidayTypes]]
+        self, types: Optional[FilterType]
     ) -> dict[HebrewDate, list[Holiday]]:
         """Return a list of filtered holidays, based on type."""
         filtered_holidays = deepcopy(self._instance_holidays)
@@ -119,10 +113,22 @@ class HolidayDatabase:
             }
         return filtered_holidays
 
+    def lookup(
+        self, date: HebrewDate, types: Optional[FilterType] = None
+    ) -> list[Holiday]:
+        """Lookup the holidays for a given date."""
+        filtered_holidays = self._get_filtered_holidays(types)
+        if all(_date != date for _date in filtered_holidays):
+            return []
+        holidays = filtered_holidays[date.replace(year=0)]
+        return [
+            holiday
+            for holiday in holidays
+            if all(func(date) for func in holiday.date_functions_list)
+        ]
+
     def lookup_holidays_for_year(
-        self,
-        date: HebrewDate,
-        types: Optional[Union[list[HolidayTypes], HolidayTypes]] = None,
+        self, date: HebrewDate, types: Optional[FilterType] = None
     ) -> dict[HebrewDate, list[Holiday]]:
         """Lookup the holidays for a given year."""
         filtered_holidays = self._get_filtered_holidays(types)
@@ -171,6 +177,15 @@ class HolidayDatabase:
             holiday_strs = list(dict.fromkeys(str(holiday) for holiday in holidays))
             result.add(", ".join(holiday_strs))
         return list(sorted(result))
+
+
+@lru_cache
+def is_yom_tov(date: Union[dt.date, HebrewDate], diaspora: bool) -> bool:
+    """Helper method to check if a given date is a Yom Tov"""
+    if isinstance(date, dt.date):
+        date = HebrewDate.from_gdate(date)
+    holidays = HolidayDatabase(diaspora).lookup(date, types=HolidayTypes.YOM_TOV)
+    return len(holidays) > 0
 
 
 def move_if_not_on_dow(
