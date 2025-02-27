@@ -137,7 +137,7 @@ The ``HDateInfo`` object, accepts a date (either Gregorian or Hebrew), a boolean
 .. code:: python
 
     >>> from hdate import HDateInfo
-    >>> today = HDateInfo(today, diaspora=False, language="english")
+    >>> today = HDateInfo(today, location="israel", language="english")
     >>> print(today.parasha)
     Shemot
     >>> today.is_holiday
