@@ -84,21 +84,23 @@ class Zmanim(TranslatorMixin):
     def __dir__(self) -> list[str]:
         return [*super().__dir__(), *self.zmanim.keys()]
 
+    def _is_yom_tov(self, date: dt.date) -> bool:
+        """Localized is_yom_tov function (avoids diaspora repetition)."""
+        return is_yom_tov(date, self.location.diaspora)
+
     @property
     def candle_lighting(self) -> Optional[dt.datetime]:
         """Return the time for candle lighting, or None if not applicable."""
         # If today is a Yom Tov or Shabbat, and tomorrow is a Yom Tov or
         # Shabbat return the havdalah time as the candle lighting time.
-        if (
-            is_yom_tov(self.date, self.location.diaspora) or is_shabbat(self.date)
-        ) and is_yom_tov(self.tomorrow, self.location.diaspora):
+        if (self._is_yom_tov(self.date) or is_shabbat(self.date)) and self._is_yom_tov(
+            self.tomorrow
+        ):
             return self._havdalah_datetime
 
         # Otherwise, if today is Friday or erev Yom Tov, return candle
         # lighting.
-        if is_shabbat(self.tomorrow) or is_yom_tov(
-            self.tomorrow, self.location.diaspora
-        ):
+        if is_shabbat(self.tomorrow) or self._is_yom_tov(self.tomorrow):
             return self.shkia.local - dt.timedelta(minutes=self.candle_lighting_offset)
         return None
 
@@ -124,10 +126,8 @@ class Zmanim(TranslatorMixin):
         # then there is no havdalah value for today. Technically, there is
         # havdalah mikodesh l'kodesh, but that is represented in the
         # candle_lighting value to avoid misuse of the havdalah API.
-        if is_shabbat(self.date) or is_yom_tov(self.date, self.location.diaspora):
-            if is_shabbat(self.tomorrow) or is_yom_tov(
-                self.tomorrow, self.location.diaspora
-            ):
+        if is_shabbat(self.date) or self._is_yom_tov(self.date):
+            if is_shabbat(self.tomorrow) or self._is_yom_tov(self.tomorrow):
                 return None
             return self._havdalah_datetime
         return None
@@ -141,24 +141,18 @@ class Zmanim(TranslatorMixin):
     def issur_melacha_in_effect(self, time: dt.datetime) -> bool:
         """At the given time, return whether issur melacha is in effect."""
         _time = self._timezone_aware(time)
-        if (
-            is_shabbat(self.date) or is_yom_tov(self.date, self.location.diaspora)
-        ) and (
-            is_shabbat(self.tomorrow)
-            or is_yom_tov(self.tomorrow, self.location.diaspora)
+        if (is_shabbat(self.date) or self._is_yom_tov(self.date)) and (
+            is_shabbat(self.tomorrow) or self._is_yom_tov(self.tomorrow)
         ):
             return True
         if (
-            (is_shabbat(self.date) or is_yom_tov(self.date, self.location.diaspora))
+            (is_shabbat(self.date) or self._is_yom_tov(self.date))
             and self.havdalah is not None
             and (_time < self.havdalah)
         ):
             return True
         if (
-            (
-                is_shabbat(self.tomorrow)
-                or is_yom_tov(self.tomorrow, self.location.diaspora)
-            )
+            (is_shabbat(self.tomorrow) or self._is_yom_tov(self.tomorrow))
             and self.candle_lighting is not None
             and (_time >= self.candle_lighting)
         ):
@@ -173,14 +167,8 @@ class Zmanim(TranslatorMixin):
             return False
 
         if (
-            (
-                is_shabbat(self.tomorrow)
-                or is_yom_tov(self.tomorrow, self.location.diaspora)
-            )
-            and (
-                not is_shabbat(self.date)
-                and not is_yom_tov(self.date, self.location.diaspora)
-            )
+            (is_shabbat(self.tomorrow) or self._is_yom_tov(self.tomorrow))
+            and (not is_shabbat(self.date) and not self._is_yom_tov(self.date))
             and (_time < self.candle_lighting)
         ):
             return True
@@ -193,9 +181,9 @@ class Zmanim(TranslatorMixin):
         if self.havdalah is None:  # If there's no havdala, no need to check further
             return False
 
-        if (
-            is_shabbat(self.date) or is_yom_tov(self.date, self.location.diaspora)
-        ) and (_time >= self.havdalah):
+        if (is_shabbat(self.date) or self._is_yom_tov(self.date)) and (
+            _time >= self.havdalah
+        ):
             return True
 
         return False
