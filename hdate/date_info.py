@@ -21,6 +21,7 @@ from hdate.omer import Omer
 from hdate.parasha import Parasha, ParashaDatabase
 from hdate.tekufot import Nusachim, Tekufot
 from hdate.translator import Language, TranslatorMixin
+from hdate.zmanim import Zmanim
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -28,7 +29,9 @@ IsraelDiasporaT = Literal["israel", "diaspora"]
 
 
 @dataclass
-class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
+class HDateInfo(
+    TranslatorMixin
+):  # pylint: disable=too-many-instance-attributes, too-many-public-methods
     """
     Hebrew date information class.
 
@@ -112,6 +115,14 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         """Set the Gregorian date for the given Hebrew date."""
         self._last_updated = "gdate"
         self._gdate = date
+
+    @property
+    def zmanim(self) -> Optional[Zmanim]:
+        """Return the Zmanim if Location is defined."""
+        if isinstance(self.location, str):
+            _LOGGER.warning("Unable to give Zmanim if Location is not provided.")
+            return None
+        return Zmanim(self.gdate, self.location, self.language)
 
     @property
     def omer(self) -> Optional[Omer]:
