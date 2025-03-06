@@ -180,7 +180,7 @@ class HolidayDatabase:
 
 
 @lru_cache
-def is_yom_tov(date: Union[dt.date, HebrewDate], diaspora: bool) -> bool:
+def is_yom_tov(date: Union[dt.date, HebrewDate], diaspora: bool = False) -> bool:
     """Helper method to check if a given date is a Yom Tov"""
     if isinstance(date, dt.date):
         date = HebrewDate.from_gdate(date)
