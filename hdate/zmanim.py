@@ -47,7 +47,7 @@ class Zman(TranslatorMixin):
 
 
 @dataclass
-class Zmanim(TranslatorMixin):
+class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     """Return Jewish day times.
 
     The Zmanim class returns times for the specified day ONLY. If you wish to
@@ -69,7 +69,11 @@ class Zmanim(TranslatorMixin):
         if not isinstance(self.date, dt.date):
             raise TypeError("date has to be of type datetime.date")
         self.set_language(self.language)
-        self.tomorrow = self.date + dt.timedelta(days=1)
+        tomorrow = self.date + dt.timedelta(days=1)
+        self._today_is_shabbat = is_shabbat(self.date)
+        self._tomorrow_is_shabbat = is_shabbat(tomorrow)
+        self._today_is_yom_tov = is_yom_tov(self.date, self.location.diaspora)
+        self._tomorrow_is_yom_tov = is_yom_tov(tomorrow, self.location.diaspora)
 
     def __str__(self) -> str:
         return "\n".join(
@@ -84,23 +88,19 @@ class Zmanim(TranslatorMixin):
     def __dir__(self) -> list[str]:
         return [*super().__dir__(), *self.zmanim.keys()]
 
-    def _is_yom_tov(self, date: dt.date) -> bool:
-        """Localized is_yom_tov function (avoids diaspora repetition)."""
-        return is_yom_tov(date, self.location.diaspora)
-
     @property
     def candle_lighting(self) -> Optional[dt.datetime]:
         """Return the time for candle lighting, or None if not applicable."""
         # If today is a Yom Tov or Shabbat, and tomorrow is a Yom Tov or
         # Shabbat return the havdalah time as the candle lighting time.
-        if (self._is_yom_tov(self.date) or is_shabbat(self.date)) and self._is_yom_tov(
-            self.tomorrow
-        ):
+        if (
+            self._today_is_yom_tov or self._today_is_shabbat
+        ) and self._tomorrow_is_yom_tov:
             return self._havdalah_datetime
 
         # Otherwise, if today is Friday or erev Yom Tov, return candle
         # lighting.
-        if is_shabbat(self.tomorrow) or self._is_yom_tov(self.tomorrow):
+        if self._tomorrow_is_shabbat or self._tomorrow_is_yom_tov:
             return self.shkia.local - dt.timedelta(minutes=self.candle_lighting_offset)
         return None
 
@@ -126,8 +126,8 @@ class Zmanim(TranslatorMixin):
         # then there is no havdalah value for today. Technically, there is
         # havdalah mikodesh l'kodesh, but that is represented in the
         # candle_lighting value to avoid misuse of the havdalah API.
-        if is_shabbat(self.date) or self._is_yom_tov(self.date):
-            if is_shabbat(self.tomorrow) or self._is_yom_tov(self.tomorrow):
+        if self._today_is_shabbat or self._today_is_yom_tov:
+            if self._tomorrow_is_shabbat or self._tomorrow_is_yom_tov:
                 return None
             return self._havdalah_datetime
         return None
@@ -141,18 +141,18 @@ class Zmanim(TranslatorMixin):
     def issur_melacha_in_effect(self, time: dt.datetime) -> bool:
         """At the given time, return whether issur melacha is in effect."""
         _time = self._timezone_aware(time)
-        if (is_shabbat(self.date) or self._is_yom_tov(self.date)) and (
-            is_shabbat(self.tomorrow) or self._is_yom_tov(self.tomorrow)
+        if (self._today_is_shabbat or self._today_is_yom_tov) and (
+            self._tomorrow_is_shabbat or self._tomorrow_is_yom_tov
         ):
             return True
         if (
-            (is_shabbat(self.date) or self._is_yom_tov(self.date))
+            (self._today_is_shabbat or self._today_is_yom_tov)
             and self.havdalah is not None
             and (_time < self.havdalah)
         ):
             return True
         if (
-            (is_shabbat(self.tomorrow) or self._is_yom_tov(self.tomorrow))
+            (self._tomorrow_is_shabbat or self._tomorrow_is_yom_tov)
             and self.candle_lighting is not None
             and (_time >= self.candle_lighting)
         ):
@@ -167,8 +167,8 @@ class Zmanim(TranslatorMixin):
             return False
 
         if (
-            (is_shabbat(self.tomorrow) or self._is_yom_tov(self.tomorrow))
-            and (not is_shabbat(self.date) and not self._is_yom_tov(self.date))
+            (self._tomorrow_is_shabbat or self._tomorrow_is_yom_tov)
+            and (not self._today_is_shabbat and not self._today_is_yom_tov)
             and (_time < self.candle_lighting)
         ):
             return True
@@ -181,7 +181,7 @@ class Zmanim(TranslatorMixin):
         if self.havdalah is None:  # If there's no havdala, no need to check further
             return False
 
-        if (is_shabbat(self.date) or self._is_yom_tov(self.date)) and (
+        if (self._today_is_shabbat or self._today_is_yom_tov) and (
             _time >= self.havdalah
         ):
             return True
