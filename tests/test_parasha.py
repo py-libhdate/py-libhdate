@@ -1,6 +1,7 @@
 """Tests dealing with parshat hashavua."""
 
 import datetime as dt
+import typing
 from enum import Enum
 from typing import Optional
 
@@ -9,6 +10,7 @@ from hypothesis import given, settings, strategies
 from syrupy.assertion import SnapshotAssertion
 
 from hdate import HDateInfo, HebrewDate
+from hdate.date_info import IsraelDiasporaT
 from hdate.hebrew_date import Months
 from hdate.parasha import Parasha, erange
 
@@ -48,13 +50,13 @@ YEAR_TYPES = [
 
 
 @pytest.mark.parametrize("year", YEAR_TYPES)
-@pytest.mark.parametrize("diaspora", [True, False])
-def test_get_reading_israel(
-    diaspora: bool, year: int, snapshot: SnapshotAssertion
+@pytest.mark.parametrize("location", typing.get_args(IsraelDiasporaT))
+def test_get_reading(
+    location: IsraelDiasporaT, year: int, snapshot: SnapshotAssertion
 ) -> None:
     """Test parshat hashavua in Israel."""
     rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
-    mydate = HDateInfo(rosh_hashana, diaspora=diaspora).upcoming_shabbat
+    mydate = HDateInfo(rosh_hashana, location).upcoming_shabbat
 
     while mydate.hdate.year == year:
         print("Testing: ", mydate)
@@ -63,37 +65,39 @@ def test_get_reading_israel(
 
 
 @pytest.mark.parametrize("year", YEAR_TYPES)
-@pytest.mark.parametrize("diaspora", [True, False])
-def test_vezot_habracha(diaspora: bool, year: int) -> None:
+@pytest.mark.parametrize("location", typing.get_args(IsraelDiasporaT))
+def test_vezot_habracha(location: IsraelDiasporaT, year: int) -> None:
     """Test Vezot Habracha showing correctly."""
-    if diaspora:
+    if location == "diaspora":
         simchat_tora = HebrewDate(year, Months.TISHREI, 23)
     else:
         simchat_tora = HebrewDate(year, Months.TISHREI, 22)
-    mydate = HDateInfo(simchat_tora, diaspora=diaspora)
+    mydate = HDateInfo(simchat_tora, location)
     assert mydate.parasha == 54
 
 
-@pytest.mark.parametrize("diaspora", [True, False])
+@pytest.mark.parametrize("location", typing.get_args(IsraelDiasporaT))
 @given(year=strategies.integers(min_value=4000, max_value=6000))
-def test_nitzavim_always_before_rosh_hashana(year: int, diaspora: bool) -> None:
+def test_nitzavim_always_before_rosh_hashana(
+    year: int, location: IsraelDiasporaT
+) -> None:
     """A property: Nitzavim alway falls before rosh hashana."""
     rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
     previous_shabbat = rosh_hashana + dt.timedelta(days=-rosh_hashana.dow())
-    mydate = HDateInfo(previous_shabbat, diaspora=diaspora)
+    mydate = HDateInfo(previous_shabbat, location)
     print(f"Testing date: {mydate}")
     assert mydate.parasha in (Parasha.NITZAVIM, Parasha.NITZAVIM_VAYEILECH)
 
 
-@pytest.mark.parametrize("diaspora", [True, False])
+@pytest.mark.parametrize("location", typing.get_args(IsraelDiasporaT))
 @given(year=strategies.integers(min_value=4000, max_value=6000))
 @settings(deadline=None)  # Calculation of reading is slow
 def test_vayelech_or_haazinu_always_after_rosh_hashana(
-    year: int, diaspora: bool
+    year: int, location: IsraelDiasporaT
 ) -> None:
     """A property: Vayelech or Haazinu always falls after rosh hashana."""
     rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
-    mydate = HDateInfo(rosh_hashana, diaspora=diaspora).upcoming_shabbat
+    mydate = HDateInfo(rosh_hashana, location).upcoming_shabbat
     print(f"Testing date: {mydate}")
     assert mydate.parasha in (Parasha.VAYEILECH, Parasha.HAAZINU, Parasha.NONE)
 
