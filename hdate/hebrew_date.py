@@ -5,6 +5,7 @@ from __future__ import annotations
 import datetime as dt
 from dataclasses import dataclass
 from enum import IntEnum
+from functools import lru_cache
 from typing import TYPE_CHECKING, Callable, Literal, Optional, Union
 
 import hdate.converters as conv
@@ -48,6 +49,14 @@ def long_cheshvan(year: int) -> bool:
 def is_leap_year(year: int) -> bool:
     """Return True if the Hebrew year is a leap year (2 Adars)"""
     return year % 19 in (0, 3, 6, 8, 11, 14, 17)
+
+
+@lru_cache
+def is_shabbat(date: Union[dt.date, HebrewDate]) -> bool:
+    """Return whether a date is shabbat."""
+    if isinstance(date, dt.date):
+        return date.weekday() == 5
+    return date.dow() == Weekday.SATURDAY
 
 
 class Months(TranslatorMixin, IntEnum):

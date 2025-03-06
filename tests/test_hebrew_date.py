@@ -14,6 +14,7 @@ from hdate.hebrew_date import (
     HebrewDate,
     Months,
     is_leap_year,
+    is_shabbat,
 )
 from tests.conftest import valid_hebrew_date
 
@@ -31,6 +32,12 @@ def test_is_not_leap_year() -> None:
     """Test that is_leap_year() working as expected for non-leap year."""
     leap_date = HebrewDate(5783, Months.TISHREI, 1)
     assert not leap_date.is_leap_year()
+
+
+@given(date=strategies.datetimes())
+def test_is_shabbat(date: dt.date) -> None:
+    """Test that is_shabbat woirks correctly for both Hebrew and Gregorian dates."""
+    assert is_shabbat(date) == is_shabbat(HebrewDate.from_gdate(date))
 
 
 @given(

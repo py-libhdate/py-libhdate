@@ -10,7 +10,7 @@ from hypothesis import given, settings, strategies
 
 from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months
-from hdate.holidays import HolidayDatabase
+from hdate.holidays import HolidayDatabase, is_yom_tov
 from hdate.translator import Language
 from tests.conftest import valid_hebrew_date
 
@@ -328,3 +328,19 @@ def test_all_in_get_names(date: HebrewDate, diaspora: bool, language: Language) 
     expected = ", ".join(str(holiday) for holiday in holidays)
     all_names = holiday_db.get_all_names(language)
     assert expected in all_names
+
+
+@pytest.mark.parametrize(("diaspora"), (False, True))
+@given(date=valid_hebrew_date())
+def test_is_yom_tov(date: HebrewDate, diaspora: bool) -> None:
+    """Test is yom tov returns the same value for date and gdate."""
+    assert is_yom_tov(date, diaspora) == is_yom_tov(date.to_gdate(), diaspora)
+
+
+def test_is_yom_tov_special_dates() -> None:
+    """Test is yom tov for known values"""
+    assert is_yom_tov(HebrewDate(5785, Months.TISHREI, 1))
+    assert is_yom_tov(HebrewDate(5785, Months.TISHREI, 2))
+    assert not is_yom_tov(HebrewDate(5785, Months.TISHREI, 3))
+    assert is_yom_tov(HebrewDate(5785, Months.TISHREI, 23), True)
+    assert not is_yom_tov(HebrewDate(5785, Months.TISHREI, 23), False)
