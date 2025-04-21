@@ -61,7 +61,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
     date: dt.date = field(default_factory=dt.date.today)
     location: Location = field(default_factory=Location)
-    language: Language = "hebrew"
+    language: Language = "he"
     candle_lighting_offset: int = 18
     havdalah_offset: int = 0
 

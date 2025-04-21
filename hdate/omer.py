@@ -78,13 +78,13 @@ class Omer(TranslatorMixin):
             if _type == "total":
                 to = "ordinal"
                 type_name = "day"
-                if language == "hebrew" and number in range(2, 11):
+                if language == "he" and number in range(2, 11):
                     type_name = "days"
             else:
                 to = "cardinal"
                 type_name = _type if number == 1 else f"{_type}s"
 
-            if language == "hebrew":
+            if language == "he":
                 conv = lang_HE.Num2Word_HE()
                 construct = number == 2
                 if number > 20 and number % 10 != 0:
@@ -97,9 +97,9 @@ class Omer(TranslatorMixin):
                 return f"{count} {_obj}" if number > 1 else f"{_obj} {count}"
             _obj = self.get_translation(type_name)
             count = num2words(number, lang=language[:2], to=to)
-            if language == "english" and _type == "total":
+            if language == "en" and _type == "total":
                 count = f"the {count}"
-            if language == "french" and number == 1 and type_name == "week":
+            if language == "fr" and number == 1 and type_name == "week":
                 count = f"{count}e"
             return f"{count} {_obj}"
 
@@ -120,10 +120,10 @@ class Omer(TranslatorMixin):
             which_are = self.get_translation("which_are")
             weeks = num2words_omer(self.week, _type="week")
             detail = f" {which_are} {weeks}"
-            detail = f",{detail}" if language != "hebrew" else detail
+            detail = f",{detail}" if language != "he" else detail
             if self.day > 0:
                 _and = self.get_translation("and")
-                _and = f"{_and} " if language != "hebrew" else _and
+                _and = f"{_and} " if language != "he" else _and
                 days = num2words_omer(self.day, _type="day")
                 detail = f"{detail} {_and}{days}"
         if self.nusach == Nusach.ITALIAN:

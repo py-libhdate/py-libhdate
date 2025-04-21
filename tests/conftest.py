@@ -58,7 +58,7 @@ def location(request: pytest.FixtureRequest) -> Location:
 @pytest.fixture(autouse=True)
 def reset_context_language() -> None:
     """Reset the context language to the default value before each test."""
-    set_language("hebrew")
+    set_language("he")
 
 
 @strategies.composite

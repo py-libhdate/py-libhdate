@@ -291,7 +291,7 @@ def test_get_all_holidays(language: Language, diaspora: str) -> None:
     names = HolidayDatabase(_diaspora).get_all_names()
 
     expected = {
-        "french": {
+        "fr": {
             "DIASPORA": {"Souccot II", "Pessah II"},
             "ISRAEL": {
                 "Rosh Hodesh, Fête de la Famille",
@@ -299,12 +299,12 @@ def test_get_all_holidays(language: Language, diaspora: str) -> None:
             },
             "": {"Yom Kippour", "Hanoukka, Rosh Hodesh", "Pourim", "Pessah"},
         },
-        "hebrew": {
+        "he": {
             "DIASPORA": {"שני של סוכות", "שני של פסח"},
             "ISRAEL": {"ראש חודש, יום המשפחה", "שמיני עצרת, שמחת תורה"},
             "": {"יום הכפורים", "חנוכה, ראש חודש", "פורים", "פסח"},
         },
-        "english": {
+        "en": {
             "DIASPORA": {"Sukkot II", "Pesach II"},
             "ISRAEL": {"Rosh Chodesh, Family Day", "Shmini Atzeret, Simchat Torah"},
             "": {"Yom Kippur", "Chanukah, Rosh Chodesh", "Purim", "Pesach"},

@@ -110,7 +110,7 @@ def test_omer_str(snapshot: SnapshotAssertion) -> None:
 
 def test_omer_dont_change_language() -> None:
     """Test that the Omer does not change the language."""
-    set_language("hebrew")
+    set_language("he")
     omer = Omer(total_days=25)
     date = HebrewDate(5785, Months.NISAN, 16)
     assert str(omer) == 'כ"ה לעומר'

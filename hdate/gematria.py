@@ -11,7 +11,7 @@ DIGITS = (
 
 def hebrew_number(num: int, short: bool = False) -> str:
     """Return "Gimatria" number."""
-    if get_language() != "hebrew":
+    if get_language() != "he":
         return str(num)
     if not 0 <= num < 10000:
         raise ValueError(f"num must be between 0 to 9999, got:{num}")

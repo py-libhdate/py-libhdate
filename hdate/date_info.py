@@ -31,7 +31,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
 
     date: Union[dt.date, HebrewDate] = field(default_factory=dt.date.today)
     diaspora: bool = False
-    language: Language = "hebrew"
+    language: Language = "he"
     nusach: Nusachim = "sephardi"
 
     def __post_init__(self) -> None:
@@ -53,7 +53,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
             raise TypeError("date has to be of type datetime.date or HebrewDate")
 
     def __str__(self) -> str:
-        in_prefix = "ב" if self.language == "hebrew" else ""
+        in_prefix = "ב" if self.language == "he" else ""
         day_number = hebrew_number(self.hdate.day)
         year_number = hebrew_number(self.hdate.year)
         result = (

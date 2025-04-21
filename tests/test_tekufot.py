@@ -57,38 +57,31 @@ def test_get_cheilat_geshamim(date: dt.date, expected: dt.date, diaspora: bool) 
     assert result == expected, "Cheilat Geshamim date mismatch"
 
 
+# pylint: disable=line-too-long
+# Pylint counts the hebrew vowels as separate characters
 @pytest.mark.parametrize(
     "date, tradition, language, expected",
     [
         (
             dt.date(2024, 12, 13),
             "ashkenazi",
-            "english",
+            "en",
             "Mashiv ha-ruach u-morid ha-geshem - VeTen Tal uMatar Livracha",
         ),
-        (
-            dt.date(2024, 12, 13),
-            "sephardi",
-            "hebrew",
-            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
-        ),
-        (dt.date(2025, 4, 25), "sephardi", "english", "Morid ha-tal - Barkheinu"),
-        (dt.date(2025, 4, 25), "ashkenazi", "english", "(Silence) - VeTen Beracha"),
-        (dt.date(2025, 4, 25), "ashkenazi", "hebrew", "(שתיקה) - וְתֵן בְּרָכָה"),
+        (dt.date(2024, 12, 13), "sephardi", "he", "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ"),
+        (dt.date(2025, 4, 25), "sephardi", "en", "Morid ha-tal - Barkheinu"),
+        (dt.date(2025, 4, 25), "ashkenazi", "en", "(Silence) - VeTen Beracha"),
+        (dt.date(2025, 4, 25), "ashkenazi", "he", "(שתיקה) - וְתֵן בְּרָכָה"),
         (
             dt.date(2026, 10, 10),
             "ashkenazi",
-            "english",
+            "en",
             "Mashiv ha-ruach u-morid ha-geshem - VeTen Beracha",
         ),
-        (
-            dt.date(2026, 10, 10),
-            "sephardi",
-            "hebrew",
-            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
-        ),
+        (dt.date(2026, 10, 10), "sephardi", "he", "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ"),
     ],
 )
+# pylint: enable=line-too-long
 def test_tekufot_prayer_for_date(
     date: dt.date, tradition: Nusachim, language: Language, expected: str
 ) -> None:

@@ -41,6 +41,6 @@ def test_illegal_value(number: int) -> None:
 @given(number=strategies.integers(min_value=0, max_value=10000))
 def test_hebrew_number_hebrew_false(number: int) -> None:
     """Test returning a non-hebrew number."""
-    set_language("english")
+    set_language("en")
     assert gematria.hebrew_number(number) == str(number)
     assert gematria.hebrew_number(number, short=True) == str(number)

@@ -12,17 +12,15 @@ from hdate.translations import TRANSLATIONS
 
 _LOGGER = logging.getLogger(__name__)
 
-Language = Literal["english", "french", "hebrew"]
-context_language: ContextVar[Language] = ContextVar(
-    "context_language", default="hebrew"
-)
+Language = Literal["en", "fr", "he"]
+context_language: ContextVar[Language] = ContextVar("context_language", default="he")
 
 
 def set_language(language: Language) -> None:
     """Set the current translation language (context-local)."""
-    if language[:2] not in TRANSLATIONS:
+    if language not in TRANSLATIONS:
         _LOGGER.warning("Language %s not found, falling back to english", language)
-        language = "english"
+        language = "en"
     # Set the context variable to the new language
     context_language.set(language)
 

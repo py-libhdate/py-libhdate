@@ -23,7 +23,7 @@ class TestHDateAPI:
         """Test the README example in English."""
 
         test_date = dt.date(2016, 4, 18)
-        hdate = HDateInfo(test_date, language="english")
+        hdate = HDateInfo(test_date, language="en")
         print(hdate)
         captured = capsys.readouterr()
         assert captured.out == "Monday 10 Nisan 5776\n"
@@ -31,7 +31,7 @@ class TestHDateAPI:
     def test_readme_example_hebrew(self, capsys: CaptureFixture[str]) -> None:
         """Test the README example in Hebrew."""
         test_date = dt.date(2016, 4, 26)
-        hdate = HDateInfo(test_date, language="hebrew")
+        hdate = HDateInfo(test_date, language="he")
         print(hdate)
         captured = capsys.readouterr()
         assert captured.out == "יום שלישי י\"ח בניסן ה' תשע\"ו ג' לעומר חול המועד פסח\n"
@@ -40,30 +40,28 @@ class TestHDateAPI:
         """Print the hebrew date."""
         test_date = dt.datetime(2018, 11, 2)
         assert str(HDateInfo(test_date).hdate) == 'כ"ד מרחשוון ה\' תשע"ט'
-        assert (
-            str(HDateInfo(test_date, language="english").hdate) == "24 Marcheshvan 5779"
-        )
-        assert str(HDateInfo(test_date, language="french").hdate) == "24 Heshvan 5779"
+        assert str(HDateInfo(test_date, language="en").hdate) == "24 Marcheshvan 5779"
+        assert str(HDateInfo(test_date, language="fr").hdate) == "24 Heshvan 5779"
 
     def test_get_upcoming_parasha(self) -> None:
         """Check that the upcoming parasha is correct."""
         test_date = dt.datetime(2018, 11, 2)
         assert str(HDateInfo(test_date).parasha) == "חיי שרה"
-        assert str(HDateInfo(test_date, language="english").parasha) == "Chayei Sara"
+        assert str(HDateInfo(test_date, language="en").parasha) == "Chayei Sara"
 
     def test_get_upcoming_parasha_vezot_habracha(self) -> None:
         """Check that the upcoming parasha is correct for vezot habracha."""
         test_date = dt.datetime(2018, 9, 30)
         assert str(HDateInfo(test_date).parasha) == "וזאת הברכה"
-        assert str(HDateInfo(test_date, language="english").parasha) == "Vezot Habracha"
-        assert str(HDateInfo(test_date, language="french").parasha) == "Vezot Haberakha"
+        assert str(HDateInfo(test_date, language="en").parasha) == "Vezot Habracha"
+        assert str(HDateInfo(test_date, language="fr").parasha) == "Vezot Haberakha"
 
     def test_get_holiday_description(self) -> None:
         """Check that the holiday description is correct."""
         test_date = dt.datetime(2018, 12, 3)
         assert str(HDateInfo(test_date).holidays[0]) == "חנוכה"
-        assert str(HDateInfo(test_date, language="english").holidays[0]) == "Chanukah"
-        assert str(HDateInfo(test_date, language="french").holidays[0]) == "Hanoukka"
+        assert str(HDateInfo(test_date, language="en").holidays[0]) == "Chanukah"
+        assert str(HDateInfo(test_date, language="fr").holidays[0]) == "Hanoukka"
 
     def test_gevurot_geshamim(self, snapshot: SnapshotAssertion) -> None:
         """Test the Gevurot Geshamim property."""
@@ -90,7 +88,7 @@ class TestZmanimAPI:
         self, location: Location, snapshot: SnapshotAssertion
     ) -> None:
         """Test for english."""
-        zman = Zmanim(date=dt.date(2016, 4, 18), location=location, language="english")
+        zman = Zmanim(date=dt.date(2016, 4, 18), location=location, language="en")
         if not _ASTRAL:
             return
         assert str(zman) == snapshot

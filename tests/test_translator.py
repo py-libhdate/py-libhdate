@@ -19,11 +19,7 @@ def test_available_languages(language: Language) -> None:
 def test_set_language(language: Language) -> None:
     """Test the load_language method."""
     month = Months.TISHREI
-    result = {
-        "english": "Tishrei",
-        "french": "Tishri",
-        "hebrew": "תשרי",
-    }
+    result = {"en": "Tishrei", "fr": "Tishri", "he": "תשרי"}
     set_language(language)
     assert str(month) == result[language]
 
@@ -35,7 +31,7 @@ def test_set_non_existing_language(caplog: pytest.LogCaptureFixture) -> None:
         "Language non-existing-language not found, falling back to english"
         in caplog.text
     )
-    assert get_language() == "english"
+    assert get_language() == "en"
 
 
 def test_translation_not_found(caplog: pytest.LogCaptureFixture) -> None:
