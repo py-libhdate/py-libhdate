@@ -18,7 +18,7 @@ context_language: ContextVar[Language] = ContextVar("context_language", default=
 
 def set_language(language: Language) -> object:
     """Set the current translation language (context-local).
-    
+
     Returns the token needed to restore the previous language context.
     """
     if language not in TRANSLATIONS:
