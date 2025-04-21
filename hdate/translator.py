@@ -5,15 +5,31 @@ based on the language specified.
 """
 
 import logging
-import sys
-from enum import Enum
-from typing import Any, Literal
+from contextvars import ContextVar
+from typing import Literal
 
 from hdate.translations import TRANSLATIONS
 
 _LOGGER = logging.getLogger(__name__)
 
 Language = Literal["english", "french", "hebrew"]
+context_language: ContextVar[Language] = ContextVar(
+    "context_language", default="hebrew"
+)
+
+
+def set_language(language: Language) -> None:
+    """Set the current translation language (context-local)."""
+    if language[:2] not in TRANSLATIONS:
+        _LOGGER.warning("Language %s not found, falling back to english", language)
+        language = "english"
+    # Set the context variable to the new language
+    context_language.set(language)
+
+
+def get_language() -> Language:
+    """Get the current translation language (context-local)."""
+    return context_language.get()
 
 
 class TranslatorMixin:
@@ -22,25 +38,6 @@ class TranslatorMixin:
     Provides the capability of loading the correct string based on the language
     specified and the class name.
     """
-
-    _language: Language = "english"
-    _translations: dict[str, str] = {}
-
-    def __init__(self, *args: Any, **kwargs: dict[str, Any]) -> None:
-        if isinstance(self, Enum) and sys.version_info < (3, 11):
-            super().__init__()
-        else:
-            super().__init__(*args, **kwargs)
-        language = self._language
-        if hasattr(self, "language"):
-            language = self.language
-        self.set_language(language)
-
-    def __post_init__(self) -> None:
-        language = self._language
-        if hasattr(self, "language"):
-            language = self.language
-        self.set_language(language)
 
     def __str__(self) -> str:
         if name := getattr(self, "name", None):
@@ -54,30 +51,17 @@ class TranslatorMixin:
         """Return a list of available languages."""
         return list(TRANSLATIONS.keys())
 
-    def load_translations(self) -> None:
+    @property
+    def translations(self) -> dict[str, str]:
         """Load the translations for the class."""
-        lang = self._language[:2]
-        if lang not in TRANSLATIONS:
-            _LOGGER.warning(
-                "Language %s not found, falling back to english", self._language
-            )
-            lang = "en"
-        object.__setattr__(
-            self, "_translations", TRANSLATIONS[lang].get(self.__class__.__name__, {})
-        )
+        lang = get_language()[:2]
+        # lang will always be valid if set_language is called
+        return TRANSLATIONS[lang].get(self.__class__.__name__, {})
 
     def get_translation(self, key: str) -> str:
         """Return the translation for the given key."""
-        value = self._translations.get(key.lower(), None)
+        value = self.translations.get(key.lower(), None)
         if value is None:
             _LOGGER.error("Translation for %s not found", key)
             value = key
         return value
-
-    def set_language(self, language: Language) -> None:
-        """Set the language for the translator."""
-        object.__setattr__(self, "_language", language)
-        self.load_translations()
-        for _, attr in vars(self).items():
-            if isinstance(attr, TranslatorMixin):
-                attr.set_language(language)

@@ -5,7 +5,7 @@ import datetime as dt
 import pytest
 
 from hdate.tekufot import Nusachim, Tekufot, TekufotNames
-from hdate.translator import Language
+from hdate.translator import Language, set_language
 
 
 @pytest.mark.parametrize(
@@ -96,7 +96,8 @@ def test_tekufot_prayer_for_date(
     Tests that the method get_prayer_for_date returns the expected phrase
     for each combination of (date, tradition, language).
     """
-    tekufot = Tekufot(date=date, diaspora=True, tradition=tradition, language=language)
+    set_language(language)
+    tekufot = Tekufot(date=date, diaspora=True, tradition=tradition)
     actual_phrase = tekufot.get_prayer_for_date()
     assert (
         actual_phrase == expected

@@ -73,16 +73,17 @@ We can also know what the day of the week is:
 Getting the string value in a different language
 ------------------------------------------------
 
-All classes and enums in ``hdate`` can have their language changed by calling the
+All objects in ``hdate`` can have their language changed by calling the
 ``set_language()`` method.
 Currently supported are Hebrew, English and French.
 
 .. code:: python
 
-    >>> day_of_week.set_language("hebrew")
+    >>> from hdate.translator import set_language
+    >>> set_language("hebrew")
     >>> print(str(day_of_week))
     יום שלישי
-    >>> day_of_week.set_language("french")
+    >>> set_language("french")
     >>> print(str(day_of_week))
     Mardi
 
@@ -150,6 +151,6 @@ The ``HDateInfo`` object, accepts a date (either Gregorian or Hebrew), a boolean
     >>> print(pesach.holidays[0])
     Pesach
     >>> pesach.next_day.omer
-    Omer(date=HebrewDate(year=5785, month=<Months.NISAN: 9>, day=16), total_days=1, day=1, week=0, nusach=<Nusach.SFARAD: 2>, language='english')
+    Omer(date=HebrewDate(year=5785, month=<Months.NISAN: 9>, day=16), total_days=1, day=1, week=0, nusach=<Nusach.SFARAD: 2>)
 
 

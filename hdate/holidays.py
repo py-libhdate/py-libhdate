@@ -13,7 +13,7 @@ from itertools import product
 from typing import Callable, ClassVar, Iterable, Literal, Optional, Union
 
 from hdate.hebrew_date import CHANGING_MONTHS, LONG_MONTHS, HebrewDate, Months, Weekday
-from hdate.translator import Language, TranslatorMixin
+from hdate.translator import TranslatorMixin
 
 
 class HolidayTypes(Enum):
@@ -165,15 +165,13 @@ class HolidayDatabase:
         next_date = valid_dates[next_date_idx]
         return next_date.replace(year=date.year)
 
-    def get_all_names(self, language: Language) -> list[str]:
-        """Return all the holiday names in a given language."""
+    def get_all_names(self) -> list[str]:
+        """Return all the holiday names."""
         result = {""}  # Empty string for case of no holiday
         for holidays in self._instance_holidays.values():
             holiday_names = {holiday.name for holiday in holidays}
             if {"yom_haatzmaut", "yom_hazikaron"} == holiday_names:
                 continue
-            for holiday in holidays:
-                holiday.set_language(language)
             holiday_strs = list(dict.fromkeys(str(holiday) for holiday in holidays))
             result.add(", ".join(holiday_strs))
         return list(sorted(result))

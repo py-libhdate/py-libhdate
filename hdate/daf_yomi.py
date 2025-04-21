@@ -17,7 +17,7 @@ class Masechta(TranslatorMixin):
 
     def __str__(self) -> str:
         name = self.get_translation(self.name)
-        daf = hebrew_number(self.pages + 2, language=self._language, short=True)
+        daf = hebrew_number(self.pages + 2, short=True)
         return f"{name} {daf}"
 
 

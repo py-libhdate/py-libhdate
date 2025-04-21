@@ -15,7 +15,7 @@ from typing import Optional, cast
 from hdate.hebrew_date import is_shabbat
 from hdate.holidays import is_yom_tov
 from hdate.location import Location
-from hdate.translator import Language, TranslatorMixin
+from hdate.translator import Language, TranslatorMixin, set_language
 
 try:
     import astral
@@ -68,7 +68,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     def __post_init__(self) -> None:
         if not isinstance(self.date, dt.date):
             raise TypeError("date has to be of type datetime.date")
-        self.set_language(self.language)
+        set_language(self.language)
         tomorrow = self.date + dt.timedelta(days=1)
         self._today_is_shabbat = is_shabbat(self.date)
         self._tomorrow_is_shabbat = is_shabbat(tomorrow)
@@ -317,7 +317,6 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         def make_zman(key: str, time: float) -> Zman:
             timezone = cast(dt.tzinfo, self.location.timezone)
             zman = Zman(key, time, self.date, timezone)
-            zman.set_language(self.language)
             return zman
 
         _zmanim = {
