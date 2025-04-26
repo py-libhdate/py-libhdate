@@ -272,13 +272,13 @@ HOLIDAYS = (
         HolidayTypes.FAST_DAY,
         "taanit_esther",
         ((Months.ADAR, Months.ADAR_II), 11),
-        [not_on_dow([Weekday.SATURDAY])],
+        [only_on_dow(Weekday.THURSDAY)],
     ),
     Holiday(
         HolidayTypes.FAST_DAY,
         "taanit_esther",
         ((Months.ADAR, Months.ADAR_II), 13),
-        [only_on_dow(Weekday.THURSDAY)],
+        [not_on_dow([Weekday.SATURDAY])],
     ),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
@@ -396,7 +396,7 @@ HOLIDAYS = (
         "yom_hazikaron",
         (Months.IYYAR, 4),
         [
-            year_is_before(5763),
+            year_is_after(5763),
             not_on_dow([Weekday.THURSDAY, Weekday.FRIDAY, Weekday.SUNDAY]),
         ],
     ),
