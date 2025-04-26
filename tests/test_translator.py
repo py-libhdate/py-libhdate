@@ -5,7 +5,7 @@ import typing
 import pytest
 
 from hdate.hebrew_date import Months
-from hdate.translator import Language, TranslatorMixin
+from hdate.translator import Language, TranslatorMixin, get_language, set_language
 
 
 @pytest.mark.parametrize("language", typing.get_args(Language))
@@ -19,39 +19,19 @@ def test_available_languages(language: Language) -> None:
 def test_set_language(language: Language) -> None:
     """Test the load_language method."""
     month = Months.TISHREI
-    result = {
-        "english": "Tishrei",
-        "french": "Tishri",
-        "hebrew": "תשרי",
-    }
-    month.set_language(language)
+    result = {"en": "Tishrei", "fr": "Tishri", "he": "תשרי"}
+    set_language(language)
     assert str(month) == result[language]
 
 
-def test_non_existing_language(caplog: pytest.LogCaptureFixture) -> None:
+def test_set_non_existing_language(caplog: pytest.LogCaptureFixture) -> None:
     """Test the load_language method."""
-    month = Months.TISHREI
-    month.set_language("non-existing-language")  # type: ignore
+    set_language("non-existing-language")  # type: ignore
     assert (
-        "Language non-existing-language not found, falling back to english"
+        "Language non-existing-language not found, falling back to hebrew"
         in caplog.text
     )
-
-
-def test_str_without_name() -> None:
-    """Test the __str__ method and the __init__method."""
-
-    class Foo(TranslatorMixin):
-        """Test class."""
-
-        def __init__(self) -> None:
-            self.language = "hebrew"
-            super().__init__()
-
-    foo_class = Foo()
-    assert foo_class._language == "hebrew"  # pylint: disable=protected-access
-    with pytest.raises(NameError):
-        str(foo_class)
+    assert get_language() == "he"
 
 
 def test_translation_not_found(caplog: pytest.LogCaptureFixture) -> None:
@@ -63,3 +43,5 @@ def test_translation_not_found(caplog: pytest.LogCaptureFixture) -> None:
     foo_class = Foo()
     assert foo_class.get_translation("non-existing-key") == "non-existing-key"
     assert "Translation for non-existing-key not found" in caplog.text
+    with pytest.raises(NameError):
+        str(foo_class)

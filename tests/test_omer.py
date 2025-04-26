@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months
 from hdate.omer import Nusach, Omer
-from hdate.translator import Language
+from hdate.translator import Language, set_language
 from tests.conftest import valid_hebrew_date
 
 
@@ -20,8 +20,9 @@ def test_get_omer(
     language: Language, nusach: Nusach, snapshot: SnapshotAssertion
 ) -> None:
     """Test the value returned by calculating the Omer."""
+    set_language(language)
     for omer_day in range(50):
-        omer = Omer(total_days=omer_day, language=language, nusach=nusach)
+        omer = Omer(total_days=omer_day, nusach=nusach)
         if omer_day != 0:
             assert isinstance(omer.date, HebrewDate)
             assert omer.date >= HebrewDate(0, Months.NISAN, 16)
@@ -105,3 +106,12 @@ def test_omer_str(snapshot: SnapshotAssertion) -> None:
     assert str(Omer(total_days=0)) == snapshot
     assert str(Omer(total_days=25)) == snapshot
     assert str(Omer(total_days=25, nusach=Nusach.ASHKENAZ)) == snapshot
+
+
+def test_omer_dont_change_language() -> None:
+    """Test that the Omer does not change the language."""
+    set_language("he")
+    omer = Omer(total_days=25)
+    date = HebrewDate(5785, Months.NISAN, 16)
+    assert str(omer) == 'כ"ה לעומר'
+    assert str(date) == 'ט"ז ניסן ה\' תשפ"ה'

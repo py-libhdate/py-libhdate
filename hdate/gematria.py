@@ -1,5 +1,7 @@
 """Gematria for hebrew numbers."""
 
+from hdate.translator import get_language
+
 DIGITS = (
     (" ", "א", "ב", "ג", "ד", "ה", "ו", "ז", "ח", "ט"),
     ("ט", "י", "כ", "ל", "מ", "נ", "ס", "ע", "פ", "צ"),
@@ -7,9 +9,9 @@ DIGITS = (
 )
 
 
-def hebrew_number(num: int, language: str = "hebrew", short: bool = False) -> str:
+def hebrew_number(num: int, short: bool = False) -> str:
     """Return "Gimatria" number."""
-    if language != "hebrew":
+    if get_language() != "he":
         return str(num)
     if not 0 <= num < 10000:
         raise ValueError(f"num must be between 0 to 9999, got:{num}")

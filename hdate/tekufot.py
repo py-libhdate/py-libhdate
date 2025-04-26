@@ -6,7 +6,7 @@ The class attempts to compute:
       shorter by 5min than Schmuel (365 days, 5 hours, 997 parts/chalakim) is not used
     - Cheilat Geshamim start date, which differs between the diaspora and Israel.
     - Halachic prayer periods based on key Jewish holidays and seasonal changes.
-    - Appropriate prayer phrases depending on the current date, tradition, and language.
+    - Appropriate prayer phrases depending on the current date and tradition.
 """
 
 import datetime as dt
@@ -17,7 +17,7 @@ from enum import Enum
 from typing import Literal
 
 from hdate.hebrew_date import HebrewDate, Months
-from hdate.translator import Language, TranslatorMixin
+from hdate.translator import TranslatorMixin
 
 
 class Gevurot(TranslatorMixin, Enum):
@@ -51,10 +51,8 @@ class Tekufot(TranslatorMixin):
     date: dt.date = field(default_factory=dt.date.today)
     diaspora: bool = False
     tradition: Nusachim = "sephardi"
-    language: Language = "english"
 
     def __post_init__(self) -> None:
-        super().__post_init__()
         # Convert current date Hebrew Date
         self.hebrew_date = HebrewDate.from_gdate(self.date)
         self.hebrew_year_p = self.hebrew_date.year
@@ -160,13 +158,10 @@ class Tekufot(TranslatorMixin):
 
     def get_prayer_for_date(self) -> str:
         """
-        Returns the appropriate prayer phrases for the given date, tradition,
-        and language. The tradition can be 'ashkenazi', "sephardi'.
-        The language can be 'english', 'french', or 'hebrew'.
+        Returns the appropriate prayer phrases for the given date,
+        and tradition. The tradition can be 'ashkenazi', "sephardi'.
         """
         geshamim = self.get_geshamim()
         gevurot = self.get_gevurot()
-        geshamim.set_language(self.language)
-        gevurot.set_language(self.language)
 
         return f"{gevurot} - {geshamim}"

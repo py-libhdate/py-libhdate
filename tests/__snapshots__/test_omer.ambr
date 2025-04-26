@@ -1,1802 +1,1802 @@
 # serializer version: 1
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH]
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH]
   ''
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].1
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].1
   'Today is the first day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].10
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].10
   'Today is the tenth day of the Omer, which are one week and three days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].11
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].11
   'Today is the eleventh day of the Omer, which are one week and four days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].12
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].12
   'Today is the twelfth day of the Omer, which are one week and five days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].13
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].13
   'Today is the thirteenth day of the Omer, which are one week and six days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].14
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].14
   'Today is the fourteenth day of the Omer, which are two weeks'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].15
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].15
   'Today is the fifteenth day of the Omer, which are two weeks and one day'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].16
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].16
   'Today is the sixteenth day of the Omer, which are two weeks and two days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].17
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].17
   'Today is the seventeenth day of the Omer, which are two weeks and three days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].18
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].18
   'Today is the eighteenth day of the Omer, which are two weeks and four days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].19
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].19
   'Today is the nineteenth day of the Omer, which are two weeks and five days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].2
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].2
   'Today is the second day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].20
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].20
   'Today is the twentieth day of the Omer, which are two weeks and six days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].21
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].21
   'Today is the twenty-first day of the Omer, which are three weeks'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].22
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].22
   'Today is the twenty-second day of the Omer, which are three weeks and one day'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].23
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].23
   'Today is the twenty-third day of the Omer, which are three weeks and two days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].24
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].24
   'Today is the twenty-fourth day of the Omer, which are three weeks and three days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].25
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].25
   'Today is the twenty-fifth day of the Omer, which are three weeks and four days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].26
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].26
   'Today is the twenty-sixth day of the Omer, which are three weeks and five days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].27
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].27
   'Today is the twenty-seventh day of the Omer, which are three weeks and six days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].28
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].28
   'Today is the twenty-eighth day of the Omer, which are four weeks'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].29
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].29
   'Today is the twenty-ninth day of the Omer, which are four weeks and one day'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].3
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].3
   'Today is the third day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].30
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].30
   'Today is the thirtieth day of the Omer, which are four weeks and two days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].31
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].31
   'Today is the thirty-first day of the Omer, which are four weeks and three days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].32
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].32
   'Today is the thirty-second day of the Omer, which are four weeks and four days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].33
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].33
   'Today is the thirty-third day of the Omer, which are four weeks and five days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].34
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].34
   'Today is the thirty-fourth day of the Omer, which are four weeks and six days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].35
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].35
   'Today is the thirty-fifth day of the Omer, which are five weeks'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].36
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].36
   'Today is the thirty-sixth day of the Omer, which are five weeks and one day'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].37
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].37
   'Today is the thirty-seventh day of the Omer, which are five weeks and two days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].38
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].38
   'Today is the thirty-eighth day of the Omer, which are five weeks and three days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].39
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].39
   'Today is the thirty-ninth day of the Omer, which are five weeks and four days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].4
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].4
   'Today is the fourth day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].40
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].40
   'Today is the fortieth day of the Omer, which are five weeks and five days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].41
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].41
   'Today is the forty-first day of the Omer, which are five weeks and six days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].42
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].42
   'Today is the forty-second day of the Omer, which are six weeks'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].43
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].43
   'Today is the forty-third day of the Omer, which are six weeks and one day'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].44
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].44
   'Today is the forty-fourth day of the Omer, which are six weeks and two days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].45
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].45
   'Today is the forty-fifth day of the Omer, which are six weeks and three days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].46
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].46
   'Today is the forty-sixth day of the Omer, which are six weeks and four days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].47
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].47
   'Today is the forty-seventh day of the Omer, which are six weeks and five days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].48
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].48
   'Today is the forty-eighth day of the Omer, which are six weeks and six days'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].49
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].49
   'Today is the forty-ninth day of the Omer, which are seven weeks'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].5
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].5
   'Today is the fifth day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].6
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].6
   'Today is the sixth day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].7
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].7
   'Today is the seventh day of the Omer, which are one week'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].8
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].8
   'Today is the eighth day of the Omer, which are one week and one day'
 # ---
-# name: test_get_omer[english-Nusach.ADOT_MIZRAH].9
+# name: test_get_omer[en-Nusach.ADOT_MIZRAH].9
   'Today is the ninth day of the Omer, which are one week and two days'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ]
+# name: test_get_omer[en-Nusach.ASHKENAZ]
   ''
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].1
+# name: test_get_omer[en-Nusach.ASHKENAZ].1
   'Today is the first day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].10
+# name: test_get_omer[en-Nusach.ASHKENAZ].10
   'Today is the tenth day, which are one week and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].11
+# name: test_get_omer[en-Nusach.ASHKENAZ].11
   'Today is the eleventh day, which are one week and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].12
+# name: test_get_omer[en-Nusach.ASHKENAZ].12
   'Today is the twelfth day, which are one week and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].13
+# name: test_get_omer[en-Nusach.ASHKENAZ].13
   'Today is the thirteenth day, which are one week and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].14
+# name: test_get_omer[en-Nusach.ASHKENAZ].14
   'Today is the fourteenth day, which are two weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].15
+# name: test_get_omer[en-Nusach.ASHKENAZ].15
   'Today is the fifteenth day, which are two weeks and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].16
+# name: test_get_omer[en-Nusach.ASHKENAZ].16
   'Today is the sixteenth day, which are two weeks and two days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].17
+# name: test_get_omer[en-Nusach.ASHKENAZ].17
   'Today is the seventeenth day, which are two weeks and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].18
+# name: test_get_omer[en-Nusach.ASHKENAZ].18
   'Today is the eighteenth day, which are two weeks and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].19
+# name: test_get_omer[en-Nusach.ASHKENAZ].19
   'Today is the nineteenth day, which are two weeks and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].2
+# name: test_get_omer[en-Nusach.ASHKENAZ].2
   'Today is the second day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].20
+# name: test_get_omer[en-Nusach.ASHKENAZ].20
   'Today is the twentieth day, which are two weeks and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].21
+# name: test_get_omer[en-Nusach.ASHKENAZ].21
   'Today is the twenty-first day, which are three weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].22
+# name: test_get_omer[en-Nusach.ASHKENAZ].22
   'Today is the twenty-second day, which are three weeks and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].23
+# name: test_get_omer[en-Nusach.ASHKENAZ].23
   'Today is the twenty-third day, which are three weeks and two days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].24
+# name: test_get_omer[en-Nusach.ASHKENAZ].24
   'Today is the twenty-fourth day, which are three weeks and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].25
+# name: test_get_omer[en-Nusach.ASHKENAZ].25
   'Today is the twenty-fifth day, which are three weeks and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].26
+# name: test_get_omer[en-Nusach.ASHKENAZ].26
   'Today is the twenty-sixth day, which are three weeks and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].27
+# name: test_get_omer[en-Nusach.ASHKENAZ].27
   'Today is the twenty-seventh day, which are three weeks and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].28
+# name: test_get_omer[en-Nusach.ASHKENAZ].28
   'Today is the twenty-eighth day, which are four weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].29
+# name: test_get_omer[en-Nusach.ASHKENAZ].29
   'Today is the twenty-ninth day, which are four weeks and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].3
+# name: test_get_omer[en-Nusach.ASHKENAZ].3
   'Today is the third day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].30
+# name: test_get_omer[en-Nusach.ASHKENAZ].30
   'Today is the thirtieth day, which are four weeks and two days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].31
+# name: test_get_omer[en-Nusach.ASHKENAZ].31
   'Today is the thirty-first day, which are four weeks and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].32
+# name: test_get_omer[en-Nusach.ASHKENAZ].32
   'Today is the thirty-second day, which are four weeks and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].33
+# name: test_get_omer[en-Nusach.ASHKENAZ].33
   'Today is the thirty-third day, which are four weeks and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].34
+# name: test_get_omer[en-Nusach.ASHKENAZ].34
   'Today is the thirty-fourth day, which are four weeks and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].35
+# name: test_get_omer[en-Nusach.ASHKENAZ].35
   'Today is the thirty-fifth day, which are five weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].36
+# name: test_get_omer[en-Nusach.ASHKENAZ].36
   'Today is the thirty-sixth day, which are five weeks and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].37
+# name: test_get_omer[en-Nusach.ASHKENAZ].37
   'Today is the thirty-seventh day, which are five weeks and two days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].38
+# name: test_get_omer[en-Nusach.ASHKENAZ].38
   'Today is the thirty-eighth day, which are five weeks and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].39
+# name: test_get_omer[en-Nusach.ASHKENAZ].39
   'Today is the thirty-ninth day, which are five weeks and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].4
+# name: test_get_omer[en-Nusach.ASHKENAZ].4
   'Today is the fourth day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].40
+# name: test_get_omer[en-Nusach.ASHKENAZ].40
   'Today is the fortieth day, which are five weeks and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].41
+# name: test_get_omer[en-Nusach.ASHKENAZ].41
   'Today is the forty-first day, which are five weeks and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].42
+# name: test_get_omer[en-Nusach.ASHKENAZ].42
   'Today is the forty-second day, which are six weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].43
+# name: test_get_omer[en-Nusach.ASHKENAZ].43
   'Today is the forty-third day, which are six weeks and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].44
+# name: test_get_omer[en-Nusach.ASHKENAZ].44
   'Today is the forty-fourth day, which are six weeks and two days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].45
+# name: test_get_omer[en-Nusach.ASHKENAZ].45
   'Today is the forty-fifth day, which are six weeks and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].46
+# name: test_get_omer[en-Nusach.ASHKENAZ].46
   'Today is the forty-sixth day, which are six weeks and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].47
+# name: test_get_omer[en-Nusach.ASHKENAZ].47
   'Today is the forty-seventh day, which are six weeks and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].48
+# name: test_get_omer[en-Nusach.ASHKENAZ].48
   'Today is the forty-eighth day, which are six weeks and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].49
+# name: test_get_omer[en-Nusach.ASHKENAZ].49
   'Today is the forty-ninth day, which are seven weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].5
+# name: test_get_omer[en-Nusach.ASHKENAZ].5
   'Today is the fifth day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].6
+# name: test_get_omer[en-Nusach.ASHKENAZ].6
   'Today is the sixth day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].7
+# name: test_get_omer[en-Nusach.ASHKENAZ].7
   'Today is the seventh day, which are one week of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].8
+# name: test_get_omer[en-Nusach.ASHKENAZ].8
   'Today is the eighth day, which are one week and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ASHKENAZ].9
+# name: test_get_omer[en-Nusach.ASHKENAZ].9
   'Today is the ninth day, which are one week and two days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN]
+# name: test_get_omer[en-Nusach.ITALIAN]
   ''
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].1
+# name: test_get_omer[en-Nusach.ITALIAN].1
   'Today of the Omer is the first day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].10
+# name: test_get_omer[en-Nusach.ITALIAN].10
   'Today of the Omer is the tenth day, which are one week and three days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].11
+# name: test_get_omer[en-Nusach.ITALIAN].11
   'Today of the Omer is the eleventh day, which are one week and four days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].12
+# name: test_get_omer[en-Nusach.ITALIAN].12
   'Today of the Omer is the twelfth day, which are one week and five days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].13
+# name: test_get_omer[en-Nusach.ITALIAN].13
   'Today of the Omer is the thirteenth day, which are one week and six days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].14
+# name: test_get_omer[en-Nusach.ITALIAN].14
   'Today of the Omer is the fourteenth day, which are two weeks'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].15
+# name: test_get_omer[en-Nusach.ITALIAN].15
   'Today of the Omer is the fifteenth day, which are two weeks and one day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].16
+# name: test_get_omer[en-Nusach.ITALIAN].16
   'Today of the Omer is the sixteenth day, which are two weeks and two days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].17
+# name: test_get_omer[en-Nusach.ITALIAN].17
   'Today of the Omer is the seventeenth day, which are two weeks and three days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].18
+# name: test_get_omer[en-Nusach.ITALIAN].18
   'Today of the Omer is the eighteenth day, which are two weeks and four days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].19
+# name: test_get_omer[en-Nusach.ITALIAN].19
   'Today of the Omer is the nineteenth day, which are two weeks and five days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].2
+# name: test_get_omer[en-Nusach.ITALIAN].2
   'Today of the Omer is the second day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].20
+# name: test_get_omer[en-Nusach.ITALIAN].20
   'Today of the Omer is the twentieth day, which are two weeks and six days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].21
+# name: test_get_omer[en-Nusach.ITALIAN].21
   'Today of the Omer is the twenty-first day, which are three weeks'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].22
+# name: test_get_omer[en-Nusach.ITALIAN].22
   'Today of the Omer is the twenty-second day, which are three weeks and one day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].23
+# name: test_get_omer[en-Nusach.ITALIAN].23
   'Today of the Omer is the twenty-third day, which are three weeks and two days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].24
+# name: test_get_omer[en-Nusach.ITALIAN].24
   'Today of the Omer is the twenty-fourth day, which are three weeks and three days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].25
+# name: test_get_omer[en-Nusach.ITALIAN].25
   'Today of the Omer is the twenty-fifth day, which are three weeks and four days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].26
+# name: test_get_omer[en-Nusach.ITALIAN].26
   'Today of the Omer is the twenty-sixth day, which are three weeks and five days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].27
+# name: test_get_omer[en-Nusach.ITALIAN].27
   'Today of the Omer is the twenty-seventh day, which are three weeks and six days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].28
+# name: test_get_omer[en-Nusach.ITALIAN].28
   'Today of the Omer is the twenty-eighth day, which are four weeks'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].29
+# name: test_get_omer[en-Nusach.ITALIAN].29
   'Today of the Omer is the twenty-ninth day, which are four weeks and one day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].3
+# name: test_get_omer[en-Nusach.ITALIAN].3
   'Today of the Omer is the third day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].30
+# name: test_get_omer[en-Nusach.ITALIAN].30
   'Today of the Omer is the thirtieth day, which are four weeks and two days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].31
+# name: test_get_omer[en-Nusach.ITALIAN].31
   'Today of the Omer is the thirty-first day, which are four weeks and three days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].32
+# name: test_get_omer[en-Nusach.ITALIAN].32
   'Today of the Omer is the thirty-second day, which are four weeks and four days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].33
+# name: test_get_omer[en-Nusach.ITALIAN].33
   'Today of the Omer is the thirty-third day, which are four weeks and five days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].34
+# name: test_get_omer[en-Nusach.ITALIAN].34
   'Today of the Omer is the thirty-fourth day, which are four weeks and six days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].35
+# name: test_get_omer[en-Nusach.ITALIAN].35
   'Today of the Omer is the thirty-fifth day, which are five weeks'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].36
+# name: test_get_omer[en-Nusach.ITALIAN].36
   'Today of the Omer is the thirty-sixth day, which are five weeks and one day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].37
+# name: test_get_omer[en-Nusach.ITALIAN].37
   'Today of the Omer is the thirty-seventh day, which are five weeks and two days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].38
+# name: test_get_omer[en-Nusach.ITALIAN].38
   'Today of the Omer is the thirty-eighth day, which are five weeks and three days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].39
+# name: test_get_omer[en-Nusach.ITALIAN].39
   'Today of the Omer is the thirty-ninth day, which are five weeks and four days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].4
+# name: test_get_omer[en-Nusach.ITALIAN].4
   'Today of the Omer is the fourth day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].40
+# name: test_get_omer[en-Nusach.ITALIAN].40
   'Today of the Omer is the fortieth day, which are five weeks and five days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].41
+# name: test_get_omer[en-Nusach.ITALIAN].41
   'Today of the Omer is the forty-first day, which are five weeks and six days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].42
+# name: test_get_omer[en-Nusach.ITALIAN].42
   'Today of the Omer is the forty-second day, which are six weeks'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].43
+# name: test_get_omer[en-Nusach.ITALIAN].43
   'Today of the Omer is the forty-third day, which are six weeks and one day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].44
+# name: test_get_omer[en-Nusach.ITALIAN].44
   'Today of the Omer is the forty-fourth day, which are six weeks and two days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].45
+# name: test_get_omer[en-Nusach.ITALIAN].45
   'Today of the Omer is the forty-fifth day, which are six weeks and three days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].46
+# name: test_get_omer[en-Nusach.ITALIAN].46
   'Today of the Omer is the forty-sixth day, which are six weeks and four days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].47
+# name: test_get_omer[en-Nusach.ITALIAN].47
   'Today of the Omer is the forty-seventh day, which are six weeks and five days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].48
+# name: test_get_omer[en-Nusach.ITALIAN].48
   'Today of the Omer is the forty-eighth day, which are six weeks and six days'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].49
+# name: test_get_omer[en-Nusach.ITALIAN].49
   'Today of the Omer is the forty-ninth day, which are seven weeks'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].5
+# name: test_get_omer[en-Nusach.ITALIAN].5
   'Today of the Omer is the fifth day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].6
+# name: test_get_omer[en-Nusach.ITALIAN].6
   'Today of the Omer is the sixth day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].7
+# name: test_get_omer[en-Nusach.ITALIAN].7
   'Today of the Omer is the seventh day, which are one week'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].8
+# name: test_get_omer[en-Nusach.ITALIAN].8
   'Today of the Omer is the eighth day, which are one week and one day'
 # ---
-# name: test_get_omer[english-Nusach.ITALIAN].9
+# name: test_get_omer[en-Nusach.ITALIAN].9
   'Today of the Omer is the ninth day, which are one week and two days'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD]
+# name: test_get_omer[en-Nusach.SFARAD]
   ''
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].1
+# name: test_get_omer[en-Nusach.SFARAD].1
   'Today is the first day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].10
+# name: test_get_omer[en-Nusach.SFARAD].10
   'Today is the tenth day, which are one week and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].11
+# name: test_get_omer[en-Nusach.SFARAD].11
   'Today is the eleventh day, which are one week and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].12
+# name: test_get_omer[en-Nusach.SFARAD].12
   'Today is the twelfth day, which are one week and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].13
+# name: test_get_omer[en-Nusach.SFARAD].13
   'Today is the thirteenth day, which are one week and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].14
+# name: test_get_omer[en-Nusach.SFARAD].14
   'Today is the fourteenth day, which are two weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].15
+# name: test_get_omer[en-Nusach.SFARAD].15
   'Today is the fifteenth day, which are two weeks and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].16
+# name: test_get_omer[en-Nusach.SFARAD].16
   'Today is the sixteenth day, which are two weeks and two days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].17
+# name: test_get_omer[en-Nusach.SFARAD].17
   'Today is the seventeenth day, which are two weeks and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].18
+# name: test_get_omer[en-Nusach.SFARAD].18
   'Today is the eighteenth day, which are two weeks and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].19
+# name: test_get_omer[en-Nusach.SFARAD].19
   'Today is the nineteenth day, which are two weeks and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].2
+# name: test_get_omer[en-Nusach.SFARAD].2
   'Today is the second day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].20
+# name: test_get_omer[en-Nusach.SFARAD].20
   'Today is the twentieth day, which are two weeks and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].21
+# name: test_get_omer[en-Nusach.SFARAD].21
   'Today is the twenty-first day, which are three weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].22
+# name: test_get_omer[en-Nusach.SFARAD].22
   'Today is the twenty-second day, which are three weeks and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].23
+# name: test_get_omer[en-Nusach.SFARAD].23
   'Today is the twenty-third day, which are three weeks and two days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].24
+# name: test_get_omer[en-Nusach.SFARAD].24
   'Today is the twenty-fourth day, which are three weeks and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].25
+# name: test_get_omer[en-Nusach.SFARAD].25
   'Today is the twenty-fifth day, which are three weeks and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].26
+# name: test_get_omer[en-Nusach.SFARAD].26
   'Today is the twenty-sixth day, which are three weeks and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].27
+# name: test_get_omer[en-Nusach.SFARAD].27
   'Today is the twenty-seventh day, which are three weeks and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].28
+# name: test_get_omer[en-Nusach.SFARAD].28
   'Today is the twenty-eighth day, which are four weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].29
+# name: test_get_omer[en-Nusach.SFARAD].29
   'Today is the twenty-ninth day, which are four weeks and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].3
+# name: test_get_omer[en-Nusach.SFARAD].3
   'Today is the third day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].30
+# name: test_get_omer[en-Nusach.SFARAD].30
   'Today is the thirtieth day, which are four weeks and two days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].31
+# name: test_get_omer[en-Nusach.SFARAD].31
   'Today is the thirty-first day, which are four weeks and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].32
+# name: test_get_omer[en-Nusach.SFARAD].32
   'Today is the thirty-second day, which are four weeks and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].33
+# name: test_get_omer[en-Nusach.SFARAD].33
   'Today is the thirty-third day, which are four weeks and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].34
+# name: test_get_omer[en-Nusach.SFARAD].34
   'Today is the thirty-fourth day, which are four weeks and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].35
+# name: test_get_omer[en-Nusach.SFARAD].35
   'Today is the thirty-fifth day, which are five weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].36
+# name: test_get_omer[en-Nusach.SFARAD].36
   'Today is the thirty-sixth day, which are five weeks and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].37
+# name: test_get_omer[en-Nusach.SFARAD].37
   'Today is the thirty-seventh day, which are five weeks and two days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].38
+# name: test_get_omer[en-Nusach.SFARAD].38
   'Today is the thirty-eighth day, which are five weeks and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].39
+# name: test_get_omer[en-Nusach.SFARAD].39
   'Today is the thirty-ninth day, which are five weeks and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].4
+# name: test_get_omer[en-Nusach.SFARAD].4
   'Today is the fourth day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].40
+# name: test_get_omer[en-Nusach.SFARAD].40
   'Today is the fortieth day, which are five weeks and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].41
+# name: test_get_omer[en-Nusach.SFARAD].41
   'Today is the forty-first day, which are five weeks and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].42
+# name: test_get_omer[en-Nusach.SFARAD].42
   'Today is the forty-second day, which are six weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].43
+# name: test_get_omer[en-Nusach.SFARAD].43
   'Today is the forty-third day, which are six weeks and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].44
+# name: test_get_omer[en-Nusach.SFARAD].44
   'Today is the forty-fourth day, which are six weeks and two days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].45
+# name: test_get_omer[en-Nusach.SFARAD].45
   'Today is the forty-fifth day, which are six weeks and three days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].46
+# name: test_get_omer[en-Nusach.SFARAD].46
   'Today is the forty-sixth day, which are six weeks and four days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].47
+# name: test_get_omer[en-Nusach.SFARAD].47
   'Today is the forty-seventh day, which are six weeks and five days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].48
+# name: test_get_omer[en-Nusach.SFARAD].48
   'Today is the forty-eighth day, which are six weeks and six days of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].49
+# name: test_get_omer[en-Nusach.SFARAD].49
   'Today is the forty-ninth day, which are seven weeks of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].5
+# name: test_get_omer[en-Nusach.SFARAD].5
   'Today is the fifth day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].6
+# name: test_get_omer[en-Nusach.SFARAD].6
   'Today is the sixth day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].7
+# name: test_get_omer[en-Nusach.SFARAD].7
   'Today is the seventh day, which are one week of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].8
+# name: test_get_omer[en-Nusach.SFARAD].8
   'Today is the eighth day, which are one week and one day of the Omer'
 # ---
-# name: test_get_omer[english-Nusach.SFARAD].9
+# name: test_get_omer[en-Nusach.SFARAD].9
   'Today is the ninth day, which are one week and two days of the Omer'
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH]
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH]
   ''
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].1
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].1
   "Aujourd'hui c'est le premier jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].10
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].10
   "Aujourd'hui c'est le dixième jour de l'Omer, ce qui fait une semaine et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].11
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].11
   "Aujourd'hui c'est le onzième jour de l'Omer, ce qui fait une semaine et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].12
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].12
   "Aujourd'hui c'est le douzième jour de l'Omer, ce qui fait une semaine et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].13
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].13
   "Aujourd'hui c'est le treizième jour de l'Omer, ce qui fait une semaine et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].14
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].14
   "Aujourd'hui c'est le quatorzième jour de l'Omer, ce qui fait deux semaines"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].15
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].15
   "Aujourd'hui c'est le quinzième jour de l'Omer, ce qui fait deux semaines et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].16
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].16
   "Aujourd'hui c'est le seizième jour de l'Omer, ce qui fait deux semaines et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].17
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].17
   "Aujourd'hui c'est le dix-septième jour de l'Omer, ce qui fait deux semaines et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].18
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].18
   "Aujourd'hui c'est le dix-huitième jour de l'Omer, ce qui fait deux semaines et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].19
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].19
   "Aujourd'hui c'est le dix-neuvième jour de l'Omer, ce qui fait deux semaines et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].2
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].2
   "Aujourd'hui c'est le deuxième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].20
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].20
   "Aujourd'hui c'est le vingtième jour de l'Omer, ce qui fait deux semaines et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].21
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].21
   "Aujourd'hui c'est le vingt et unième jour de l'Omer, ce qui fait trois semaines"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].22
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].22
   "Aujourd'hui c'est le vingt-deuxième jour de l'Omer, ce qui fait trois semaines et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].23
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].23
   "Aujourd'hui c'est le vingt-troisième jour de l'Omer, ce qui fait trois semaines et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].24
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].24
   "Aujourd'hui c'est le vingt-quatrième jour de l'Omer, ce qui fait trois semaines et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].25
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].25
   "Aujourd'hui c'est le vingt-cinquième jour de l'Omer, ce qui fait trois semaines et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].26
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].26
   "Aujourd'hui c'est le vingt-sixième jour de l'Omer, ce qui fait trois semaines et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].27
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].27
   "Aujourd'hui c'est le vingt-septième jour de l'Omer, ce qui fait trois semaines et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].28
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].28
   "Aujourd'hui c'est le vingt-huitième jour de l'Omer, ce qui fait quatre semaines"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].29
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].29
   "Aujourd'hui c'est le vingt-neuvième jour de l'Omer, ce qui fait quatre semaines et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].3
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].3
   "Aujourd'hui c'est le troisième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].30
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].30
   "Aujourd'hui c'est le trentième jour de l'Omer, ce qui fait quatre semaines et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].31
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].31
   "Aujourd'hui c'est le trente et unième jour de l'Omer, ce qui fait quatre semaines et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].32
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].32
   "Aujourd'hui c'est le trente-deuxième jour de l'Omer, ce qui fait quatre semaines et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].33
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].33
   "Aujourd'hui c'est le trente-troisième jour de l'Omer, ce qui fait quatre semaines et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].34
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].34
   "Aujourd'hui c'est le trente-quatrième jour de l'Omer, ce qui fait quatre semaines et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].35
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].35
   "Aujourd'hui c'est le trente-cinquième jour de l'Omer, ce qui fait cinq semaines"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].36
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].36
   "Aujourd'hui c'est le trente-sixième jour de l'Omer, ce qui fait cinq semaines et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].37
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].37
   "Aujourd'hui c'est le trente-septième jour de l'Omer, ce qui fait cinq semaines et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].38
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].38
   "Aujourd'hui c'est le trente-huitième jour de l'Omer, ce qui fait cinq semaines et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].39
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].39
   "Aujourd'hui c'est le trente-neuvième jour de l'Omer, ce qui fait cinq semaines et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].4
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].4
   "Aujourd'hui c'est le quatrième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].40
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].40
   "Aujourd'hui c'est le quarantième jour de l'Omer, ce qui fait cinq semaines et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].41
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].41
   "Aujourd'hui c'est le quarante et unième jour de l'Omer, ce qui fait cinq semaines et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].42
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].42
   "Aujourd'hui c'est le quarante-deuxième jour de l'Omer, ce qui fait six semaines"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].43
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].43
   "Aujourd'hui c'est le quarante-troisième jour de l'Omer, ce qui fait six semaines et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].44
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].44
   "Aujourd'hui c'est le quarante-quatrième jour de l'Omer, ce qui fait six semaines et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].45
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].45
   "Aujourd'hui c'est le quarante-cinquième jour de l'Omer, ce qui fait six semaines et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].46
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].46
   "Aujourd'hui c'est le quarante-sixième jour de l'Omer, ce qui fait six semaines et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].47
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].47
   "Aujourd'hui c'est le quarante-septième jour de l'Omer, ce qui fait six semaines et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].48
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].48
   "Aujourd'hui c'est le quarante-huitième jour de l'Omer, ce qui fait six semaines et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].49
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].49
   "Aujourd'hui c'est le quarante-neuvième jour de l'Omer, ce qui fait sept semaines"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].5
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].5
   "Aujourd'hui c'est le cinquième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].6
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].6
   "Aujourd'hui c'est le sixième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].7
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].7
   "Aujourd'hui c'est le septième jour de l'Omer, ce qui fait une semaine"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].8
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].8
   "Aujourd'hui c'est le huitième jour de l'Omer, ce qui fait une semaine et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ADOT_MIZRAH].9
+# name: test_get_omer[fr-Nusach.ADOT_MIZRAH].9
   "Aujourd'hui c'est le neuvième jour de l'Omer, ce qui fait une semaine et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ]
+# name: test_get_omer[fr-Nusach.ASHKENAZ]
   ''
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].1
+# name: test_get_omer[fr-Nusach.ASHKENAZ].1
   "Aujourd'hui c'est le premier jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].10
+# name: test_get_omer[fr-Nusach.ASHKENAZ].10
   "Aujourd'hui c'est le dixième jour, ce qui fait une semaine et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].11
+# name: test_get_omer[fr-Nusach.ASHKENAZ].11
   "Aujourd'hui c'est le onzième jour, ce qui fait une semaine et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].12
+# name: test_get_omer[fr-Nusach.ASHKENAZ].12
   "Aujourd'hui c'est le douzième jour, ce qui fait une semaine et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].13
+# name: test_get_omer[fr-Nusach.ASHKENAZ].13
   "Aujourd'hui c'est le treizième jour, ce qui fait une semaine et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].14
+# name: test_get_omer[fr-Nusach.ASHKENAZ].14
   "Aujourd'hui c'est le quatorzième jour, ce qui fait deux semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].15
+# name: test_get_omer[fr-Nusach.ASHKENAZ].15
   "Aujourd'hui c'est le quinzième jour, ce qui fait deux semaines et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].16
+# name: test_get_omer[fr-Nusach.ASHKENAZ].16
   "Aujourd'hui c'est le seizième jour, ce qui fait deux semaines et deux jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].17
+# name: test_get_omer[fr-Nusach.ASHKENAZ].17
   "Aujourd'hui c'est le dix-septième jour, ce qui fait deux semaines et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].18
+# name: test_get_omer[fr-Nusach.ASHKENAZ].18
   "Aujourd'hui c'est le dix-huitième jour, ce qui fait deux semaines et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].19
+# name: test_get_omer[fr-Nusach.ASHKENAZ].19
   "Aujourd'hui c'est le dix-neuvième jour, ce qui fait deux semaines et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].2
+# name: test_get_omer[fr-Nusach.ASHKENAZ].2
   "Aujourd'hui c'est le deuxième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].20
+# name: test_get_omer[fr-Nusach.ASHKENAZ].20
   "Aujourd'hui c'est le vingtième jour, ce qui fait deux semaines et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].21
+# name: test_get_omer[fr-Nusach.ASHKENAZ].21
   "Aujourd'hui c'est le vingt et unième jour, ce qui fait trois semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].22
+# name: test_get_omer[fr-Nusach.ASHKENAZ].22
   "Aujourd'hui c'est le vingt-deuxième jour, ce qui fait trois semaines et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].23
+# name: test_get_omer[fr-Nusach.ASHKENAZ].23
   "Aujourd'hui c'est le vingt-troisième jour, ce qui fait trois semaines et deux jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].24
+# name: test_get_omer[fr-Nusach.ASHKENAZ].24
   "Aujourd'hui c'est le vingt-quatrième jour, ce qui fait trois semaines et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].25
+# name: test_get_omer[fr-Nusach.ASHKENAZ].25
   "Aujourd'hui c'est le vingt-cinquième jour, ce qui fait trois semaines et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].26
+# name: test_get_omer[fr-Nusach.ASHKENAZ].26
   "Aujourd'hui c'est le vingt-sixième jour, ce qui fait trois semaines et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].27
+# name: test_get_omer[fr-Nusach.ASHKENAZ].27
   "Aujourd'hui c'est le vingt-septième jour, ce qui fait trois semaines et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].28
+# name: test_get_omer[fr-Nusach.ASHKENAZ].28
   "Aujourd'hui c'est le vingt-huitième jour, ce qui fait quatre semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].29
+# name: test_get_omer[fr-Nusach.ASHKENAZ].29
   "Aujourd'hui c'est le vingt-neuvième jour, ce qui fait quatre semaines et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].3
+# name: test_get_omer[fr-Nusach.ASHKENAZ].3
   "Aujourd'hui c'est le troisième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].30
+# name: test_get_omer[fr-Nusach.ASHKENAZ].30
   "Aujourd'hui c'est le trentième jour, ce qui fait quatre semaines et deux jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].31
+# name: test_get_omer[fr-Nusach.ASHKENAZ].31
   "Aujourd'hui c'est le trente et unième jour, ce qui fait quatre semaines et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].32
+# name: test_get_omer[fr-Nusach.ASHKENAZ].32
   "Aujourd'hui c'est le trente-deuxième jour, ce qui fait quatre semaines et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].33
+# name: test_get_omer[fr-Nusach.ASHKENAZ].33
   "Aujourd'hui c'est le trente-troisième jour, ce qui fait quatre semaines et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].34
+# name: test_get_omer[fr-Nusach.ASHKENAZ].34
   "Aujourd'hui c'est le trente-quatrième jour, ce qui fait quatre semaines et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].35
+# name: test_get_omer[fr-Nusach.ASHKENAZ].35
   "Aujourd'hui c'est le trente-cinquième jour, ce qui fait cinq semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].36
+# name: test_get_omer[fr-Nusach.ASHKENAZ].36
   "Aujourd'hui c'est le trente-sixième jour, ce qui fait cinq semaines et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].37
+# name: test_get_omer[fr-Nusach.ASHKENAZ].37
   "Aujourd'hui c'est le trente-septième jour, ce qui fait cinq semaines et deux jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].38
+# name: test_get_omer[fr-Nusach.ASHKENAZ].38
   "Aujourd'hui c'est le trente-huitième jour, ce qui fait cinq semaines et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].39
+# name: test_get_omer[fr-Nusach.ASHKENAZ].39
   "Aujourd'hui c'est le trente-neuvième jour, ce qui fait cinq semaines et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].4
+# name: test_get_omer[fr-Nusach.ASHKENAZ].4
   "Aujourd'hui c'est le quatrième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].40
+# name: test_get_omer[fr-Nusach.ASHKENAZ].40
   "Aujourd'hui c'est le quarantième jour, ce qui fait cinq semaines et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].41
+# name: test_get_omer[fr-Nusach.ASHKENAZ].41
   "Aujourd'hui c'est le quarante et unième jour, ce qui fait cinq semaines et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].42
+# name: test_get_omer[fr-Nusach.ASHKENAZ].42
   "Aujourd'hui c'est le quarante-deuxième jour, ce qui fait six semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].43
+# name: test_get_omer[fr-Nusach.ASHKENAZ].43
   "Aujourd'hui c'est le quarante-troisième jour, ce qui fait six semaines et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].44
+# name: test_get_omer[fr-Nusach.ASHKENAZ].44
   "Aujourd'hui c'est le quarante-quatrième jour, ce qui fait six semaines et deux jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].45
+# name: test_get_omer[fr-Nusach.ASHKENAZ].45
   "Aujourd'hui c'est le quarante-cinquième jour, ce qui fait six semaines et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].46
+# name: test_get_omer[fr-Nusach.ASHKENAZ].46
   "Aujourd'hui c'est le quarante-sixième jour, ce qui fait six semaines et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].47
+# name: test_get_omer[fr-Nusach.ASHKENAZ].47
   "Aujourd'hui c'est le quarante-septième jour, ce qui fait six semaines et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].48
+# name: test_get_omer[fr-Nusach.ASHKENAZ].48
   "Aujourd'hui c'est le quarante-huitième jour, ce qui fait six semaines et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].49
+# name: test_get_omer[fr-Nusach.ASHKENAZ].49
   "Aujourd'hui c'est le quarante-neuvième jour, ce qui fait sept semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].5
+# name: test_get_omer[fr-Nusach.ASHKENAZ].5
   "Aujourd'hui c'est le cinquième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].6
+# name: test_get_omer[fr-Nusach.ASHKENAZ].6
   "Aujourd'hui c'est le sixième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].7
+# name: test_get_omer[fr-Nusach.ASHKENAZ].7
   "Aujourd'hui c'est le septième jour, ce qui fait une semaine de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].8
+# name: test_get_omer[fr-Nusach.ASHKENAZ].8
   "Aujourd'hui c'est le huitième jour, ce qui fait une semaine et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ASHKENAZ].9
+# name: test_get_omer[fr-Nusach.ASHKENAZ].9
   "Aujourd'hui c'est le neuvième jour, ce qui fait une semaine et deux jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN]
+# name: test_get_omer[fr-Nusach.ITALIAN]
   ''
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].1
+# name: test_get_omer[fr-Nusach.ITALIAN].1
   "Aujourd'hui de l'Omer c'est le premier jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].10
+# name: test_get_omer[fr-Nusach.ITALIAN].10
   "Aujourd'hui de l'Omer c'est le dixième jour, ce qui fait une semaine et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].11
+# name: test_get_omer[fr-Nusach.ITALIAN].11
   "Aujourd'hui de l'Omer c'est le onzième jour, ce qui fait une semaine et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].12
+# name: test_get_omer[fr-Nusach.ITALIAN].12
   "Aujourd'hui de l'Omer c'est le douzième jour, ce qui fait une semaine et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].13
+# name: test_get_omer[fr-Nusach.ITALIAN].13
   "Aujourd'hui de l'Omer c'est le treizième jour, ce qui fait une semaine et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].14
+# name: test_get_omer[fr-Nusach.ITALIAN].14
   "Aujourd'hui de l'Omer c'est le quatorzième jour, ce qui fait deux semaines"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].15
+# name: test_get_omer[fr-Nusach.ITALIAN].15
   "Aujourd'hui de l'Omer c'est le quinzième jour, ce qui fait deux semaines et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].16
+# name: test_get_omer[fr-Nusach.ITALIAN].16
   "Aujourd'hui de l'Omer c'est le seizième jour, ce qui fait deux semaines et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].17
+# name: test_get_omer[fr-Nusach.ITALIAN].17
   "Aujourd'hui de l'Omer c'est le dix-septième jour, ce qui fait deux semaines et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].18
+# name: test_get_omer[fr-Nusach.ITALIAN].18
   "Aujourd'hui de l'Omer c'est le dix-huitième jour, ce qui fait deux semaines et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].19
+# name: test_get_omer[fr-Nusach.ITALIAN].19
   "Aujourd'hui de l'Omer c'est le dix-neuvième jour, ce qui fait deux semaines et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].2
+# name: test_get_omer[fr-Nusach.ITALIAN].2
   "Aujourd'hui de l'Omer c'est le deuxième jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].20
+# name: test_get_omer[fr-Nusach.ITALIAN].20
   "Aujourd'hui de l'Omer c'est le vingtième jour, ce qui fait deux semaines et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].21
+# name: test_get_omer[fr-Nusach.ITALIAN].21
   "Aujourd'hui de l'Omer c'est le vingt et unième jour, ce qui fait trois semaines"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].22
+# name: test_get_omer[fr-Nusach.ITALIAN].22
   "Aujourd'hui de l'Omer c'est le vingt-deuxième jour, ce qui fait trois semaines et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].23
+# name: test_get_omer[fr-Nusach.ITALIAN].23
   "Aujourd'hui de l'Omer c'est le vingt-troisième jour, ce qui fait trois semaines et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].24
+# name: test_get_omer[fr-Nusach.ITALIAN].24
   "Aujourd'hui de l'Omer c'est le vingt-quatrième jour, ce qui fait trois semaines et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].25
+# name: test_get_omer[fr-Nusach.ITALIAN].25
   "Aujourd'hui de l'Omer c'est le vingt-cinquième jour, ce qui fait trois semaines et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].26
+# name: test_get_omer[fr-Nusach.ITALIAN].26
   "Aujourd'hui de l'Omer c'est le vingt-sixième jour, ce qui fait trois semaines et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].27
+# name: test_get_omer[fr-Nusach.ITALIAN].27
   "Aujourd'hui de l'Omer c'est le vingt-septième jour, ce qui fait trois semaines et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].28
+# name: test_get_omer[fr-Nusach.ITALIAN].28
   "Aujourd'hui de l'Omer c'est le vingt-huitième jour, ce qui fait quatre semaines"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].29
+# name: test_get_omer[fr-Nusach.ITALIAN].29
   "Aujourd'hui de l'Omer c'est le vingt-neuvième jour, ce qui fait quatre semaines et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].3
+# name: test_get_omer[fr-Nusach.ITALIAN].3
   "Aujourd'hui de l'Omer c'est le troisième jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].30
+# name: test_get_omer[fr-Nusach.ITALIAN].30
   "Aujourd'hui de l'Omer c'est le trentième jour, ce qui fait quatre semaines et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].31
+# name: test_get_omer[fr-Nusach.ITALIAN].31
   "Aujourd'hui de l'Omer c'est le trente et unième jour, ce qui fait quatre semaines et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].32
+# name: test_get_omer[fr-Nusach.ITALIAN].32
   "Aujourd'hui de l'Omer c'est le trente-deuxième jour, ce qui fait quatre semaines et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].33
+# name: test_get_omer[fr-Nusach.ITALIAN].33
   "Aujourd'hui de l'Omer c'est le trente-troisième jour, ce qui fait quatre semaines et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].34
+# name: test_get_omer[fr-Nusach.ITALIAN].34
   "Aujourd'hui de l'Omer c'est le trente-quatrième jour, ce qui fait quatre semaines et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].35
+# name: test_get_omer[fr-Nusach.ITALIAN].35
   "Aujourd'hui de l'Omer c'est le trente-cinquième jour, ce qui fait cinq semaines"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].36
+# name: test_get_omer[fr-Nusach.ITALIAN].36
   "Aujourd'hui de l'Omer c'est le trente-sixième jour, ce qui fait cinq semaines et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].37
+# name: test_get_omer[fr-Nusach.ITALIAN].37
   "Aujourd'hui de l'Omer c'est le trente-septième jour, ce qui fait cinq semaines et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].38
+# name: test_get_omer[fr-Nusach.ITALIAN].38
   "Aujourd'hui de l'Omer c'est le trente-huitième jour, ce qui fait cinq semaines et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].39
+# name: test_get_omer[fr-Nusach.ITALIAN].39
   "Aujourd'hui de l'Omer c'est le trente-neuvième jour, ce qui fait cinq semaines et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].4
+# name: test_get_omer[fr-Nusach.ITALIAN].4
   "Aujourd'hui de l'Omer c'est le quatrième jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].40
+# name: test_get_omer[fr-Nusach.ITALIAN].40
   "Aujourd'hui de l'Omer c'est le quarantième jour, ce qui fait cinq semaines et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].41
+# name: test_get_omer[fr-Nusach.ITALIAN].41
   "Aujourd'hui de l'Omer c'est le quarante et unième jour, ce qui fait cinq semaines et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].42
+# name: test_get_omer[fr-Nusach.ITALIAN].42
   "Aujourd'hui de l'Omer c'est le quarante-deuxième jour, ce qui fait six semaines"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].43
+# name: test_get_omer[fr-Nusach.ITALIAN].43
   "Aujourd'hui de l'Omer c'est le quarante-troisième jour, ce qui fait six semaines et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].44
+# name: test_get_omer[fr-Nusach.ITALIAN].44
   "Aujourd'hui de l'Omer c'est le quarante-quatrième jour, ce qui fait six semaines et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].45
+# name: test_get_omer[fr-Nusach.ITALIAN].45
   "Aujourd'hui de l'Omer c'est le quarante-cinquième jour, ce qui fait six semaines et trois jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].46
+# name: test_get_omer[fr-Nusach.ITALIAN].46
   "Aujourd'hui de l'Omer c'est le quarante-sixième jour, ce qui fait six semaines et quatre jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].47
+# name: test_get_omer[fr-Nusach.ITALIAN].47
   "Aujourd'hui de l'Omer c'est le quarante-septième jour, ce qui fait six semaines et cinq jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].48
+# name: test_get_omer[fr-Nusach.ITALIAN].48
   "Aujourd'hui de l'Omer c'est le quarante-huitième jour, ce qui fait six semaines et six jours"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].49
+# name: test_get_omer[fr-Nusach.ITALIAN].49
   "Aujourd'hui de l'Omer c'est le quarante-neuvième jour, ce qui fait sept semaines"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].5
+# name: test_get_omer[fr-Nusach.ITALIAN].5
   "Aujourd'hui de l'Omer c'est le cinquième jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].6
+# name: test_get_omer[fr-Nusach.ITALIAN].6
   "Aujourd'hui de l'Omer c'est le sixième jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].7
+# name: test_get_omer[fr-Nusach.ITALIAN].7
   "Aujourd'hui de l'Omer c'est le septième jour, ce qui fait une semaine"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].8
+# name: test_get_omer[fr-Nusach.ITALIAN].8
   "Aujourd'hui de l'Omer c'est le huitième jour, ce qui fait une semaine et un jour"
 # ---
-# name: test_get_omer[french-Nusach.ITALIAN].9
+# name: test_get_omer[fr-Nusach.ITALIAN].9
   "Aujourd'hui de l'Omer c'est le neuvième jour, ce qui fait une semaine et deux jours"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD]
+# name: test_get_omer[fr-Nusach.SFARAD]
   ''
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].1
+# name: test_get_omer[fr-Nusach.SFARAD].1
   "Aujourd'hui c'est le premier jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].10
+# name: test_get_omer[fr-Nusach.SFARAD].10
   "Aujourd'hui c'est le dixième jour, ce qui fait une semaine et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].11
+# name: test_get_omer[fr-Nusach.SFARAD].11
   "Aujourd'hui c'est le onzième jour, ce qui fait une semaine et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].12
+# name: test_get_omer[fr-Nusach.SFARAD].12
   "Aujourd'hui c'est le douzième jour, ce qui fait une semaine et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].13
+# name: test_get_omer[fr-Nusach.SFARAD].13
   "Aujourd'hui c'est le treizième jour, ce qui fait une semaine et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].14
+# name: test_get_omer[fr-Nusach.SFARAD].14
   "Aujourd'hui c'est le quatorzième jour, ce qui fait deux semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].15
+# name: test_get_omer[fr-Nusach.SFARAD].15
   "Aujourd'hui c'est le quinzième jour, ce qui fait deux semaines et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].16
+# name: test_get_omer[fr-Nusach.SFARAD].16
   "Aujourd'hui c'est le seizième jour, ce qui fait deux semaines et deux jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].17
+# name: test_get_omer[fr-Nusach.SFARAD].17
   "Aujourd'hui c'est le dix-septième jour, ce qui fait deux semaines et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].18
+# name: test_get_omer[fr-Nusach.SFARAD].18
   "Aujourd'hui c'est le dix-huitième jour, ce qui fait deux semaines et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].19
+# name: test_get_omer[fr-Nusach.SFARAD].19
   "Aujourd'hui c'est le dix-neuvième jour, ce qui fait deux semaines et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].2
+# name: test_get_omer[fr-Nusach.SFARAD].2
   "Aujourd'hui c'est le deuxième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].20
+# name: test_get_omer[fr-Nusach.SFARAD].20
   "Aujourd'hui c'est le vingtième jour, ce qui fait deux semaines et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].21
+# name: test_get_omer[fr-Nusach.SFARAD].21
   "Aujourd'hui c'est le vingt et unième jour, ce qui fait trois semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].22
+# name: test_get_omer[fr-Nusach.SFARAD].22
   "Aujourd'hui c'est le vingt-deuxième jour, ce qui fait trois semaines et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].23
+# name: test_get_omer[fr-Nusach.SFARAD].23
   "Aujourd'hui c'est le vingt-troisième jour, ce qui fait trois semaines et deux jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].24
+# name: test_get_omer[fr-Nusach.SFARAD].24
   "Aujourd'hui c'est le vingt-quatrième jour, ce qui fait trois semaines et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].25
+# name: test_get_omer[fr-Nusach.SFARAD].25
   "Aujourd'hui c'est le vingt-cinquième jour, ce qui fait trois semaines et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].26
+# name: test_get_omer[fr-Nusach.SFARAD].26
   "Aujourd'hui c'est le vingt-sixième jour, ce qui fait trois semaines et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].27
+# name: test_get_omer[fr-Nusach.SFARAD].27
   "Aujourd'hui c'est le vingt-septième jour, ce qui fait trois semaines et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].28
+# name: test_get_omer[fr-Nusach.SFARAD].28
   "Aujourd'hui c'est le vingt-huitième jour, ce qui fait quatre semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].29
+# name: test_get_omer[fr-Nusach.SFARAD].29
   "Aujourd'hui c'est le vingt-neuvième jour, ce qui fait quatre semaines et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].3
+# name: test_get_omer[fr-Nusach.SFARAD].3
   "Aujourd'hui c'est le troisième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].30
+# name: test_get_omer[fr-Nusach.SFARAD].30
   "Aujourd'hui c'est le trentième jour, ce qui fait quatre semaines et deux jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].31
+# name: test_get_omer[fr-Nusach.SFARAD].31
   "Aujourd'hui c'est le trente et unième jour, ce qui fait quatre semaines et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].32
+# name: test_get_omer[fr-Nusach.SFARAD].32
   "Aujourd'hui c'est le trente-deuxième jour, ce qui fait quatre semaines et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].33
+# name: test_get_omer[fr-Nusach.SFARAD].33
   "Aujourd'hui c'est le trente-troisième jour, ce qui fait quatre semaines et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].34
+# name: test_get_omer[fr-Nusach.SFARAD].34
   "Aujourd'hui c'est le trente-quatrième jour, ce qui fait quatre semaines et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].35
+# name: test_get_omer[fr-Nusach.SFARAD].35
   "Aujourd'hui c'est le trente-cinquième jour, ce qui fait cinq semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].36
+# name: test_get_omer[fr-Nusach.SFARAD].36
   "Aujourd'hui c'est le trente-sixième jour, ce qui fait cinq semaines et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].37
+# name: test_get_omer[fr-Nusach.SFARAD].37
   "Aujourd'hui c'est le trente-septième jour, ce qui fait cinq semaines et deux jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].38
+# name: test_get_omer[fr-Nusach.SFARAD].38
   "Aujourd'hui c'est le trente-huitième jour, ce qui fait cinq semaines et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].39
+# name: test_get_omer[fr-Nusach.SFARAD].39
   "Aujourd'hui c'est le trente-neuvième jour, ce qui fait cinq semaines et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].4
+# name: test_get_omer[fr-Nusach.SFARAD].4
   "Aujourd'hui c'est le quatrième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].40
+# name: test_get_omer[fr-Nusach.SFARAD].40
   "Aujourd'hui c'est le quarantième jour, ce qui fait cinq semaines et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].41
+# name: test_get_omer[fr-Nusach.SFARAD].41
   "Aujourd'hui c'est le quarante et unième jour, ce qui fait cinq semaines et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].42
+# name: test_get_omer[fr-Nusach.SFARAD].42
   "Aujourd'hui c'est le quarante-deuxième jour, ce qui fait six semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].43
+# name: test_get_omer[fr-Nusach.SFARAD].43
   "Aujourd'hui c'est le quarante-troisième jour, ce qui fait six semaines et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].44
+# name: test_get_omer[fr-Nusach.SFARAD].44
   "Aujourd'hui c'est le quarante-quatrième jour, ce qui fait six semaines et deux jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].45
+# name: test_get_omer[fr-Nusach.SFARAD].45
   "Aujourd'hui c'est le quarante-cinquième jour, ce qui fait six semaines et trois jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].46
+# name: test_get_omer[fr-Nusach.SFARAD].46
   "Aujourd'hui c'est le quarante-sixième jour, ce qui fait six semaines et quatre jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].47
+# name: test_get_omer[fr-Nusach.SFARAD].47
   "Aujourd'hui c'est le quarante-septième jour, ce qui fait six semaines et cinq jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].48
+# name: test_get_omer[fr-Nusach.SFARAD].48
   "Aujourd'hui c'est le quarante-huitième jour, ce qui fait six semaines et six jours de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].49
+# name: test_get_omer[fr-Nusach.SFARAD].49
   "Aujourd'hui c'est le quarante-neuvième jour, ce qui fait sept semaines de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].5
+# name: test_get_omer[fr-Nusach.SFARAD].5
   "Aujourd'hui c'est le cinquième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].6
+# name: test_get_omer[fr-Nusach.SFARAD].6
   "Aujourd'hui c'est le sixième jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].7
+# name: test_get_omer[fr-Nusach.SFARAD].7
   "Aujourd'hui c'est le septième jour, ce qui fait une semaine de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].8
+# name: test_get_omer[fr-Nusach.SFARAD].8
   "Aujourd'hui c'est le huitième jour, ce qui fait une semaine et un jour de l'Omer"
 # ---
-# name: test_get_omer[french-Nusach.SFARAD].9
+# name: test_get_omer[fr-Nusach.SFARAD].9
   "Aujourd'hui c'est le neuvième jour, ce qui fait une semaine et deux jours de l'Omer"
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH]
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH]
   ''
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].1
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].1
   'היום יום אחד לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].10
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].10
   'היום עשרה ימים לעומר שהם שבוע אחד ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].11
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].11
   'היום אחד עשר יום לעומר שהם שבוע אחד וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].12
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].12
   'היום שנים עשר יום לעומר שהם שבוע אחד וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].13
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].13
   'היום שלושה עשר יום לעומר שהם שבוע אחד ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].14
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].14
   'היום ארבעה עשר יום לעומר שהם שני שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].15
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].15
   'היום חמישה עשר יום לעומר שהם שני שבועות ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].16
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].16
   'היום שישה עשר יום לעומר שהם שני שבועות ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].17
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].17
   'היום שבעה עשר יום לעומר שהם שני שבועות ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].18
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].18
   'היום שמונה עשר יום לעומר שהם שני שבועות וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].19
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].19
   'היום תשעה עשר יום לעומר שהם שני שבועות וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].2
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].2
   'היום שני ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].20
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].20
   'היום עשרים יום לעומר שהם שני שבועות ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].21
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].21
   'היום אחד ועשרים יום לעומר שהם שלושה שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].22
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].22
   'היום שניים ועשרים יום לעומר שהם שלושה שבועות ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].23
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].23
   'היום שלושה ועשרים יום לעומר שהם שלושה שבועות ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].24
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].24
   'היום ארבעה ועשרים יום לעומר שהם שלושה שבועות ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].25
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].25
   'היום חמישה ועשרים יום לעומר שהם שלושה שבועות וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].26
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].26
   'היום שישה ועשרים יום לעומר שהם שלושה שבועות וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].27
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].27
   'היום שבעה ועשרים יום לעומר שהם שלושה שבועות ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].28
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].28
   'היום שמונה ועשרים יום לעומר שהם ארבעה שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].29
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].29
   'היום תשעה ועשרים יום לעומר שהם ארבעה שבועות ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].3
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].3
   'היום שלושה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].30
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].30
   'היום שלושים יום לעומר שהם ארבעה שבועות ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].31
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].31
   'היום אחד ושלושים יום לעומר שהם ארבעה שבועות ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].32
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].32
   'היום שניים ושלושים יום לעומר שהם ארבעה שבועות וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].33
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].33
   'היום שלושה ושלושים יום לעומר שהם ארבעה שבועות וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].34
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].34
   'היום ארבעה ושלושים יום לעומר שהם ארבעה שבועות ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].35
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].35
   'היום חמישה ושלושים יום לעומר שהם חמישה שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].36
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].36
   'היום שישה ושלושים יום לעומר שהם חמישה שבועות ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].37
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].37
   'היום שבעה ושלושים יום לעומר שהם חמישה שבועות ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].38
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].38
   'היום שמונה ושלושים יום לעומר שהם חמישה שבועות ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].39
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].39
   'היום תשעה ושלושים יום לעומר שהם חמישה שבועות וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].4
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].4
   'היום ארבעה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].40
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].40
   'היום ארבעים יום לעומר שהם חמישה שבועות וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].41
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].41
   'היום אחד וארבעים יום לעומר שהם חמישה שבועות ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].42
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].42
   'היום שניים וארבעים יום לעומר שהם שישה שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].43
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].43
   'היום שלושה וארבעים יום לעומר שהם שישה שבועות ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].44
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].44
   'היום ארבעה וארבעים יום לעומר שהם שישה שבועות ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].45
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].45
   'היום חמישה וארבעים יום לעומר שהם שישה שבועות ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].46
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].46
   'היום שישה וארבעים יום לעומר שהם שישה שבועות וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].47
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].47
   'היום שבעה וארבעים יום לעומר שהם שישה שבועות וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].48
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].48
   'היום שמונה וארבעים יום לעומר שהם שישה שבועות ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].49
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].49
   'היום תשעה וארבעים יום לעומר שהם שבעה שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].5
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].5
   'היום חמישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].6
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].6
   'היום שישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].7
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].7
   'היום שבעה ימים לעומר שהם שבוע אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].8
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].8
   'היום שמונה ימים לעומר שהם שבוע אחד ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ADOT_MIZRAH].9
+# name: test_get_omer[he-Nusach.ADOT_MIZRAH].9
   'היום תשעה ימים לעומר שהם שבוע אחד ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ]
+# name: test_get_omer[he-Nusach.ASHKENAZ]
   ''
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].1
+# name: test_get_omer[he-Nusach.ASHKENAZ].1
   'היום יום אחד בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].10
+# name: test_get_omer[he-Nusach.ASHKENAZ].10
   'היום עשרה ימים שהם שבוע אחד ושלושה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].11
+# name: test_get_omer[he-Nusach.ASHKENAZ].11
   'היום אחד עשר יום שהם שבוע אחד וארבעה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].12
+# name: test_get_omer[he-Nusach.ASHKENAZ].12
   'היום שנים עשר יום שהם שבוע אחד וחמישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].13
+# name: test_get_omer[he-Nusach.ASHKENAZ].13
   'היום שלושה עשר יום שהם שבוע אחד ושישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].14
+# name: test_get_omer[he-Nusach.ASHKENAZ].14
   'היום ארבעה עשר יום שהם שני שבועות בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].15
+# name: test_get_omer[he-Nusach.ASHKENAZ].15
   'היום חמישה עשר יום שהם שני שבועות ויום אחד בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].16
+# name: test_get_omer[he-Nusach.ASHKENAZ].16
   'היום שישה עשר יום שהם שני שבועות ושני ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].17
+# name: test_get_omer[he-Nusach.ASHKENAZ].17
   'היום שבעה עשר יום שהם שני שבועות ושלושה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].18
+# name: test_get_omer[he-Nusach.ASHKENAZ].18
   'היום שמונה עשר יום שהם שני שבועות וארבעה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].19
+# name: test_get_omer[he-Nusach.ASHKENAZ].19
   'היום תשעה עשר יום שהם שני שבועות וחמישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].2
+# name: test_get_omer[he-Nusach.ASHKENAZ].2
   'היום שני ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].20
+# name: test_get_omer[he-Nusach.ASHKENAZ].20
   'היום עשרים יום שהם שני שבועות ושישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].21
+# name: test_get_omer[he-Nusach.ASHKENAZ].21
   'היום אחד ועשרים יום שהם שלושה שבועות בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].22
+# name: test_get_omer[he-Nusach.ASHKENAZ].22
   'היום שניים ועשרים יום שהם שלושה שבועות ויום אחד בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].23
+# name: test_get_omer[he-Nusach.ASHKENAZ].23
   'היום שלושה ועשרים יום שהם שלושה שבועות ושני ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].24
+# name: test_get_omer[he-Nusach.ASHKENAZ].24
   'היום ארבעה ועשרים יום שהם שלושה שבועות ושלושה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].25
+# name: test_get_omer[he-Nusach.ASHKENAZ].25
   'היום חמישה ועשרים יום שהם שלושה שבועות וארבעה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].26
+# name: test_get_omer[he-Nusach.ASHKENAZ].26
   'היום שישה ועשרים יום שהם שלושה שבועות וחמישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].27
+# name: test_get_omer[he-Nusach.ASHKENAZ].27
   'היום שבעה ועשרים יום שהם שלושה שבועות ושישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].28
+# name: test_get_omer[he-Nusach.ASHKENAZ].28
   'היום שמונה ועשרים יום שהם ארבעה שבועות בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].29
+# name: test_get_omer[he-Nusach.ASHKENAZ].29
   'היום תשעה ועשרים יום שהם ארבעה שבועות ויום אחד בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].3
+# name: test_get_omer[he-Nusach.ASHKENAZ].3
   'היום שלושה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].30
+# name: test_get_omer[he-Nusach.ASHKENAZ].30
   'היום שלושים יום שהם ארבעה שבועות ושני ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].31
+# name: test_get_omer[he-Nusach.ASHKENAZ].31
   'היום אחד ושלושים יום שהם ארבעה שבועות ושלושה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].32
+# name: test_get_omer[he-Nusach.ASHKENAZ].32
   'היום שניים ושלושים יום שהם ארבעה שבועות וארבעה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].33
+# name: test_get_omer[he-Nusach.ASHKENAZ].33
   'היום שלושה ושלושים יום שהם ארבעה שבועות וחמישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].34
+# name: test_get_omer[he-Nusach.ASHKENAZ].34
   'היום ארבעה ושלושים יום שהם ארבעה שבועות ושישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].35
+# name: test_get_omer[he-Nusach.ASHKENAZ].35
   'היום חמישה ושלושים יום שהם חמישה שבועות בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].36
+# name: test_get_omer[he-Nusach.ASHKENAZ].36
   'היום שישה ושלושים יום שהם חמישה שבועות ויום אחד בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].37
+# name: test_get_omer[he-Nusach.ASHKENAZ].37
   'היום שבעה ושלושים יום שהם חמישה שבועות ושני ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].38
+# name: test_get_omer[he-Nusach.ASHKENAZ].38
   'היום שמונה ושלושים יום שהם חמישה שבועות ושלושה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].39
+# name: test_get_omer[he-Nusach.ASHKENAZ].39
   'היום תשעה ושלושים יום שהם חמישה שבועות וארבעה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].4
+# name: test_get_omer[he-Nusach.ASHKENAZ].4
   'היום ארבעה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].40
+# name: test_get_omer[he-Nusach.ASHKENAZ].40
   'היום ארבעים יום שהם חמישה שבועות וחמישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].41
+# name: test_get_omer[he-Nusach.ASHKENAZ].41
   'היום אחד וארבעים יום שהם חמישה שבועות ושישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].42
+# name: test_get_omer[he-Nusach.ASHKENAZ].42
   'היום שניים וארבעים יום שהם שישה שבועות בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].43
+# name: test_get_omer[he-Nusach.ASHKENAZ].43
   'היום שלושה וארבעים יום שהם שישה שבועות ויום אחד בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].44
+# name: test_get_omer[he-Nusach.ASHKENAZ].44
   'היום ארבעה וארבעים יום שהם שישה שבועות ושני ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].45
+# name: test_get_omer[he-Nusach.ASHKENAZ].45
   'היום חמישה וארבעים יום שהם שישה שבועות ושלושה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].46
+# name: test_get_omer[he-Nusach.ASHKENAZ].46
   'היום שישה וארבעים יום שהם שישה שבועות וארבעה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].47
+# name: test_get_omer[he-Nusach.ASHKENAZ].47
   'היום שבעה וארבעים יום שהם שישה שבועות וחמישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].48
+# name: test_get_omer[he-Nusach.ASHKENAZ].48
   'היום שמונה וארבעים יום שהם שישה שבועות ושישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].49
+# name: test_get_omer[he-Nusach.ASHKENAZ].49
   'היום תשעה וארבעים יום שהם שבעה שבועות בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].5
+# name: test_get_omer[he-Nusach.ASHKENAZ].5
   'היום חמישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].6
+# name: test_get_omer[he-Nusach.ASHKENAZ].6
   'היום שישה ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].7
+# name: test_get_omer[he-Nusach.ASHKENAZ].7
   'היום שבעה ימים שהם שבוע אחד בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].8
+# name: test_get_omer[he-Nusach.ASHKENAZ].8
   'היום שמונה ימים שהם שבוע אחד ויום אחד בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ASHKENAZ].9
+# name: test_get_omer[he-Nusach.ASHKENAZ].9
   'היום תשעה ימים שהם שבוע אחד ושני ימים בעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN]
+# name: test_get_omer[he-Nusach.ITALIAN]
   ''
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].1
+# name: test_get_omer[he-Nusach.ITALIAN].1
   'היום לעומר יום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].10
+# name: test_get_omer[he-Nusach.ITALIAN].10
   'היום לעומר עשרה ימים שהם שבוע אחד ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].11
+# name: test_get_omer[he-Nusach.ITALIAN].11
   'היום לעומר אחד עשר יום שהם שבוע אחד וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].12
+# name: test_get_omer[he-Nusach.ITALIAN].12
   'היום לעומר שנים עשר יום שהם שבוע אחד וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].13
+# name: test_get_omer[he-Nusach.ITALIAN].13
   'היום לעומר שלושה עשר יום שהם שבוע אחד ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].14
+# name: test_get_omer[he-Nusach.ITALIAN].14
   'היום לעומר ארבעה עשר יום שהם שני שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].15
+# name: test_get_omer[he-Nusach.ITALIAN].15
   'היום לעומר חמישה עשר יום שהם שני שבועות ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].16
+# name: test_get_omer[he-Nusach.ITALIAN].16
   'היום לעומר שישה עשר יום שהם שני שבועות ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].17
+# name: test_get_omer[he-Nusach.ITALIAN].17
   'היום לעומר שבעה עשר יום שהם שני שבועות ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].18
+# name: test_get_omer[he-Nusach.ITALIAN].18
   'היום לעומר שמונה עשר יום שהם שני שבועות וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].19
+# name: test_get_omer[he-Nusach.ITALIAN].19
   'היום לעומר תשעה עשר יום שהם שני שבועות וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].2
+# name: test_get_omer[he-Nusach.ITALIAN].2
   'היום לעומר שני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].20
+# name: test_get_omer[he-Nusach.ITALIAN].20
   'היום לעומר עשרים יום שהם שני שבועות ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].21
+# name: test_get_omer[he-Nusach.ITALIAN].21
   'היום לעומר אחד ועשרים יום שהם שלושה שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].22
+# name: test_get_omer[he-Nusach.ITALIAN].22
   'היום לעומר שניים ועשרים יום שהם שלושה שבועות ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].23
+# name: test_get_omer[he-Nusach.ITALIAN].23
   'היום לעומר שלושה ועשרים יום שהם שלושה שבועות ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].24
+# name: test_get_omer[he-Nusach.ITALIAN].24
   'היום לעומר ארבעה ועשרים יום שהם שלושה שבועות ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].25
+# name: test_get_omer[he-Nusach.ITALIAN].25
   'היום לעומר חמישה ועשרים יום שהם שלושה שבועות וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].26
+# name: test_get_omer[he-Nusach.ITALIAN].26
   'היום לעומר שישה ועשרים יום שהם שלושה שבועות וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].27
+# name: test_get_omer[he-Nusach.ITALIAN].27
   'היום לעומר שבעה ועשרים יום שהם שלושה שבועות ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].28
+# name: test_get_omer[he-Nusach.ITALIAN].28
   'היום לעומר שמונה ועשרים יום שהם ארבעה שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].29
+# name: test_get_omer[he-Nusach.ITALIAN].29
   'היום לעומר תשעה ועשרים יום שהם ארבעה שבועות ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].3
+# name: test_get_omer[he-Nusach.ITALIAN].3
   'היום לעומר שלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].30
+# name: test_get_omer[he-Nusach.ITALIAN].30
   'היום לעומר שלושים יום שהם ארבעה שבועות ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].31
+# name: test_get_omer[he-Nusach.ITALIAN].31
   'היום לעומר אחד ושלושים יום שהם ארבעה שבועות ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].32
+# name: test_get_omer[he-Nusach.ITALIAN].32
   'היום לעומר שניים ושלושים יום שהם ארבעה שבועות וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].33
+# name: test_get_omer[he-Nusach.ITALIAN].33
   'היום לעומר שלושה ושלושים יום שהם ארבעה שבועות וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].34
+# name: test_get_omer[he-Nusach.ITALIAN].34
   'היום לעומר ארבעה ושלושים יום שהם ארבעה שבועות ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].35
+# name: test_get_omer[he-Nusach.ITALIAN].35
   'היום לעומר חמישה ושלושים יום שהם חמישה שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].36
+# name: test_get_omer[he-Nusach.ITALIAN].36
   'היום לעומר שישה ושלושים יום שהם חמישה שבועות ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].37
+# name: test_get_omer[he-Nusach.ITALIAN].37
   'היום לעומר שבעה ושלושים יום שהם חמישה שבועות ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].38
+# name: test_get_omer[he-Nusach.ITALIAN].38
   'היום לעומר שמונה ושלושים יום שהם חמישה שבועות ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].39
+# name: test_get_omer[he-Nusach.ITALIAN].39
   'היום לעומר תשעה ושלושים יום שהם חמישה שבועות וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].4
+# name: test_get_omer[he-Nusach.ITALIAN].4
   'היום לעומר ארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].40
+# name: test_get_omer[he-Nusach.ITALIAN].40
   'היום לעומר ארבעים יום שהם חמישה שבועות וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].41
+# name: test_get_omer[he-Nusach.ITALIAN].41
   'היום לעומר אחד וארבעים יום שהם חמישה שבועות ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].42
+# name: test_get_omer[he-Nusach.ITALIAN].42
   'היום לעומר שניים וארבעים יום שהם שישה שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].43
+# name: test_get_omer[he-Nusach.ITALIAN].43
   'היום לעומר שלושה וארבעים יום שהם שישה שבועות ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].44
+# name: test_get_omer[he-Nusach.ITALIAN].44
   'היום לעומר ארבעה וארבעים יום שהם שישה שבועות ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].45
+# name: test_get_omer[he-Nusach.ITALIAN].45
   'היום לעומר חמישה וארבעים יום שהם שישה שבועות ושלושה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].46
+# name: test_get_omer[he-Nusach.ITALIAN].46
   'היום לעומר שישה וארבעים יום שהם שישה שבועות וארבעה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].47
+# name: test_get_omer[he-Nusach.ITALIAN].47
   'היום לעומר שבעה וארבעים יום שהם שישה שבועות וחמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].48
+# name: test_get_omer[he-Nusach.ITALIAN].48
   'היום לעומר שמונה וארבעים יום שהם שישה שבועות ושישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].49
+# name: test_get_omer[he-Nusach.ITALIAN].49
   'היום לעומר תשעה וארבעים יום שהם שבעה שבועות'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].5
+# name: test_get_omer[he-Nusach.ITALIAN].5
   'היום לעומר חמישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].6
+# name: test_get_omer[he-Nusach.ITALIAN].6
   'היום לעומר שישה ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].7
+# name: test_get_omer[he-Nusach.ITALIAN].7
   'היום לעומר שבעה ימים שהם שבוע אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].8
+# name: test_get_omer[he-Nusach.ITALIAN].8
   'היום לעומר שמונה ימים שהם שבוע אחד ויום אחד'
 # ---
-# name: test_get_omer[hebrew-Nusach.ITALIAN].9
+# name: test_get_omer[he-Nusach.ITALIAN].9
   'היום לעומר תשעה ימים שהם שבוע אחד ושני ימים'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD]
+# name: test_get_omer[he-Nusach.SFARAD]
   ''
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].1
+# name: test_get_omer[he-Nusach.SFARAD].1
   'היום יום אחד לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].10
+# name: test_get_omer[he-Nusach.SFARAD].10
   'היום עשרה ימים שהם שבוע אחד ושלושה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].11
+# name: test_get_omer[he-Nusach.SFARAD].11
   'היום אחד עשר יום שהם שבוע אחד וארבעה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].12
+# name: test_get_omer[he-Nusach.SFARAD].12
   'היום שנים עשר יום שהם שבוע אחד וחמישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].13
+# name: test_get_omer[he-Nusach.SFARAD].13
   'היום שלושה עשר יום שהם שבוע אחד ושישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].14
+# name: test_get_omer[he-Nusach.SFARAD].14
   'היום ארבעה עשר יום שהם שני שבועות לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].15
+# name: test_get_omer[he-Nusach.SFARAD].15
   'היום חמישה עשר יום שהם שני שבועות ויום אחד לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].16
+# name: test_get_omer[he-Nusach.SFARAD].16
   'היום שישה עשר יום שהם שני שבועות ושני ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].17
+# name: test_get_omer[he-Nusach.SFARAD].17
   'היום שבעה עשר יום שהם שני שבועות ושלושה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].18
+# name: test_get_omer[he-Nusach.SFARAD].18
   'היום שמונה עשר יום שהם שני שבועות וארבעה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].19
+# name: test_get_omer[he-Nusach.SFARAD].19
   'היום תשעה עשר יום שהם שני שבועות וחמישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].2
+# name: test_get_omer[he-Nusach.SFARAD].2
   'היום שני ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].20
+# name: test_get_omer[he-Nusach.SFARAD].20
   'היום עשרים יום שהם שני שבועות ושישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].21
+# name: test_get_omer[he-Nusach.SFARAD].21
   'היום אחד ועשרים יום שהם שלושה שבועות לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].22
+# name: test_get_omer[he-Nusach.SFARAD].22
   'היום שניים ועשרים יום שהם שלושה שבועות ויום אחד לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].23
+# name: test_get_omer[he-Nusach.SFARAD].23
   'היום שלושה ועשרים יום שהם שלושה שבועות ושני ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].24
+# name: test_get_omer[he-Nusach.SFARAD].24
   'היום ארבעה ועשרים יום שהם שלושה שבועות ושלושה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].25
+# name: test_get_omer[he-Nusach.SFARAD].25
   'היום חמישה ועשרים יום שהם שלושה שבועות וארבעה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].26
+# name: test_get_omer[he-Nusach.SFARAD].26
   'היום שישה ועשרים יום שהם שלושה שבועות וחמישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].27
+# name: test_get_omer[he-Nusach.SFARAD].27
   'היום שבעה ועשרים יום שהם שלושה שבועות ושישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].28
+# name: test_get_omer[he-Nusach.SFARAD].28
   'היום שמונה ועשרים יום שהם ארבעה שבועות לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].29
+# name: test_get_omer[he-Nusach.SFARAD].29
   'היום תשעה ועשרים יום שהם ארבעה שבועות ויום אחד לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].3
+# name: test_get_omer[he-Nusach.SFARAD].3
   'היום שלושה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].30
+# name: test_get_omer[he-Nusach.SFARAD].30
   'היום שלושים יום שהם ארבעה שבועות ושני ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].31
+# name: test_get_omer[he-Nusach.SFARAD].31
   'היום אחד ושלושים יום שהם ארבעה שבועות ושלושה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].32
+# name: test_get_omer[he-Nusach.SFARAD].32
   'היום שניים ושלושים יום שהם ארבעה שבועות וארבעה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].33
+# name: test_get_omer[he-Nusach.SFARAD].33
   'היום שלושה ושלושים יום שהם ארבעה שבועות וחמישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].34
+# name: test_get_omer[he-Nusach.SFARAD].34
   'היום ארבעה ושלושים יום שהם ארבעה שבועות ושישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].35
+# name: test_get_omer[he-Nusach.SFARAD].35
   'היום חמישה ושלושים יום שהם חמישה שבועות לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].36
+# name: test_get_omer[he-Nusach.SFARAD].36
   'היום שישה ושלושים יום שהם חמישה שבועות ויום אחד לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].37
+# name: test_get_omer[he-Nusach.SFARAD].37
   'היום שבעה ושלושים יום שהם חמישה שבועות ושני ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].38
+# name: test_get_omer[he-Nusach.SFARAD].38
   'היום שמונה ושלושים יום שהם חמישה שבועות ושלושה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].39
+# name: test_get_omer[he-Nusach.SFARAD].39
   'היום תשעה ושלושים יום שהם חמישה שבועות וארבעה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].4
+# name: test_get_omer[he-Nusach.SFARAD].4
   'היום ארבעה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].40
+# name: test_get_omer[he-Nusach.SFARAD].40
   'היום ארבעים יום שהם חמישה שבועות וחמישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].41
+# name: test_get_omer[he-Nusach.SFARAD].41
   'היום אחד וארבעים יום שהם חמישה שבועות ושישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].42
+# name: test_get_omer[he-Nusach.SFARAD].42
   'היום שניים וארבעים יום שהם שישה שבועות לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].43
+# name: test_get_omer[he-Nusach.SFARAD].43
   'היום שלושה וארבעים יום שהם שישה שבועות ויום אחד לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].44
+# name: test_get_omer[he-Nusach.SFARAD].44
   'היום ארבעה וארבעים יום שהם שישה שבועות ושני ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].45
+# name: test_get_omer[he-Nusach.SFARAD].45
   'היום חמישה וארבעים יום שהם שישה שבועות ושלושה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].46
+# name: test_get_omer[he-Nusach.SFARAD].46
   'היום שישה וארבעים יום שהם שישה שבועות וארבעה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].47
+# name: test_get_omer[he-Nusach.SFARAD].47
   'היום שבעה וארבעים יום שהם שישה שבועות וחמישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].48
+# name: test_get_omer[he-Nusach.SFARAD].48
   'היום שמונה וארבעים יום שהם שישה שבועות ושישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].49
+# name: test_get_omer[he-Nusach.SFARAD].49
   'היום תשעה וארבעים יום שהם שבעה שבועות לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].5
+# name: test_get_omer[he-Nusach.SFARAD].5
   'היום חמישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].6
+# name: test_get_omer[he-Nusach.SFARAD].6
   'היום שישה ימים לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].7
+# name: test_get_omer[he-Nusach.SFARAD].7
   'היום שבעה ימים שהם שבוע אחד לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].8
+# name: test_get_omer[he-Nusach.SFARAD].8
   'היום שמונה ימים שהם שבוע אחד ויום אחד לעומר'
 # ---
-# name: test_get_omer[hebrew-Nusach.SFARAD].9
+# name: test_get_omer[he-Nusach.SFARAD].9
   'היום תשעה ימים שהם שבוע אחד ושני ימים לעומר'
 # ---
 # name: test_omer_str

@@ -18,7 +18,7 @@ from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
 from hdate.parasha import Parasha, ParashaDatabase
 from hdate.tekufot import Nusachim, Tekufot
-from hdate.translator import Language, TranslatorMixin
+from hdate.translator import TranslatorMixin, get_language
 
 
 @dataclass
@@ -31,7 +31,6 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
 
     date: Union[dt.date, HebrewDate] = field(default_factory=dt.date.today)
     diaspora: bool = False
-    language: Language = "hebrew"
     nusach: Nusachim = "sephardi"
 
     def __post_init__(self) -> None:
@@ -49,12 +48,11 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         else:
             raise TypeError("date has to be of type datetime.date or HebrewDate")
 
-        super().__post_init__()
-
     def __str__(self) -> str:
-        in_prefix = "ב" if self.language == "hebrew" else ""
-        day_number = hebrew_number(self.hdate.day, language=self.language)
-        year_number = hebrew_number(self.hdate.year, language=self.language)
+        language = get_language()
+        in_prefix = "ב" if language == "he" else ""
+        day_number = hebrew_number(self.hdate.day)
+        year_number = hebrew_number(self.hdate.year)
         result = (
             f"{self.hdate.dow()} "
             f"{day_number} {in_prefix}{self.hdate.month} {year_number}"
@@ -75,7 +73,6 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
             if self._last_updated == "hdate"
             else HebrewDate.from_gdate(self._gdate)
         )
-        hdate.set_language(self.language)
         return hdate
 
     @hdate.setter
@@ -104,7 +101,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
     @property
     def omer(self) -> Optional[Omer]:
         """Return the Omer object."""
-        _omer = Omer(date=self.hdate, language=self.language)
+        _omer = Omer(date=self.hdate)
         return _omer if _omer.total_days > 0 else None
 
     @property
@@ -112,31 +109,24 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         """Return the upcoming parasha."""
         db = ParashaDatabase(self.diaspora)
         parasha = db.lookup(self.hdate)
-        parasha.set_language(self.language)
         return parasha
 
     @property
     def holidays(self) -> list[Holiday]:
         """Return the abstract holiday information from holidays table."""
-        holidays_list = self._holidays.lookup(self.hdate)
-
-        for holiday in holidays_list:
-            holiday.set_language(self.language)
-
-        return holidays_list
+        return self._holidays.lookup(self.hdate)
 
     @property
     def daf_yomi(self) -> Masechta:
         """Return the daf yomi for the given date."""
         db = DafYomiDatabase()
         daf = db.lookup(self.gdate)
-        daf.set_language(self.language)
         return daf
 
     @property
     def gevurot_geshamim(self) -> str:
         """Return the rain prayer (Tal uMatar, veTen Beracha, ...)."""
-        tekufot = Tekufot(self.gdate, self.diaspora, self.nusach, self.language)
+        tekufot = Tekufot(self.gdate, self.diaspora, self.nusach)
         return tekufot.get_prayer_for_date()
 
     @property
@@ -161,12 +151,12 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
     @property
     def next_day(self) -> HDateInfo:
         """Return the HDateInfo for the next day."""
-        return HDateInfo(self.gdate + dt.timedelta(1), self.diaspora, self.language)
+        return HDateInfo(self.gdate + dt.timedelta(1), self.diaspora)
 
     @property
     def previous_day(self) -> HDateInfo:
         """Return the HDateInfo for the previous day."""
-        return HDateInfo(self.gdate + dt.timedelta(-1), self.diaspora, self.language)
+        return HDateInfo(self.gdate + dt.timedelta(-1), self.diaspora)
 
     @property
     def upcoming_shabbat(self) -> HDateInfo:
@@ -175,7 +165,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
             return self
 
         next_shabbat = self.gdate + dt.timedelta(Weekday.SATURDAY - self.hdate.dow())
-        return HDateInfo(next_shabbat, diaspora=self.diaspora, language=self.language)
+        return HDateInfo(next_shabbat, self.diaspora)
 
     @property
     def upcoming_erev_shabbat(self) -> HDateInfo:
@@ -190,7 +180,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
 
         date = self._holidays.lookup_next_holiday(self.hdate, [HolidayTypes.YOM_TOV])
 
-        return HDateInfo(date, self.diaspora, self.language)
+        return HDateInfo(date, self.diaspora)
 
     @property
     def upcoming_erev_yom_tov(self) -> HDateInfo:

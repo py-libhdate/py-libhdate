@@ -11,7 +11,7 @@ from hypothesis import given, settings, strategies
 from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months
 from hdate.holidays import HolidayDatabase, is_yom_tov
-from hdate.translator import Language
+from hdate.translator import Language, set_language
 from tests.conftest import valid_hebrew_date
 
 
@@ -287,10 +287,11 @@ def test_get_all_holidays(language: Language, diaspora: str) -> None:
     """Test the method to get all the holiday descriptions in a specified language."""
 
     _diaspora = diaspora == "DIASPORA"
-    names = HolidayDatabase(_diaspora).get_all_names(language)
+    set_language(language)
+    names = HolidayDatabase(_diaspora).get_all_names()
 
     expected = {
-        "french": {
+        "fr": {
             "DIASPORA": {"Souccot II", "Pessah II"},
             "ISRAEL": {
                 "Rosh Hodesh, Fête de la Famille",
@@ -298,12 +299,12 @@ def test_get_all_holidays(language: Language, diaspora: str) -> None:
             },
             "": {"Yom Kippour", "Hanoukka, Rosh Hodesh", "Pourim", "Pessah"},
         },
-        "hebrew": {
+        "he": {
             "DIASPORA": {"שני של סוכות", "שני של פסח"},
             "ISRAEL": {"ראש חודש, יום המשפחה", "שמיני עצרת, שמחת תורה"},
             "": {"יום הכפורים", "חנוכה, ראש חודש", "פורים", "פסח"},
         },
-        "english": {
+        "en": {
             "DIASPORA": {"Sukkot II", "Pesach II"},
             "ISRAEL": {"Rosh Chodesh, Family Day", "Shmini Atzeret, Simchat Torah"},
             "": {"Yom Kippur", "Chanukah, Rosh Chodesh", "Purim", "Pesach"},
@@ -320,13 +321,12 @@ def test_get_all_holidays(language: Language, diaspora: str) -> None:
 @given(date=valid_hebrew_date())
 def test_all_in_get_names(date: HebrewDate, diaspora: bool, language: Language) -> None:
     """Test that all holidays are actually returned by get_all_names()"""
+    set_language(language)
     holiday_db = HolidayDatabase(diaspora=diaspora)
     next_date = holiday_db.lookup_next_holiday(date)
     holidays = holiday_db.lookup(next_date)
-    for holiday in holidays:
-        holiday.set_language(language)
     expected = ", ".join(str(holiday) for holiday in holidays)
-    all_names = holiday_db.get_all_names(language)
+    all_names = holiday_db.get_all_names()
     assert expected in all_names
 
 

@@ -182,7 +182,6 @@ class HebrewDate(TranslatorMixin):
                 Months(self.month),  # type: ignore # pylint: disable=E1120
             )
         self._validate()
-        self.month.set_language(self._language)
 
     def valid_for_year(self, year: int) -> bool:
         """Check if the date is valid for the given year."""
@@ -227,8 +226,8 @@ class HebrewDate(TranslatorMixin):
         return type(self)(year, month, day)
 
     def __str__(self) -> str:
-        day = hebrew_number(self.day, language=self._language)
-        year = hebrew_number(self.year, language=self._language)
+        day = hebrew_number(self.day)
+        year = hebrew_number(self.year)
         return f"{day} {self.month} {year}"
 
     def __eq__(self, other: object) -> bool:
@@ -414,7 +413,6 @@ class HebrewDate(TranslatorMixin):
     def dow(self) -> Weekday:
         """Return: day of the week."""
         weekday = Weekday((self.to_jdn() + 1) % 7 + 1)
-        weekday.set_language(self._language)
         return weekday
 
     def short_kislev(self) -> bool:

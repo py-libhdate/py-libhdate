@@ -6,6 +6,7 @@ from hypothesis import strategies
 from hdate.hebrew_date import HebrewDate, Months
 from hdate.holidays import HolidayDatabase
 from hdate.location import Location
+from hdate.translator import set_language
 
 MIN_YEAR = 4000
 MAX_YEAR = 6000
@@ -52,6 +53,12 @@ def location(request: pytest.FixtureRequest) -> Location:
     if request.param not in locations:
         raise ValueError(f"Invalid location: {request.param}")
     return locations[request.param]
+
+
+@pytest.fixture(autouse=True)
+def reset_context_language() -> None:
+    """Reset the context language to the default value before each test."""
+    set_language("he")
 
 
 @strategies.composite
