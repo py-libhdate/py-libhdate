@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.1.0 - 2025-04-26
+
+* Unpin astral dependency (#207) @tsvi
+
+### 💥 Breaking
+
+* Change the API for setting the language (#205) @tsvi
+
+### 🚀 Features
+
+* Add implementation for erev shabbat and chag (#200) @tsvi
+
+### 🐛 Bug Fixes
+
+* Refactor moving holidays calculation (#209) @tsvi
+
 ## 1.0.3 - 2025-02-16
 
 * Finish updating Zmanim nomenclature (#198) @tsvi
