@@ -344,3 +344,28 @@ def test_is_yom_tov_special_dates() -> None:
     assert not is_yom_tov(HebrewDate(5785, Months.TISHREI, 3))
     assert is_yom_tov(HebrewDate(5785, Months.TISHREI, 23), True)
     assert not is_yom_tov(HebrewDate(5785, Months.TISHREI, 23), False)
+
+
+@pytest.mark.parametrize(
+    "year, month, day, is_holiday, expected",
+    [
+        # this is not true
+        (5785, Months.IYYAR, 5, False, "yom_haatzmaut"),
+        (5785, Months.IYYAR, 4, False, "yom_hazikaron"),
+        (5785, Months.NISAN, 27, False, "yom_hashoah"),
+        # this is true
+        (5785, Months.IYYAR, 3, True, "yom_haatzmaut"),
+        (5785, Months.IYYAR, 2, True, "yom_hazikaron"),
+        (5785, Months.NISAN, 26, True, "yom_hashoah"),
+    ],
+)
+def test_new_holidays_known_dates(
+    year: int, month: Months, day: int, is_holiday: bool, expected: str
+) -> None:
+    """Test that well-known new holidays are found only on their correct date."""
+    # Test the holiday date
+    holiday_db = HolidayDatabase(diaspora=False)
+    date = HebrewDate(year, month, day)
+    holidays = holiday_db.lookup(date)
+    assert len(holidays) == int(is_holiday)
+    assert holidays[0].name == expected
