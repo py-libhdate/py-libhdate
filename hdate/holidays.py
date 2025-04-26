@@ -186,19 +186,22 @@ def is_yom_tov(date: Union[dt.date, HebrewDate], diaspora: bool = False) -> bool
     return len(holidays) > 0
 
 
-def move_if_not_on_dow(
-    original: int, replacement: int, dow_not_orig: Weekday, dow_replacement: Weekday
-) -> Callable[[HebrewDate], bool]:
+def not_on_dow(dow: list[Weekday]) -> Callable[[HebrewDate], bool]:
     """
     Return a lambda function.
 
-    Lambda checks that either the original day does not fall on a given
-    weekday, or that the replacement day does fall on the expected weekday.
+    Lambda checks that dow is not on one of the given weekdays.
     """
-    return lambda x: (
-        (x.day == original and x.dow() != dow_not_orig)
-        or (x.day == replacement and x.dow() == dow_replacement)
-    )
+    return lambda x: x.day not in dow
+
+
+def only_on_dow(dow: Weekday) -> Callable[[HebrewDate], bool]:
+    """
+    Return a lambda function.
+
+    Lambda checks that dow is equal to the givem weekday.
+    """
+    return lambda x: x.day == dow
 
 
 def year_is_before(year: int) -> Callable[[HebrewDate], bool]:
@@ -228,8 +231,14 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.FAST_DAY,
         "tzom_gedaliah",
-        (Months.TISHREI, (3, 4)),
-        [move_if_not_on_dow(3, 4, Weekday.SATURDAY, Weekday.SUNDAY)],
+        (Months.TISHREI, 3),
+        [not_on_dow([Weekday.SATURDAY])],
+    ),
+    Holiday(
+        HolidayTypes.FAST_DAY,
+        "tzom_gedaliah",
+        (Months.TISHREI, 4),
+        [only_on_dow(Weekday.SUNDAY)],
     ),
     Holiday(HolidayTypes.EREV_YOM_TOV, "erev_yom_kippur", (Months.TISHREI, 9)),
     Holiday(HolidayTypes.YOM_TOV, "yom_kippur", (Months.TISHREI, 10)),
@@ -262,8 +271,14 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.FAST_DAY,
         "taanit_esther",
-        ((Months.ADAR, Months.ADAR_II), (11, 13)),
-        [move_if_not_on_dow(13, 11, Weekday.SATURDAY, Weekday.THURSDAY)],
+        ((Months.ADAR, Months.ADAR_II), 11),
+        [not_on_dow([Weekday.SATURDAY])],
+    ),
+    Holiday(
+        HolidayTypes.FAST_DAY,
+        "taanit_esther",
+        ((Months.ADAR, Months.ADAR_II), 13),
+        [only_on_dow(Weekday.THURSDAY)],
     ),
     Holiday(
         HolidayTypes.MELACHA_PERMITTED_HOLIDAY,
@@ -286,24 +301,33 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.MODERN_HOLIDAY,
         "yom_haatzmaut",
-        (Months.IYYAR, (3, 4, 5)),
+        (Months.IYYAR, (3, 4)),
+        [year_is_after(5708), only_on_dow(Weekday.THURSDAY)],
+    ),
+    Holiday(
+        HolidayTypes.MODERN_HOLIDAY,
+        "yom_haatzmaut",
+        (Months.IYYAR, 5),
         [
             year_is_after(5708),
             year_is_before(5764),
-            move_if_not_on_dow(5, 4, Weekday.FRIDAY, Weekday.THURSDAY)  # type: ignore
-            or move_if_not_on_dow(5, 3, Weekday.SATURDAY, Weekday.THURSDAY),
+            not_on_dow([Weekday.FRIDAY, Weekday.SATURDAY]),
         ],
     ),
     Holiday(
         HolidayTypes.MODERN_HOLIDAY,
         "yom_haatzmaut",
-        (Months.IYYAR, (3, 4, 5, 6)),
+        (Months.IYYAR, 5),
         [
             year_is_after(5763),
-            move_if_not_on_dow(5, 4, Weekday.FRIDAY, Weekday.THURSDAY)  # type: ignore
-            or move_if_not_on_dow(5, 3, Weekday.SATURDAY, Weekday.THURSDAY)
-            or move_if_not_on_dow(5, 6, Weekday.MONDAY, Weekday.TUESDAY),
+            not_on_dow([Weekday.FRIDAY, Weekday.SATURDAY, Weekday.MONDAY]),
         ],
+    ),
+    Holiday(
+        HolidayTypes.MODERN_HOLIDAY,
+        "yom_haatzmaut",
+        (Months.IYYAR, 6),
+        [year_is_after(5763), only_on_dow(Weekday.TUESDAY)],
     ),
     Holiday(HolidayTypes.MINOR_HOLIDAY, "lag_bomer", (Months.IYYAR, 18)),
     Holiday(HolidayTypes.EREV_YOM_TOV, "erev_shavuot", (Months.SIVAN, 5)),
@@ -311,51 +335,76 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.FAST_DAY,
         "tzom_tammuz",
-        (Months.TAMMUZ, (17, 18)),
-        [move_if_not_on_dow(17, 18, Weekday.SATURDAY, Weekday.SUNDAY)],
+        (Months.TAMMUZ, 17),
+        [not_on_dow([Weekday.SATURDAY])],
+    ),
+    Holiday(
+        HolidayTypes.FAST_DAY,
+        "tzom_tammuz",
+        (Months.TAMMUZ, 18),
+        [only_on_dow(Weekday.SUNDAY)],
     ),
     Holiday(
         HolidayTypes.FAST_DAY,
         "tisha_bav",
-        (Months.AV, (9, 10)),
-        [move_if_not_on_dow(9, 10, Weekday.SATURDAY, Weekday.SUNDAY)],
+        (Months.AV, 9),
+        [not_on_dow([Weekday.SATURDAY])],
+    ),
+    Holiday(
+        HolidayTypes.FAST_DAY,
+        "tisha_bav",
+        (Months.AV, 10),
+        [only_on_dow(Weekday.SUNDAY)],
     ),
     Holiday(HolidayTypes.MINOR_HOLIDAY, "tu_bav", (Months.AV, 15)),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "yom_hashoah",
-        (Months.NISAN, (26, 27, 28)),
-        [
-            move_if_not_on_dow(27, 28, Weekday.SUNDAY, Weekday.MONDAY)  # type: ignore
-            or move_if_not_on_dow(27, 26, Weekday.FRIDAY, Weekday.THURSDAY),
-            year_is_after(5718),
-        ],
+        (Months.NISAN, 26),
+        [only_on_dow(Weekday.THURSDAY), year_is_after(5718)],
+    ),
+    Holiday(
+        HolidayTypes.MEMORIAL_DAY,
+        "yom_hashoah",
+        (Months.NISAN, 27),
+        [not_on_dow([Weekday.SUNDAY, Weekday.FRIDAY]), year_is_after(5718)],
+    ),
+    Holiday(
+        HolidayTypes.MEMORIAL_DAY,
+        "yom_hashoah",
+        (Months.NISAN, 28),
+        [only_on_dow(Weekday.MONDAY), year_is_after(5718)],
     ),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "yom_hazikaron",
-        (Months.IYYAR, (2, 3, 4)),
+        (Months.IYYAR, (2, 3)),
+        [year_is_after(5708), only_on_dow(Weekday.WEDNESDAY)],
+    ),
+    Holiday(
+        HolidayTypes.MEMORIAL_DAY,
+        "yom_hazikaron",
+        (Months.IYYAR, 4),
         [
             year_is_after(5708),
             year_is_before(5764),
-            move_if_not_on_dow(
-                4, 3, Weekday.THURSDAY, Weekday.WEDNESDAY
-            )  # type: ignore
-            or move_if_not_on_dow(4, 2, Weekday.FRIDAY, Weekday.WEDNESDAY),
+            not_on_dow([Weekday.THURSDAY, Weekday.FRIDAY]),
         ],
     ),
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "yom_hazikaron",
-        (Months.IYYAR, (2, 3, 4, 5)),
+        (Months.IYYAR, 4),
         [
-            year_is_after(5763),
-            move_if_not_on_dow(
-                4, 3, Weekday.THURSDAY, Weekday.WEDNESDAY
-            )  # type: ignore
-            or move_if_not_on_dow(4, 2, Weekday.FRIDAY, Weekday.WEDNESDAY)
-            or move_if_not_on_dow(4, 5, Weekday.SUNDAY, Weekday.MONDAY),
+            year_is_before(5763),
+            not_on_dow([Weekday.THURSDAY, Weekday.FRIDAY, Weekday.SUNDAY]),
         ],
+    ),
+    Holiday(
+        HolidayTypes.MEMORIAL_DAY,
+        "yom_hazikaron",
+        (Months.IYYAR, 5),
+        [year_is_after(5763), only_on_dow(Weekday.SUNDAY)],
     ),
     Holiday(
         HolidayTypes.MODERN_HOLIDAY,
@@ -385,11 +434,15 @@ HOLIDAYS = (
     Holiday(
         HolidayTypes.MEMORIAL_DAY,
         "rabin_memorial_day",
-        (Months.MARCHESHVAN, (11, 12)),
-        [
-            move_if_not_on_dow(12, 11, Weekday.FRIDAY, Weekday.THURSDAY),
-            year_is_after(5757),
-        ],
+        (Months.MARCHESHVAN, 11),
+        [not_on_dow([Weekday.FRIDAY]), year_is_after(5757)],
+        "ISRAEL",
+    ),
+    Holiday(
+        HolidayTypes.MEMORIAL_DAY,
+        "rabin_memorial_day",
+        (Months.MARCHESHVAN, 12),
+        [only_on_dow(Weekday.THURSDAY), year_is_after(5757)],
         "ISRAEL",
     ),
     Holiday(
