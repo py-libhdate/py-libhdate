@@ -404,7 +404,7 @@ HOLIDAYS = (
         HolidayTypes.MEMORIAL_DAY,
         "yom_hazikaron",
         (Months.IYYAR, 5),
-        [year_is_after(5763), only_on_dow(Weekday.SUNDAY)],
+        [year_is_after(5763), only_on_dow(Weekday.MONDAY)],
     ),
     Holiday(
         HolidayTypes.MODERN_HOLIDAY,
