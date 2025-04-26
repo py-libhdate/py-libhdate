@@ -72,7 +72,7 @@ Provide the times of the day in Hebrew...
 .. code :: python
 
     >>> from hdate.translator import set_language
-    >>> _ = set_language("en")
+    >>> set_language("en")
     >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c)
     >>> print(z)
     Alot HaShachar - 04:52:00
@@ -100,7 +100,7 @@ Provide the full Hebrew date ...
 
 .. code :: python
 
-    >>> _ = set_language("he")
+    >>> set_language("he")
     >>> h = hdate.HDateInfo(datetime.date(2016, 4, 26))
     >>> print(h)
     יום שלישי י"ח בניסן ה' תשע"ו ג' לעומר חול המועד פסח
@@ -109,7 +109,7 @@ Provide the full Hebrew date ...
 
 .. code :: python
 
-    >>> _ = set_language("en")
+    >>> set_language("en")
     >>> h = hdate.HDateInfo(datetime.date(2016, 4, 18))
     >>> print(h)
     Monday 10 Nisan 5776
