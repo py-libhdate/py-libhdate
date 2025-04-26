@@ -28,10 +28,10 @@ def test_set_non_existing_language(caplog: pytest.LogCaptureFixture) -> None:
     """Test the load_language method."""
     set_language("non-existing-language")  # type: ignore
     assert (
-        "Language non-existing-language not found, falling back to english"
+        "Language non-existing-language not found, falling back to hebrew"
         in caplog.text
     )
-    assert get_language() == "en"
+    assert get_language() == "he"
 
 
 def test_translation_not_found(caplog: pytest.LogCaptureFixture) -> None:

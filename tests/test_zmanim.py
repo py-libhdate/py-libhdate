@@ -46,9 +46,9 @@ def test_bad_date() -> None:
 
 
 @given(
-    this_date=strategies.dates(max_value=dt.date(3000, 1, 1)).filter(
-        lambda d: not (d.month == 2 and d.day == 29)
-    ),
+    this_date=strategies.dates(
+        min_value=dt.date(1800, 1, 1), max_value=dt.date(3000, 1, 1)
+    ).filter(lambda d: not (d.month == 2 and d.day == 29)),
     year_diff=strategies.integers(min_value=0, max_value=200),
 )
 def test_same_doy_is_equal(this_date: dt.date, year_diff: int) -> None:

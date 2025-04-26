@@ -17,7 +17,7 @@ Suppose we want to get today's Hebrew date.
     >>> from hdate.translator import set_language
 
     >>> today = date(2025, 1, 15)
-    >>> _ = set_language("en")
+    >>> set_language("en")
     >>> heb_date = HebrewDate.from_gdate(today)
     >>> print(heb_date)
     15 Tevet 5785
@@ -80,16 +80,13 @@ Currently supported are Hebrew, English and French.
 Languages are set **globally** and should be formatted according to RFC 5646.
 The default language is Hebrew.
 
-The ``set_language()`` method returns the context variable that was set.
-This means that you can use it to set the language back to the default.
-
 .. code:: python
 
     >>> from hdate.translator import set_language
-    >>> _ = set_language("he")
+    >>> set_language("he")
     >>> print(str(day_of_week))
     יום שלישי
-    >>> _ = set_language("fr")
+    >>> set_language("fr")
     >>> print(str(day_of_week))
     Mardi
 

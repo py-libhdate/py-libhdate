@@ -16,16 +16,12 @@ Language = Literal["en", "fr", "he"]
 context_language: ContextVar[Language] = ContextVar("context_language", default="he")
 
 
-def set_language(language: Language) -> object:
-    """Set the current translation language (context-local).
-
-    Returns the token needed to restore the previous language context.
-    """
+def set_language(language: Language) -> None:
+    """Set the current translation language (context-local)."""
     if language not in TRANSLATIONS:
-        _LOGGER.warning("Language %s not found, falling back to english", language)
-        language = "en"
-    # Set the context variable to the new language and return the token
-    return context_language.set(language)
+        _LOGGER.warning("Language %s not found, falling back to hebrew", language)
+        language = "he"
+    _ = context_language.set(language)
 
 
 def get_language() -> Language:
