@@ -368,4 +368,5 @@ def test_new_holidays_known_dates(
     date = HebrewDate(year, month, day)
     holidays = holiday_db.lookup(date)
     assert len(holidays) == int(is_holiday)
-    assert holidays[0].name == expected
+    if holidays:
+        assert holidays[0].name == expected

@@ -192,7 +192,7 @@ def not_on_dow(dow: list[Weekday]) -> Callable[[HebrewDate], bool]:
 
     Lambda checks that dow is not on one of the given weekdays.
     """
-    return lambda x: x.day not in dow
+    return lambda x: x.dow() not in dow
 
 
 def only_on_dow(dow: Weekday) -> Callable[[HebrewDate], bool]:
@@ -201,7 +201,7 @@ def only_on_dow(dow: Weekday) -> Callable[[HebrewDate], bool]:
 
     Lambda checks that dow is equal to the givem weekday.
     """
-    return lambda x: x.day == dow
+    return lambda x: x.dow() == dow
 
 
 def year_is_before(year: int) -> Callable[[HebrewDate], bool]:
