@@ -2,7 +2,7 @@
 
 import datetime as dt
 from dataclasses import dataclass
-from enum import Enum, IntEnum, auto
+from enum import Enum, StrEnum, auto
 from typing import ClassVar, cast
 
 from hdate.hebrew_date import HebrewDate, Months, Weekday
@@ -23,7 +23,7 @@ def erange(start: Enum, end: Enum) -> list[Enum]:
     return enum_list[start_idx:end_idx]
 
 
-class Parasha(TranslatorMixin, IntEnum):
+class Parasha(TranslatorMixin, StrEnum):
     """Parasha enum."""
 
     NONE = 0
