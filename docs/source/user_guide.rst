@@ -90,7 +90,7 @@ objects is provided. Here to, we can filter based on ``HolidayTypes``.
     22 Tishrei 5785: Shmini Atzeret, Simchat Torah
     30 Tishrei 5785: Rosh Chodesh
     1 Marcheshvan 5785: Rosh Chodesh
-    12 Marcheshvan 5785: Yitzhak Rabin memorial day
+    11 Marcheshvan 5785: Yitzhak Rabin memorial day
     30 Marcheshvan 5785: Rosh Chodesh
     1 Kislev 5785: Rosh Chodesh
     25 Kislev 5785: Chanukah
@@ -119,11 +119,11 @@ objects is provided. Here to, we can filter based on ``HolidayTypes``.
     19 Nisan 5785: Hol hamoed Pesach
     20 Nisan 5785: Hol hamoed Pesach
     21 Nisan 5785: Pesach VII
-    27 Nisan 5785: Yom HaShoah
+    26 Nisan 5785: Yom HaShoah
     30 Nisan 5785: Rosh Chodesh
     1 Iyyar 5785: Rosh Chodesh
-    4 Iyyar 5785: Yom HaZikaron
-    5 Iyyar 5785: Yom HaAtzma'ut
+    2 Iyyar 5785: Yom HaZikaron
+    3 Iyyar 5785: Yom HaAtzma'ut
     18 Iyyar 5785: Lag B'Omer
     28 Iyyar 5785: Yom Yerushalayim
     1 Sivan 5785: Rosh Chodesh
