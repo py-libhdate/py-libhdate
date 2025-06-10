@@ -5,7 +5,7 @@ from __future__ import annotations
 import datetime as dt
 from dataclasses import dataclass
 from enum import IntEnum
-from functools import lru_cache
+from functools import cache, lru_cache
 from typing import TYPE_CHECKING, Callable, Literal, Optional, Union
 
 import hdate.converters as conv
@@ -318,6 +318,7 @@ class HebrewDate(TranslatorMixin):
         return day + 1715118
 
     @staticmethod
+    @cache
     def from_jdn(jdn: int) -> HebrewDate:
         """Convert from the Julian day to the Hebrew day."""
         # calculate Gregorian date
@@ -337,6 +338,7 @@ class HebrewDate(TranslatorMixin):
         return rosh_hashana + days
 
     @staticmethod
+    @cache
     def from_gdate(date: dt.date) -> HebrewDate:
         """Return Hebrew date from Gregorian date."""
         return HebrewDate.from_jdn(conv.gdate_to_jdn(date))
@@ -346,6 +348,7 @@ class HebrewDate(TranslatorMixin):
         return conv.jdn_to_gdate(self.to_jdn())
 
     @staticmethod
+    @cache
     def _days_from_3744(hebrew_year: int) -> int:
         """Return: Number of days since the molad of year 3744."""
         # Start point for calculation is Molad new year 3744 (16BC)
@@ -396,6 +399,7 @@ class HebrewDate(TranslatorMixin):
         return days
 
     @staticmethod
+    @cache
     def year_size(hebrew_year: int) -> int:
         """Return: total days in hebrew year."""
         return HebrewDate._days_from_3744(hebrew_year + 1) - HebrewDate._days_from_3744(
