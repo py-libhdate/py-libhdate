@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import datetime as dt
 from dataclasses import dataclass, field
+from functools import cached_property
 from typing import Optional, Union
 
 from hdate.daf_yomi import DafYomiDatabase, Masechta
@@ -36,7 +37,6 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
     def __post_init__(self) -> None:
         # Initialize private variables
         self._last_updated = ""
-        self._holidays = HolidayDatabase(self.diaspora)
 
         if isinstance(self.date, dt.date):
             self.gdate = self.date
@@ -47,6 +47,16 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
             self._gdate = self.date.to_gdate()
         else:
             raise TypeError("date has to be of type datetime.date or HebrewDate")
+
+    @cached_property
+    def _holidays(self) -> HolidayDatabase:
+        """
+        Return the HolidayDatabase instance.
+
+        Use this as a cached property to avoid re-initializing and lazy load the
+        database.
+        """
+        return HolidayDatabase(self.diaspora)
 
     def __str__(self) -> str:
         language = get_language()
