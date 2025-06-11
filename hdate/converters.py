@@ -1,9 +1,11 @@
 """Methods for going back and forth between Gregorian date and Julian day."""
 
 import datetime as dt
+from functools import lru_cache
 from typing import Union
 
 
+@lru_cache
 def gdate_to_jdn(date: Union[dt.date, dt.datetime]) -> int:
     """
     Compute Julian day from Gregorian day, month and year.
@@ -24,6 +26,7 @@ def gdate_to_jdn(date: Union[dt.date, dt.datetime]) -> int:
     return jdn
 
 
+@lru_cache
 def jdn_to_gdate(jdn: int) -> dt.date:
     """
     Convert from the Julian day to the Gregorian day.

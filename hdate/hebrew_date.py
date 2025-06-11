@@ -318,7 +318,7 @@ class HebrewDate(TranslatorMixin):
         return day + 1715118
 
     @staticmethod
-    @cache
+    @lru_cache
     def from_jdn(jdn: int) -> HebrewDate:
         """Convert from the Julian day to the Hebrew day."""
         # calculate Gregorian date
@@ -338,7 +338,7 @@ class HebrewDate(TranslatorMixin):
         return rosh_hashana + days
 
     @staticmethod
-    @cache
+    @lru_cache
     def from_gdate(date: dt.date) -> HebrewDate:
         """Return Hebrew date from Gregorian date."""
         return HebrewDate.from_jdn(conv.gdate_to_jdn(date))
