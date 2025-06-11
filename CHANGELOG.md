@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1 - 2025-06-11
+
+### 🚀 Features
+
+* Improve HDateInfo object creation performance by caching and lazy-loading (#215) @tsvi
+
 ## 1.1.0 - 2025-04-26
 
 * Unpin astral dependency (#207) @tsvi
