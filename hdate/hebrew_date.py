@@ -166,7 +166,7 @@ SHORT_MONTHS = tuple(month for month in Months if month.length == 29)
 CHANGING_MONTHS = tuple(month for month in Months if callable(month.length))
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class HebrewDate(TranslatorMixin):
     """Define a Hebrew date object."""
 
@@ -234,15 +234,23 @@ class HebrewDate(TranslatorMixin):
         if not isinstance(other, HebrewDate):
             return NotImplemented
         if self.year == 0 or other.year == 0:
-            return (self.month, self.day) == (other.month, other.day)
-        return (self.year, self.month, self.day) == (other.year, other.month, other.day)
+            return (self.month.value, self.day) == (other.month.value, other.day)
+        return (self.year, self.month.value, self.day) == (
+            other.year,
+            other.month.value,
+            other.day,
+        )
 
     def __lt__(self, other: object) -> bool:
         if not isinstance(other, HebrewDate):
             return NotImplemented
         if self.year == 0 or other.year == 0:
-            return (self.month, self.day) < (other.month, other.day)
-        return (self.year, self.month, self.day) < (other.year, other.month, other.day)
+            return (self.month.value, self.day) < (other.month.value, other.day)
+        return (self.year, self.month.value, self.day) < (
+            other.year,
+            other.month.value,
+            other.day,
+        )
 
     def __le__(self, other: object) -> bool:
         if not isinstance(other, HebrewDate):
