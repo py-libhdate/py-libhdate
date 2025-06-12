@@ -12,7 +12,7 @@ from dataclasses import dataclass, field
 from functools import cached_property
 from typing import Optional, Union
 
-from hdate.daf_yomi import DafYomiDatabase, Masechta
+from hdate.daf_yomi import DafYomiDatabase
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
@@ -127,11 +127,11 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         return self._holidays.lookup(self.hdate)
 
     @property
-    def daf_yomi(self) -> Masechta:
+    def daf_yomi(self) -> str:
         """Return the daf yomi for the given date."""
         db = DafYomiDatabase()
         daf = db.lookup(self.gdate)
-        return daf
+        return str(daf)
 
     @property
     def gevurot_geshamim(self) -> str:
