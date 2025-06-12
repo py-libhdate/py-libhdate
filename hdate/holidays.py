@@ -5,7 +5,6 @@ from __future__ import annotations
 import datetime as dt
 from bisect import bisect_left
 from collections import defaultdict
-from copy import deepcopy
 from dataclasses import dataclass, field
 from enum import Enum
 from functools import lru_cache
@@ -103,12 +102,12 @@ class HolidayDatabase:
         self, types: Optional[FilterType]
     ) -> dict[HebrewDate, list[Holiday]]:
         """Return a list of filtered holidays, based on type."""
-        filtered_holidays = deepcopy(self._instance_holidays)
+        filtered_holidays = self._instance_holidays.copy()
         if types:
             types = [types] if isinstance(types, HolidayTypes) else types
             filtered_holidays = {
                 _date: [holiday for holiday in holidays if holiday.type in types]
-                for _date, holidays in filtered_holidays.items()
+                for _date, holidays in self._instance_holidays.items()
                 if any(holiday.type in types for holiday in holidays)
             }
         return dict(sorted(filtered_holidays.items()))
@@ -156,7 +155,7 @@ class HolidayDatabase:
         filtered_holidays = self._get_filtered_holidays(types)
         valid_dates = [
             _date
-            for _date in list(filtered_holidays.keys())
+            for _date in filtered_holidays.keys()
             if _date.valid_for_year(date.year)
         ]
         next_date_idx = bisect_left(valid_dates, date)
