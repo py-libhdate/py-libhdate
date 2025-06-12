@@ -10,14 +10,14 @@ from __future__ import annotations
 import datetime as dt
 from dataclasses import dataclass, field
 from functools import cached_property
-from typing import Optional, Union
+from typing import Union
 
-from hdate.daf_yomi import DafYomiDatabase, Masechta
+from hdate.daf_yomi import DafYomiDatabase
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
-from hdate.parasha import Parasha, ParashaDatabase
+from hdate.parasha import ParashaDatabase
 from hdate.tekufot import Nusachim, Tekufot
 from hdate.translator import TranslatorMixin, get_language
 
@@ -68,7 +68,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
             f"{day_number} {in_prefix}{self.hdate.month} {year_number}"
         )
 
-        if self.omer:
+        if self.omer.total_days > 0:
             result = f"{result} {self.omer}"
 
         if self.holidays:
@@ -109,17 +109,16 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         self._gdate = date
 
     @property
-    def omer(self) -> Optional[Omer]:
+    def omer(self) -> Omer:
         """Return the Omer object."""
-        _omer = Omer(date=self.hdate)
-        return _omer if _omer.total_days > 0 else None
+        return Omer(date=self.hdate)
 
     @property
-    def parasha(self) -> Parasha:
+    def parasha(self) -> str:
         """Return the upcoming parasha."""
         db = ParashaDatabase(self.diaspora)
         parasha = db.lookup(self.hdate)
-        return parasha
+        return str(parasha)
 
     @property
     def holidays(self) -> list[Holiday]:
@@ -127,11 +126,11 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         return self._holidays.lookup(self.hdate)
 
     @property
-    def daf_yomi(self) -> Masechta:
+    def daf_yomi(self) -> str:
         """Return the daf yomi for the given date."""
         db = DafYomiDatabase()
         daf = db.lookup(self.gdate)
-        return daf
+        return str(daf)
 
     @property
     def gevurot_geshamim(self) -> str:

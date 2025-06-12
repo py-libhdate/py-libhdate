@@ -62,7 +62,7 @@ def test_valid_omer_day(date: HebrewDate) -> None:
 def test_invalid_omer_day(date: HebrewDate) -> None:
     """Test invalid value of the Omer."""
     omer = HDateInfo(date).omer
-    assert omer is None
+    assert omer.total_days == 0
 
 
 @given(

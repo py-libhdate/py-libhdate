@@ -10,7 +10,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from hdate import HDateInfo, HebrewDate
 from hdate.hebrew_date import Months
-from hdate.parasha import Parasha, erange
+from hdate.parasha import Parasha, ParashaDatabase, erange
 
 YEAR_TYPES = [
     # שנים מעוברות
@@ -66,23 +66,23 @@ def test_get_reading_israel(
 @pytest.mark.parametrize("diaspora", [True, False])
 def test_vezot_habracha(diaspora: bool, year: int) -> None:
     """Test Vezot Habracha showing correctly."""
+    db = ParashaDatabase(diaspora)
     if diaspora:
         simchat_tora = HebrewDate(year, Months.TISHREI, 23)
     else:
         simchat_tora = HebrewDate(year, Months.TISHREI, 22)
-    mydate = HDateInfo(simchat_tora, diaspora=diaspora)
-    assert mydate.parasha == 54
+    assert db.lookup(simchat_tora) == Parasha.VEZOT_HABRACHA
 
 
 @pytest.mark.parametrize("diaspora", [True, False])
 @given(year=strategies.integers(min_value=4000, max_value=6000))
 def test_nitzavim_always_before_rosh_hashana(year: int, diaspora: bool) -> None:
     """A property: Nitzavim alway falls before rosh hashana."""
+    db = ParashaDatabase(diaspora)
     rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
     previous_shabbat = rosh_hashana + dt.timedelta(days=-rosh_hashana.dow())
-    mydate = HDateInfo(previous_shabbat, diaspora=diaspora)
-    print(f"Testing date: {mydate}")
-    assert mydate.parasha in (Parasha.NITZAVIM, Parasha.NITZAVIM_VAYEILECH)
+    print(f"Testing date: {previous_shabbat}")
+    assert db.lookup(previous_shabbat) in (Parasha.NITZAVIM, Parasha.NITZAVIM_VAYEILECH)
 
 
 @pytest.mark.parametrize("diaspora", [True, False])
@@ -92,17 +92,18 @@ def test_vayelech_or_haazinu_always_after_rosh_hashana(
     year: int, diaspora: bool
 ) -> None:
     """A property: Vayelech or Haazinu always falls after rosh hashana."""
+    db = ParashaDatabase(diaspora)
     rosh_hashana = HebrewDate(year, Months.TISHREI, 1)
     mydate = HDateInfo(rosh_hashana, diaspora=diaspora).upcoming_shabbat
     print(f"Testing date: {mydate}")
-    assert mydate.parasha in (Parasha.VAYEILECH, Parasha.HAAZINU, Parasha.NONE)
+    assert db.lookup(mydate.hdate) in (Parasha.VAYEILECH, Parasha.HAAZINU, Parasha.NONE)
 
 
 def test_last_week_of_the_year() -> None:
     """The last day of the year is parshat Vayelech."""
     mydate = HDateInfo()
     mydate.hdate = HebrewDate(5779, Months.ELUL, 29)
-    assert mydate.parasha == Parasha.VAYEILECH
+    assert mydate.parasha == "וילך"
 
 
 @pytest.mark.parametrize(
