@@ -1,6 +1,6 @@
 [project]
 name = "hdate"
-version = "1.1.1"
+version = "1.1.2"
 description = "Jewish/Hebrew date and Zmanim in native Python 2.7/3.x"
 authors = [
     {name = "Royi Reshef", email = "roy.myapp@gmail.com"},
@@ -81,7 +81,7 @@ docs = [
 ]
 
 [tool.bumpversion]
-current_version = "1.1.1"
+current_version = "1.1.2"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"

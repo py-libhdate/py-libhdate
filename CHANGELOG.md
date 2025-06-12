@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.1.2 - 2025-06-12
+
+### 🚀 Features
+
+* Have HDateInfo API return builtins (str/int) for easier use (#211) @tsvi
+* Improve performance of HolidayDatabase creation and lookup (#216) @tsvi
+
 ## 1.1.1 - 2025-06-11
 
 ### 🚀 Features
