@@ -10,7 +10,7 @@ from __future__ import annotations
 import datetime as dt
 from dataclasses import dataclass, field
 from functools import cached_property
-from typing import Optional, Union
+from typing import Union
 
 from hdate.daf_yomi import DafYomiDatabase
 from hdate.gematria import hebrew_number
@@ -68,7 +68,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
             f"{day_number} {in_prefix}{self.hdate.month} {year_number}"
         )
 
-        if self.omer:
+        if self.omer.total_days > 0:
             result = f"{result} {self.omer}"
 
         if self.holidays:
@@ -109,10 +109,9 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         self._gdate = date
 
     @property
-    def omer(self) -> Optional[Omer]:
+    def omer(self) -> Omer:
         """Return the Omer object."""
-        _omer = Omer(date=self.hdate)
-        return _omer if _omer.total_days > 0 else None
+        return Omer(date=self.hdate)
 
     @property
     def parasha(self) -> Parasha:
