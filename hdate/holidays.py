@@ -40,7 +40,7 @@ class Holiday(TranslatorMixin):
 
     type: HolidayTypes
     name: str
-    date: Union[tuple[Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]]]
+    date: tuple[Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]]
     date_functions_list: list[
         Callable[[HebrewDate], Union[bool, Callable[[], bool]]]
     ] = field(default_factory=list)
@@ -58,13 +58,14 @@ class HolidayDatabase:
     _all_holidays: ClassVar[dict[HebrewDate, list[Holiday]]]
 
     def __post_init__(self) -> None:
-        self._instance_holidays = deepcopy(self._all_holidays)
+        # Use shallow copy instead of deepcopy for performance
+        self._instance_holidays = {k: v.copy() for k, v in self._all_holidays.items()}
         if self.diaspora:
             for date, holidays in self._diaspora_holidays.items():
-                self._instance_holidays[date].extend(holidays)
+                self._instance_holidays.setdefault(date, []).extend(holidays)
         else:
             for date, holidays in self._israel_holidays.items():
-                self._instance_holidays[date].extend(holidays)
+                self._instance_holidays.setdefault(date, []).extend(holidays)
         self._instance_holidays = dict(sorted(self._instance_holidays.items()))
 
     @classmethod
@@ -76,8 +77,8 @@ class HolidayDatabase:
         cls._all_holidays = defaultdict(list)
 
         def holiday_dates_cross_product(
-            dates: Union[
-                tuple[Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]]
+            dates: tuple[
+                Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]
             ],
         ) -> Iterable[tuple[Months, int]]:
             """Given a (days, months) pair, compute the cross product.
