@@ -17,7 +17,7 @@ class Masechta(TranslatorMixin):
 
     def __str__(self) -> str:
         name = self.get_translation(self.name)
-        daf = hebrew_number(self.pages + 2, short=True)
+        daf = hebrew_number(self.pages, short=True)
         return f"{name} {daf}"
 
 
@@ -53,7 +53,7 @@ class DafYomiDatabase:
             page_number -= masechta.pages
             masechta_index += 1
 
-        return Masechta(self._masechtot[masechta_index].name, page_number)
+        return Masechta(self._masechtot[masechta_index].name, page_number + 2)
 
 
 DAF_YOMI_MESECHTOS = (
