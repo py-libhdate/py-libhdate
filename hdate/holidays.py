@@ -5,7 +5,6 @@ from __future__ import annotations
 import datetime as dt
 from bisect import bisect_left
 from collections import defaultdict
-from copy import deepcopy
 from dataclasses import dataclass, field
 from enum import Enum
 from functools import lru_cache
@@ -40,7 +39,7 @@ class Holiday(TranslatorMixin):
 
     type: HolidayTypes
     name: str
-    date: Union[tuple[Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]]]
+    date: tuple[Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]]
     date_functions_list: list[
         Callable[[HebrewDate], Union[bool, Callable[[], bool]]]
     ] = field(default_factory=list)
@@ -58,14 +57,14 @@ class HolidayDatabase:
     _all_holidays: ClassVar[dict[HebrewDate, list[Holiday]]]
 
     def __post_init__(self) -> None:
-        self._instance_holidays = deepcopy(self._all_holidays)
+        # Use shallow copy instead of deepcopy for performance
+        self._instance_holidays = {k: v.copy() for k, v in self._all_holidays.items()}
         if self.diaspora:
             for date, holidays in self._diaspora_holidays.items():
-                self._instance_holidays[date].extend(holidays)
+                self._instance_holidays.setdefault(date, []).extend(holidays)
         else:
             for date, holidays in self._israel_holidays.items():
-                self._instance_holidays[date].extend(holidays)
-        self._instance_holidays = dict(sorted(self._instance_holidays.items()))
+                self._instance_holidays.setdefault(date, []).extend(holidays)
 
     @classmethod
     def register_holidays(cls, holidays: list[Holiday]) -> None:
@@ -76,8 +75,8 @@ class HolidayDatabase:
         cls._all_holidays = defaultdict(list)
 
         def holiday_dates_cross_product(
-            dates: Union[
-                tuple[Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]]
+            dates: tuple[
+                Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]
             ],
         ) -> Iterable[tuple[Months, int]]:
             """Given a (days, months) pair, compute the cross product.
@@ -103,15 +102,15 @@ class HolidayDatabase:
         self, types: Optional[FilterType]
     ) -> dict[HebrewDate, list[Holiday]]:
         """Return a list of filtered holidays, based on type."""
-        filtered_holidays = deepcopy(self._instance_holidays)
+        filtered_holidays = self._instance_holidays.copy()
         if types:
             types = [types] if isinstance(types, HolidayTypes) else types
             filtered_holidays = {
                 _date: [holiday for holiday in holidays if holiday.type in types]
-                for _date, holidays in filtered_holidays.items()
+                for _date, holidays in self._instance_holidays.items()
                 if any(holiday.type in types for holiday in holidays)
             }
-        return filtered_holidays
+        return dict(sorted(filtered_holidays.items()))
 
     def lookup(
         self, date: HebrewDate, types: Optional[FilterType] = None
@@ -156,7 +155,7 @@ class HolidayDatabase:
         filtered_holidays = self._get_filtered_holidays(types)
         valid_dates = [
             _date
-            for _date in list(filtered_holidays.keys())
+            for _date in filtered_holidays.keys()
             if _date.valid_for_year(date.year)
         ]
         next_date_idx = bisect_left(valid_dates, date)
