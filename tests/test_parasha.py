@@ -71,7 +71,7 @@ def test_vezot_habracha(diaspora: bool, year: int) -> None:
     else:
         simchat_tora = HebrewDate(year, Months.TISHREI, 22)
     mydate = HDateInfo(simchat_tora, diaspora=diaspora)
-    assert mydate.parasha == 54
+    assert mydate.parasha == Parasha.VEZOT_HABRACHA
 
 
 @pytest.mark.parametrize("diaspora", [True, False])
