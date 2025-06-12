@@ -17,7 +17,7 @@ from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
-from hdate.parasha import Parasha, ParashaDatabase
+from hdate.parasha import ParashaDatabase
 from hdate.tekufot import Nusachim, Tekufot
 from hdate.translator import TranslatorMixin, get_language
 
@@ -114,11 +114,11 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         return Omer(date=self.hdate)
 
     @property
-    def parasha(self) -> Parasha:
+    def parasha(self) -> str:
         """Return the upcoming parasha."""
         db = ParashaDatabase(self.diaspora)
         parasha = db.lookup(self.hdate)
-        return parasha
+        return str(parasha)
 
     @property
     def holidays(self) -> list[Holiday]:
