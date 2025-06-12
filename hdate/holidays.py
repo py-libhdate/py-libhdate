@@ -66,7 +66,6 @@ class HolidayDatabase:
         else:
             for date, holidays in self._israel_holidays.items():
                 self._instance_holidays.setdefault(date, []).extend(holidays)
-        self._instance_holidays = dict(sorted(self._instance_holidays.items()))
 
     @classmethod
     def register_holidays(cls, holidays: list[Holiday]) -> None:
@@ -112,7 +111,7 @@ class HolidayDatabase:
                 for _date, holidays in filtered_holidays.items()
                 if any(holiday.type in types for holiday in holidays)
             }
-        return filtered_holidays
+        return dict(sorted(filtered_holidays.items()))
 
     def lookup(
         self, date: HebrewDate, types: Optional[FilterType] = None
