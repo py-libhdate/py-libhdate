@@ -262,14 +262,11 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             int(720.0 - 4.0 * longitude + hour_angle - eqtime),
         )
 
-    def _datetime_to_minutes_offest(self, time: dt.datetime) -> int:
-        """Return the time in minutes from 00:00 (utc) for a given time."""
-        return (
-            time.hour * 60
-            + time.minute
-            + (1 if time.second >= 30 else 0)
-            + int((time.date() - self.date).total_seconds() // 60)
-        )
+    def _datetime_to_minutes_offset(self, time: dt.datetime) -> int:
+        """Return minutes offset from self.date at 00:00."""
+        anchor = dt.datetime.combine(self.date, dt.time.min, tzinfo=time.tzinfo)
+        delta_seconds = (time - anchor).total_seconds()
+        return int(delta_seconds / 60 + 0.5)
 
     def _get_utc_time_of_transit(self, zenith: float, rising: bool) -> int:
         """Return the time in minutes from 00:00 (utc) for a given sun altitude."""
@@ -277,7 +274,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             latitude=self.location.latitude,
             longitude=self.location.longitude,
         )
-        return self._datetime_to_minutes_offest(
+        return self._datetime_to_minutes_offset(
             astral.sun.time_of_transit(
                 astral_observer,
                 self.date,
