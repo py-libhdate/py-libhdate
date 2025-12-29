@@ -14,9 +14,15 @@ class Location:
     latitude: float = 31.778
     longitude: float = 35.235
     timezone: Union[str, tzinfo] = ZoneInfo("Asia/Jerusalem")
-    altitude: float = 754
+    altitude: float | None = None
     diaspora: bool = False
 
     def __post_init__(self) -> None:
         if isinstance(self.timezone, str):
             object.__setattr__(self, "timezone", ZoneInfo(self.timezone))
+
+        if self.altitude is None:
+            if self.name == "Jerusalem" and self.latitude == 31.778:
+                object.__setattr__(self, "altitude", 754)
+            else:
+                object.__setattr__(self, "altitude", 0)
