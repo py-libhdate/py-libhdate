@@ -75,7 +75,10 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
     def __str__(self) -> str:
         return "\n".join(
-            [f"{zman} - {zman.local.time()}" for _, zman in self.zmanim.items()]
+            [
+                f"{zman} - {zman.local.strftime('%H:%M:%S')}"
+                for _, zman in self.zmanim.items()
+            ]
         )
 
     def __getattr__(self, name: str) -> Zman:
