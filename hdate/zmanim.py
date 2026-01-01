@@ -339,11 +339,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         fall back to Solar Midnight (the deepest part of the night).
         """
         # If using Astral and configured (Legacy path)
-        if (
-            _USE_ASTRAL
-            and abs(self.location.latitude) <= 50.0
-            and abs(self.location.latitude) <= MAX_LATITUDE_ASTRAL
-        ):
+        if _USE_ASTRAL and abs(self.location.latitude) <= 50.0:
             return self._get_utc_time_of_transit(degrees, rising)
 
         # Native High-Precision Path
