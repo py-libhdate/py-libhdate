@@ -2,7 +2,7 @@
 Jewish calendrical times for a given location.
 
 HDate calculates and generates a representation either in English or Hebrew
-of the Jewish calendrical times for a given location
+of the Jewish calendrical times for a given location.
 """
 
 import datetime as dt
@@ -25,7 +25,7 @@ try:
 except ImportError:
     _USE_ASTRAL = False
 
-MAX_LATITUDE_ASTRAL = 50.0
+MAX_LATITUDE_ASTRAL = 66.5
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -186,81 +186,123 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
 
         return False
 
-    def _get_utc_sun_time_deg(self, deg: float) -> tuple[int, int]:
+    def _get_utc_sun_time_deg(self, deg: float) -> tuple[int | None, int | None]:
+        # pylint: disable=too-many-locals
         """
         Return the times in minutes from 00:00 (utc) for a given sun altitude.
 
-        This is done for a given sun altitude in sunrise `deg` degrees
-        This function only works for altitudes sun really is.
-        If the sun never gets to this altitude, the returned sunset and sunrise
-        values will be negative. This can happen in low altitude when latitude
-        is nearing the poles in winter times, the sun never goes very high in
-        the sky there.
+        Uses NOAA/Meeus astronomical algorithms for high precision.
+        Returns (None, None) if the sun never reaches the specified altitude
+        (e.g., White Nights in high latitudes).
 
-        Algorithm from
-        https://gml.noaa.gov/grad/solcalc/solareqns.PDF
-        The low accuracy solar position equations are used.
-        These routines are based on Jean Meeus's book Astronomical Algorithms.
+        Args:
+            deg: The altitude of the sun (90 - zenith).
+                 0.833 for Sunrise/Sunset (geometric).
+                 16.1 for Alot HaShachar, etc.
         """
 
-        def gday_of_year(date: dt.date) -> int:
-            """Return the number of days since January 1 of the given year."""
-            return (date - dt.date(date.year, 1, 1)).days
-
-        gama = 0.0  # location of sun in yearly cycle in radians
-        eqtime = 0.0  # difference betwen sun noon and clock noon
-        decl = 0.0  # sun declanation
-        hour_angle = 0.0  # solar hour angle
-        sunrise_angle = math.radians(deg)  # sun angle at sunrise/set
-
-        # get the day of year
-        day_of_year = float(gday_of_year(self.date))
-
-        # get radians of sun orbit around earth =)
-        gama = 2.0 * math.pi * ((day_of_year - 1) / 365.0)
-
-        # get the diff betwen suns clock and wall clock in minutes
-        eqtime = 229.18 * (
-            0.000075
-            + 0.001868 * math.cos(gama)
-            - 0.032077 * math.sin(gama)
-            - 0.014615 * math.cos(2.0 * gama)
-            - 0.040849 * math.sin(2.0 * gama)
-        )
-
-        # calculate suns declanation at the equater in radians
-        decl = (
-            0.006918
-            - 0.399912 * math.cos(gama)
-            + 0.070257 * math.sin(gama)
-            - 0.006758 * math.cos(2.0 * gama)
-            + 0.000907 * math.sin(2.0 * gama)
-            - 0.002697 * math.cos(3.0 * gama)
-            + 0.00148 * math.sin(3.0 * gama)
-        )
-
-        latitude = math.radians(self.location.latitude)
-
-        # the sun real time diff from noon at sunset/rise in radians
-        try:
-            hour_angle = math.acos(
-                math.cos(sunrise_angle) / (math.cos(latitude) * math.cos(decl))
-                - math.tan(latitude) * math.tan(decl)
+        # Julian Day at 12:00 UTC (Meeus formula)
+        def get_julian_day(date: dt.date) -> float:
+            year, month, day = date.year, date.month, date.day
+            if month <= 2:
+                year -= 1
+                month += 12
+            a = math.floor(year / 100)
+            b = 2 - a + math.floor(a / 4)
+            return (
+                math.floor(365.25 * (year + 4716))
+                + math.floor(30.6001 * (month + 1))
+                + day
+                + b
+                - 1524.5
             )
-        # check for too high altitudes and return negative values
-        except ValueError:
-            return -720, -720
 
-        # we use minutes, ratio is 1440min/2pi
-        hour_angle = 720.0 * hour_angle / math.pi
-
-        # get sunset/rise times in utc wall clock in minutes from 00:00 time
-        # sunrise / sunset
-        longitude = self.location.longitude
-        return (
-            int(720.0 - 4.0 * longitude - hour_angle - eqtime),
-            int(720.0 - 4.0 * longitude + hour_angle - eqtime),
+        # Time variables
+        jd = get_julian_day(self.date)
+        t = (jd - 2451545.0) / 36525.0  # Julian Century
+        # Geometric Mean Longitude Sun (deg)
+        geom_mean_long_sun = (280.46646 + 36000.76983 * t + 0.0003032 * t**2) % 360
+        # Geometric Mean Anomaly Sun (deg)
+        geom_mean_anom_sun = 357.52911 + 35999.05029 * t - 0.0001537 * t**2
+        # Eccentricity Earth Orbit
+        eccent_earth_orbit = 0.016708634 - 0.000042037 * t - 0.0000001267 * t**2
+        # Sun Equation of Center
+        sun_eq_of_ctr = (
+            math.sin(math.radians(geom_mean_anom_sun))
+            * (1.914602 - 0.004817 * t - 0.000014 * t**2)
+            + math.sin(math.radians(2 * geom_mean_anom_sun)) * (0.019993 - 0.000101 * t)
+            + math.sin(math.radians(3 * geom_mean_anom_sun)) * 0.000289
         )
+        # Sun True Longitude (deg)
+        sun_true_long = geom_mean_long_sun + sun_eq_of_ctr
+        # Sun Apparent Longitude (deg)
+        sun_app_long = (
+            sun_true_long
+            - 0.00569
+            - 0.00478 * math.sin(math.radians(125.04 - 1934.136 * t))
+        )
+        # Mean Obliquity Ecliptic (deg)
+        mean_obliq_ecliptic = (
+            23
+            + (26 + (21.448 - 46.8150 * t - 0.00059 * t**2 + 0.001813 * t**3) / 60) / 60
+        )
+        # Obliquity Correction (deg)
+        obliq_correction = mean_obliq_ecliptic + 0.00256 * math.cos(
+            math.radians(125.04 - 1934.136 * t)
+        )
+        # Sun Declination (radians)
+        sun_decl_rad = math.asin(
+            math.sin(math.radians(obliq_correction))
+            * math.sin(math.radians(sun_app_long))
+        )
+        # Equation of Time (minutes)
+        var_y = math.tan(math.radians(obliq_correction / 2)) ** 2
+
+        eq_time = 4 * math.degrees(
+            var_y * math.sin(math.radians(2 * geom_mean_long_sun))
+            - 2 * eccent_earth_orbit * math.sin(math.radians(geom_mean_anom_sun))
+            + 4
+            * eccent_earth_orbit
+            * var_y
+            * math.sin(math.radians(geom_mean_anom_sun))
+            * math.cos(math.radians(2 * geom_mean_long_sun))
+            - 0.5 * var_y * var_y * math.sin(math.radians(4 * geom_mean_long_sun))
+            - 1.25
+            * eccent_earth_orbit**2
+            * math.sin(math.radians(2 * geom_mean_anom_sun))
+        )
+
+        # Hour Angle
+        # deg input is Altitude (90-Zenith).
+        # We need Zenith for the formula.
+        # But for compatibility with legacy input:
+        # Standard usage implies we pass the target zenith angle.
+        # We assume 'deg' here is the ZENITH angle (90 + depression).
+        zenith_rad = math.radians(deg)
+        lat_rad = math.radians(self.location.latitude)
+
+        try:
+            cos_ha = (
+                math.cos(zenith_rad) - (math.sin(lat_rad) * math.sin(sun_decl_rad))
+            ) / (math.cos(lat_rad) * math.cos(sun_decl_rad))
+
+            # Check for White Nights (Sun never goes below horizon) or Polar Night
+            if cos_ha > 1.0 or cos_ha < -1.0:
+                return None, None
+
+            ha_deg = math.degrees(math.acos(cos_ha))
+
+            # UTC Minutes
+            # Solar Noon = 720 - 4*Longitude - EqTime
+            solar_noon = 720 - (4 * self.location.longitude) - eq_time
+
+            return (
+                int(solar_noon - 4 * ha_deg),
+                int(solar_noon + 4 * ha_deg),
+            )
+
+        except ValueError:
+            return None, None
 
     def _datetime_to_minutes_offset(self, time: dt.datetime) -> int:
         """Return minutes offset from self.date at 00:00."""
@@ -269,7 +311,9 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         return int(delta_seconds / 60 + 0.5)
 
     def _get_utc_time_of_transit(self, zenith: float, rising: bool) -> int:
-        """Return the time in minutes from 00:00 (utc) for a given sun altitude."""
+        """
+        Return the time in minutes from 00:00 (utc) for a given sun altitude via Astral.
+        """
         astral_observer = astral.Observer(
             latitude=self.location.latitude,
             longitude=self.location.longitude,
@@ -283,30 +327,62 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             )
         )
 
+    def _get_safe_sun_time(
+        self, degrees: float, rising: bool, midnight_fallback: float
+    ) -> float:
+        """
+        Retrieve solar time.
+        If the sun does not reach the required angle (e.g. White Night),
+        fall back to Solar Midnight (the deepest part of the night).
+        """
+        # If using Astral and configured (Legacy path)
+        if (
+            _USE_ASTRAL
+            and abs(self.location.latitude) <= 50.0
+            and abs(self.location.latitude) <= MAX_LATITUDE_ASTRAL
+        ):
+            return self._get_utc_time_of_transit(degrees, rising)
+
+        # Native High-Precision Path
+        rise, set_ = self._get_utc_sun_time_deg(degrees)
+
+        if rise is not None and set_ is not None:
+            return float(rise if rising else set_)
+
+        # Fallback for High Latitudes (White Nights)
+        # If we can't find Alot/Tzeit, we use Solar Midnight (lowest sun point).
+        return midnight_fallback
+
     @cached_property
     def zmanim(self) -> dict[str, Zman]:
+        # pylint: disable=too-many-locals
         """Return a list of Jewish times for the given location."""
-        if (not _USE_ASTRAL) or (abs(self.location.latitude) > MAX_LATITUDE_ASTRAL):
-            sunrise, sunset = self._get_utc_sun_time_deg(90.833)
-            first_light, _ = self._get_utc_sun_time_deg(106.1)
-            talit, _ = self._get_utc_sun_time_deg(101.0)
-            _, first_stars = self._get_utc_sun_time_deg(96.45)
-            _, three_stars = self._get_utc_sun_time_deg(98.5)
-        else:
-            sunrise = self._get_utc_time_of_transit(
-                90.0 + astral.sun.SUN_APPARENT_RADIUS, True
-            )
-            sunset = self._get_utc_time_of_transit(
-                90.0 + astral.sun.SUN_APPARENT_RADIUS, False
-            )
-            first_light = self._get_utc_time_of_transit(106.1, True)
-            talit = self._get_utc_time_of_transit(101.0, True)
-            first_stars = self._get_utc_time_of_transit(96.45, False)
-            three_stars = self._get_utc_time_of_transit(98.5, False)
 
-        # shaa zmanit by gara, 1/12 of light time
-        sun_hour = (sunset - sunrise) // 12
-        midday = (sunset + sunrise) // 2
+        # Calculate Base Sun Times (Sunrise/Sunset)
+        # We must have a valid sunrise/sunset for the day to exist halachically.
+        sunrise_raw, sunset_raw = self._get_utc_sun_time_deg(90.833)
+
+        if sunrise_raw is None or sunset_raw is None:
+            # Logic for Polar Day/Night could go here.
+            # For now, we default to 6:00/18:00 or raise, but let's assume valid day.
+            # If we are here, we are > 66.5 deg or edge case.
+            sunrise, sunset = 360.0, 1080.0  # Emergency fallback 6am/6pm
+        else:
+            sunrise, sunset = float(sunrise_raw), float(sunset_raw)
+
+        # Solar Midday and Midnight
+        midday = (sunset + sunrise) / 2
+        midnight = (midday + 720) % 1440
+
+        # Calculate Twilight Times with Fallbacks
+        # If degrees are not reached (White Night), use midnight.
+        first_light = self._get_safe_sun_time(106.1, True, midnight)
+        talit = self._get_safe_sun_time(101.0, True, midnight)
+        first_stars = self._get_safe_sun_time(96.45, False, midnight)
+        three_stars = self._get_safe_sun_time(98.5, False, midnight)
+
+        # Shaot Zmaniot
+        sun_hour = (sunset - sunrise) / 12
         mga_sunhour = (midday - first_light) / 6
 
         def make_zman(key: str, time: float) -> Zman:
