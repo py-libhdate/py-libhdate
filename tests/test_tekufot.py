@@ -68,7 +68,12 @@ def test_get_cheilat_geshamim(date: dt.date, expected: dt.date, diaspora: bool) 
             "en",
             "Mashiv ha-ruach u-morid ha-geshem - VeTen Tal uMatar Livracha",
         ),
-        (dt.date(2024, 12, 13), "sephardi", "he", "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ"),
+        (
+            dt.date(2024, 12, 13),
+            "sephardi",
+            "he",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרֵךְ עָלֵינוּ",
+        ),
         (dt.date(2025, 4, 25), "sephardi", "en", "Morid ha-tal - Barkheinu"),
         (dt.date(2025, 4, 25), "ashkenazi", "en", "(Silence) - VeTen Beracha"),
         (dt.date(2025, 4, 25), "ashkenazi", "he", "(שתיקה) - וְתֵן בְּרָכָה"),
@@ -78,7 +83,12 @@ def test_get_cheilat_geshamim(date: dt.date, expected: dt.date, diaspora: bool) 
             "en",
             "Mashiv ha-ruach u-morid ha-geshem - VeTen Beracha",
         ),
-        (dt.date(2026, 10, 10), "sephardi", "he", "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ"),
+        (
+            dt.date(2026, 10, 10),
+            "sephardi",
+            "he",
+            "מַשִּׁיב הָרוּחַ וּמוֹרִיד הַגֶּשֶׁם - בָּרְכֵנוּ",
+        ),
     ],
 )
 # pylint: enable=line-too-long

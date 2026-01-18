@@ -47,7 +47,7 @@ def test_is_shabbat(date: dt.date) -> None:
 def test_next_prev_month(month: Months, year: int) -> None:
     """Test that next_month() and prev_month() work as expected."""
     assume(month in Months.in_year(year))
-    next_month = month.next_month(year)
+    next_month = month.next_month(year)  # pylint: disable=unreachable
     assert next_month.prev_month(year) == month
     assert next_month != month
     if next_month != Months.TISHREI:
