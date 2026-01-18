@@ -2,7 +2,7 @@
 
 import datetime as dt
 import sys
-from typing import Optional, cast
+from typing import cast
 
 import pytest
 from hypothesis import given, strategies
@@ -17,7 +17,7 @@ NYC_LNG = -74.0060
 
 
 def compare_dates(
-    date1: Optional[dt.datetime], date2: Optional[dt.datetime], grace: int = 0
+    date1: dt.datetime | None, date2: dt.datetime | None, grace: int = 0
 ) -> None:
     """Compare 2 dates to be more or less equal."""
     if not (date1 or date2):
@@ -96,7 +96,7 @@ CANDLES_TEST = [
 def test_candle_lighting(
     now: dt.datetime,
     offset: int,
-    candle_lighting: Optional[dt.datetime],
+    candle_lighting: dt.datetime | None,
     melacha_assur: bool,
     location: Location,
 ) -> None:
@@ -136,7 +136,7 @@ HAVDALAH_TEST = [
 def test_havdalah(
     now: dt.datetime,
     offset: int,
-    havdalah: Optional[dt.datetime],
+    havdalah: dt.datetime | None,
     melacha_assur: bool,
     location: Location,
 ) -> None:

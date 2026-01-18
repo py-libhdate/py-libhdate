@@ -3,7 +3,6 @@
 from dataclasses import dataclass
 from datetime import timedelta
 from enum import Enum, auto
-from typing import Union
 
 from num2words import lang_HE, num2words
 
@@ -25,7 +24,7 @@ class Nusach(Enum):
 class Omer(TranslatorMixin):
     """Hold information about the Omer count."""
 
-    date: Union[HebrewDate, None] = None
+    date: HebrewDate | None = None
     total_days: int = 0
     day: int = 0
     week: int = 0

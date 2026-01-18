@@ -1,7 +1,6 @@
 """Tests for the HebrewDate class."""
 
 import datetime as dt
-from typing import Optional
 
 import pytest
 from hypothesis import assume, example, given, strategies
@@ -113,7 +112,7 @@ def test_months_order() -> None:
     "month, expected",
     [(Months.IYYAR, 29), (Months.TISHREI, 30), (Months.MARCHESHVAN, None)],
 )
-def test_get_months_days_no_year(month: Months, expected: Optional[int]) -> None:
+def test_get_months_days_no_year(month: Months, expected: None | int) -> None:
     """Call the days method on the months without the year value."""
     if isinstance(expected, int):
         assert month.days() == expected

@@ -2,7 +2,6 @@
 
 import datetime as dt
 from enum import Enum
-from typing import Optional
 
 import pytest
 from hypothesis import given, settings, strategies
@@ -118,7 +117,7 @@ def test_last_week_of_the_year() -> None:
         (Parasha.BAMIDBAR, Months.ADAR, None),
     ],
 )
-def test_erange(_from: Enum, _to: Enum, _expected: Optional[list[Enum]]) -> None:
+def test_erange(_from: Enum, _to: Enum, _expected: list[Enum] | None) -> None:
     """Test the erange function."""
     if not isinstance(_from, type(_to)):
         with pytest.raises(TypeError):

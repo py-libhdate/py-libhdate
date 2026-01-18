@@ -10,7 +10,6 @@ from __future__ import annotations
 import datetime as dt
 from dataclasses import dataclass, field
 from functools import cached_property
-from typing import Union
 
 from hdate.daf_yomi import DafYomiDatabase
 from hdate.gematria import hebrew_number
@@ -30,7 +29,7 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
     Provides access to various properties of a given date.
     """
 
-    date: Union[dt.date, HebrewDate] = field(default_factory=dt.date.today)
+    date: dt.date | HebrewDate = field(default_factory=dt.date.today)
     diaspora: bool = False
     nusach: Nusachim = "sephardi"
 

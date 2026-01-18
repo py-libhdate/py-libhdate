@@ -6,7 +6,7 @@ import datetime as dt
 from dataclasses import dataclass
 from enum import IntEnum
 from functools import cache, lru_cache
-from typing import TYPE_CHECKING, Callable, Literal, Optional, Union
+from typing import TYPE_CHECKING, Callable, Literal
 
 import hdate.converters as conv
 from hdate.gematria import hebrew_number
@@ -52,7 +52,7 @@ def is_leap_year(year: int) -> bool:
 
 
 @lru_cache
-def is_shabbat(date: Union[dt.date, HebrewDate]) -> bool:
+def is_shabbat(date: dt.date | HebrewDate) -> bool:
     """Return whether a date is shabbat."""
     if isinstance(date, dt.date):
         return date.weekday() == 5
@@ -79,10 +79,10 @@ class Months(TranslatorMixin, IntEnum):
 
     if TYPE_CHECKING:
         biblical_order: int
-        length: Union[int, Callable[[int], int]]
+        length: int | Callable[[int], int]
 
     def __new__(
-        cls, value: int, ordinal: int, days: Union[int, Callable[[int], int]]
+        cls, value: int, ordinal: int, days: int | Callable[[int], int]
     ) -> Months:
         obj = int.__new__(cls, value)
         obj._value_ = value
@@ -117,7 +117,7 @@ class Months(TranslatorMixin, IntEnum):
             return [month for month in cls if month != Months.ADAR]
         return [month for month in cls if month not in (Months.ADAR_I, Months.ADAR_II)]
 
-    def days(self, year: Optional[int] = None) -> int:
+    def days(self, year: None | int = None) -> int:
         """Return the number of days in this month."""
         if callable(self.length):
             if year is None:
@@ -125,7 +125,7 @@ class Months(TranslatorMixin, IntEnum):
             return self.length(year)
         return self.length
 
-    def compare(self, other: Union[Months, int], order_type: str = "calendar") -> int:
+    def compare(self, other: Months | int, order_type: str = "calendar") -> int:
         """
         Compare this month to another month.
 
@@ -212,9 +212,9 @@ class HebrewDate(TranslatorMixin):
 
     def replace(
         self,
-        year: Optional[int] = None,
-        month: Optional[Months] = None,
-        day: Optional[int] = None,
+        year: None | int = None,
+        month: None | Months = None,
+        day: None | int = None,
     ) -> HebrewDate:
         """Return a new HebrewDate with a different year/month/day."""
         if year is None:

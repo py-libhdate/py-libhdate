@@ -9,7 +9,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from functools import lru_cache
 from itertools import product
-from typing import Callable, ClassVar, Iterable, Literal, Optional, Union
+from typing import Callable, ClassVar, Iterable, Literal
 
 from hdate.hebrew_date import CHANGING_MONTHS, LONG_MONTHS, HebrewDate, Months, Weekday
 from hdate.translator import TranslatorMixin
@@ -30,7 +30,7 @@ class HolidayTypes(Enum):
     ROSH_CHODESH = 10
 
 
-FilterType = Union[list[HolidayTypes], HolidayTypes]
+FilterType = list[HolidayTypes] | HolidayTypes
 
 
 @dataclass(frozen=True)
@@ -39,10 +39,10 @@ class Holiday(TranslatorMixin):
 
     type: HolidayTypes
     name: str
-    date: tuple[Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]]
-    date_functions_list: list[
-        Callable[[HebrewDate], Union[bool, Callable[[], bool]]]
-    ] = field(default_factory=list)
+    date: tuple[Months | tuple[Months, ...], int | tuple[int, ...]]
+    date_functions_list: list[Callable[[HebrewDate], bool | Callable[[], bool]]] = (
+        field(default_factory=list)
+    )
     israel_diaspora: Literal["ISRAEL", "DIASPORA", ""] = ""
 
 
@@ -75,9 +75,7 @@ class HolidayDatabase:
         cls._all_holidays = defaultdict(list)
 
         def holiday_dates_cross_product(
-            dates: tuple[
-                Union[Months, tuple[Months, ...]], Union[int, tuple[int, ...]]
-            ],
+            dates: tuple[Months | tuple[Months, ...], int | tuple[int, ...]],
         ) -> Iterable[tuple[Months, int]]:
             """Given a (days, months) pair, compute the cross product.
 
@@ -99,7 +97,7 @@ class HolidayDatabase:
                     cls._all_holidays[index].append(holiday)
 
     def _get_filtered_holidays(
-        self, types: Optional[FilterType]
+        self, types: None | FilterType
     ) -> dict[HebrewDate, list[Holiday]]:
         """Return a list of filtered holidays, based on type."""
         filtered_holidays = self._instance_holidays.copy()
@@ -113,7 +111,7 @@ class HolidayDatabase:
         return dict(sorted(filtered_holidays.items()))
 
     def lookup(
-        self, date: HebrewDate, types: Optional[FilterType] = None
+        self, date: HebrewDate, types: None | FilterType = None
     ) -> list[Holiday]:
         """Lookup the holidays for a given date."""
         filtered_holidays = self._get_filtered_holidays(types)
@@ -127,7 +125,7 @@ class HolidayDatabase:
         ]
 
     def lookup_holidays_for_year(
-        self, date: HebrewDate, types: Optional[FilterType] = None
+        self, date: HebrewDate, types: None | FilterType = None
     ) -> dict[HebrewDate, list[Holiday]]:
         """Lookup the holidays for a given year."""
         filtered_holidays = self._get_filtered_holidays(types)
@@ -149,7 +147,7 @@ class HolidayDatabase:
     def lookup_next_holiday(
         self,
         date: HebrewDate,
-        types: Optional[Union[list[HolidayTypes], HolidayTypes]] = None,
+        types: None | list[HolidayTypes] | HolidayTypes = None,
     ) -> HebrewDate:
         """Lookup the next holiday for a given date (with optional type filter)."""
         filtered_holidays = self._get_filtered_holidays(types)
@@ -177,7 +175,7 @@ class HolidayDatabase:
 
 
 @lru_cache
-def is_yom_tov(date: Union[dt.date, HebrewDate], diaspora: bool = False) -> bool:
+def is_yom_tov(date: dt.date | HebrewDate, diaspora: bool = False) -> bool:
     """Helper method to check if a given date is a Yom Tov"""
     if isinstance(date, dt.date):
         date = HebrewDate.from_gdate(date)
