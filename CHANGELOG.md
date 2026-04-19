@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1 - 2026-04-19
+
+* Lower Astral minimum version to 2.2 (#227) @amitfin
+
 ## 1.2.0 - 2026-04-19
 
 * Use location altitude in Astral zmanim calculations (#226) @amitfin
