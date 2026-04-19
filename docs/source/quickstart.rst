@@ -111,7 +111,7 @@ Now we can go ahead and ask ``hdate`` for the **Halachic times** for a given dat
 
     >>> zmanim = Zmanim(date(2025, 1, 15), location)
     >>> zmanim.alot_hashachar.local
-    datetime.datetime(2025, 1, 15, 5, 25, tzinfo=zoneinfo.ZoneInfo(key='Asia/Jerusalem'))
+    datetime.datetime(2025, 1, 15, 5, 24, tzinfo=zoneinfo.ZoneInfo(key='Asia/Jerusalem'))
 
 To get a list of the supported zmanim, you'll want to inspect the keys returned by the
 ``zmanim`` property.

@@ -26,6 +26,8 @@ list of ``Holiday`` objects. If the given date is not a holiday the list will be
     
     >>> from hdate.holidays import HolidayDatabase
     >>> from hdate import HebrewDate, Months
+    >>> from hdate.translator import set_language
+    >>> set_language("en")
     >>> db = HolidayDatabase(diaspora=False)
     >>> holidays = db.lookup(HebrewDate(5785, Months.ADAR, 14))
     >>> print(holidays[0])
