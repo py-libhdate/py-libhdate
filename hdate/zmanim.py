@@ -273,6 +273,7 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         astral_observer = astral.Observer(
             latitude=self.location.latitude,
             longitude=self.location.longitude,
+            elevation=self.location.altitude or 0.0,
         )
         return self._datetime_to_minutes_offset(
             astral.sun.time_of_transit(

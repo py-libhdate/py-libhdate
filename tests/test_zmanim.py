@@ -75,6 +75,20 @@ def test_extreme_zmanim(location: Location, result: dt.time) -> None:
     )
 
 
+@pytest.mark.skipif(not _ASTRAL, reason="Altitude is only used in Astral transit mode")
+def test_altitude_affects_astral_zmanim() -> None:
+    """Higher altitude should advance sunrise and delay sunset."""
+    day = dt.date.today()
+    sea_level = Location(altitude=0)
+    high_altitude = Location()
+
+    sea_level_zmanim = Zmanim(date=day, location=sea_level)
+    high_altitude_zmanim = Zmanim(date=day, location=high_altitude)
+
+    assert high_altitude_zmanim.netz_hachama.local < sea_level_zmanim.netz_hachama.local
+    assert high_altitude_zmanim.shkia.local > sea_level_zmanim.shkia.local
+
+
 # Times are assumed for NYC.
 CANDLES_TEST = [
     (dt.datetime(2018, 9, 7, 13, 1), 18, dt.datetime(2018, 9, 7, 19, 0), False),
@@ -224,7 +238,7 @@ def test_candle_lighting_erev_shabbat_is_yom_tov(location: Location) -> None:
     assert zman.candle_lighting == actual_candle_lighting
 
 
-@given(name=strategies.text().filter(lambda s: s not in dir(Zmanim)))
+@given(name=strategies.text().filter(lambda s: s not in dir(Zmanim())))
 def test_non_existing_attribute(name: str) -> None:
     """Test trying to access a Zmanim attribute that isn't in the class."""
     with pytest.raises(AttributeError):
