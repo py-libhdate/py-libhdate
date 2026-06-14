@@ -22,7 +22,9 @@ from hdate.translator import TranslatorMixin, get_language
 
 
 @dataclass
-class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
+class HDateInfo(  # pylint: disable=too-many-instance-attributes,too-many-public-methods
+    TranslatorMixin
+):
     """
     Hebrew date information class.
 
