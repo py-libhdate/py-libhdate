@@ -52,7 +52,8 @@
         "temurah": "תמורה",
         "kereisos": "כריתות",
         "meilah": "מעילה",
-        "niddah": "נדה"
+        "niddah": "נדה",
+        "description": "דף יומי: {daf}"
     },
     "Holiday": {
         "erev_rosh_hashana": "ערב ראש השנה",
@@ -95,27 +96,56 @@
         "memorial_day_unknown": "יום זכרון...",
         "rabin_memorial_day": "יום הזכרון ליצחק רבין",
         "zeev_zhabotinsky_day": "יום ז'בוטינסקי",
-        "rosh_chodesh": "ראש חודש"
+        "rosh_chodesh": "ראש חודש",
+        "description": "חג יהודי: {holiday}\nסוג החג: {type}"
     },
     "Zman": {
         "alot_hashachar": "עלות השחר",
-        "talit_and_tefillin": "זמן טלית ותפילין",
-        "netz_hachama": "הנץ החמה",
-        "sof_zman_shema_mga": "סוף זמן ק\"ש מג\"א",
-        "sof_zman_shema_gra": "סוף זמן ק\"ש גר\"א",
-        "sof_zman_tfilla_mga": "סוף זמן תפילה מג\"א",
-        "sof_zman_tfilla_gra": "סוף זמן תפילה גר\"א",
+        "alot_hashachar_description": "עלות השחר: {time}",
+        "alot_hashachar_label": "עלות השחר",
+        "candle_lighting_description": "זמן הדלקת נרות: {time}",
+        "candle_lighting_label": "הדלקת נרות",
+        "chatzot_halayla": "חצות הלילה",
         "chatzot_hayom": "חצות היום",
+        "chatzot_hayom_description": "חצות היום: {time}",
+        "chatzot_hayom_label": "חצות היום",
+        "havdalah_description": "זמן הבדלה: {time}",
+        "havdalah_label": "הבדלה",
         "mincha_gedola": "מנחה גדולה",
         "mincha_gedola_30min": "מנחה גדולה 30 דק",
+        "mincha_gedola_description": "הזמן המוקדם למנחה: {time}",
+        "mincha_gedola_label": "מנחה גדולה",
         "mincha_ketana": "מנחה קטנה",
+        "mincha_ketana_description": "הזמן המועדף למנחה: {time}",
+        "mincha_ketana_label": "מנחה קטנה",
+        "netz_hachama": "הנץ החמה",
+        "netz_hachama_description": "הנץ החמה: {time}",
+        "netz_hachama_label": "הנץ החמה",
         "plag_hamincha": "פלג המנחה",
+        "plag_hamincha_description": "פלג המנחה: {time}",
+        "plag_hamincha_label": "פלג המנחה",
         "shkia": "שקיעה",
-        "tset_hakohavim_tsom": "מוצאי צום",
-        "tset_hakohavim_shabbat": "מוצאי שבת",
+        "shkia_description": "שקיעה: {time}",
+        "shkia_label": "שקיעה",
+        "sof_zman_shema_gra": "סוף זמן ק\"ש גר\"א",
+        "sof_zman_shema_gra_description": "סוף זמן קריאת שמע: {time}",
+        "sof_zman_shema_gra_label": "סוף זמן ק\"ש גר\"א",
+        "sof_zman_shema_mga": "סוף זמן ק\"ש מג\"א",
+        "sof_zman_shema_mga_description": "סוף זמן קריאת שמע: {time}",
+        "sof_zman_shema_mga_label": "סוף זמן ק\"ש מג\"א",
+        "sof_zman_tfilla_gra": "סוף זמן תפילה גר\"א",
+        "sof_zman_tfilla_gra_description": "סוף זמן תפילה: {time}",
+        "sof_zman_tfilla_gra_label": "סוף זמן תפילה גר\"א",
+        "sof_zman_tfilla_mga": "סוף זמן תפילה מג\"א",
+        "sof_zman_tfilla_mga_description": "סוף זמן תפילה: {time}",
+        "sof_zman_tfilla_mga_label": "סוף זמן תפילה מג\"א",
+        "talit_and_tefillin": "זמן טלית ותפילין",
         "tset_hakohavim": "צאת הכוכבים (18 דק)",
         "tset_hakohavim_rabeinu_tam": "לילה לרבנו תם",
-        "chatzot_halayla": "חצות הלילה"
+        "tset_hakohavim_shabbat": "מוצאי שבת",
+        "tset_hakohavim_tsom": "מוצאי צום",
+        "tset_hakohavim_tsom_description": "צאת הכוכבים: {time}",
+        "tset_hakohavim_tsom_label": "צאת הכוכבים"
     },
     "Parasha": {
         "none": "none",
@@ -179,7 +209,8 @@
         "behar_bechukotai": "בהר-בחוקתי",
         "chukat_balak": "חוקת-בלק",
         "matot_masei": "מטות מסעי",
-        "nitzavim_vayeilech": "נצבים-וילך"
+        "nitzavim_vayeilech": "נצבים-וילך",
+        "description": "פרשת השבוע: {parasha}"
     },
     "Weekday": {
         "sunday": "יום ראשון",
@@ -211,6 +242,22 @@
         "days": "ימים",
         "week": "שבוע",
         "weeks": "שבועות",
-        "which_are": "שהם"
-    }        
+        "which_are": "שהם",
+        "description": "ספירת העומר: {count}"
+    },
+    "HebrewDate": {
+        "description": "תאריך עברי: {date}"
+    },
+    "HolidayTypes": {
+        "yom_tov": "יום טוב",
+        "erev_yom_tov": "ערב יום טוב",
+        "hol_hamoed": "חול המועד",
+        "melacha_permitted_holiday": "חג (מלאכה מותרת)",
+        "fast_day": "יום צום",
+        "modern_holiday": "חג ישראלי",
+        "minor_holiday": "חג קטן",
+        "memorial_day": "יום זיכרון",
+        "israel_national_holiday": "חג לאומי",
+        "rosh_chodesh": "ראש חודש"
+    }
 }

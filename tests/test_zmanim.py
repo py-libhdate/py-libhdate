@@ -1,6 +1,7 @@
 """Test Zmanim objects."""
 
 import datetime as dt
+import logging
 import sys
 from typing import cast
 
@@ -9,6 +10,7 @@ from hypothesis import given, strategies
 
 from hdate import Zmanim
 from hdate.location import Location
+from hdate.translator import Language, set_language
 
 _ASTRAL = "astral" in sys.modules
 
@@ -256,3 +258,69 @@ def test_attributes_in_dir() -> None:
         "tset_hakohavim",
     }
     assert keys.issubset(set(dir(Zmanim())))
+
+
+@pytest.mark.parametrize(
+    ("language", "label", "prefix"),
+    [("en", "Shkia", "Sunset: "), ("he", "שקיעה", "שקיעה: ")],
+)
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_zman_label_and_description(
+    language: Language, label: str, prefix: str, location: Location
+) -> None:
+    """A Zman exposes a translated label and a description with its time."""
+    set_language(language)
+    shkia = Zmanim(date=dt.date(2024, 6, 14), location=location).shkia
+    assert shkia.label == label
+    assert shkia.description == f"{prefix}{shkia.local.strftime('%H:%M')}"
+
+
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_zman_label_description_fallback(
+    location: Location, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Zmanim without dedicated label/description entries fall back cleanly."""
+    set_language("en")
+    # chatzot_halayla has a name translation but no _label/_description entries.
+    zman = Zmanim(date=dt.date(2024, 6, 14), location=location).chatzot_halayla
+    with caplog.at_level(logging.ERROR):
+        assert zman.label == str(zman) == "Midnight"
+        assert zman.description == zman.label
+    assert "not found" not in caplog.text
+
+
+@pytest.mark.parametrize("now, offset", [(c[0], c[1]) for c in CANDLES_TEST])
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_candle_lighting_obj(now: dt.datetime, offset: int, location: Location) -> None:
+    """candle_lighting_obj mirrors the candle_lighting datetime as a Zman."""
+    set_language("en")
+    zmanim = Zmanim(
+        date=now.date(),
+        location=location,
+        candle_lighting_offset=offset,
+        havdalah_offset=42,
+    )
+    obj = zmanim.candle_lighting_obj
+    if zmanim.candle_lighting is None:
+        assert obj is None
+    else:
+        assert obj is not None
+        assert obj.name == "candle_lighting"
+        assert obj.local == zmanim.candle_lighting
+        assert obj.label == "Candle Lighting"
+
+
+@pytest.mark.parametrize("now, offset", [(h[0], h[1]) for h in HAVDALAH_TEST])
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_havdalah_obj(now: dt.datetime, offset: int, location: Location) -> None:
+    """havdalah_obj mirrors the havdalah datetime as a Zman."""
+    set_language("en")
+    zmanim = Zmanim(date=now.date(), location=location, havdalah_offset=offset)
+    obj = zmanim.havdalah_obj
+    if zmanim.havdalah is None:
+        assert obj is None
+    else:
+        assert obj is not None
+        assert obj.name == "havdalah"
+        assert obj.local == zmanim.havdalah
+        assert obj.label == "Havdalah"

@@ -15,7 +15,7 @@ from hdate.hebrew_date import CHANGING_MONTHS, LONG_MONTHS, HebrewDate, Months, 
 from hdate.translator import TranslatorMixin
 
 
-class HolidayTypes(Enum):
+class HolidayTypes(TranslatorMixin, Enum):
     """Container class for holiday type integer mappings."""
 
     YOM_TOV = 1
@@ -44,6 +44,13 @@ class Holiday(TranslatorMixin):
         field(default_factory=list)
     )
     israel_diaspora: Literal["ISRAEL", "DIASPORA", ""] = ""
+
+    @property
+    def description(self) -> str:
+        """Return a description of the holiday, including its type."""
+        return self.get_translation("description").format(
+            holiday=self, type=str(self.type)
+        )
 
 
 @dataclass

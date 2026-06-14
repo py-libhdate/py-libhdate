@@ -20,6 +20,11 @@ class Masechta(TranslatorMixin):
         daf = hebrew_number(self.pages, short=True)
         return f"{name} {daf}"
 
+    @property
+    def description(self) -> str:
+        """Return a description of the Daf Yomi page."""
+        return self.get_translation("description").format(daf=self)
+
 
 @dataclass
 class DafYomiDatabase:

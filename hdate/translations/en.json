@@ -52,7 +52,8 @@
         "temurah": "Temurah",
         "kereisos": "Kereisos",
         "meilah": "Meilah",
-        "niddah": "Niddah"
+        "niddah": "Niddah",
+        "description": "Daf Yomi: {daf}"
     },
     "Holiday": {
         "erev_rosh_hashana": "Erev Rosh Hashana",
@@ -95,27 +96,56 @@
         "memorial_day_unknown": "Memorial day for fallen whose place of burial is unknown",
         "rabin_memorial_day": "Yitzhak Rabin memorial day",
         "zeev_zhabotinsky_day": "Zeev Zhabotinsky day",
-        "rosh_chodesh": "Rosh Chodesh"
+        "rosh_chodesh": "Rosh Chodesh",
+        "description": "Jewish Holiday: {holiday}\nHoliday type: {type}"
     },
     "Zman": {
         "alot_hashachar": "Alot HaShachar",
-        "talit_and_tefillin": "Talit & Tefilin's time",
-        "netz_hachama": "Sunrise",
-        "sof_zman_shema_mga": "Shema EOT MG\"A",
-        "sof_zman_shema_gra": "Shema EOT GR\"A",
-        "sof_zman_tfilla_mga": "Tefila EOT MG\"A",
-        "sof_zman_tfilla_gra": "Tefila EOT GR\"A",
+        "alot_hashachar_description": "Halachic dawn: {time}",
+        "alot_hashachar_label": "Alot Hashachar",
+        "candle_lighting_description": "Candle lighting time: {time}",
+        "candle_lighting_label": "Candle Lighting",
+        "chatzot_halayla": "Midnight",
         "chatzot_hayom": "Midday",
+        "chatzot_hayom_description": "Halachic midday: {time}",
+        "chatzot_hayom_label": "Chatzot Hayom",
+        "havdalah_description": "Havdalah time: {time}",
+        "havdalah_label": "Havdalah",
         "mincha_gedola": "Big Mincha",
         "mincha_gedola_30min": "Big Mincha 30 min",
+        "mincha_gedola_description": "Earliest time for Mincha: {time}",
+        "mincha_gedola_label": "Mincha Gedola",
         "mincha_ketana": "Small Mincha",
+        "mincha_ketana_description": "Preferable time for Mincha: {time}",
+        "mincha_ketana_label": "Mincha Ketana",
+        "netz_hachama": "Sunrise",
+        "netz_hachama_description": "Halachic sunrise: {time}",
+        "netz_hachama_label": "Netz Hachama",
         "plag_hamincha": "Plag Mincha",
+        "plag_hamincha_description": "Plag Hamincha: {time}",
+        "plag_hamincha_label": "Plag Hamincha",
         "shkia": "Sunset",
-        "tset_hakohavim_tsom": "End of fast",
-        "tset_hakohavim_shabbat": "End of Shabbat",
+        "shkia_description": "Sunset: {time}",
+        "shkia_label": "Shkia",
+        "sof_zman_shema_gra": "Shema EOT GR\"A",
+        "sof_zman_shema_gra_description": "Latest time for Shema: {time}",
+        "sof_zman_shema_gra_label": "Sof Zman Shema (Gr\"A)",
+        "sof_zman_shema_mga": "Shema EOT MG\"A",
+        "sof_zman_shema_mga_description": "Latest time for Shema: {time}",
+        "sof_zman_shema_mga_label": "Sof Zman Shema (Mg\"A)",
+        "sof_zman_tfilla_gra": "Tefila EOT GR\"A",
+        "sof_zman_tfilla_gra_description": "Latest time for Tefilla: {time}",
+        "sof_zman_tfilla_gra_label": "Sof Zman Tefilla (Gr\"A)",
+        "sof_zman_tfilla_mga": "Tefila EOT MG\"A",
+        "sof_zman_tfilla_mga_description": "Latest time for Tefilla: {time}",
+        "sof_zman_tfilla_mga_label": "Sof Zman Tefilla (Mg\"A)",
+        "talit_and_tefillin": "Talit & Tefilin's time",
         "tset_hakohavim": "Tset Hakochavim (18 minutes)",
         "tset_hakohavim_rabeinu_tam": "Night by Rabbeinu Tam",
-        "chatzot_halayla": "Midnight"
+        "tset_hakohavim_shabbat": "End of Shabbat",
+        "tset_hakohavim_tsom": "End of fast",
+        "tset_hakohavim_tsom_description": "Nightfall: {time}",
+        "tset_hakohavim_tsom_label": "T'set Hakochavim"
     },
     "Parasha": {
         "none": "none",
@@ -179,7 +209,8 @@
         "behar_bechukotai": "Behar-Bechukotai",
         "chukat_balak": "Chukat-Balak",
         "matot_masei": "Matot-Masei",
-        "nitzavim_vayeilech": "Nitzavim-Vayeilech"
+        "nitzavim_vayeilech": "Nitzavim-Vayeilech",
+        "description": "Parshat Hashavua: {parasha}"
     },
     "Weekday": {
         "sunday": "Sunday",
@@ -211,6 +242,22 @@
         "week": "week",
         "weeks": "weeks",
         "in_omer_ashkenaz": "of the Omer",
-        "in_omer": "of the Omer"
-    }        
+        "in_omer": "of the Omer",
+        "description": "Sefirat HaOmer: {count}"
+    },
+    "HebrewDate": {
+        "description": "Hebrew date: {date}"
+    },
+    "HolidayTypes": {
+        "yom_tov": "Yom Tov",
+        "erev_yom_tov": "Erev Yom Tov",
+        "hol_hamoed": "Hol HaMoed",
+        "melacha_permitted_holiday": "Work-permitted holiday",
+        "fast_day": "Fast day",
+        "modern_holiday": "Modern holiday",
+        "minor_holiday": "Minor holiday",
+        "memorial_day": "Memorial day",
+        "israel_national_holiday": "Israeli national holiday",
+        "rosh_chodesh": "Rosh Chodesh"
+    }
 }
