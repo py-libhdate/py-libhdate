@@ -22,7 +22,7 @@ from hdate.translator import Language, set_language
     ("language", "expected"),
     [
         ("en", "Hebrew date: 28 Nisan 5774"),
-        ("he", "תאריך עברי: כ\"ח ניסן ה' תשע\"ד"),
+        ("he", 'תאריך עברי: כ"ח ניסן ה\' תשע"ד'),
     ],
 )
 def test_hebrew_date_description(language: Language, expected: str) -> None:
@@ -76,9 +76,9 @@ def test_omer_description(language: Language, prefix: str) -> None:
 def test_holiday_description(language: Language, expected: str) -> None:
     """The holiday description includes the translated holiday type."""
     set_language(language)
-    holiday = HolidayDatabase(diaspora=True).lookup(
-        HebrewDate(5784, Months.NISAN, 15)
-    )[0]
+    holiday = HolidayDatabase(diaspora=True).lookup(HebrewDate(5784, Months.NISAN, 15))[
+        0
+    ]
     assert holiday.description == expected
 
 
