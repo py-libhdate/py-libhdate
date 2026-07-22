@@ -47,23 +47,14 @@ class Zman(TranslatorMixin):
 
     @property
     def label(self) -> str:
-        """Return the human-readable label for this time.
-
-        Falls back to the time's name when no dedicated label exists.
-        """
-        key = f"{self.name}_label"
-        return self.get_translation(key) if key in self.translations else str(self)
+        """Return the human-readable label for this time."""
+        return self.get_translation(f"{self.name}_label")
 
     @property
     def description(self) -> str:
-        """Return a description of this time, including the local time of day.
-
-        Falls back to the label when no dedicated description template exists.
-        """
-        key = f"{self.name}_description"
-        if key not in self.translations:
-            return self.label
-        return self.get_translation(key).format(time=self.local.strftime("%H:%M"))
+        """Return a description of this time, including the local time of day."""
+        template = self.get_translation(f"{self.name}_description")
+        return template.format(time=self.local.strftime("%H:%M"))
 
 
 @dataclass

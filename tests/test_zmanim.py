@@ -276,16 +276,15 @@ def test_zman_label_and_description(
 
 
 @pytest.mark.parametrize("location", ["New York"], indirect=True)
-def test_zman_label_description_fallback(
+def test_zman_label_description_no_fallback(
     location: Location, caplog: pytest.LogCaptureFixture
 ) -> None:
-    """Zmanim without dedicated label/description entries fall back cleanly."""
+    """Every zman has dedicated label/description entries, so there is no fallback."""
     set_language("en")
-    # chatzot_halayla has a name translation but no _label/_description entries.
     zman = Zmanim(date=dt.date(2024, 6, 14), location=location).chatzot_halayla
     with caplog.at_level(logging.ERROR):
-        assert zman.label == str(zman) == "Midnight"
-        assert zman.description == zman.label
+        assert zman.label == "Chatzot Halayla"
+        assert zman.description == f"Halachic midnight: {zman.local.strftime('%H:%M')}"
     assert "not found" not in caplog.text
 
 

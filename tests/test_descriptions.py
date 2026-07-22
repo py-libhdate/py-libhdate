@@ -9,13 +9,14 @@ import datetime as dt
 
 import pytest
 
-from hdate import HDateInfo, HebrewDate
+from hdate import HDateInfo, HebrewDate, Zmanim
 from hdate.daf_yomi import Masechta
 from hdate.hebrew_date import Months
 from hdate.holidays import HolidayDatabase, HolidayTypes
 from hdate.omer import Nusach, Omer
 from hdate.parasha import Parasha
 from hdate.translator import Language, set_language
+from hdate.zmanim import Zman
 
 
 @pytest.mark.parametrize(
@@ -102,6 +103,55 @@ def test_holiday_type_all_translated(
     """Every HolidayTypes member has a translation in every language."""
     set_language(language)
     assert str(holiday_type) != holiday_type.name
+    assert "not found" not in caplog.text
+
+
+def _all_zmanim() -> dict[str, Zman]:
+    """Collect every ``Zman`` a ``Zmanim`` can produce, keyed by name.
+
+    The regular times all appear on any given day, while ``candle_lighting``
+    and ``havdalah`` only materialise around Shabbat, so we sweep a two-week
+    window to make sure every option is represented.
+    """
+    collected: dict[str, Zman] = {}
+    start = dt.date(2024, 1, 1)
+    for offset in range(14):
+        zmanim = Zmanim(date=start + dt.timedelta(days=offset))
+        collected.update(zmanim.zmanim)
+        for obj in (zmanim.candle_lighting_obj, zmanim.havdalah_obj):
+            if obj is not None:
+                collected[obj.name] = obj
+    return collected
+
+
+@pytest.mark.parametrize("language", ["en", "fr", "he"])
+def test_all_zmanim_translated(
+    language: Language, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Every zman option has a translated label and description in every language.
+
+    This guards against a new zman being added without its ``_label`` and
+    ``_description`` translations: ``Zman`` no longer falls back, so a missing
+    key surfaces as the raw key plus a "not found" log entry.
+    """
+    set_language(language)
+    zmanim = _all_zmanim()
+    # Sanity check that the sweep actually collected the special-case times too.
+    assert {"candle_lighting", "havdalah"} <= set(zmanim)
+
+    for name, zman in zmanim.items():
+        assert zman.label != f"{name}_label", f"missing label for {name} ({language})"
+        assert (
+            zman.description != f"{name}_description"
+        ), f"missing description for {name} ({language})"
+        # Descriptions embed the local time via a {time} placeholder.
+        assert zman.local.strftime("%H:%M") in zman.description
+
+    # The times exposed in Zmanim.__str__ are stringified via their base name,
+    # so those keys must be translated too.
+    for name, zman in Zmanim().zmanim.items():
+        assert str(zman) != name, f"missing name translation for {name} ({language})"
+
     assert "not found" not in caplog.text
 
 
