@@ -180,56 +180,49 @@ class HaftaraDatabase:
 
     def _lookup_holiday_haftara(self, date: HebrewDate) -> Haftara:
         """Lookup holiday haftara for a specific date."""
-        m = date.month
-        d = date.day
-
-        if m == Months.TISHREI:
-            if d == 1:
+        match (date.month, date.day):
+            case (Months.TISHREI, 1):
                 return Haftara.ROSH_HASHANA_1
-            if d == 2:
+            case (Months.TISHREI, 2):
                 return Haftara.ROSH_HASHANA_2
-            if d == 10:
+            case (Months.TISHREI, 10):
                 return Haftara.YOM_KIPPUR_SHACHARIT
-            if d == 15:
+            case (Months.TISHREI, 15):
                 return Haftara.SUKKOT_1
-            if d == 16 and self.diaspora:
+            case (Months.TISHREI, 16) if self.diaspora:
                 return Haftara.SUKKOT_2
-            if 16 <= d <= 21 and date.dow() == Weekday.SATURDAY:
+            case (Months.TISHREI, d) if (
+                16 <= d <= 21 and date.dow() == Weekday.SATURDAY
+            ):
                 return Haftara.SHABBAT_HOL_HAMOED_SUKKOT
-            if d == 22:
+            case (Months.TISHREI, 22):
                 return (
                     Haftara.SHEMINI_ATZERET if self.diaspora else Haftara.SIMCHAT_TORAH
                 )
-            if d == 23 and self.diaspora:
+            case (Months.TISHREI, 23) if self.diaspora:
                 return Haftara.SIMCHAT_TORAH
-
-        elif m == Months.NISAN:
-            if d == 15:
+            case (Months.NISAN, 15):
                 return Haftara.PESACH_1
-            if d == 16 and self.diaspora:
+            case (Months.NISAN, 16) if self.diaspora:
                 return Haftara.PESACH_2
-            if 16 <= d <= 20 and date.dow() == Weekday.SATURDAY:
+            case (Months.NISAN, d) if 16 <= d <= 20 and date.dow() == Weekday.SATURDAY:
                 return Haftara.SHABBAT_HOL_HAMOED_PESACH
-            if d == 21:
+            case (Months.NISAN, 21):
                 return Haftara.PESACH_7
-            if d == 22 and self.diaspora:
+            case (Months.NISAN, 22) if self.diaspora:
                 return Haftara.PESACH_8
-
-        elif m == Months.SIVAN:
-            if d == 6:
+            case (Months.SIVAN, 6):
                 return Haftara.SHAVUOT_1
-            if d == 7 and self.diaspora:
+            case (Months.SIVAN, 7) if self.diaspora:
                 return Haftara.SHAVUOT_2
-
-        elif m == Months.AV:
-            # Tisha B'Av (9 Av, or 10 Av if 9th falls on Saturday)
-            tisha_bav_day = (
-                10
-                if HebrewDate(date.year, Months.AV, 9).dow() == Weekday.SATURDAY
-                else 9
-            )
-            if d == tisha_bav_day:
-                return Haftara.TISHA_BAV_SHACHARIT
+            case (Months.AV, d):
+                tisha_bav_day = (
+                    10
+                    if HebrewDate(date.year, Months.AV, 9).dow() == Weekday.SATURDAY
+                    else 9
+                )
+                if d == tisha_bav_day:
+                    return Haftara.TISHA_BAV_SHACHARIT
 
         return Haftara.NONE
 
