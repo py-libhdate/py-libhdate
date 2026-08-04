@@ -13,6 +13,7 @@ from functools import cached_property
 
 from hdate.daf_yomi import DafYomiDatabase
 from hdate.gematria import hebrew_number
+from hdate.haftara import HaftaraDatabase
 from hdate.hebrew_date import HebrewDate, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
@@ -118,6 +119,13 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         db = ParashaDatabase(self.diaspora)
         parasha = db.lookup(self.hdate)
         return str(parasha)
+
+    @property
+    def haftara(self) -> str:
+        """Return the upcoming haftara."""
+        db = HaftaraDatabase(self.diaspora)
+        haftara = db.lookup(self.hdate)
+        return str(haftara)
 
     @property
     def holidays(self) -> list[Holiday]:

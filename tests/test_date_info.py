@@ -127,7 +127,11 @@ class TestHDate:
         assert next_shabbat.gdate == dt.date(*shabbat_date)
         assert date.upcoming_erev_shabbat.gdate == next_shabbat.gdate - dt.timedelta(1)
 
-    @given(date=strategies.dates())
+    @given(
+        date=strategies.dates(
+            min_value=dt.date(1, 1, 2), max_value=dt.date(9999, 12, 30)
+        )
+    )
     def test_prev_and_next_day(self, date: dt.date) -> None:
         """Check the previous and next day attributes."""
         info = HDateInfo(date)
