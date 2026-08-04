@@ -117,66 +117,72 @@ class HaftaraDatabase:
     def lookup(self, date: HebrewDate) -> Haftara:
         """Lookup the haftara for a given date or upcoming Saturday."""
         # 1. Check if date itself is a Yom Tov / Holiday / Fast Day with Haftara
-        holiday_haftara = self._lookup_holiday_haftara(date)
-        if holiday_haftara != Haftara.NONE:
-            return holiday_haftara
+        match self._lookup_holiday_haftara(date):
+            case Haftara.NONE:
+                pass
+            case holiday_haftara:
+                return holiday_haftara
 
         # If date is Saturday, use date. Otherwise, use upcoming Saturday.
-        if date.dow() == Weekday.SATURDAY:
-            shabbat_date = date
-        else:
-            shabbat_date = date + dt.timedelta(days=Weekday.SATURDAY - date.dow())
+        match date.dow():
+            case Weekday.SATURDAY:
+                shabbat_date = date
+            case dow:
+                shabbat_date = date + dt.timedelta(days=Weekday.SATURDAY - dow)
 
         # Check if upcoming Shabbat falls on Yom Tov / Holiday
-        shabbat_holiday_haftara = self._lookup_holiday_haftara(shabbat_date)
-        if shabbat_holiday_haftara != Haftara.NONE:
-            return shabbat_holiday_haftara
+        match self._lookup_holiday_haftara(shabbat_date):
+            case Haftara.NONE:
+                pass
+            case shabbat_holiday_haftara:
+                return shabbat_holiday_haftara
 
         # 2. Check Shabbat Overrides
 
         # 2a. Hanukkah on Shabbat
-        hanukkah_haftara = self._lookup_hanukkah_haftara(shabbat_date)
-        if hanukkah_haftara != Haftara.NONE:
-            return hanukkah_haftara
+        match self._lookup_hanukkah_haftara(shabbat_date):
+            case Haftara.NONE:
+                pass
+            case hanukkah_haftara:
+                return hanukkah_haftara
 
         # 2b. Four Parashiot (Shekalim, Zachor, Parah, HaChodesh)
-        four_parashiot_haftara = self._lookup_four_parashiot_haftara(shabbat_date)
-        if four_parashiot_haftara != Haftara.NONE:
-            return four_parashiot_haftara
+        match self._lookup_four_parashiot_haftara(shabbat_date):
+            case Haftara.NONE:
+                pass
+            case four_parashiot_haftara:
+                return four_parashiot_haftara
 
-        # 2c. Shabbat Hagadol (Shabbat immediately before Pesach)
-        if shabbat_date.month == Months.NISAN and 8 <= shabbat_date.day <= 14:
-            return Haftara.SHABBAT_HAGADOL
-
-        # 2d. Shabbat Shuva (Shabbat between Rosh Hashana and Yom Kippur)
-        if shabbat_date.month == Months.TISHREI and 2 <= shabbat_date.day <= 9:
-            return Haftara.SHABBAT_SHUVA
+        # 2c-2d, 2f-2g. Date specific Shabbat overrides
+        match (shabbat_date.month, shabbat_date.day):
+            case (Months.NISAN, day) if 8 <= day <= 14:
+                return Haftara.SHABBAT_HAGADOL
+            case (Months.TISHREI, day) if 2 <= day <= 9:
+                return Haftara.SHABBAT_SHUVA
+            case (_, 1 | 30):
+                return Haftara.SHABBAT_ROSH_CHODESH
+            case (_, 29):
+                return Haftara.MACHAR_CHODESH
+            case _:
+                pass
 
         # 2e. 3 of Rebuke / 7 of Consolation
-        rebuke_consolation_haftara = self._lookup_rebuke_consolation_haftara(
-            shabbat_date
-        )
-        if rebuke_consolation_haftara != Haftara.NONE:
-            return rebuke_consolation_haftara
-
-        # 2f. Shabbat Rosh Chodesh
-        if shabbat_date.day in (1, 30):
-            return Haftara.SHABBAT_ROSH_CHODESH
-
-        # 2g. Shabbat Machar Chodesh (Erev Rosh Chodesh when Rosh Chodesh is Sunday)
-        if shabbat_date.day == 29:
-            return Haftara.MACHAR_CHODESH
+        match self._lookup_rebuke_consolation_haftara(shabbat_date):
+            case Haftara.NONE:
+                pass
+            case rebuke_consolation_haftara:
+                return rebuke_consolation_haftara
 
         # 3. Regular Parasha Haftara
         parasha_db = ParashaDatabase(self.diaspora)
-        parasha = parasha_db.lookup(shabbat_date)
-        if parasha != Parasha.NONE:
-            try:
-                return Haftara[parasha.name]
-            except KeyError:
+        match parasha_db.lookup(shabbat_date):
+            case Parasha.NONE:
                 return Haftara.NONE
-
-        return Haftara.NONE
+            case parasha:
+                try:
+                    return Haftara[parasha.name]
+                except KeyError:
+                    return Haftara.NONE
 
     def _lookup_holiday_haftara(self, date: HebrewDate) -> Haftara:
         """Lookup holiday haftara for a specific date."""
