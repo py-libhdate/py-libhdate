@@ -15,6 +15,7 @@ from hdate.hebrew_date import Months
 from hdate.holidays import HolidayDatabase, HolidayTypes
 from hdate.omer import Nusach, Omer
 from hdate.parasha import Parasha
+from hdate.tekufot import Tekufot
 from hdate.translator import Language, set_language
 from hdate.zmanim import Zman
 
@@ -147,9 +148,10 @@ def test_all_zmanim_translated(
         # Descriptions embed the local time via a {time} placeholder.
         assert zman.local.strftime("%H:%M") in zman.description
 
-    # The times exposed in Zmanim.__str__ are stringified via their base name,
-    # so those keys must be translated too.
-    for name, zman in Zmanim().zmanim.items():
+    # Zmanim are also stringified via their base name, so those keys must be
+    # translated too -- including candle_lighting and havdalah, which are only
+    # reachable through the *_obj accessors.
+    for name, zman in zmanim.items():
         assert str(zman) != name, f"missing name translation for {name} ({language})"
 
     assert "not found" not in caplog.text
@@ -163,3 +165,54 @@ def test_calendar_objects_match_string_properties() -> None:
     assert isinstance(info.daf_yomi_obj, Masechta)
     assert str(info.parasha_obj) == info.parasha
     assert str(info.daf_yomi_obj) == info.daf_yomi
+
+
+@pytest.mark.parametrize("language", ["en", "fr", "he"])
+def test_default_label_is_string_representation(language: Language) -> None:
+    """Classes without a dedicated label translation fall back to ``str()``."""
+    set_language(language)
+    info = HDateInfo(date=dt.date(2024, 6, 15), diaspora=True)
+    holiday = HolidayDatabase(diaspora=True).lookup(HebrewDate(5784, Months.NISAN, 15))[
+        0
+    ]
+    for obj in (info.parasha_obj, info.daf_yomi_obj, holiday, HolidayTypes.YOM_TOV):
+        assert obj.label == str(obj)
+
+
+def test_zman_label_overrides_the_default() -> None:
+    """``Zman`` keeps its own ``_label`` translation rather than ``str()``."""
+    set_language("en")
+    zman = Zmanim(date=dt.date(2024, 1, 1)).zmanim["netz_hachama"]
+    assert zman.label == "Netz Hachama"
+    assert str(zman) == "Sunrise"
+
+
+@pytest.mark.parametrize("language", ["en", "fr", "he"])
+def test_classes_without_a_description_have_no_description(language: Language) -> None:
+    """Classes with no ``description`` translation don't grow a bogus one.
+
+    The base property must fail as a missing attribute rather than returning
+    the literal key, so consumers can probe it with ``hasattr``.
+    """
+    set_language(language)
+    for obj in (HDateInfo(date=dt.date(2024, 6, 15)), Zmanim(), Months.NISAN):
+        assert not hasattr(obj, "description")
+        with pytest.raises(AttributeError):
+            _ = obj.description
+
+
+def test_unnameable_class_has_no_label() -> None:
+    """``label`` is a missing attribute, not a NameError, when unnameable."""
+    set_language("en")
+    tekufot = Tekufot(dt.date(2024, 6, 15))
+    assert not hasattr(tekufot, "label")
+    with pytest.raises(AttributeError):
+        _ = tekufot.label
+
+
+def test_omer_description_is_empty_outside_the_omer() -> None:
+    """Outside the Omer there is no count, so there is nothing to describe."""
+    set_language("en")
+    omer = Omer(total_days=0, nusach=Nusach.SFARAD)
+    assert str(omer) == ""
+    assert omer.description == ""

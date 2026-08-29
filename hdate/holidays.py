@@ -48,9 +48,7 @@ class Holiday(TranslatorMixin):
     @property
     def description(self) -> str:
         """Return a description of the holiday, including its type."""
-        return self.get_translation("description").format(
-            holiday=self, type=str(self.type)
-        )
+        return super().description.format(holiday=self, type=str(self.type))
 
 
 @dataclass

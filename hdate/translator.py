@@ -44,6 +44,40 @@ class TranslatorMixin:
             "It is missing the name attribute"
         )
 
+    @property
+    def label(self) -> str:
+        """Return the human-readable label for this object.
+
+        By default this is the translated string representation. Classes that
+        store a dedicated label translation should override this.
+
+        Raises:
+            AttributeError: if the class cannot be stringified, so that
+                ``hasattr(obj, "label")`` is False rather than raising.
+        """
+        try:
+            return str(self)
+        except NameError as err:
+            raise AttributeError(f"{self.__class__.__name__} has no label") from err
+
+    @property
+    def description(self) -> str:
+        """Return the (unformatted) description template for the class.
+
+        Subclasses are expected to override this and interpolate their own
+        values, e.g. ``super().description.format(daf=self)``.
+
+        Raises:
+            AttributeError: if the class has no ``description`` translation, so
+                that ``hasattr(obj, "description")`` is False rather than
+                silently returning the literal string ``"description"``.
+        """
+        if (value := self.translations.get("description")) is None:
+            raise AttributeError(
+                f"{self.__class__.__name__} has no description translation"
+            )
+        return value
+
     def available_languages(self) -> list[str]:
         """Return a list of available languages."""
         return list(TRANSLATIONS.keys())

@@ -23,7 +23,7 @@ class Masechta(TranslatorMixin):
     @property
     def description(self) -> str:
         """Return a description of the Daf Yomi page."""
-        return self.get_translation("description").format(daf=self)
+        return super().description.format(daf=self)
 
 
 @dataclass

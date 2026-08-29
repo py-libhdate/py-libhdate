@@ -233,7 +233,7 @@ class HebrewDate(TranslatorMixin):
     @property
     def description(self) -> str:
         """Return a description of the Hebrew date."""
-        return self.get_translation("description").format(date=self)
+        return super().description.format(date=self)
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, HebrewDate):

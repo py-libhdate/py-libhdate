@@ -68,7 +68,9 @@ class Omer(TranslatorMixin):
     @property
     def description(self) -> str:
         """Return a description of the Omer count."""
-        return self.get_translation("description").format(count=self.count_str())
+        if self.total_days == 0:
+            return ""
+        return super().description.format(count=self.count_str())
 
     def count_str(self) -> str:
         """Return the text to be said when counting the omer."""

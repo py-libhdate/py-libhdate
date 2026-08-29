@@ -92,7 +92,7 @@ class Parasha(TranslatorMixin, IntEnum):
     @property
     def description(self) -> str:
         """Return a description of the weekly Torah portion."""
-        return self.get_translation("description").format(parasha=self)
+        return super().description.format(parasha=self)
 
 
 @dataclass
