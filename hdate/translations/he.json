@@ -125,8 +125,8 @@
         "mincha_ketana_description": "הזמן המועדף למנחה: {time}",
         "mincha_ketana_label": "מנחה קטנה",
         "netz_hachama": "הנץ החמה",
-        "netz_hachama_description": "הנץ החמה: {time}",
-        "netz_hachama_label": "הנץ החמה",
+        "netz_hachama_description": "נץ החמה: {time}",
+        "netz_hachama_label": "נץ החמה",
         "plag_hamincha": "פלג המנחה",
         "plag_hamincha_description": "פלג המנחה: {time}",
         "plag_hamincha_label": "פלג המנחה",
@@ -270,7 +270,7 @@
         "fast_day": "יום צום",
         "modern_holiday": "חג ישראלי",
         "minor_holiday": "חג קטן",
-        "memorial_day": "יום זיכרון",
+        "memorial_day": "יום הזיכרון",
         "israel_national_holiday": "חג לאומי",
         "rosh_chodesh": "ראש חודש"
     }
