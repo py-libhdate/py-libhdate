@@ -261,29 +261,29 @@ def test_attributes_in_dir() -> None:
 
 
 @pytest.mark.parametrize(
-    ("language", "label", "prefix"),
-    [("en", "Shkia", "Sunset: "), ("he", "שקיעה", "שקיעה: ")],
+    ("language", "name", "prefix"),
+    [("en", "Sunset", "Sunset: "), ("he", "שקיעה", "שקיעה: ")],
 )
 @pytest.mark.parametrize("location", ["New York"], indirect=True)
-def test_zman_label_and_description(
-    language: Language, label: str, prefix: str, location: Location
+def test_zman_name_and_description(
+    language: Language, name: str, prefix: str, location: Location
 ) -> None:
-    """A Zman exposes a translated label and a description with its time."""
+    """A Zman stringifies to its translated name and describes its time."""
     set_language(language)
     shkia = Zmanim(date=dt.date(2024, 6, 14), location=location).shkia
-    assert shkia.label == label
+    assert str(shkia) == name
     assert shkia.description == f"{prefix}{shkia.local.strftime('%H:%M')}"
 
 
 @pytest.mark.parametrize("location", ["New York"], indirect=True)
-def test_zman_label_description_no_fallback(
+def test_zman_description_no_fallback(
     location: Location, caplog: pytest.LogCaptureFixture
 ) -> None:
-    """Every zman has dedicated label/description entries, so there is no fallback."""
+    """Every zman has a dedicated description entry, so there is no fallback."""
     set_language("en")
     zman = Zmanim(date=dt.date(2024, 6, 14), location=location).chatzot_halayla
     with caplog.at_level(logging.ERROR):
-        assert zman.label == "Chatzot Halayla"
+        assert str(zman) == "Midnight"
         assert zman.description == f"Halachic midnight: {zman.local.strftime('%H:%M')}"
     assert "not found" not in caplog.text
 
@@ -306,7 +306,7 @@ def test_candle_lighting_obj(now: dt.datetime, offset: int, location: Location) 
         assert obj is not None
         assert obj.name == "candle_lighting"
         assert obj.local == zmanim.candle_lighting
-        assert obj.label == "Candle Lighting"
+        assert str(obj) == "Candle Lighting"
 
 
 @pytest.mark.parametrize("now, offset", [(h[0], h[1]) for h in HAVDALAH_TEST])
@@ -322,4 +322,4 @@ def test_havdalah_obj(now: dt.datetime, offset: int, location: Location) -> None
         assert obj is not None
         assert obj.name == "havdalah"
         assert obj.local == zmanim.havdalah
-        assert obj.label == "Havdalah"
+        assert str(obj) == "Havdalah"

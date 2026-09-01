@@ -45,22 +45,6 @@ class TranslatorMixin:
         )
 
     @property
-    def label(self) -> str:
-        """Return the human-readable label for this object.
-
-        By default this is the translated string representation. Classes that
-        store a dedicated label translation should override this.
-
-        Raises:
-            AttributeError: if the class cannot be stringified, so that
-                ``hasattr(obj, "label")`` is False rather than raising.
-        """
-        try:
-            return str(self)
-        except NameError as err:
-            raise AttributeError(f"{self.__class__.__name__} has no label") from err
-
-    @property
     def description(self) -> str:
         """Return the (unformatted) description template for the class.
 

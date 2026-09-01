@@ -46,11 +46,6 @@ class Zman(TranslatorMixin):
         self.local = self.utc.astimezone(self.timezone)
 
     @property
-    def label(self) -> str:
-        """Return the human-readable label for this time."""
-        return self.get_translation(f"{self.name}_label")
-
-    @property
     def description(self) -> str:
         """Return a description of this time, including the local time of day."""
         template = self.get_translation(f"{self.name}_description")
