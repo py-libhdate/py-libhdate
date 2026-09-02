@@ -45,6 +45,12 @@ class Zman(TranslatorMixin):
         self.utc = basetime + dt.timedelta(minutes=self.minutes)
         self.local = self.utc.astimezone(self.timezone)
 
+    @property
+    def description(self) -> str:
+        """Return a description of this time, including the local time of day."""
+        template = self.get_translation(f"{self.name}_description")
+        return template.format(time=self.local.strftime("%H:%M"))
+
 
 @dataclass
 class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
@@ -86,33 +92,46 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     def __dir__(self) -> list[str]:
         return [*super().__dir__(), *self.zmanim.keys()]
 
+    def _make_zman(self, name: str, minutes: float) -> Zman:
+        """Build a Zman for the given name and minutes-from-midnight offset."""
+        timezone = cast(dt.tzinfo, self.location.timezone)
+        return Zman(name, minutes, self.date, timezone)
+
     @property
-    def candle_lighting(self) -> dt.datetime | None:
-        """Return the time for candle lighting, or None if not applicable."""
+    def candle_lighting_obj(self) -> Zman | None:
+        """Return candle lighting as a Zman, or None if not applicable."""
         # If today is a Yom Tov or Shabbat, and tomorrow is a Yom Tov or
         # Shabbat return the havdalah time as the candle lighting time.
         if (
             self._today_is_yom_tov or self._today_is_shabbat
         ) and self._tomorrow_is_yom_tov:
-            return self._havdalah_datetime
+            return self._make_zman("candle_lighting", self._havdalah_minutes)
 
         # Otherwise, if today is Friday or erev Yom Tov, return candle
         # lighting.
         if self._tomorrow_is_shabbat or self._tomorrow_is_yom_tov:
-            return self.shkia.local - dt.timedelta(minutes=self.candle_lighting_offset)
+            return self._make_zman(
+                "candle_lighting", self.shkia.minutes - self.candle_lighting_offset
+            )
         return None
 
     @property
-    def _havdalah_datetime(self) -> dt.datetime:
-        """Compute the havdalah time based on settings."""
-        if self.havdalah_offset == 0:
-            return self.tset_hakohavim_shabbat.local
-        # Otherwise, use the offset.
-        return self.shkia.local + dt.timedelta(minutes=self.havdalah_offset)
+    def candle_lighting(self) -> dt.datetime | None:
+        """Return the time for candle lighting, or None if not applicable."""
+        obj = self.candle_lighting_obj
+        return obj.local if obj is not None else None
 
     @property
-    def havdalah(self) -> dt.datetime | None:
-        """Return the time for havdalah, or None if not applicable.
+    def _havdalah_minutes(self) -> float:
+        """Compute the havdalah minutes-from-midnight offset based on settings."""
+        if self.havdalah_offset == 0:
+            return self.tset_hakohavim_shabbat.minutes
+        # Otherwise, use the offset.
+        return self.shkia.minutes + self.havdalah_offset
+
+    @property
+    def havdalah_obj(self) -> Zman | None:
+        """Return havdalah as a Zman, or None if not applicable.
 
         If havdalah_offset is 0, uses the time for three_stars. Otherwise,
         adds the offset to the time of sunset and uses that.
@@ -127,8 +146,14 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         if self._today_is_shabbat or self._today_is_yom_tov:
             if self._tomorrow_is_shabbat or self._tomorrow_is_yom_tov:
                 return None
-            return self._havdalah_datetime
+            return self._make_zman("havdalah", self._havdalah_minutes)
         return None
+
+    @property
+    def havdalah(self) -> dt.datetime | None:
+        """Return the time for havdalah, or None if not applicable."""
+        obj = self.havdalah_obj
+        return obj.local if obj is not None else None
 
     def _timezone_aware(self, time: dt.datetime) -> dt.datetime:
         """Check if time is tz-naive and make it timezone-aware"""
@@ -310,11 +335,6 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         midday = (sunset + sunrise) // 2
         mga_sunhour = (midday - first_light) / 6
 
-        def make_zman(key: str, time: float) -> Zman:
-            timezone = cast(dt.tzinfo, self.location.timezone)
-            zman = Zman(key, time, self.date, timezone)
-            return zman
-
         _zmanim = {
             "alot_hashachar": first_light,
             "talit_and_tefillin": talit,
@@ -336,4 +356,4 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             "chatzot_halayla": midday + 12 * 60.0,
         }
 
-        return {key: make_zman(key, time) for key, time in _zmanim.items()}
+        return {key: self._make_zman(key, time) for key, time in _zmanim.items()}

@@ -230,6 +230,11 @@ class HebrewDate(TranslatorMixin):
         year = hebrew_number(self.year)
         return f"{day} {self.month} {year}"
 
+    @property
+    def description(self) -> str:
+        """Return a description of the Hebrew date."""
+        return super().description.format(date=self)
+
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, HebrewDate):
             return NotImplemented

@@ -44,6 +44,24 @@ class TranslatorMixin:
             "It is missing the name attribute"
         )
 
+    @property
+    def description(self) -> str:
+        """Return the (unformatted) description template for the class.
+
+        Subclasses are expected to override this and interpolate their own
+        values, e.g. ``super().description.format(daf=self)``.
+
+        Raises:
+            AttributeError: if the class has no ``description`` translation, so
+                that ``hasattr(obj, "description")`` is False rather than
+                silently returning the literal string ``"description"``.
+        """
+        if (value := self.translations.get("description")) is None:
+            raise AttributeError(
+                f"{self.__class__.__name__} has no description translation"
+            )
+        return value
+
     def available_languages(self) -> list[str]:
         """Return a list of available languages."""
         return list(TRANSLATIONS.keys())
