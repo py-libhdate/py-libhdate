@@ -136,7 +136,7 @@ TRANSLATIONS = {
             "candle_lighting": "Candle Lighting",
             "candle_lighting_description": "Candle lighting time: {time}",
             "shkia": "Shkia",
-            "shkia_description": "Sunset: {time}",
+            "shkia_description": "Shkia: {time}",
             "tset_hakohavim_tsom": "End of fast",
             "tset_hakohavim_tsom_description": "Nightfall: {time}",
             "tset_hakohavim_shabbat": "End of Shabbat",
