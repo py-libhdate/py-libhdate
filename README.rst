@@ -77,17 +77,17 @@ Provide the times of the day in Hebrew...
     >>> print(z)
     Alot HaShachar - 04:50:00
     Talit & Tefilin's time - 05:16:00
-    Sunrise - 06:07:00
-    Shema EOT MG"A - 08:45:00
-    Shema EOT GR"A - 09:22:00
-    Tefila EOT MG"A - 10:03:20
-    Tefila EOT GR"A - 10:27:00
-    Midday - 12:40:00
-    Big Mincha - 13:09:30
-    Big Mincha 30 min - 13:10:00
-    Small Mincha - 16:24:30
-    Plag Mincha - 17:51:45
-    Sunset - 19:13:00
+    Netz Hachama - 06:07:00
+    Sof Zman Shema (Mg"A) - 08:45:00
+    Sof Zman Shema (Gr"A) - 09:22:00
+    Sof Zman Tefilla (Mg"A) - 10:03:20
+    Sof Zman Tefilla (Gr"A) - 10:27:00
+    Chatzot Hayom - 12:40:00
+    Mincha Gedola - 13:09:30
+    Mincha Gedola 30 min - 13:10:00
+    Mincha Ketana - 16:24:30
+    Plag Hamincha - 17:51:45
+    Shkia - 19:13:00
     End of fast - 19:41:00
     End of Shabbat - 19:51:00
     Tset Hakochavim (18 minutes) - 19:32:30

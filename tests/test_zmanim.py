@@ -262,7 +262,7 @@ def test_attributes_in_dir() -> None:
 
 @pytest.mark.parametrize(
     ("language", "name", "prefix"),
-    [("en", "Sunset", "Sunset: "), ("he", "שקיעה", "שקיעה: ")],
+    [("en", "Shkia", "Shkia: "), ("he", "שקיעה", "שקיעה: ")],
 )
 @pytest.mark.parametrize("location", ["New York"], indirect=True)
 def test_zman_name_and_description(
