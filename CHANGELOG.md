@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.2 - 2026-09-02
+
+* Cleanup English labels for Zmanim (#232) @tsvi
+* Add a translated description property to date and zmanim objects (#228) @amitfin
+* Fix incorrect French zmanim translations (#230) @amitfin
+
 ## 1.2.1 - 2026-04-19
 
 * Lower Astral minimum version to 2.2 (#227) @amitfin
