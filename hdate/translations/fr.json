@@ -52,7 +52,8 @@
         "temurah": "Temoura",
         "kereisos": "Keritot",
         "meilah": "Me'ila",
-        "niddah": "Nida"
+        "niddah": "Nida",
+        "description": "Daf Yomi : {daf}"
     },
     "Holiday": {
         "erev_rosh_hashana": "Veille de Rosh Hashana",
@@ -95,27 +96,50 @@
         "memorial_day_unknown": "Jour du souvenir",
         "rabin_memorial_day": "Jour commémoratif Yitzhak Rabin",
         "zeev_zhabotinsky_day": "Jour de Zeev Zhabotinsky",
-        "rosh_chodesh": "Rosh Hodesh"
+        "rosh_chodesh": "Rosh Hodesh",
+        "description": "Fête juive : {holiday}\nType de fête : {type}"
     },
     "Zman": {
         "alot_hashachar": "Alot HaShahar",
+        "alot_hashachar_description": "Aube halakhique : {time}",
         "talit_and_tefillin": "Début Talit & Tefilin ",
-        "netz_hachama": "Lever du jour",
+        "talit_and_tefillin_description": "Heure la plus tôt pour Talit et Tefilin : {time}",
+        "netz_hachama": "Lever du soleil",
+        "netz_hachama_description": "Lever du soleil halakhique : {time}",
         "sof_zman_shema_mga": "Shema MG\"A",
+        "sof_zman_shema_mga_description": "Heure limite du Shema : {time}",
         "sof_zman_shema_gra": "Shema GR\"A",
+        "sof_zman_shema_gra_description": "Heure limite du Shema : {time}",
         "sof_zman_tfilla_mga": "Tefila MG\"A",
+        "sof_zman_tfilla_mga_description": "Heure limite de la Tefila : {time}",
         "sof_zman_tfilla_gra": "Tefila GR\"A",
+        "sof_zman_tfilla_gra_description": "Heure limite de la Tefila : {time}",
         "chatzot_hayom": "Hatsot",
+        "chatzot_hayom_description": "Milieu de la journée halakhique : {time}",
         "mincha_gedola": "Minha Guedola",
+        "mincha_gedola_description": "Heure la plus tôt pour Minha : {time}",
         "mincha_gedola_30min": "Minha Guedola 30 min",
+        "mincha_gedola_30min_description": "Heure la plus tôt pour Minha, 30 minutes après midi : {time}",
         "mincha_ketana": "Minha Qetana",
+        "mincha_ketana_description": "Heure préférable pour Minha : {time}",
         "plag_hamincha": "Plag haMinha",
-        "shkia": "Shqiat",
-        "tset_hakohavim_tsom": "Fin du jeune",
+        "plag_hamincha_description": "Plag HaMinha : {time}",
+        "candle_lighting": "Allumage des bougies",
+        "candle_lighting_description": "Heure d'allumage des bougies : {time}",
+        "shkia": "Coucher du soleil",
+        "shkia_description": "Coucher du soleil : {time}",
+        "tset_hakohavim_tsom": "Fin du jeûne",
+        "tset_hakohavim_tsom_description": "Tombée de la nuit : {time}",
         "tset_hakohavim_shabbat": "Fin de Shabbat",
+        "tset_hakohavim_shabbat_description": "Fin de Shabbat : {time}",
         "tset_hakohavim": "Tzeit haCokhavim (18 minutes)",
+        "tset_hakohavim_description": "Tombée de la nuit, 18 minutes : {time}",
         "tset_hakohavim_rabeinu_tam": "Nuit selon Rabbénou Tam",
-        "chatzot_halayla": "Hatsot laïla"
+        "tset_hakohavim_rabeinu_tam_description": "Tombée de la nuit selon Rabbénou Tam : {time}",
+        "havdalah": "Havdala",
+        "havdalah_description": "Heure de la Havdala : {time}",
+        "chatzot_halayla": "Hatsot laïla",
+        "chatzot_halayla_description": "Minuit halakhique : {time}"
     },
     "Parasha": {
         "none": "none",
@@ -179,7 +203,8 @@
         "behar_bechukotai": "Behar-Be'houkotai",
         "chukat_balak": "Houkat-Balak",
         "matot_masei": "Matot-Massei",
-        "nitzavim_vayeilech": "Nitzavim-Vayelekh"
+        "nitzavim_vayeilech": "Nitzavim-Vayelekh",
+        "description": "Parashat HaShavoua : {parasha}"
     },
     "Weekday": {
         "sunday": "Dimanche",
@@ -211,6 +236,22 @@
         "week": "semaine",
         "weeks": "semaines",
         "in_omer_ashkenaz": "de l'Omer",
-        "in_omer": "de l'Omer"
-    }        
+        "in_omer": "de l'Omer",
+        "description": "Sefirat HaOmer : {count}"
+    },
+    "HebrewDate": {
+        "description": "Date hébraïque : {date}"
+    },
+    "HolidayTypes": {
+        "yom_tov": "Yom Tov",
+        "erev_yom_tov": "Veille de Yom Tov",
+        "hol_hamoed": "Hol HaMoed",
+        "melacha_permitted_holiday": "Fête (travail permis)",
+        "fast_day": "Jour de jeûne",
+        "modern_holiday": "Fête moderne",
+        "minor_holiday": "Fête mineure",
+        "memorial_day": "Jour du souvenir",
+        "israel_national_holiday": "Fête nationale israélienne",
+        "rosh_chodesh": "Rosh Hodesh"
+    }
 }

@@ -52,7 +52,8 @@
         "temurah": "Temurah",
         "kereisos": "Kereisos",
         "meilah": "Meilah",
-        "niddah": "Niddah"
+        "niddah": "Niddah",
+        "description": "Daf Yomi: {daf}"
     },
     "Holiday": {
         "erev_rosh_hashana": "Erev Rosh Hashana",
@@ -95,27 +96,50 @@
         "memorial_day_unknown": "Memorial day for fallen whose place of burial is unknown",
         "rabin_memorial_day": "Yitzhak Rabin memorial day",
         "zeev_zhabotinsky_day": "Zeev Zhabotinsky day",
-        "rosh_chodesh": "Rosh Chodesh"
+        "rosh_chodesh": "Rosh Chodesh",
+        "description": "Jewish Holiday: {holiday}\nHoliday type: {type}"
     },
     "Zman": {
         "alot_hashachar": "Alot HaShachar",
+        "alot_hashachar_description": "Halachic dawn: {time}",
         "talit_and_tefillin": "Talit & Tefilin's time",
+        "talit_and_tefillin_description": "Earliest time for Talit and Tefillin: {time}",
         "netz_hachama": "Netz Hachama",
+        "netz_hachama_description": "Netz Hachama: {time}",
         "sof_zman_shema_mga": "Sof Zman Shema (Mg\"A)",
+        "sof_zman_shema_mga_description": "Latest time for Shema: {time}",
         "sof_zman_shema_gra": "Sof Zman Shema (Gr\"A)",
+        "sof_zman_shema_gra_description": "Latest time for Shema: {time}",
         "sof_zman_tfilla_mga": "Sof Zman Tefilla (Mg\"A)",
+        "sof_zman_tfilla_mga_description": "Latest time for Tefilla: {time}",
         "sof_zman_tfilla_gra": "Sof Zman Tefilla (Gr\"A)",
+        "sof_zman_tfilla_gra_description": "Latest time for Tefilla: {time}",
         "chatzot_hayom": "Chatzot Hayom",
+        "chatzot_hayom_description": "Halachic midday: {time}",
         "mincha_gedola": "Mincha Gedola",
+        "mincha_gedola_description": "Earliest time for Mincha: {time}",
         "mincha_gedola_30min": "Mincha Gedola 30 min",
+        "mincha_gedola_30min_description": "Earliest time for Mincha, 30 minutes after midday: {time}",
         "mincha_ketana": "Mincha Ketana",
+        "mincha_ketana_description": "Preferable time for Mincha: {time}",
         "plag_hamincha": "Plag Hamincha",
+        "plag_hamincha_description": "Plag Hamincha: {time}",
+        "candle_lighting": "Candle Lighting",
+        "candle_lighting_description": "Candle lighting time: {time}",
         "shkia": "Shkia",
+        "shkia_description": "Sunset: {time}",
         "tset_hakohavim_tsom": "End of fast",
+        "tset_hakohavim_tsom_description": "Nightfall: {time}",
         "tset_hakohavim_shabbat": "End of Shabbat",
+        "tset_hakohavim_shabbat_description": "End of Shabbat: {time}",
         "tset_hakohavim": "Tset Hakochavim (18 minutes)",
+        "tset_hakohavim_description": "Nightfall, 18 minutes: {time}",
         "tset_hakohavim_rabeinu_tam": "Night by Rabbeinu Tam",
-        "chatzot_halayla": "Midnight"
+        "tset_hakohavim_rabeinu_tam_description": "Nightfall by Rabbeinu Tam: {time}",
+        "havdalah": "Havdalah",
+        "havdalah_description": "Havdalah time: {time}",
+        "chatzot_halayla": "Midnight",
+        "chatzot_halayla_description": "Halachic midnight: {time}"
     },
     "Parasha": {
         "none": "none",
@@ -179,7 +203,8 @@
         "behar_bechukotai": "Behar-Bechukotai",
         "chukat_balak": "Chukat-Balak",
         "matot_masei": "Matot-Masei",
-        "nitzavim_vayeilech": "Nitzavim-Vayeilech"
+        "nitzavim_vayeilech": "Nitzavim-Vayeilech",
+        "description": "Parshat Hashavua: {parasha}"
     },
     "Weekday": {
         "sunday": "Sunday",
@@ -211,6 +236,22 @@
         "week": "week",
         "weeks": "weeks",
         "in_omer_ashkenaz": "of the Omer",
-        "in_omer": "of the Omer"
-    }        
+        "in_omer": "of the Omer",
+        "description": "Sefirat HaOmer: {count}"
+    },
+    "HebrewDate": {
+        "description": "Hebrew date: {date}"
+    },
+    "HolidayTypes": {
+        "yom_tov": "Yom Tov",
+        "erev_yom_tov": "Erev Yom Tov",
+        "hol_hamoed": "Hol HaMoed",
+        "melacha_permitted_holiday": "Work-permitted holiday",
+        "fast_day": "Fast day",
+        "modern_holiday": "Modern holiday",
+        "minor_holiday": "Minor holiday",
+        "memorial_day": "Memorial day",
+        "israel_national_holiday": "Israeli national holiday",
+        "rosh_chodesh": "Rosh Chodesh"
+    }
 }

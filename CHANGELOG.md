@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.1 - 2026-04-19
+
+* Lower Astral minimum version to 2.2 (#227) @amitfin
+
+## 1.2.0 - 2026-04-19
+
+* Use location altitude in Astral zmanim calculations (#226) @amitfin
+* Drop support for 3.9 (#225) @tsvi
+* Fix typo & refactor _datetime_to_minutes_offset (#223) @yuvalabou
+* Replace manual JDN math with stdlib (#221) @yuvalabou
+
 ## 1.1.2 - 2025-06-12
 
 ### 🚀 Features

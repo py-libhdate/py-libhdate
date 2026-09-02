@@ -1,6 +1,7 @@
 """Test Zmanim objects."""
 
 import datetime as dt
+import logging
 import sys
 from typing import cast
 
@@ -9,6 +10,7 @@ from hypothesis import given, strategies
 
 from hdate import Zmanim
 from hdate.location import Location
+from hdate.translator import Language, set_language
 
 _ASTRAL = "astral" in sys.modules
 
@@ -73,6 +75,20 @@ def test_extreme_zmanim(location: Location, result: dt.time) -> None:
     compare_times(
         Zmanim(date=day, location=location).shkia.local.time(), result, grace=5
     )
+
+
+@pytest.mark.skipif(not _ASTRAL, reason="Altitude is only used in Astral transit mode")
+def test_altitude_affects_astral_zmanim() -> None:
+    """Higher altitude should advance sunrise and delay sunset."""
+    day = dt.date.today()
+    sea_level = Location(altitude=0)
+    high_altitude = Location()
+
+    sea_level_zmanim = Zmanim(date=day, location=sea_level)
+    high_altitude_zmanim = Zmanim(date=day, location=high_altitude)
+
+    assert high_altitude_zmanim.netz_hachama.local < sea_level_zmanim.netz_hachama.local
+    assert high_altitude_zmanim.shkia.local > sea_level_zmanim.shkia.local
 
 
 # Times are assumed for NYC.
@@ -224,7 +240,7 @@ def test_candle_lighting_erev_shabbat_is_yom_tov(location: Location) -> None:
     assert zman.candle_lighting == actual_candle_lighting
 
 
-@given(name=strategies.text().filter(lambda s: s not in dir(Zmanim)))
+@given(name=strategies.text().filter(lambda s: s not in dir(Zmanim())))
 def test_non_existing_attribute(name: str) -> None:
     """Test trying to access a Zmanim attribute that isn't in the class."""
     with pytest.raises(AttributeError):
@@ -242,3 +258,68 @@ def test_attributes_in_dir() -> None:
         "tset_hakohavim",
     }
     assert keys.issubset(set(dir(Zmanim())))
+
+
+@pytest.mark.parametrize(
+    ("language", "name", "prefix"),
+    [("en", "Sunset", "Sunset: "), ("he", "שקיעה", "שקיעה: ")],
+)
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_zman_name_and_description(
+    language: Language, name: str, prefix: str, location: Location
+) -> None:
+    """A Zman stringifies to its translated name and describes its time."""
+    set_language(language)
+    shkia = Zmanim(date=dt.date(2024, 6, 14), location=location).shkia
+    assert str(shkia) == name
+    assert shkia.description == f"{prefix}{shkia.local.strftime('%H:%M')}"
+
+
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_zman_description_no_fallback(
+    location: Location, caplog: pytest.LogCaptureFixture
+) -> None:
+    """Every zman has a dedicated description entry, so there is no fallback."""
+    set_language("en")
+    zman = Zmanim(date=dt.date(2024, 6, 14), location=location).chatzot_halayla
+    with caplog.at_level(logging.ERROR):
+        assert str(zman) == "Midnight"
+        assert zman.description == f"Halachic midnight: {zman.local.strftime('%H:%M')}"
+    assert "not found" not in caplog.text
+
+
+@pytest.mark.parametrize("now, offset", [(c[0], c[1]) for c in CANDLES_TEST])
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_candle_lighting_obj(now: dt.datetime, offset: int, location: Location) -> None:
+    """candle_lighting_obj mirrors the candle_lighting datetime as a Zman."""
+    set_language("en")
+    zmanim = Zmanim(
+        date=now.date(),
+        location=location,
+        candle_lighting_offset=offset,
+        havdalah_offset=42,
+    )
+    obj = zmanim.candle_lighting_obj
+    if zmanim.candle_lighting is None:
+        assert obj is None
+    else:
+        assert obj is not None
+        assert obj.name == "candle_lighting"
+        assert obj.local == zmanim.candle_lighting
+        assert str(obj) == "Candle Lighting"
+
+
+@pytest.mark.parametrize("now, offset", [(h[0], h[1]) for h in HAVDALAH_TEST])
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_havdalah_obj(now: dt.datetime, offset: int, location: Location) -> None:
+    """havdalah_obj mirrors the havdalah datetime as a Zman."""
+    set_language("en")
+    zmanim = Zmanim(date=now.date(), location=location, havdalah_offset=offset)
+    obj = zmanim.havdalah_obj
+    if zmanim.havdalah is None:
+        assert obj is None
+    else:
+        assert obj is not None
+        assert obj.name == "havdalah"
+        assert obj.local == zmanim.havdalah
+        assert str(obj) == "Havdalah"
