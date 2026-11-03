@@ -42,7 +42,8 @@ class Zman(TranslatorMixin):
         basetime = dt.datetime.combine(self.date, dt.time()).replace(
             tzinfo=dt.timezone.utc
         )
-        self.utc = basetime + dt.timedelta(minutes=self.minutes)
+        # Rounded to the second: proportional hours make fractional minutes.
+        self.utc = basetime + dt.timedelta(seconds=round(self.minutes * 60))
         self.local = self.utc.astimezone(self.timezone)
 
     @property
@@ -100,11 +101,15 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
     @property
     def candle_lighting_obj(self) -> Zman | None:
         """Return candle lighting as a Zman, or None if not applicable."""
-        # If today is a Yom Tov or Shabbat, and tomorrow is a Yom Tov or
-        # Shabbat return the havdalah time as the candle lighting time.
+        # If today is a Yom Tov or Shabbat, and tomorrow is a Yom Tov (that
+        # isn't Shabbat) return the havdalah time as the candle lighting time.
+        # On a Friday that is Yom Tov, Shabbat candles are still lit before
+        # sunset, even if Shabbat is also Yom Tov.
         if (
-            self._today_is_yom_tov or self._today_is_shabbat
-        ) and self._tomorrow_is_yom_tov:
+            (self._today_is_yom_tov or self._today_is_shabbat)
+            and self._tomorrow_is_yom_tov
+            and not self._tomorrow_is_shabbat
+        ):
             return self._make_zman("candle_lighting", self._havdalah_minutes)
 
         # Otherwise, if today is Friday or erev Yom Tov, return candle
@@ -242,7 +247,8 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         day_of_year = float(gday_of_year(self.date))
 
         # get radians of sun orbit around earth =)
-        gama = 2.0 * math.pi * ((day_of_year - 1) / 365.0)
+        # (NOAA's formula uses day_of_year - 1 for a 1-based day; ours is 0-based.)
+        gama = 2.0 * math.pi * (day_of_year / 365.0)
 
         # get the diff betwen suns clock and wall clock in minutes
         eqtime = 229.18 * (
@@ -300,14 +306,18 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             longitude=self.location.longitude,
             elevation=self.location.altitude or 0.0,
         )
-        return self._datetime_to_minutes_offset(
-            astral.sun.time_of_transit(
-                astral_observer,
-                self.date,
-                zenith,
-                astral.SunDirection.RISING if rising else astral.SunDirection.SETTING,
-            )
-        )
+        direction = astral.SunDirection.RISING if rising else astral.SunDirection.SETTING
+        timezone = cast(dt.tzinfo, self.location.timezone)
+        # Astral works on UTC days. Far east of UTC, a morning event of the local
+        # date happens on the previous UTC day (and far west, an evening event on
+        # the next one), so retry with the UTC day that gives the local date.
+        day = self.date
+        time = astral.sun.time_of_transit(astral_observer, day, zenith, direction)
+        local_date = time.astimezone(timezone).date()
+        if local_date != self.date:
+            day += self.date - local_date
+            time = astral.sun.time_of_transit(astral_observer, day, zenith, direction)
+        return self._datetime_to_minutes_offset(time)
 
     @cached_property
     def zmanim(self) -> dict[str, Zman]:
@@ -331,8 +341,8 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             three_stars = self._get_utc_time_of_transit(98.5, False)
 
         # shaa zmanit by gara, 1/12 of light time
-        sun_hour = (sunset - sunrise) // 12
-        midday = (sunset + sunrise) // 2
+        sun_hour = (sunset - sunrise) / 12
+        midday = (sunset + sunrise) / 2
         mga_sunhour = (midday - first_light) / 6
 
         _zmanim = {

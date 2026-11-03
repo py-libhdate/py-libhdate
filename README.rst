@@ -52,19 +52,19 @@ Provide the times of the day in Hebrew...
     זמן טלית ותפילין - 05:16:00
     הנץ החמה - 06:07:00
     סוף זמן ק"ש מג"א - 08:45:00
-    סוף זמן ק"ש גר"א - 09:22:00
+    סוף זמן ק"ש גר"א - 09:23:30
     סוף זמן תפילה מג"א - 10:03:20
-    סוף זמן תפילה גר"א - 10:27:00
+    סוף זמן תפילה גר"א - 10:29:00
     חצות היום - 12:40:00
-    מנחה גדולה - 13:09:30
+    מנחה גדולה - 13:12:45
     מנחה גדולה 30 דק - 13:10:00
-    מנחה קטנה - 16:24:30
-    פלג המנחה - 17:51:45
+    מנחה קטנה - 16:29:15
+    פלג המנחה - 17:51:08
     שקיעה - 19:13:00
     מוצאי צום - 19:41:00
     מוצאי שבת - 19:51:00
-    צאת הכוכבים (18 דק) - 19:32:30
-    לילה לרבנו תם - 20:31:00
+    צאת הכוכבים (18 דק) - 19:32:39
+    לילה לרבנו תם - 20:31:36
     חצות הלילה - 00:40:00
 
 ... and in English.
@@ -79,19 +79,19 @@ Provide the times of the day in Hebrew...
     Talit & Tefilin's time - 05:16:00
     Netz Hachama - 06:07:00
     Sof Zman Shema (Mg"A) - 08:45:00
-    Sof Zman Shema (Gr"A) - 09:22:00
+    Sof Zman Shema (Gr"A) - 09:23:30
     Sof Zman Tefilla (Mg"A) - 10:03:20
-    Sof Zman Tefilla (Gr"A) - 10:27:00
+    Sof Zman Tefilla (Gr"A) - 10:29:00
     Chatzot Hayom - 12:40:00
-    Mincha Gedola - 13:09:30
+    Mincha Gedola - 13:12:45
     Mincha Gedola 30 min - 13:10:00
-    Mincha Ketana - 16:24:30
-    Plag Hamincha - 17:51:45
+    Mincha Ketana - 16:29:15
+    Plag Hamincha - 17:51:08
     Shkia - 19:13:00
     End of fast - 19:41:00
     End of Shabbat - 19:51:00
-    Tset Hakochavim (18 minutes) - 19:32:30
-    Night by Rabbeinu Tam - 20:31:00
+    Tset Hakochavim (18 minutes) - 19:32:39
+    Night by Rabbeinu Tam - 20:31:36
     Midnight - 00:40:00
 
 ===========

@@ -225,6 +225,39 @@ def test_erev_shabbat_hag(
 
 
 @pytest.mark.parametrize("location", ["New York"], indirect=True)
+def test_candle_lighting_erev_shabbat_and_shabbat_are_yom_tov(
+    location: Location,
+) -> None:
+    """Friday is Yom Tov and so is Shabbat (diaspora Shavuot 5786): Shabbat
+    candles are still lit before sunset, not after nightfall."""
+    zman = Zmanim(
+        date=dt.date(2026, 5, 22), location=location, candle_lighting_offset=18
+    )
+    assert zman.candle_lighting == zman.shkia.local - dt.timedelta(minutes=18)
+
+
+def test_morning_zmanim_east_of_utc() -> None:
+    """Far east of UTC, morning zmanim are on the requested local date."""
+    melbourne = Location(
+        "Melbourne", -37.81, 144.96, "Australia/Melbourne", 0, diaspora=True
+    )
+    day = dt.date(2026, 6, 21)
+    zmanim = Zmanim(date=day, location=melbourne)
+    for name in ("alot_hashachar", "netz_hachama", "chatzot_hayom", "shkia"):
+        assert getattr(zmanim, name).local.date() == day, name
+    assert zmanim.netz_hachama.local < zmanim.chatzot_hayom.local < zmanim.shkia.local
+
+
+@pytest.mark.parametrize("location", ["Jerusalem"], indirect=True)
+def test_proportional_hour_is_not_rounded(location: Location) -> None:
+    """Sha'ah zmanit is 1/12 of the day, not floored to whole minutes."""
+    zmanim = Zmanim(date=dt.date(2026, 3, 27), location=location)
+    sunrise, sunset = zmanim.netz_hachama.local, zmanim.shkia.local
+    expected = sunrise + (sunset - sunrise) * 9.5 / 12
+    assert abs((zmanim.mincha_ketana.local - expected).total_seconds()) <= 1
+
+
+@pytest.mark.parametrize("location", ["New York"], indirect=True)
 def test_candle_lighting_erev_shabbat_is_yom_tov(location: Location) -> None:
     """Test for candle lighting when erev shabbat is yom tov"""
     day = dt.date(2024, 10, 18)
