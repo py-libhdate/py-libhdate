@@ -1,9 +1,17 @@
 # serializer version: 1
 # name: test_from_gdate_snapshot
-  HebrewDate(year=5785, month=<Months.TEVET: 4>, day=5)
+  HebrewDate(
+    day=5,
+    month=<Months.TEVET: 4>,
+    year=5785,
+  )
 # ---
 # name: test_from_jdn_snapshot
-  HebrewDate(year=5760, month=<Months.TEVET: 4>, day=23)
+  HebrewDate(
+    day=23,
+    month=<Months.TEVET: 4>,
+    year=5760,
+  )
 # ---
 # name: test_to_gdate_snapshot
   datetime.date(2025, 1, 5)
