@@ -89,6 +89,11 @@ class Parasha(TranslatorMixin, IntEnum):
     MATOT_MASEI = auto()
     NITZAVIM_VAYEILECH = auto()
 
+    @property
+    def description(self) -> str:
+        """Return a description of the weekly Torah portion."""
+        return super().description.format(parasha=self)
+
 
 @dataclass
 class ParashaDatabase:

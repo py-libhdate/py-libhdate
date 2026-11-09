@@ -44,4 +44,4 @@ def test_translation_not_found(caplog: pytest.LogCaptureFixture) -> None:
     assert foo_class.get_translation("non-existing-key") == "non-existing-key"
     assert "Translation for non-existing-key not found" in caplog.text
     with pytest.raises(NameError):
-        str(foo_class)
+        _ = str(foo_class)

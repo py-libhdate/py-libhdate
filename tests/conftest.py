@@ -48,6 +48,12 @@ def location(request: pytest.FixtureRequest) -> Location:
         "Punta Arenas": Location(
             "Punta Arenas", -53.1500, -70.9167, "America/Punta_Arenas", 0, True
         ),
+        "Melbourne": Location(
+            "Melbourne", -37.81, 144.96, "Australia/Melbourne", 0, True
+        ),
+        "Kiritimati": Location(
+            "Kiritimati", 1.8721, -157.4278, "Pacific/Kiritimati", 0, True
+        ),
     }
 
     if request.param not in locations:

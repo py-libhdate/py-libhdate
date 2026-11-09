@@ -48,23 +48,23 @@ Provide the times of the day in Hebrew...
     >>> c = hdate.Location("פתח תקוה", 32.08707, 34.88747, "Asia/Jerusalem", 54)
     >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c)
     >>> print(z)
-    עלות השחר - 04:52:00
-    זמן טלית ותפילין - 05:18:00
-    הנץ החמה - 06:08:00
-    סוף זמן ק"ש מג"א - 08:46:00
-    סוף זמן ק"ש גר"א - 09:23:00
-    סוף זמן תפילה מג"א - 10:04:00
-    סוף זמן תפילה גר"א - 10:28:00
+    עלות השחר - 04:50:00
+    זמן טלית ותפילין - 05:16:00
+    הנץ החמה - 06:07:00
+    סוף זמן ק"ש מג"א - 08:45:00
+    סוף זמן ק"ש גר"א - 09:23:30
+    סוף זמן תפילה מג"א - 10:03:20
+    סוף זמן תפילה גר"א - 10:29:00
     חצות היום - 12:40:00
-    מנחה גדולה - 13:10:30
+    מנחה גדולה - 13:12:45
     מנחה גדולה 30 דק - 13:10:00
-    מנחה קטנה - 16:25:30
-    פלג המנחה - 17:50:45
-    שקיעה - 19:12:00
-    מוצאי צום - 19:40:00
-    מוצאי שבת - 19:50:00
-    צאת הכוכבים (18 דק) - 19:31:30
-    לילה לרבנו תם - 20:30:00
+    מנחה קטנה - 16:29:15
+    פלג המנחה - 17:51:08
+    שקיעה - 19:13:00
+    מוצאי צום - 19:41:00
+    מוצאי שבת - 19:51:00
+    צאת הכוכבים (18 דק) - 19:32:39
+    לילה לרבנו תם - 20:31:36
     חצות הלילה - 00:40:00
 
 ... and in English.
@@ -75,23 +75,23 @@ Provide the times of the day in Hebrew...
     >>> set_language("en")
     >>> z = hdate.Zmanim(date=datetime.date(2016, 4, 18), location=c)
     >>> print(z)
-    Alot HaShachar - 04:52:00
-    Talit & Tefilin's time - 05:18:00
-    Sunrise - 06:08:00
-    Shema EOT MG"A - 08:46:00
-    Shema EOT GR"A - 09:23:00
-    Tefila EOT MG"A - 10:04:00
-    Tefila EOT GR"A - 10:28:00
-    Midday - 12:40:00
-    Big Mincha - 13:10:30
-    Big Mincha 30 min - 13:10:00
-    Small Mincha - 16:25:30
-    Plag Mincha - 17:50:45
-    Sunset - 19:12:00
-    End of fast - 19:40:00
-    End of Shabbat - 19:50:00
-    Tset Hakochavim (18 minutes) - 19:31:30
-    Night by Rabbeinu Tam - 20:30:00
+    Alot HaShachar - 04:50:00
+    Talit & Tefilin's time - 05:16:00
+    Netz Hachama - 06:07:00
+    Sof Zman Shema (Mg"A) - 08:45:00
+    Sof Zman Shema (Gr"A) - 09:23:30
+    Sof Zman Tefilla (Mg"A) - 10:03:20
+    Sof Zman Tefilla (Gr"A) - 10:29:00
+    Chatzot Hayom - 12:40:00
+    Mincha Gedola - 13:12:45
+    Mincha Gedola 30 min - 13:10:00
+    Mincha Ketana - 16:29:15
+    Plag Hamincha - 17:51:08
+    Shkia - 19:13:00
+    End of fast - 19:41:00
+    End of Shabbat - 19:51:00
+    Tset Hakochavim (18 minutes) - 19:32:39
+    Night by Rabbeinu Tam - 20:31:36
     Midnight - 00:40:00
 
 ===========

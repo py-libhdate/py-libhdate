@@ -1,7 +1,7 @@
 [project]
 name = "hdate"
-version = "1.1.2"
-description = "Jewish/Hebrew date and Zmanim in native Python 2.7/3.x"
+version = "1.2.2"
+description = "Jewish/Hebrew date and Zmanim for Python 3.11+"
 authors = [
     {name = "Royi Reshef", email = "roy.myapp@gmail.com"},
 ]
@@ -12,9 +12,15 @@ license = {text = "GPL-3.0-or-later"}
 readme = "README.rst"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Topic :: Software Development :: Libraries",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "num2words>=0.5.14"
 ]
@@ -54,34 +60,34 @@ addopts = "-ra --doctest-modules --doctest-glob=*.rst -n auto --timeout=300"
 
 [dependency-groups]
 dev = [
-    "tox>=4.34.1",
+    "tox>=4.67.13",
     "tox-pdm>=0.7.2",
-    "flake8>=7.3.0",
-    "flake8-bugbear>=25.11.29",
-    "pylint>=4.0.4",
-    "isort>=7.0.0",
-    "black>=26.1.0",
-    "pre-commit>=4.5.1",
-    "mypy>=1.19.1",
+    "flake8>=7.5.0",
+    "flake8-bugbear>=26.10.27",
+    "pylint>=4.1.3",
+    "isort>=9.0.2",
+    "black>=26.10.1",
+    "pre-commit>=4.7.0",
+    "mypy>=2.4.1",
 ]
 test = [
-    "pytest>=9.0.2",
+    "pytest>=9.2.0",
     "pytest-coverage>=0.0",
     "pytest-xdist>=3.8.0",
-    "hypothesis>=6.150.2",
-    "syrupy>=5.0.0",
+    "hypothesis>=6.170.15",
+    "syrupy>=6.1.1",
     "pytest-profiling>=1.8.1",
     "pytest-timeout>=2.4.0",
 ]
 docs = [
-    "Sphinx>=8.1.3",
-    "myst-parser>=4.0.1",
-    "sphinx-contributors>=0.2.7",
+    "Sphinx>=9.0.4",
+    "myst-parser>=5.1.0",
+    "sphinx-contributors>=0.3.0",
     "sphinx-rtd-theme>=3.1.0",
 ]
 
 [tool.bumpversion]
-current_version = "1.1.2"
+current_version = "1.2.2"
 parse = "(?P<major>\\d+)\\.(?P<minor>\\d+)\\.(?P<patch>\\d+)"
 serialize = ["{major}.{minor}.{patch}"]
 search = "{current_version}"

@@ -11,18 +11,20 @@ import datetime as dt
 from dataclasses import dataclass, field
 from functools import cached_property
 
-from hdate.daf_yomi import DafYomiDatabase
+from hdate.daf_yomi import DafYomiDatabase, Masechta
 from hdate.gematria import hebrew_number
 from hdate.hebrew_date import HebrewDate, Weekday
 from hdate.holidays import Holiday, HolidayDatabase, HolidayTypes
 from hdate.omer import Omer
-from hdate.parasha import ParashaDatabase
+from hdate.parasha import Parasha, ParashaDatabase
 from hdate.tekufot import Nusachim, Tekufot
 from hdate.translator import TranslatorMixin, get_language
 
 
 @dataclass
-class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
+class HDateInfo(  # pylint: disable=too-many-instance-attributes,too-many-public-methods
+    TranslatorMixin
+):
     """
     Hebrew date information class.
 
@@ -113,11 +115,14 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         return Omer(date=self.hdate)
 
     @property
+    def parasha_obj(self) -> Parasha:
+        """Return the upcoming parasha as a Parasha object."""
+        return ParashaDatabase(self.diaspora).lookup(self.hdate)
+
+    @property
     def parasha(self) -> str:
         """Return the upcoming parasha."""
-        db = ParashaDatabase(self.diaspora)
-        parasha = db.lookup(self.hdate)
-        return str(parasha)
+        return str(self.parasha_obj)
 
     @property
     def holidays(self) -> list[Holiday]:
@@ -125,11 +130,14 @@ class HDateInfo(TranslatorMixin):  # pylint: disable=too-many-instance-attribute
         return self._holidays.lookup(self.hdate)
 
     @property
+    def daf_yomi_obj(self) -> Masechta:
+        """Return the daf yomi for the given date as a Masechta object."""
+        return DafYomiDatabase().lookup(self.gdate)
+
+    @property
     def daf_yomi(self) -> str:
         """Return the daf yomi for the given date."""
-        db = DafYomiDatabase()
-        daf = db.lookup(self.gdate)
-        return str(daf)
+        return str(self.daf_yomi_obj)
 
     @property
     def gevurot_geshamim(self) -> str:

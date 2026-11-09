@@ -65,6 +65,13 @@ class Omer(TranslatorMixin):
             suffix = self.get_translation("in_omer")
         return f"{hebrew_number(self.total_days)} {suffix}"
 
+    @property
+    def description(self) -> str:
+        """Return a description of the Omer count."""
+        if self.total_days == 0:
+            return ""
+        return super().description.format(count=self.count_str())
+
     def count_str(self) -> str:
         """Return the text to be said when counting the omer."""
         if self.total_days == 0:
