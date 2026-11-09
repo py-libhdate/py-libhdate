@@ -94,16 +94,16 @@ class TestHDateAPI:
 class TestZmanimAPI:
     """Test the API provided in the README."""
 
+    @pytest.mark.skipif(not _ASTRAL, reason="README snapshot uses Astral times")
     @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
     def test_readme_example_hebrew(
         self, location: Location, snapshot: SnapshotAssertion
     ) -> None:
         """Test for hebrew."""
         zman = Zmanim(date=dt.date(2016, 4, 18), location=location)
-        if not _ASTRAL:
-            return
         assert str(zman) == snapshot
 
+    @pytest.mark.skipif(not _ASTRAL, reason="README snapshot uses Astral times")
     @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
     def test_readme_example_english(
         self, location: Location, snapshot: SnapshotAssertion
@@ -111,8 +111,6 @@ class TestZmanimAPI:
         """Test for english."""
         set_language("en")
         zman = Zmanim(date=dt.date(2016, 4, 18), location=location)
-        if not _ASTRAL:
-            return
         assert str(zman) == snapshot
 
     @pytest.mark.parametrize("location", ["Petah Tikva"], indirect=True)
