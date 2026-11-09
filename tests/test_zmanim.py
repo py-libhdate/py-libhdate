@@ -248,16 +248,16 @@ def test_morning_zmanim_east_of_utc() -> None:
     assert zmanim.netz_hachama.local < zmanim.chatzot_hayom.local < zmanim.shkia.local
 
 
-@pytest.mark.skipif(not _ASTRAL, reason="Astral transit is not available")
-def test_astral_transit_retries_for_local_date() -> None:
-    """Keep UTC+14 morning zmanim on the requested local date."""
+def test_morning_zmanim_at_utc_date_line() -> None:
+    """Keep UTC+14 zmanim on the requested local date with either algorithm."""
     kiritimati = Location(
         "Kiritimati", 1.8721, -157.4278, "Pacific/Kiritimati", 0, diaspora=True
     )
     day = dt.date(2026, 6, 21)
     zmanim = Zmanim(date=day, location=kiritimati)
 
-    assert zmanim.netz_hachama.local.date() == day
+    for name in ("alot_hashachar", "netz_hachama", "chatzot_hayom", "shkia"):
+        assert getattr(zmanim, name).local.date() == day, name
 
 
 @pytest.mark.parametrize("location", ["Jerusalem"], indirect=True)

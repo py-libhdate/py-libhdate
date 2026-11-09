@@ -217,34 +217,31 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
         return False
 
     def _get_utc_sun_time_deg(self, deg: float) -> tuple[int, int]:
-        """
-        Return the times in minutes from 00:00 (utc) for a given sun altitude.
+        """Return UTC minute offsets for a sun altitude on the local date."""
+        sunrise, sunset = self._calculate_utc_sun_time_deg(deg, self.date)
+        if (sunrise, sunset) == (-720, -720):
+            return sunrise, sunset
 
-        This is done for a given sun altitude in sunrise `deg` degrees
-        This function only works for altitudes sun really is.
-        If the sun never gets to this altitude, the returned sunset and sunrise
-        values will be negative. This can happen in low altitude when latitude
-        is nearing the poles in winter times, the sun never goes very high in
-        the sky there.
+        local_sunrise = (
+            dt.datetime.combine(self.date, dt.time.min, tzinfo=dt.timezone.utc)
+            + dt.timedelta(minutes=sunrise)
+        ).astimezone(cast(dt.tzinfo, self.location.timezone))
+        if local_sunrise.date() != self.date:
+            adjusted_date = self.date + (self.date - local_sunrise.date())
+            sunrise, sunset = self._calculate_utc_sun_time_deg(deg, adjusted_date)
+            day_offset = (adjusted_date - self.date).days * 1440
+            return sunrise + day_offset, sunset + day_offset
+        return sunrise, sunset
 
-        Algorithm from
-        https://gml.noaa.gov/grad/solcalc/solareqns.PDF
-        The low accuracy solar position equations are used.
-        These routines are based on Jean Meeus's book Astronomical Algorithms.
-        """
+    def _calculate_utc_sun_time_deg(
+        self, deg: float, calculation_date: dt.date
+    ) -> tuple[int, int]:
+        """Calculate UTC sun times with NOAA's low-accuracy equations."""
 
-        def gday_of_year(date: dt.date) -> int:
-            """Return the number of days since January 1 of the given year."""
-            return (date - dt.date(date.year, 1, 1)).days
-
-        gama = 0.0  # location of sun in yearly cycle in radians
-        eqtime = 0.0  # difference betwen sun noon and clock noon
-        decl = 0.0  # sun declanation
-        hour_angle = 0.0  # solar hour angle
         sunrise_angle = math.radians(deg)  # sun angle at sunrise/set
-
-        # get the day of year
-        day_of_year = float(gday_of_year(self.date))
+        day_of_year = float(
+            (calculation_date - dt.date(calculation_date.year, 1, 1)).days
+        )
 
         # get radians of sun orbit around earth =)
         # (NOAA's formula uses day_of_year - 1 for a 1-based day; ours is 0-based.)
