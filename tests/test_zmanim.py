@@ -236,28 +236,15 @@ def test_candle_lighting_erev_shabbat_and_shabbat_are_yom_tov(
     assert zman.candle_lighting == zman.shkia.local - dt.timedelta(minutes=18)
 
 
-def test_morning_zmanim_east_of_utc() -> None:
-    """Far east of UTC, morning zmanim are on the requested local date."""
-    melbourne = Location(
-        "Melbourne", -37.81, 144.96, "Australia/Melbourne", 0, diaspora=True
-    )
+@pytest.mark.parametrize("location", ["Melbourne", "Kiritimati"], indirect=True)
+def test_morning_zmanim_on_requested_local_date(location: Location) -> None:
+    """Keep far-east zmanim on the requested local date with either algorithm."""
     day = dt.date(2026, 6, 21)
-    zmanim = Zmanim(date=day, location=melbourne)
+    zmanim = Zmanim(date=day, location=location)
+
     for name in ("alot_hashachar", "netz_hachama", "chatzot_hayom", "shkia"):
         assert getattr(zmanim, name).local.date() == day, name
     assert zmanim.netz_hachama.local < zmanim.chatzot_hayom.local < zmanim.shkia.local
-
-
-def test_morning_zmanim_at_utc_date_line() -> None:
-    """Keep UTC+14 zmanim on the requested local date with either algorithm."""
-    kiritimati = Location(
-        "Kiritimati", 1.8721, -157.4278, "Pacific/Kiritimati", 0, diaspora=True
-    )
-    day = dt.date(2026, 6, 21)
-    zmanim = Zmanim(date=day, location=kiritimati)
-
-    for name in ("alot_hashachar", "netz_hachama", "chatzot_hayom", "shkia"):
-        assert getattr(zmanim, name).local.date() == day, name
 
 
 @pytest.mark.parametrize("location", ["Jerusalem"], indirect=True)
