@@ -306,7 +306,9 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             longitude=self.location.longitude,
             elevation=self.location.altitude or 0.0,
         )
-        direction = astral.SunDirection.RISING if rising else astral.SunDirection.SETTING
+        direction = (
+            astral.SunDirection.RISING if rising else astral.SunDirection.SETTING
+        )
         timezone = cast(dt.tzinfo, self.location.timezone)
         # Astral works on UTC days. Far east of UTC, a morning event of the local
         # date happens on the previous UTC day (and far west, an evening event on

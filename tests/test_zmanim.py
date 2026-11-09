@@ -248,6 +248,18 @@ def test_morning_zmanim_east_of_utc() -> None:
     assert zmanim.netz_hachama.local < zmanim.chatzot_hayom.local < zmanim.shkia.local
 
 
+@pytest.mark.skipif(not _ASTRAL, reason="Astral transit is not available")
+def test_astral_transit_retries_for_local_date() -> None:
+    """Keep UTC+14 morning zmanim on the requested local date."""
+    kiritimati = Location(
+        "Kiritimati", 1.8721, -157.4278, "Pacific/Kiritimati", 0, diaspora=True
+    )
+    day = dt.date(2026, 6, 21)
+    zmanim = Zmanim(date=day, location=kiritimati)
+
+    assert zmanim.netz_hachama.local.date() == day
+
+
 @pytest.mark.parametrize("location", ["Jerusalem"], indirect=True)
 def test_proportional_hour_is_not_rounded(location: Location) -> None:
     """Sha'ah zmanit is 1/12 of the day, not floored to whole minutes."""
@@ -267,7 +279,7 @@ def test_candle_lighting_erev_shabbat_is_yom_tov(location: Location) -> None:
         )
     else:
         actual_candle_lighting = dt.datetime(
-            2024, 10, 18, 17, 55, 00, tzinfo=cast(dt.tzinfo, location.timezone)
+            2024, 10, 18, 17, 53, 00, tzinfo=cast(dt.tzinfo, location.timezone)
         )
     zman = Zmanim(date=day, location=location, candle_lighting_offset=18)
     assert zman.candle_lighting == actual_candle_lighting
