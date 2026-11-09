@@ -1,7 +1,7 @@
 [project]
 name = "hdate"
 version = "1.2.2"
-description = "Jewish/Hebrew date and Zmanim in native Python 2.7/3.x"
+description = "Jewish/Hebrew date and Zmanim for Python 3.11+"
 authors = [
     {name = "Royi Reshef", email = "roy.myapp@gmail.com"},
 ]
@@ -12,9 +12,15 @@ license = {text = "GPL-3.0-or-later"}
 readme = "README.rst"
 classifiers = [
     "Development Status :: 5 - Production/Stable",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Programming Language :: Python :: 3.15",
     "Topic :: Software Development :: Libraries",
 ]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
     "num2words>=0.5.14"
 ]
