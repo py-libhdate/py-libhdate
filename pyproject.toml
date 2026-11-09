@@ -54,7 +54,7 @@ addopts = "-ra --doctest-modules --doctest-glob=*.rst -n auto --timeout=300"
 
 [dependency-groups]
 dev = [
-    "tox>=4.34.1",
+    "tox==4.34.1",
     "tox-pdm>=0.7.2",
     "flake8>=7.3.0",
     "flake8-bugbear>=25.11.29",

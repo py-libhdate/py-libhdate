@@ -24,7 +24,7 @@ jobs:
         cache: true
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade tox tox-pdm .
+        python -m pip install --upgrade "tox==4.34.1" tox-pdm .
     - name: Run pre-commit linters
       run: |
         tox --version
@@ -54,7 +54,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        python -m pip install --upgrade tox tox-pdm .
+        python -m pip install --upgrade "tox==4.34.1" tox-pdm .
 
     - name: Test with tox
       run: |
