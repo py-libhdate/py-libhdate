@@ -25,7 +25,6 @@ try:
 except ImportError:
     _USE_ASTRAL = False
 
-MAX_LATITUDE_ASTRAL = 50.0
 _LOGGER = logging.getLogger(__name__)
 
 
@@ -318,26 +317,41 @@ class Zmanim(TranslatorMixin):  # pylint: disable=too-many-instance-attributes
             time = astral.sun.time_of_transit(astral_observer, day, zenith, direction)
         return self._datetime_to_minutes_offset(time)
 
+    def _get_transit_or_legacy(
+        self, astral_zenith: float, legacy_deg: float, rising: bool
+    ) -> int:
+        """Return a sun-transit time in minutes from 00:00 (utc).
+
+        Astral is tried first; if the sun never reaches the requested
+        altitude, fall back to the legacy calculation. This happens in
+        polar day/night, and also for first light on summer nights at high
+        latitudes, where the sun never dips far enough below the horizon.
+        """
+        try:
+            return self._get_utc_time_of_transit(astral_zenith, rising)
+        except ValueError:
+            return self._get_utc_sun_time_deg(legacy_deg)[0 if rising else 1]
+
     @cached_property
     def zmanim(self) -> dict[str, Zman]:
         """Return a list of Jewish times for the given location."""
-        if (not _USE_ASTRAL) or (abs(self.location.latitude) > MAX_LATITUDE_ASTRAL):
+        if _USE_ASTRAL:
+            sunrise = self._get_transit_or_legacy(
+                90.0 + astral.sun.SUN_APPARENT_RADIUS, 90.833, True
+            )
+            sunset = self._get_transit_or_legacy(
+                90.0 + astral.sun.SUN_APPARENT_RADIUS, 90.833, False
+            )
+            first_light = self._get_transit_or_legacy(106.1, 106.1, True)
+            talit = self._get_transit_or_legacy(101.0, 101.0, True)
+            first_stars = self._get_transit_or_legacy(96.45, 96.45, False)
+            three_stars = self._get_transit_or_legacy(98.5, 98.5, False)
+        else:
             sunrise, sunset = self._get_utc_sun_time_deg(90.833)
             first_light, _ = self._get_utc_sun_time_deg(106.1)
             talit, _ = self._get_utc_sun_time_deg(101.0)
             _, first_stars = self._get_utc_sun_time_deg(96.45)
             _, three_stars = self._get_utc_sun_time_deg(98.5)
-        else:
-            sunrise = self._get_utc_time_of_transit(
-                90.0 + astral.sun.SUN_APPARENT_RADIUS, True
-            )
-            sunset = self._get_utc_time_of_transit(
-                90.0 + astral.sun.SUN_APPARENT_RADIUS, False
-            )
-            first_light = self._get_utc_time_of_transit(106.1, True)
-            talit = self._get_utc_time_of_transit(101.0, True)
-            first_stars = self._get_utc_time_of_transit(96.45, False)
-            three_stars = self._get_utc_time_of_transit(98.5, False)
 
         # shaa zmanit by gara, 1/12 of light time
         sun_hour = (sunset - sunrise) / 12
